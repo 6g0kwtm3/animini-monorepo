@@ -2823,7 +2823,7 @@ type Media {
 	): MediaTrendConnection
 
 	"""
-	The type of the media; anime or manga
+	The type of the media anime or manga
 	"""
 	type: MediaType
 

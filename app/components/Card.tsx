@@ -1,8 +1,9 @@
-const Slot = 'div'
-import type { ComponentPropsWithoutRef } from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import type { ComponentPropsWithoutRef } from 'react'
 const classes = (...classes: (string | 0|false | undefined | null)[]) => {
-  return classes.filter(Boolean).join(" ");
-};
+  return classes.filter(Boolean).join(" ")
+}
+
 type Card = React.FC<
 	ComponentPropsWithoutRef<'div'> & {
 		disabled?: boolean
@@ -13,7 +14,7 @@ type Card = React.FC<
 	}
 >
 
-export const Elevated: Card = ({ asChild, ...props }) => {
+export const CardElevated: Card = ({ asChild, ...props }) => {
 	const Component = asChild ? Slot : 'div'
 	return (
 		<Component
@@ -33,14 +34,14 @@ export const Elevated: Card = ({ asChild, ...props }) => {
 					!props.pressed &&
 					!props.dragged &&
 					'hover:elevation-2 hover:state-hover',
-				'relative overflow-hidden rounded-md bg-surface surface state-on-surface p-4 focus:elevation-1 focus:state-focus',
+				'relative overflow-hidden rounded-md bg-surface-container-low surface state-on-surface p-4 focus:elevation-1 focus:state-focus',
 				props.className
 			)}
 		></Component>
 	)
 }
 
-export const Filled: Card = ({ asChild, ...props }) => {
+export const CardFilled: Card = ({ asChild, ...props }) => {
 	const Component = asChild ? Slot : 'div'
 	return (
 		<Component
@@ -60,28 +61,29 @@ export const Filled: Card = ({ asChild, ...props }) => {
 					!props.pressed &&
 					!props.dragged &&
 					'hover:elevation-1 hover:state-hover',
-				'relative overflow-hidden rounded-md bg-surface-variant surface state-on-surface-variant p-4 focus:elevation-1 focus:state-focus',
+				'relative overflow-hidden rounded-md bg-surface-container-highest surface state-on-surface-variant p-4 focus:elevation-1 focus:state-focus',
 				props.className
 			)}
 		></Component>
 	)
 }
 
-export const Outlined: Card = ({ asChild, ...props }) => {
+export const CardOutlined: Card = ({ asChild, ...props }) => {
 	const Component = asChild ? Slot : 'div'
 
 	return (
 		<Component
+		
 			{...props}
 			tabIndex={props.disabled ? -1 : props.tabIndex}
 			className={classes(
 				props.disabled
 					? 'border-outline/[.12] text-on-surface/[.38]'
 					: props.pressed
-					? 'border-outline text-on-surface state-pressed'
+					? 'border-outline-variant text-on-surface state-pressed'
 					: props.dragged
-					? 'border-outline text-on-surface elevation-3 state-dragged'
-					: 'border-outline text-on-surface',
+					? 'border-outline-variant text-on-surface elevation-3 state-dragged'
+					: 'border-outline-variant focus:border-on-surface text-on-surface',
 
 				props.action &&
 					!props.disabled &&

@@ -1,25 +1,25 @@
-import { LiveReload, useSWEffect } from "@remix-pwa/sw";
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import { LiveReload, useSWEffect } from "@remix-pwa/sw"
+import { cssBundleHref } from "@remix-run/css-bundle"
+import type { LinksFunction } from "@remix-run/node"
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
-import { Provider } from "urql";
-import { urql } from "./lib/urql";
+} from "@remix-run/react"
+import { Provider } from "urql"
+import { urql } from "./lib/urql"
 
-import styles from "./tailwind.css";
+import styles from "./tailwind.css"
 
 export const links: LinksFunction = () => [
   { href: styles, rel: "stylesheet" },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+]
 
 export default function App() {
-  useSWEffect();
+  useSWEffect()
 
   return (
     <html lang="en">
@@ -29,7 +29,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-surface text-on-surface">
+      <body className="bg-surface container mx-auto text-on-surface surface elevation-1">
         <Provider value={urql}>
           <Outlet />
         </Provider>
@@ -38,5 +38,5 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
-  );
+  )
 }

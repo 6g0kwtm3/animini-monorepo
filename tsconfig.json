@@ -9,8 +9,12 @@
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]

@@ -14,8 +14,10 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 const documents = {
     "\n                fragment cache_updates_Mutation_ToggleFavourite on Media {\n                  id\n                  isFavourite\n                }\n              ": types.Cache_Updates_Mutation_ToggleFavouriteFragmentDoc,
+    "\n  query EntryPage($id: Int!) {\n    MediaList(id: $id) {\n      id\n      media {\n        id\n        coverImage {\n          extraLarge\n          color\n        }\n        bannerImage\n        title {\n          userPreferred\n        }\n        description\n      }\n    }\n  }\n": types.EntryPageDocument,
     "\n  query TypelistQuery(\n    $userName: String!\n    $type: MediaType!\n    $chunk: Int\n    $perChunk: Int\n  ) {\n    MediaListCollection(\n      userName: $userName\n      type: $type\n      chunk: $chunk\n      perChunk: $perChunk\n    ) {\n      lists {\n        name\n        ...List_mediaListGroup\n      }\n    }\n  }\n": types.TypelistQueryDocument,
-    "\n  fragment List_mediaListGroup on MediaListGroup {\n    name\n    entries {\n      id\n      media {\n        id\n        coverImage {\n          extraLarge\n          medium\n        }\n        title {\n          userPreferred\n        }\n      }\n    }\n  }\n": types.List_MediaListGroupFragmentDoc,
+    "\n  fragment List_mediaListGroup on MediaListGroup {\n    name\n    entries {\n      id\n      ...ListItem_entry\n    }\n  }\n": types.List_MediaListGroupFragmentDoc,
+    "\n  fragment ListItem_entry on MediaList {\n    id\n\n    progress\n    media {\n      episodes\n      nextAiringEpisode {\n        id\n        episode\n      }\n      duration\n      id\n      title {\n        userPreferred\n      }\n      coverImage {\n        extraLarge\n        medium\n      }\n    }\n  }\n": types.ListItem_EntryFragmentDoc,
     "\n  query HomeQuery {\n    Media(id: 1) {\n      id\n      title {\n        userPreferred\n      }\n      isFavourite\n    }\n  }\n": types.HomeQueryDocument,
     "\n  mutation HomeMutation($animeId: Int) {\n    ToggleFavourite(animeId: $animeId) {\n      __typename\n    }\n  }\n": types.HomeMutationDocument,
 };
@@ -41,11 +43,19 @@ export function graphql(source: "\n                fragment cache_updates_Mutati
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  query EntryPage($id: Int!) {\n    MediaList(id: $id) {\n      id\n      media {\n        id\n        coverImage {\n          extraLarge\n          color\n        }\n        bannerImage\n        title {\n          userPreferred\n        }\n        description\n      }\n    }\n  }\n"): (typeof documents)["\n  query EntryPage($id: Int!) {\n    MediaList(id: $id) {\n      id\n      media {\n        id\n        coverImage {\n          extraLarge\n          color\n        }\n        bannerImage\n        title {\n          userPreferred\n        }\n        description\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query TypelistQuery(\n    $userName: String!\n    $type: MediaType!\n    $chunk: Int\n    $perChunk: Int\n  ) {\n    MediaListCollection(\n      userName: $userName\n      type: $type\n      chunk: $chunk\n      perChunk: $perChunk\n    ) {\n      lists {\n        name\n        ...List_mediaListGroup\n      }\n    }\n  }\n"): (typeof documents)["\n  query TypelistQuery(\n    $userName: String!\n    $type: MediaType!\n    $chunk: Int\n    $perChunk: Int\n  ) {\n    MediaListCollection(\n      userName: $userName\n      type: $type\n      chunk: $chunk\n      perChunk: $perChunk\n    ) {\n      lists {\n        name\n        ...List_mediaListGroup\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment List_mediaListGroup on MediaListGroup {\n    name\n    entries {\n      id\n      media {\n        id\n        coverImage {\n          extraLarge\n          medium\n        }\n        title {\n          userPreferred\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment List_mediaListGroup on MediaListGroup {\n    name\n    entries {\n      id\n      media {\n        id\n        coverImage {\n          extraLarge\n          medium\n        }\n        title {\n          userPreferred\n        }\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  fragment List_mediaListGroup on MediaListGroup {\n    name\n    entries {\n      id\n      ...ListItem_entry\n    }\n  }\n"): (typeof documents)["\n  fragment List_mediaListGroup on MediaListGroup {\n    name\n    entries {\n      id\n      ...ListItem_entry\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment ListItem_entry on MediaList {\n    id\n\n    progress\n    media {\n      episodes\n      nextAiringEpisode {\n        id\n        episode\n      }\n      duration\n      id\n      title {\n        userPreferred\n      }\n      coverImage {\n        extraLarge\n        medium\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment ListItem_entry on MediaList {\n    id\n\n    progress\n    media {\n      episodes\n      nextAiringEpisode {\n        id\n        episode\n      }\n      duration\n      id\n      title {\n        userPreferred\n      }\n      coverImage {\n        extraLarge\n        medium\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

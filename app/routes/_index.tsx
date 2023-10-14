@@ -2,27 +2,26 @@ import type {
   ActionFunction,
   LoaderFunction,
   MetaFunction,
-} from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
-import { PropsWithChildren } from "react";
+} from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 import {
-  AnyVariables,
-  TypedDocumentNode,
-  UseQueryArgs,
-  useMutation,
-  useQuery,
-} from "urql";
-import { Elevated, Filled, Outlined, Text, Tonal } from "~/components/Button";
-import { graphql } from "~/gql";
-import { client } from "~/lib/client.server";
-import { useLoadedQuery } from "~/lib/urql";
+  Elevated,
+  Filled,
+  Outlined,
+  ButtonText as Text,
+  Tonal,
+} from "~/components/Button"
+import { UrqlForm } from "~/components/UrqlForm"
+import { graphql } from "~/gql"
+
+import { getClient, useLoadedQuery } from "~/lib/urql"
 
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+  ]
+}
 
 const QUERY = graphql(/* GraphQL */ `
   query HomeQuery {
@@ -34,7 +33,7 @@ const QUERY = graphql(/* GraphQL */ `
       isFavourite
     }
   }
-`);
+`)
 
 const MUTATION = graphql(/* GraphQL */ `
   mutation HomeMutation($animeId: Int) {
@@ -42,51 +41,33 @@ const MUTATION = graphql(/* GraphQL */ `
       __typename
     }
   }
-`);
+`)
 
 export const action = (async (args) => {
-  const formData = await args.request.formData();
-  await client.request(MUTATION, HomeMutationVariables(formData));
-}) satisfies ActionFunction;
+  const formData = await args.request.formData()
+  await getClient(args.request)
+    .mutation(MUTATION, HomeMutationVariables(formData))
+    .toPromise()
+}) satisfies ActionFunction
 
-export const loader = (() => {
-  return client.request(QUERY);
-}) satisfies LoaderFunction;
-
-
+export const loader = (({ request }) => {
+  return getClient(request).query(QUERY, {}).toPromise()
+}) satisfies LoaderFunction
 
 function HomeMutationVariables(data: FormData) {
   return {
     animeId: Number(data.get("animeId")),
     isFavourite: "true" === data.get("isFavourite"),
-  };
-}
-
-function UrqlForm<V extends AnyVariables>(
-  props: PropsWithChildren<{
-    mutation: TypedDocumentNode<unknown, V>;
-    variables: (formData: FormData) => V;
-  }>
-) {
-  const [, execute] = useMutation<unknown, V>(props.mutation);
-
-  return (
-    <Form
-      method="post"
-      onSubmit={(e) => {
-        e.preventDefault();
-        execute(props.variables(new FormData(e.currentTarget)));
-      }}
-    >
-      {props.children}
-    </Form>
-  );
+  }
 }
 
 export default function Index() {
-  const [{ data }] = useLoadedQuery({
-    query: QUERY,
-  });
+  const [{ data }] = useLoadedQuery(
+    {
+      query: QUERY,
+    },
+    useLoaderData<typeof loader>().data
+  )
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
@@ -94,11 +75,11 @@ export default function Index() {
       <pre>{JSON.stringify(data)}</pre>
 
       <UrqlForm mutation={MUTATION} variables={HomeMutationVariables}>
-        <input type="hidden" value={data.Media?.id} name="animeId" />
+        <input type="hidden" value={data?.Media?.id} name="animeId" />
         <input
           type="hidden"
           name="isFavourite"
-          value={String(data.Media?.isFavourite)}
+          value={String(data?.Media?.isFavourite)}
         />
 
         <div className="flex gap-2">
@@ -136,5 +117,5 @@ export default function Index() {
         </li>
       </ul>
     </div>
-  );
+  )
 }

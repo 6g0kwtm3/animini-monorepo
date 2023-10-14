@@ -1,10 +1,10 @@
 import type { OptionRenderPropArg } from '@headlessui/react'
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
-import { createContext, FC, memo, ReactNode, useCallback, useContext, useState } from 'react'
+import { FC, ReactNode, createContext, memo, useCallback, useContext, useState } from 'react'
 
-import * as TextField from './TextField'
 import Menu from './Menu'
+import * as TextField from './TextField'
 
 const SelectContext = createContext<{ value?: string } | null>(null)
 
@@ -19,7 +19,7 @@ interface ButtonRenderPropArg {
 	disabled: boolean
 }
 
-const Outlined = (props: { name: string; children?: ReactNode; defaultValue?: string }) => {
+const Outlined = (props: { name: string children?: ReactNode defaultValue?: string }) => {
 	const [value, setValue] = useState(props.defaultValue)
 
 	return (
@@ -50,7 +50,7 @@ const Outlined = (props: { name: string; children?: ReactNode; defaultValue?: st
 
 Outlined.displayName = 'Select.Outlined'
 
-export const Option: FC<{ value: string; children: string }> = (props) => {
+export const Option: FC<{ value: string children: string }> = (props) => {
 	return (
 		<Listbox.Option
 			value={props.value}

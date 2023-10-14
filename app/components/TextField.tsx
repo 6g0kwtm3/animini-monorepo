@@ -1,304 +1,213 @@
-import { Slot } from '@radix-ui/react-slot'
-import { ComponentPropsWithoutRef, createContext, ReactNode, useContext, useState } from 'react'
-import { classes } from '~/lib/styled'
-const TextFieldContext = createContext<InputProps | null>(null)
-
-interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'className'> {
-	supporting?: ReactNode
-	leading?: ReactNode
-	trailing?: ReactNode
-	error?: boolean
-	className:
-		| ComponentPropsWithoutRef<'input'>['className']
-		| {
-				label?: ComponentPropsWithoutRef<'div'>['className']
-				input?: ComponentPropsWithoutRef<'input'>['className']
-		  }
+import { Slot } from "@radix-ui/react-slot"
+import type {
+  ComponentPropsWithoutRef
+} from "react"
+import type { WithChild } from "./Child"
+const classes = (...classes: (string | 0 | undefined | null)[]) => {
+  return classes.filter(Boolean).join(" ")
 }
 
-// & {
-//   Suffix: typeof Suffix
-//   Prefix: typeof Prefix
-//   Icon: typeof Icon
-//   Input: typeof Input
-//   Label: typeof Label
-// }
 
-export function Outlined({
-	children,
-	supporting,
-	error,
-	trailing,
-	leading,
-	defaultValue,
-	...props
-}: InputProps) {
-	const [internalValue, setValue] = useState(defaultValue)
-	const value = props.value ?? internalValue
 
-	return (
-		<div>
-			<label className="group relative flex items-center">
-				<TextFieldContext.Provider
-					value={{
-						...props,
-						error,
-						leading,
-						value
-					}}
-				>
-					{leading}
-					<input
-						{...props}
-						value={value}
-						placeholder=" "
-						onChange={(e) => {
-							setValue?.(e.currentTarget.value)
-							props?.onChange?.(e)
-						}}
-						className={classes(
-							props.disabled
-								? 'text-on-surface/[.38]'
-								: error
-								? 'text-on-surface caret-error'
-								: 'text-on-surface caret-primary',
-							'peer flex flex-1 appearance-none items-center bg-transparent text-body-lg placeholder-transparent outline-none min-w-0 min-h-[3.5rem] px-4 [text-align:inherit] focus:ring-0 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden',
-							typeof props.className === 'string' ? props.className : props.className?.input
-						)}
-					/>
-					<Label
-						className={classes(
-							// leading ? 'group-focus-within:peer-placeholder-shown:left-4 left-4 peer-placeholder-shown:left-12' : 'left-4',
 
-							// !props.disabled && 'group-focus-within:peer-placeholder-shown:-top-2',
-							// '-top-2'
+export function TextFieldOutlined({
+  children,
 
-							leading ? 'peer-placeholder-shown:left-12' : '',
-							!props.disabled &&
-								'group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4',
-							'-top-2 left-4'
-						)}
-					>
-						{children}
-					</Label>
-					<fieldset
-						className={classes(
-							props.disabled
-								? 'border-outline/[.12]'
-								: error
-								? 'border-error group-focus-within:border-error group-hover:border-on-error-container group-hover:group-focus-within:border-error'
-								: 'border-outline group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary',
-							'border-1 absolute -top-[10px] left-0 right-0 bottom-0 rounded-xs border px-3 group-focus-within:border-2'
-						)}
-					>
-						<legend
-							className={classes(
-								!props.disabled && 'group-focus-within:max-w-none',
-								value ? 'max-w-none' : 'max-w-0',
-								'overflow-hidden whitespace-nowrap opacity-0 transition-all'
-							)}
-						>
-							<span className="text-label-sm px-1">{children}</span>
-						</legend>
-					</fieldset>
-					{trailing}
-				</TextFieldContext.Provider>
-			</label>
-
-			<p
-				className={classes(
-					props.disabled
-						? 'text-on-surface/[.38]'
-						: error
-						? 'text-error'
-						: 'text-on-surface-variant',
-
-					'gap-4 text-body-sm px-4 pt-1'
-				)}
-			>
-				{supporting}
-			</p>
-		</div>
-	)
+  ...props
+}: ComponentPropsWithoutRef<"label">) {
+  return (
+    <label {...props} className={classes("group mt-[10px]", props.className)}>
+      <div className="relative flex items-center">{children}</div>
+    </label>
+  )
 }
 
-export function Filled({
-	children,
-	supporting,
-	error,
-	trailing,
-	leading,
-	defaultValue,
-	...props
-}: InputProps) {
-	const [internalValue, setValue] = useState(defaultValue)
-	const value = props.value ?? internalValue
-
-	return (
-		<div className="">
-			<label
-				className={classes(
-					props.disabled
-						? 'before:border-on-surface/[.38]'
-						: error
-						? 'before:border-error after:border-error focus-within:after:scale-x-100 hover:before:border-on-error-container'
-						: 'before:border-on-surface-variant after:border-primary focus-within:after:scale-x-100 hover:before:border-on-surface',
-					!props.disabled && 'hover:state-hover',
-					'group relative flex items-center overflow-hidden rounded-t-xs bg-surface-variant surface state-on-surface-variant before:absolute before:left-0 before:bottom-0 before:border-b before:w-full after:absolute after:left-0 after:bottom-0 after:scale-x-0 after:border-b-2 after:transition-transform after:w-full focus-within:hover:state-none',
-					props.className
-				)}
-			>
-				<TextFieldContext.Provider
-					value={{
-						...props,
-						error,
-						leading,
-						value
-					}}
-				>
-					{leading}
-					<input
-						{...props}
-						value={value}
-						placeholder=" "
-						onChange={(e) => {
-							setValue?.(e.currentTarget.value)
-							props?.onChange?.(e)
-						}}
-						className={classes(
-							props.disabled
-								? 'text-on-surface/[.38]'
-								: error
-								? 'text-on-surface caret-error'
-								: 'text-on-surface caret-primary',
-							'peer flex flex-1 appearance-none items-center bg-transparent text-body-lg placeholder-transparent outline-none min-w-0 min-h-[3.5rem] px-4 pt-6 pb-2 [text-align:inherit] focus:ring-0 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden',
-							props.className
-						)}
-					/>
-					<Label
-						className={classes(
-							leading ? 'left-12' : 'left-4',
-							!props.disabled && 'group-focus-within:peer-placeholder-shown:top-2',
-							'top-2'
-						)}
-					>
-						{children}
-					</Label>
-					{trailing}
-				</TextFieldContext.Provider>
-			</label>
-
-			<p
-				className={classes(
-					props.disabled
-						? 'text-on-surface/[.38]'
-						: error
-						? 'text-error'
-						: 'text-on-surface-variant',
-
-					'gap-4 text-body-sm px-4 pt-1'
-				)}
-			>
-				{supporting}
-			</p>
-		</div>
-	)
+export function TextFieldOutlinedSupporting(
+  props: ComponentPropsWithoutRef<"p">
+) {
+  return (
+    <p
+      {...props}
+      className={classes(
+        "group-has-[:disabled]:text-on-surface/[.38] group-has-[:invalid]:text-error group-data-[error=true]:text-error text-on-surface-variant gap-4 text-body-sm px-4 pt-1 order-last",
+        props.className
+      )}
+    ></p>
+  )
 }
 
-function Label(props) {
-	const input = useContext(TextFieldContext) ?? {}
-	const Component = props.asChild ? Slot : 'div'
+function OutlinedLabel({ children }: ComponentPropsWithoutRef<"div">) {
+  return (
+    <>
+      <div className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-has-[:required]:after:content-['*'] group-hover:text-on-surface peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg  group-error:text-error  group-hover:group-error:text-on-error-container group-focus-within:text-primary group-focus-within:group-hover:text-primary group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:group-focus-within:text-error peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]">
+        {children}
+      </div>
 
-	return (
-		<>
-			<Component
-				{...props}
-				className={classes(
-					input.disabled
-						? 'text-on-surface/[.38]'
-						: input.error
-						? 'text-error group-hover:text-on-error-container group-hover:group-focus-within:text-error'
-						: 'group-hover:on-surface text-on-surface-variant group-focus-within:text-primary',
-
-					!input.disabled && 'group-focus-within:peer-placeholder-shown:text-body-sm',
-
-					'pointer-events-none absolute text-body-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg',
-					props.className
-				)}
-			></Component>
-		</>
-	)
+      <fieldset className="pointer-events-none absolute -top-[10px] left-0 right-0 bottom-0 rounded-xs border border-outline transition-all px-[0.625rem] group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12]">
+        <legend
+          className={
+            "overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-focus-within:group-has-[:placeholder-shown]:max-w-none"
+          }
+        >
+          <span className="text-label-sm px-1 group-has-[:required]:after:content-['*']">
+            {children}
+          </span>
+        </legend>
+      </fieldset>
+    </>
+  )
 }
 
-function LeadingIcon(props) {
-	const input = useContext(TextFieldContext) ?? {}
-
-	return (
-		<div
-			{...props}
-			className={classes(
-				input.disabled ? 'text-on-surface/[.38]' : 'text-on-surface-variant',
-				'w-5 h-5 ml-3'
-			)}
-		/>
-	)
+export function TextFieldOutlinedInput({
+  asChild,
+  ...props
+}: WithChild<Require<ComponentPropsWithoutRef<"input">, "name">>) {
+  const Component = asChild ? Slot : "input"
+  return (
+    <>
+      <Component
+        type="text"
+        {...props}
+        placeholder=" "
+        className={classes(
+          "peer resize-none appearance-none items-center bg-transparent text-body-lg text-on-surface placeholder-transparent caret-primary outline-none min-w-0 flex-1 p-4 placeholder:transition-all group-error:caret-error focus:placeholder-on-surface-variant focus:ring-0 disabled:text-on-surface/[.38]",
+          props.className
+        )}
+      />
+    </>
+  )
 }
 
-function TrailingIcon(props) {
-	const input = useContext(TextFieldContext) ?? {}
+TextFieldOutlined.Label = OutlinedLabel
 
-	return (
-		<div
-			{...props}
-			className={classes(
-				input.disabled
-					? 'text-on-surface/[.38]'
-					: input.error
-					? 'text-error group-hover:text-on-error-container group-hover:group-focus-within:text-error'
-					: 'text-on-surface-variant',
-				'w-6 h-6 mr-3'
-			)}
-		/>
-	)
+type Require<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+
+export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
+  return (
+    <label
+      {...props}
+      className={classes(
+        "has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container before:border-on-surface-variant after:border-primary focus-within:after:scale-x-100 hover:before:border-on-surface hover:state-hover group relative flex items-center bg-surface-container-highest overflow-hidden rounded-t-xs surface state-on-surface before:absolute before:left-0 before:bottom-0 before:border-b before:w-full after:absolute after:left-0 after:bottom-0 after:scale-x-0 after:border-b-2 after:transition-transform after:w-full focus-within:hover:state-none",
+        props.className
+      )}
+    ></label>
+
+    /* <p
+      className={classes(
+        props.disabled
+          ? "text-on-surface/[.38]"
+          : error
+          ? "text-error"
+          : "text-on-surface-variant",
+
+        "gap-4 text-body-sm px-4 pt-1"
+      )}
+    >
+      {supporting}
+    </p> */
+  )
 }
 
-function Suffix(props: ComponentPropsWithoutRef<'span'>) {
-	return (
-		<span
-			{...props}
-			className="flex items-center text-body-lg text-on-surface-variant -ml-5"
-		></span>
-	)
+export function TextFieldFilledInput(props: ComponentPropsWithoutRef<"input">) {
+  return (
+    <input
+      {...props}
+      placeholder=" "
+      className={classes(
+        "peer disabled:text-on-surface/[.38] flex flex-1 group-error:caret-error text-on-surface caret-primary appearance-none items-center bg-transparent text-body-lg placeholder-transparent outline-none min-w-0 min-h-[3.5rem] px-4 pt-6 pb-2 focus:ring-0",
+        props.className
+      )}
+    />
+  )
 }
 
-function Prefix(props: ComponentPropsWithoutRef<'span'>) {
-	return (
-		<span
-			{...props}
-			className="flex items-center text-body-lg text-on-surface-variant -mr-5"
-		></span>
-	)
+export function TextFieldFilledLabel(props: ComponentPropsWithoutRef<"div">) {
+  return (
+    <div
+      {...props}
+      className={classes(
+        "text-on-surface/[.38] group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error group-hover:on-surface text-on-surface-variant group-focus-within:text-primary group-focus-within:peer-placeholder-shown:text-body-sm pointer-events-none absolute text-body-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg",
+        props.leading ? "left-12" : "left-4",
+        !props.disabled && "group-focus-within:peer-placeholder-shown:top-2",
+        "top-2",
+        props.className
+      )}
+    >
+      {props.children}
+    </div>
+  )
 }
 
-Outlined.Prefix = Prefix
-Outlined.TrailingIcon = TrailingIcon
-Outlined.Suffix = Suffix
-Outlined.LeadingIcon = LeadingIcon
-Outlined.displayName = 'TextField.Outlined'
+function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
+  return (
+    <div
+      {...props}
+      className={classes(
+        "group-has-[:disabled]:text-on-surface/[.38] text-on-surface-variant w-5 h-5 ml-3",
+        props.className
+      )}
+    />
+  )
+}
 
-Filled.Prefix = Prefix
-Filled.TrailingIcon = TrailingIcon
-Filled.Suffix = Suffix
-Filled.LeadingIcon = LeadingIcon
-Filled.displayName = 'TextField.Filled'
+function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
+  return (
+    <div
+      {...props}
+      className={classes(
+        "peer-disabled:text-on-surface/[.38]",
+        "group-error:text-error group-error:group-hover:text-on-error-container group-hover:group-focus-within:text-error",
+        "text-on-surface-variant",
+        "w-6 h-6 mr-3",
+        props.className
+      )}
+    />
+  )
+}
 
-export default Outlined
+function Suffix(props: ComponentPropsWithoutRef<"span">) {
+  return (
+    <span
+      {...props}
+      className={classes(
+        "flex items-center text-body-lg text-on-surface-variant -ml-4 py-4 pr-4",
+        props.className
+      )}
+    ></span>
+  )
+}
 
-// name="score"
-// inputProps={{
-//   type: 'numerical',
-//   min: 0,
-//   max: 100
-// }}
-// defaultValue={entry?.score ?? undefined}
-// label="Score"
+function Prefix(props: ComponentPropsWithoutRef<"span">) {
+  return (
+    <span
+      {...props}
+      className="flex items-center text-body-lg text-on-surface-variant -mr-5"
+    ></span>
+  )
+}
+
+TextFieldOutlined.Prefix = Prefix
+TextFieldOutlined.TrailingIcon = TrailingIcon
+TextFieldOutlined.Suffix = Suffix
+TextFieldOutlined.LeadingIcon = LeadingIcon
+TextFieldOutlined.displayName = "TextField.Outlined"
+
+TextFieldFilled.Prefix = Prefix
+TextFieldFilled.TrailingIcon = TrailingIcon
+TextFieldFilled.Suffix = function Suffix(
+  props: ComponentPropsWithoutRef<"span">
+) {
+  return (
+    <span
+      {...props}
+      className={classes(
+        "flex items-center text-body-lg text-on-surface-variant -ml-4 pt-6 pb-2 pr-4",
+        props.className
+      )}
+    ></span>
+  )
+}
+TextFieldFilled.LeadingIcon = LeadingIcon
+TextFieldFilled.displayName = "TextField.Filled"
+
+export default TextFieldOutlined

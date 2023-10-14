@@ -1,12 +1,15 @@
-import { Config } from "tailwindcss";
-import { normalize } from "tailwindcss/lib/util/dataTypes";
-import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
-import withAlphaVariable from "tailwindcss/lib/util/withAlphaVariable";
-import plugin from "tailwindcss/plugin";
+import type { Config } from "tailwindcss"
+//@ts-ignore
+import { normalize } from "tailwindcss/lib/util/dataTypes"
+//@ts-ignore
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette"
+//@ts-ignore
+import withAlphaVariable from "tailwindcss/lib/util/withAlphaVariable"
+import plugin from "tailwindcss/plugin"
 
-import themes from "./themes.json";
+import themes from "./themes.json"
 
-import colors from "./colors.json";
+import colors from "./colors.json"
 
 export default {
   content: ["app/**/*.tsx"],
@@ -155,40 +158,58 @@ export default {
         },
       ],
     },
-    colors: Object.fromEntries(
-      Object.entries(colors).map(([key, value]) => [
-        key,
-        `rgb(var(--${value}) / <alpha-value>)`,
-      ])
+    colors: Object.assign(
+      Object.fromEntries(
+        Object.keys(colors.light).map((key) => [
+          key,
+          `rgb(var(--${key}) / <alpha-value>)`,
+        ])
+      ),
+      { transparent: "transparent" }
     ),
     extend: {},
   },
   plugins: [
     plugin(
       ({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
+        function isKeyOf<T extends {}>(
+          key: string | number | symbol,
+          value: T
+        ): key is keyof T {
+          return key in value
+        }
+
         addBase({
-          ":root": {
-            fontSize: "16px",
-            ...Object.fromEntries(
-              Object.entries(themes.light).flatMap(([key, value]) =>
-                Object.entries(value).map(([key2, value]) => [
-                  "--" + key + key2,
-                  value,
+          ":root": Object.assign(
+            Object.fromEntries(
+              Object.entries(colors.light).map(([key, value]) => [
+                `--${key}`,
+                isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
+              ])
+            ),
+            {
+              fontSize: "16px",
+            }
+          ),
+          "@media (prefers-color-scheme: dark)": {
+            ":root": Object.assign(
+              Object.fromEntries(
+                Object.entries(colors.dark).map(([key, value]) => [
+                  `--${key}`,
+                  isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
                 ])
-              )
+              ),
+              { "color-scheme": "dark" }
             ),
           },
-          "@media (prefers-color-scheme: dark)": {
-            ":root": themes.dark,
-          },
-        });
+        })
 
         const surfaceTint = theme("colors.surface-tint", "transparent").replace(
           "<alpha-value>",
           "var(--mdi-elevation-opacity)"
-        );
+        )
 
-        const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`;
+        const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
 
         addUtilities({
           ".surface": {
@@ -196,7 +217,7 @@ export default {
             "--mdi-state-color": "transparent",
             backgroundImage,
           },
-        });
+        })
 
         matchUtilities(
           {
@@ -205,10 +226,10 @@ export default {
             }),
           },
           {
-            values: theme("elevation"),
+            values: theme("elevation") || {},
             type: ["percentage"],
           }
-        );
+        )
 
         matchUtilities(
           {
@@ -217,10 +238,10 @@ export default {
             }),
           },
           {
-            values: theme("state"),
+            values: theme("state") || {},
             type: ["percentage"],
           }
-        );
+        )
 
         matchUtilities(
           {
@@ -237,7 +258,7 @@ export default {
             values: flattenColorPalette(theme("colors")),
             type: ["color", "any"],
           }
-        );
+        )
       }
     ),
     plugin(({ addUtilities }) => {
@@ -246,12 +267,12 @@ export default {
         ".text-nowrap": { "text-wrap": "nowrap" },
         ".text-balance": { "text-wrap": "balance" },
         ".text-pretty": { "text-wrap": "pretty" },
-      });
+      })
     }),
     plugin(({ matchVariant }) => {
       matchVariant("has", (value) => `&:has(${normalize(value)})`, {
         values: {},
-      });
+      })
       matchVariant(
         "group-has",
         (value, { modifier }) =>
@@ -259,7 +280,7 @@ export default {
             ? `:merge(.group\\/${modifier}):has(${normalize(value)}) &`
             : `:merge(.group):has(${normalize(value)}) &`,
         { values: {} }
-      );
+      )
       matchVariant(
         "peer-has",
         (value, { modifier }) =>
@@ -267,7 +288,18 @@ export default {
             ? `:merge(.peer\\/${modifier}):has(${normalize(value)}) ~ &`
             : `:merge(.peer):has(${normalize(value)}) ~ &`,
         { values: {} }
-      );
+      )
+    }),
+    plugin(({ addComponents, matchComponents, addVariant, matchVariant }) => {
+      matchComponents({}, {})
+
+      addVariant("error", ["&:has(:invalid)", "&:has([aria-invalid=true])"])
+      addVariant("group-error", [
+        ":merge(.group):has(:invalid) &",
+        ":merge(.group):has([aria-invalid=true]) &",
+      ])
+
+      addComponents({})
     }),
   ],
-} satisfies Config;
+} satisfies Config

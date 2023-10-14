@@ -1,9 +1,9 @@
 import {
-	FaceFrownIcon as EmojiSadIcon,
-	FaceSmileIcon as EmojiHappyIcon
+    FaceSmileIcon as EmojiHappyIcon,
+    FaceFrownIcon as EmojiSadIcon
 } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
-import { memo, ReactNode } from 'react'
+import { ReactNode, memo } from 'react'
 
 export const point3Icons = [
 	<EmojiSadIcon
@@ -34,7 +34,7 @@ export const point5Icons = Array.from({ length: 5 }, (_, i) => (
 	</>
 ))
 
-const Rating = (props: { defaultValue: number; children: ReactNode[]; name: string }) => {
+const Rating = (props: { defaultValue: number children: ReactNode[] name: string }) => {
 	return (
 		<div className="flex">
 			<div className="group relative flex">
