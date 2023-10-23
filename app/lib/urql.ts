@@ -5,7 +5,7 @@ import {
   offlineExchange,
 } from "@urql/exchange-graphcache"
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage"
-import type { AnyVariables, UseQueryArgs } from "urql"
+import type { AnyVariables, TypedDocumentNode, UseQueryArgs } from "urql"
 import { Client, fetchExchange, useQuery } from "urql"
 import { graphql } from "~/gql"
 import type { GraphCacheConfig } from "../gql/graphql"
@@ -200,6 +200,8 @@ function createStatelessClient(request: Request) {
         request.headers.get("Cookie") ?? ""
       )
 
+      console.log(token)
+
       return {
         addAuthToOperation(operation) {
           if (!token) return operation
@@ -240,3 +242,6 @@ interface JSONObject {
 }
 
 interface JSONArray extends Array<JSONValue> {}
+
+
+export type InferVariables<T> = T extends TypedDocumentNode<any, infer V> ? V : never

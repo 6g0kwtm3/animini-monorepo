@@ -22,6 +22,10 @@ const config: CodegenConfig = {
       plugins: ["typescript-urql-graphcache"],
       config: { useTypeImports: true },
     },
+    "app/gql/sizzle.ts": {
+      plugins: ["typescript", "sizzle-gql"],
+      config: { useTypeImports: true },
+    },
     "app/gql/introspection.json": {
       plugins: ["urql-introspection"],
     },

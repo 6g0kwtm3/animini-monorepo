@@ -7,43 +7,96 @@ import {
   useParams,
   useSearchParams,
 } from "@remix-run/react"
-import type { FragmentType } from "~/gql"
-import { graphql, useFragment as readFragment } from "~/gql"
-import type { TypelistQueryQueryVariables } from "~/gql/graphql"
+// import type { FragmentType } from "~/gql"
+// import { graphql, useFragment as readFragment } from "~/gql"
 import { MediaStatus, MediaType } from "~/gql/graphql"
 
-import { getClient, nonNull, useLoadedQuery } from "~/lib/urql"
-
+import {
+  getClient,
+  nonNull,
+  useLoadedQuery,
+  type InferVariables,
+} from "~/lib/urql"
 
 import { Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
-
 import { Tonal } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
+import { useFragment as readFragment, type FragmentType } from "~/gql"
+import { fragment, query } from "~/gql/sizzle"
 
-const QUERY = graphql(`
-  query TypelistQuery($userName: String!, $type: MediaType!) {
-    User(name: $userName) {
-      id
-      mediaListOptions {
-        animeList {
-          sectionOrder
-        }
-      }
-    }
-    MediaListCollection(userName: $userName, type: $type) {
-      lists {
-        name
-        ...List_mediaListGroup
-      }
-    }
-  }
-`)
+const ToWatch_entry = fragment("ToWatch_entry", "MediaList", {
+  progress: 1,
+  media: {
+    episodes: 1,
+    nextAiringEpisode: {
+      id: 1,
+      episode: 1,
+    },
+    duration: 1,
+    status: 1,
+    id: 1,
+  },
+})
+
+const ListItem_entry = fragment("ListItem_entry", "MediaList", {
+  ...ToWatch_entry,
+
+  score: 1,
+  media: {
+    id: 1,
+    title: {
+      userPreferred: 1,
+    },
+    coverImage: {
+      extraLarge: 1,
+      medium: 1,
+    },
+  },
+})
+
+const List_mediaListGroup = fragment("List_mediaListGroup", "MediaListGroup", {
+  name: 1,
+  entries: {
+    id: 1,
+    media: {
+      id: 1,
+      status: 1,
+    },
+    ...ToWatch_entry,
+    ...ListItem_entry,
+  },
+})
+
+const QUERY = query(
+  "TypelistQuery",
+  { userName: "String!", type: "MediaType!" },
+  ($) => ({
+    User: [
+      { name: $.userName },
+      {
+        id: 1,
+        mediaListOptions: {
+          animeList: { sectionOrder: 1 },
+        },
+      },
+    ],
+    MediaListCollection: [
+      $,
+      {
+        lists: {
+          name: 1,
+          ...List_mediaListGroup,
+        },
+      },
+    ],
+  })
+)
 
 function TypelistQueryVariables(
   params: Readonly<Params<string>>,
   search: URLSearchParams
-): TypelistQueryQueryVariables {
+): InferVariables<typeof QUERY> {
   const type = {
     animelist: MediaType.Anime,
     mangalist: MediaType.Manga,
@@ -65,38 +118,6 @@ export const loader = (({ params, request }) => {
     .query(QUERY, TypelistQueryVariables(params, url.searchParams))
     .toPromise()
 }) satisfies LoaderFunction
-
-const List_mediaListGroup = graphql(`
-  fragment List_mediaListGroup on MediaListGroup {
-    name
-    entries {
-      id
-      media {
-        id
-        status
-      }
-      ...ToWatch_entry
-      ...ListItem_entry
-    }
-  }
-`)
-
-const ToWatch_entry = graphql(`
-  fragment ToWatch_entry on MediaList {
-    id
-    progress
-    media {
-      episodes
-      nextAiringEpisode {
-        id
-        episode
-      }
-      duration
-      status
-      id
-    }
-  }
-`)
 
 function toWatch(data: FragmentType<typeof ToWatch_entry>) {
   const entry = readFragment(ToWatch_entry, data)
@@ -191,24 +212,6 @@ const MediaList = function (props: {
     </div>
   )
 }
-
-const ListItem_entry = graphql(`
-  fragment ListItem_entry on MediaList {
-    id
-    score
-    ...ToWatch_entry
-    media {
-      id
-      title {
-        userPreferred
-      }
-      coverImage {
-        extraLarge
-        medium
-      }
-    }
-  }
-`)
 
 function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
   const entry = readFragment(ListItem_entry, props.entry)

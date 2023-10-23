@@ -11,7 +11,7 @@
     "build:worker": "remix-pwa build",
     "dev:remix": "remix dev",
     "dev:worker": "remix-pwa dev",
-    "dev:codegen": "npm run codegen -- --watch",
+    "dev:codegen": "npm run codegen",
     "codegen": "graphql-codegen-esm --config codegen.ts"
   },
   "dependencies": {
@@ -24,10 +24,10 @@
     "@remix-pwa/strategy": "^2.1.9",
     "@remix-pwa/sw": "^2.1.11",
     "@remix-pwa/sync": "^2.0.1",
-    "@remix-run/css-bundle": "^2.0.1",
-    "@remix-run/node": "^2.0.1",
-    "@remix-run/react": "^2.0.1",
-    "@remix-run/serve": "^2.0.1",
+    "@remix-run/css-bundle": "2.1.0",
+    "@remix-run/node": "2.1.0",
+    "@remix-run/react": "2.1.0",
+    "@remix-run/serve": "2.1.0",
     "@urql/devtools": "^2.0.3",
     "@urql/exchange-auth": "^2.1.6",
     "@urql/exchange-graphcache": "^6.3.3",
@@ -42,6 +42,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-virtuoso": "^4.6.1",
+    "sizzle-gql": "file:sizzle-gql-0.0.4.tgz",
     "urql": "^4.0.5"
   },
   "devDependencies": {
@@ -52,7 +53,7 @@
     "@parcel/watcher": "^2.3.0",
     "@remix-pwa/dev": "^2.0.30",
     "@remix-pwa/worker-runtime": "^2.0.7",
-    "@remix-run/eslint-config": "^2.0.1",
+    "@remix-run/eslint-config": "2.1.0",
     "@types/react": "^18.2.28",
     "@types/react-dom": "^18.2.13",
     "autoprefixer": "^10.4.16",

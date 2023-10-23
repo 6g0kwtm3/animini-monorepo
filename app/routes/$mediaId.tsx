@@ -16,7 +16,7 @@ import {
 import type { Variants } from "framer-motion"
 import { motion, useReducedMotion } from "framer-motion"
 
-import { graphql } from "~/gql"
+import type { InferVariables } from "~/lib/urql"
 import { getClient, nonNull, useLoadedQuery } from "~/lib/urql"
 
 import type { Theme } from "@material/material-color-utilities"
@@ -28,8 +28,6 @@ import {
 import React, { useEffect, useMemo, useState } from "react"
 
 import colors from "colors.json"
-
-import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
 
 import type * as urql from "urql"
 
@@ -58,72 +56,75 @@ import { cssEscape } from "~/lib/cssEscape"
 
 import * as S from "@effect/schema/Schema"
 import { ButtonText } from "~/components/Button"
+import { mutation, query } from "~/gql/sizzle"
 
 function EntryPageVariables(
   params: Readonly<Params<string>>,
   format: ScoreFormat | null
-): Variables<typeof EntryPageQuery> {
+): InferVariables<typeof EntryPageQuery> {
   return { id: Number(params["mediaId"]), format }
 }
 
-const EntryPageUserQuery = graphql(`
-  query EntryPageUser {
-    User: Viewer {
-      id
-      mediaListOptions {
-        animeList {
-          advancedScoringEnabled
-          advancedScoring
-          customLists
-        }
+const EntryPageUserQuery = query("EntryPageUser", {
+  Viewer: {
+    id: 1,
+    mediaListOptions: {
+      animeList: {
+        advancedScoringEnabled: 1,
+        advancedScoring: 1,
+        customLists: 1,
+      },
+      scoreFormat: 1,
+    },
+  },
+})
 
-        scoreFormat
-      }
-    }
-  }
-`)
-
-const EntryPageQuery = graphql(`
-  query EntryPage($id: Int!, $format: ScoreFormat) {
-    Media(id: $id) {
-      id
-
-      episodes
-      mediaListEntry {
-        status
-        id
-        advancedScores
-        customLists
-        notes
-        score(format: $format)
-        repeat
-        progress
-        startedAt {
-          day
-          month
-          year
-        }
-
-        completedAt {
-          day
-          month
-          year
-        }
-      }
-      id
-      coverImage {
-        extraLarge
-        medium
-        color
-      }
-      bannerImage
-      title {
-        userPreferred
-      }
-      description
-    }
-  }
-`)
+const EntryPageQuery = query(
+  "EntryPage",
+  {
+    id: "Int!",
+    format: "ScoreFormat",
+  },
+  ($) => ({
+    Media: [
+      { id: $.id },
+      {
+        id: 1,
+        episodes: 1,
+        mediaListEntry: {
+          status: 1,
+          id: 1,
+          advancedScores: 1,
+          customLists: 1,
+          notes: 1,
+          score: [{ format: $.format }],
+          repeat: 1,
+          progress: 1,
+          startedAt: {
+            day: 1,
+            month: 1,
+            year: 1,
+          },
+          completedAt: {
+            day: 1,
+            month: 1,
+            year: 1,
+          },
+        },
+        coverImage: {
+          extraLarge: 1,
+          medium: 1,
+          color: 1,
+        },
+        bannerImage: 1,
+        title: {
+          userPreferred: 1,
+        },
+        description: 1,
+      },
+    ],
+  })
+)
 
 const variants = {
   enter: (direction: number) => {
@@ -159,11 +160,9 @@ export function useThemeFromHex(hex: string | null | undefined) {
   )
 }
 
-type Variables<T> = T extends TypedDocumentNode<any, infer V> ? V : never
-
 function EntryPageUserVariables(
   params: Readonly<Params<string>>
-): Variables<typeof EntryPageUserQuery> {
+): InferVariables<typeof EntryPageUserQuery> {
   return {}
 }
 
@@ -238,7 +237,7 @@ const _loader = Effect.gen(function* (_) {
         EntryPageQuery,
         EntryPageVariables(
           params,
-          EntryPageUser?.User?.mediaListOptions?.scoreFormat || null
+          EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || null
         )
       )
     ),
@@ -266,7 +265,7 @@ export const loader = (async (args) => {
   //     EntryPageQuery,
   //     EntryPageVariables(
   //       params,
-  //       EntryPageUser.data?.User?.mediaListOptions?.scoreFormat
+  //       EntryPageUser.data?.Viewer?.mediaListOptions?.scoreFormat
   //     ),
   //     headers
   //   ),
@@ -383,35 +382,29 @@ export const ThemeProvider = ({
   )
 }
 
-const Save = graphql(`
-  mutation Save(
-    $mediaId: Int!
-    $advancedScores: [Float]
-    $completedAt: FuzzyDateInput
-    $startedAt: FuzzyDateInput
-    $notes: String
-    $progress: Int
-    $repeat: Int
-    $score: Float
-    $status: MediaListStatus
-    $customLists: [String]
-  ) {
-    SaveMediaListEntry(
-      mediaId: $mediaId
-      advancedScores: $advancedScores
-      completedAt: $completedAt
-      startedAt: $startedAt
-      notes: $notes
-      progress: $progress
-      repeat: $repeat
-      score: $score
-      status: $status
-      customLists: $customLists
-    ) {
-      id
-    }
-  }
-`)
+const Save = mutation(
+  "Save",
+  {
+    mediaId: "Int!",
+    advancedScores: "[Float]",
+    completedAt: "FuzzyDateInput",
+    startedAt: "FuzzyDateInput",
+    notes: "String",
+    progress: "Int",
+    repeat: "Int",
+    score: "Float",
+    status: "MediaListStatus",
+    customLists: "[String]",
+  },
+  ($) => ({
+    SaveMediaListEntry: [
+      $,
+      {
+        id: 1,
+      },
+    ],
+  })
+)
 
 const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
   S.transform(
@@ -441,45 +434,6 @@ const FuzzyDateInput = S.compose(
   )
 )
 
-// const FuzzyDateInput = S.transform(
-//   S.nullable(S.string),
-//   S.nullable(
-//     S.struct({
-//       year: S.nullable(S.number),
-//       month: S.nullable(S.number),
-//       day: S.nullable(S.number),
-//     })
-//   ),
-//   function (date) {
-//     const [year, month, day] = date.split("-").map((n) => parseInt(n))
-//     if (isFinite(year) && isFinite(month) && isFinite(day)) {
-//       return { year, month, day }
-//     }
-//     return null
-//   },
-//   function (fuzzyDate) {
-//     if (
-//       fuzzyDate &&
-//       typeof fuzzyDate === "object" &&
-//       "day" in fuzzyDate &&
-//       typeof fuzzyDate.day === "number" &&
-//       isFinite(fuzzyDate.day) &&
-//       "month" in fuzzyDate &&
-//       typeof fuzzyDate.month === "number" &&
-//       isFinite(fuzzyDate.month) &&
-//       "year" in fuzzyDate &&
-//       typeof fuzzyDate.year === "number" &&
-//       isFinite(fuzzyDate.year)
-//     ) {
-//       let date = new Date(fuzzyDate.year, fuzzyDate.month - 1, fuzzyDate.day)
-//       const offset = date.getTimezoneOffset()
-//       date = new Date(date.getTime() - offset * 60 * 1000)
-//       return date.toISOString().split("T")[0]
-//     }
-//     return null
-//   }
-// )
-
 const SaveVariablesSchema = S.struct({
   mediaId: S.NumberFromString,
   advancedScores: S.array(S.NumberFromString),
@@ -496,7 +450,7 @@ const SaveVariablesSchema = S.struct({
 function SaveVariables(
   params: Readonly<Params<string>>,
   formData: FormData
-): Variables<typeof Save> {
+): InferVariables<typeof Save> {
   const advancedScores = formData
     .getAll("advancedScores")
     .map((score) => Number(score))
@@ -588,7 +542,7 @@ export default function Page() {
       query: EntryPageQuery,
       variables: EntryPageVariables(
         params,
-        EntryPageUser.data?.User?.mediaListOptions?.scoreFormat || null
+        EntryPageUser.data?.Viewer?.mediaListOptions?.scoreFormat || null
       ),
     },
     loaderData.EntryPage
@@ -797,13 +751,13 @@ export default function Page() {
                 />
                 <TextFieldOutlined.Label>Notes</TextFieldOutlined.Label>
               </TextFieldOutlined>
-              {EntryPageUser.data?.User?.mediaListOptions?.animeList
+              {EntryPageUser.data?.Viewer?.mediaListOptions?.animeList
                 ?.advancedScoringEnabled && (
                 <fieldset className="grid-cols-1 sm:grid-cols-2  grid gap-2">
                   <legend className="col-span-full mt-2">
                     Advanced Scores
                   </legend>
-                  {EntryPageUser.data?.User.mediaListOptions.animeList.advancedScoring
+                  {EntryPageUser.data?.Viewer.mediaListOptions.animeList.advancedScoring
                     ?.filter(nonNull)
                     .map((category, i) => {
                       return (
@@ -852,7 +806,7 @@ export default function Page() {
               <fieldset className="grid gap-2">
                 <legend className="">Custom Lists</legend>
                 <div className="flex flex-wrap gap-2">
-                  {EntryPageUser.data?.User?.mediaListOptions?.animeList?.customLists
+                  {EntryPageUser.data?.Viewer?.mediaListOptions?.animeList?.customLists
                     ?.filter(nonNull)
                     .map((list) => {
                       return (
