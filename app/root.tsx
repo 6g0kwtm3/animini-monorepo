@@ -1,8 +1,9 @@
-import { LiveReload, useSWEffect } from "@remix-pwa/sw"
+
 import { cssBundleHref } from "@remix-run/css-bundle"
 import type { LinksFunction } from "@remix-run/node"
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -11,7 +12,7 @@ import {
 import { Provider } from "urql"
 import { urql } from "./lib/urql"
 
-import styles from "./tailwind.css"
+import styles from "./tailwind.css?url"
 
 export const links: LinksFunction = () => [
   { href: styles, rel: "stylesheet" },
@@ -19,7 +20,7 @@ export const links: LinksFunction = () => [
 ]
 
 export default function App() {
-  useSWEffect()
+  
 
   return (
     <html lang="en">
@@ -34,8 +35,8 @@ export default function App() {
           <Outlet />
         </Provider>
         <ScrollRestoration />
-        <Scripts />
         <LiveReload />
+        <Scripts />
       </body>
     </html>
   )
