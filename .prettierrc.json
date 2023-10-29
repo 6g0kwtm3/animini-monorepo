@@ -1,1 +1,5 @@
-{ "semi": false ,"endOfLine": "auto"}
+{
+  "semi": false,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["tv"]
+}

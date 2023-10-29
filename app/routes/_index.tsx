@@ -5,11 +5,11 @@ import type {
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import {
-  Elevated,
-  Filled,
-  Outlined,
+  ButtonElevated,
+  ButtonFilled,
+  ButtonOutlined,
+  ButtonTonal,
   ButtonText as Text,
-  Tonal,
 } from "~/components/Button"
 import { UrqlForm } from "~/components/UrqlForm"
 import { graphql } from "~/gql"
@@ -66,7 +66,7 @@ export default function Index() {
     {
       query: QUERY,
     },
-    useLoaderData<typeof loader>().data
+    useLoaderData<typeof loader>().data,
   )
 
   return (
@@ -83,10 +83,10 @@ export default function Index() {
         />
 
         <div className="flex gap-2">
-          <Elevated type="submit">Toggle</Elevated>
-          <Filled type="submit">Toggle</Filled>
-          <Tonal type="submit">Toggle</Tonal>
-          <Outlined type="submit">Toggle</Outlined>
+          <ButtonElevated type="submit">Toggle</ButtonElevated>
+          <ButtonFilled type="submit">Toggle</ButtonFilled>
+          <ButtonTonal type="submit">Toggle</ButtonTonal>
+          <ButtonOutlined type="submit">Toggle</ButtonOutlined>
           <Text type="submit">Toggle</Text>
         </div>
       </UrqlForm>
