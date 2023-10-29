@@ -1,7 +1,7 @@
-import { Predicate } from "effect";
-import { motion } from "framer-motion";
-import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
-import { createContext, useContext, useId } from "react";
+import { Predicate } from "effect"
+import { motion } from "framer-motion"
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
+import { createContext, useContext, useId } from "react"
 
 export function NavigationItem(props: PropsWithChildren<{ active: boolean }>) {
   const layoutId = useContext(NavigationContext)
@@ -9,12 +9,12 @@ export function NavigationItem(props: PropsWithChildren<{ active: boolean }>) {
     <div
       className={`${
         props.active ? "text-on-secondary-container" : "text-on-surface-variant"
-      } text-label-lg px-4 relative h-14 items-center flex gap-3`}
+      } relative flex h-14 items-center gap-3 px-4 text-label-lg`}
     >
       {props.active && (
         <motion.div
           {...(Predicate.isString(layoutId) ? { layoutId } : {})}
-          className="bg-secondary-container inset-0 absolute -z-10 rounded-xl"
+          className="absolute inset-0 -z-10 rounded-xl bg-secondary-container"
         ></motion.div>
       )}
       {props.children}
@@ -24,7 +24,7 @@ export function NavigationItem(props: PropsWithChildren<{ active: boolean }>) {
 
 export function NavigationItemIcon() {
   return (
-    <div className="w-6 h-6">
+    <div className="h-6 w-6">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -55,6 +55,5 @@ export function Navigation(props: ComponentPropsWithoutRef<"div">) {
     </NavigationContext.Provider>
   )
 }
-
 
 const NavigationContext = createContext<string | undefined>(undefined)

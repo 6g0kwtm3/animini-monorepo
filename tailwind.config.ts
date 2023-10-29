@@ -4,14 +4,13 @@ import { normalize } from "tailwindcss/lib/util/dataTypes"
 //@ts-ignore
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette"
 //@ts-ignore
+import { withTV } from "tailwind-variants/transformer"
 import withAlphaVariable from "tailwindcss/lib/util/withAlphaVariable"
 import plugin from "tailwindcss/plugin"
-
+import colors from "./colors.json"
 import themes from "./themes.json"
 
-import colors from "./colors.json"
-
-export default {
+export default withTV({
   content: ["app/**/*.tsx"],
 
   theme: {
@@ -163,9 +162,9 @@ export default {
         Object.keys(colors.light).map((key) => [
           key,
           `rgb(var(--${key}) / <alpha-value>)`,
-        ])
+        ]),
       ),
-      { transparent: "transparent" }
+      { transparent: "transparent" },
     ),
     extend: {},
   },
@@ -174,7 +173,7 @@ export default {
       ({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
         function isKeyOf<T extends {}>(
           key: string | number | symbol,
-          value: T
+          value: T,
         ): key is keyof T {
           return key in value
         }
@@ -185,11 +184,22 @@ export default {
               Object.entries(colors.light).map(([key, value]) => [
                 `--${key}`,
                 isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
-              ])
+              ]),
             ),
             {
               fontSize: "16px",
-            }
+            },
+          ),
+          "::backdrop": Object.assign(
+            Object.fromEntries(
+              Object.entries(colors.light).map(([key, value]) => [
+                `--${key}`,
+                isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
+              ]),
+            ),
+            {
+              fontSize: "16px",
+            },
           ),
           "@media (prefers-color-scheme: dark)": {
             ":root": Object.assign(
@@ -197,16 +207,25 @@ export default {
                 Object.entries(colors.dark).map(([key, value]) => [
                   `--${key}`,
                   isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
-                ])
+                ]),
               ),
-              { "color-scheme": "dark" }
+              { "color-scheme": "dark" },
+            ),
+            "::backdrop": Object.assign(
+              Object.fromEntries(
+                Object.entries(colors.dark).map(([key, value]) => [
+                  `--${key}`,
+                  isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
+                ]),
+              ),
+              { "color-scheme": "dark" },
             ),
           },
         })
 
         const surfaceTint = theme("colors.surface-tint", "transparent").replace(
           "<alpha-value>",
-          "var(--mdi-elevation-opacity)"
+          "var(--mdi-elevation-opacity)",
         )
 
         const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
@@ -228,7 +247,7 @@ export default {
           {
             values: theme("elevation") || {},
             type: ["percentage"],
-          }
+          },
         )
 
         matchUtilities(
@@ -240,7 +259,7 @@ export default {
           {
             values: theme("state") || {},
             type: ["percentage"],
-          }
+          },
         )
 
         matchUtilities(
@@ -257,9 +276,9 @@ export default {
           {
             values: flattenColorPalette(theme("colors")),
             type: ["color", "any"],
-          }
+          },
         )
-      }
+      },
     ),
     plugin(({ addUtilities }) => {
       addUtilities({
@@ -279,7 +298,7 @@ export default {
           modifier
             ? `:merge(.group\\/${modifier}):has(${normalize(value)}) &`
             : `:merge(.group):has(${normalize(value)}) &`,
-        { values: {} }
+        { values: {} },
       )
       matchVariant(
         "peer-has",
@@ -287,7 +306,7 @@ export default {
           modifier
             ? `:merge(.peer\\/${modifier}):has(${normalize(value)}) ~ &`
             : `:merge(.peer):has(${normalize(value)}) ~ &`,
-        { values: {} }
+        { values: {} },
       )
     }),
     plugin(({ addComponents, matchComponents, addVariant, matchVariant }) => {
@@ -302,4 +321,4 @@ export default {
       addComponents({})
     }),
   ],
-} satisfies Config
+} satisfies Config)

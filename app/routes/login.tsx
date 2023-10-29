@@ -2,7 +2,7 @@ import type { WorkerActionFunction } from "@remix-pwa/sw"
 import type { ActionFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { Form } from "@remix-run/react"
-import { ButtonText, Filled } from "~/components/Button"
+import { ButtonFilled, ButtonText } from "~/components/Button"
 import Outlined, { TextFieldOutlinedInput } from "~/components/TextField"
 
 import cookie from "cookie"
@@ -72,7 +72,7 @@ export default function Login() {
                 {
                   client_id: String(ANILIST_CLIENT_ID),
                   response_type: "token",
-                }
+                },
               )}`}
               rel="noreferrer"
             >
@@ -86,7 +86,7 @@ export default function Login() {
               <span>Get token</span>
             </a>
           </ButtonText>
-          <Filled type="submit">Login</Filled>
+          <ButtonFilled type="submit">Login</ButtonFilled>
         </footer>
       </Form>
     </main>

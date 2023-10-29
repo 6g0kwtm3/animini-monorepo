@@ -1,14 +1,7 @@
 import { Slot } from "@radix-ui/react-slot"
-import type {
-  ComponentPropsWithoutRef
-} from "react"
+import type { ComponentPropsWithoutRef } from "react"
 import type { WithChild } from "./Child"
-const classes = (...classes: (string | 0 | undefined | null)[]) => {
-  return classes.filter(Boolean).join(" ")
-}
-
-
-
+import { classes } from "./Pane"
 
 export function TextFieldOutlined({
   children,
@@ -23,14 +16,14 @@ export function TextFieldOutlined({
 }
 
 export function TextFieldOutlinedSupporting(
-  props: ComponentPropsWithoutRef<"p">
+  props: ComponentPropsWithoutRef<"p">,
 ) {
   return (
     <p
       {...props}
       className={classes(
-        "group-has-[:disabled]:text-on-surface/[.38] group-has-[:invalid]:text-error group-data-[error=true]:text-error text-on-surface-variant gap-4 text-body-sm px-4 pt-1 order-last",
-        props.className
+        "order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-data-[error=true]:text-error group-has-[:disabled]:text-on-surface/[.38] group-has-[:invalid]:text-error",
+        props.className,
       )}
     ></p>
   )
@@ -39,17 +32,17 @@ export function TextFieldOutlinedSupporting(
 function OutlinedLabel({ children }: ComponentPropsWithoutRef<"div">) {
   return (
     <>
-      <div className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-has-[:required]:after:content-['*'] group-hover:text-on-surface peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg  group-error:text-error  group-hover:group-error:text-on-error-container group-focus-within:text-primary group-focus-within:group-hover:text-primary group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:group-focus-within:text-error peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]">
+      <div className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4  peer-placeholder-shown:text-body-lg  group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]">
         {children}
       </div>
 
-      <fieldset className="pointer-events-none absolute -top-[10px] left-0 right-0 bottom-0 rounded-xs border border-outline transition-all px-[0.625rem] group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12]">
+      <fieldset className="pointer-events-none absolute -top-[10px] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
         <legend
           className={
             "overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-focus-within:group-has-[:placeholder-shown]:max-w-none"
           }
         >
-          <span className="text-label-sm px-1 group-has-[:required]:after:content-['*']">
+          <span className="px-1 text-label-sm group-has-[:required]:after:content-['*']">
             {children}
           </span>
         </legend>
@@ -70,8 +63,8 @@ export function TextFieldOutlinedInput({
         {...props}
         placeholder=" "
         className={classes(
-          "peer resize-none appearance-none items-center bg-transparent text-body-lg text-on-surface placeholder-transparent caret-primary outline-none min-w-0 flex-1 p-4 placeholder:transition-all group-error:caret-error focus:placeholder-on-surface-variant focus:ring-0 disabled:text-on-surface/[.38]",
-          props.className
+          "peer min-w-0 flex-1 resize-none items-center bg-transparent p-4 text-body-lg text-on-surface placeholder-transparent caret-primary outline-none placeholder:transition-all focus:placeholder-on-surface-variant focus:ring-0 disabled:text-on-surface/[.38] group-error:caret-error",
+          props.className,
         )}
       />
     </>
@@ -87,8 +80,8 @@ export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
     <label
       {...props}
       className={classes(
-        "has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container before:border-on-surface-variant after:border-primary focus-within:after:scale-x-100 hover:before:border-on-surface hover:state-hover group relative flex items-center bg-surface-container-highest overflow-hidden rounded-t-xs surface state-on-surface before:absolute before:left-0 before:bottom-0 before:border-b before:w-full after:absolute after:left-0 after:bottom-0 after:scale-x-0 after:border-b-2 after:transition-transform after:w-full focus-within:hover:state-none",
-        props.className
+        "group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest surface state-on-surface before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-on-surface-variant after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:border-primary after:transition-transform focus-within:after:scale-x-100 hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container",
+        props.className,
       )}
     ></label>
 
@@ -114,8 +107,8 @@ export function TextFieldFilledInput(props: ComponentPropsWithoutRef<"input">) {
       {...props}
       placeholder=" "
       className={classes(
-        "peer disabled:text-on-surface/[.38] flex flex-1 group-error:caret-error text-on-surface caret-primary appearance-none items-center bg-transparent text-body-lg placeholder-transparent outline-none min-w-0 min-h-[3.5rem] px-4 pt-6 pb-2 focus:ring-0",
-        props.className
+        "peer flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pb-2 pt-6 text-body-lg text-on-surface placeholder-transparent caret-primary outline-none focus:ring-0 disabled:text-on-surface/[.38] group-error:caret-error",
+        props.className,
       )}
     />
   )
@@ -126,11 +119,11 @@ export function TextFieldFilledLabel(props: ComponentPropsWithoutRef<"div">) {
     <div
       {...props}
       className={classes(
-        "text-on-surface/[.38] group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error group-hover:on-surface text-on-surface-variant group-focus-within:text-primary group-focus-within:peer-placeholder-shown:text-body-sm pointer-events-none absolute text-body-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg",
+        "group-hover:on-surface pointer-events-none absolute text-body-sm text-on-surface-variant text-on-surface/[.38] transition-all group-focus-within:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
         props.leading ? "left-12" : "left-4",
         !props.disabled && "group-focus-within:peer-placeholder-shown:top-2",
         "top-2",
-        props.className
+        props.className,
       )}
     >
       {props.children}
@@ -143,8 +136,8 @@ function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
     <div
       {...props}
       className={classes(
-        "group-has-[:disabled]:text-on-surface/[.38] text-on-surface-variant w-5 h-5 ml-3",
-        props.className
+        "ms-3 h-5 w-5 text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38]",
+        props.className,
       )}
     />
   )
@@ -156,10 +149,10 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
       {...props}
       className={classes(
         "peer-disabled:text-on-surface/[.38]",
-        "group-error:text-error group-error:group-hover:text-on-error-container group-hover:group-focus-within:text-error",
+        "group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
         "text-on-surface-variant",
-        "w-6 h-6 mr-3",
-        props.className
+        "me-3 h-6 w-6",
+        props.className,
       )}
     />
   )
@@ -170,8 +163,8 @@ function Suffix(props: ComponentPropsWithoutRef<"span">) {
     <span
       {...props}
       className={classes(
-        "flex items-center text-body-lg text-on-surface-variant -ml-4 py-4 pr-4",
-        props.className
+        "-ms-4 flex items-center py-4 pe-4 text-body-lg text-on-surface-variant",
+        props.className,
       )}
     ></span>
   )
@@ -181,7 +174,7 @@ function Prefix(props: ComponentPropsWithoutRef<"span">) {
   return (
     <span
       {...props}
-      className="flex items-center text-body-lg text-on-surface-variant -mr-5"
+      className="-me-5 flex items-center text-body-lg text-on-surface-variant"
     ></span>
   )
 }
@@ -195,14 +188,14 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
 TextFieldFilled.Suffix = function Suffix(
-  props: ComponentPropsWithoutRef<"span">
+  props: ComponentPropsWithoutRef<"span">,
 ) {
   return (
     <span
       {...props}
       className={classes(
-        "flex items-center text-body-lg text-on-surface-variant -ml-4 pt-6 pb-2 pr-4",
-        props.className
+        "-ms-4 flex items-center pb-2 pe-4 pt-6 text-body-lg text-on-surface-variant",
+        props.className,
       )}
     ></span>
   )

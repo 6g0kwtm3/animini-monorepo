@@ -1,0 +1,48 @@
+@position-fallback --flip {
+  @try {
+    bottom: anchor(top);
+    left: anchor(left);
+  }
+
+  @try {
+    right: anchor(right);
+    bottom: anchor(top);
+  }
+
+  @try {
+    top: anchor(bottom);
+    left: anchor(left);
+  }
+
+  @try {
+    top: anchor(bottom);
+    right: anchor(right);
+  }
+}
+
+@position-fallback --aligned {
+  @try {
+    top: anchor(top);
+    left: anchor(right);
+  }
+
+  @try {
+    top: anchor(bottom);
+    left: anchor(right);
+  }
+
+  @try {
+    top: anchor(top);
+    right: anchor(left);
+  }
+
+  @try {
+    bottom: anchor(bottom);
+    left: anchor(right);
+  }
+
+  @try {
+    right: anchor(left);
+    bottom: anchor(bottom);
+  }
+}
