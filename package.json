@@ -9,7 +9,7 @@
     "typecheck": "tsc",
     "build:remix": "vite build && vite build --ssr",
     "build:worker": "remix-pwa build",
-    "dev:remix": "vite dev",
+    "dev:remix": "vite dev --host",
     "dev:codegen": "npm run codegen",
     "codegen": "graphql-codegen-esm --config codegen.ts"
   },
