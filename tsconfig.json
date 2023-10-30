@@ -1,25 +1,43 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "target": "ES2022",
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"]
-    },
 
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true
-  }
+    "baseUrl": ".",
+    "rootDirs": [".", "./$houdini/types"],
+    "paths": {
+      "$houdini": ["./$houdini"],
+      "$houdini/*": ["./$houdini/*"],
+      "~": ["./src"],
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "ambient.d.ts",
+    "./types/**/$types.d.ts",
+    "./vite.config.ts",
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+  ],
+  "exclude": ["../node_modules/**", "./[!ambient.d.ts]**"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

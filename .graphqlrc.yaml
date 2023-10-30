@@ -1,2 +1,6 @@
-schema: ./schema.graphql # ./introspection.json #https://graphql.anilist.co #
-documents: ./app/**/*.{ts,tsx}
+schema:
+  - ./schema.graphql
+  - ./$houdini/graphql/schema.graphql
+documents:
+  - ./src/**/*.{ts,tsx}
+  - ./$houdini/graphql/documents.gql
