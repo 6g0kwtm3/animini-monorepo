@@ -36,6 +36,7 @@ import {
   Either,
   Fiber,
   Layer,
+  Predicate,
   Stream,
   pipe,
 } from "effect"
@@ -86,7 +87,7 @@ const graphcacheConfig = {
 
       return {
         __typename: "Favourites",
-        ...(args.animeId && {
+        ...(Predicate.isNumber(args.animeId) && {
           anime: {
             __typename: "MediaConnection",
             nodes: nodes,

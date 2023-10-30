@@ -320,7 +320,7 @@ export default function Page() {
                   <DialogFullscreenIcon className="sm:hidden">
                     <Ariakit.DialogDismiss
                       render={
-                        <Link to="..">
+                        <Link to=".." replace>
                           <X></X>
                           <div className="sr-only">Cancel</div>
                         </Link>
@@ -328,7 +328,7 @@ export default function Page() {
                     />
                   </DialogFullscreenIcon>
                   Foo fa ra fa
-                  <ButtonText type="submit" className="ml-auto sm:hidden">
+                  <ButtonText type="submit" className="ms-auto sm:hidden">
                     Save
                   </ButtonText>
                 </header>

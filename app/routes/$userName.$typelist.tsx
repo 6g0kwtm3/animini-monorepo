@@ -26,15 +26,22 @@ import {
   pipe,
 } from "effect"
 
-import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
+import {
+  BaseButton,
+  ButtonText,
+  ButtonTonal,
+  btnIcon,
+} from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { useFragment as readFragment, type FragmentType } from "~/gql"
 import { fragment, query } from "~/gql/sizzle"
 
 import * as S from "@effect/schema/Schema"
 import { MoreHorizontal, Plus } from "lucide-react"
-import {} from "~/components/Dialog"
-import { PaneFlexible, classes } from "~/components/Pane"
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
+import type { VariantProps } from "tailwind-variants"
+import { } from "~/components/Dialog"
+import { PaneFlexible } from "~/components/Pane"
 
 const ToWatch_entry = fragment("ToWatch_entry", "MediaList", {
   progress: 1,
@@ -388,15 +395,20 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
   )
 }
 
-function ButtonIcon({ children, ...props }) {
+function ButtonIcon({
+  children,
+  variant,
+  className,
+  ...props
+}: PropsWithChildren<
+  VariantProps<typeof btnIcon> &
+    Omit<ComponentPropsWithoutRef<typeof BaseButton>, "children">
+>) {
+  const styles = btnIcon()
+
   return (
-    <BaseButton
-      {...props}
-      className={classes("group/btn p-1", props.className)}
-    >
-      <div className="rounded-full p-2 text-on-surface-variant surface state-on-surface-variant group-hover/btn:state-hover group-focus/btn:state-focus">
-        {children}
-      </div>
+    <BaseButton {...props} className={styles.root({ variant, className })}>
+      <div className={styles.content()}>{children}</div>
     </BaseButton>
   )
 }

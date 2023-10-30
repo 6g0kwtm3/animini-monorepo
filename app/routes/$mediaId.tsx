@@ -401,6 +401,7 @@ export default function Page() {
             to="edit"
             className={fab({ className: "fixed bottom-4 end-4" })}
             layoutId="edit"
+            replace
           >
             <Pencil></Pencil>
           </MotionLink>

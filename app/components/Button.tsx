@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef, SyntheticEvent } from "react"
 import React, { memo } from "react"
 
 import * as Ariakit from "@ariakit/react"
-import { tv } from "tailwind-variants"
+import { createTV } from "tailwind-variants"
 import { classes } from "./Pane"
 
 export type Icon = React.FC<ComponentPropsWithoutRef<"div">>
@@ -89,8 +89,10 @@ export function BaseButton(
   )
 }
 
+const tv = createTV({ twMerge: false })
+
 export const fab = tv({
-  base: "surface elevation-3 hover:state-hover active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
+  base: "shadow surface elevation-3 hover:state-hover active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
   variants: {
     size: {
       default: "h-14 w-14 rounded-[1rem] p-4",
@@ -110,6 +112,22 @@ export const fab = tv({
   defaultVariants: {
     size: "default",
     color: "primary",
+  },
+})
+
+export const btnIcon = tv({
+  slots: {
+    root: "group/btn p-1",
+    content:
+      "rounded-full bg-center p-2 text-on-surface-variant surface state-on-surface-variant group-hover/btn:state-hover group-active/btn:state-pressed group-data-[active]/btn:state-pressed group-data-[focus-visible]/btn:state-focus",
+  },
+  variants: {
+    variant: {
+      standard: { root: "" },
+    },
+  },
+  defaultVariants: {
+    variant: "standard",
   },
 })
 
