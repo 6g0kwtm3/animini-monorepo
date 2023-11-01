@@ -1,8 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react"
-
-export function classes(...classes: (string | 0 | undefined | null)[]) {
-  return classes.filter(Boolean).join(" ")
-}
+import { classes } from "./classes"
 
 export function PaneFixed(props: ComponentPropsWithoutRef<"div">) {
   return (

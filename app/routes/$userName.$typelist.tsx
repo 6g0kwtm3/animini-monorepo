@@ -30,18 +30,24 @@ import {
   BaseButton,
   ButtonText,
   ButtonTonal,
-  btnIcon,
+
 } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { useFragment as readFragment, type FragmentType } from "~/gql"
 import { fragment, query } from "~/gql/sizzle"
 
 import * as S from "@effect/schema/Schema"
-import { MoreHorizontal, Plus } from "lucide-react"
 import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { } from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
+import { btnIcon } from "~/lib/button"
+function MoreHorizontal() {
+  return null
+}
+function Plus() {
+  return null
+}
 
 const ToWatch_entry = fragment("ToWatch_entry", "MediaList", {
   progress: 1,
@@ -386,7 +392,7 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
               value={(entry.progress ?? 0) + 1}
             />
             <ButtonIcon type="submit" className="-m-3">
-              <Plus className=""></Plus>
+              add
             </ButtonIcon>
           </Form>
         </div>

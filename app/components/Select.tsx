@@ -1,22 +1,24 @@
-import type { OptionRenderPropArg } from "@headlessui/react"
-import { Listbox } from "@headlessui/react"
+import type { OptionRenderPropArg } from "@headlessui/react";
+import { Listbox } from "@headlessui/react";
 import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-} from "@heroicons/react/24/outline"
-import {
+} from "@heroicons/react/24/outline";
+import type {
   FC,
-  ReactNode,
+  ReactNode
+} from "react";
+import {
   createContext,
   memo,
   useCallback,
-  useContext,
-  useState,
-} from "react"
+  useContext
+} from "react";
 
-import Menu from "./Menu"
-import * as TextField from "./TextField"
+import { useSignal } from "@preact/signals-react";
+import Menu from "./Menu";
+import * as TextField from "./TextField";
 
 const SelectContext = createContext<{ value?: string } | null>(null)
 
@@ -36,7 +38,7 @@ const Outlined = (props: {
   children?: ReactNode
   defaultValue?: string
 }) => {
-  const [value, setValue] = useState(props.defaultValue)
+  const value = useSignal(props.defaultValue)
 
   return (
     <Listbox value={value} onChange={setValue} name={props.name}>
@@ -121,7 +123,4 @@ Option.displayName = "Option"
 
 //       </Select.Button>
 
-export default Object.assign(memo(Outlined), {
-  Option,
-  Button,
-})
+ 

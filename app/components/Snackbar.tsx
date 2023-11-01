@@ -1,3 +1,4 @@
+import { useSignal } from "@preact/signals-react"
 import { Predicate } from "effect"
 import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
 import {
@@ -18,23 +19,25 @@ const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 })
 
 export function SnackbarQueue(props: PropsWithChildren<{}>) {
-  const [queue, setQueue] = useState<HTMLElement[]>([])
+  const queue = useSignal<HTMLElement[]>([])
 
   const add = useCallback<OnBeforeToggle>(
     function (e) {
-      const state = queue.at(0) === this ? "open" : "closed"
+      const state = queue.value.at(0) === this ? "open" : "closed"
 
       if (state === "closed" && e.newState === "open") {
         e.preventDefault()
 
-        setQueue((queue) => (queue.includes(this) ? queue : [...queue, this]))
+        queue.value = queue.value.includes(this)
+          ? queue.value
+          : [...queue.value, this]
         return
       }
 
       if (e.newState === "closed") {
-        setQueue((queue) =>
-          queue.includes(this) ? queue.filter((f) => f !== this) : queue,
-        )
+        queue.value = queue.value.includes(this)
+          ? queue.value.filter((f) => f !== this)
+          : queue.value
         return
       }
 
@@ -44,7 +47,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
   )
 
   useEffect(() => {
-    for (const el of queue) {
+    for (const el of queue.value) {
       el.showPopover()
 
       const timeout = Number(el.dataset["timeout"])
@@ -61,7 +64,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
         clearTimeout(timeoutId)
       }
     }
-  }, [queue])
+  }, [queue, queue.value])
 
   return (
     <SnackbarQueueContext.Provider value={add}>

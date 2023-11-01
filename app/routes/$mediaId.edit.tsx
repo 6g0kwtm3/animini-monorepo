@@ -9,7 +9,7 @@ import {
   useNavigation,
 } from "@remix-run/react"
 import { Option, Predicate, ReadonlyRecord, Stream, pipe } from "effect"
-import { ChevronDown, Loader2, X } from "lucide-react"
+
 import { useRef, useState } from "react"
 import { ButtonText } from "~/components/Button"
 
@@ -31,11 +31,24 @@ import type { loader } from "./$mediaId"
 import { ChipFilter } from "./$mediaId"
 
 import * as S from "@effect/schema/Schema"
-import { DialogFullscreenIcon, dialog } from "~/components/Dialog"
+import { DialogFullscreenIcon } from "~/components/Dialog"
+
 import { mutation, query } from "~/gql/sizzle"
 
 import * as Ariakit from "@ariakit/react"
 import { motion } from "framer-motion"
+import { dialog } from "~/lib/dialog"
+import { useSignal } from "@preact/signals-react"
+
+function ChevronDown() {
+  return null
+}
+function Loader2() {
+  return null
+}
+function X() {
+  return null
+}
 
 function isTouched(form: HTMLFormElement) {
   return !(
@@ -279,7 +292,7 @@ const _loader = pipe(
   })),
 )
 
-export const { root, content, headline, backdrop, body, actions } = dialog({
+const { root, content, headline, backdrop, body, actions } = dialog({
   variant: {
     initial: "fullscreen",
     sm: "basic",
@@ -289,16 +302,14 @@ export const { root, content, headline, backdrop, body, actions } = dialog({
 export default function Page() {
   const data = useLoader(_loader, useLoaderData<typeof loader>())
 
-  const [score, setScore] = useState(
-    String(data?.Media?.mediaListEntry?.score || 0),
-  )
+  const score = useSignal(String(data?.Media?.mediaListEntry?.score || 0))
 
   const navigation = useNavigation()
 
   const actionData = useActionData<typeof action>()
   const saved = actionData?.saved ?? false
   const form = useRef<HTMLFormElement>(null)
-  const [touched, setTouched] = useState(false)
+  const touched = useSignal(false)
   unstable_useBlocker(touched)
   const busy = navigation.state === "submitting"
 
@@ -321,7 +332,7 @@ export default function Page() {
                     <Ariakit.DialogDismiss
                       render={
                         <Link to=".." replace>
-                          <X></X>
+                          <span className="i">close</span>
                           <div className="sr-only">Cancel</div>
                         </Link>
                       }
@@ -338,14 +349,14 @@ export default function Page() {
                     ref={form}
                     className="grid gap-2"
                     onChange={(e) => {
-                      const touched = isTouched(e.currentTarget)
-                      console.log("change", touched)
-                      setTouched(touched)
+                      touched.value = isTouched(e.currentTarget)
                     }}
                     onReset={(e) => {
                       console.log("reset")
-                      setScore(String(data?.Media?.mediaListEntry?.score || 0))
-                      setTouched(false)
+                      score.value = String(
+                        data?.Media?.mediaListEntry?.score || 0,
+                      )
+                      touched.value = false
                     }}
                   >
                     <div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
@@ -392,7 +403,9 @@ export default function Page() {
                           name="score"
                           min={0}
                           step={0.01}
-                          onChange={(e) => setScore(e.currentTarget.value)}
+                          onChange={(e) =>
+                            (score.value = e.currentTarget.value)
+                          }
                           value={score}
                         />
                         <TextFieldOutlined.Label>Score</TextFieldOutlined.Label>
@@ -474,7 +487,7 @@ export default function Page() {
                         children={<textarea />}
                         spellCheck
                         name="notes"
-                        onInput={function (e) {
+                        onInput={(e) => {
                           e.currentTarget.style.height = ""
                           e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
                         }}
@@ -500,17 +513,15 @@ export default function Page() {
                                     const formData = new FormData(
                                       e.currentTarget.form ?? undefined,
                                     )
-                                    setScore(
-                                      String(
-                                        Math.round(
-                                          avg(
-                                            formData
-                                              .getAll("advancedScores")
-                                              .map((s) => Number(s))
-                                              .filter((s) => s),
-                                          ) * 10,
-                                        ) / 10,
-                                      ),
+                                    score.value = String(
+                                      Math.round(
+                                        avg(
+                                          formData
+                                            .getAll("advancedScores")
+                                            .map((s) => Number(s))
+                                            .filter((s) => s),
+                                        ) * 10,
+                                      ) / 10,
                                     )
                                   }}
                                   type="number"

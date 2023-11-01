@@ -1,11 +1,10 @@
 import { Slot } from "@radix-ui/react-slot"
 import {
   useEffect,
-  type ComponentPropsWithoutRef,
-  type PropsWithoutRef,
   useRef,
+  type ComponentPropsWithoutRef
 } from "react"
-import { classes } from "./Pane"
+import { classes } from "./classes"
 
 export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
   return (

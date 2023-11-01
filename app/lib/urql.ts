@@ -27,7 +27,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import { useParams, useSearchParams } from "@remix-run/react"
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react"
+import { useMemo, useSyncExternalStore } from "react"
 
 import {
   Chunk,

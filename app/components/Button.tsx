@@ -1,9 +1,9 @@
 import type { ComponentPropsWithoutRef, SyntheticEvent } from "react"
-import React, { memo } from "react"
+import React from "react"
 
 import * as Ariakit from "@ariakit/react"
-import { createTV } from "tailwind-variants"
-import { classes } from "./Pane"
+import { btn } from "~/lib/button"
+import { classes } from "./classes"
 
 export type Icon = React.FC<ComponentPropsWithoutRef<"div">>
 
@@ -89,67 +89,6 @@ export function BaseButton(
   )
 }
 
-const tv = createTV({ twMerge: false })
-
-export const fab = tv({
-  base: "shadow surface elevation-3 hover:state-hover active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
-  variants: {
-    size: {
-      default: "h-14 w-14 rounded-[1rem] p-4",
-      small: "h-10 w-10 rounded-md p-2",
-      large: "h-24 w-24 rounded-xl p-4",
-    },
-    color: {
-      surface: "bg-surface text-on-surface state-on-surface",
-      primary:
-        "bg-primary-container text-on-primary-container state-on-primary-container",
-      secondary:
-        "bg-secondary-container text-on-secondary-container state-on-secondary-container",
-      tertiary:
-        "bg-tertiary-container text-on-tertiary-container state-on-tertiary-container",
-    },
-  },
-  defaultVariants: {
-    size: "default",
-    color: "primary",
-  },
-})
-
-export const btnIcon = tv({
-  slots: {
-    root: "group/btn p-1",
-    content:
-      "rounded-full bg-center p-2 text-on-surface-variant surface state-on-surface-variant group-hover/btn:state-hover group-active/btn:state-pressed group-data-[active]/btn:state-pressed group-data-[focus-visible]/btn:state-focus",
-  },
-  variants: {
-    variant: {
-      standard: { root: "" },
-    },
-  },
-  defaultVariants: {
-    variant: "standard",
-  },
-})
-
-export const btn = tv({
-  base: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg surface hover:state-hover active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus",
-  variants: {
-    variant: {
-      outlined:
-        "gap-4 border border-outline px-6 text-primary state-primary focus:border-primary aria-disabled:border-on-surface/[.12]",
-      elevated:
-        "gap-4 bg-surface px-6 text-primary shadow elevation-1 state-primary hover:elevation-2 aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:elevation-1",
-      filled:
-        "gap-4 bg-primary px-6 text-on-primary state-on-primary aria-disabled:bg-on-surface/[.12]",
-      text: "gap-2 px-3 text-primary state-primary",
-      tonal:
-        "gap-4 bg-secondary-container px-6 text-on-secondary-container state-on-secondary-container hover:elevation-1 aria-disabled:bg-on-surface/[.12] aria-disabled:hover:elevation-0",
-    },
-  },
-  defaultVariants: {
-    variant: "text",
-  },
-})
 
 export function ButtonText(
   props: ComponentPropsWithoutRef<typeof Ariakit.Button>,
@@ -264,5 +203,4 @@ ButtonOutlined.Icon = (props) => {
 
 ButtonOutlined.displayName = "Button.Outlined"
 ButtonOutlined.Icon.displayName = "Button.Outlined.Icon"
-
-export default memo(ButtonText)
+ 

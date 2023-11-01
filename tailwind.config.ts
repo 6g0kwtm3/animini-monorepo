@@ -317,8 +317,55 @@ export default withTV({
         ":merge(.group):has(:invalid) &",
         ":merge(.group):has([aria-invalid=true]) &",
       ])
+    }),
+    plugin(({ addComponents, matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          i: (value) => {
+            return {
+              "font-size": value,
+              "--opsz": String(value).endsWith("rem")
+                ? (Number(value.replace("rem", "")) * 16).toString()
+                : String(value).endsWith("px")
+                ? Number(value.replace("rem", "")).toString()
+                : "",
+            }
+          },
+        },
+        {
+          values: theme("spacing"),
+        },
+      )
 
-      addComponents({})
+      addComponents({
+        ".i": {
+          "font-family": "'Material Symbols Outlined'",
+          "font-weight": "normal",
+          "font-style": "normal",
+          "line-height": "1",
+          "letter-spacing": "normal",
+          "text-transform": "none",
+          display: "inline-block",
+          "white-space": "nowrap",
+          "word-wrap": "normal",
+          direction: "ltr",
+          "font-feature-settings": "'liga'",
+          "-webkit-font-smoothing": "antialiased",
+          "font-size": "1.5rem",
+          "--grad": "0",
+          "--opsz": "24",
+          "font-variation-settings": `
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' var(--grad),
+          'opsz' var(--opsz)`,
+        },
+        "@media (prefers-color-scheme: dark)": {
+          ".i": {
+            "--grad": "-25",
+          },
+        },
+      })
     }),
   ],
 } satisfies Config)

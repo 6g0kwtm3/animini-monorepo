@@ -1,7 +1,7 @@
 import { Slot } from "@radix-ui/react-slot"
 import type { ComponentPropsWithoutRef } from "react"
 import type { WithChild } from "./Child"
-import { classes } from "./Pane"
+import { classes } from "./classes"
 
 export function TextFieldOutlined({
   children,

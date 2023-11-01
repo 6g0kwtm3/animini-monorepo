@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef, ElementType } from "react"
-import {} from "react-dom"
+import type { ComponentPropsWithoutRef, ElementType } from "react"
+import { } from "react-dom"
 import { classes } from "~/lib/styled"
 
 type ItemProps<E extends ElementType> = ComponentPropsWithoutRef<E> & {

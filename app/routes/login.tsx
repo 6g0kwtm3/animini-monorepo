@@ -31,7 +31,7 @@ export const action = (async ({ context, params, request }) => {
   })
 }) satisfies ActionFunction
 
-export const workerAction = (async ({ request }) => {
+ const workerAction = (async ({ request }) => {
   const formData = await request.formData()
 
   const token = formData.get("token")
