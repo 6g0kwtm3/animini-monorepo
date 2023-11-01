@@ -1,0 +1,16 @@
+query TypelistQuery($userName: String!, $typelist: MediaType!) {
+  User(name: $userName) {
+    id
+    mediaListOptions {
+      animeList {
+        sectionOrder
+      }
+    }
+  }
+  MediaListCollection(type: $typelist, userName: $userName) {
+    lists {
+      name
+      MediaListGroup
+    }
+  }
+}

@@ -1,8 +1,10 @@
 import { PropsWithChildren } from "react"
 
+import './tailwind.css'
+
 export default function Index({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-surface text-on-surface">
       <head>
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
