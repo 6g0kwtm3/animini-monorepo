@@ -26,3 +26,4 @@ dist-ssr
 
 $houdini
 .cache
+vite.config.ts.timestamp-*
