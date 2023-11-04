@@ -30,7 +30,6 @@ import {
   BaseButton,
   ButtonText,
   ButtonTonal,
-
 } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { useFragment as readFragment, type FragmentType } from "~/gql"
@@ -42,12 +41,7 @@ import type { VariantProps } from "tailwind-variants"
 import { } from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
 import { btnIcon } from "~/lib/button"
-function MoreHorizontal() {
-  return null
-}
-function Plus() {
-  return null
-}
+ 
 
 const ToWatch_entry = fragment("ToWatch_entry", "MediaList", {
   progress: 1,
@@ -259,7 +253,7 @@ const MediaList = function (props: {
   )
 
   const entries = pipe(
-    page.mediaList?.filter(nonNull) ?? [],
+    page?.mediaList?.filter(nonNull) ?? [],
     ReadonlyArray.sortBy(
       Order.mapInput(
         Order.number,
@@ -367,8 +361,8 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
             loading="lazy"
             alt=""
           />
-          <div className="hidden group-hover:block">
-            <MoreHorizontal size={56}></MoreHorizontal>
+          <div className="hidden group-hover:block i i-12 p-1">
+            more_horiz
           </div>
         </div>
         <Link to={`/${entry.media?.id}`} className="">

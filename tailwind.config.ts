@@ -333,7 +333,11 @@ export default withTV({
           },
         },
         {
-          values: theme("spacing"),
+          values: Object.fromEntries(
+            Object.entries(theme("spacing")).filter(
+              ([key]) => 5 <= Number(key) && Number(key) <= 12,
+            ),
+          ),
         },
       )
 
