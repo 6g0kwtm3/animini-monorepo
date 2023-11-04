@@ -4,24 +4,21 @@ import {
   offlineExchange,
 } from "@urql/exchange-graphcache"
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage"
-import { requestPolicyExchange } from "@urql/exchange-request-policy"
 import type {
   AnyVariables,
   DocumentInput,
   Exchange,
   OperationContext,
+  SSRData,
   TypedDocumentNode,
-  UseQueryArgs,
 } from "urql"
-import { Client, fetchExchange, useClient, useQuery } from "urql"
+import { Client, fetchExchange, ssrExchange, useClient } from "urql"
 import { graphql } from "~/gql"
 import type { GraphCacheConfig } from "../gql/graphql"
 
 import introspection from "~/gql/introspection.json"
 
 import cookie from "cookie"
-
-import { refocusExchange } from "@urql/exchange-refocus"
 
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
@@ -42,6 +39,12 @@ import {
 } from "effect"
 
 import * as wonka from "wonka"
+import { IS_SERVER } from "./isClient"
+
+export const ssr = ssrExchange({
+  isClient: !IS_SERVER,
+  ...(!IS_SERVER ? { initialState: window.__URQL_DATA__ } : {}),
+})
 
 const graphcacheConfig = {
   updates: {
@@ -116,9 +119,9 @@ const graphcacheConfig = {
   },
 } satisfies GraphCacheConfig
 
-const exchanges: Exchange[] = [refocusExchange(), requestPolicyExchange({})]
+export const exchanges: Exchange[] = []
 
-if (typeof document !== "undefined") {
+if (!IS_SERVER) {
   const storage = makeDefaultStorage()
 
   exchanges.push(
@@ -176,7 +179,7 @@ if (typeof document !== "undefined") {
       }
     }),
   )
-  exchanges.push(fetchExchange)
+  exchanges.push(ssr, fetchExchange)
 }
 
 function logout() {
@@ -185,46 +188,17 @@ function logout() {
 
 const API_URL = "https://graphql.anilist.co"
 
+declare global {
+  interface Window {
+    __URQL_DATA__: SSRData
+  }
+}
+
 export const urql = new Client({
   url: API_URL,
   exchanges: exchanges,
+  requestPolicy: "cache-only",
 })
-
-// let once = new WeakSet()
-
-export function useLoadedQuery<V extends AnyVariables, D>(
-  args: UseQueryArgs<V, D>,
-  initialData: D,
-) {
-  const [state, execute] = useQuery({
-    ...args,
-    ...(typeof document === "undefined" ? { pause: true } : {}),
-    // context: useMemo(
-    //   () => ({
-    //     fetch: (...args2) => {
-    //       if (!once.has(args.query)) {
-    //         once.add(args.query)
-
-    //         console.log(args2[1], initialData)
-
-    //         return Promise.resolve(
-    //           new Response(JSON.stringify({ data: initialData }), {
-    //             headers: {
-    //               "Content-Type": "application/json",
-    //             },
-    //             status: 200,
-    //           })
-    //         )
-    //       }
-    //       return fetch(...args2)
-    //     },
-    //   }),
-    //   []
-    // ),
-  })
-
-  return [{ ...state, data: state.data ?? initialData }, execute] as const
-}
 
 let cache = new WeakMap<Request, Client>()
 
@@ -270,7 +244,7 @@ function createStatelessClient(request: Request) {
       }
     }),
   )
-  exchanges.push(fetchExchange)
+  exchanges.push(ssr, fetchExchange)
 
   return new Client({
     url: API_URL,
