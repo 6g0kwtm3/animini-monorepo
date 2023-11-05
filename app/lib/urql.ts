@@ -197,7 +197,7 @@ declare global {
 export const urql = new Client({
   url: API_URL,
   exchanges: exchanges,
-  requestPolicy: "cache-only",
+  requestPolicy: "cache-first",
 })
 
 let cache = new WeakMap<Request, Client>()
@@ -290,6 +290,9 @@ export function useLoader<E, A>(
             _loader,
             Stream.runForEach((data) =>
               Effect.sync(() => {
+                if (data === state) {
+                  return
+                }
                 state = data
                 for (const listener of listeners) {
                   listener()

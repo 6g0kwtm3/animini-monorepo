@@ -26,11 +26,7 @@ import {
   pipe,
 } from "effect"
 
-import {
-  BaseButton,
-  ButtonText,
-  ButtonTonal,
-} from "~/components/Button"
+import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { useFragment as readFragment, type FragmentType } from "~/gql"
 import { fragment, query } from "~/gql/sizzle"
@@ -38,10 +34,9 @@ import { fragment, query } from "~/gql/sizzle"
 import * as S from "@effect/schema/Schema"
 import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { } from "~/components/Dialog"
+import {} from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
-import { btnIcon } from "~/lib/button"
- 
+import { btn, btnIcon } from "~/lib/button"
 
 const ToWatch_entry = fragment("ToWatch_entry", "MediaList", {
   progress: 1,
@@ -245,12 +240,9 @@ function formatWatch(minutes: number) {
 }
 
 const MediaList = function (props: {
-  item: FragmentType<ReturnType<typeof ListItem_page>>
+  item: FragmentType<typeof ListItem_page>
 }) {
-  const page = readFragment(
-    ListItem_page({ mediaId_in: [], userName: "" }),
-    props.item,
-  )
+  const page = readFragment(ListItem_page, props.item)
 
   const entries = pipe(
     page?.mediaList?.filter(nonNull) ?? [],
@@ -269,6 +261,7 @@ const MediaList = function (props: {
 
   const [searchParams] = useSearchParams()
 
+  const pageNumber = Number(searchParams.get("page") ?? 1)
   return (
     <>
       <div className={""}>
@@ -296,15 +289,20 @@ const MediaList = function (props: {
         </div>
         <ol className="flex justify-center gap-2">
           <li>
-            <a
-              href={`?page=${searchParams.get("page") ?? 1}&${deleteSearchParam(
-                searchParams,
-                "page",
-              )}`}
-              className="box-content h-[2ch] w-[2ch] p-1"
+            <Link
+              to={
+                pageNumber > 1
+                  ? `?page=${pageNumber - 1}&${deleteSearchParam(
+                      searchParams,
+                      "page",
+                    )}`
+                  : `?${searchParams}`
+              }
+              className={btn()}
+              aria-disabled={!(pageNumber > 1)}
             >
-              {searchParams.get("page") ?? 1}
-            </a>
+              <div className="">Prev</div>
+            </Link>
           </li>
           <li>
             <Form action="get">
@@ -313,24 +311,30 @@ const MediaList = function (props: {
                 name="selected"
                 defaultValue={searchParams.get("selected") ?? undefined}
               />
-              <input
-                name="page"
-                type="text"
-                className="box-content h-[2ch] w-[2ch] p-1"
-                defaultValue={searchParams.get("page") ?? 1}
-              />
+              <label htmlFor="" className="p-1">
+                <input
+                  name="page"
+                  type="text"
+                  className="box-content h-[2ch] w-[2ch]"
+                  defaultValue={pageNumber}
+                />
+              </label>
             </Form>
           </li>
           <li>
-            <a
-              href={`?page=${searchParams.get("page") ?? 1}&${deleteSearchParam(
-                searchParams,
-                "page",
-              )}`}
-              className="box-content h-[2ch] w-[2ch] p-1"
+            <Link
+              to={
+                page?.pageInfo?.hasNextPage
+                  ? `?page=${
+                      Number(pageNumber) + 1
+                    }&${deleteSearchParam(searchParams, "page")}`
+                  : `?${searchParams}`
+              }
+              className={btn()}
+              aria-disabled={!page?.pageInfo?.hasNextPage}
             >
-              {searchParams.get("page") ?? 1}
-            </a>
+              <div className="">Next</div>
+            </Link>
           </li>
         </ol>
       </div>
@@ -361,9 +365,7 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
             loading="lazy"
             alt=""
           />
-          <div className="hidden group-hover:block i i-12 p-1">
-            more_horiz
-          </div>
+          <div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
         </div>
         <Link to={`/${entry.media?.id}`} className="">
           <span className="line-clamp-1 text-body-lg text-balance">
@@ -374,7 +376,7 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
             <div className="">To watch: {formatWatch(watch)}</div>
           </div>
         </Link>
-        <div className="ms-auto w-6 shrink-0 text-label-sm text-on-surface-variant">
+        <div className="ms-auto shrink-0 text-label-sm text-on-surface-variant">
           <span className="group-hover:hidden">
             {entry.progress}/{entry.media?.episodes}
           </span>

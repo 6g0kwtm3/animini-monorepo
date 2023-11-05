@@ -1,6 +1,11 @@
 node_modules
 
-/.cache
-/build
-/public/build
+.cache
+build
+public/build
 .env
+
+$houdini
+gql
+vite.config.ts.timestamp-*
+*.log
