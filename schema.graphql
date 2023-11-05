@@ -2778,6 +2778,9 @@ enum ModRole {
   """An anime data moderator"""
   ANIME_DATA
 
+  """A character data moderator"""
+  CHARACTER_DATA
+
   """A community moderator"""
   COMMUNITY
 
@@ -2810,6 +2813,9 @@ enum ModRole {
 
   """A social media moderator"""
   SOCIAL_MEDIA
+
+  """A staff data moderator"""
+  STAFF_DATA
 }
 
 type Mutation {

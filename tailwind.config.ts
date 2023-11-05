@@ -11,7 +11,7 @@ import colors from "./colors.json"
 import themes from "./themes.json"
 
 export default withTV({
-  content: ["app/**/*.tsx"],
+  content: ["src/**/*.tsx"],
 
   theme: {
     screens: {

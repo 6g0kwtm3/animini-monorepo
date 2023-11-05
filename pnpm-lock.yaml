@@ -57,11 +57,11 @@ dependencies:
     specifier: ^5.0.0
     version: 5.0.0(graphql@16.8.1)
   houdini:
-    specifier: ^1.2.32
-    version: 1.2.32
+    specifier: ^1.2.33
+    version: 1.2.33
   houdini-react:
-    specifier: ^1.2.32
-    version: 1.2.32
+    specifier: ^1.2.33
+    version: 1.2.33
   isbot:
     specifier: ^3.7.0
     version: 3.7.0
@@ -74,9 +74,6 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
-  sizzle-gql:
-    specifier: file:sizzle-gql-0.0.4.tgz
-    version: file:sizzle-gql-0.0.4.tgz
   tailwind-variants:
     specifier: ^0.1.18
     version: 0.1.18(tailwindcss@3.3.5)
@@ -4321,8 +4318,8 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
 
-  /houdini-react@1.2.32:
-    resolution: {integrity: sha512-ngVkFrSoxUBpBTEtqfukBWmFpD/s747TDsRe1P2PsSnz2NR13O9U+viwEf/icP3MiN8zj07iQp0+NyvdBKTdvg==}
+  /houdini-react@1.2.33:
+    resolution: {integrity: sha512-R64bF3r8Os4kv0FeqibVdDE3yIGkdjdNKRbkaQqvw44YJ9vJy5Aj81iTu9zhIJG54n0hsy5CPKEHbM5n/kc3hg==}
     dependencies:
       '@babel/parser': 7.23.0
       '@babel/types': 7.23.0
@@ -4334,7 +4331,7 @@ packages:
       express: 4.18.2
       graphql: 15.8.0
       graphql-yoga: 4.0.5(graphql@15.8.0)
-      houdini: 1.2.32
+      houdini: 1.2.33
       react: 18.3.0-canary-09fbee89d-20231013
       react-dom: 18.3.0-canary-09fbee89d-20231013(react@18.3.0-canary-09fbee89d-20231013)
       react-streaming-compat: 0.3.18(react-dom@18.3.0-canary-09fbee89d-20231013)(react@18.3.0-canary-09fbee89d-20231013)
@@ -4345,8 +4342,8 @@ packages:
       - supports-color
     dev: false
 
-  /houdini@1.2.32:
-    resolution: {integrity: sha512-5gs5jxYcjJfm1ao5Wegi1zPXWLSr8rs6z5CYwuDcEij5U/NvGaP+2gfRhm4GabItPgYvMz4ElvLKGE7NXQdFcw==}
+  /houdini@1.2.33:
+    resolution: {integrity: sha512-GNcPIqwLeNK6EZlZzGw0JaUl9AGzI5bUCm5zZsQwMHN/bOlC02RaF0GJARShnhTy+bQAhgGKhjGvQNyf3xE7Jw==}
     hasBin: true
     dependencies:
       '@babel/parser': 7.23.0
@@ -6808,12 +6805,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  file:sizzle-gql-0.0.4.tgz:
-    resolution: {integrity: sha512-QQJK/DH+BEHLD3UsIP71C2WKPDewUoagg+AZTwSP5QBF48xNyx4UuRQAZucUqiuQki5i6j+WM1VVWyBKS2dxQA==, tarball: file:sizzle-gql-0.0.4.tgz}
-    name: sizzle-gql
-    version: 0.0.4
-    dependencies:
-      change-case-all: 1.0.15
-      graphql: 16.8.1
-    dev: false
