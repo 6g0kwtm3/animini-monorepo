@@ -2,10 +2,9 @@
 /// <reference types="vite/client" />
 
 declare module "csstype" {
-  interface Properties {
+  interface Props {
     [key: `--${string}`]: string | number
   }
 }
 
-export { }
-
+export {}

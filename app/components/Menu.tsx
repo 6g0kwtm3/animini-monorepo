@@ -1,9 +1,5 @@
 import { Slot } from "@radix-ui/react-slot"
-import {
-  useEffect,
-  useRef,
-  type ComponentPropsWithoutRef
-} from "react"
+import { useEffect, useRef, type ComponentPropsWithoutRef } from "react"
 import { classes } from "./classes"
 
 export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
@@ -28,8 +24,11 @@ export function Menu(props: ComponentPropsWithoutRef<"details">) {
   const ref = useRef<HTMLDetailsElement>(null)
 
   useEffect(() => {
-    const listener = (e: MouseEvent): void => {
-      if (!(e.target instanceof Node) || ref.current!.contains(e.target)) {
+    const listener = (event: MouseEvent): void => {
+      if (
+        !(event.target instanceof Node) ||
+        ref.current!.contains(event.target)
+      ) {
         return
       }
       ref.current!.open = false

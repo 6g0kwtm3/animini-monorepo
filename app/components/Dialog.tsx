@@ -1,9 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { classes } from "./classes"
 
-
-
-
 export interface WithChildren {
   children?: ReactNode | undefined
 }

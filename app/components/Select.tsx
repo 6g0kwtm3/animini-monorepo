@@ -1,34 +1,26 @@
-import type { OptionRenderPropArg } from "@headlessui/react";
-import { Listbox } from "@headlessui/react";
+import type { OptionRenderPropArg } from "@headlessui/react"
+import { Listbox } from "@headlessui/react"
 import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-} from "@heroicons/react/24/outline";
-import type {
-  FC,
-  ReactNode
-} from "react";
-import {
-  createContext,
-  memo,
-  useCallback,
-  useContext
-} from "react";
+} from "@heroicons/react/24/outline"
+import type { FC, ReactNode } from "react"
+import { createContext, memo, useCallback, useContext } from "react"
 
-import { useSignal } from "@preact/signals-react";
-import Menu from "./Menu";
-import * as TextField from "./TextField";
+import { useSignal } from "@preact/signals-react"
+import Menu from "./Menu"
+import * as TextField from "./TextField"
 
-const SelectContext = createContext<{ value?: string } | null>(null)
+const SelectContext = createContext<{ value?: string } | undefined>(undefined)
 
 function Button(props: Parameters<typeof Listbox.Button>[0]) {
-  const ctx = useContext(SelectContext)
+  const context = useContext(SelectContext)
 
-  return <Listbox.Button value={ctx?.value} {...props}></Listbox.Button>
+  return <Listbox.Button value={context?.value} {...props}></Listbox.Button>
 }
 
-interface ButtonRenderPropArg {
+interface ButtonRenderPropertyArgument {
   open: boolean
   disabled: boolean
 }
@@ -43,7 +35,7 @@ const Outlined = (props: {
   return (
     <Listbox value={value} onChange={setValue} name={props.name}>
       <Listbox.Button>
-        {({ open }: ButtonRenderPropArg) => (
+        {({ open }: ButtonRenderPropertyArgument) => (
           <TextField.Outlined
             {...props}
             value={value}
@@ -122,5 +114,3 @@ Option.displayName = "Option"
 //       >
 
 //       </Select.Button>
-
- 

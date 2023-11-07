@@ -41,30 +41,37 @@ import { dialog } from "~/lib/dialog"
 import { useSignal } from "@preact/signals-react"
 
 function ChevronDown() {
-  return null
+  return
 }
 function Loader2() {
-  return null
+  return
 }
 function X() {
-  return null
+  return
 }
 
 function isTouched(form: HTMLFormElement) {
   return !(
     Object.values(form.elements)
-      .flatMap((el) => (el instanceof HTMLTextAreaElement ? [el] : []))
-      .every((el) => el.defaultValue === el.value) &&
+      .flatMap((element) =>
+        element instanceof HTMLTextAreaElement ? [element] : [],
+      )
+      .every((element) => element.defaultValue === element.value) &&
     Object.values(form.elements)
-      .flatMap((el) => (el instanceof HTMLInputElement ? [el] : []))
+      .flatMap((element) =>
+        element instanceof HTMLInputElement ? [element] : [],
+      )
       .every(
-        (el) =>
-          el.defaultValue === el.value && el.defaultChecked === el.checked,
+        (element) =>
+          element.defaultValue === element.value &&
+          element.defaultChecked === element.checked,
       ) &&
     Object.values(form.elements)
-      .flatMap((el) => (el instanceof HTMLSelectElement ? [el] : []))
-      .every((el) =>
-        Array.from(el.selectedOptions).every(
+      .flatMap((element) =>
+        element instanceof HTMLSelectElement ? [element] : [],
+      )
+      .every((element) =>
+        [...element.selectedOptions].every(
           (option) => option.defaultSelected === true,
         ),
       )
@@ -75,9 +82,7 @@ function SaveVariables(
   params: Readonly<Params<string>>,
   formData: FormData,
 ): InferVariables<typeof Save> {
-  const advancedScores = formData
-    .getAll("advancedScores")
-    .map((score) => Number(score))
+  const advancedScores = formData.getAll("advancedScores").map(Number)
 
   // return S.parseSync(SaveVariablesSchema)({
   //   mediaId: params["mediaId"],
@@ -130,7 +135,7 @@ function avg(nums: number[]) {
   return pipe(
     sumAll(nums) / nums.length,
     Option.some,
-    Option.filter(isFinite),
+    Option.filter(Number.isFinite),
     Option.getOrElse(() => 0),
   )
 }
@@ -219,7 +224,7 @@ function getStatus(status: string) {
   ) {
     return status
   }
-  return undefined
+  return
 }
 
 const EntryPageUserQuery = query("EntryIndexPageUser", {
@@ -282,7 +287,7 @@ const _loader = pipe(
   ),
   Stream.bind("EntryPage", ({ client, EntryPageUser, args: { params } }) =>
     client.query(EntryPageQuery, {
-      format: EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || null,
+      format: EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || undefined,
       id: Number(params["mediaId"]),
     }),
   ),
@@ -348,10 +353,10 @@ export default function Page() {
                     method="post"
                     ref={form}
                     className="grid gap-2"
-                    onChange={(e) => {
-                      touched.value = isTouched(e.currentTarget)
+                    onChange={(event) => {
+                      touched.value = isTouched(event.currentTarget)
                     }}
-                    onReset={(e) => {
+                    onReset={(event) => {
                       console.log("reset")
                       score.value = String(
                         data?.Media?.mediaListEntry?.score || 0,
@@ -403,8 +408,8 @@ export default function Page() {
                           name="score"
                           min={0}
                           step={0.01}
-                          onChange={(e) =>
-                            (score.value = e.currentTarget.value)
+                          onChange={(event) =>
+                            (score.value = event.currentTarget.value)
                           }
                           value={score}
                         />
@@ -487,9 +492,9 @@ export default function Page() {
                         children={<textarea />}
                         spellCheck
                         name="notes"
-                        onInput={(e) => {
-                          e.currentTarget.style.height = ""
-                          e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
+                        onInput={(event) => {
+                          event.currentTarget.style.height = ""
+                          event.currentTarget.style.height = `${event.currentTarget.scrollHeight}px`
                         }}
                         defaultValue={
                           data?.Media?.mediaListEntry?.notes ?? undefined
@@ -505,21 +510,21 @@ export default function Page() {
                         </legend>
                         {data?.Viewer.mediaListOptions.animeList.advancedScoring
                           ?.filter(nonNull)
-                          .map((category, i) => {
+                          .map((category, index) => {
                             return (
                               <TextFieldOutlined key={category}>
                                 <TextFieldOutlinedInput
-                                  onChange={(e) => {
+                                  onChange={(event) => {
                                     const formData = new FormData(
-                                      e.currentTarget.form ?? undefined,
+                                      event.currentTarget.form ?? undefined,
                                     )
                                     score.value = String(
                                       Math.round(
                                         avg(
                                           formData
                                             .getAll("advancedScores")
-                                            .map((s) => Number(s))
-                                            .filter((s) => s),
+                                            .map(Number)
+                                            .filter(Boolean),
                                         ) * 10,
                                       ) / 10,
                                     )

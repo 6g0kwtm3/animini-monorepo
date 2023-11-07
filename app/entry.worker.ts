@@ -13,7 +13,7 @@ const ASSETS = "assets-cache"
 
 // Open the caches and wrap them in `RemixCache` instances.
 const dataCache = Storage.open(DATA, {
-  ttl: 60 * 60 * 24 * 7 * 1_000, // 7 days
+  ttl: 60 * 60 * 24 * 7 * 1000, // 7 days
 })
 const documentCache = Storage.open(PAGES)
 const assetCache = Storage.open(ASSETS)

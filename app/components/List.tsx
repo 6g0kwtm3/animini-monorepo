@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, ElementType } from "react"
-import { } from "react-dom"
+import {} from "react-dom"
 import { classes } from "~/lib/styled"
 
 type ItemProps<E extends ElementType> = ComponentPropsWithoutRef<E> & {
@@ -116,6 +116,7 @@ Item.LeadingAvatar = function LeadingAvatar(
 Item.Img = function Img(props: ComponentPropsWithoutRef<"img">) {
   return (
     <img
+      alt=""
       {...props}
       className={classes("h-14 w-14 shrink-0", props.className)}
     ></img>

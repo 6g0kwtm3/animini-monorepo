@@ -44,7 +44,7 @@ import {
   ButtonTonal,
 } from "~/components/Button"
 import { query } from "~/gql/sizzle"
-import { btn, fab } from "~/lib/button"
+import { button, fab } from "~/lib/button"
 
 import {
   Menu,
@@ -128,13 +128,13 @@ const _loader = pipe(
   ),
 )
 
-export const loader = (async (args) => {
+export const loader = (async (arguments_) => {
   return pipe(
     _loader,
     Stream.run(Sink.head()),
     Effect.flatten,
     Effect.provide(ServerLive),
-    Effect.provideService(LoaderArgs, args),
+    Effect.provideService(LoaderArgs, arguments_),
     Effect.runPromise,
   )
 }) satisfies LoaderFunction
@@ -146,7 +146,7 @@ function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
 
   return Object.fromEntries(
     Object.entries(mapping).map(([key, value]) => {
-      const [token = "", tone] = value.replace(/(\d+)$/g, "_$1").split("_")
+      const [token = "", tone] = value.replaceAll(/(\d+)$/g, "_$1").split("_")
 
       const palette = (
         {
@@ -170,9 +170,9 @@ function parseArgb(value: number) {
   const [, r1 = "", r2 = "", g1 = "", g2 = "", b1 = "", b2 = ""] =
     hexFromArgb(value)
   const color = [
-    parseInt(r1 + r2, 16),
-    parseInt(g1 + g2, 16),
-    parseInt(b1 + b2, 16),
+    Number.parseInt(r1 + r2, 16),
+    Number.parseInt(g1 + g2, 16),
+    Number.parseInt(b1 + b2, 16),
   ].join(" ")
 
   return color
@@ -292,7 +292,7 @@ export default function Page() {
                 </h1>
                 <Menu>
                   <MenuTrigger
-                    className={btn({
+                    className={button({
                       className: "cursor-default",
                     })}
                   >
@@ -354,7 +354,7 @@ export default function Page() {
           </motion.div>
 
           <motion.div layoutId="edit" className="fixed bottom-4 end-4">
-            <Link to="edit" className={fab({  })} replace>
+            <Link to="edit" className={fab({})} replace>
               edit
             </Link>
           </motion.div>

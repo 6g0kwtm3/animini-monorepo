@@ -14,9 +14,9 @@ export function UrqlForm<V extends AnyVariables>(
   return (
     <Form
       method="post"
-      onSubmit={(e) => {
-        e.preventDefault()
-        execute(props.variables(new FormData(e.currentTarget)))
+      onSubmit={(event) => {
+        event.preventDefault()
+        execute(props.variables(new FormData(event.currentTarget)))
       }}
     >
       {props.children}
