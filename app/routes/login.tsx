@@ -6,6 +6,7 @@ import { ButtonFilled, ButtonText } from "~/components/Button"
 import Outlined, { TextFieldOutlinedInput } from "~/components/TextField"
 
 import cookie from "cookie"
+import { btn } from "~/lib/button"
 
 const ANILIST_CLIENT_ID = 3455
 
@@ -58,14 +59,14 @@ export default function Login() {
         <Outlined>
           <TextFieldOutlinedInput
             name="token"
-            asChild
-            children={<textarea />}
+            
+            render={<textarea />}
           />
           <Outlined.Label>Token</Outlined.Label>
         </Outlined>
 
         <footer className="flex justify-end gap-2">
-          <ButtonText asChild>
+         
             <a
               target="_blank"
               href={`https://anilist.co/api/v2/oauth/authorize?${new URLSearchParams(
@@ -75,6 +76,7 @@ export default function Login() {
                 },
               )}`}
               rel="noreferrer"
+              className={btn({})}
             >
               <ButtonText.Icon>
                 <img
@@ -85,7 +87,7 @@ export default function Login() {
               </ButtonText.Icon>
               <span>Get token</span>
             </a>
-          </ButtonText>
+        
           <ButtonFilled type="submit">Login</ButtonFilled>
         </footer>
       </Form>

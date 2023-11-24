@@ -1,7 +1,8 @@
 import { Slot } from "@radix-ui/react-slot"
-import type { ComponentPropsWithoutRef } from "react"
-import type { WithChild } from "./Child"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { classes } from "./classes"
+
+
 
 export function TextFieldOutlined({
   children,
@@ -10,7 +11,7 @@ export function TextFieldOutlined({
 }: ComponentPropsWithoutRef<"label">) {
   return (
     <label {...props} className={classes("group mt-[10px]", props.className)}>
-      <div className="relative flex items-center">{children}</div>
+      <div className="relative flex items-center justify-between">{children}</div>
     </label>
   )
 }
@@ -32,7 +33,7 @@ export function TextFieldOutlinedSupporting(
 function OutlinedLabel({ children }: ComponentPropsWithoutRef<"div">) {
   return (
     <>
-      <div className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4  peer-placeholder-shown:text-body-lg  group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]">
+      <div className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg  group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]">
         {children}
       </div>
 
@@ -52,15 +53,20 @@ function OutlinedLabel({ children }: ComponentPropsWithoutRef<"div">) {
 }
 
 export function TextFieldOutlinedInput({
-  asChild,
+  render,
+  children,
   ...props
-}: WithChild<Require<ComponentPropsWithoutRef<"input">, "name">>) {
-  const Component = asChild ? Slot : "input"
-  return (
+}: Require<ComponentPropsWithoutRef<"input">, "name"> & {
+  render?: ReactNode
+}) {
+  const Component = render ? Slot : "input"
+
+  const Input = (
     <>
       <Component
         type="text"
         {...props}
+        children={render}
         placeholder=" "
         className={classes(
           "peer min-w-0 flex-1 resize-none items-center bg-transparent p-4 text-body-lg text-on-surface placeholder-transparent caret-primary outline-none placeholder:transition-all focus:placeholder-on-surface-variant focus:ring-0 disabled:text-on-surface/[.38] group-error:caret-error",
@@ -68,6 +74,17 @@ export function TextFieldOutlinedInput({
         )}
       />
     </>
+  )
+
+  if (!children) {
+    return Input
+  }
+
+  return (
+    <TextFieldOutlined>
+      {Input}
+      <OutlinedLabel>{children}</OutlinedLabel>
+    </TextFieldOutlined>
   )
 }
 
@@ -151,7 +168,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
         "peer-disabled:text-on-surface/[.38]",
         "group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
         "text-on-surface-variant",
-        "me-3 h-6 w-6",
+        "me-3 i i-6",
         props.className,
       )}
     />
@@ -202,5 +219,4 @@ TextFieldFilled.Suffix = function Suffix(
 }
 TextFieldFilled.LeadingIcon = LeadingIcon
 TextFieldFilled.displayName = "TextField.Filled"
-
-export default TextFieldOutlined
+ 

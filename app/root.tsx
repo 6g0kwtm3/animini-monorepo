@@ -11,10 +11,13 @@ import { ssr, urql } from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
+import type { LoaderFunction } from "@remix-run/node"
 import { IS_SERVER } from "./lib/isClient"
 import "./tailwind.css"
 
-export const loader = () => null
+export const loader = (async () => {
+  return null
+}) satisfies LoaderFunction
 
 export default function App() {
   const data = IS_SERVER ? ssr.extractData() : window.__URQL_DATA__
@@ -44,8 +47,8 @@ export default function App() {
           </SnackbarQueue>
         </Provider>
         <ScrollRestoration />
-        <LiveReload />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   )

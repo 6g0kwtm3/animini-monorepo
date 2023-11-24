@@ -3,9 +3,10 @@ import {
   FaceFrownIcon as EmojiSadIcon,
 } from "@heroicons/react/24/outline"
 import { StarIcon } from "@heroicons/react/24/solid"
-import { ReactNode, memo } from "react"
+import type { ReactNode} from "react";
+import { memo } from "react"
 
-export const point3Icons = [
+ const point3Icons = [
   <EmojiSadIcon
     key="face-frown"
     className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-error peer-checked:text-error group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100 "

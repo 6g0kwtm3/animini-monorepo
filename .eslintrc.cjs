@@ -2,6 +2,16 @@
 module.exports = {
   extends: ["@remix-run/eslint-config", "@remix-run/eslint-config/node"],
   plugins: ["react-refresh"],
+  overrides: [
+    {
+      files: ["*.js"],
+      processor: "@graphql-eslint/graphql",
+    },
+    {
+      files: ["*.graphql"],
+      extends: "plugin:@graphql-eslint/schema-recommended",
+    },
+  ],
   rules: {
     "react-refresh/only-export-components": [
       "warn",

@@ -43,7 +43,7 @@ import {
   ButtonText,
   ButtonTonal,
 } from "~/components/Button"
-import { query } from "~/gql/sizzle"
+
 import { btn, fab } from "~/lib/button"
 
 import {
@@ -57,31 +57,25 @@ import {
   MenuTrigger,
 } from "~/components/Menu"
 import { PaneFlexible } from "~/components/Pane"
+import { graphql } from "~/gql"
 
-const EntryPageQuery = query(
-  "EntryPage",
-  {
-    id: "Int!",
-  },
-  ($) => ({
-    Media: [
-      { id: $.id },
-      {
-        id: 1,
-        coverImage: {
-          extraLarge: 1,
-          medium: 1,
-          color: 1,
-        },
-        bannerImage: 1,
-        title: {
-          userPreferred: 1,
-        },
-        description: 1,
-      },
-    ],
-  }),
-)
+const EntryPageQuery = graphql(`
+  query EntryPage($id: Int!) {
+    Media(id: $id) {
+      id
+      coverImage {
+        extraLarge
+        medium
+        color
+      }
+      bannerImage
+      title {
+        userPreferred
+      }
+      description
+    }
+  }
+`)
 
 const variants = {
   enter: (direction: number) => {
@@ -354,7 +348,7 @@ export default function Page() {
           </motion.div>
 
           <motion.div layoutId="edit" className="fixed bottom-4 end-4">
-            <Link to="edit" className={fab({  })} replace>
+            <Link to="edit" className={fab({})} replace>
               edit
             </Link>
           </motion.div>

@@ -1,126 +1,85 @@
-import type { OptionRenderPropArg } from "@headlessui/react";
-import { Listbox } from "@headlessui/react";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "@heroicons/react/24/outline";
-import type {
-  FC,
-  ReactNode
-} from "react";
-import {
-  createContext,
-  memo,
-  useCallback,
-  useContext
-} from "react";
+import * as Ariakit from "@ariakit/react"
+import { Predicate } from "effect"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import { menu } from "~/lib/menu"
+import { textField } from "~/lib/textField"
+import { TextFieldOutlined } from "./TextField"
 
-import { useSignal } from "@preact/signals-react";
-import Menu from "./Menu";
-import * as TextField from "./TextField";
+// const onClient = Promise.resolve(null)
+import { ClientOnly } from "remix-utils/client-only"
 
-const SelectContext = createContext<{ value?: string } | null>(null)
+const { input } = textField({})
+const { root, item } = menu()
 
-function Button(props: Parameters<typeof Listbox.Button>[0]) {
-  const ctx = useContext(SelectContext)
-
-  return <Listbox.Button value={ctx?.value} {...props}></Listbox.Button>
-}
-
-interface ButtonRenderPropArg {
-  open: boolean
-  disabled: boolean
-}
-
-const Outlined = (props: {
-  name: string
-  children?: ReactNode
-  defaultValue?: string
-}) => {
-  const value = useSignal(props.defaultValue)
-
-  return (
-    <Listbox value={value} onChange={setValue} name={props.name}>
-      <Listbox.Button>
-        {({ open }: ButtonRenderPropArg) => (
-          <TextField.Outlined
-            {...props}
-            value={value}
-            readOnly
-            trailing={
-              <TextField.Outlined.TrailingIcon>
-                {open ? (
-                  <ChevronUpIcon></ChevronUpIcon>
-                ) : (
-                  <ChevronDownIcon></ChevronDownIcon>
-                )}
-              </TextField.Outlined.TrailingIcon>
-            }
-            className={
-              open ? "cursor-pointer border-primary" : "cursor-pointer"
-            }
-          >
-            State
-          </TextField.Outlined>
-        )}
-      </Listbox.Button>
-      <Listbox.Options as="div" className={"focus:outline-none"}>
-        <Menu>{props.children}</Menu>
-      </Listbox.Options>
-    </Listbox>
-  )
-}
-
-Outlined.displayName = "Select.Outlined"
-
-export const Option: FC<{ value: string; children: string }> = (props) => {
-  return (
-    <Listbox.Option
-      value={props.value}
-      //  className={useCallback(({ active, selected }) => '',[])}
-    >
-      {useCallback(
-        ({ active, selected }: OptionRenderPropArg) => (
-          <Menu.Item
-            className={
-              active ? "[--state-opacity:.12] hover:![--state-opacity:.12]" : ""
-            }
-          >
-            <Menu.Item.Icon>
-              {selected && <CheckIcon></CheckIcon>}
-            </Menu.Item.Icon>
-            {props.children}
-          </Menu.Item>
-        ),
-        [props.children],
-      )}
-    </Listbox.Option>
-  )
-}
-Option.displayName = "Option"
-
-// function EnumTextField(props) {
-//   return (
-//     <TextField
-
-//       {...props}
-//       value={Object.entries(State).find(([, value]) => value === props.value)?.[0]}
-//     ></TextField>
-//   )
-// }
-
-// Simple.args = {
-//   name: 'score',
-//   defaultValue: State.Florida,
-//   children: (
-//     <>
-//       <Select.Button
-//         as={EnumTextField}
-//         readOnly
-//         className={useCallaback(({ open }) => (open ? 'border-primary' : ''),[])}
-//       >
-
-//       </Select.Button>
-
+export function Select({
+  children,
+  options,
+  defaultValue,
  
+  ...props
+}: ComponentPropsWithoutRef<typeof Ariakit.Select> & {
+  options: string[]
+  children?: ReactNode
+}) {
+  return (
+    <ClientOnly
+      fallback={
+        <TextFieldOutlined>
+          <select className={input({ className: "appearance-none" })}>
+            {options.map((value) => {
+              return (
+                <option
+                  key={value}
+                  value={value}
+                  className="bg-surface-container text-label-lg text-on-surface surface elevation-2"
+                >
+                  {value}
+                </option>
+              )
+            })}
+          </select>
+          <TextFieldOutlined.Label>{children}</TextFieldOutlined.Label>
+          <TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">
+            expand_more
+          </TextFieldOutlined.TrailingIcon>
+        </TextFieldOutlined>
+      }
+    >
+      {() => (
+        <Ariakit.SelectProvider
+          {...(Predicate.isString(defaultValue) || Array.isArray(defaultValue)
+            ? { defaultValue }
+            : {})}
+        >
+          <TextFieldOutlined>
+            <Ariakit.SelectLabel className="sr-only">
+              {children}
+            </Ariakit.SelectLabel>
+            <Ariakit.Select
+              className={input({ className: "cursor-default" })}
+              {...props}
+            />
+            <TextFieldOutlined.Label>{children}</TextFieldOutlined.Label>
+            <Ariakit.SelectPopover
+              sameWidth
+              className={root({
+                className:
+                  "z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
+              })}
+            >
+              {options.map((value) => (
+                <Ariakit.SelectItem
+                  className={item({
+                    className: "data-[active-item]:state-focus",
+                  })}
+                  value={value}
+                  key={value}
+                />
+              ))}
+            </Ariakit.SelectPopover>
+          </TextFieldOutlined>
+        </Ariakit.SelectProvider>
+      )}
+    </ClientOnly>
+  )
+}

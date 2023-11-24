@@ -1,8 +1,5 @@
 import { authExchange } from "@urql/exchange-auth"
-import {
-  offlineExchange as cacheExchange,
-  offlineExchange,
-} from "@urql/exchange-graphcache"
+import { cacheExchange, offlineExchange } from "@urql/exchange-graphcache"
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage"
 import type {
   AnyVariables,
@@ -47,6 +44,7 @@ export const ssr = ssrExchange({
 })
 
 const graphcacheConfig = {
+  introspection,
   updates: {
     Mutation: {
       ToggleFavourite(result, args, cache) {
@@ -114,8 +112,8 @@ const graphcacheConfig = {
       collection.user?.id
         ? "id" + collection.user.id
         : collection.user?.name
-        ? "name" + collection.user.name
-        : null,
+          ? "name" + collection.user.name
+          : null,
   },
 } satisfies GraphCacheConfig
 
@@ -126,7 +124,7 @@ if (!IS_SERVER) {
 
   exchanges.push(
     offlineExchange<GraphCacheConfig>(
-      Object.assign(graphcacheConfig, { storage, introspection }),
+      Object.assign(graphcacheConfig, {  }),
     ),
   )
 
@@ -173,7 +171,7 @@ if (!IS_SERVER) {
           )
         },
         async refreshAuth() {
-          document.cookie = ""
+          // document.cookie = ""
           logout()
         },
       }

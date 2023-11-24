@@ -1,11 +1,10 @@
 /// <reference types="@remix-run/node" />
 /// <reference types="vite/client" />
 
-declare module "csstype" {
-  interface Properties {
+declare module "react" {
+  interface CSSProperties {
     [key: `--${string}`]: string | number
   }
 }
 
-export { }
-
+export {}

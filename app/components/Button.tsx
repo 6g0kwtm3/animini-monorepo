@@ -109,7 +109,7 @@ ButtonText.Icon = (props) => {
   return (
     <div
       {...props}
-      className={classes("h-[1.125rem] w-[1.125rem]", props.className)}
+      className={classes("i i-[1.125rem] w-[1.125rem] h-[1.125rem]", props.className)}
     ></div>
   )
 }

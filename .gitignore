@@ -6,6 +6,6 @@ public/build
 .env
 
 $houdini
-gql
+app/gql
 vite.config.ts.timestamp-*
 *.log
