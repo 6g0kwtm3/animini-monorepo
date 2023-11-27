@@ -61,6 +61,6 @@
 		"vite-plugin-kit-routes": "^0.1.4"
 	},
 	"engines": {
-		"node": ">=21.10.0"
+		"node": ">=21.1.0"
 	}
 }
