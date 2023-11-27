@@ -1,5 +1,8 @@
 {
-  "semi": false,
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindFunctions": ["tv"]
+	"useTabs": true,
+	"semi": false,
+	"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+	"tailwindFunctions": ["tv"],
+	"overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
+	"htmlWhitespaceSensitivity": "ignore"
 }

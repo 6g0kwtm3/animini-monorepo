@@ -1,15 +1,25 @@
-import { unstable_vitePlugin as remix } from "@remix-run/dev";
-import million from 'million/compiler';
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import config from "./remix.config";
+import { sveltekit } from "@sveltejs/kit/vite"
+import { defineConfig } from "vite"
+import { kitRoutes } from "vite-plugin-kit-routes"
+import type { KIT_ROUTES } from "~/lib/ROUTES"
 
 export default defineConfig({
-  plugins: [million.vite({ auto: true }), remix(config), tsconfigPaths()],
-  server: {
-    port: 3000,
-  },
-  define: {
-    "process.env.NODE_DEBUG": false,
-  },
+	plugins: [
+		sveltekit(),
+		kitRoutes<KIT_ROUTES>({
+			format: "variables",
+			LINKS: {
+				authorize: {
+					href: "https://anilist.co/api/v2/oauth/authorize",
+					explicit_search_params: {
+						client_id: { required: true, type: "string" },
+						response_type: { default: "'token'", type: "'token'" },
+					},
+				},
+			},
+		}),
+	],
+	server: {
+		port: 3000,
+	},
 })
