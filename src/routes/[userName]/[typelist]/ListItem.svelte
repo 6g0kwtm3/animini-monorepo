@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { graphql, useFragment, type FragmentType } from "~/gql"
-	import { PAGES_media_mediaId } from "~/lib/ROUTES"
+	import { PAGE_media_mediaId } from "~/lib/ROUTES"
 	import { btnIcon } from "~/lib/button"
 	import { behind, formatWatch, toWatch } from "~/lib/entry"
 
@@ -46,7 +46,7 @@
 		/>
 		<div class="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 	</div>
-	<a href={PAGES_media_mediaId({ mediaId: entry.media?.id! })}>
+	<a href={PAGE_media_mediaId({ mediaId: entry.media?.id! })}>
 		<span class="line-clamp-1 text-body-lg text-balance">
 			{entry.media?.title?.userPreferred}
 		</span>

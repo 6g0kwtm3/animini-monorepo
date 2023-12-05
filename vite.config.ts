@@ -10,12 +10,13 @@ export default defineConfig({
 			format: "variables",
 			LINKS: {
 				authorize: {
-					href: "https://anilist.co/api/v2/oauth/authorize",
+					href: "https://www.anilist.co/api/v2/oauth/authorize",
 					explicit_search_params: {
 						client_id: { required: true, type: "string" },
 						response_type: { default: "'token'", type: "'token'" },
 					},
 				},
+				"anilist-logo":"https://www.anilist.co/img/icons/icon.svg"
 			},
 		}),
 	],
