@@ -8,6 +8,7 @@
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
     "codegen": "graphql-codegen-esm --config codegen.ts",
+    "prepare": "pnpm run codegen",
     "knip": "knip",
     "lint": "eslint . --fix"
   },

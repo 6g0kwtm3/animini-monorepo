@@ -1,0 +1,76 @@
+name: Test
+
+on:
+  push:
+    branches: ['master']
+  pull_request:
+    branches: ['master']
+
+permissions:
+  contents: read
+
+
+jobs:
+
+  eslint:
+    runs-on: ubuntu-latest
+
+    name: Lint
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 21.1.0
+          cache: 'pnpm'
+
+      - name: Install dependencies 📦
+        run: pnpm i --frozen-lockfile
+
+      - name: Lint
+        run: npm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+
+    name: Typecheck
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 21.1.0
+          cache: 'pnpm'
+
+      - name: Install dependencies 📦
+        run: pnpm i --frozen-lockfile
+
+      - name: Typecheck
+        run: npm run typecheck
+
+  format:
+    runs-on: ubuntu-latest
+    name: Format
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 21.1.0
+          cache: 'pnpm'
+
+      - name: Install dependencies 📦
+        run: pnpm i --frozen-lockfile
+
+      - name: Format
+        run: pnpm run format
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'refactor: run format'
