@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores"
+	import SearchParams from "~/components/SearchParams.svelte"
 	import Select from "~/components/Select.svelte"
 	import { MediaStatus } from "~/gql/graphql"
 	import { btn } from "~/lib/button"
@@ -13,11 +14,7 @@
 </script>
 
 <form>
-	<input
-		type="hidden"
-		name="selected"
-		value={$page.url.searchParams.get("selected") ?? undefined}
-	/>
+	<SearchParams except={["status"]} />
 	<Select
 		name="status"
 		defaultValue={$page.url.searchParams.get("status") ?? "Any"}

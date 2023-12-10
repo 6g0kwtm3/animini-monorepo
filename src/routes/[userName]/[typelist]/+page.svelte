@@ -2,11 +2,10 @@
 	import { page } from "$app/stores"
 	import { Order } from "effect"
 	import CardOutlined from "~/components/CardOutlined.svelte"
-	import { btn } from "~/lib/button"
 	import { pane } from "~/lib/pane"
 	import { nonNull } from "~/lib/urql"
-	import MediaList from "./MediaList.svelte"
 	import StatusFilter from "./StatusFilter.svelte"
+	import { btn } from "~/lib/button"
 
 	let { data } = $props()
 
@@ -20,10 +19,6 @@
 			) ?? [],
 	)
 
-	$effect(() => console.log($TypelistQuery))
-
- 
-
 	let selected = $derived($page.url.searchParams.get("selected"))
 
 	let lists = $derived(
@@ -34,9 +29,11 @@
 			return allLists?.filter((list) => list.name === selected)
 		})(),
 	)
+
+	import MediaList from "./MediaList.svelte"
 </script>
 
-<section class={pane({ class: "?max-h-screen flex flex-col overflow-hidden" })}>
+<div class={pane({ class: "?max-h-screen flex flex-col overflow-hidden" })}>
 	<main class="grid grid-cols-12 md:gap-6">
 		<div
 			class="col-span-full hidden last:block max-md:last:flex-1 md:col-span-4 md:block"
@@ -51,8 +48,9 @@
 				</aside>
 			</CardOutlined>
 		</div>
+
 		<div
-			class={`col-span-full hidden last:block max-md:last:flex-1 md:col-span-8 md:block`}
+			class="col-span-full hidden last:block max-md:last:flex-1 md:col-span-8 md:block"
 		>
 			<StatusFilter></StatusFilter>
 
@@ -62,7 +60,7 @@
 				{#each allLists as list (list.name)}
 					<li class="min-w-max">
 						<a
-							href={`?selected=${list.name}`}
+							href="?selected={list.name}"
 							class={btn({
 								variant: "tonal",
 								class: `${
@@ -81,4 +79,4 @@
 			{/each}
 		</div>
 	</main>
-</section>
+</div>

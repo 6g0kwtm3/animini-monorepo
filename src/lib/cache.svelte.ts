@@ -33,7 +33,6 @@ import type { LoadEvent } from "@sveltejs/kit"
 import {
 	get,
 	type Invalidator,
-	type Readable,
 	type Subscriber,
 	type Unsubscriber,
 	type Updater,
@@ -143,27 +142,6 @@ export const QueryStore = browser
 			): Unsubscriber => {
 				let first = false
 
-				const listener = async () => {
-					const { data, error } = await urql
-						.query<Result, Variables>(this.query, this.variables, {
-							requestPolicy: "network-only",
-						})
-						.toPromise()
-
-					if (error?.networkError || !data) {
-						return
-					}
-
-					cache.writeQuery({
-						data: data,
-						query: this.query,
-						variables: this.variables,
-						broadcast: true,
-					})
-				}
-
-				window.addEventListener("focus", listener)
-
 				const unsubscribe = cache.watch({
 					query: this.query,
 					callback: ({ result }) => {
@@ -178,8 +156,8 @@ export const QueryStore = browser
 				})
 
 				return () => {
-					window.removeEventListener("focus", listener)
 					unsubscribe()
+					console.log("unmout")
 				}
 			}
 	  }
@@ -216,10 +194,7 @@ export const QueryStore = browser
 				return this
 			}
 
-			subscribe = (
-				run: Subscriber<Result | undefined>,
-				invalidate?: Invalidator<Result> | undefined,
-			): Unsubscriber => {
+			subscribe = (run: Subscriber<Result | undefined>): Unsubscriber => {
 				run(this.data)
 				return () => {}
 			}

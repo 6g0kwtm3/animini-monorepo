@@ -17,8 +17,6 @@ import introspection from "~/gql/introspection.json"
 
 import cookie from "cookie"
 
- 
-
 import {
 	Chunk,
 	Context,

@@ -170,117 +170,115 @@ export default withTV({
 		extend: {},
 	},
 	plugins: [
-		plugin(
-			({ addUtilities, addBase, matchUtilities, theme }) => {
-				function isKeyOf<T extends NonNullable<unknown>>(
-					key: string | number | symbol,
-					value: T,
-				): key is keyof T {
-					return key in value
-				}
+		plugin(({ addUtilities, addBase, matchUtilities, theme }) => {
+			function isKeyOf<T extends NonNullable<unknown>>(
+				key: string | number | symbol,
+				value: T,
+			): key is keyof T {
+				return key in value
+			}
 
-				addBase({
+			addBase({
+				":root": Object.assign(
+					Object.fromEntries(
+						Object.entries(colors.light).map(([key, value]) => [
+							`--${key}`,
+							isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
+						]),
+					),
+					{
+						fontSize: "16px",
+					},
+				),
+				"::backdrop": Object.assign(
+					Object.fromEntries(
+						Object.entries(colors.light).map(([key, value]) => [
+							`--${key}`,
+							isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
+						]),
+					),
+					{
+						fontSize: "16px",
+					},
+				),
+				"@media (prefers-color-scheme: dark)": {
 					":root": Object.assign(
 						Object.fromEntries(
-							Object.entries(colors.light).map(([key, value]) => [
+							Object.entries(colors.dark).map(([key, value]) => [
 								`--${key}`,
 								isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
 							]),
 						),
-						{
-							fontSize: "16px",
-						},
+						{ "color-scheme": "dark" },
 					),
 					"::backdrop": Object.assign(
 						Object.fromEntries(
-							Object.entries(colors.light).map(([key, value]) => [
+							Object.entries(colors.dark).map(([key, value]) => [
 								`--${key}`,
 								isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
 							]),
 						),
-						{
-							fontSize: "16px",
-						},
+						{ "color-scheme": "dark" },
 					),
-					"@media (prefers-color-scheme: dark)": {
-						":root": Object.assign(
-							Object.fromEntries(
-								Object.entries(colors.dark).map(([key, value]) => [
-									`--${key}`,
-									isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
-								]),
-							),
-							{ "color-scheme": "dark" },
-						),
-						"::backdrop": Object.assign(
-							Object.fromEntries(
-								Object.entries(colors.dark).map(([key, value]) => [
-									`--${key}`,
-									isKeyOf(value, themes) ? themes[value] : `var(--${value})`,
-								]),
-							),
-							{ "color-scheme": "dark" },
-						),
-					},
-				})
+				},
+			})
 
-				const surfaceTint = theme("colors.surface-tint", "transparent").replace(
-					"<alpha-value>",
-					"var(--mdi-elevation-opacity)",
-				)
+			const surfaceTint = theme("colors.surface-tint", "transparent").replace(
+				"<alpha-value>",
+				"var(--mdi-elevation-opacity)",
+			)
 
-				const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
+			const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
 
-				addUtilities({
-					".surface": {
-						"--mdi-elevation-opacity": "0",
-						"--mdi-state-color": "transparent",
-						backgroundImage,
-					},
-				})
+			addUtilities({
+				".surface": {
+					"--mdi-elevation-opacity": "0",
+					"--mdi-state-color": "transparent",
+					backgroundImage,
+				},
+			})
 
-				matchUtilities(
-					{
-						elevation: (opacity) => ({
-							"--mdi-elevation-opacity": opacity,
+			matchUtilities(
+				{
+					elevation: (opacity) => ({
+						"--mdi-elevation-opacity": opacity,
+					}),
+				},
+				{
+					values: theme("elevation") || {},
+					type: ["percentage"],
+				},
+			)
+
+			matchUtilities(
+				{
+					state: (opacity) => ({
+						"--mdi-state-opacity": opacity,
+					}),
+				},
+				{
+					values: theme("state") || {},
+					type: ["percentage"],
+				},
+			)
+
+			matchUtilities(
+				{
+					state: (color) => ({
+						...withAlphaVariable({
+							color,
+							property: "--mdi-state-color",
+							variable: "--mdi-state-opacity",
 						}),
-					},
-					{
-						values: theme("elevation") || {},
-						type: ["percentage"],
-					},
-				)
-
-				matchUtilities(
-					{
-						state: (opacity) => ({
-							"--mdi-state-opacity": opacity,
-						}),
-					},
-					{
-						values: theme("state") || {},
-						type: ["percentage"],
-					},
-				)
-
-				matchUtilities(
-					{
-						state: (color) => ({
-							...withAlphaVariable({
-								color,
-								property: "--mdi-state-color",
-								variable: "--mdi-state-opacity",
-							}),
-							"--mdi-state-opacity": 0,
-						}),
-					},
-					{
-						values: flattenColorPalette(theme("colors")),
-						type: ["color", "any"],
-					},
-				)
-			},
-		),
+						"--mdi-state-opacity": 0,
+					}),
+				},
+				{
+					values: flattenColorPalette(theme("colors")),
+					type: ["color", "any"],
+				},
+			)
+		}),
 		plugin(({ addUtilities }) => {
 			addUtilities({
 				".text-wrap": { "text-wrap": "wrap" },
@@ -310,7 +308,7 @@ export default withTV({
 				{ values: {} },
 			)
 		}),
-		plugin(({  matchComponents, addVariant }) => {
+		plugin(({ matchComponents, addVariant }) => {
 			matchComponents({}, {})
 
 			addVariant("error", ["&:has(:invalid)", "&:has([aria-invalid=true])"])

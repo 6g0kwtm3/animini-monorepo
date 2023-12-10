@@ -29,7 +29,7 @@
 		"cookie": "^0.5.0",
 		"effect": "^2.0.0-next.52",
 		"graphql": "16.8.1",
-		"svelte": "5.0.0-next.13",
+		"svelte": "next",
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.1.18",
 		"urql": "^4.0.5",
 		"wonka": "^6.3.4"

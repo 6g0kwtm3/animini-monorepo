@@ -1,5 +1,5 @@
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants"
 
 export const pane = tv({
-  base:"flex-1"
+	base: "flex-1",
 })

@@ -58,7 +58,7 @@
 	)
 </script>
 
-<div class={""}>
+<article class={""}>
 	<h2 class="mx-4 flex flex-wrap justify-between text-display-md">
 		<div>{$page.url.searchParams.get("selected")}</div>
 		<div class="">
@@ -131,4 +131,4 @@
 			</Link>
 		</li>
 	</ol>  -->
-</div>
+</article>
