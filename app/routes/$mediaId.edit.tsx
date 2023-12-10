@@ -1,5 +1,4 @@
-import type { ActionFunction } from "@remix-run/node"
-import type { Params } from "@remix-run/react"
+import { type ActionFunction, type LoaderFunction } from "@remix-run/node"
 import {
   Form,
   Link,
@@ -8,14 +7,22 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react"
-import { Option, Predicate, ReadonlyRecord, Stream, pipe } from "effect"
+import {
+  Effect,
+  Option,
+  Predicate,
+  ReadonlyArray,
+  ReadonlyRecord,
+  Sink,
+  Stream,
+  pipe,
+} from "effect"
 
-import { useRef, useState } from "react"
 import { ButtonText } from "~/components/Button"
 
 import { sumAll } from "effect/Number"
-import { Snackbar, SnackbarAction } from "~/components/Snackbar"
-import TextFieldOutlined, {
+import {
+  TextFieldOutlined,
   TextFieldOutlinedInput,
 } from "~/components/TextField"
 import { MediaListStatus } from "~/gql/graphql"
@@ -23,32 +30,29 @@ import type { InferVariables } from "~/lib/urql"
 import {
   ClientArgs,
   EffectUrql,
+  LoaderArgs,
+  LoaderLive,
   getClient,
   nonNull,
   useLoader,
 } from "~/lib/urql"
-import type { loader } from "./$mediaId"
 import { ChipFilter } from "./$mediaId"
 
 import * as S from "@effect/schema/Schema"
 import { DialogFullscreenIcon } from "~/components/Dialog"
 
-import { mutation, query } from "~/gql/sizzle"
-
 import * as Ariakit from "@ariakit/react"
-import { motion } from "framer-motion"
-import { dialog } from "~/lib/dialog"
+import type { FieldConfig, Submission } from "@conform-to/react"
+import { conform, useFieldList, useForm } from "@conform-to/react"
 import { useSignal } from "@preact/signals-react"
+import { motion } from "framer-motion"
+import type { FragmentType } from "~/gql"
+import { graphql, useFragment } from "~/gql"
+import { dialog } from "~/lib/dialog"
 
-function ChevronDown() {
-  return
-}
-function Loader2() {
-  return
-}
-function X() {
-  return
-}
+import { parse } from "@conform-to/dom"
+import { type ComponentPropsWithoutRef } from "react"
+import { Select } from "~/components/Select"
 
 function isTouched(form: HTMLFormElement) {
   return !(
@@ -78,57 +82,62 @@ function isTouched(form: HTMLFormElement) {
   )
 }
 
-function SaveVariables(
-  params: Readonly<Params<string>>,
-  formData: FormData,
-): InferVariables<typeof Save> {
-  const advancedScores = formData.getAll("advancedScores").map(Number)
+export const action = (async ({ request, params }): Promise<Submission<{}>> => {
+  const formData = await request.formData()
 
-  // return S.parseSync(SaveVariablesSchema)({
-  //   mediaId: params["mediaId"],
-  //   advancedScores,
-  //   completedAt: formData.get("completedAt"),
-  //   startedAt: formData.get("startedAt"),
-  //   notes: formData.get("notes"),
-  //   progress: formData.get("progress"),
-  //   repeat: formData.get("repeat"),
-  //   score: formData.get("score") || avg(advancedScores),
-  //   status: formData.get("status"),
-  //   customLists: formData.getAll("customLists"),
-  // })
+  const submission = parse(formData, {
+    resolve(payload) {
+      return {
+        value: {
+          ...payload,
+          completedAt: S.parseSync(S.nullable(FuzzyDateInput))(
+            formdata?.get("completedAt") || null,
+          ),
+          startedAt: S.parseSync(S.nullable(FuzzyDateInput))(
+            formdata?.get("startedAt") || null,
+          ),
+        },
+      }
+    },
+  })
 
-  return {
-    mediaId: Number(params["mediaId"]),
-    advancedScores,
-    completedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-      formData.get("completedAt") || null,
-    ),
-    startedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-      formData.get("startedAt") || null,
-    ),
-    notes: String(formData.get("notes")),
-    progress: Number(formData.get("progress")) || 0,
-    repeat: Number(formData.get("repeat")) || 0,
-    score: Number(formData.get("score")) || avg(advancedScores) || 0,
-    status: getStatus(String(formData.get("status"))) || null,
-    customLists: formData.getAll("customLists").map(String),
-  }
-}
+  console.log(submission)
 
-export const action = (async ({ request, params }) => {
-  // const variables = SaveVariables(params, await request.formData())
-  // console.log(variables)
-  // return {}
-  const variables = SaveVariables(params, await request.formData())
+  // const submission = SaveVariables(formData)
 
-  const result = await getClient(request).mutation(Save, variables)
-  if (result.error) {
-    console.error(variables)
-    console.error(result.error.graphQLErrors.at(0)?.originalError)
-    throw result.error
+  if (submission.intent !== "submit" || !submission.value) {
+    return submission
   }
 
-  return { saved: true }
+  const result = await getClient(request).mutation(Save, submission.value)
+
+  const errorEntries =
+    result.error?.graphQLErrors
+      .flatMap((error) => {
+        return Predicate.isReadonlyRecord(error.originalError) &&
+          "validation" in error.originalError &&
+          Predicate.isReadonlyRecord(error.originalError["validation"])
+          ? Object.entries(error.originalError["validation"])
+          : []
+      })
+      .flatMap(([key, value]) =>
+        (Array.isArray(value) ? value : [value]).flatMap((value) =>
+          Predicate.isString(value) ? [[key, value] as const] : [],
+        ),
+      ) ?? []
+
+  const errorKeys = Object.fromEntries(
+    errorEntries.map(([key, value]) => [value, key]),
+  )
+
+  const error = ReadonlyArray.groupBy(
+    errorEntries.map(([, value]) => value),
+    (value) => errorKeys[value] ?? "undefined",
+  )
+
+  return { ...submission, error }
+
+  return submission
 }) satisfies ActionFunction
 
 function avg(nums: number[]) {
@@ -147,6 +156,17 @@ const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
     (s) => s.replace(new RegExp(`^${fillString}{0,${maxLength}}`), ""),
     (s) => s.padStart(maxLength, fillString),
   )
+
+export const loader = (async (args) => {
+  return pipe(
+    _loader,
+    Stream.run(Sink.head()),
+    Effect.flatten,
+    Effect.provide(LoaderLive),
+    Effect.provideService(LoaderArgs, args),
+    Effect.runPromise,
+  )
+}) satisfies LoaderFunction
 
 const FuzzyDateInput = S.compose(
   S.compose(
@@ -176,118 +196,92 @@ const FuzzyDateInput = S.compose(
   ),
 )
 
-const Save = mutation(
-  "Save",
-  {
-    mediaId: "Int!",
-    advancedScores: "[Float]",
-    completedAt: "FuzzyDateInput",
-    startedAt: "FuzzyDateInput",
-    notes: "String",
-    progress: "Int",
-    repeat: "Int",
-    score: "Float",
-    status: "MediaListStatus",
-    customLists: "[String]",
-  },
-  ($) => ({
-    SaveMediaListEntry: [
-      $,
-      {
-        id: 1,
-      },
-    ],
-  }),
-)
-
-const SaveVariablesSchema = S.struct({
-  mediaId: S.NumberFromString,
-  advancedScores: S.array(S.NumberFromString),
-  completedAt: FuzzyDateInput,
-  startedAt: FuzzyDateInput,
-  notes: S.string,
-  progress: S.NumberFromString,
-  repeat: S.NumberFromString,
-  score: S.NumberFromString,
-  status: S.string,
-  customLists: S.array(S.string),
-})
-
-function getStatus(status: string) {
-  if (
-    status === MediaListStatus.Completed ||
-    status === MediaListStatus.Current ||
-    status === MediaListStatus.Dropped ||
-    status === MediaListStatus.Paused ||
-    status === MediaListStatus.Planning ||
-    status === MediaListStatus.Repeating
+const Save = graphql(`
+  mutation Save(
+    $mediaId: Int
+    $advancedScores: [Float]
+    $completedAt: FuzzyDateInput
+    $startedAt: FuzzyDateInput
+    $notes: String
+    $progress: Int
+    $repeat: Int
+    $score: Float
+    $status: MediaListStatus
+    $customLists: [String]
   ) {
-    return status
+    SaveMediaListEntry(
+      advancedScores: $advancedScores
+      completedAt: $completedAt
+      startedAt: $startedAt
+      notes: $notes
+      mediaId: $mediaId
+      progress: $progress
+      repeat: $repeat
+      score: $score
+      status: $status
+      customLists: $customLists
+    ) {
+      id
+    }
   }
-  return
-}
+`)
 
-const EntryPageUserQuery = query("EntryIndexPageUser", {
-  Viewer: {
-    id: 1,
-    mediaListOptions: {
-      animeList: {
-        advancedScoringEnabled: 1,
-        advancedScoring: 1,
-        customLists: 1,
-      },
-      scoreFormat: 1,
-    },
-  },
-})
+const EditPageViewer = graphql(`
+  query EditPageViewer {
+    Viewer {
+      id
+      mediaListOptions {
+        animeList {
+          advancedScoringEnabled
+          advancedScoring
+          ...AdvancedScores_mediaListTypeOptions
+          ...CustomLists_mediaListTypeOptions
+        }
+        scoreFormat
+      }
+    }
+  }
+`)
 
-const EntryPageQuery = query(
-  "EntryIndexPage",
-  {
-    id: "Int!",
-    format: "ScoreFormat",
-  },
-  ($) => ({
-    Media: [
-      { id: $.id },
-      {
-        id: 1,
-        episodes: 1,
-        mediaListEntry: {
-          status: 1,
-          id: 1,
-          advancedScores: 1,
-          customLists: 1,
-          notes: 1,
-          score: [{ format: $.format }],
-          repeat: 1,
-          progress: 1,
-          startedAt: {
-            day: 1,
-            month: 1,
-            year: 1,
-          },
-          completedAt: {
-            day: 1,
-            month: 1,
-            year: 1,
-          },
-        },
-      },
-    ],
-  }),
-)
+const EditPageMedia = graphql(`
+  query EditPageMedia($id: Int!, $format: ScoreFormat) {
+    Media(id: $id) {
+      id
+      episodes
+      mediaListEntry {
+        status
+        id
+        advancedScores
+        customLists
+        notes
+        score(format: $format)
+        repeat
+        progress
+        startedAt {
+          day
+          month
+          year
+        }
+        completedAt {
+          day
+          month
+          year
+        }
+      }
+    }
+  }
+`)
 
 const _loader = pipe(
   Stream.Do,
   Stream.bind("args", () => ClientArgs),
   Stream.bind("client", () => EffectUrql),
   Stream.bind("EntryPageUser", ({ client }) =>
-    client.query(EntryPageUserQuery, {}),
+    client.query(EditPageViewer, {}),
   ),
   Stream.bind("EntryPage", ({ client, EntryPageUser, args: { params } }) =>
-    client.query(EntryPageQuery, {
-      format: EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || undefined,
+    client.query(EditPageMedia, {
+      format: EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || null,
       id: Number(params["mediaId"]),
     }),
   ),
@@ -304,6 +298,15 @@ const { root, content, headline, backdrop, body, actions } = dialog({
   },
 })
 
+const OPTIONS = {
+  [MediaListStatus.Current]: "Watching",
+  [MediaListStatus.Planning]: "Plan to watch",
+  [MediaListStatus.Completed]: "Completed",
+  [MediaListStatus.Repeating]: "Rewatching",
+  [MediaListStatus.Paused]: "Paused",
+  [MediaListStatus.Dropped]: "Dropped",
+}
+
 export default function Page() {
   const data = useLoader(_loader, useLoaderData<typeof loader>())
 
@@ -312,12 +315,72 @@ export default function Page() {
   const navigation = useNavigation()
 
   const actionData = useActionData<typeof action>()
-  const saved = actionData?.saved ?? false
-  const form = useRef<HTMLFormElement>(null)
+  const saved = (actionData?.intent === "submit" && !actiondata?.error) ?? false
+
   const touched = useSignal(false)
-  unstable_useBlocker(touched)
+
+  unstable_useBlocker(touched.value)
+
   const busy = navigation.state === "submitting"
 
+  const lastSubmission = useActionData<typeof action>()
+
+  const advancedScores = pipe(
+    Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
+    Option.filter(Predicate.isReadonlyRecord),
+  )
+
+  const [form, fields] = useForm<
+    Record<keyof InferVariables<typeof Save>, unknown>
+  >({
+    defaultValue: {
+      advancedScores: data?.Viewer?.mediaListOptions?.animeList
+        ?.advancedScoringEnabled
+        ? pipe(
+            data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
+              ?.filter(nonNull)
+              .map((category) =>
+                pipe(
+                  advancedScores,
+                  Option.flatMap(ReadonlyRecord.get(category)),
+                  Option.filter(Predicate.isNumber),
+                  Option.getOrUndefined,
+                ),
+              ),
+          )
+        : [],
+      completedAt: pipe(
+        S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.completedAt),
+        Option.flatMap(Option.all),
+        Option.flatMap(S.encodeOption(FuzzyDateInput)),
+        Option.getOrUndefined,
+      ),
+      startedAt: pipe(
+        S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.startedAt),
+        Option.flatMap(Option.all),
+        Option.flatMap(S.encodeOption(FuzzyDateInput)),
+        Option.getOrUndefined,
+      ),
+      notes: data?.Media?.mediaListEntry?.notes,
+      progress: data?.Media?.mediaListEntry?.progress,
+      repeat: data?.Media?.mediaListEntry?.repeat,
+      score: score.value,
+      status: pipe(
+        Option.fromNullable(data?.Media?.mediaListEntry?.status),
+        Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
+        Option.getOrElse(() => OPTIONS[MediaListStatus.Current]),
+      ),
+      customLists: pipe(
+        Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
+        Option.filter(Predicate.isReadonlyRecord),
+        Option.map(Object.keys),
+        Option.getOrUndefined,
+      ),
+    },
+    ...(lastSubmission ? { lastSubmission } : {}),
+  })
+
+  const advancedScoresFields = useFieldList(form, fields["advancedScores"])
   return (
     <>
       <>
@@ -329,7 +392,7 @@ export default function Page() {
               hideOnInteractOutside={false}
               className={root()}
               backdrop={<div className={backdrop()} />}
-              render={<motion.div layoutId="edit" />}
+              render={<motion.div layoutId="edit" initial={false} />}
             >
               <div className={content()}>
                 <header className={headline()}>
@@ -351,78 +414,43 @@ export default function Page() {
                 <div className={body()}>
                   <Form
                     method="post"
-                    ref={form}
                     className="grid gap-2"
                     onChange={(event) => {
                       touched.value = isTouched(event.currentTarget)
                     }}
                     onReset={(event) => {
                       console.log("reset")
-                      score.value = String(
-                        data?.Media?.mediaListEntry?.score || 0,
-                      )
                       touched.value = false
                     }}
+                    {...form.props}
                   >
+                    <input
+                      type="hidden"
+                      name="mediaId"
+                      value={data?.Media?.id}
+                    />
                     <div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
+                      <Select
+                        options={Object.values(OPTIONS)}
+                        {...conform.select(fields.status)}
+                        children="Status"
+                      />
+                      <TextFieldOutlinedInput
+                        min={0}
+                        step={0.01}
+                        onChange={(e) => (score.value = e.currentTarget.value)}
+                        {...conform.input(fields["score"], {
+                          type: "number",
+                        })}
+                        children="Score"
+                      />
+
                       <TextFieldOutlined>
                         <TextFieldOutlinedInput
-                          asChild
-                          name="status"
-                          defaultValue={
-                            data?.Media?.mediaListEntry?.status ?? undefined
-                          }
-                          className="appearance-none"
-                        >
-                          <select>
-                            {[
-                              ["Watching", MediaListStatus.Current],
-                              ["Plan to watch", MediaListStatus.Planning],
-                              ["Completed", MediaListStatus.Completed],
-                              ["Rewatching", MediaListStatus.Repeating],
-                              ["Paused", MediaListStatus.Paused],
-                              ["Dropped", MediaListStatus.Dropped],
-                            ].map(([label, value]) => {
-                              return (
-                                <option
-                                  key={value}
-                                  value={value}
-                                  className="bg-surface-container text-label-lg text-on-surface surface elevation-2"
-                                >
-                                  {label}
-                                </option>
-                              )
-                            })}
-                          </select>
-                        </TextFieldOutlinedInput>
-                        <TextFieldOutlined.Label>
-                          Status
-                        </TextFieldOutlined.Label>
-                        <TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">
-                          <ChevronDown></ChevronDown>
-                        </TextFieldOutlined.TrailingIcon>
-                      </TextFieldOutlined>
-                      <TextFieldOutlined>
-                        <TextFieldOutlinedInput
-                          type="number"
-                          name="score"
                           min={0}
-                          step={0.01}
-                          onChange={(event) =>
-                            (score.value = event.currentTarget.value)
-                          }
-                          value={score}
-                        />
-                        <TextFieldOutlined.Label>Score</TextFieldOutlined.Label>
-                      </TextFieldOutlined>
-                      <TextFieldOutlined>
-                        <TextFieldOutlinedInput
-                          name="progress"
-                          type="number"
-                          min={0}
-                          defaultValue={
-                            data?.Media?.mediaListEntry?.progress ?? undefined
-                          }
+                          {...conform.input(fields["progress"], {
+                            type: "number",
+                          })}
                           className={
                             Number.isFinite(data?.Media?.episodes)
                               ? "text-right [appearance:textfield] [&::-webkit-inner-spin-button]:hidden"
@@ -438,162 +466,77 @@ export default function Page() {
                           </TextFieldOutlined.Suffix>
                         )}
                       </TextFieldOutlined>
-                      <TextFieldOutlined>
-                        <TextFieldOutlinedInput
-                          name="startedAt"
-                          type="date"
-                          defaultValue={pipe(
-                            S.parseOption(FuzzyDateLift)(
-                              data?.Media?.mediaListEntry?.startedAt,
-                            ),
-                            Option.flatMap(Option.all),
-                            Option.flatMap(S.encodeOption(FuzzyDateInput)),
-                            Option.getOrUndefined,
-                          )}
-                        />
-                        <TextFieldOutlined.Label>
-                          Start Date
-                        </TextFieldOutlined.Label>
-                      </TextFieldOutlined>
-                      <TextFieldOutlined>
-                        <TextFieldOutlinedInput
-                          name="completedAt"
-                          type="date"
-                          defaultValue={pipe(
-                            S.parseOption(FuzzyDateLift)(
-                              data?.Media?.mediaListEntry?.completedAt,
-                            ),
-                            Option.flatMap(Option.all),
-                            Option.flatMap(S.encodeOption(FuzzyDateInput)),
-                            Option.getOrUndefined,
-                          )}
-                        />
-                        <TextFieldOutlined.Label>
-                          Finish Date
-                        </TextFieldOutlined.Label>
-                      </TextFieldOutlined>
-                      <TextFieldOutlined>
-                        <TextFieldOutlinedInput
-                          name="repeat"
-                          type="number"
-                          min={0}
-                          defaultValue={
-                            data?.Media?.mediaListEntry?.repeat ?? undefined
-                          }
-                        />
-                        <TextFieldOutlined.Label>
-                          Total Rewatches
-                        </TextFieldOutlined.Label>
-                      </TextFieldOutlined>
-                    </div>
-                    <TextFieldOutlined className="">
+
                       <TextFieldOutlinedInput
-                        asChild
-                        children={<textarea />}
-                        spellCheck
-                        name="notes"
-                        onInput={(event) => {
-                          event.currentTarget.style.height = ""
-                          event.currentTarget.style.height = `${event.currentTarget.scrollHeight}px`
-                        }}
-                        defaultValue={
-                          data?.Media?.mediaListEntry?.notes ?? undefined
-                        }
+                        {...conform.input(fields["startedAt"], {
+                          type: "date",
+                        })}
+                        children="Start Date"
                       />
-                      <TextFieldOutlined.Label>Notes</TextFieldOutlined.Label>
-                    </TextFieldOutlined>
+
+                      <TextFieldOutlinedInput
+                        type="date"
+                        {...conform.input(fields["completedAt"], {
+                          type: "date",
+                        })}
+                        children="Finish Date"
+                      />
+
+                      <TextFieldOutlinedInput
+                        min={0}
+                        {...conform.input(fields["repeat"], {
+                          type: "number",
+                        })}
+                        children="Total Rewatches"
+                      />
+                    </div>
+
+                    <TextFieldOutlinedInput
+                      render={<textarea />}
+                      spellCheck
+                      onInput={(e) => {
+                        e.currentTarget.style.height = ""
+                        e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
+                      }}
+                      {...conform.textarea(fields["notes"])}
+                      children="Notes"
+                    />
+
                     {data?.Viewer?.mediaListOptions?.animeList
                       ?.advancedScoringEnabled && (
-                      <fieldset className="grid grid-cols-1  gap-2 sm:grid-cols-2">
-                        <legend className="col-span-full mt-2">
-                          Advanced Scores
-                        </legend>
-                        {data?.Viewer.mediaListOptions.animeList.advancedScoring
-                          ?.filter(nonNull)
-                          .map((category, index) => {
-                            return (
-                              <TextFieldOutlined key={category}>
-                                <TextFieldOutlinedInput
-                                  onChange={(event) => {
-                                    const formData = new FormData(
-                                      event.currentTarget.form ?? undefined,
-                                    )
-                                    score.value = String(
-                                      Math.round(
-                                        avg(
-                                          formData
-                                            .getAll("advancedScores")
-                                            .map(Number)
-                                            .filter(Boolean),
-                                        ) * 10,
-                                      ) / 10,
-                                    )
-                                  }}
-                                  type="number"
-                                  min={0}
-                                  step={0.01}
-                                  name="advancedScores"
-                                  defaultValue={pipe(
-                                    Option.fromNullable(
-                                      data?.Media?.mediaListEntry
-                                        ?.advancedScores,
-                                    ),
-                                    Option.filter(Predicate.isReadonlyRecord),
-                                    Option.flatMap(
-                                      ReadonlyRecord.get(category),
-                                    ),
-                                    Option.filter(Predicate.isNumber),
-                                    Option.getOrUndefined,
-                                  )}
-                                />
-                                <TextFieldOutlined.Label>
-                                  {category}
-                                </TextFieldOutlined.Label>
-                              </TextFieldOutlined>
-                            )
-                          })}
-                      </fieldset>
+                      <AdvancedScores
+                        form={form}
+                        advancedScoring={
+                          data?.Viewer?.mediaListOptions?.animeList
+                            ?.advancedScoring
+                        }
+                        fields={advancedScoresFields}
+                        onScoreChange={(newScore) => {
+                          score.value = newScore
+                          console.log(score.value)
+                        }}
+                      ></AdvancedScores>
                     )}
-                    <fieldset className="grid gap-2">
-                      <legend className="">Custom Lists</legend>
-                      <div className="flex flex-wrap gap-2">
-                        {data?.Viewer?.mediaListOptions?.animeList?.customLists
-                          ?.filter(nonNull)
-                          .map((list) => {
-                            return (
-                              <ChipFilter
-                                name="customLists"
-                                key={list}
-                                value={list}
-                                defaultChecked={pipe(
-                                  Option.fromNullable(
-                                    data?.Media?.mediaListEntry?.customLists,
-                                  ),
-                                  Option.filter(Predicate.isReadonlyRecord),
-                                  Option.flatMap(ReadonlyRecord.get(list)),
-                                  Option.filter(Predicate.isBoolean),
-                                  Option.getOrUndefined,
-                                )}
-                              >
-                                {list}
-                              </ChipFilter>
-                            )
-                          })}
-                      </div>
-                    </fieldset>
+
+                    <CustomLists
+                      field={fields["customLists"]}
+                      mediaListTypeOptions={
+                        data?.Viewer?.mediaListOptions?.animeList ?? null
+                      }
+                    ></CustomLists>
                     <div className="border-b border-outline-variant sm:w-full" />
                     <footer className={actions({ className: "max-sm:hidden" })}>
                       <ButtonText type="reset">Reset</ButtonText>
-                      <ButtonText aria-busy={busy}>
+                      <ButtonText aria-busy={busy} type="submit">
                         {busy && (
                           <ButtonText.Icon className="animate-spin">
-                            <Loader2 size={18}></Loader2>
+                            progress_activity
                           </ButtonText.Icon>
                         )}
                         Save changes
                       </ButtonText>
                     </footer>
-                    <Snackbar open={touched}>
+                    {/* <Snackbar open={touched}>
                       Careful - you have unsaved changes!
                       <SnackbarAction type="reset">Reset</SnackbarAction>
                       <SnackbarAction
@@ -601,12 +544,12 @@ export default function Page() {
                       >
                         Save changes
                       </SnackbarAction>
-                    </Snackbar>
+                    </Snackbar> */}
                   </Form>
                 </div>
-                <Snackbar timeout={4000} open={saved}>
+                {/* <Snackbar timeout={4000} open={saved}>
                   Entry saved
-                </Snackbar>
+                </Snackbar> */}
               </div>
             </Ariakit.Dialog>
           </div>
@@ -621,3 +564,112 @@ const FuzzyDateLift = S.struct({
   year: S.optionFromNullable(S.number),
   day: S.optionFromNullable(S.number),
 })
+
+const AdvancedScores_mediaListTypeOptions = graphql(`
+  fragment AdvancedScores_mediaListTypeOptions on MediaListTypeOptions {
+    advancedScoring
+  }
+`)
+
+function calculateAverageScore(
+  e: React.FormEvent<HTMLInputElement>,
+  advancedScoresFields: FieldConfig<unknown>[],
+) {
+  const formData = new FormData(e.currentTarget.form ?? undefined)
+
+  console.log({ e: e.currentTarget, formData: Object.fromEntries(formData) })
+
+  return String(
+    Math.round(
+      avg(
+        advancedScoresFields
+          .map((field) => field.name)
+          .map((name) => formData.get(name))
+          .map((s) => Number(s))
+          .filter((s) => s),
+      ) * 10,
+    ) / 10,
+  )
+}
+
+function AdvancedScores({
+  advancedScoring,
+  fields,
+  onScoreChange:onChange,
+  ...props
+}: {
+  field: FieldConfig<unknown>
+} & ComponentPropsWithoutRef<"fieldset">): React.ReactNode {
+  if (!fields.length) {
+    return null
+  }
+
+  return (
+    <fieldset className="grid grid-cols-1  gap-2 sm:grid-cols-2" {...props}>
+      <legend className="col-span-full mt-2">Advanced Scores</legend>
+      {fields.map((field) => {
+        return (
+          <TextFieldOutlinedInput
+            key={field.key}
+            min={0}
+            step={0.01}
+            onChange={(e)=>{
+              onChange(calculateAverageScore(e, fields))
+            }}
+            {...conform.input(field, {
+              type: "number",
+            })}
+            children={advancedScoring[field.key]}
+          />
+        )
+      })}
+    </fieldset>
+  )
+}
+
+const CustomLists_mediaListTypeOptions = graphql(`
+  fragment CustomLists_mediaListTypeOptions on MediaListTypeOptions {
+    customLists
+  }
+`)
+
+function CustomLists({
+  field,
+  ...props
+}: {
+  field: FieldConfig<unknown>
+  mediaListTypeOptions: FragmentType<
+    typeof CustomLists_mediaListTypeOptions
+  > | null
+}) {
+  const mediaListTypeOptions = useFragment(
+    CustomLists_mediaListTypeOptions,
+    props.mediaListTypeOptions,
+  )
+
+  const customLists = mediaListTypeOptions?.customLists?.filter(nonNull) ?? []
+
+  if (!customLists.length) {
+    return null
+  }
+
+  return (
+    <fieldset className="grid gap-2">
+      <legend>Custom Lists</legend>
+      <div className="flex flex-wrap gap-2">
+        {conform
+          .collection(field, {
+            type: "checkbox",
+            options: customLists,
+          })
+          .map((field) => {
+            return (
+              <ChipFilter {...field} key={field.value}>
+                {field.value}
+              </ChipFilter>
+            )
+          })}
+      </div>
+    </fieldset>
+  )
+}

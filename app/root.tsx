@@ -7,13 +7,21 @@ import {
   ScrollRestoration,
 } from "@remix-run/react"
 import { Provider } from "urql"
-import { urql } from "./lib/urql"
+import { ssr, urql } from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
+import type { LoaderFunction } from "@remix-run/node"
+import { IS_SERVER } from "./lib/isClient"
 import "./tailwind.css"
 
+export const loader = (async () => {
+  return null
+}) satisfies LoaderFunction
+
 export default function App() {
+  const data = IS_SERVER ? ssr.extractData() : window.__URQL_DATA__
+
   return (
     <html lang="en" className="bg-surface text-on-surface">
       <head>
@@ -23,18 +31,24 @@ export default function App() {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,-25..0"
         />
+
         <Meta />
         <Links />
       </head>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__URQL_DATA__ = (${JSON.stringify(data)});`,
+          }}
+        ></script>
         <Provider value={urql}>
           <SnackbarQueue>
             <Outlet />
           </SnackbarQueue>
         </Provider>
         <ScrollRestoration />
-        <LiveReload />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   )

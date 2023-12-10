@@ -35,7 +35,7 @@ export function NavigationItemIcon() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className=""
+        
       >
         <line x1="8" x2="21" y1="6" y2="6" />
         <line x1="8" x2="21" y1="12" y2="12" />

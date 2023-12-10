@@ -4,9 +4,9 @@ const tv = createTV({ twMerge: false })
 
 export const buttonIcon = tv({
   slots: {
-    root: "group/btn p-1",
+    root: "group/btn-i p-1",
     content:
-      "i rounded-full bg-center p-2 text-on-surface-variant surface state-on-surface-variant group-hover/btn:state-hover group-active/btn:state-pressed group-data-[active]/btn:state-pressed group-data-[focus-visible]/btn:state-focus",
+      "rounded-full bg-center i p-2 text-on-surface-variant surface state-on-surface-variant group-hover/btn-i:state-hover group-active/btn-i:state-pressed group-data-[active]/btn-i:state-pressed group-data-[focus-visible]/btn-i:state-focus",
   },
   variants: {
     variant: {
