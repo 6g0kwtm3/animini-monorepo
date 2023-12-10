@@ -10,7 +10,8 @@
     "codegen": "graphql-codegen-esm --config codegen.ts",
     "prepare": "pnpm run codegen",
     "knip": "knip",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "format": "prettier . -w"
   },
   "dependencies": {
     "@ariakit/react": "^0.3.9",
