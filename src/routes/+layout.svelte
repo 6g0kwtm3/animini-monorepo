@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onMount, type Snippet } from "svelte"
-	import "../tailwind.css"
 	import { invalidateAll } from "$app/navigation"
+	import { onMount } from "svelte"
+	import "../tailwind.css"
 
 	const TIMEOUT = 5 * 60 * 1000
 	let timeout = Date.now()

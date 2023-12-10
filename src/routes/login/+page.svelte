@@ -5,7 +5,7 @@
 	import TextFieldOutlinedInput from "~/components/TextFieldOutlinedInput.svelte"
 	import TextFieldOutlinedLabel from "~/components/TextFieldOutlinedLabel.svelte"
 
-	import { LINKS_authorize } from "~/lib/ROUTES"
+	import { LINK_anilist_logo, LINK_authorize } from "~/lib/ROUTES"
 	import { btn } from "~/lib/button"
 
 	const ANILIST_CLIENT_ID = 3455
@@ -27,7 +27,7 @@
 		<footer class="flex justify-end gap-2">
 			<a
 				target="_blank"
-				href={LINKS_authorize({
+				href={LINK_authorize({
 					client_id: String(ANILIST_CLIENT_ID),
 				})}
 				rel="noreferrer"
@@ -36,7 +36,7 @@
 				<div class={btnTextIcon({})}>
 					<img
 						loading="lazy"
-						src="https://anilist.co/img/icons/icon.svg"
+						src={LINK_anilist_logo}
 						alt=""
 					/>
 				</div>
@@ -45,5 +45,5 @@
 
 			<button type="submit" class={btn({ variant: "filled" })}>Login</button>
 		</footer>
-	</form>
-</main>
+	</form></main>
+
