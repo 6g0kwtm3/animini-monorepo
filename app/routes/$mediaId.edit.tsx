@@ -31,7 +31,7 @@ import {
   ClientArgs,
   EffectUrql,
   LoaderArgs,
-  ServerLive,
+  LoaderLive,
   getClient,
   nonNull,
   useLoader,
@@ -155,7 +155,7 @@ export const loader = (async (args) => {
     _loader,
     Stream.run(Sink.head()),
     Effect.flatten,
-    Effect.provide(ServerLive),
+    Effect.provide(LoaderLive),
     Effect.provideService(LoaderArgs, args),
     Effect.runPromise,
   )

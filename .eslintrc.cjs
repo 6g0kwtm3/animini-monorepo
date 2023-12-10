@@ -9,7 +9,7 @@ module.exports = {
     },
     {
       files: ["*.graphql"],
-      extends: "plugin:@graphql-eslint/schema-recommended",
+      extends: "plugin:@graphql-eslint/operations-recommended",
     },
   ],
   rules: {
@@ -17,7 +17,7 @@ module.exports = {
       "warn",
       {
         allowConstantExport: true,
-        allowExportNames: ["meta", "links", "headers", "loader", "action"],
+        allowExportNames: ["meta", "links", "headers", "loader", "action","clientAction","clientLoader"],
       },
     ],
   },

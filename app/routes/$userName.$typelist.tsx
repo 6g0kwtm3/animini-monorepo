@@ -5,8 +5,7 @@ import {
   Form,
   Link,
   useLoaderData,
-  useSearchParams,
-  useSubmit,
+  useSearchParams
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
@@ -14,12 +13,13 @@ import { MediaStatus, MediaType } from "~/gql/graphql"
 
 import {
   ClientArgs,
+  ClientLoaderLive,
   EffectUrql,
   LoaderArgs,
-  ServerLive,
+  LoaderLive,
   nonNull,
   useLoader,
-  type InferVariables,
+  type InferVariables
 } from "~/lib/urql"
 
 import {
@@ -38,7 +38,7 @@ import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
 import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import {} from "~/components/Dialog"
+import { } from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
 import { Select } from "~/components/Select"
 import { btnIcon } from "~/lib/button"
@@ -152,7 +152,18 @@ export const loader = (async (args) => {
     _loader,
     Stream.run(Sink.head()),
     Effect.flatten,
-    Effect.provide(ServerLive),
+    Effect.provide(LoaderLive),
+    Effect.provideService(LoaderArgs, args),
+    Effect.runPromise,
+  )
+}) satisfies LoaderFunction
+
+export const clientLoader = (async (args) => {
+  return pipe(
+    _loader,
+    Stream.run(Sink.head()),
+    Effect.flatten,
+    Effect.provide(ClientLoaderLive), 
     Effect.provideService(LoaderArgs, args),
     Effect.runPromise,
   )

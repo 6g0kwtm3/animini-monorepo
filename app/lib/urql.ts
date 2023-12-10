@@ -415,7 +415,17 @@ const GetUrqlLive = Layer.effect(
   Effect.map(LoaderArgs, ({ request }) => UrqlClient.of(getClient(request))),
 )
 
-export const ServerLive = Layer.merge(
-  GetUrqlLive.pipe(Layer.provide(UrqlLive)),
+const GetClientUrqlLive = Layer.succeed(
+  UrqlClient,
+  (urql)
+)
+
+export const LoaderLive = Layer.merge(
   ArgsAdapterLive,
+  UrqlLive.pipe(Layer.provide(GetUrqlLive)),
+)
+
+export const ClientLoaderLive = Layer.merge(
+  ArgsAdapterLive,
+  UrqlLive.pipe(Layer.provide(GetClientUrqlLive))
 )
