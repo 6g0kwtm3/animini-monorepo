@@ -3,149 +3,149 @@ import {} from "react-dom"
 import { classes } from "~/lib/styled"
 
 type ItemProps<E extends ElementType> = ComponentPropsWithoutRef<E> & {
-  as: E
-  lines?: "one" | "two" | "three"
+	as: E
+	lines?: "one" | "two" | "three"
 }
 
 function Item<E extends ElementType = "span">({
-  as: Component,
-  lines,
-  ...props
+	as: Component,
+	lines,
+	...props
 }: ItemProps<E>) {
-  Component ??= "span"
+	Component ??= "span"
 
-  return (
-    <Component
-      {...props}
-      className={classes(
-        lines === "two"
-          ? "h-[4.5rem] items-center py-2"
-          : lines === "three"
-          ? "h-[5.5rem] py-3"
-          : "h-14 items-center py-2",
-        "flex gap-4 pe-6 ps-4",
+	return (
+		<Component
+			{...props}
+			className={classes(
+				lines === "two"
+					? "h-[4.5rem] items-center py-2"
+					: lines === "three"
+						? "h-[5.5rem] py-3"
+						: "h-14 items-center py-2",
+				"flex gap-4 pe-6 ps-4",
 
-        props.className,
-      )}
-    />
-  )
+				props.className,
+			)}
+		/>
+	)
 }
 
 Item.Content = function Content(props: ComponentPropsWithoutRef<"div">) {
-  return <div {...props} className={classes("flex-1", props.className)}></div>
+	return <div {...props} className={classes("flex-1", props.className)}></div>
 }
 
 Item.Headline = function Headline(props: ComponentPropsWithoutRef<"div">) {
-  return (
-    <div
-      {...props}
-      className={classes("text-body-lg text-on-surface", props.className)}
-    ></div>
-  )
+	return (
+		<div
+			{...props}
+			className={classes("text-body-lg text-on-surface", props.className)}
+		></div>
+	)
 }
 Item.SupportingText = function SupportingText(
-  props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">,
 ) {
-  return (
-    <div
-      {...props}
-      className={classes(
-        "line-clamp-2 text-body-md text-on-surface-variant",
-        props.className,
-      )}
-    ></div>
-  )
+	return (
+		<div
+			{...props}
+			className={classes(
+				"line-clamp-2 text-body-md text-on-surface-variant",
+				props.className,
+			)}
+		></div>
+	)
 }
 Item.TrailingSupportingText = function TrailingSupportingText(
-  props: ComponentPropsWithoutRef<"span">,
+	props: ComponentPropsWithoutRef<"span">,
 ) {
-  return (
-    <span
-      {...props}
-      className={classes(
-        "text-label-sm text-on-surface-variant",
-        props.className,
-      )}
-    ></span>
-  )
+	return (
+		<span
+			{...props}
+			className={classes(
+				"text-label-sm text-on-surface-variant",
+				props.className,
+			)}
+		></span>
+	)
 }
 Item.LeadingIcon = function LeadingIcon(
-  props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">,
 ) {
-  return (
-    <div
-      {...props}
-      className={classes(
-        "h-[1.125rem] w-[1.125rem] text-on-surface-variant",
-        props.className,
-      )}
-    ></div>
-  )
+	return (
+		<div
+			{...props}
+			className={classes(
+				"h-[1.125rem] w-[1.125rem] text-on-surface-variant",
+				props.className,
+			)}
+		></div>
+	)
 }
 Item.TrailingIcon = function TrailingIcon(
-  props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">,
 ) {
-  return (
-    <div
-      {...props}
-      className={classes("h-6 w-6 text-on-surface-variant", props.className)}
-    ></div>
-  )
+	return (
+		<div
+			{...props}
+			className={classes("h-6 w-6 text-on-surface-variant", props.className)}
+		></div>
+	)
 }
 Item.Divider = function Divider(props: ComponentPropsWithoutRef<"hr">) {
-  return (
-    <hr
-      {...props}
-      className={classes("border border-surface-variant", props.className)}
-    ></hr>
-  )
+	return (
+		<hr
+			{...props}
+			className={classes("border border-surface-variant", props.className)}
+		></hr>
+	)
 }
 Item.LeadingAvatar = function LeadingAvatar(
-  props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">,
 ) {
-  return (
-    <div
-      {...props}
-      className={classes(
-        "h-10 w-10 shrink-0 text-title-md text-on-primary-container",
-        props.className,
-      )}
-    ></div>
-  )
+	return (
+		<div
+			{...props}
+			className={classes(
+				"h-10 w-10 shrink-0 text-title-md text-on-primary-container",
+				props.className,
+			)}
+		></div>
+	)
 }
 Item.Img = function Img(props: ComponentPropsWithoutRef<"img">) {
-  return (
-    <img
-      alt=""
-      {...props}
-      className={classes("h-14 w-14 shrink-0", props.className)}
-    ></img>
-  )
+	return (
+		<img
+			alt=""
+			{...props}
+			className={classes("h-14 w-14 shrink-0", props.className)}
+		></img>
+	)
 }
 Item.LeadingVideo = function LeadingVideo(
-  props: ComponentPropsWithoutRef<"video">,
+	props: ComponentPropsWithoutRef<"video">,
 ) {
-  return (
-    <video
-      {...props}
-      className={classes("h-16 w-[7.125rem] shrink-0", props.className)}
-    ></video>
-  )
+	return (
+		<video
+			{...props}
+			className={classes("h-16 w-[7.125rem] shrink-0", props.className)}
+		></video>
+	)
 }
 Item.Overline = function Overline(props: ComponentPropsWithoutRef<"div">) {
-  return (
-    <div
-      {...props}
-      className={classes(
-        "text-label-sm text-on-surface-variant",
-        props.className,
-      )}
-    ></div>
-  )
+	return (
+		<div
+			{...props}
+			className={classes(
+				"text-label-sm text-on-surface-variant",
+				props.className,
+			)}
+		></div>
+	)
 }
 
 function List(props: ComponentPropsWithoutRef<"div">) {
-  return <div {...props} className={classes("py-2", props.className)}></div>
+	return <div {...props} className={classes("py-2", props.className)}></div>
 }
 
 List.Item = Item

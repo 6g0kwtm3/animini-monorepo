@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { JSONValue } from '~/lib/urql';
 import { offlineExchange } from '@urql/exchange-graphcache';
 import type { Resolver as GraphCacheResolver, UpdateResolver as GraphCacheUpdateResolver, OptimisticMutationResolver as GraphCacheOptimisticMutationResolver } from '@urql/exchange-graphcache';
 
@@ -18,29 +19,29 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   /** ISO 3166-1 alpha-2 country code */
-  CountryCode: { input: any; output: any; }
+  CountryCode: { input: unknown; output: unknown; }
   /** 8 digit long date integer (YYYYMMDD). Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500 */
-  FuzzyDateInt: { input: any; output: any; }
-  Json: { input: any; output: any; }
+  FuzzyDateInt: { input: unknown; output: unknown; }
+  Json: { input: JSONValue; output: JSONValue; }
 };
 
 /** Notification for when a activity is liked */
 export type ActivityLikeNotification = {
   __typename?: 'ActivityLikeNotification';
   /** The liked activity */
-  activity?: Maybe<ActivityUnion>;
+  activity: Maybe<ActivityUnion>;
   /** The id of the activity which was liked */
   activityId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who liked the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who liked to the activity */
   userId: Scalars['Int']['output'];
 };
@@ -49,19 +50,19 @@ export type ActivityLikeNotification = {
 export type ActivityMentionNotification = {
   __typename?: 'ActivityMentionNotification';
   /** The liked activity */
-  activity?: Maybe<ActivityUnion>;
+  activity: Maybe<ActivityUnion>;
   /** The id of the activity where mentioned */
   activityId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who mentioned the authenticated user */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who mentioned the authenticated user */
   userId: Scalars['Int']['output'];
 };
@@ -72,17 +73,17 @@ export type ActivityMessageNotification = {
   /** The id of the activity message */
   activityId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The message activity */
-  message?: Maybe<MessageActivity>;
+  message: Maybe<MessageActivity>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who sent the message */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The if of the user who send the message */
   userId: Scalars['Int']['output'];
 };
@@ -91,23 +92,23 @@ export type ActivityMessageNotification = {
 export type ActivityReply = {
   __typename?: 'ActivityReply';
   /** The id of the parent activity */
-  activityId?: Maybe<Scalars['Int']['output']>;
+  activityId: Maybe<Scalars['Int']['output']>;
   /** The time the reply was created at */
   createdAt: Scalars['Int']['output'];
   /** The id of the reply */
   id: Scalars['Int']['output'];
   /** If the currently authenticated user liked the reply */
-  isLiked?: Maybe<Scalars['Boolean']['output']>;
+  isLiked: Maybe<Scalars['Boolean']['output']>;
   /** The amount of likes the reply has */
   likeCount: Scalars['Int']['output'];
   /** The users who liked the reply */
-  likes?: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
   /** The reply text */
-  text?: Maybe<Scalars['String']['output']>;
+  text: Maybe<Scalars['String']['output']>;
   /** The user who created reply */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the replies creator */
-  userId?: Maybe<Scalars['Int']['output']>;
+  userId: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -120,19 +121,19 @@ export type ActivityReplyTextArgs = {
 export type ActivityReplyLikeNotification = {
   __typename?: 'ActivityReplyLikeNotification';
   /** The liked activity */
-  activity?: Maybe<ActivityUnion>;
+  activity: Maybe<ActivityUnion>;
   /** The id of the activity where the reply which was liked */
   activityId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who liked the activity reply */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who liked to the activity reply */
   userId: Scalars['Int']['output'];
 };
@@ -141,19 +142,19 @@ export type ActivityReplyLikeNotification = {
 export type ActivityReplyNotification = {
   __typename?: 'ActivityReplyNotification';
   /** The liked activity */
-  activity?: Maybe<ActivityUnion>;
+  activity: Maybe<ActivityUnion>;
   /** The id of the activity which was replied too */
   activityId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who replied to the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who replied to the activity */
   userId: Scalars['Int']['output'];
 };
@@ -162,19 +163,19 @@ export type ActivityReplyNotification = {
 export type ActivityReplySubscribedNotification = {
   __typename?: 'ActivityReplySubscribedNotification';
   /** The liked activity */
-  activity?: Maybe<ActivityUnion>;
+  activity: Maybe<ActivityUnion>;
   /** The id of the activity which was replied too */
   activityId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who replied to the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who replied to the activity */
   userId: Scalars['Int']['output'];
 };
@@ -209,28 +210,28 @@ export type AiringNotification = {
   /** The id of the aired anime */
   animeId: Scalars['Int']['output'];
   /** The notification context text */
-  contexts?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  contexts: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The episode number that just aired */
   episode: Scalars['Int']['output'];
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The associated media of the airing schedule */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
 };
 
 /** Score & Watcher stats for airing anime by episode and mid-week */
 export type AiringProgression = {
   __typename?: 'AiringProgression';
   /** The episode the stats were recorded at. .5 is the mid point between 2 episodes airing dates. */
-  episode?: Maybe<Scalars['Float']['output']>;
+  episode: Maybe<Scalars['Float']['output']>;
   /** The average score for the media */
-  score?: Maybe<Scalars['Float']['output']>;
+  score: Maybe<Scalars['Float']['output']>;
   /** The amount of users watching the anime */
-  watching?: Maybe<Scalars['Int']['output']>;
+  watching: Maybe<Scalars['Int']['output']>;
 };
 
 /** Media Airing Schedule. NOTE: We only aim to guarantee that FUTURE airing data is present and accurate. */
@@ -243,7 +244,7 @@ export type AiringSchedule = {
   /** The id of the airing schedule item */
   id: Scalars['Int']['output'];
   /** The associate media of the airing episode */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The associate media id of the airing episode */
   mediaId: Scalars['Int']['output'];
   /** Seconds until episode starts airing */
@@ -252,18 +253,18 @@ export type AiringSchedule = {
 
 export type AiringScheduleConnection = {
   __typename?: 'AiringScheduleConnection';
-  edges?: Maybe<Array<Maybe<AiringScheduleEdge>>>;
-  nodes?: Maybe<Array<Maybe<AiringSchedule>>>;
+  edges: Maybe<Array<Maybe<AiringScheduleEdge>>>;
+  nodes: Maybe<Array<Maybe<AiringSchedule>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** AiringSchedule connection edge */
 export type AiringScheduleEdge = {
   __typename?: 'AiringScheduleEdge';
   /** The id of the connection */
-  id?: Maybe<Scalars['Int']['output']>;
-  node?: Maybe<AiringSchedule>;
+  id: Maybe<Scalars['Int']['output']>;
+  node: Maybe<AiringSchedule>;
 };
 
 export type AiringScheduleInput = {
@@ -291,44 +292,44 @@ export type AniChartHighlightInput = {
 
 export type AniChartUser = {
   __typename?: 'AniChartUser';
-  highlights?: Maybe<Scalars['Json']['output']>;
-  settings?: Maybe<Scalars['Json']['output']>;
-  user?: Maybe<User>;
+  highlights: Maybe<Scalars['Json']['output']>;
+  settings: Maybe<Scalars['Json']['output']>;
+  user: Maybe<User>;
 };
 
 /** A character that features in an anime or manga */
 export type Character = {
   __typename?: 'Character';
   /** The character's age. Note this is a string, not an int, it may contain further text and additional ages. */
-  age?: Maybe<Scalars['String']['output']>;
+  age: Maybe<Scalars['String']['output']>;
   /** The characters blood type */
-  bloodType?: Maybe<Scalars['String']['output']>;
+  bloodType: Maybe<Scalars['String']['output']>;
   /** The character's birth date */
-  dateOfBirth?: Maybe<FuzzyDate>;
+  dateOfBirth: Maybe<FuzzyDate>;
   /** A general description of the character */
-  description?: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
   /** The amount of user's who have favourited the character */
-  favourites?: Maybe<Scalars['Int']['output']>;
+  favourites: Maybe<Scalars['Int']['output']>;
   /** The character's gender. Usually Male, Female, or Non-binary but can be any string. */
-  gender?: Maybe<Scalars['String']['output']>;
+  gender: Maybe<Scalars['String']['output']>;
   /** The id of the character */
   id: Scalars['Int']['output'];
   /** Character images */
-  image?: Maybe<CharacterImage>;
+  image: Maybe<CharacterImage>;
   /** If the character is marked as favourite by the currently authenticated user */
   isFavourite: Scalars['Boolean']['output'];
   /** If the character is blocked from being added to favourites */
   isFavouriteBlocked: Scalars['Boolean']['output'];
   /** Media that includes the character */
-  media?: Maybe<MediaConnection>;
+  media: Maybe<MediaConnection>;
   /** Notes for site moderators */
-  modNotes?: Maybe<Scalars['String']['output']>;
+  modNotes: Maybe<Scalars['String']['output']>;
   /** The names of the character */
-  name?: Maybe<CharacterName>;
+  name: Maybe<CharacterName>;
   /** The url for the character page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** @deprecated No data available */
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  updatedAt: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -349,30 +350,30 @@ export type CharacterMediaArgs = {
 
 export type CharacterConnection = {
   __typename?: 'CharacterConnection';
-  edges?: Maybe<Array<Maybe<CharacterEdge>>>;
-  nodes?: Maybe<Array<Maybe<Character>>>;
+  edges: Maybe<Array<Maybe<CharacterEdge>>>;
+  nodes: Maybe<Array<Maybe<Character>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Character connection edge */
 export type CharacterEdge = {
   __typename?: 'CharacterEdge';
   /** The order the character should be displayed from the users favourites */
-  favouriteOrder?: Maybe<Scalars['Int']['output']>;
+  favouriteOrder: Maybe<Scalars['Int']['output']>;
   /** The id of the connection */
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Maybe<Scalars['Int']['output']>;
   /** The media the character is in */
-  media?: Maybe<Array<Maybe<Media>>>;
+  media: Maybe<Array<Maybe<Media>>>;
   /** Media specific character name */
-  name?: Maybe<Scalars['String']['output']>;
-  node?: Maybe<Character>;
+  name: Maybe<Scalars['String']['output']>;
+  node: Maybe<Character>;
   /** The characters role in the media */
-  role?: Maybe<CharacterRole>;
+  role: Maybe<CharacterRole>;
   /** The voice actors of the character with role date */
-  voiceActorRoles?: Maybe<Array<Maybe<StaffRoleType>>>;
+  voiceActorRoles: Maybe<Array<Maybe<StaffRoleType>>>;
   /** The voice actors of the character */
-  voiceActors?: Maybe<Array<Maybe<Staff>>>;
+  voiceActors: Maybe<Array<Maybe<Staff>>>;
 };
 
 
@@ -392,30 +393,30 @@ export type CharacterEdgeVoiceActorsArgs = {
 export type CharacterImage = {
   __typename?: 'CharacterImage';
   /** The character's image of media at its largest size */
-  large?: Maybe<Scalars['String']['output']>;
+  large: Maybe<Scalars['String']['output']>;
   /** The character's image of media at medium size */
-  medium?: Maybe<Scalars['String']['output']>;
+  medium: Maybe<Scalars['String']['output']>;
 };
 
 /** The names of the character */
 export type CharacterName = {
   __typename?: 'CharacterName';
   /** Other names the character might be referred to as */
-  alternative?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  alternative: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Other names the character might be referred to as but are spoilers */
-  alternativeSpoiler?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  alternativeSpoiler: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The character's given name */
-  first?: Maybe<Scalars['String']['output']>;
+  first: Maybe<Scalars['String']['output']>;
   /** The character's first and last name */
-  full?: Maybe<Scalars['String']['output']>;
+  full: Maybe<Scalars['String']['output']>;
   /** The character's surname */
-  last?: Maybe<Scalars['String']['output']>;
+  last: Maybe<Scalars['String']['output']>;
   /** The character's middle name */
-  middle?: Maybe<Scalars['String']['output']>;
+  middle: Maybe<Scalars['String']['output']>;
   /** The character's full name in their native language */
-  native?: Maybe<Scalars['String']['output']>;
+  native: Maybe<Scalars['String']['output']>;
   /** The currently authenticated users preferred name language. Default romaji for non-authenticated */
-  userPreferred?: Maybe<Scalars['String']['output']>;
+  userPreferred: Maybe<Scalars['String']['output']>;
 };
 
 /** The names of the character */
@@ -461,50 +462,50 @@ export enum CharacterSort {
 export type CharacterSubmission = {
   __typename?: 'CharacterSubmission';
   /** Data Mod assigned to handle the submission */
-  assignee?: Maybe<User>;
+  assignee: Maybe<User>;
   /** Character that the submission is referencing */
-  character?: Maybe<Character>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  character: Maybe<Character>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the submission */
   id: Scalars['Int']['output'];
   /** Whether the submission is locked */
-  locked?: Maybe<Scalars['Boolean']['output']>;
+  locked: Maybe<Scalars['Boolean']['output']>;
   /** Inner details of submission status */
-  notes?: Maybe<Scalars['String']['output']>;
-  source?: Maybe<Scalars['String']['output']>;
+  notes: Maybe<Scalars['String']['output']>;
+  source: Maybe<Scalars['String']['output']>;
   /** Status of the submission */
-  status?: Maybe<SubmissionStatus>;
+  status: Maybe<SubmissionStatus>;
   /** The character submission changes */
-  submission?: Maybe<Character>;
+  submission: Maybe<Character>;
   /** Submitter for the submission */
-  submitter?: Maybe<User>;
+  submitter: Maybe<User>;
 };
 
 export type CharacterSubmissionConnection = {
   __typename?: 'CharacterSubmissionConnection';
-  edges?: Maybe<Array<Maybe<CharacterSubmissionEdge>>>;
-  nodes?: Maybe<Array<Maybe<CharacterSubmission>>>;
+  edges: Maybe<Array<Maybe<CharacterSubmissionEdge>>>;
+  nodes: Maybe<Array<Maybe<CharacterSubmission>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** CharacterSubmission connection edge */
 export type CharacterSubmissionEdge = {
   __typename?: 'CharacterSubmissionEdge';
-  node?: Maybe<CharacterSubmission>;
+  node: Maybe<CharacterSubmission>;
   /** The characters role in the media */
-  role?: Maybe<CharacterRole>;
+  role: Maybe<CharacterRole>;
   /** The submitted voice actors of the character */
-  submittedVoiceActors?: Maybe<Array<Maybe<StaffSubmission>>>;
+  submittedVoiceActors: Maybe<Array<Maybe<StaffSubmission>>>;
   /** The voice actors of the character */
-  voiceActors?: Maybe<Array<Maybe<Staff>>>;
+  voiceActors: Maybe<Array<Maybe<Staff>>>;
 };
 
 /** Deleted data type */
 export type Deleted = {
   __typename?: 'Deleted';
   /** If an item has been successfully deleted */
-  deleted?: Maybe<Scalars['Boolean']['output']>;
+  deleted: Maybe<Scalars['Boolean']['output']>;
 };
 
 export enum ExternalLinkMediaType {
@@ -523,15 +524,15 @@ export enum ExternalLinkType {
 export type Favourites = {
   __typename?: 'Favourites';
   /** Favourite anime */
-  anime?: Maybe<MediaConnection>;
+  anime: Maybe<MediaConnection>;
   /** Favourite characters */
-  characters?: Maybe<CharacterConnection>;
+  characters: Maybe<CharacterConnection>;
   /** Favourite manga */
-  manga?: Maybe<MediaConnection>;
+  manga: Maybe<MediaConnection>;
   /** Favourite staff */
-  staff?: Maybe<StaffConnection>;
+  staff: Maybe<StaffConnection>;
   /** Favourite studios */
-  studios?: Maybe<StudioConnection>;
+  studios: Maybe<StudioConnection>;
 };
 
 
@@ -573,15 +574,15 @@ export type FavouritesStudiosArgs = {
 export type FollowingNotification = {
   __typename?: 'FollowingNotification';
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The liked activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who followed the authenticated user */
   userId: Scalars['Int']['output'];
 };
@@ -589,19 +590,19 @@ export type FollowingNotification = {
 /** User's format statistics */
 export type FormatStats = {
   __typename?: 'FormatStats';
-  amount?: Maybe<Scalars['Int']['output']>;
-  format?: Maybe<MediaFormat>;
+  amount: Maybe<Scalars['Int']['output']>;
+  format: Maybe<MediaFormat>;
 };
 
 /** Date object that allows for incomplete date values (fuzzy) */
 export type FuzzyDate = {
   __typename?: 'FuzzyDate';
   /** Numeric Day (24) */
-  day?: Maybe<Scalars['Int']['output']>;
+  day: Maybe<Scalars['Int']['output']>;
   /** Numeric Month (3) */
-  month?: Maybe<Scalars['Int']['output']>;
+  month: Maybe<Scalars['Int']['output']>;
   /** Numeric Year (2017) */
-  year?: Maybe<Scalars['Int']['output']>;
+  year: Maybe<Scalars['Int']['output']>;
 };
 
 /** Date object that allows for incomplete date values (fuzzy) */
@@ -617,43 +618,43 @@ export type FuzzyDateInput = {
 /** User's genre statistics */
 export type GenreStats = {
   __typename?: 'GenreStats';
-  amount?: Maybe<Scalars['Int']['output']>;
-  genre?: Maybe<Scalars['String']['output']>;
-  meanScore?: Maybe<Scalars['Int']['output']>;
+  amount: Maybe<Scalars['Int']['output']>;
+  genre: Maybe<Scalars['String']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
   /** The amount of time in minutes the genre has been watched by the user */
-  timeWatched?: Maybe<Scalars['Int']['output']>;
+  timeWatched: Maybe<Scalars['Int']['output']>;
 };
 
 /** Page of data (Used for internal use only) */
 export type InternalPage = {
   __typename?: 'InternalPage';
-  activities?: Maybe<Array<Maybe<ActivityUnion>>>;
-  activityReplies?: Maybe<Array<Maybe<ActivityReply>>>;
-  airingSchedules?: Maybe<Array<Maybe<AiringSchedule>>>;
-  characterSubmissions?: Maybe<Array<Maybe<CharacterSubmission>>>;
-  characters?: Maybe<Array<Maybe<Character>>>;
-  followers?: Maybe<Array<Maybe<User>>>;
-  following?: Maybe<Array<Maybe<User>>>;
-  likes?: Maybe<Array<Maybe<User>>>;
-  media?: Maybe<Array<Maybe<Media>>>;
-  mediaList?: Maybe<Array<Maybe<MediaList>>>;
-  mediaSubmissions?: Maybe<Array<Maybe<MediaSubmission>>>;
-  mediaTrends?: Maybe<Array<Maybe<MediaTrend>>>;
-  modActions?: Maybe<Array<Maybe<ModAction>>>;
-  notifications?: Maybe<Array<Maybe<NotificationUnion>>>;
+  activities: Maybe<Array<Maybe<ActivityUnion>>>;
+  activityReplies: Maybe<Array<Maybe<ActivityReply>>>;
+  airingSchedules: Maybe<Array<Maybe<AiringSchedule>>>;
+  characterSubmissions: Maybe<Array<Maybe<CharacterSubmission>>>;
+  characters: Maybe<Array<Maybe<Character>>>;
+  followers: Maybe<Array<Maybe<User>>>;
+  following: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
+  media: Maybe<Array<Maybe<Media>>>;
+  mediaList: Maybe<Array<Maybe<MediaList>>>;
+  mediaSubmissions: Maybe<Array<Maybe<MediaSubmission>>>;
+  mediaTrends: Maybe<Array<Maybe<MediaTrend>>>;
+  modActions: Maybe<Array<Maybe<ModAction>>>;
+  notifications: Maybe<Array<Maybe<NotificationUnion>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
-  recommendations?: Maybe<Array<Maybe<Recommendation>>>;
-  reports?: Maybe<Array<Maybe<Report>>>;
-  reviews?: Maybe<Array<Maybe<Review>>>;
-  revisionHistory?: Maybe<Array<Maybe<RevisionHistory>>>;
-  staff?: Maybe<Array<Maybe<Staff>>>;
-  staffSubmissions?: Maybe<Array<Maybe<StaffSubmission>>>;
-  studios?: Maybe<Array<Maybe<Studio>>>;
-  threadComments?: Maybe<Array<Maybe<ThreadComment>>>;
-  threads?: Maybe<Array<Maybe<Thread>>>;
-  userBlockSearch?: Maybe<Array<Maybe<User>>>;
-  users?: Maybe<Array<Maybe<User>>>;
+  pageInfo: Maybe<PageInfo>;
+  recommendations: Maybe<Array<Maybe<Recommendation>>>;
+  reports: Maybe<Array<Maybe<Report>>>;
+  reviews: Maybe<Array<Maybe<Review>>>;
+  revisionHistory: Maybe<Array<Maybe<RevisionHistory>>>;
+  staff: Maybe<Array<Maybe<Staff>>>;
+  staffSubmissions: Maybe<Array<Maybe<StaffSubmission>>>;
+  studios: Maybe<Array<Maybe<Studio>>>;
+  threadComments: Maybe<Array<Maybe<ThreadComment>>>;
+  threads: Maybe<Array<Maybe<Thread>>>;
+  userBlockSearch: Maybe<Array<Maybe<User>>>;
+  users: Maybe<Array<Maybe<User>>>;
 };
 
 
@@ -1055,41 +1056,41 @@ export type ListActivity = {
   /** The id of the activity */
   id: Scalars['Int']['output'];
   /** If the currently authenticated user liked the activity */
-  isLiked?: Maybe<Scalars['Boolean']['output']>;
+  isLiked: Maybe<Scalars['Boolean']['output']>;
   /** If the activity is locked and can receive replies */
-  isLocked?: Maybe<Scalars['Boolean']['output']>;
+  isLocked: Maybe<Scalars['Boolean']['output']>;
   /** If the activity is pinned to the top of the users activity feed */
-  isPinned?: Maybe<Scalars['Boolean']['output']>;
+  isPinned: Maybe<Scalars['Boolean']['output']>;
   /** If the currently authenticated user is subscribed to the activity */
-  isSubscribed?: Maybe<Scalars['Boolean']['output']>;
+  isSubscribed: Maybe<Scalars['Boolean']['output']>;
   /** The amount of likes the activity has */
   likeCount: Scalars['Int']['output'];
   /** The users who liked the activity */
-  likes?: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
   /** The associated media to the activity update */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The list progress made */
-  progress?: Maybe<Scalars['String']['output']>;
+  progress: Maybe<Scalars['String']['output']>;
   /** The written replies to the activity */
-  replies?: Maybe<Array<Maybe<ActivityReply>>>;
+  replies: Maybe<Array<Maybe<ActivityReply>>>;
   /** The number of activity replies */
   replyCount: Scalars['Int']['output'];
   /** The url for the activity page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** The list item's textual status */
-  status?: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['String']['output']>;
   /** The type of activity */
-  type?: Maybe<ActivityType>;
+  type: Maybe<ActivityType>;
   /** The owner of the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The user id of the activity's creator */
-  userId?: Maybe<Scalars['Int']['output']>;
+  userId: Maybe<Scalars['Int']['output']>;
 };
 
 export type ListActivityOption = {
   __typename?: 'ListActivityOption';
-  disabled?: Maybe<Scalars['Boolean']['output']>;
-  type?: Maybe<MediaListStatus>;
+  disabled: Maybe<Scalars['Boolean']['output']>;
+  type: Maybe<MediaListStatus>;
 };
 
 export type ListActivityOptionInput = {
@@ -1100,125 +1101,125 @@ export type ListActivityOptionInput = {
 /** User's list score statistics */
 export type ListScoreStats = {
   __typename?: 'ListScoreStats';
-  meanScore?: Maybe<Scalars['Int']['output']>;
-  standardDeviation?: Maybe<Scalars['Int']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
+  standardDeviation: Maybe<Scalars['Int']['output']>;
 };
 
 /** Anime or Manga */
 export type Media = {
   __typename?: 'Media';
   /** The media's entire airing schedule */
-  airingSchedule?: Maybe<AiringScheduleConnection>;
+  airingSchedule: Maybe<AiringScheduleConnection>;
   /** If the media should have forum thread automatically created for it on airing episode release */
-  autoCreateForumThread?: Maybe<Scalars['Boolean']['output']>;
+  autoCreateForumThread: Maybe<Scalars['Boolean']['output']>;
   /** A weighted average score of all the user's scores of the media */
-  averageScore?: Maybe<Scalars['Int']['output']>;
+  averageScore: Maybe<Scalars['Int']['output']>;
   /** The banner image of the media */
-  bannerImage?: Maybe<Scalars['String']['output']>;
+  bannerImage: Maybe<Scalars['String']['output']>;
   /** The amount of chapters the manga has when complete */
-  chapters?: Maybe<Scalars['Int']['output']>;
+  chapters: Maybe<Scalars['Int']['output']>;
   /** The characters in the media */
-  characters?: Maybe<CharacterConnection>;
+  characters: Maybe<CharacterConnection>;
   /** Where the media was created. (ISO 3166-1 alpha-2) */
-  countryOfOrigin?: Maybe<Scalars['CountryCode']['output']>;
+  countryOfOrigin: Maybe<Scalars['CountryCode']['output']>;
   /** The cover images of the media */
-  coverImage?: Maybe<MediaCoverImage>;
+  coverImage: Maybe<MediaCoverImage>;
   /** Short description of the media's story and characters */
-  description?: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
   /** The general length of each anime episode in minutes */
-  duration?: Maybe<Scalars['Int']['output']>;
+  duration: Maybe<Scalars['Int']['output']>;
   /** The last official release date of the media */
-  endDate?: Maybe<FuzzyDate>;
+  endDate: Maybe<FuzzyDate>;
   /** The amount of episodes the anime has when complete */
-  episodes?: Maybe<Scalars['Int']['output']>;
+  episodes: Maybe<Scalars['Int']['output']>;
   /** External links to another site related to the media */
-  externalLinks?: Maybe<Array<Maybe<MediaExternalLink>>>;
+  externalLinks: Maybe<Array<Maybe<MediaExternalLink>>>;
   /** The amount of user's who have favourited the media */
-  favourites?: Maybe<Scalars['Int']['output']>;
+  favourites: Maybe<Scalars['Int']['output']>;
   /** The format the media was released in */
-  format?: Maybe<MediaFormat>;
+  format: Maybe<MediaFormat>;
   /** The genres of the media */
-  genres?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  genres: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Official Twitter hashtags for the media */
-  hashtag?: Maybe<Scalars['String']['output']>;
+  hashtag: Maybe<Scalars['String']['output']>;
   /** The id of the media */
   id: Scalars['Int']['output'];
   /** The mal id of the media */
-  idMal?: Maybe<Scalars['Int']['output']>;
+  idMal: Maybe<Scalars['Int']['output']>;
   /** If the media is intended only for 18+ adult audiences */
-  isAdult?: Maybe<Scalars['Boolean']['output']>;
+  isAdult: Maybe<Scalars['Boolean']['output']>;
   /** If the media is marked as favourite by the current authenticated user */
   isFavourite: Scalars['Boolean']['output'];
   /** If the media is blocked from being added to favourites */
   isFavouriteBlocked: Scalars['Boolean']['output'];
   /** If the media is officially licensed or a self-published doujin release */
-  isLicensed?: Maybe<Scalars['Boolean']['output']>;
+  isLicensed: Maybe<Scalars['Boolean']['output']>;
   /** Locked media may not be added to lists our favorited. This may be due to the entry pending for deletion or other reasons. */
-  isLocked?: Maybe<Scalars['Boolean']['output']>;
+  isLocked: Maybe<Scalars['Boolean']['output']>;
   /** If the media is blocked from being recommended to/from */
-  isRecommendationBlocked?: Maybe<Scalars['Boolean']['output']>;
+  isRecommendationBlocked: Maybe<Scalars['Boolean']['output']>;
   /** If the media is blocked from being reviewed */
-  isReviewBlocked?: Maybe<Scalars['Boolean']['output']>;
+  isReviewBlocked: Maybe<Scalars['Boolean']['output']>;
   /** Mean score of all the user's scores of the media */
-  meanScore?: Maybe<Scalars['Int']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
   /** The authenticated user's media list entry for the media */
-  mediaListEntry?: Maybe<MediaList>;
+  mediaListEntry: Maybe<MediaList>;
   /** Notes for site moderators */
-  modNotes?: Maybe<Scalars['String']['output']>;
+  modNotes: Maybe<Scalars['String']['output']>;
   /** The media's next episode airing schedule */
-  nextAiringEpisode?: Maybe<AiringSchedule>;
+  nextAiringEpisode: Maybe<AiringSchedule>;
   /** The number of users with the media on their list */
-  popularity?: Maybe<Scalars['Int']['output']>;
+  popularity: Maybe<Scalars['Int']['output']>;
   /** The ranking of the media in a particular time span and format compared to other media */
-  rankings?: Maybe<Array<Maybe<MediaRank>>>;
+  rankings: Maybe<Array<Maybe<MediaRank>>>;
   /** User recommendations for similar media */
-  recommendations?: Maybe<RecommendationConnection>;
+  recommendations: Maybe<RecommendationConnection>;
   /** Other media in the same or connecting franchise */
-  relations?: Maybe<MediaConnection>;
+  relations: Maybe<MediaConnection>;
   /** User reviews of the media */
-  reviews?: Maybe<ReviewConnection>;
+  reviews: Maybe<ReviewConnection>;
   /** The season the media was initially released in */
-  season?: Maybe<MediaSeason>;
+  season: Maybe<MediaSeason>;
   /**
    * The year & season the media was initially released in
    * @deprecated
    */
-  seasonInt?: Maybe<Scalars['Int']['output']>;
+  seasonInt: Maybe<Scalars['Int']['output']>;
   /** The season year the media was initially released in */
-  seasonYear?: Maybe<Scalars['Int']['output']>;
+  seasonYear: Maybe<Scalars['Int']['output']>;
   /** The url for the media page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** Source type the media was adapted from. */
-  source?: Maybe<MediaSource>;
+  source: Maybe<MediaSource>;
   /** The staff who produced the media */
-  staff?: Maybe<StaffConnection>;
+  staff: Maybe<StaffConnection>;
   /** The first official release date of the media */
-  startDate?: Maybe<FuzzyDate>;
-  stats?: Maybe<MediaStats>;
+  startDate: Maybe<FuzzyDate>;
+  stats: Maybe<MediaStats>;
   /** The current releasing status of the media */
-  status?: Maybe<MediaStatus>;
+  status: Maybe<MediaStatus>;
   /** Data and links to legal streaming episodes on external sites */
-  streamingEpisodes?: Maybe<Array<Maybe<MediaStreamingEpisode>>>;
+  streamingEpisodes: Maybe<Array<Maybe<MediaStreamingEpisode>>>;
   /** The companies who produced the media */
-  studios?: Maybe<StudioConnection>;
+  studios: Maybe<StudioConnection>;
   /** Alternative titles of the media */
-  synonyms?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  synonyms: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** List of tags that describes elements and themes of the media */
-  tags?: Maybe<Array<Maybe<MediaTag>>>;
+  tags: Maybe<Array<Maybe<MediaTag>>>;
   /** The official titles of the media in various languages */
-  title?: Maybe<MediaTitle>;
+  title: Maybe<MediaTitle>;
   /** Media trailer or advertisement */
-  trailer?: Maybe<MediaTrailer>;
+  trailer: Maybe<MediaTrailer>;
   /** The amount of related activity in the past hour */
-  trending?: Maybe<Scalars['Int']['output']>;
+  trending: Maybe<Scalars['Int']['output']>;
   /** The media's daily trend stats */
-  trends?: Maybe<MediaTrendConnection>;
+  trends: Maybe<MediaTrendConnection>;
   /** The type of the media anime or manga */
-  type?: Maybe<MediaType>;
+  type: Maybe<MediaType>;
   /** When the media's data was last updated */
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  updatedAt: Maybe<Scalars['Int']['output']>;
   /** The amount of volumes the manga has when complete */
-  volumes?: Maybe<Scalars['Int']['output']>;
+  volumes: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -1301,103 +1302,103 @@ export type MediaTrendsArgs = {
 export type MediaCharacter = {
   __typename?: 'MediaCharacter';
   /** The characters in the media voiced by the parent actor */
-  character?: Maybe<Character>;
+  character: Maybe<Character>;
   /** Media specific character name */
-  characterName?: Maybe<Scalars['String']['output']>;
-  dubGroup?: Maybe<Scalars['String']['output']>;
+  characterName: Maybe<Scalars['String']['output']>;
+  dubGroup: Maybe<Scalars['String']['output']>;
   /** The id of the connection */
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Maybe<Scalars['Int']['output']>;
   /** The characters role in the media */
-  role?: Maybe<CharacterRole>;
-  roleNotes?: Maybe<Scalars['String']['output']>;
+  role: Maybe<CharacterRole>;
+  roleNotes: Maybe<Scalars['String']['output']>;
   /** The voice actor of the character */
-  voiceActor?: Maybe<Staff>;
+  voiceActor: Maybe<Staff>;
 };
 
 export type MediaConnection = {
   __typename?: 'MediaConnection';
-  edges?: Maybe<Array<Maybe<MediaEdge>>>;
-  nodes?: Maybe<Array<Maybe<Media>>>;
+  edges: Maybe<Array<Maybe<MediaEdge>>>;
+  nodes: Maybe<Array<Maybe<Media>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 export type MediaCoverImage = {
   __typename?: 'MediaCoverImage';
   /** Average #hex color of cover image */
-  color?: Maybe<Scalars['String']['output']>;
+  color: Maybe<Scalars['String']['output']>;
   /** The cover image url of the media at its largest size. If this size isn't available, large will be provided instead. */
-  extraLarge?: Maybe<Scalars['String']['output']>;
+  extraLarge: Maybe<Scalars['String']['output']>;
   /** The cover image url of the media at a large size */
-  large?: Maybe<Scalars['String']['output']>;
+  large: Maybe<Scalars['String']['output']>;
   /** The cover image url of the media at medium size */
-  medium?: Maybe<Scalars['String']['output']>;
+  medium: Maybe<Scalars['String']['output']>;
 };
 
 /** Notification for when a media entry's data was changed in a significant way impacting users' list tracking */
 export type MediaDataChangeNotification = {
   __typename?: 'MediaDataChangeNotification';
   /** The reason for the media data change */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The media that received data changes */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The id of the media that received data changes */
   mediaId: Scalars['Int']['output'];
   /** The reason for the media data change */
-  reason?: Maybe<Scalars['String']['output']>;
+  reason: Maybe<Scalars['String']['output']>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
 };
 
 /** Notification for when a media tracked in a user's list is deleted from the site */
 export type MediaDeletionNotification = {
   __typename?: 'MediaDeletionNotification';
   /** The reason for the media deletion */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The title of the deleted media */
-  deletedMediaTitle?: Maybe<Scalars['String']['output']>;
+  deletedMediaTitle: Maybe<Scalars['String']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The reason for the media deletion */
-  reason?: Maybe<Scalars['String']['output']>;
+  reason: Maybe<Scalars['String']['output']>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
 };
 
 /** Media connection edge */
 export type MediaEdge = {
   __typename?: 'MediaEdge';
   /** Media specific character name */
-  characterName?: Maybe<Scalars['String']['output']>;
+  characterName: Maybe<Scalars['String']['output']>;
   /** The characters role in the media */
-  characterRole?: Maybe<CharacterRole>;
+  characterRole: Maybe<CharacterRole>;
   /** The characters in the media voiced by the parent actor */
-  characters?: Maybe<Array<Maybe<Character>>>;
+  characters: Maybe<Array<Maybe<Character>>>;
   /** Used for grouping roles where multiple dubs exist for the same language. Either dubbing company name or language variant. */
-  dubGroup?: Maybe<Scalars['String']['output']>;
+  dubGroup: Maybe<Scalars['String']['output']>;
   /** The order the media should be displayed from the users favourites */
-  favouriteOrder?: Maybe<Scalars['Int']['output']>;
+  favouriteOrder: Maybe<Scalars['Int']['output']>;
   /** The id of the connection */
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Maybe<Scalars['Int']['output']>;
   /** If the studio is the main animation studio of the media (For Studio->MediaConnection field only) */
   isMainStudio: Scalars['Boolean']['output'];
-  node?: Maybe<Media>;
+  node: Maybe<Media>;
   /** The type of relation to the parent model */
-  relationType?: Maybe<MediaRelation>;
+  relationType: Maybe<MediaRelation>;
   /** Notes regarding the VA's role for the character */
-  roleNotes?: Maybe<Scalars['String']['output']>;
+  roleNotes: Maybe<Scalars['String']['output']>;
   /** The role of the staff member in the production of the media */
-  staffRole?: Maybe<Scalars['String']['output']>;
+  staffRole: Maybe<Scalars['String']['output']>;
   /** The voice actors of the character with role date */
-  voiceActorRoles?: Maybe<Array<Maybe<StaffRoleType>>>;
+  voiceActorRoles: Maybe<Array<Maybe<StaffRoleType>>>;
   /** The voice actors of the character */
-  voiceActors?: Maybe<Array<Maybe<Staff>>>;
+  voiceActors: Maybe<Array<Maybe<Staff>>>;
 };
 
 
@@ -1423,22 +1424,22 @@ export type MediaEdgeVoiceActorsArgs = {
 /** An external link to another site related to the media or staff member */
 export type MediaExternalLink = {
   __typename?: 'MediaExternalLink';
-  color?: Maybe<Scalars['String']['output']>;
+  color: Maybe<Scalars['String']['output']>;
   /** The icon image url of the site. Not available for all links. Transparent PNG 64x64 */
-  icon?: Maybe<Scalars['String']['output']>;
+  icon: Maybe<Scalars['String']['output']>;
   /** The id of the external link */
   id: Scalars['Int']['output'];
-  isDisabled?: Maybe<Scalars['Boolean']['output']>;
+  isDisabled: Maybe<Scalars['Boolean']['output']>;
   /** Language the site content is in. See Staff language field for values. */
-  language?: Maybe<Scalars['String']['output']>;
-  notes?: Maybe<Scalars['String']['output']>;
+  language: Maybe<Scalars['String']['output']>;
+  notes: Maybe<Scalars['String']['output']>;
   /** The links website site name */
   site: Scalars['String']['output'];
   /** The links website site id */
-  siteId?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<ExternalLinkType>;
+  siteId: Maybe<Scalars['Int']['output']>;
+  type: Maybe<ExternalLinkType>;
   /** The url of the external link or base url of link source */
-  url?: Maybe<Scalars['String']['output']>;
+  url: Maybe<Scalars['String']['output']>;
 };
 
 /** An external link to another site related to the media */
@@ -1479,41 +1480,41 @@ export enum MediaFormat {
 export type MediaList = {
   __typename?: 'MediaList';
   /** Map of advanced scores with name keys */
-  advancedScores?: Maybe<Scalars['Json']['output']>;
+  advancedScores: Maybe<Scalars['Json']['output']>;
   /** When the entry was completed by the user */
-  completedAt?: Maybe<FuzzyDate>;
+  completedAt: Maybe<FuzzyDate>;
   /** When the entry data was created */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** Map of booleans for which custom lists the entry are in */
-  customLists?: Maybe<Scalars['Json']['output']>;
+  customLists: Maybe<Scalars['Json']['output']>;
   /** If the entry shown be hidden from non-custom lists */
-  hiddenFromStatusLists?: Maybe<Scalars['Boolean']['output']>;
+  hiddenFromStatusLists: Maybe<Scalars['Boolean']['output']>;
   /** The id of the list entry */
   id: Scalars['Int']['output'];
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The id of the media */
   mediaId: Scalars['Int']['output'];
   /** Text notes */
-  notes?: Maybe<Scalars['String']['output']>;
+  notes: Maybe<Scalars['String']['output']>;
   /** Priority of planning */
-  priority?: Maybe<Scalars['Int']['output']>;
+  priority: Maybe<Scalars['Int']['output']>;
   /** If the entry should only be visible to authenticated user */
-  private?: Maybe<Scalars['Boolean']['output']>;
+  private: Maybe<Scalars['Boolean']['output']>;
   /** The amount of episodes/chapters consumed by the user */
-  progress?: Maybe<Scalars['Int']['output']>;
+  progress: Maybe<Scalars['Int']['output']>;
   /** The amount of volumes read by the user */
-  progressVolumes?: Maybe<Scalars['Int']['output']>;
+  progressVolumes: Maybe<Scalars['Int']['output']>;
   /** The amount of times the user has rewatched/read the media */
-  repeat?: Maybe<Scalars['Int']['output']>;
+  repeat: Maybe<Scalars['Int']['output']>;
   /** The score of the entry */
-  score?: Maybe<Scalars['Float']['output']>;
+  score: Maybe<Scalars['Float']['output']>;
   /** When the entry was started by the user */
-  startedAt?: Maybe<FuzzyDate>;
+  startedAt: Maybe<FuzzyDate>;
   /** The watching/reading status */
-  status?: Maybe<MediaListStatus>;
+  status: Maybe<MediaListStatus>;
   /** When the entry data was last updated */
-  updatedAt?: Maybe<Scalars['Int']['output']>;
-  user?: Maybe<User>;
+  updatedAt: Maybe<Scalars['Int']['output']>;
+  user: Maybe<User>;
   /** The id of the user owner of the list entry */
   userId: Scalars['Int']['output'];
 };
@@ -1537,18 +1538,18 @@ export type MediaListCollection = {
    * A map of media list entry arrays grouped by custom lists
    * @deprecated Not GraphQL spec compliant, use lists field instead.
    */
-  customLists?: Maybe<Array<Maybe<Array<Maybe<MediaList>>>>>;
+  customLists: Maybe<Array<Maybe<Array<Maybe<MediaList>>>>>;
   /** If there is another chunk */
-  hasNextChunk?: Maybe<Scalars['Boolean']['output']>;
+  hasNextChunk: Maybe<Scalars['Boolean']['output']>;
   /** Grouped media list entries */
-  lists?: Maybe<Array<Maybe<MediaListGroup>>>;
+  lists: Maybe<Array<Maybe<MediaListGroup>>>;
   /**
    * A map of media list entry arrays grouped by status
    * @deprecated Not GraphQL spec compliant, use lists field instead.
    */
-  statusLists?: Maybe<Array<Maybe<Array<Maybe<MediaList>>>>>;
+  statusLists: Maybe<Array<Maybe<Array<Maybe<MediaList>>>>>;
   /** The owner of the list */
-  user?: Maybe<User>;
+  user: Maybe<User>;
 };
 
 
@@ -1567,36 +1568,36 @@ export type MediaListCollectionStatusListsArgs = {
 export type MediaListGroup = {
   __typename?: 'MediaListGroup';
   /** Media list entries */
-  entries?: Maybe<Array<Maybe<MediaList>>>;
-  isCustomList?: Maybe<Scalars['Boolean']['output']>;
-  isSplitCompletedList?: Maybe<Scalars['Boolean']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<MediaListStatus>;
+  entries: Maybe<Array<Maybe<MediaList>>>;
+  isCustomList: Maybe<Scalars['Boolean']['output']>;
+  isSplitCompletedList: Maybe<Scalars['Boolean']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  status: Maybe<MediaListStatus>;
 };
 
 /** A user's list options */
 export type MediaListOptions = {
   __typename?: 'MediaListOptions';
   /** The user's anime list options */
-  animeList?: Maybe<MediaListTypeOptions>;
+  animeList: Maybe<MediaListTypeOptions>;
   /** The user's manga list options */
-  mangaList?: Maybe<MediaListTypeOptions>;
+  mangaList: Maybe<MediaListTypeOptions>;
   /** The default order list rows should be displayed in */
-  rowOrder?: Maybe<Scalars['String']['output']>;
+  rowOrder: Maybe<Scalars['String']['output']>;
   /** The score format the user is using for media lists */
-  scoreFormat?: Maybe<ScoreFormat>;
+  scoreFormat: Maybe<ScoreFormat>;
   /**
    * The list theme options for both lists
    * @deprecated No longer used
    */
-  sharedTheme?: Maybe<Scalars['Json']['output']>;
+  sharedTheme: Maybe<Scalars['Json']['output']>;
   /**
    * If the shared theme should be used instead of the individual list themes
    * @deprecated No longer used
    */
-  sharedThemeEnabled?: Maybe<Scalars['Boolean']['output']>;
+  sharedThemeEnabled: Maybe<Scalars['Boolean']['output']>;
   /** @deprecated No longer used */
-  useLegacyLists?: Maybe<Scalars['Boolean']['output']>;
+  useLegacyLists: Maybe<Scalars['Boolean']['output']>;
 };
 
 /** A user's list options for anime or manga lists */
@@ -1669,48 +1670,48 @@ export enum MediaListStatus {
 export type MediaListTypeOptions = {
   __typename?: 'MediaListTypeOptions';
   /** The names of the user's advanced scoring sections */
-  advancedScoring?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  advancedScoring: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** If advanced scoring is enabled */
-  advancedScoringEnabled?: Maybe<Scalars['Boolean']['output']>;
+  advancedScoringEnabled: Maybe<Scalars['Boolean']['output']>;
   /** The names of the user's custom lists */
-  customLists?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  customLists: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The order each list should be displayed in */
-  sectionOrder?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  sectionOrder: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** If the completed sections of the list should be separated by format */
-  splitCompletedSectionByFormat?: Maybe<Scalars['Boolean']['output']>;
+  splitCompletedSectionByFormat: Maybe<Scalars['Boolean']['output']>;
   /**
    * The list theme options
    * @deprecated This field has not yet been fully implemented and may change without warning
    */
-  theme?: Maybe<Scalars['Json']['output']>;
+  theme: Maybe<Scalars['Json']['output']>;
 };
 
 /** Notification for when a media entry is merged into another for a user who had it on their list */
 export type MediaMergeNotification = {
   __typename?: 'MediaMergeNotification';
   /** The reason for the media data change */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The title of the deleted media */
-  deletedMediaTitles?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  deletedMediaTitles: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The media that was merged into */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The id of the media that was merged into */
   mediaId: Scalars['Int']['output'];
   /** The reason for the media merge */
-  reason?: Maybe<Scalars['String']['output']>;
+  reason: Maybe<Scalars['String']['output']>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
 };
 
 /** The ranking of a media in a particular time span and format compared to other media */
 export type MediaRank = {
   __typename?: 'MediaRank';
   /** If the ranking is based on all time instead of a season/year */
-  allTime?: Maybe<Scalars['Boolean']['output']>;
+  allTime: Maybe<Scalars['Boolean']['output']>;
   /** String that gives context to the ranking type and time span */
   context: Scalars['String']['output'];
   /** The format the media is ranked within */
@@ -1720,11 +1721,11 @@ export type MediaRank = {
   /** The numerical rank of the media */
   rank: Scalars['Int']['output'];
   /** The season the media is ranked within */
-  season?: Maybe<MediaSeason>;
+  season: Maybe<MediaSeason>;
   /** The type of ranking */
   type: MediaRankType;
   /** The year the media is ranked within */
-  year?: Maybe<Scalars['Int']['output']>;
+  year: Maybe<Scalars['Int']['output']>;
 };
 
 /** The type of ranking */
@@ -1855,9 +1856,9 @@ export enum MediaSource {
 export type MediaStats = {
   __typename?: 'MediaStats';
   /** @deprecated Replaced by MediaTrends */
-  airingProgression?: Maybe<Array<Maybe<AiringProgression>>>;
-  scoreDistribution?: Maybe<Array<Maybe<ScoreDistribution>>>;
-  statusDistribution?: Maybe<Array<Maybe<StatusDistribution>>>;
+  airingProgression: Maybe<Array<Maybe<AiringProgression>>>;
+  scoreDistribution: Maybe<Array<Maybe<ScoreDistribution>>>;
+  statusDistribution: Maybe<Array<Maybe<StatusDistribution>>>;
 };
 
 /** The current releasing status of the media */
@@ -1878,107 +1879,107 @@ export enum MediaStatus {
 export type MediaStreamingEpisode = {
   __typename?: 'MediaStreamingEpisode';
   /** The site location of the streaming episodes */
-  site?: Maybe<Scalars['String']['output']>;
+  site: Maybe<Scalars['String']['output']>;
   /** Url of episode image thumbnail */
-  thumbnail?: Maybe<Scalars['String']['output']>;
+  thumbnail: Maybe<Scalars['String']['output']>;
   /** Title of the episode */
-  title?: Maybe<Scalars['String']['output']>;
+  title: Maybe<Scalars['String']['output']>;
   /** The url of the episode */
-  url?: Maybe<Scalars['String']['output']>;
+  url: Maybe<Scalars['String']['output']>;
 };
 
 /** Media submission */
 export type MediaSubmission = {
   __typename?: 'MediaSubmission';
   /** Data Mod assigned to handle the submission */
-  assignee?: Maybe<User>;
-  changes?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  characters?: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  externalLinks?: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
+  assignee: Maybe<User>;
+  changes: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  characters: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
+  createdAt: Maybe<Scalars['Int']['output']>;
+  externalLinks: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
   /** The id of the submission */
   id: Scalars['Int']['output'];
   /** Whether the submission is locked */
-  locked?: Maybe<Scalars['Boolean']['output']>;
-  media?: Maybe<Media>;
-  notes?: Maybe<Scalars['String']['output']>;
-  relations?: Maybe<Array<Maybe<MediaEdge>>>;
-  source?: Maybe<Scalars['String']['output']>;
-  staff?: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
+  locked: Maybe<Scalars['Boolean']['output']>;
+  media: Maybe<Media>;
+  notes: Maybe<Scalars['String']['output']>;
+  relations: Maybe<Array<Maybe<MediaEdge>>>;
+  source: Maybe<Scalars['String']['output']>;
+  staff: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
   /** Status of the submission */
-  status?: Maybe<SubmissionStatus>;
-  studios?: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
-  submission?: Maybe<Media>;
+  status: Maybe<SubmissionStatus>;
+  studios: Maybe<Array<Maybe<MediaSubmissionComparison>>>;
+  submission: Maybe<Media>;
   /** User submitter of the submission */
-  submitter?: Maybe<User>;
-  submitterStats?: Maybe<Scalars['Json']['output']>;
+  submitter: Maybe<User>;
+  submitterStats: Maybe<Scalars['Json']['output']>;
 };
 
 /** Media submission with comparison to current data */
 export type MediaSubmissionComparison = {
   __typename?: 'MediaSubmissionComparison';
-  character?: Maybe<MediaCharacter>;
-  externalLink?: Maybe<MediaExternalLink>;
-  staff?: Maybe<StaffEdge>;
-  studio?: Maybe<StudioEdge>;
-  submission?: Maybe<MediaSubmissionEdge>;
+  character: Maybe<MediaCharacter>;
+  externalLink: Maybe<MediaExternalLink>;
+  staff: Maybe<StaffEdge>;
+  studio: Maybe<StudioEdge>;
+  submission: Maybe<MediaSubmissionEdge>;
 };
 
 export type MediaSubmissionEdge = {
   __typename?: 'MediaSubmissionEdge';
-  character?: Maybe<Character>;
-  characterName?: Maybe<Scalars['String']['output']>;
-  characterRole?: Maybe<CharacterRole>;
-  characterSubmission?: Maybe<Character>;
-  dubGroup?: Maybe<Scalars['String']['output']>;
-  externalLink?: Maybe<MediaExternalLink>;
+  character: Maybe<Character>;
+  characterName: Maybe<Scalars['String']['output']>;
+  characterRole: Maybe<CharacterRole>;
+  characterSubmission: Maybe<Character>;
+  dubGroup: Maybe<Scalars['String']['output']>;
+  externalLink: Maybe<MediaExternalLink>;
   /** The id of the direct submission */
-  id?: Maybe<Scalars['Int']['output']>;
-  isMain?: Maybe<Scalars['Boolean']['output']>;
-  media?: Maybe<Media>;
-  roleNotes?: Maybe<Scalars['String']['output']>;
-  staff?: Maybe<Staff>;
-  staffRole?: Maybe<Scalars['String']['output']>;
-  staffSubmission?: Maybe<Staff>;
-  studio?: Maybe<Studio>;
-  voiceActor?: Maybe<Staff>;
-  voiceActorSubmission?: Maybe<Staff>;
+  id: Maybe<Scalars['Int']['output']>;
+  isMain: Maybe<Scalars['Boolean']['output']>;
+  media: Maybe<Media>;
+  roleNotes: Maybe<Scalars['String']['output']>;
+  staff: Maybe<Staff>;
+  staffRole: Maybe<Scalars['String']['output']>;
+  staffSubmission: Maybe<Staff>;
+  studio: Maybe<Studio>;
+  voiceActor: Maybe<Staff>;
+  voiceActorSubmission: Maybe<Staff>;
 };
 
 /** A tag that describes a theme or element of the media */
 export type MediaTag = {
   __typename?: 'MediaTag';
   /** The categories of tags this tag belongs to */
-  category?: Maybe<Scalars['String']['output']>;
+  category: Maybe<Scalars['String']['output']>;
   /** A general description of the tag */
-  description?: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
   /** The id of the tag */
   id: Scalars['Int']['output'];
   /** If the tag is only for adult 18+ media */
-  isAdult?: Maybe<Scalars['Boolean']['output']>;
+  isAdult: Maybe<Scalars['Boolean']['output']>;
   /** If the tag could be a spoiler for any media */
-  isGeneralSpoiler?: Maybe<Scalars['Boolean']['output']>;
+  isGeneralSpoiler: Maybe<Scalars['Boolean']['output']>;
   /** If the tag is a spoiler for this media */
-  isMediaSpoiler?: Maybe<Scalars['Boolean']['output']>;
+  isMediaSpoiler: Maybe<Scalars['Boolean']['output']>;
   /** The name of the tag */
   name: Scalars['String']['output'];
   /** The relevance ranking of the tag out of the 100 for this media */
-  rank?: Maybe<Scalars['Int']['output']>;
+  rank: Maybe<Scalars['Int']['output']>;
   /** The user who submitted the tag */
-  userId?: Maybe<Scalars['Int']['output']>;
+  userId: Maybe<Scalars['Int']['output']>;
 };
 
 /** The official titles of the media in various languages */
 export type MediaTitle = {
   __typename?: 'MediaTitle';
   /** The official english title */
-  english?: Maybe<Scalars['String']['output']>;
+  english: Maybe<Scalars['String']['output']>;
   /** Official title in it's native language */
-  native?: Maybe<Scalars['String']['output']>;
+  native: Maybe<Scalars['String']['output']>;
   /** The romanization of the native language title */
-  romaji?: Maybe<Scalars['String']['output']>;
+  romaji: Maybe<Scalars['String']['output']>;
   /** The currently authenticated users preferred title language. Default romaji for non-authenticated */
-  userPreferred?: Maybe<Scalars['String']['output']>;
+  userPreferred: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -2013,30 +2014,30 @@ export type MediaTitleInput = {
 export type MediaTrailer = {
   __typename?: 'MediaTrailer';
   /** The trailer video id */
-  id?: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
   /** The site the video is hosted by (Currently either youtube or dailymotion) */
-  site?: Maybe<Scalars['String']['output']>;
+  site: Maybe<Scalars['String']['output']>;
   /** The url for the thumbnail image of the video */
-  thumbnail?: Maybe<Scalars['String']['output']>;
+  thumbnail: Maybe<Scalars['String']['output']>;
 };
 
 /** Daily media statistics */
 export type MediaTrend = {
   __typename?: 'MediaTrend';
   /** A weighted average score of all the user's scores of the media */
-  averageScore?: Maybe<Scalars['Int']['output']>;
+  averageScore: Maybe<Scalars['Int']['output']>;
   /** The day the data was recorded (timestamp) */
   date: Scalars['Int']['output'];
   /** The episode number of the anime released on this day */
-  episode?: Maybe<Scalars['Int']['output']>;
+  episode: Maybe<Scalars['Int']['output']>;
   /** The number of users with watching/reading the media */
-  inProgress?: Maybe<Scalars['Int']['output']>;
+  inProgress: Maybe<Scalars['Int']['output']>;
   /** The related media */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The id of the tag */
   mediaId: Scalars['Int']['output'];
   /** The number of users with the media on their list */
-  popularity?: Maybe<Scalars['Int']['output']>;
+  popularity: Maybe<Scalars['Int']['output']>;
   /** If the media was being released at this time */
   releasing: Scalars['Boolean']['output'];
   /** The amount of media activity on the day */
@@ -2045,16 +2046,16 @@ export type MediaTrend = {
 
 export type MediaTrendConnection = {
   __typename?: 'MediaTrendConnection';
-  edges?: Maybe<Array<Maybe<MediaTrendEdge>>>;
-  nodes?: Maybe<Array<Maybe<MediaTrend>>>;
+  edges: Maybe<Array<Maybe<MediaTrendEdge>>>;
+  nodes: Maybe<Array<Maybe<MediaTrend>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Media trend connection edge */
 export type MediaTrendEdge = {
   __typename?: 'MediaTrendEdge';
-  node?: Maybe<MediaTrend>;
+  node: Maybe<MediaTrend>;
 };
 
 /** Media trend sort enums */
@@ -2091,35 +2092,35 @@ export type MessageActivity = {
   /** The id of the activity */
   id: Scalars['Int']['output'];
   /** If the currently authenticated user liked the activity */
-  isLiked?: Maybe<Scalars['Boolean']['output']>;
+  isLiked: Maybe<Scalars['Boolean']['output']>;
   /** If the activity is locked and can receive replies */
-  isLocked?: Maybe<Scalars['Boolean']['output']>;
+  isLocked: Maybe<Scalars['Boolean']['output']>;
   /** If the message is private and only viewable to the sender and recipients */
-  isPrivate?: Maybe<Scalars['Boolean']['output']>;
+  isPrivate: Maybe<Scalars['Boolean']['output']>;
   /** If the currently authenticated user is subscribed to the activity */
-  isSubscribed?: Maybe<Scalars['Boolean']['output']>;
+  isSubscribed: Maybe<Scalars['Boolean']['output']>;
   /** The amount of likes the activity has */
   likeCount: Scalars['Int']['output'];
   /** The users who liked the activity */
-  likes?: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
   /** The message text (Markdown) */
-  message?: Maybe<Scalars['String']['output']>;
+  message: Maybe<Scalars['String']['output']>;
   /** The user who sent the activity message */
-  messenger?: Maybe<User>;
+  messenger: Maybe<User>;
   /** The user id of the activity's sender */
-  messengerId?: Maybe<Scalars['Int']['output']>;
+  messengerId: Maybe<Scalars['Int']['output']>;
   /** The user who the activity message was sent to */
-  recipient?: Maybe<User>;
+  recipient: Maybe<User>;
   /** The user id of the activity's recipient */
-  recipientId?: Maybe<Scalars['Int']['output']>;
+  recipientId: Maybe<Scalars['Int']['output']>;
   /** The written replies to the activity */
-  replies?: Maybe<Array<Maybe<ActivityReply>>>;
+  replies: Maybe<Array<Maybe<ActivityReply>>>;
   /** The number of activity replies */
   replyCount: Scalars['Int']['output'];
   /** The url for the activity page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** The type of the activity */
-  type?: Maybe<ActivityType>;
+  type: Maybe<ActivityType>;
 };
 
 
@@ -2131,14 +2132,14 @@ export type MessageActivityMessageArgs = {
 export type ModAction = {
   __typename?: 'ModAction';
   createdAt: Scalars['Int']['output'];
-  data?: Maybe<Scalars['String']['output']>;
+  data: Maybe<Scalars['String']['output']>;
   /** The id of the action */
   id: Scalars['Int']['output'];
-  mod?: Maybe<User>;
-  objectId?: Maybe<Scalars['Int']['output']>;
-  objectType?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<ModActionType>;
-  user?: Maybe<User>;
+  mod: Maybe<User>;
+  objectId: Maybe<Scalars['Int']['output']>;
+  objectType: Maybe<Scalars['String']['output']>;
+  type: Maybe<ModActionType>;
+  user: Maybe<User>;
 };
 
 export enum ModActionType {
@@ -2185,63 +2186,63 @@ export enum ModRole {
 export type Mutation = {
   __typename?: 'Mutation';
   /** Delete an activity item of the authenticated users */
-  DeleteActivity?: Maybe<Deleted>;
+  DeleteActivity: Maybe<Deleted>;
   /** Delete an activity reply of the authenticated users */
-  DeleteActivityReply?: Maybe<Deleted>;
+  DeleteActivityReply: Maybe<Deleted>;
   /** Delete a custom list and remove the list entries from it */
-  DeleteCustomList?: Maybe<Deleted>;
+  DeleteCustomList: Maybe<Deleted>;
   /** Delete a media list entry */
-  DeleteMediaListEntry?: Maybe<Deleted>;
+  DeleteMediaListEntry: Maybe<Deleted>;
   /** Delete a review */
-  DeleteReview?: Maybe<Deleted>;
+  DeleteReview: Maybe<Deleted>;
   /** Delete a thread */
-  DeleteThread?: Maybe<Deleted>;
+  DeleteThread: Maybe<Deleted>;
   /** Delete a thread comment */
-  DeleteThreadComment?: Maybe<Deleted>;
+  DeleteThreadComment: Maybe<Deleted>;
   /** Rate a review */
-  RateReview?: Maybe<Review>;
+  RateReview: Maybe<Review>;
   /** Create or update an activity reply */
-  SaveActivityReply?: Maybe<ActivityReply>;
+  SaveActivityReply: Maybe<ActivityReply>;
   /** Update list activity (Mod Only) */
-  SaveListActivity?: Maybe<ListActivity>;
+  SaveListActivity: Maybe<ListActivity>;
   /** Create or update a media list entry */
-  SaveMediaListEntry?: Maybe<MediaList>;
+  SaveMediaListEntry: Maybe<MediaList>;
   /** Create or update message activity for the currently authenticated user */
-  SaveMessageActivity?: Maybe<MessageActivity>;
+  SaveMessageActivity: Maybe<MessageActivity>;
   /** Recommendation a media */
-  SaveRecommendation?: Maybe<Recommendation>;
+  SaveRecommendation: Maybe<Recommendation>;
   /** Create or update a review */
-  SaveReview?: Maybe<Review>;
+  SaveReview: Maybe<Review>;
   /** Create or update text activity for the currently authenticated user */
-  SaveTextActivity?: Maybe<TextActivity>;
+  SaveTextActivity: Maybe<TextActivity>;
   /** Create or update a forum thread */
-  SaveThread?: Maybe<Thread>;
+  SaveThread: Maybe<Thread>;
   /** Create or update a thread comment */
-  SaveThreadComment?: Maybe<ThreadComment>;
+  SaveThreadComment: Maybe<ThreadComment>;
   /** Toggle activity to be pinned to the top of the user's activity feed */
-  ToggleActivityPin?: Maybe<ActivityUnion>;
+  ToggleActivityPin: Maybe<ActivityUnion>;
   /** Toggle the subscription of an activity item */
-  ToggleActivitySubscription?: Maybe<ActivityUnion>;
+  ToggleActivitySubscription: Maybe<ActivityUnion>;
   /** Favourite or unfavourite an anime, manga, character, staff member, or studio */
-  ToggleFavourite?: Maybe<Favourites>;
+  ToggleFavourite: Maybe<Favourites>;
   /** Toggle the un/following of a user */
-  ToggleFollow?: Maybe<User>;
+  ToggleFollow: Maybe<User>;
   /**
    * Add or remove a like from a likeable type.
    *                           Returns all the users who liked the same model
    */
-  ToggleLike?: Maybe<Array<Maybe<User>>>;
+  ToggleLike: Maybe<Array<Maybe<User>>>;
   /** Add or remove a like from a likeable type. */
-  ToggleLikeV2?: Maybe<LikeableUnion>;
+  ToggleLikeV2: Maybe<LikeableUnion>;
   /** Toggle the subscription of a forum thread */
-  ToggleThreadSubscription?: Maybe<Thread>;
-  UpdateAniChartHighlights?: Maybe<Scalars['Json']['output']>;
-  UpdateAniChartSettings?: Maybe<Scalars['Json']['output']>;
+  ToggleThreadSubscription: Maybe<Thread>;
+  UpdateAniChartHighlights: Maybe<Scalars['Json']['output']>;
+  UpdateAniChartSettings: Maybe<Scalars['Json']['output']>;
   /** Update the order favourites are displayed in */
-  UpdateFavouriteOrder?: Maybe<Favourites>;
+  UpdateFavouriteOrder: Maybe<Favourites>;
   /** Update multiple media list entries to the same values */
-  UpdateMediaListEntries?: Maybe<Array<Maybe<MediaList>>>;
-  UpdateUser?: Maybe<User>;
+  UpdateMediaListEntries: Maybe<Array<Maybe<MediaList>>>;
+  UpdateUser: Maybe<User>;
 };
 
 
@@ -2487,9 +2488,9 @@ export type MutationUpdateUserArgs = {
 export type NotificationOption = {
   __typename?: 'NotificationOption';
   /** Whether this type of notification is enabled */
-  enabled?: Maybe<Scalars['Boolean']['output']>;
+  enabled: Maybe<Scalars['Boolean']['output']>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
 };
 
 /** Notification option input */
@@ -2544,26 +2545,26 @@ export type NotificationUnion = ActivityLikeNotification | ActivityMentionNotifi
 /** Page of data */
 export type Page = {
   __typename?: 'Page';
-  activities?: Maybe<Array<Maybe<ActivityUnion>>>;
-  activityReplies?: Maybe<Array<Maybe<ActivityReply>>>;
-  airingSchedules?: Maybe<Array<Maybe<AiringSchedule>>>;
-  characters?: Maybe<Array<Maybe<Character>>>;
-  followers?: Maybe<Array<Maybe<User>>>;
-  following?: Maybe<Array<Maybe<User>>>;
-  likes?: Maybe<Array<Maybe<User>>>;
-  media?: Maybe<Array<Maybe<Media>>>;
-  mediaList?: Maybe<Array<Maybe<MediaList>>>;
-  mediaTrends?: Maybe<Array<Maybe<MediaTrend>>>;
-  notifications?: Maybe<Array<Maybe<NotificationUnion>>>;
+  activities: Maybe<Array<Maybe<ActivityUnion>>>;
+  activityReplies: Maybe<Array<Maybe<ActivityReply>>>;
+  airingSchedules: Maybe<Array<Maybe<AiringSchedule>>>;
+  characters: Maybe<Array<Maybe<Character>>>;
+  followers: Maybe<Array<Maybe<User>>>;
+  following: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
+  media: Maybe<Array<Maybe<Media>>>;
+  mediaList: Maybe<Array<Maybe<MediaList>>>;
+  mediaTrends: Maybe<Array<Maybe<MediaTrend>>>;
+  notifications: Maybe<Array<Maybe<NotificationUnion>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
-  recommendations?: Maybe<Array<Maybe<Recommendation>>>;
-  reviews?: Maybe<Array<Maybe<Review>>>;
-  staff?: Maybe<Array<Maybe<Staff>>>;
-  studios?: Maybe<Array<Maybe<Studio>>>;
-  threadComments?: Maybe<Array<Maybe<ThreadComment>>>;
-  threads?: Maybe<Array<Maybe<Thread>>>;
-  users?: Maybe<Array<Maybe<User>>>;
+  pageInfo: Maybe<PageInfo>;
+  recommendations: Maybe<Array<Maybe<Recommendation>>>;
+  reviews: Maybe<Array<Maybe<Review>>>;
+  staff: Maybe<Array<Maybe<Staff>>>;
+  studios: Maybe<Array<Maybe<Studio>>>;
+  threadComments: Maybe<Array<Maybe<ThreadComment>>>;
+  threads: Maybe<Array<Maybe<Thread>>>;
+  users: Maybe<Array<Maybe<User>>>;
 };
 
 
@@ -2887,78 +2888,78 @@ export type PageUsersArgs = {
 export type PageInfo = {
   __typename?: 'PageInfo';
   /** The current page */
-  currentPage?: Maybe<Scalars['Int']['output']>;
+  currentPage: Maybe<Scalars['Int']['output']>;
   /** If there is another page */
-  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
+  hasNextPage: Maybe<Scalars['Boolean']['output']>;
   /** The last page */
-  lastPage?: Maybe<Scalars['Int']['output']>;
+  lastPage: Maybe<Scalars['Int']['output']>;
   /** The count on a page */
-  perPage?: Maybe<Scalars['Int']['output']>;
+  perPage: Maybe<Scalars['Int']['output']>;
   /** The total number of items. Note: This value is not guaranteed to be accurate, do not rely on this for logic */
-  total?: Maybe<Scalars['Int']['output']>;
+  total: Maybe<Scalars['Int']['output']>;
 };
 
 /** Provides the parsed markdown as html */
 export type ParsedMarkdown = {
   __typename?: 'ParsedMarkdown';
   /** The parsed markdown as html */
-  html?: Maybe<Scalars['String']['output']>;
+  html: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   /** Activity query */
-  Activity?: Maybe<ActivityUnion>;
+  Activity: Maybe<ActivityUnion>;
   /** Activity reply query */
-  ActivityReply?: Maybe<ActivityReply>;
+  ActivityReply: Maybe<ActivityReply>;
   /** Airing schedule query */
-  AiringSchedule?: Maybe<AiringSchedule>;
-  AniChartUser?: Maybe<AniChartUser>;
+  AiringSchedule: Maybe<AiringSchedule>;
+  AniChartUser: Maybe<AniChartUser>;
   /** Character query */
-  Character?: Maybe<Character>;
+  Character: Maybe<Character>;
   /** ExternalLinkSource collection query */
-  ExternalLinkSourceCollection?: Maybe<Array<Maybe<MediaExternalLink>>>;
+  ExternalLinkSourceCollection: Maybe<Array<Maybe<MediaExternalLink>>>;
   /** Follow query */
-  Follower?: Maybe<User>;
+  Follower: Maybe<User>;
   /** Follow query */
-  Following?: Maybe<User>;
+  Following: Maybe<User>;
   /** Collection of all the possible media genres */
-  GenreCollection?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  GenreCollection: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Like query */
-  Like?: Maybe<User>;
+  Like: Maybe<User>;
   /** Provide AniList markdown to be converted to html (Requires auth) */
-  Markdown?: Maybe<ParsedMarkdown>;
+  Markdown: Maybe<ParsedMarkdown>;
   /** Media query */
-  Media?: Maybe<Media>;
+  Media: Maybe<Media>;
   /** Media list query */
-  MediaList?: Maybe<MediaList>;
+  MediaList: Maybe<MediaList>;
   /** Media list collection query, provides list pre-grouped by status & custom lists. User ID and Media Type arguments required. */
-  MediaListCollection?: Maybe<MediaListCollection>;
+  MediaListCollection: Maybe<MediaListCollection>;
   /** Collection of all the possible media tags */
-  MediaTagCollection?: Maybe<Array<Maybe<MediaTag>>>;
+  MediaTagCollection: Maybe<Array<Maybe<MediaTag>>>;
   /** Media Trend query */
-  MediaTrend?: Maybe<MediaTrend>;
+  MediaTrend: Maybe<MediaTrend>;
   /** Notification query */
-  Notification?: Maybe<NotificationUnion>;
-  Page?: Maybe<Page>;
+  Notification: Maybe<NotificationUnion>;
+  Page: Maybe<Page>;
   /** Recommendation query */
-  Recommendation?: Maybe<Recommendation>;
+  Recommendation: Maybe<Recommendation>;
   /** Review query */
-  Review?: Maybe<Review>;
+  Review: Maybe<Review>;
   /** Site statistics query */
-  SiteStatistics?: Maybe<SiteStatistics>;
+  SiteStatistics: Maybe<SiteStatistics>;
   /** Staff query */
-  Staff?: Maybe<Staff>;
+  Staff: Maybe<Staff>;
   /** Studio query */
-  Studio?: Maybe<Studio>;
+  Studio: Maybe<Studio>;
   /** Thread query */
-  Thread?: Maybe<Thread>;
+  Thread: Maybe<Thread>;
   /** Comment query */
-  ThreadComment?: Maybe<Array<Maybe<ThreadComment>>>;
+  ThreadComment: Maybe<Array<Maybe<ThreadComment>>>;
   /** User query */
-  User?: Maybe<User>;
+  User: Maybe<User>;
   /** Get the currently authenticated user */
-  Viewer?: Maybe<User>;
+  Viewer: Maybe<User>;
 };
 
 
@@ -3315,29 +3316,29 @@ export type Recommendation = {
   /** The id of the recommendation */
   id: Scalars['Int']['output'];
   /** The media the recommendation is from */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The recommended media */
-  mediaRecommendation?: Maybe<Media>;
+  mediaRecommendation: Maybe<Media>;
   /** Users rating of the recommendation */
-  rating?: Maybe<Scalars['Int']['output']>;
+  rating: Maybe<Scalars['Int']['output']>;
   /** The user that first created the recommendation */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The rating of the recommendation by currently authenticated user */
-  userRating?: Maybe<RecommendationRating>;
+  userRating: Maybe<RecommendationRating>;
 };
 
 export type RecommendationConnection = {
   __typename?: 'RecommendationConnection';
-  edges?: Maybe<Array<Maybe<RecommendationEdge>>>;
-  nodes?: Maybe<Array<Maybe<Recommendation>>>;
+  edges: Maybe<Array<Maybe<RecommendationEdge>>>;
+  nodes: Maybe<Array<Maybe<Recommendation>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Recommendation connection edge */
 export type RecommendationEdge = {
   __typename?: 'RecommendationEdge';
-  node?: Maybe<Recommendation>;
+  node: Maybe<Recommendation>;
 };
 
 /** Recommendation rating enums */
@@ -3359,65 +3360,65 @@ export enum RecommendationSort {
 export type RelatedMediaAdditionNotification = {
   __typename?: 'RelatedMediaAdditionNotification';
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The associated media of the airing schedule */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The id of the new media */
   mediaId: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
 };
 
 export type Report = {
   __typename?: 'Report';
-  cleared?: Maybe<Scalars['Boolean']['output']>;
+  cleared: Maybe<Scalars['Boolean']['output']>;
   /** When the entry data was created */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
-  reason?: Maybe<Scalars['String']['output']>;
-  reported?: Maybe<User>;
-  reporter?: Maybe<User>;
+  reason: Maybe<Scalars['String']['output']>;
+  reported: Maybe<User>;
+  reporter: Maybe<User>;
 };
 
 /** A Review that features in an anime or manga */
 export type Review = {
   __typename?: 'Review';
   /** The main review body text */
-  body?: Maybe<Scalars['String']['output']>;
+  body: Maybe<Scalars['String']['output']>;
   /** The time of the thread creation */
   createdAt: Scalars['Int']['output'];
   /** The id of the review */
   id: Scalars['Int']['output'];
   /** The media the review is of */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The id of the review's media */
   mediaId: Scalars['Int']['output'];
   /** For which type of media the review is for */
-  mediaType?: Maybe<MediaType>;
+  mediaType: Maybe<MediaType>;
   /** If the review is not yet publicly published and is only viewable by creator */
-  private?: Maybe<Scalars['Boolean']['output']>;
+  private: Maybe<Scalars['Boolean']['output']>;
   /** The total user rating of the review */
-  rating?: Maybe<Scalars['Int']['output']>;
+  rating: Maybe<Scalars['Int']['output']>;
   /** The amount of user ratings of the review */
-  ratingAmount?: Maybe<Scalars['Int']['output']>;
+  ratingAmount: Maybe<Scalars['Int']['output']>;
   /** The review score of the media */
-  score?: Maybe<Scalars['Int']['output']>;
+  score: Maybe<Scalars['Int']['output']>;
   /** The url for the review page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** A short summary of the review */
-  summary?: Maybe<Scalars['String']['output']>;
+  summary: Maybe<Scalars['String']['output']>;
   /** The time of the thread last update */
   updatedAt: Scalars['Int']['output'];
   /** The creator of the review */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the review's creator */
   userId: Scalars['Int']['output'];
   /** The rating of the review by currently authenticated user */
-  userRating?: Maybe<ReviewRating>;
+  userRating: Maybe<ReviewRating>;
 };
 
 
@@ -3428,16 +3429,16 @@ export type ReviewBodyArgs = {
 
 export type ReviewConnection = {
   __typename?: 'ReviewConnection';
-  edges?: Maybe<Array<Maybe<ReviewEdge>>>;
-  nodes?: Maybe<Array<Maybe<Review>>>;
+  edges: Maybe<Array<Maybe<ReviewEdge>>>;
+  nodes: Maybe<Array<Maybe<Review>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Review connection edge */
 export type ReviewEdge = {
   __typename?: 'ReviewEdge';
-  node?: Maybe<Review>;
+  node: Maybe<Review>;
 };
 
 /** Review rating enums */
@@ -3465,25 +3466,25 @@ export enum ReviewSort {
 export type RevisionHistory = {
   __typename?: 'RevisionHistory';
   /** The action taken on the objects */
-  action?: Maybe<RevisionHistoryAction>;
+  action: Maybe<RevisionHistoryAction>;
   /** A JSON object of the fields that changed */
-  changes?: Maybe<Scalars['Json']['output']>;
+  changes: Maybe<Scalars['Json']['output']>;
   /** The character the mod feed entry references */
-  character?: Maybe<Character>;
+  character: Maybe<Character>;
   /** When the mod feed entry was created */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The external link source the mod feed entry references */
-  externalLink?: Maybe<MediaExternalLink>;
+  externalLink: Maybe<MediaExternalLink>;
   /** The id of the media */
   id: Scalars['Int']['output'];
   /** The media the mod feed entry references */
-  media?: Maybe<Media>;
+  media: Maybe<Media>;
   /** The staff member the mod feed entry references */
-  staff?: Maybe<Staff>;
+  staff: Maybe<Staff>;
   /** The studio the mod feed entry references */
-  studio?: Maybe<Studio>;
+  studio: Maybe<Studio>;
   /** The user who made the edit to the object */
-  user?: Maybe<User>;
+  user: Maybe<User>;
 };
 
 /** Revision history actions */
@@ -3496,8 +3497,8 @@ export enum RevisionHistoryAction {
 export type ScoreDistribution = {
   __typename?: 'ScoreDistribution';
   /** The amount of list entries with this score */
-  amount?: Maybe<Scalars['Int']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
+  amount: Maybe<Scalars['Int']['output']>;
+  score: Maybe<Scalars['Int']['output']>;
 };
 
 /** Media list scoring type */
@@ -3516,13 +3517,13 @@ export enum ScoreFormat {
 
 export type SiteStatistics = {
   __typename?: 'SiteStatistics';
-  anime?: Maybe<SiteTrendConnection>;
-  characters?: Maybe<SiteTrendConnection>;
-  manga?: Maybe<SiteTrendConnection>;
-  reviews?: Maybe<SiteTrendConnection>;
-  staff?: Maybe<SiteTrendConnection>;
-  studios?: Maybe<SiteTrendConnection>;
-  users?: Maybe<SiteTrendConnection>;
+  anime: Maybe<SiteTrendConnection>;
+  characters: Maybe<SiteTrendConnection>;
+  manga: Maybe<SiteTrendConnection>;
+  reviews: Maybe<SiteTrendConnection>;
+  staff: Maybe<SiteTrendConnection>;
+  studios: Maybe<SiteTrendConnection>;
+  users: Maybe<SiteTrendConnection>;
 };
 
 
@@ -3586,16 +3587,16 @@ export type SiteTrend = {
 
 export type SiteTrendConnection = {
   __typename?: 'SiteTrendConnection';
-  edges?: Maybe<Array<Maybe<SiteTrendEdge>>>;
-  nodes?: Maybe<Array<Maybe<SiteTrend>>>;
+  edges: Maybe<Array<Maybe<SiteTrendEdge>>>;
+  nodes: Maybe<Array<Maybe<SiteTrend>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Site trend connection edge */
 export type SiteTrendEdge = {
   __typename?: 'SiteTrendEdge';
-  node?: Maybe<SiteTrend>;
+  node: Maybe<SiteTrend>;
 };
 
 /** Site trend sort enums */
@@ -3612,27 +3613,27 @@ export enum SiteTrendSort {
 export type Staff = {
   __typename?: 'Staff';
   /** The person's age in years */
-  age?: Maybe<Scalars['Int']['output']>;
+  age: Maybe<Scalars['Int']['output']>;
   /** The persons blood type */
-  bloodType?: Maybe<Scalars['String']['output']>;
+  bloodType: Maybe<Scalars['String']['output']>;
   /** Media the actor voiced characters in. (Same data as characters with media as node instead of characters) */
-  characterMedia?: Maybe<MediaConnection>;
+  characterMedia: Maybe<MediaConnection>;
   /** Characters voiced by the actor */
-  characters?: Maybe<CharacterConnection>;
-  dateOfBirth?: Maybe<FuzzyDate>;
-  dateOfDeath?: Maybe<FuzzyDate>;
+  characters: Maybe<CharacterConnection>;
+  dateOfBirth: Maybe<FuzzyDate>;
+  dateOfDeath: Maybe<FuzzyDate>;
   /** A general description of the staff member */
-  description?: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
   /** The amount of user's who have favourited the staff member */
-  favourites?: Maybe<Scalars['Int']['output']>;
+  favourites: Maybe<Scalars['Int']['output']>;
   /** The staff's gender. Usually Male, Female, or Non-binary but can be any string. */
-  gender?: Maybe<Scalars['String']['output']>;
+  gender: Maybe<Scalars['String']['output']>;
   /** The persons birthplace or hometown */
-  homeTown?: Maybe<Scalars['String']['output']>;
+  homeTown: Maybe<Scalars['String']['output']>;
   /** The id of the staff member */
   id: Scalars['Int']['output'];
   /** The staff images */
-  image?: Maybe<StaffImage>;
+  image: Maybe<StaffImage>;
   /** If the staff member is marked as favourite by the currently authenticated user */
   isFavourite: Scalars['Boolean']['output'];
   /** If the staff member is blocked from being added to favourites */
@@ -3641,31 +3642,31 @@ export type Staff = {
    * The primary language the staff member dub's in
    * @deprecated Replaced with languageV2
    */
-  language?: Maybe<StaffLanguage>;
+  language: Maybe<StaffLanguage>;
   /** The primary language of the staff member. Current values: Japanese, English, Korean, Italian, Spanish, Portuguese, French, German, Hebrew, Hungarian, Chinese, Arabic, Filipino, Catalan, Finnish, Turkish, Dutch, Swedish, Thai, Tagalog, Malaysian, Indonesian, Vietnamese, Nepali, Hindi, Urdu */
-  languageV2?: Maybe<Scalars['String']['output']>;
+  languageV2: Maybe<Scalars['String']['output']>;
   /** Notes for site moderators */
-  modNotes?: Maybe<Scalars['String']['output']>;
+  modNotes: Maybe<Scalars['String']['output']>;
   /** The names of the staff member */
-  name?: Maybe<StaffName>;
+  name: Maybe<StaffName>;
   /** The person's primary occupations */
-  primaryOccupations?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  primaryOccupations: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The url for the staff page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** Staff member that the submission is referencing */
-  staff?: Maybe<Staff>;
+  staff: Maybe<Staff>;
   /** Media where the staff member has a production role */
-  staffMedia?: Maybe<MediaConnection>;
+  staffMedia: Maybe<MediaConnection>;
   /** Inner details of submission status */
-  submissionNotes?: Maybe<Scalars['String']['output']>;
+  submissionNotes: Maybe<Scalars['String']['output']>;
   /** Status of the submission */
-  submissionStatus?: Maybe<Scalars['Int']['output']>;
+  submissionStatus: Maybe<Scalars['Int']['output']>;
   /** Submitter for the submission */
-  submitter?: Maybe<User>;
+  submitter: Maybe<User>;
   /** @deprecated No data available */
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  updatedAt: Maybe<Scalars['Int']['output']>;
   /** [startYear, endYear] (If the 2nd value is not present staff is still active) */
-  yearsActive?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
+  yearsActive: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
 };
 
 
@@ -3703,30 +3704,30 @@ export type StaffStaffMediaArgs = {
 
 export type StaffConnection = {
   __typename?: 'StaffConnection';
-  edges?: Maybe<Array<Maybe<StaffEdge>>>;
-  nodes?: Maybe<Array<Maybe<Staff>>>;
+  edges: Maybe<Array<Maybe<StaffEdge>>>;
+  nodes: Maybe<Array<Maybe<Staff>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Staff connection edge */
 export type StaffEdge = {
   __typename?: 'StaffEdge';
   /** The order the staff should be displayed from the users favourites */
-  favouriteOrder?: Maybe<Scalars['Int']['output']>;
+  favouriteOrder: Maybe<Scalars['Int']['output']>;
   /** The id of the connection */
-  id?: Maybe<Scalars['Int']['output']>;
-  node?: Maybe<Staff>;
+  id: Maybe<Scalars['Int']['output']>;
+  node: Maybe<Staff>;
   /** The role of the staff member in the production of the media */
-  role?: Maybe<Scalars['String']['output']>;
+  role: Maybe<Scalars['String']['output']>;
 };
 
 export type StaffImage = {
   __typename?: 'StaffImage';
   /** The person's image of media at its largest size */
-  large?: Maybe<Scalars['String']['output']>;
+  large: Maybe<Scalars['String']['output']>;
   /** The person's image of media at medium size */
-  medium?: Maybe<Scalars['String']['output']>;
+  medium: Maybe<Scalars['String']['output']>;
 };
 
 /** The primary language of the voice actor */
@@ -3757,19 +3758,19 @@ export enum StaffLanguage {
 export type StaffName = {
   __typename?: 'StaffName';
   /** Other names the staff member might be referred to as (pen names) */
-  alternative?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  alternative: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** The person's given name */
-  first?: Maybe<Scalars['String']['output']>;
+  first: Maybe<Scalars['String']['output']>;
   /** The person's first and last name */
-  full?: Maybe<Scalars['String']['output']>;
+  full: Maybe<Scalars['String']['output']>;
   /** The person's surname */
-  last?: Maybe<Scalars['String']['output']>;
+  last: Maybe<Scalars['String']['output']>;
   /** The person's middle name */
-  middle?: Maybe<Scalars['String']['output']>;
+  middle: Maybe<Scalars['String']['output']>;
   /** The person's full name in their native language */
-  native?: Maybe<Scalars['String']['output']>;
+  native: Maybe<Scalars['String']['output']>;
   /** The currently authenticated users preferred name language. Default romaji for non-authenticated */
-  userPreferred?: Maybe<Scalars['String']['output']>;
+  userPreferred: Maybe<Scalars['String']['output']>;
 };
 
 /** The names of the staff member */
@@ -3790,11 +3791,11 @@ export type StaffNameInput = {
 export type StaffRoleType = {
   __typename?: 'StaffRoleType';
   /** Used for grouping roles where multiple dubs exist for the same language. Either dubbing company name or language variant. */
-  dubGroup?: Maybe<Scalars['String']['output']>;
+  dubGroup: Maybe<Scalars['String']['output']>;
   /** Notes regarding the VA's role for the character */
-  roleNotes?: Maybe<Scalars['String']['output']>;
+  roleNotes: Maybe<Scalars['String']['output']>;
   /** The voice actors of the character */
-  voiceActor?: Maybe<Staff>;
+  voiceActor: Maybe<Staff>;
 };
 
 /** Staff sort enums */
@@ -3815,50 +3816,50 @@ export enum StaffSort {
 /** User's staff statistics */
 export type StaffStats = {
   __typename?: 'StaffStats';
-  amount?: Maybe<Scalars['Int']['output']>;
-  meanScore?: Maybe<Scalars['Int']['output']>;
-  staff?: Maybe<Staff>;
+  amount: Maybe<Scalars['Int']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
+  staff: Maybe<Staff>;
   /** The amount of time in minutes the staff member has been watched by the user */
-  timeWatched?: Maybe<Scalars['Int']['output']>;
+  timeWatched: Maybe<Scalars['Int']['output']>;
 };
 
 /** A submission for a staff that features in an anime or manga */
 export type StaffSubmission = {
   __typename?: 'StaffSubmission';
   /** Data Mod assigned to handle the submission */
-  assignee?: Maybe<User>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  assignee: Maybe<User>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the submission */
   id: Scalars['Int']['output'];
   /** Whether the submission is locked */
-  locked?: Maybe<Scalars['Boolean']['output']>;
+  locked: Maybe<Scalars['Boolean']['output']>;
   /** Inner details of submission status */
-  notes?: Maybe<Scalars['String']['output']>;
-  source?: Maybe<Scalars['String']['output']>;
+  notes: Maybe<Scalars['String']['output']>;
+  source: Maybe<Scalars['String']['output']>;
   /** Staff that the submission is referencing */
-  staff?: Maybe<Staff>;
+  staff: Maybe<Staff>;
   /** Status of the submission */
-  status?: Maybe<SubmissionStatus>;
+  status: Maybe<SubmissionStatus>;
   /** The staff submission changes */
-  submission?: Maybe<Staff>;
+  submission: Maybe<Staff>;
   /** Submitter for the submission */
-  submitter?: Maybe<User>;
+  submitter: Maybe<User>;
 };
 
 /** The distribution of the watching/reading status of media or a user's list */
 export type StatusDistribution = {
   __typename?: 'StatusDistribution';
   /** The amount of entries with this status */
-  amount?: Maybe<Scalars['Int']['output']>;
+  amount: Maybe<Scalars['Int']['output']>;
   /** The day the activity took place (Unix timestamp) */
-  status?: Maybe<MediaListStatus>;
+  status: Maybe<MediaListStatus>;
 };
 
 /** Animation or production company */
 export type Studio = {
   __typename?: 'Studio';
   /** The amount of user's who have favourited the studio */
-  favourites?: Maybe<Scalars['Int']['output']>;
+  favourites: Maybe<Scalars['Int']['output']>;
   /** The id of the studio */
   id: Scalars['Int']['output'];
   /** If the studio is an animation studio or a different kind of company */
@@ -3866,11 +3867,11 @@ export type Studio = {
   /** If the studio is marked as favourite by the currently authenticated user */
   isFavourite: Scalars['Boolean']['output'];
   /** The media the studio has worked on */
-  media?: Maybe<MediaConnection>;
+  media: Maybe<MediaConnection>;
   /** The name of the studio */
   name: Scalars['String']['output'];
   /** The url for the studio page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -3885,22 +3886,22 @@ export type StudioMediaArgs = {
 
 export type StudioConnection = {
   __typename?: 'StudioConnection';
-  edges?: Maybe<Array<Maybe<StudioEdge>>>;
-  nodes?: Maybe<Array<Maybe<Studio>>>;
+  edges: Maybe<Array<Maybe<StudioEdge>>>;
+  nodes: Maybe<Array<Maybe<Studio>>>;
   /** The pagination information */
-  pageInfo?: Maybe<PageInfo>;
+  pageInfo: Maybe<PageInfo>;
 };
 
 /** Studio connection edge */
 export type StudioEdge = {
   __typename?: 'StudioEdge';
   /** The order the character should be displayed from the users favourites */
-  favouriteOrder?: Maybe<Scalars['Int']['output']>;
+  favouriteOrder: Maybe<Scalars['Int']['output']>;
   /** The id of the connection */
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Maybe<Scalars['Int']['output']>;
   /** If the studio is the main animation studio of the anime */
   isMain: Scalars['Boolean']['output'];
-  node?: Maybe<Studio>;
+  node: Maybe<Studio>;
 };
 
 /** Studio sort enums */
@@ -3917,11 +3918,11 @@ export enum StudioSort {
 /** User's studio statistics */
 export type StudioStats = {
   __typename?: 'StudioStats';
-  amount?: Maybe<Scalars['Int']['output']>;
-  meanScore?: Maybe<Scalars['Int']['output']>;
-  studio?: Maybe<Studio>;
+  amount: Maybe<Scalars['Int']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
+  studio: Maybe<Studio>;
   /** The amount of time in minutes the studio's works have been watched by the user */
-  timeWatched?: Maybe<Scalars['Int']['output']>;
+  timeWatched: Maybe<Scalars['Int']['output']>;
 };
 
 /** Submission sort enums */
@@ -3941,11 +3942,11 @@ export enum SubmissionStatus {
 /** User's tag statistics */
 export type TagStats = {
   __typename?: 'TagStats';
-  amount?: Maybe<Scalars['Int']['output']>;
-  meanScore?: Maybe<Scalars['Int']['output']>;
-  tag?: Maybe<MediaTag>;
+  amount: Maybe<Scalars['Int']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
+  tag: Maybe<MediaTag>;
   /** The amount of time in minutes the tag has been watched by the user */
-  timeWatched?: Maybe<Scalars['Int']['output']>;
+  timeWatched: Maybe<Scalars['Int']['output']>;
 };
 
 /** User text activity */
@@ -3956,31 +3957,31 @@ export type TextActivity = {
   /** The id of the activity */
   id: Scalars['Int']['output'];
   /** If the currently authenticated user liked the activity */
-  isLiked?: Maybe<Scalars['Boolean']['output']>;
+  isLiked: Maybe<Scalars['Boolean']['output']>;
   /** If the activity is locked and can receive replies */
-  isLocked?: Maybe<Scalars['Boolean']['output']>;
+  isLocked: Maybe<Scalars['Boolean']['output']>;
   /** If the activity is pinned to the top of the users activity feed */
-  isPinned?: Maybe<Scalars['Boolean']['output']>;
+  isPinned: Maybe<Scalars['Boolean']['output']>;
   /** If the currently authenticated user is subscribed to the activity */
-  isSubscribed?: Maybe<Scalars['Boolean']['output']>;
+  isSubscribed: Maybe<Scalars['Boolean']['output']>;
   /** The amount of likes the activity has */
   likeCount: Scalars['Int']['output'];
   /** The users who liked the activity */
-  likes?: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
   /** The written replies to the activity */
-  replies?: Maybe<Array<Maybe<ActivityReply>>>;
+  replies: Maybe<Array<Maybe<ActivityReply>>>;
   /** The number of activity replies */
   replyCount: Scalars['Int']['output'];
   /** The url for the activity page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** The status text (Markdown) */
-  text?: Maybe<Scalars['String']['output']>;
+  text: Maybe<Scalars['String']['output']>;
   /** The type of activity */
-  type?: Maybe<ActivityType>;
+  type: Maybe<ActivityType>;
   /** The user who created the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The user id of the activity's creator */
-  userId?: Maybe<Scalars['Int']['output']>;
+  userId: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -3993,49 +3994,49 @@ export type TextActivityTextArgs = {
 export type Thread = {
   __typename?: 'Thread';
   /** The text body of the thread (Markdown) */
-  body?: Maybe<Scalars['String']['output']>;
+  body: Maybe<Scalars['String']['output']>;
   /** The categories of the thread */
-  categories?: Maybe<Array<Maybe<ThreadCategory>>>;
+  categories: Maybe<Array<Maybe<ThreadCategory>>>;
   /** The time of the thread creation */
   createdAt: Scalars['Int']['output'];
   /** The id of the thread */
   id: Scalars['Int']['output'];
   /** If the currently authenticated user liked the thread */
-  isLiked?: Maybe<Scalars['Boolean']['output']>;
+  isLiked: Maybe<Scalars['Boolean']['output']>;
   /** If the thread is locked and can receive comments */
-  isLocked?: Maybe<Scalars['Boolean']['output']>;
+  isLocked: Maybe<Scalars['Boolean']['output']>;
   /** If the thread is stickied and should be displayed at the top of the page */
-  isSticky?: Maybe<Scalars['Boolean']['output']>;
+  isSticky: Maybe<Scalars['Boolean']['output']>;
   /** If the currently authenticated user is subscribed to the thread */
-  isSubscribed?: Maybe<Scalars['Boolean']['output']>;
+  isSubscribed: Maybe<Scalars['Boolean']['output']>;
   /** The amount of likes the thread has */
   likeCount: Scalars['Int']['output'];
   /** The users who liked the thread */
-  likes?: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
   /** The media categories of the thread */
-  mediaCategories?: Maybe<Array<Maybe<Media>>>;
+  mediaCategories: Maybe<Array<Maybe<Media>>>;
   /** The time of the last reply */
-  repliedAt?: Maybe<Scalars['Int']['output']>;
+  repliedAt: Maybe<Scalars['Int']['output']>;
   /** The id of the most recent comment on the thread */
-  replyCommentId?: Maybe<Scalars['Int']['output']>;
+  replyCommentId: Maybe<Scalars['Int']['output']>;
   /** The number of comments on the thread */
-  replyCount?: Maybe<Scalars['Int']['output']>;
+  replyCount: Maybe<Scalars['Int']['output']>;
   /** The user to last reply to the thread */
-  replyUser?: Maybe<User>;
+  replyUser: Maybe<User>;
   /** The id of the user who most recently commented on the thread */
-  replyUserId?: Maybe<Scalars['Int']['output']>;
+  replyUserId: Maybe<Scalars['Int']['output']>;
   /** The url for the thread page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** The title of the thread */
-  title?: Maybe<Scalars['String']['output']>;
+  title: Maybe<Scalars['String']['output']>;
   /** The time of the thread last update */
   updatedAt: Scalars['Int']['output'];
   /** The owner of the thread */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the thread owner user */
   userId: Scalars['Int']['output'];
   /** The number of times users have viewed the thread */
-  viewCount?: Maybe<Scalars['Int']['output']>;
+  viewCount: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -4057,33 +4058,33 @@ export type ThreadCategory = {
 export type ThreadComment = {
   __typename?: 'ThreadComment';
   /** The comment's child reply comments */
-  childComments?: Maybe<Scalars['Json']['output']>;
+  childComments: Maybe<Scalars['Json']['output']>;
   /** The text content of the comment (Markdown) */
-  comment?: Maybe<Scalars['String']['output']>;
+  comment: Maybe<Scalars['String']['output']>;
   /** The time of the comments creation */
   createdAt: Scalars['Int']['output'];
   /** The id of the comment */
   id: Scalars['Int']['output'];
   /** If the currently authenticated user liked the comment */
-  isLiked?: Maybe<Scalars['Boolean']['output']>;
+  isLiked: Maybe<Scalars['Boolean']['output']>;
   /** If the comment tree is locked and may not receive replies or edits */
-  isLocked?: Maybe<Scalars['Boolean']['output']>;
+  isLocked: Maybe<Scalars['Boolean']['output']>;
   /** The amount of likes the comment has */
   likeCount: Scalars['Int']['output'];
   /** The users who liked the comment */
-  likes?: Maybe<Array<Maybe<User>>>;
+  likes: Maybe<Array<Maybe<User>>>;
   /** The url for the comment page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** The thread the comment belongs to */
-  thread?: Maybe<Thread>;
+  thread: Maybe<Thread>;
   /** The id of thread the comment belongs to */
-  threadId?: Maybe<Scalars['Int']['output']>;
+  threadId: Maybe<Scalars['Int']['output']>;
   /** The time of the comments last update */
   updatedAt: Scalars['Int']['output'];
   /** The user who created the comment */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The user id of the comment's owner */
-  userId?: Maybe<Scalars['Int']['output']>;
+  userId: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -4096,21 +4097,21 @@ export type ThreadCommentCommentArgs = {
 export type ThreadCommentLikeNotification = {
   __typename?: 'ThreadCommentLikeNotification';
   /** The thread comment that was liked */
-  comment?: Maybe<ThreadComment>;
+  comment: Maybe<ThreadComment>;
   /** The id of the activity which was liked */
   commentId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The thread that the relevant comment belongs to */
-  thread?: Maybe<Thread>;
+  thread: Maybe<Thread>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who liked the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who liked to the activity */
   userId: Scalars['Int']['output'];
 };
@@ -4119,21 +4120,21 @@ export type ThreadCommentLikeNotification = {
 export type ThreadCommentMentionNotification = {
   __typename?: 'ThreadCommentMentionNotification';
   /** The thread comment that included the @ mention */
-  comment?: Maybe<ThreadComment>;
+  comment: Maybe<ThreadComment>;
   /** The id of the comment where mentioned */
   commentId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The thread that the relevant comment belongs to */
-  thread?: Maybe<Thread>;
+  thread: Maybe<Thread>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who mentioned the authenticated user */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who mentioned the authenticated user */
   userId: Scalars['Int']['output'];
 };
@@ -4142,21 +4143,21 @@ export type ThreadCommentMentionNotification = {
 export type ThreadCommentReplyNotification = {
   __typename?: 'ThreadCommentReplyNotification';
   /** The reply thread comment */
-  comment?: Maybe<ThreadComment>;
+  comment: Maybe<ThreadComment>;
   /** The id of the reply comment */
   commentId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The thread that the relevant comment belongs to */
-  thread?: Maybe<Thread>;
+  thread: Maybe<Thread>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who replied to the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who create the comment reply */
   userId: Scalars['Int']['output'];
 };
@@ -4171,21 +4172,21 @@ export enum ThreadCommentSort {
 export type ThreadCommentSubscribedNotification = {
   __typename?: 'ThreadCommentSubscribedNotification';
   /** The reply thread comment */
-  comment?: Maybe<ThreadComment>;
+  comment: Maybe<ThreadComment>;
   /** The id of the new comment in the subscribed thread */
   commentId: Scalars['Int']['output'];
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The thread that the relevant comment belongs to */
-  thread?: Maybe<Thread>;
+  thread: Maybe<Thread>;
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who replied to the subscribed thread */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who commented on the thread */
   userId: Scalars['Int']['output'];
 };
@@ -4194,21 +4195,21 @@ export type ThreadCommentSubscribedNotification = {
 export type ThreadLikeNotification = {
   __typename?: 'ThreadLikeNotification';
   /** The liked thread comment */
-  comment?: Maybe<ThreadComment>;
+  comment: Maybe<ThreadComment>;
   /** The notification context text */
-  context?: Maybe<Scalars['String']['output']>;
+  context: Maybe<Scalars['String']['output']>;
   /** The time the notification was created at */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** The id of the Notification */
   id: Scalars['Int']['output'];
   /** The thread that the relevant comment belongs to */
-  thread?: Maybe<Thread>;
+  thread: Maybe<Thread>;
   /** The id of the thread which was liked */
   threadId: Scalars['Int']['output'];
   /** The type of notification */
-  type?: Maybe<NotificationType>;
+  type: Maybe<NotificationType>;
   /** The user who liked the activity */
-  user?: Maybe<User>;
+  user: Maybe<User>;
   /** The id of the user who liked to the activity */
   userId: Scalars['Int']['output'];
 };
@@ -4237,56 +4238,56 @@ export enum ThreadSort {
 export type User = {
   __typename?: 'User';
   /** The bio written by user (Markdown) */
-  about?: Maybe<Scalars['String']['output']>;
+  about: Maybe<Scalars['String']['output']>;
   /** The user's avatar images */
-  avatar?: Maybe<UserAvatar>;
+  avatar: Maybe<UserAvatar>;
   /** The user's banner images */
-  bannerImage?: Maybe<Scalars['String']['output']>;
-  bans?: Maybe<Scalars['Json']['output']>;
+  bannerImage: Maybe<Scalars['String']['output']>;
+  bans: Maybe<Scalars['Json']['output']>;
   /** When the user's account was created. (Does not exist for accounts created before 2020) */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** Custom donation badge text */
-  donatorBadge?: Maybe<Scalars['String']['output']>;
+  donatorBadge: Maybe<Scalars['String']['output']>;
   /** The donation tier of the user */
-  donatorTier?: Maybe<Scalars['Int']['output']>;
+  donatorTier: Maybe<Scalars['Int']['output']>;
   /** The users favourites */
-  favourites?: Maybe<Favourites>;
+  favourites: Maybe<Favourites>;
   /** The id of the user */
   id: Scalars['Int']['output'];
   /** If the user is blocked by the authenticated user */
-  isBlocked?: Maybe<Scalars['Boolean']['output']>;
+  isBlocked: Maybe<Scalars['Boolean']['output']>;
   /** If this user if following the authenticated user */
-  isFollower?: Maybe<Scalars['Boolean']['output']>;
+  isFollower: Maybe<Scalars['Boolean']['output']>;
   /** If the authenticated user if following this user */
-  isFollowing?: Maybe<Scalars['Boolean']['output']>;
+  isFollowing: Maybe<Scalars['Boolean']['output']>;
   /** The user's media list options */
-  mediaListOptions?: Maybe<MediaListOptions>;
+  mediaListOptions: Maybe<MediaListOptions>;
   /** The user's moderator roles if they are a site moderator */
-  moderatorRoles?: Maybe<Array<Maybe<ModRole>>>;
+  moderatorRoles: Maybe<Array<Maybe<ModRole>>>;
   /**
    * If the user is a moderator or data moderator
    * @deprecated Deprecated. Replaced with moderatorRoles field.
    */
-  moderatorStatus?: Maybe<Scalars['String']['output']>;
+  moderatorStatus: Maybe<Scalars['String']['output']>;
   /** The name of the user */
   name: Scalars['String']['output'];
   /** The user's general options */
-  options?: Maybe<UserOptions>;
+  options: Maybe<UserOptions>;
   /** The user's previously used names. */
-  previousNames?: Maybe<Array<Maybe<UserPreviousName>>>;
+  previousNames: Maybe<Array<Maybe<UserPreviousName>>>;
   /** The url for the user page on the AniList website */
-  siteUrl?: Maybe<Scalars['String']['output']>;
+  siteUrl: Maybe<Scalars['String']['output']>;
   /** The users anime & manga list statistics */
-  statistics?: Maybe<UserStatisticTypes>;
+  statistics: Maybe<UserStatisticTypes>;
   /**
    * The user's statistics
    * @deprecated Deprecated. Replaced with statistics field.
    */
-  stats?: Maybe<UserStats>;
+  stats: Maybe<UserStats>;
   /** The number of unread notifications the user has */
-  unreadNotificationCount?: Maybe<Scalars['Int']['output']>;
+  unreadNotificationCount: Maybe<Scalars['Int']['output']>;
   /** When the user's data was last updated */
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  updatedAt: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -4305,27 +4306,27 @@ export type UserFavouritesArgs = {
 export type UserActivityHistory = {
   __typename?: 'UserActivityHistory';
   /** The amount of activity on the day */
-  amount?: Maybe<Scalars['Int']['output']>;
+  amount: Maybe<Scalars['Int']['output']>;
   /** The day the activity took place (Unix timestamp) */
-  date?: Maybe<Scalars['Int']['output']>;
+  date: Maybe<Scalars['Int']['output']>;
   /** The level of activity represented on a 1-10 scale */
-  level?: Maybe<Scalars['Int']['output']>;
+  level: Maybe<Scalars['Int']['output']>;
 };
 
 /** A user's avatars */
 export type UserAvatar = {
   __typename?: 'UserAvatar';
   /** The avatar of user at its largest size */
-  large?: Maybe<Scalars['String']['output']>;
+  large: Maybe<Scalars['String']['output']>;
   /** The avatar of user at medium size */
-  medium?: Maybe<Scalars['String']['output']>;
+  medium: Maybe<Scalars['String']['output']>;
 };
 
 export type UserCountryStatistic = {
   __typename?: 'UserCountryStatistic';
   chaptersRead: Scalars['Int']['output'];
   count: Scalars['Int']['output'];
-  country?: Maybe<Scalars['CountryCode']['output']>;
+  country: Maybe<Scalars['CountryCode']['output']>;
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
@@ -4335,7 +4336,7 @@ export type UserFormatStatistic = {
   __typename?: 'UserFormatStatistic';
   chaptersRead: Scalars['Int']['output'];
   count: Scalars['Int']['output'];
-  format?: Maybe<MediaFormat>;
+  format: Maybe<MediaFormat>;
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
@@ -4345,7 +4346,7 @@ export type UserGenreStatistic = {
   __typename?: 'UserGenreStatistic';
   chaptersRead: Scalars['Int']['output'];
   count: Scalars['Int']['output'];
-  genre?: Maybe<Scalars['String']['output']>;
+  genre: Maybe<Scalars['String']['output']>;
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
@@ -4355,7 +4356,7 @@ export type UserLengthStatistic = {
   __typename?: 'UserLengthStatistic';
   chaptersRead: Scalars['Int']['output'];
   count: Scalars['Int']['output'];
-  length?: Maybe<Scalars['String']['output']>;
+  length: Maybe<Scalars['String']['output']>;
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
@@ -4364,48 +4365,48 @@ export type UserLengthStatistic = {
 /** User data for moderators */
 export type UserModData = {
   __typename?: 'UserModData';
-  alts?: Maybe<Array<Maybe<User>>>;
-  bans?: Maybe<Scalars['Json']['output']>;
-  counts?: Maybe<Scalars['Json']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  ip?: Maybe<Scalars['Json']['output']>;
-  privacy?: Maybe<Scalars['Int']['output']>;
+  alts: Maybe<Array<Maybe<User>>>;
+  bans: Maybe<Scalars['Json']['output']>;
+  counts: Maybe<Scalars['Json']['output']>;
+  email: Maybe<Scalars['String']['output']>;
+  ip: Maybe<Scalars['Json']['output']>;
+  privacy: Maybe<Scalars['Int']['output']>;
 };
 
 /** A user's general options */
 export type UserOptions = {
   __typename?: 'UserOptions';
   /** Minutes between activity for them to be merged together. 0 is Never, Above 2 weeks (20160 mins) is Always. */
-  activityMergeTime?: Maybe<Scalars['Int']['output']>;
+  activityMergeTime: Maybe<Scalars['Int']['output']>;
   /** Whether the user receives notifications when a show they are watching aires */
-  airingNotifications?: Maybe<Scalars['Boolean']['output']>;
+  airingNotifications: Maybe<Scalars['Boolean']['output']>;
   /** The list activity types the user has disabled from being created from list updates */
-  disabledListActivity?: Maybe<Array<Maybe<ListActivityOption>>>;
+  disabledListActivity: Maybe<Array<Maybe<ListActivityOption>>>;
   /** Whether the user has enabled viewing of 18+ content */
-  displayAdultContent?: Maybe<Scalars['Boolean']['output']>;
+  displayAdultContent: Maybe<Scalars['Boolean']['output']>;
   /** Notification options */
-  notificationOptions?: Maybe<Array<Maybe<NotificationOption>>>;
+  notificationOptions: Maybe<Array<Maybe<NotificationOption>>>;
   /** Profile highlight color (blue, purple, pink, orange, red, green, gray) */
-  profileColor?: Maybe<Scalars['String']['output']>;
+  profileColor: Maybe<Scalars['String']['output']>;
   /** Whether the user only allow messages from users they follow */
-  restrictMessagesToFollowing?: Maybe<Scalars['Boolean']['output']>;
+  restrictMessagesToFollowing: Maybe<Scalars['Boolean']['output']>;
   /** The language the user wants to see staff and character names in */
-  staffNameLanguage?: Maybe<UserStaffNameLanguage>;
+  staffNameLanguage: Maybe<UserStaffNameLanguage>;
   /** The user's timezone offset (Auth user only) */
-  timezone?: Maybe<Scalars['String']['output']>;
+  timezone: Maybe<Scalars['String']['output']>;
   /** The language the user wants to see media titles in */
-  titleLanguage?: Maybe<UserTitleLanguage>;
+  titleLanguage: Maybe<UserTitleLanguage>;
 };
 
 /** A user's previous name */
 export type UserPreviousName = {
   __typename?: 'UserPreviousName';
   /** When the user first changed from this name. */
-  createdAt?: Maybe<Scalars['Int']['output']>;
+  createdAt: Maybe<Scalars['Int']['output']>;
   /** A previous name of the user. */
-  name?: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
   /** When the user most recently changed from this name. */
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  updatedAt: Maybe<Scalars['Int']['output']>;
 };
 
 export type UserReleaseYearStatistic = {
@@ -4415,7 +4416,7 @@ export type UserReleaseYearStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  releaseYear?: Maybe<Scalars['Int']['output']>;
+  releaseYear: Maybe<Scalars['Int']['output']>;
 };
 
 export type UserScoreStatistic = {
@@ -4425,7 +4426,7 @@ export type UserScoreStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  score?: Maybe<Scalars['Int']['output']>;
+  score: Maybe<Scalars['Int']['output']>;
 };
 
 /** User sort enums */
@@ -4458,7 +4459,7 @@ export type UserStaffStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  staff?: Maybe<Staff>;
+  staff: Maybe<Staff>;
 };
 
 export type UserStartYearStatistic = {
@@ -4468,35 +4469,35 @@ export type UserStartYearStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  startYear?: Maybe<Scalars['Int']['output']>;
+  startYear: Maybe<Scalars['Int']['output']>;
 };
 
 export type UserStatisticTypes = {
   __typename?: 'UserStatisticTypes';
-  anime?: Maybe<UserStatistics>;
-  manga?: Maybe<UserStatistics>;
+  anime: Maybe<UserStatistics>;
+  manga: Maybe<UserStatistics>;
 };
 
 export type UserStatistics = {
   __typename?: 'UserStatistics';
   chaptersRead: Scalars['Int']['output'];
   count: Scalars['Int']['output'];
-  countries?: Maybe<Array<Maybe<UserCountryStatistic>>>;
+  countries: Maybe<Array<Maybe<UserCountryStatistic>>>;
   episodesWatched: Scalars['Int']['output'];
-  formats?: Maybe<Array<Maybe<UserFormatStatistic>>>;
-  genres?: Maybe<Array<Maybe<UserGenreStatistic>>>;
-  lengths?: Maybe<Array<Maybe<UserLengthStatistic>>>;
+  formats: Maybe<Array<Maybe<UserFormatStatistic>>>;
+  genres: Maybe<Array<Maybe<UserGenreStatistic>>>;
+  lengths: Maybe<Array<Maybe<UserLengthStatistic>>>;
   meanScore: Scalars['Float']['output'];
   minutesWatched: Scalars['Int']['output'];
-  releaseYears?: Maybe<Array<Maybe<UserReleaseYearStatistic>>>;
-  scores?: Maybe<Array<Maybe<UserScoreStatistic>>>;
-  staff?: Maybe<Array<Maybe<UserStaffStatistic>>>;
+  releaseYears: Maybe<Array<Maybe<UserReleaseYearStatistic>>>;
+  scores: Maybe<Array<Maybe<UserScoreStatistic>>>;
+  staff: Maybe<Array<Maybe<UserStaffStatistic>>>;
   standardDeviation: Scalars['Float']['output'];
-  startYears?: Maybe<Array<Maybe<UserStartYearStatistic>>>;
-  statuses?: Maybe<Array<Maybe<UserStatusStatistic>>>;
-  studios?: Maybe<Array<Maybe<UserStudioStatistic>>>;
-  tags?: Maybe<Array<Maybe<UserTagStatistic>>>;
-  voiceActors?: Maybe<Array<Maybe<UserVoiceActorStatistic>>>;
+  startYears: Maybe<Array<Maybe<UserStartYearStatistic>>>;
+  statuses: Maybe<Array<Maybe<UserStatusStatistic>>>;
+  studios: Maybe<Array<Maybe<UserStudioStatistic>>>;
+  tags: Maybe<Array<Maybe<UserTagStatistic>>>;
+  voiceActors: Maybe<Array<Maybe<UserVoiceActorStatistic>>>;
   volumesRead: Scalars['Int']['output'];
 };
 
@@ -4587,25 +4588,25 @@ export enum UserStatisticsSort {
 /** A user's statistics */
 export type UserStats = {
   __typename?: 'UserStats';
-  activityHistory?: Maybe<Array<Maybe<UserActivityHistory>>>;
-  animeListScores?: Maybe<ListScoreStats>;
-  animeScoreDistribution?: Maybe<Array<Maybe<ScoreDistribution>>>;
-  animeStatusDistribution?: Maybe<Array<Maybe<StatusDistribution>>>;
+  activityHistory: Maybe<Array<Maybe<UserActivityHistory>>>;
+  animeListScores: Maybe<ListScoreStats>;
+  animeScoreDistribution: Maybe<Array<Maybe<ScoreDistribution>>>;
+  animeStatusDistribution: Maybe<Array<Maybe<StatusDistribution>>>;
   /** The amount of manga chapters the user has read */
-  chaptersRead?: Maybe<Scalars['Int']['output']>;
-  favouredActors?: Maybe<Array<Maybe<StaffStats>>>;
-  favouredFormats?: Maybe<Array<Maybe<FormatStats>>>;
-  favouredGenres?: Maybe<Array<Maybe<GenreStats>>>;
-  favouredGenresOverview?: Maybe<Array<Maybe<GenreStats>>>;
-  favouredStaff?: Maybe<Array<Maybe<StaffStats>>>;
-  favouredStudios?: Maybe<Array<Maybe<StudioStats>>>;
-  favouredTags?: Maybe<Array<Maybe<TagStats>>>;
-  favouredYears?: Maybe<Array<Maybe<YearStats>>>;
-  mangaListScores?: Maybe<ListScoreStats>;
-  mangaScoreDistribution?: Maybe<Array<Maybe<ScoreDistribution>>>;
-  mangaStatusDistribution?: Maybe<Array<Maybe<StatusDistribution>>>;
+  chaptersRead: Maybe<Scalars['Int']['output']>;
+  favouredActors: Maybe<Array<Maybe<StaffStats>>>;
+  favouredFormats: Maybe<Array<Maybe<FormatStats>>>;
+  favouredGenres: Maybe<Array<Maybe<GenreStats>>>;
+  favouredGenresOverview: Maybe<Array<Maybe<GenreStats>>>;
+  favouredStaff: Maybe<Array<Maybe<StaffStats>>>;
+  favouredStudios: Maybe<Array<Maybe<StudioStats>>>;
+  favouredTags: Maybe<Array<Maybe<TagStats>>>;
+  favouredYears: Maybe<Array<Maybe<YearStats>>>;
+  mangaListScores: Maybe<ListScoreStats>;
+  mangaScoreDistribution: Maybe<Array<Maybe<ScoreDistribution>>>;
+  mangaStatusDistribution: Maybe<Array<Maybe<StatusDistribution>>>;
   /** The amount of anime the user has watched in minutes */
-  watchedTime?: Maybe<Scalars['Int']['output']>;
+  watchedTime: Maybe<Scalars['Int']['output']>;
 };
 
 export type UserStatusStatistic = {
@@ -4615,7 +4616,7 @@ export type UserStatusStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  status?: Maybe<MediaListStatus>;
+  status: Maybe<MediaListStatus>;
 };
 
 export type UserStudioStatistic = {
@@ -4625,7 +4626,7 @@ export type UserStudioStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  studio?: Maybe<Studio>;
+  studio: Maybe<Studio>;
 };
 
 export type UserTagStatistic = {
@@ -4635,7 +4636,7 @@ export type UserTagStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  tag?: Maybe<MediaTag>;
+  tag: Maybe<MediaTag>;
 };
 
 /** The language the user wants to see media titles in */
@@ -4662,63 +4663,102 @@ export type UserVoiceActorStatistic = {
   meanScore: Scalars['Float']['output'];
   mediaIds: Array<Maybe<Scalars['Int']['output']>>;
   minutesWatched: Scalars['Int']['output'];
-  voiceActor?: Maybe<Staff>;
+  voiceActor: Maybe<Staff>;
 };
 
 /** User's year statistics */
 export type YearStats = {
   __typename?: 'YearStats';
-  amount?: Maybe<Scalars['Int']['output']>;
-  meanScore?: Maybe<Scalars['Int']['output']>;
-  year?: Maybe<Scalars['Int']['output']>;
+  amount: Maybe<Scalars['Int']['output']>;
+  meanScore: Maybe<Scalars['Int']['output']>;
+  year: Maybe<Scalars['Int']['output']>;
 };
 
-export type Cache_Updates_Mutation_ToggleFavouriteFragment = { __typename?: 'Media', id: number, isFavourite: boolean } & { ' $fragmentName'?: 'Cache_Updates_Mutation_ToggleFavouriteFragment' };
+export type SaveMutationVariables = Exact<{
+  mediaId?: InputMaybe<Scalars['Int']['input']>;
+  advancedScores?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>> | InputMaybe<Scalars['Float']['input']>>;
+  completedAt?: InputMaybe<FuzzyDateInput>;
+  startedAt?: InputMaybe<FuzzyDateInput>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  progress?: InputMaybe<Scalars['Int']['input']>;
+  repeat?: InputMaybe<Scalars['Int']['input']>;
+  score?: InputMaybe<Scalars['Float']['input']>;
+  status?: InputMaybe<MediaListStatus>;
+  customLists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+}>;
+
+
+export type SaveMutation = { __typename?: 'Mutation', SaveMediaListEntry: { __typename?: 'MediaList', id: number } | null };
+
+export type EditPageViewerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EditPageViewerQuery = { __typename?: 'Query', Viewer: { __typename?: 'User', id: number, mediaListOptions: { __typename?: 'MediaListOptions', scoreFormat: ScoreFormat | null, animeList: { __typename?: 'MediaListTypeOptions', advancedScoringEnabled: boolean | null, advancedScoring: Array<string | null> | null, customLists: Array<string | null> | null } | null } | null } | null };
+
+export type EditPageMediaQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+  format?: InputMaybe<ScoreFormat>;
+}>;
+
+
+export type EditPageMediaQuery = { __typename?: 'Query', Media: { __typename?: 'Media', id: number, episodes: number | null, mediaListEntry: { __typename?: 'MediaList', status: MediaListStatus | null, id: number, advancedScores: JSONValue | null, customLists: JSONValue | null, notes: string | null, score: number | null, repeat: number | null, progress: number | null, startedAt: { __typename?: 'FuzzyDate', day: number | null, month: number | null, year: number | null } | null, completedAt: { __typename?: 'FuzzyDate', day: number | null, month: number | null, year: number | null } | null } | null } | null };
 
 export type EntryPageQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type EntryPageQuery = { __typename?: 'Query', MediaList?: { __typename?: 'MediaList', id: number, media?: { __typename?: 'Media', id: number, bannerImage?: string | null, description?: string | null, coverImage?: { __typename?: 'MediaCoverImage', extraLarge?: string | null, color?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null } | null };
+export type EntryPageQuery = { __typename?: 'Query', Media: { __typename?: 'Media', id: number, bannerImage: string | null, description: string | null, coverImage: { __typename?: 'MediaCoverImage', extraLarge: string | null, medium: string | null, color: string | null } | null, title: { __typename?: 'MediaTitle', userPreferred: string | null } | null } | null };
 
 export type TypelistQueryQueryVariables = Exact<{
   userName: Scalars['String']['input'];
   type: MediaType;
-  chunk?: InputMaybe<Scalars['Int']['input']>;
-  perChunk?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type TypelistQueryQuery = { __typename?: 'Query', MediaListCollection?: { __typename?: 'MediaListCollection', lists?: Array<(
-      { __typename?: 'MediaListGroup', name?: string | null }
-      & { ' $fragmentRefs'?: { 'List_MediaListGroupFragment': List_MediaListGroupFragment } }
-    ) | null> | null } | null };
-
-export type List_MediaListGroupFragment = { __typename?: 'MediaListGroup', name?: string | null, entries?: Array<(
-    { __typename?: 'MediaList', id: number }
-    & { ' $fragmentRefs'?: { 'ListItem_EntryFragment': ListItem_EntryFragment } }
-  ) | null> | null } & { ' $fragmentName'?: 'List_MediaListGroupFragment' };
-
-export type ListItem_EntryFragment = { __typename?: 'MediaList', id: number, progress?: number | null, media?: { __typename?: 'Media', episodes?: number | null, duration?: number | null, id: number, nextAiringEpisode?: { __typename?: 'AiringSchedule', id: number, episode: number } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null, coverImage?: { __typename?: 'MediaCoverImage', extraLarge?: string | null, medium?: string | null } | null } | null } & { ' $fragmentName'?: 'ListItem_EntryFragment' };
+export type TypelistQueryQuery = { __typename?: 'Query', User: { __typename?: 'User', id: number, mediaListOptions: { __typename?: 'MediaListOptions', animeList: { __typename?: 'MediaListTypeOptions', sectionOrder: Array<string | null> | null } | null } | null } | null, MediaListCollection: { __typename?: 'MediaListCollection', lists: Array<{ __typename?: 'MediaListGroup', name: string | null, entries: Array<{ __typename?: 'MediaList', id: number, progress: number | null, score: number | null, media: { __typename?: 'Media', episodes: number | null, duration: number | null, status: MediaStatus | null, id: number, nextAiringEpisode: { __typename?: 'AiringSchedule', id: number, episode: number } | null, title: { __typename?: 'MediaTitle', userPreferred: string | null } | null, coverImage: { __typename?: 'MediaCoverImage', extraLarge: string | null, medium: string | null } | null } | null } | null> | null } | null> | null } | null };
 
 export type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeQueryQuery = { __typename?: 'Query', Media?: { __typename?: 'Media', id: number, isFavourite: boolean, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null };
+export type HomeQueryQuery = { __typename?: 'Query', Media: { __typename?: 'Media', id: number, isFavourite: boolean, title: { __typename?: 'MediaTitle', userPreferred: string | null } | null } | null };
 
 export type HomeMutationMutationVariables = Exact<{
   animeId?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type HomeMutationMutation = { __typename?: 'Mutation', ToggleFavourite?: { __typename: 'Favourites' } | null };
+export type HomeMutationMutation = { __typename?: 'Mutation', ToggleFavourite: { __typename: 'Favourites' } | null };
+
+export type Cache_Updates_Mutation_ToggleFavouriteFragment = { __typename?: 'Media', id: number, isFavourite: boolean } & { ' $fragmentName'?: 'Cache_Updates_Mutation_ToggleFavouriteFragment' };
+
+export type AdvancedScores_MediaListTypeOptionsFragment = { __typename?: 'MediaListTypeOptions', advancedScoring: Array<string | null> | null } & { ' $fragmentName'?: 'AdvancedScores_MediaListTypeOptionsFragment' };
+
+export type CustomLists_MediaListTypeOptionsFragment = { __typename?: 'MediaListTypeOptions', customLists: Array<string | null> | null } & { ' $fragmentName'?: 'CustomLists_MediaListTypeOptionsFragment' };
+
+export type ToWatch_EntryFragment = { __typename?: 'MediaList', progress: number | null, media: { __typename?: 'Media', episodes: number | null, duration: number | null, status: MediaStatus | null, id: number, nextAiringEpisode: { __typename?: 'AiringSchedule', id: number, episode: number } | null } | null } & { ' $fragmentName'?: 'ToWatch_EntryFragment' };
+
+export type ListItem_EntryFragment = (
+  { __typename?: 'MediaList', score: number | null, progress: number | null, media: { __typename?: 'Media', id: number, episodes: number | null, title: { __typename?: 'MediaTitle', userPreferred: string | null } | null, coverImage: { __typename?: 'MediaCoverImage', extraLarge: string | null, medium: string | null } | null } | null }
+  & { ' $fragmentRefs'?: { 'ToWatch_EntryFragment': ToWatch_EntryFragment } }
+) & { ' $fragmentName'?: 'ListItem_EntryFragment' };
+
+export type MediaList_GroupFragment = { __typename?: 'MediaListGroup', name: string | null, entries: Array<(
+    { __typename?: 'MediaList', id: number, media: { __typename?: 'Media', id: number, status: MediaStatus | null } | null }
+    & { ' $fragmentRefs'?: { 'ToWatch_EntryFragment': ToWatch_EntryFragment;'ListItem_EntryFragment': ListItem_EntryFragment } }
+  ) | null> | null } & { ' $fragmentName'?: 'MediaList_GroupFragment' };
 
 export const Cache_Updates_Mutation_ToggleFavouriteFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"cache_updates_Mutation_ToggleFavourite"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Media"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isFavourite"}}]}}]} as unknown as DocumentNode<Cache_Updates_Mutation_ToggleFavouriteFragment, unknown>;
-export const ListItem_EntryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ListItem_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}}]}}]}}]}}]} as unknown as DocumentNode<ListItem_EntryFragment, unknown>;
-export const List_MediaListGroupFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"List_mediaListGroup"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaListGroup"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ListItem_entry"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ListItem_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}}]}}]}}]}}]} as unknown as DocumentNode<List_MediaListGroupFragment, unknown>;
-export const EntryPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EntryPage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"MediaList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bannerImage"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode<EntryPageQuery, EntryPageQueryVariables>;
-export const TypelistQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TypelistQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MediaType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"chunk"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"perChunk"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"MediaListCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userName"}}},{"kind":"Argument","name":{"kind":"Name","value":"type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"type"}}},{"kind":"Argument","name":{"kind":"Name","value":"chunk"},"value":{"kind":"Variable","name":{"kind":"Name","value":"chunk"}}},{"kind":"Argument","name":{"kind":"Name","value":"perChunk"},"value":{"kind":"Variable","name":{"kind":"Name","value":"perChunk"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"List_mediaListGroup"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ListItem_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"List_mediaListGroup"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaListGroup"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ListItem_entry"}}]}}]}}]} as unknown as DocumentNode<TypelistQueryQuery, TypelistQueryQueryVariables>;
+export const AdvancedScores_MediaListTypeOptionsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdvancedScores_mediaListTypeOptions"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaListTypeOptions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"advancedScoring"}}]}}]} as unknown as DocumentNode<AdvancedScores_MediaListTypeOptionsFragment, unknown>;
+export const CustomLists_MediaListTypeOptionsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CustomLists_mediaListTypeOptions"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaListTypeOptions"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"customLists"}}]}}]} as unknown as DocumentNode<CustomLists_MediaListTypeOptionsFragment, unknown>;
+export const ToWatch_EntryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ToWatch_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ToWatch_EntryFragment, unknown>;
+export const ListItem_EntryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ListItem_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ToWatch_entry"}},{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}}]}},{"kind":"Field","name":{"kind":"Name","value":"episodes"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ToWatch_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ListItem_EntryFragment, unknown>;
+export const MediaList_GroupFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaList_group"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaListGroup"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ToWatch_entry"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ListItem_entry"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ToWatch_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ListItem_entry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaList"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ToWatch_entry"}},{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}}]}},{"kind":"Field","name":{"kind":"Name","value":"episodes"}}]}}]}}]} as unknown as DocumentNode<MediaList_GroupFragment, unknown>;
+export const SaveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Save"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"advancedScores"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"completedAt"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"FuzzyDateInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"startedAt"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"FuzzyDateInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notes"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"progress"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"repeat"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"score"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MediaListStatus"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"customLists"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"SaveMediaListEntry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"advancedScores"},"value":{"kind":"Variable","name":{"kind":"Name","value":"advancedScores"}}},{"kind":"Argument","name":{"kind":"Name","value":"completedAt"},"value":{"kind":"Variable","name":{"kind":"Name","value":"completedAt"}}},{"kind":"Argument","name":{"kind":"Name","value":"startedAt"},"value":{"kind":"Variable","name":{"kind":"Name","value":"startedAt"}}},{"kind":"Argument","name":{"kind":"Name","value":"notes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notes"}}},{"kind":"Argument","name":{"kind":"Name","value":"mediaId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaId"}}},{"kind":"Argument","name":{"kind":"Name","value":"progress"},"value":{"kind":"Variable","name":{"kind":"Name","value":"progress"}}},{"kind":"Argument","name":{"kind":"Name","value":"repeat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"repeat"}}},{"kind":"Argument","name":{"kind":"Name","value":"score"},"value":{"kind":"Variable","name":{"kind":"Name","value":"score"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}},{"kind":"Argument","name":{"kind":"Name","value":"customLists"},"value":{"kind":"Variable","name":{"kind":"Name","value":"customLists"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SaveMutation, SaveMutationVariables>;
+export const EditPageViewerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EditPageViewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Viewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mediaListOptions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"animeList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"advancedScoringEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"advancedScoring"}},{"kind":"Field","name":{"kind":"Name","value":"customLists"}}]}},{"kind":"Field","name":{"kind":"Name","value":"scoreFormat"}}]}}]}}]}}]} as unknown as DocumentNode<EditPageViewerQuery, EditPageViewerQueryVariables>;
+export const EditPageMediaDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EditPageMedia"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"format"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ScoreFormat"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Media"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"mediaListEntry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"advancedScores"}},{"kind":"Field","name":{"kind":"Name","value":"customLists"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"score"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"format"},"value":{"kind":"Variable","name":{"kind":"Name","value":"format"}}}]},{"kind":"Field","name":{"kind":"Name","value":"repeat"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"startedAt"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"day"}},{"kind":"Field","name":{"kind":"Name","value":"month"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"day"}},{"kind":"Field","name":{"kind":"Name","value":"month"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}}]}}]} as unknown as DocumentNode<EditPageMediaQuery, EditPageMediaQueryVariables>;
+export const EntryPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EntryPage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Media"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bannerImage"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<EntryPageQuery, EntryPageQueryVariables>;
+export const TypelistQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TypelistQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MediaType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"User"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mediaListOptions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"animeList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sectionOrder"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"MediaListCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userName"}}},{"kind":"Argument","name":{"kind":"Name","value":"type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"type"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"progress"}},{"kind":"Field","name":{"kind":"Name","value":"media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"episodes"}},{"kind":"Field","name":{"kind":"Name","value":"nextAiringEpisode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"episode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"coverImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"extraLarge"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"score"}}]}}]}}]}}]}}]} as unknown as DocumentNode<TypelistQueryQuery, TypelistQueryQueryVariables>;
 export const HomeQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HomeQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Media"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPreferred"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isFavourite"}}]}}]}}]} as unknown as DocumentNode<HomeQueryQuery, HomeQueryQueryVariables>;
 export const HomeMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"HomeMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"animeId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ToggleFavourite"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"animeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"animeId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}}]} as unknown as DocumentNode<HomeMutationMutation, HomeMutationMutationVariables>;
 export type WithTypename<T extends { __typename?: any }> = Partial<T> & { __typename: NonNullable<T['__typename']> };
@@ -6060,6 +6100,35 @@ export type GraphCacheOptimisticUpdaters = {
 };
 
 export type GraphCacheUpdaters = {
+  Query?: {
+    Activity?: GraphCacheUpdateResolver<{ Activity: Maybe<WithTypename<ActivityUnion>> }, QueryActivityArgs>,
+    ActivityReply?: GraphCacheUpdateResolver<{ ActivityReply: Maybe<WithTypename<ActivityReply>> }, QueryActivityReplyArgs>,
+    AiringSchedule?: GraphCacheUpdateResolver<{ AiringSchedule: Maybe<WithTypename<AiringSchedule>> }, QueryAiringScheduleArgs>,
+    AniChartUser?: GraphCacheUpdateResolver<{ AniChartUser: Maybe<WithTypename<AniChartUser>> }, Record<string, never>>,
+    Character?: GraphCacheUpdateResolver<{ Character: Maybe<WithTypename<Character>> }, QueryCharacterArgs>,
+    ExternalLinkSourceCollection?: GraphCacheUpdateResolver<{ ExternalLinkSourceCollection: Maybe<Array<WithTypename<MediaExternalLink>>> }, QueryExternalLinkSourceCollectionArgs>,
+    Follower?: GraphCacheUpdateResolver<{ Follower: Maybe<WithTypename<User>> }, QueryFollowerArgs>,
+    Following?: GraphCacheUpdateResolver<{ Following: Maybe<WithTypename<User>> }, QueryFollowingArgs>,
+    GenreCollection?: GraphCacheUpdateResolver<{ GenreCollection: Maybe<Array<Scalars['String']>> }, Record<string, never>>,
+    Like?: GraphCacheUpdateResolver<{ Like: Maybe<WithTypename<User>> }, QueryLikeArgs>,
+    Markdown?: GraphCacheUpdateResolver<{ Markdown: Maybe<WithTypename<ParsedMarkdown>> }, QueryMarkdownArgs>,
+    Media?: GraphCacheUpdateResolver<{ Media: Maybe<WithTypename<Media>> }, QueryMediaArgs>,
+    MediaList?: GraphCacheUpdateResolver<{ MediaList: Maybe<WithTypename<MediaList>> }, QueryMediaListArgs>,
+    MediaListCollection?: GraphCacheUpdateResolver<{ MediaListCollection: Maybe<WithTypename<MediaListCollection>> }, QueryMediaListCollectionArgs>,
+    MediaTagCollection?: GraphCacheUpdateResolver<{ MediaTagCollection: Maybe<Array<WithTypename<MediaTag>>> }, QueryMediaTagCollectionArgs>,
+    MediaTrend?: GraphCacheUpdateResolver<{ MediaTrend: Maybe<WithTypename<MediaTrend>> }, QueryMediaTrendArgs>,
+    Notification?: GraphCacheUpdateResolver<{ Notification: Maybe<WithTypename<NotificationUnion>> }, QueryNotificationArgs>,
+    Page?: GraphCacheUpdateResolver<{ Page: Maybe<WithTypename<Page>> }, QueryPageArgs>,
+    Recommendation?: GraphCacheUpdateResolver<{ Recommendation: Maybe<WithTypename<Recommendation>> }, QueryRecommendationArgs>,
+    Review?: GraphCacheUpdateResolver<{ Review: Maybe<WithTypename<Review>> }, QueryReviewArgs>,
+    SiteStatistics?: GraphCacheUpdateResolver<{ SiteStatistics: Maybe<WithTypename<SiteStatistics>> }, Record<string, never>>,
+    Staff?: GraphCacheUpdateResolver<{ Staff: Maybe<WithTypename<Staff>> }, QueryStaffArgs>,
+    Studio?: GraphCacheUpdateResolver<{ Studio: Maybe<WithTypename<Studio>> }, QueryStudioArgs>,
+    Thread?: GraphCacheUpdateResolver<{ Thread: Maybe<WithTypename<Thread>> }, QueryThreadArgs>,
+    ThreadComment?: GraphCacheUpdateResolver<{ ThreadComment: Maybe<Array<WithTypename<ThreadComment>>> }, QueryThreadCommentArgs>,
+    User?: GraphCacheUpdateResolver<{ User: Maybe<WithTypename<User>> }, QueryUserArgs>,
+    Viewer?: GraphCacheUpdateResolver<{ Viewer: Maybe<WithTypename<User>> }, Record<string, never>>
+  },
   Mutation?: {
     DeleteActivity?: GraphCacheUpdateResolver<{ DeleteActivity: Maybe<WithTypename<Deleted>> }, MutationDeleteActivityArgs>,
     DeleteActivityReply?: GraphCacheUpdateResolver<{ DeleteActivityReply: Maybe<WithTypename<Deleted>> }, MutationDeleteActivityReplyArgs>,
@@ -6092,6 +6161,1153 @@ export type GraphCacheUpdaters = {
     UpdateUser?: GraphCacheUpdateResolver<{ UpdateUser: Maybe<WithTypename<User>> }, MutationUpdateUserArgs>
   },
   Subscription?: {},
+  ActivityLikeNotification?: {
+    activity?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityLikeNotification>>, Record<string, never>>
+  },
+  ActivityMentionNotification?: {
+    activity?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMentionNotification>>, Record<string, never>>
+  },
+  ActivityMessageNotification?: {
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    message?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityMessageNotification>>, Record<string, never>>
+  },
+  ActivityReply?: {
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    isLiked?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    likeCount?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    text?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, ActivityReplyTextArgs>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReply>>, Record<string, never>>
+  },
+  ActivityReplyLikeNotification?: {
+    activity?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyLikeNotification>>, Record<string, never>>
+  },
+  ActivityReplyNotification?: {
+    activity?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplyNotification>>, Record<string, never>>
+  },
+  ActivityReplySubscribedNotification?: {
+    activity?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    activityId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ActivityReplySubscribedNotification>>, Record<string, never>>
+  },
+  AiringNotification?: {
+    animeId?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>,
+    contexts?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>,
+    episode?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringNotification>>, Record<string, never>>
+  },
+  AiringProgression?: {
+    episode?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringProgression>>, Record<string, never>>,
+    score?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringProgression>>, Record<string, never>>,
+    watching?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringProgression>>, Record<string, never>>
+  },
+  AiringSchedule?: {
+    airingAt?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringSchedule>>, Record<string, never>>,
+    episode?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringSchedule>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringSchedule>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringSchedule>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringSchedule>>, Record<string, never>>,
+    timeUntilAiring?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringSchedule>>, Record<string, never>>
+  },
+  AiringScheduleConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringScheduleConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringScheduleConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringScheduleConnection>>, Record<string, never>>
+  },
+  AiringScheduleEdge?: {
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringScheduleEdge>>, Record<string, never>>,
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<AiringScheduleEdge>>, Record<string, never>>
+  },
+  AniChartUser?: {
+    highlights?: GraphCacheUpdateResolver<Maybe<WithTypename<AniChartUser>>, Record<string, never>>,
+    settings?: GraphCacheUpdateResolver<Maybe<WithTypename<AniChartUser>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<AniChartUser>>, Record<string, never>>
+  },
+  Character?: {
+    age?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    bloodType?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    dateOfBirth?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    description?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, CharacterDescriptionArgs>,
+    favourites?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    gender?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    image?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    isFavourite?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    isFavouriteBlocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, CharacterMediaArgs>,
+    modNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Character>>, Record<string, never>>
+  },
+  CharacterConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterConnection>>, Record<string, never>>
+  },
+  CharacterEdge?: {
+    favouriteOrder?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, Record<string, never>>,
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, Record<string, never>>,
+    role?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, Record<string, never>>,
+    voiceActorRoles?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, CharacterEdgeVoiceActorRolesArgs>,
+    voiceActors?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterEdge>>, CharacterEdgeVoiceActorsArgs>
+  },
+  CharacterImage?: {
+    large?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterImage>>, Record<string, never>>,
+    medium?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterImage>>, Record<string, never>>
+  },
+  CharacterName?: {
+    alternative?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    alternativeSpoiler?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    first?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    full?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    last?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    middle?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    native?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>,
+    userPreferred?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterName>>, Record<string, never>>
+  },
+  CharacterSubmission?: {
+    assignee?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    character?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    locked?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    notes?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    source?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    submission?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>,
+    submitter?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmission>>, Record<string, never>>
+  },
+  CharacterSubmissionConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionConnection>>, Record<string, never>>
+  },
+  CharacterSubmissionEdge?: {
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionEdge>>, Record<string, never>>,
+    role?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionEdge>>, Record<string, never>>,
+    submittedVoiceActors?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionEdge>>, Record<string, never>>,
+    voiceActors?: GraphCacheUpdateResolver<Maybe<WithTypename<CharacterSubmissionEdge>>, Record<string, never>>
+  },
+  Deleted?: {
+    deleted?: GraphCacheUpdateResolver<Maybe<WithTypename<Deleted>>, Record<string, never>>
+  },
+  Favourites?: {
+    anime?: GraphCacheUpdateResolver<Maybe<WithTypename<Favourites>>, FavouritesAnimeArgs>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<Favourites>>, FavouritesCharactersArgs>,
+    manga?: GraphCacheUpdateResolver<Maybe<WithTypename<Favourites>>, FavouritesMangaArgs>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<Favourites>>, FavouritesStaffArgs>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<Favourites>>, FavouritesStudiosArgs>
+  },
+  FollowingNotification?: {
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<FollowingNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<FollowingNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<FollowingNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<FollowingNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<FollowingNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<FollowingNotification>>, Record<string, never>>
+  },
+  FormatStats?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<FormatStats>>, Record<string, never>>,
+    format?: GraphCacheUpdateResolver<Maybe<WithTypename<FormatStats>>, Record<string, never>>
+  },
+  FuzzyDate?: {
+    day?: GraphCacheUpdateResolver<Maybe<WithTypename<FuzzyDate>>, Record<string, never>>,
+    month?: GraphCacheUpdateResolver<Maybe<WithTypename<FuzzyDate>>, Record<string, never>>,
+    year?: GraphCacheUpdateResolver<Maybe<WithTypename<FuzzyDate>>, Record<string, never>>
+  },
+  GenreStats?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<GenreStats>>, Record<string, never>>,
+    genre?: GraphCacheUpdateResolver<Maybe<WithTypename<GenreStats>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<GenreStats>>, Record<string, never>>,
+    timeWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<GenreStats>>, Record<string, never>>
+  },
+  InternalPage?: {
+    activities?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageActivitiesArgs>,
+    activityReplies?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageActivityRepliesArgs>,
+    airingSchedules?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageAiringSchedulesArgs>,
+    characterSubmissions?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageCharacterSubmissionsArgs>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageCharactersArgs>,
+    followers?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageFollowersArgs>,
+    following?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageFollowingArgs>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageLikesArgs>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageMediaArgs>,
+    mediaList?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageMediaListArgs>,
+    mediaSubmissions?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageMediaSubmissionsArgs>,
+    mediaTrends?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageMediaTrendsArgs>,
+    modActions?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageModActionsArgs>,
+    notifications?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageNotificationsArgs>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, Record<string, never>>,
+    recommendations?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageRecommendationsArgs>,
+    reports?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageReportsArgs>,
+    reviews?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageReviewsArgs>,
+    revisionHistory?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageRevisionHistoryArgs>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageStaffArgs>,
+    staffSubmissions?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageStaffSubmissionsArgs>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageStudiosArgs>,
+    threadComments?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageThreadCommentsArgs>,
+    threads?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageThreadsArgs>,
+    userBlockSearch?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageUserBlockSearchArgs>,
+    users?: GraphCacheUpdateResolver<Maybe<WithTypename<InternalPage>>, InternalPageUsersArgs>
+  },
+  ListActivity?: {
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    isLiked?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    isLocked?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    isPinned?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    isSubscribed?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    likeCount?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    progress?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    replies?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    replyCount?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivity>>, Record<string, never>>
+  },
+  ListActivityOption?: {
+    disabled?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivityOption>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ListActivityOption>>, Record<string, never>>
+  },
+  ListScoreStats?: {
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<ListScoreStats>>, Record<string, never>>,
+    standardDeviation?: GraphCacheUpdateResolver<Maybe<WithTypename<ListScoreStats>>, Record<string, never>>
+  },
+  Media?: {
+    airingSchedule?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaAiringScheduleArgs>,
+    autoCreateForumThread?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    averageScore?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    bannerImage?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    chapters?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaCharactersArgs>,
+    countryOfOrigin?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    coverImage?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    description?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaDescriptionArgs>,
+    duration?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    endDate?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    episodes?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    externalLinks?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    favourites?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    format?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    genres?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    hashtag?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    idMal?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isAdult?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isFavourite?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isFavouriteBlocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isLicensed?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isLocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isRecommendationBlocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    isReviewBlocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    mediaListEntry?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    modNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    nextAiringEpisode?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    popularity?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    rankings?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    recommendations?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaRecommendationsArgs>,
+    relations?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    reviews?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaReviewsArgs>,
+    season?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    seasonInt?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    seasonYear?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    source?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaSourceArgs>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaStaffArgs>,
+    startDate?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    stats?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaStatusArgs>,
+    streamingEpisodes?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaStudiosArgs>,
+    synonyms?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    tags?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    title?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    trailer?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    trending?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    trends?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, MediaTrendsArgs>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>,
+    volumes?: GraphCacheUpdateResolver<Maybe<WithTypename<Media>>, Record<string, never>>
+  },
+  MediaCharacter?: {
+    character?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>,
+    characterName?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>,
+    dubGroup?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>,
+    role?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>,
+    roleNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>,
+    voiceActor?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCharacter>>, Record<string, never>>
+  },
+  MediaConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaConnection>>, Record<string, never>>
+  },
+  MediaCoverImage?: {
+    color?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCoverImage>>, Record<string, never>>,
+    extraLarge?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCoverImage>>, Record<string, never>>,
+    large?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCoverImage>>, Record<string, never>>,
+    medium?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaCoverImage>>, Record<string, never>>
+  },
+  MediaDataChangeNotification?: {
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>,
+    reason?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDataChangeNotification>>, Record<string, never>>
+  },
+  MediaDeletionNotification?: {
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDeletionNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDeletionNotification>>, Record<string, never>>,
+    deletedMediaTitle?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDeletionNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDeletionNotification>>, Record<string, never>>,
+    reason?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDeletionNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaDeletionNotification>>, Record<string, never>>
+  },
+  MediaEdge?: {
+    characterName?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    characterRole?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    dubGroup?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    favouriteOrder?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    isMainStudio?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    relationType?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, MediaEdgeRelationTypeArgs>,
+    roleNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    staffRole?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, Record<string, never>>,
+    voiceActorRoles?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, MediaEdgeVoiceActorRolesArgs>,
+    voiceActors?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaEdge>>, MediaEdgeVoiceActorsArgs>
+  },
+  MediaExternalLink?: {
+    color?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    icon?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    isDisabled?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    language?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    notes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    site?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    siteId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>,
+    url?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaExternalLink>>, Record<string, never>>
+  },
+  MediaList?: {
+    advancedScores?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    completedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    customLists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, MediaListCustomListsArgs>,
+    hiddenFromStatusLists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    notes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    priority?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    private?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    progress?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    progressVolumes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    repeat?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    score?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, MediaListScoreArgs>,
+    startedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaList>>, Record<string, never>>
+  },
+  MediaListCollection?: {
+    customLists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListCollection>>, MediaListCollectionCustomListsArgs>,
+    hasNextChunk?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListCollection>>, Record<string, never>>,
+    lists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListCollection>>, Record<string, never>>,
+    statusLists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListCollection>>, MediaListCollectionStatusListsArgs>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListCollection>>, Record<string, never>>
+  },
+  MediaListGroup?: {
+    entries?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListGroup>>, Record<string, never>>,
+    isCustomList?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListGroup>>, Record<string, never>>,
+    isSplitCompletedList?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListGroup>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListGroup>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListGroup>>, Record<string, never>>
+  },
+  MediaListOptions?: {
+    animeList?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>,
+    mangaList?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>,
+    rowOrder?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>,
+    scoreFormat?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>,
+    sharedTheme?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>,
+    sharedThemeEnabled?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>,
+    useLegacyLists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListOptions>>, Record<string, never>>
+  },
+  MediaListTypeOptions?: {
+    advancedScoring?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListTypeOptions>>, Record<string, never>>,
+    advancedScoringEnabled?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListTypeOptions>>, Record<string, never>>,
+    customLists?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListTypeOptions>>, Record<string, never>>,
+    sectionOrder?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListTypeOptions>>, Record<string, never>>,
+    splitCompletedSectionByFormat?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListTypeOptions>>, Record<string, never>>,
+    theme?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaListTypeOptions>>, Record<string, never>>
+  },
+  MediaMergeNotification?: {
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    deletedMediaTitles?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    reason?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaMergeNotification>>, Record<string, never>>
+  },
+  MediaRank?: {
+    allTime?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    format?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    rank?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    season?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>,
+    year?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaRank>>, Record<string, never>>
+  },
+  MediaStats?: {
+    airingProgression?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStats>>, Record<string, never>>,
+    scoreDistribution?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStats>>, Record<string, never>>,
+    statusDistribution?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStats>>, Record<string, never>>
+  },
+  MediaStreamingEpisode?: {
+    site?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStreamingEpisode>>, Record<string, never>>,
+    thumbnail?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStreamingEpisode>>, Record<string, never>>,
+    title?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStreamingEpisode>>, Record<string, never>>,
+    url?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaStreamingEpisode>>, Record<string, never>>
+  },
+  MediaSubmission?: {
+    assignee?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    changes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    externalLinks?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    locked?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    notes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    relations?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    source?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    submission?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    submitter?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>,
+    submitterStats?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmission>>, Record<string, never>>
+  },
+  MediaSubmissionComparison?: {
+    character?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionComparison>>, Record<string, never>>,
+    externalLink?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionComparison>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionComparison>>, Record<string, never>>,
+    studio?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionComparison>>, Record<string, never>>,
+    submission?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionComparison>>, Record<string, never>>
+  },
+  MediaSubmissionEdge?: {
+    character?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    characterName?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    characterRole?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    characterSubmission?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    dubGroup?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    externalLink?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    isMain?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    roleNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    staffRole?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    staffSubmission?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    studio?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    voiceActor?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>,
+    voiceActorSubmission?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaSubmissionEdge>>, Record<string, never>>
+  },
+  MediaTag?: {
+    category?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    description?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    isAdult?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    isGeneralSpoiler?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    isMediaSpoiler?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    rank?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTag>>, Record<string, never>>
+  },
+  MediaTitle?: {
+    english?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTitle>>, MediaTitleEnglishArgs>,
+    native?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTitle>>, MediaTitleNativeArgs>,
+    romaji?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTitle>>, MediaTitleRomajiArgs>,
+    userPreferred?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTitle>>, Record<string, never>>
+  },
+  MediaTrailer?: {
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrailer>>, Record<string, never>>,
+    site?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrailer>>, Record<string, never>>,
+    thumbnail?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrailer>>, Record<string, never>>
+  },
+  MediaTrend?: {
+    averageScore?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    date?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    episode?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    inProgress?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    popularity?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    releasing?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>,
+    trending?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrend>>, Record<string, never>>
+  },
+  MediaTrendConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrendConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrendConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrendConnection>>, Record<string, never>>
+  },
+  MediaTrendEdge?: {
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<MediaTrendEdge>>, Record<string, never>>
+  },
+  MessageActivity?: {
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    isLiked?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    isLocked?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    isPrivate?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    isSubscribed?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    likeCount?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    message?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, MessageActivityMessageArgs>,
+    messenger?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    messengerId?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    recipient?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    recipientId?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    replies?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    replyCount?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<MessageActivity>>, Record<string, never>>
+  },
+  ModAction?: {
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    data?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    mod?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    objectId?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    objectType?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ModAction>>, Record<string, never>>
+  },
+  NotificationOption?: {
+    enabled?: GraphCacheUpdateResolver<Maybe<WithTypename<NotificationOption>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<NotificationOption>>, Record<string, never>>
+  },
+  Page?: {
+    activities?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageActivitiesArgs>,
+    activityReplies?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageActivityRepliesArgs>,
+    airingSchedules?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageAiringSchedulesArgs>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageCharactersArgs>,
+    followers?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageFollowersArgs>,
+    following?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageFollowingArgs>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageLikesArgs>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageMediaArgs>,
+    mediaList?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageMediaListArgs>,
+    mediaTrends?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageMediaTrendsArgs>,
+    notifications?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageNotificationsArgs>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, Record<string, never>>,
+    recommendations?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageRecommendationsArgs>,
+    reviews?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageReviewsArgs>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageStaffArgs>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageStudiosArgs>,
+    threadComments?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageThreadCommentsArgs>,
+    threads?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageThreadsArgs>,
+    users?: GraphCacheUpdateResolver<Maybe<WithTypename<Page>>, PageUsersArgs>
+  },
+  PageInfo?: {
+    currentPage?: GraphCacheUpdateResolver<Maybe<WithTypename<PageInfo>>, Record<string, never>>,
+    hasNextPage?: GraphCacheUpdateResolver<Maybe<WithTypename<PageInfo>>, Record<string, never>>,
+    lastPage?: GraphCacheUpdateResolver<Maybe<WithTypename<PageInfo>>, Record<string, never>>,
+    perPage?: GraphCacheUpdateResolver<Maybe<WithTypename<PageInfo>>, Record<string, never>>,
+    total?: GraphCacheUpdateResolver<Maybe<WithTypename<PageInfo>>, Record<string, never>>
+  },
+  ParsedMarkdown?: {
+    html?: GraphCacheUpdateResolver<Maybe<WithTypename<ParsedMarkdown>>, Record<string, never>>
+  },
+  Recommendation?: {
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Recommendation>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<Recommendation>>, Record<string, never>>,
+    mediaRecommendation?: GraphCacheUpdateResolver<Maybe<WithTypename<Recommendation>>, Record<string, never>>,
+    rating?: GraphCacheUpdateResolver<Maybe<WithTypename<Recommendation>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<Recommendation>>, Record<string, never>>,
+    userRating?: GraphCacheUpdateResolver<Maybe<WithTypename<Recommendation>>, Record<string, never>>
+  },
+  RecommendationConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<RecommendationConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<RecommendationConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<RecommendationConnection>>, Record<string, never>>
+  },
+  RecommendationEdge?: {
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<RecommendationEdge>>, Record<string, never>>
+  },
+  RelatedMediaAdditionNotification?: {
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<RelatedMediaAdditionNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<RelatedMediaAdditionNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<RelatedMediaAdditionNotification>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<RelatedMediaAdditionNotification>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<RelatedMediaAdditionNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<RelatedMediaAdditionNotification>>, Record<string, never>>
+  },
+  Report?: {
+    cleared?: GraphCacheUpdateResolver<Maybe<WithTypename<Report>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Report>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Report>>, Record<string, never>>,
+    reason?: GraphCacheUpdateResolver<Maybe<WithTypename<Report>>, Record<string, never>>,
+    reported?: GraphCacheUpdateResolver<Maybe<WithTypename<Report>>, Record<string, never>>,
+    reporter?: GraphCacheUpdateResolver<Maybe<WithTypename<Report>>, Record<string, never>>
+  },
+  Review?: {
+    body?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, ReviewBodyArgs>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    mediaId?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    mediaType?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    private?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    rating?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    ratingAmount?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    score?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    summary?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>,
+    userRating?: GraphCacheUpdateResolver<Maybe<WithTypename<Review>>, Record<string, never>>
+  },
+  ReviewConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<ReviewConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<ReviewConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<ReviewConnection>>, Record<string, never>>
+  },
+  ReviewEdge?: {
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<ReviewEdge>>, Record<string, never>>
+  },
+  RevisionHistory?: {
+    action?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    changes?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    character?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    externalLink?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    studio?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<RevisionHistory>>, Record<string, never>>
+  },
+  ScoreDistribution?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<ScoreDistribution>>, Record<string, never>>,
+    score?: GraphCacheUpdateResolver<Maybe<WithTypename<ScoreDistribution>>, Record<string, never>>
+  },
+  SiteStatistics?: {
+    anime?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsAnimeArgs>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsCharactersArgs>,
+    manga?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsMangaArgs>,
+    reviews?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsReviewsArgs>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsStaffArgs>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsStudiosArgs>,
+    users?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteStatistics>>, SiteStatisticsUsersArgs>
+  },
+  SiteTrend?: {
+    change?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrend>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrend>>, Record<string, never>>,
+    date?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrend>>, Record<string, never>>
+  },
+  SiteTrendConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrendConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrendConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrendConnection>>, Record<string, never>>
+  },
+  SiteTrendEdge?: {
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<SiteTrendEdge>>, Record<string, never>>
+  },
+  Staff?: {
+    age?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    bloodType?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    characterMedia?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, StaffCharacterMediaArgs>,
+    characters?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, StaffCharactersArgs>,
+    dateOfBirth?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    dateOfDeath?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    description?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, StaffDescriptionArgs>,
+    favourites?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    gender?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    homeTown?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    image?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    isFavourite?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    isFavouriteBlocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    language?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    languageV2?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    modNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    primaryOccupations?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    staffMedia?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, StaffStaffMediaArgs>,
+    submissionNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    submissionStatus?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    submitter?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>,
+    yearsActive?: GraphCacheUpdateResolver<Maybe<WithTypename<Staff>>, Record<string, never>>
+  },
+  StaffConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffConnection>>, Record<string, never>>
+  },
+  StaffEdge?: {
+    favouriteOrder?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffEdge>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffEdge>>, Record<string, never>>,
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffEdge>>, Record<string, never>>,
+    role?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffEdge>>, Record<string, never>>
+  },
+  StaffImage?: {
+    large?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffImage>>, Record<string, never>>,
+    medium?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffImage>>, Record<string, never>>
+  },
+  StaffName?: {
+    alternative?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>,
+    first?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>,
+    full?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>,
+    last?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>,
+    middle?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>,
+    native?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>,
+    userPreferred?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffName>>, Record<string, never>>
+  },
+  StaffRoleType?: {
+    dubGroup?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffRoleType>>, Record<string, never>>,
+    roleNotes?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffRoleType>>, Record<string, never>>,
+    voiceActor?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffRoleType>>, Record<string, never>>
+  },
+  StaffStats?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffStats>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffStats>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffStats>>, Record<string, never>>,
+    timeWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffStats>>, Record<string, never>>
+  },
+  StaffSubmission?: {
+    assignee?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    locked?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    notes?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    source?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    submission?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>,
+    submitter?: GraphCacheUpdateResolver<Maybe<WithTypename<StaffSubmission>>, Record<string, never>>
+  },
+  StatusDistribution?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<StatusDistribution>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<StatusDistribution>>, Record<string, never>>
+  },
+  Studio?: {
+    favourites?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, Record<string, never>>,
+    isAnimationStudio?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, Record<string, never>>,
+    isFavourite?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, Record<string, never>>,
+    media?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, StudioMediaArgs>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<Studio>>, Record<string, never>>
+  },
+  StudioConnection?: {
+    edges?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioConnection>>, Record<string, never>>,
+    nodes?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioConnection>>, Record<string, never>>,
+    pageInfo?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioConnection>>, Record<string, never>>
+  },
+  StudioEdge?: {
+    favouriteOrder?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioEdge>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioEdge>>, Record<string, never>>,
+    isMain?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioEdge>>, Record<string, never>>,
+    node?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioEdge>>, Record<string, never>>
+  },
+  StudioStats?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioStats>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioStats>>, Record<string, never>>,
+    studio?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioStats>>, Record<string, never>>,
+    timeWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<StudioStats>>, Record<string, never>>
+  },
+  TagStats?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<TagStats>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<TagStats>>, Record<string, never>>,
+    tag?: GraphCacheUpdateResolver<Maybe<WithTypename<TagStats>>, Record<string, never>>,
+    timeWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<TagStats>>, Record<string, never>>
+  },
+  TextActivity?: {
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    isLiked?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    isLocked?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    isPinned?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    isSubscribed?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    likeCount?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    replies?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    replyCount?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    text?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, TextActivityTextArgs>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<TextActivity>>, Record<string, never>>
+  },
+  Thread?: {
+    body?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, ThreadBodyArgs>,
+    categories?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    isLiked?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    isLocked?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    isSticky?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    isSubscribed?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    likeCount?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    mediaCategories?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    repliedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    replyCommentId?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    replyCount?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    replyUser?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    replyUserId?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    title?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>,
+    viewCount?: GraphCacheUpdateResolver<Maybe<WithTypename<Thread>>, Record<string, never>>
+  },
+  ThreadCategory?: {
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCategory>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCategory>>, Record<string, never>>
+  },
+  ThreadComment?: {
+    childComments?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    comment?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, ThreadCommentCommentArgs>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    isLiked?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    isLocked?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    likeCount?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    likes?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    thread?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    threadId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadComment>>, Record<string, never>>
+  },
+  ThreadCommentLikeNotification?: {
+    comment?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    commentId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    thread?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentLikeNotification>>, Record<string, never>>
+  },
+  ThreadCommentMentionNotification?: {
+    comment?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    commentId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    thread?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentMentionNotification>>, Record<string, never>>
+  },
+  ThreadCommentReplyNotification?: {
+    comment?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    commentId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    thread?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentReplyNotification>>, Record<string, never>>
+  },
+  ThreadCommentSubscribedNotification?: {
+    comment?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    commentId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    thread?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadCommentSubscribedNotification>>, Record<string, never>>
+  },
+  ThreadLikeNotification?: {
+    comment?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    context?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    thread?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    threadId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    type?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    user?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>,
+    userId?: GraphCacheUpdateResolver<Maybe<WithTypename<ThreadLikeNotification>>, Record<string, never>>
+  },
+  User?: {
+    about?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, UserAboutArgs>,
+    avatar?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    bannerImage?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    bans?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    donatorBadge?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    donatorTier?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    favourites?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, UserFavouritesArgs>,
+    id?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    isBlocked?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    isFollower?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    isFollowing?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    mediaListOptions?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    moderatorRoles?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    moderatorStatus?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    options?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    previousNames?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    siteUrl?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    statistics?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    stats?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    unreadNotificationCount?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<User>>, Record<string, never>>
+  },
+  UserActivityHistory?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<UserActivityHistory>>, Record<string, never>>,
+    date?: GraphCacheUpdateResolver<Maybe<WithTypename<UserActivityHistory>>, Record<string, never>>,
+    level?: GraphCacheUpdateResolver<Maybe<WithTypename<UserActivityHistory>>, Record<string, never>>
+  },
+  UserAvatar?: {
+    large?: GraphCacheUpdateResolver<Maybe<WithTypename<UserAvatar>>, Record<string, never>>,
+    medium?: GraphCacheUpdateResolver<Maybe<WithTypename<UserAvatar>>, Record<string, never>>
+  },
+  UserCountryStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserCountryStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserCountryStatistic>>, Record<string, never>>,
+    country?: GraphCacheUpdateResolver<Maybe<WithTypename<UserCountryStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserCountryStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserCountryStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserCountryStatistic>>, Record<string, never>>
+  },
+  UserFormatStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserFormatStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserFormatStatistic>>, Record<string, never>>,
+    format?: GraphCacheUpdateResolver<Maybe<WithTypename<UserFormatStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserFormatStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserFormatStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserFormatStatistic>>, Record<string, never>>
+  },
+  UserGenreStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserGenreStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserGenreStatistic>>, Record<string, never>>,
+    genre?: GraphCacheUpdateResolver<Maybe<WithTypename<UserGenreStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserGenreStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserGenreStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserGenreStatistic>>, Record<string, never>>
+  },
+  UserLengthStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserLengthStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserLengthStatistic>>, Record<string, never>>,
+    length?: GraphCacheUpdateResolver<Maybe<WithTypename<UserLengthStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserLengthStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserLengthStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserLengthStatistic>>, Record<string, never>>
+  },
+  UserModData?: {
+    alts?: GraphCacheUpdateResolver<Maybe<WithTypename<UserModData>>, Record<string, never>>,
+    bans?: GraphCacheUpdateResolver<Maybe<WithTypename<UserModData>>, Record<string, never>>,
+    counts?: GraphCacheUpdateResolver<Maybe<WithTypename<UserModData>>, Record<string, never>>,
+    email?: GraphCacheUpdateResolver<Maybe<WithTypename<UserModData>>, Record<string, never>>,
+    ip?: GraphCacheUpdateResolver<Maybe<WithTypename<UserModData>>, Record<string, never>>,
+    privacy?: GraphCacheUpdateResolver<Maybe<WithTypename<UserModData>>, Record<string, never>>
+  },
+  UserOptions?: {
+    activityMergeTime?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    airingNotifications?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    disabledListActivity?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    displayAdultContent?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    notificationOptions?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    profileColor?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    restrictMessagesToFollowing?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    staffNameLanguage?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    timezone?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>,
+    titleLanguage?: GraphCacheUpdateResolver<Maybe<WithTypename<UserOptions>>, Record<string, never>>
+  },
+  UserPreviousName?: {
+    createdAt?: GraphCacheUpdateResolver<Maybe<WithTypename<UserPreviousName>>, Record<string, never>>,
+    name?: GraphCacheUpdateResolver<Maybe<WithTypename<UserPreviousName>>, Record<string, never>>,
+    updatedAt?: GraphCacheUpdateResolver<Maybe<WithTypename<UserPreviousName>>, Record<string, never>>
+  },
+  UserReleaseYearStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserReleaseYearStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserReleaseYearStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserReleaseYearStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserReleaseYearStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserReleaseYearStatistic>>, Record<string, never>>,
+    releaseYear?: GraphCacheUpdateResolver<Maybe<WithTypename<UserReleaseYearStatistic>>, Record<string, never>>
+  },
+  UserScoreStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserScoreStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserScoreStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserScoreStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserScoreStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserScoreStatistic>>, Record<string, never>>,
+    score?: GraphCacheUpdateResolver<Maybe<WithTypename<UserScoreStatistic>>, Record<string, never>>
+  },
+  UserStaffStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStaffStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStaffStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStaffStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStaffStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStaffStatistic>>, Record<string, never>>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStaffStatistic>>, Record<string, never>>
+  },
+  UserStartYearStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStartYearStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStartYearStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStartYearStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStartYearStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStartYearStatistic>>, Record<string, never>>,
+    startYear?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStartYearStatistic>>, Record<string, never>>
+  },
+  UserStatisticTypes?: {
+    anime?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatisticTypes>>, Record<string, never>>,
+    manga?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatisticTypes>>, Record<string, never>>
+  },
+  UserStatistics?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>,
+    countries?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsCountriesArgs>,
+    episodesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>,
+    formats?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsFormatsArgs>,
+    genres?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsGenresArgs>,
+    lengths?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsLengthsArgs>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>,
+    releaseYears?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsReleaseYearsArgs>,
+    scores?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsScoresArgs>,
+    staff?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsStaffArgs>,
+    standardDeviation?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>,
+    startYears?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsStartYearsArgs>,
+    statuses?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsStatusesArgs>,
+    studios?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsStudiosArgs>,
+    tags?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsTagsArgs>,
+    voiceActors?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, UserStatisticsVoiceActorsArgs>,
+    volumesRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatistics>>, Record<string, never>>
+  },
+  UserStats?: {
+    activityHistory?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    animeListScores?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    animeScoreDistribution?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    animeStatusDistribution?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredActors?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredFormats?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredGenres?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredGenresOverview?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredStaff?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredStudios?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredTags?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    favouredYears?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    mangaListScores?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    mangaScoreDistribution?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    mangaStatusDistribution?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>,
+    watchedTime?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStats>>, Record<string, never>>
+  },
+  UserStatusStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatusStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatusStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatusStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatusStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatusStatistic>>, Record<string, never>>,
+    status?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStatusStatistic>>, Record<string, never>>
+  },
+  UserStudioStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStudioStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStudioStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStudioStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStudioStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStudioStatistic>>, Record<string, never>>,
+    studio?: GraphCacheUpdateResolver<Maybe<WithTypename<UserStudioStatistic>>, Record<string, never>>
+  },
+  UserTagStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserTagStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserTagStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserTagStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserTagStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserTagStatistic>>, Record<string, never>>,
+    tag?: GraphCacheUpdateResolver<Maybe<WithTypename<UserTagStatistic>>, Record<string, never>>
+  },
+  UserVoiceActorStatistic?: {
+    chaptersRead?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>,
+    characterIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>,
+    count?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>,
+    mediaIds?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>,
+    minutesWatched?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>,
+    voiceActor?: GraphCacheUpdateResolver<Maybe<WithTypename<UserVoiceActorStatistic>>, Record<string, never>>
+  },
+  YearStats?: {
+    amount?: GraphCacheUpdateResolver<Maybe<WithTypename<YearStats>>, Record<string, never>>,
+    meanScore?: GraphCacheUpdateResolver<Maybe<WithTypename<YearStats>>, Record<string, never>>,
+    year?: GraphCacheUpdateResolver<Maybe<WithTypename<YearStats>>, Record<string, never>>
+  },
 };
 
 export type GraphCacheConfig = Parameters<typeof offlineExchange>[0] & {

@@ -13,50 +13,50 @@ const ASSETS = "assets-cache"
 
 // Open the caches and wrap them in `RemixCache` instances.
 const dataCache = Storage.open(DATA, {
-  ttl: 60 * 60 * 24 * 7 * 1000, // 7 days
+	ttl: 60 * 60 * 24 * 7 * 1000, // 7 days
 })
 const documentCache = Storage.open(PAGES)
 const assetCache = Storage.open(ASSETS)
 
 self.addEventListener("install", (event: ExtendableEvent) => {
-  logger.log("Service worker installed")
-  event.waitUntil(self.skipWaiting())
+	logger.log("Service worker installed")
+	event.waitUntil(self.skipWaiting())
 })
 
 self.addEventListener("activate", (event: ExtendableEvent) => {
-  logger.log("Service worker activated")
-  event.waitUntil(self.clients.claim())
+	logger.log("Service worker activated")
+	event.waitUntil(self.clients.claim())
 })
 
 const dataHandler = staleWhileRevalidate({
-  cache: dataCache,
+	cache: dataCache,
 })
 
 const assetsHandler = cacheFirst({
-  cache: assetCache,
-  cacheQueryOptions: {
-    ignoreSearch: true,
-    ignoreVary: true,
-  },
+	cache: assetCache,
+	cacheQueryOptions: {
+		ignoreSearch: true,
+		ignoreVary: true,
+	},
 })
 
 // The default fetch event handler will be invoke if the
 // route is not matched by any of the worker action/loader.
 export const defaultFetchHandler: DefaultFetchHandler = ({
-  context,
-  request,
+	context,
+	request,
 }) => {
-  const type = matchRequest(request)
+	const type = matchRequest(request)
 
-  if (type === "asset") {
-    return assetsHandler(context.event.request)
-  }
+	if (type === "asset") {
+		return assetsHandler(context.event.request)
+	}
 
-  if (type === "loader") {
-    return dataHandler(context.event.request)
-  }
+	if (type === "loader") {
+		return dataHandler(context.event.request)
+	}
 
-  return context.fetchFromServer()
+	return context.fetchFromServer()
 }
 
 // const handler = new RemixNavigationHandler({
