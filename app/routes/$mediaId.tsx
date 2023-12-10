@@ -122,7 +122,7 @@ const _loader = pipe(
   ),
 )
 
-export const loader = (async (arguments_) => {
+export const loader = (async (args) => {
   return pipe(
     _loader,
     Stream.run(Sink.head()),
