@@ -2,7 +2,7 @@ import { createTV } from "tailwind-variants"
 
 const tv = createTV({ twMerge: false })
 
-export const buttonIcon = tv({
+export const btnIcon = tv({
   slots: {
     root: "group/btn-i p-1",
     content:

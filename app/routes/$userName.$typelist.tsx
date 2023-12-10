@@ -33,13 +33,12 @@ import {
 } from "effect"
 
 import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
-import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
 import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import {} from "~/components/Dialog"
+import { } from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
 import { Select } from "~/components/Select"
 import { btnIcon } from "~/lib/button"
@@ -204,7 +203,7 @@ function behind(entry: any) {
       Number.POSITIVE_INFINITY) -
       (entry.progress ?? 0)) *
       ((entry.media?.duration ?? 25) - 3) || Number.POSITIVE_INFINITY
-  )
+  
 }
 
 function formatWatch(minutes: number) {
@@ -335,6 +334,8 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
   )
 }
 
+
+
 function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
   const entry = readFragment(ListItem_entry, props.entry)
   const watch = toWatch(entry)
@@ -391,10 +392,10 @@ function ButtonIcon({
   className,
   ...properties
 }: PropsWithChildren<
-  VariantProps<typeof buttonIcon> &
+  VariantProps<typeof btnIcon> &
     Omit<ComponentPropsWithoutRef<typeof BaseButton>, "children">
 >) {
-  const styles = buttonIcon()
+  const styles = btnIcon()
 
   return (
     <BaseButton

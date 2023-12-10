@@ -315,7 +315,7 @@ export default function Page() {
   const navigation = useNavigation()
 
   const actionData = useActionData<typeof action>()
-  const saved = (actionData?.intent === "submit" && !actiondata?.error) ?? false
+  const saved = (actionData?.intent === "submit" && !actionData?.error) ?? false
 
   const touched = useSignal(false)
 
