@@ -5,7 +5,7 @@ build
 public/build
 .env
 
-$houdini
-app/gql
 vite.config.ts.timestamp-*
+$houdini
+**/gql
 *.log

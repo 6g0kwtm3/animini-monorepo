@@ -57,18 +57,25 @@ import { Select } from "~/components/Select"
 function isTouched(form: HTMLFormElement) {
   return !(
     Object.values(form.elements)
-      .flatMap((el) => (el instanceof HTMLTextAreaElement ? [el] : []))
-      .every((el) => el.defaultValue === el.value) &&
+      .flatMap((element) =>
+        element instanceof HTMLTextAreaElement ? [element] : [],
+      )
+      .every((element) => element.defaultValue === element.value) &&
     Object.values(form.elements)
-      .flatMap((el) => (el instanceof HTMLInputElement ? [el] : []))
+      .flatMap((element) =>
+        element instanceof HTMLInputElement ? [element] : [],
+      )
       .every(
-        (el) =>
-          el.defaultValue === el.value && el.defaultChecked === el.checked,
+        (element) =>
+          element.defaultValue === element.value &&
+          element.defaultChecked === element.checked,
       ) &&
     Object.values(form.elements)
-      .flatMap((el) => (el instanceof HTMLSelectElement ? [el] : []))
-      .every((el) =>
-        Array.from(el.selectedOptions).every(
+      .flatMap((element) =>
+        element instanceof HTMLSelectElement ? [element] : [],
+      )
+      .every((element) =>
+        [...element.selectedOptions].every(
           (option) => option.defaultSelected === true,
         ),
       )
@@ -137,7 +144,7 @@ function avg(nums: number[]) {
   return pipe(
     sumAll(nums) / nums.length,
     Option.some,
-    Option.filter(isFinite),
+    Option.filter(Number.isFinite),
     Option.getOrElse(() => 0),
   )
 }
@@ -408,10 +415,10 @@ export default function Page() {
                   <Form
                     method="post"
                     className="grid gap-2"
-                    onChange={(e) => {
-                      touched.value = isTouched(e.currentTarget)
+                    onChange={(event) => {
+                      touched.value = isTouched(event.currentTarget)
                     }}
-                    onReset={(e) => {
+                    onReset={(event) => {
                       console.log("reset")
                       touched.value = false
                     }}

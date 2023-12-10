@@ -12,7 +12,7 @@ import {
 } from "react"
 import { BaseButton, type InvokeEvent } from "./Button"
 
-type OnBeforeToggle = (this: HTMLElement, e: ToggleEvent) => void
+type OnBeforeToggle = (this: HTMLElement, event: ToggleEvent) => void
 
 const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
   console.warn("Snackbar is outside of SnackbarQueue")
@@ -22,11 +22,11 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
   const queue = useSignal<HTMLElement[]>([])
 
   const add = useCallback<OnBeforeToggle>(
-    function (e) {
+    function (event) {
       const state = queue.value.at(0) === this ? "open" : "closed"
 
-      if (state === "closed" && e.newState === "open") {
-        e.preventDefault()
+      if (state === "closed" && event.newState === "open") {
+        event.preventDefault()
 
         queue.value = queue.value.includes(this)
           ? queue.value
@@ -34,7 +34,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
         return
       }
 
-      if (e.newState === "closed") {
+      if (event.newState === "closed") {
         queue.value = queue.value.includes(this)
           ? queue.value.filter((f) => f !== this)
           : queue.value
@@ -47,17 +47,17 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
   )
 
   useEffect(() => {
-    for (const el of queue.value) {
-      el.showPopover()
+    for (const element of queue.value) {
+      element.showPopover()
 
-      const timeout = Number(el.dataset["timeout"])
+      const timeout = Number(element.dataset["timeout"])
 
-      if (!isFinite(timeout)) {
+      if (!Number.isFinite(timeout)) {
         return
       }
 
       const timeoutId = setTimeout(() => {
-        el.hidePopover()
+        element.hidePopover()
       }, timeout)
 
       return () => {
@@ -99,9 +99,9 @@ export function Snackbar({
     if (!current) {
       return
     }
-    function onInvoke(this: HTMLElement, e: InvokeEvent) {
+    function onInvoke(this: HTMLElement, event: InvokeEvent) {
       if (
-        (e.action === "show" || e.action === "auto") &&
+        (event.action === "show" || event.action === "auto") &&
         !this.matches(":popover-open")
       ) {
         this.showPopover()
@@ -109,7 +109,7 @@ export function Snackbar({
       }
 
       if (
-        (e.action === "hide" || e.action === "auto") &&
+        (event.action === "hide" || event.action === "auto") &&
         this.matches(":popover-open")
       ) {
         this.hidePopover()
@@ -136,7 +136,7 @@ export function Snackbar({
     if (!Predicate.isNumber(timeout)) {
       return
     }
-    if (4000 <= timeout && timeout <= 10000) {
+    if (4000 <= timeout && timeout <= 10_000) {
       return
     }
     console.warn(`Recommeneded <Snackbar /> timeout is between 4s and 10s`)

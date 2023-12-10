@@ -25,14 +25,14 @@ export const action = (async ({ context, params, request }) => {
     headers: {
       "Set-Cookie": cookie.serialize(`anilist-token`, token, {
         sameSite: "lax",
-        maxAge: 604800,
+        maxAge: 604_800,
         path: "/",
       }),
     },
   })
 }) satisfies ActionFunction
 
- const workerAction = (async ({ request }) => {
+const workerAction = (async ({ request }) => {
   const formData = await request.formData()
 
   const token = formData.get("token")
@@ -45,7 +45,7 @@ export const action = (async ({ context, params, request }) => {
     headers: {
       "Set-Cookie": cookie.serialize(`anilist-token`, token, {
         sameSite: "lax",
-        maxAge: 604800,
+        maxAge: 604_800,
         path: "/",
       }),
     },

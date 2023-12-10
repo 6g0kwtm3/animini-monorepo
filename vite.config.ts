@@ -1,5 +1,5 @@
 import { unstable_vitePlugin as remix } from "@remix-run/dev";
-import million from 'million/compiler';
+import million from "million/compiler";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import config from "./remix.config";

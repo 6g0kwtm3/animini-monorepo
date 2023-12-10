@@ -1,28 +1,28 @@
 import type { LoaderFunction } from "@remix-run/node"
 import {
-    Link,
-    useLoaderData,
-    useLocation,
-    useOutlet,
-    useOutletContext,
+  Link,
+  useLoaderData,
+  useLocation,
+  useOutlet,
+  useOutletContext,
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive,
-    useLoader,
+  ClientArgs,
+  EffectUrql,
+  LoaderArgs,
+  LoaderLive,
+  useLoader,
 } from "~/lib/urql"
 
 import type { Theme } from "@material/material-color-utilities"
 import {
-    argbFromHex,
-    hexFromArgb,
-    themeFromSourceColor,
+  argbFromHex,
+  hexFromArgb,
+  themeFromSourceColor,
 } from "@material/material-color-utilities"
 import { cloneElement, useId, useMemo } from "react"
 
@@ -37,24 +37,24 @@ import { CardElevated, CardFilled } from "~/components/Card"
 import { cssEscape } from "~/lib/cssEscape"
 
 import {
-    ButtonElevated,
-    ButtonFilled,
-    ButtonOutlined,
-    ButtonText,
-    ButtonTonal,
+  ButtonElevated,
+  ButtonFilled,
+  ButtonOutlined,
+  ButtonText,
+  ButtonTonal,
 } from "~/components/Button"
 
-import { btn, fab } from "~/lib/button"
+import { fab } from "~/lib/button"
 
 import {
-    Menu,
-    MenuDivider,
-    MenuItem,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuTrigger,
+  Menu,
+  MenuDivider,
+  MenuItem,
+  MenuItemLeadingIcon,
+  MenuItemTrailingIcon,
+  MenuItemTrailingText,
+  MenuList,
+  MenuTrigger,
 } from "~/components/Menu"
 import { PaneFlexible } from "~/components/Pane"
 import { graphql } from "~/gql"
@@ -122,7 +122,7 @@ const _loader = pipe(
   ),
 )
 
-export const loader = (async (args) => {
+export const loader = (async (arguments_) => {
   return pipe(
     _loader,
     Stream.run(Sink.head()),
@@ -140,7 +140,7 @@ function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
 
   return Object.fromEntries(
     Object.entries(mapping).map(([key, value]) => {
-      const [token = "", tone] = value.replace(/(\d+)$/g, "_$1").split("_")
+      const [token = "", tone] = value.replaceAll(/(\d+)$/g, "_$1").split("_")
 
       const palette = (
         {
@@ -164,9 +164,9 @@ function parseArgb(value: number) {
   const [, r1 = "", r2 = "", g1 = "", g2 = "", b1 = "", b2 = ""] =
     hexFromArgb(value)
   const color = [
-    parseInt(r1 + r2, 16),
-    parseInt(g1 + g2, 16),
-    parseInt(b1 + b2, 16),
+    Number.parseInt(r1 + r2, 16),
+    Number.parseInt(g1 + g2, 16),
+    Number.parseInt(b1 + b2, 16),
   ].join(" ")
 
   return color
@@ -286,7 +286,7 @@ export default function Page() {
                 </h1>
                 <Menu>
                   <MenuTrigger
-                    className={btn({
+                    className={button({
                       className: "cursor-default",
                     })}
                   >

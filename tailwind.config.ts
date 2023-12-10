@@ -171,13 +171,6 @@ export default withTV({
   plugins: [
     plugin(
       ({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
-        function isKeyOf<T extends {}>(
-          key: string | number | symbol,
-          value: T,
-        ): key is keyof T {
-          return key in value
-        }
-
         addBase({
           ":root": Object.assign(
             Object.fromEntries(
@@ -373,3 +366,10 @@ export default withTV({
     }),
   ],
 } satisfies Config)
+
+function isKeyOf<T extends {}>(
+  key: string | number | symbol,
+  value: T,
+): key is keyof T {
+  return key in value
+}

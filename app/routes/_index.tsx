@@ -43,9 +43,9 @@ const MUTATION = graphql(/* GraphQL */ `
   }
 `)
 
-export const action = (async (args) => {
-  const formData = await args.request.formData()
-  await getClient(args.request)
+export const action = (async (arguments_) => {
+  const formData = await arguments_.request.formData()
+  await getClient(arguments_.request)
     .mutation(MUTATION, HomeMutationVariables(formData))
     .toPromise()
 }) satisfies ActionFunction

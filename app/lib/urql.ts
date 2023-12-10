@@ -47,13 +47,13 @@ const graphcacheConfig = {
   introspection,
   updates: {
     Mutation: {
-      ToggleFavourite(result, args, cache) {
-        if (!args.animeId || !result.ToggleFavourite?.anime?.nodes) {
+      ToggleFavourite(result, arguments_, cache) {
+        if (!arguments_.animeId || !result.ToggleFavourite?.anime?.nodes) {
           return
         }
 
         const isFavourite = result.ToggleFavourite.anime.nodes.some(
-          (anime) => anime?.id === args.animeId,
+          (anime) => anime?.id === arguments_.animeId,
         )
 
         cache.writeFragment(
@@ -64,7 +64,7 @@ const graphcacheConfig = {
             }
           `),
           {
-            id: args.animeId,
+            id: arguments_.animeId,
             isFavourite,
           },
         )
@@ -72,23 +72,23 @@ const graphcacheConfig = {
     },
   },
   optimistic: {
-    ToggleFavourite(args, cache, info) {
+    ToggleFavourite(arguments_, cache, info) {
       const isFavourite = info.variables["isFavourite"]
 
-      const nodes = !isFavourite
-        ? [
+      const nodes = isFavourite
+        ? []
+        : [
             {
-              id: args.animeId,
+              id: arguments_.animeId,
               __typename: "Media",
               isFavourite: true,
               isFavouriteBlocked: false,
             },
           ]
-        : []
 
       return {
         __typename: "Favourites",
-        ...(Predicate.isNumber(args.animeId) && {
+        ...(Predicate.isNumber(arguments_.animeId) && {
           anime: {
             __typename: "MediaConnection",
             nodes: nodes,
@@ -126,32 +126,6 @@ if (!IS_SERVER) {
     offlineExchange<GraphCacheConfig>(
       Object.assign(graphcacheConfig, {  }),
     ),
-  )
-
-  // exchanges.push(
-  //   mapExchange({
-  //     onOperation(operation) {
-  //       const { requestPolicy } = operation.context
-
-  //       operation.query = visit(operation.query, {
-  //         Field(node) {
-  //           if (
-  //             node.directives?.some(
-  //               (directive) => directive.name.value === "_requestPolicy"
-  //             )
-  //           ) {
-  //             console.log(node)
-  //           }
-  //           return node
-  //         },
-  //       })
-
-  //       return operation
-  //     },
-  //   })
-  // )
-
-  exchanges.push(
     authExchange(async (utils) => {
       const { "anilist-token": token } = cookie.parse(document.cookie)
 
@@ -176,6 +150,7 @@ if (!IS_SERVER) {
         },
       }
     }),
+    fetchExchange,
   )
   exchanges.push(ssr, fetchExchange)
 }
@@ -213,9 +188,8 @@ export function getClient(request: Request) {
 function createStatelessClient(request: Request) {
   const exchanges = []
 
-  exchanges.push(cacheExchange<GraphCacheConfig>(graphcacheConfig))
-
   exchanges.push(
+    cacheExchange<GraphCacheConfig>(graphcacheConfig),
     authExchange(async (utils) => {
       const { "anilist-token": token } = cookie.parse(
         request.headers.get("Cookie") ?? "",
@@ -241,6 +215,7 @@ function createStatelessClient(request: Request) {
         },
       }
     }),
+    fetchExchange,
   )
   exchanges.push(ssr, fetchExchange)
 
@@ -267,7 +242,7 @@ export type InferVariables<T> = T extends TypedDocumentNode<any, infer V>
   : never
 
 export function useLoader<E, A>(
-  _loader: Stream.Stream<EffectUrql | Args, E, A>,
+  _loader: Stream.Stream<EffectUrql | Arguments, E, A>,
   initialData: A,
 ) {
   const params = useParams()
@@ -283,7 +258,7 @@ export function useLoader<E, A>(
     return {
       getSnapshot: () => state,
       subscribe: (listener: () => void) => {
-        if (!listeners.length) {
+        if (listeners.length === 0) {
           const fiber = pipe(
             _loader,
             Stream.runForEach((data) =>
@@ -300,8 +275,8 @@ export function useLoader<E, A>(
             Effect.provide(UrqlLive),
             Effect.provideService(UrqlClient, client),
             Effect.provideService(ClientArgs, {
-              params,
-              searchParams,
+              params: params,
+              searchParams: searchParams,
             }),
             Effect.runFork,
           )
@@ -313,7 +288,7 @@ export function useLoader<E, A>(
         listeners.push(listener)
         return () => {
           listeners = listeners.filter((l) => l !== listener)
-          if (!listeners.length) {
+          if (listeners.length === 0) {
             cleanup()
           }
         }
@@ -345,12 +320,12 @@ export const EffectUrql = Context.Tag<EffectUrql>("Urql")
 export const LoaderArgs = Context.Tag<LoaderFunctionArgs>("loader(args)")
 export const UrqlClient = Context.Tag<Client>("UrqlClient")
 
-type Args = {
+type Arguments = {
   params: Readonly<Params<string>>
   searchParams: URLSearchParams
 }
 
-export const ClientArgs = Context.Tag<Args>("client/Args")
+export const ClientArgs = Context.Tag<Arguments>("client/Args")
 
 export function StreamFromSource<T>(source: wonka.Source<T>) {
   return Stream.asyncInterrupt<never, never, T>((emit) => {

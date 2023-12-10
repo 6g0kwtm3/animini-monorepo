@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef, SyntheticEvent } from "react"
 import React from "react"
 
 import * as Ariakit from "@ariakit/react"
-import { btn } from "~/lib/button"
+import { button } from "~/lib/button"
 import { classes } from "./classes"
 
 export type Icon = React.FC<ComponentPropsWithoutRef<"div">>
@@ -51,12 +51,12 @@ export function BaseButton(
 ) {
   // props.type ??= "submit"
 
-  function invoke(e: SyntheticEvent<HTMLElement>) {
+  function invoke(event: SyntheticEvent<HTMLElement>) {
     if (typeof props.invoketarget === "string" && props.type !== "submit") {
-      e.preventDefault()
-      document.getElementById(props.invoketarget)?.dispatchEvent(
+      event.preventDefault()
+      document.querySelector(`#${props.invoketarget}`)?.dispatchEvent(
         new InvokeEvent({
-          relatedTarget: e.currentTarget,
+          relatedTarget: event.currentTarget,
           ...(typeof props.invokeaction === "string"
             ? { action: props.invokeaction }
             : {}),
@@ -68,27 +68,26 @@ export function BaseButton(
   return (
     <Ariakit.Button
       {...props}
-      onKeyDown={(e) => {
-        props.onKeyDown?.(e)
-        if (e.isDefaultPrevented()) {
+      onKeyDown={(event) => {
+        props.onKeyDown?.(event)
+        if (event.isDefaultPrevented()) {
           return
         }
 
-        if (e.key === " " || e.key === "Enter") {
-          invoke(e)
+        if (event.key === " " || event.key === "Enter") {
+          invoke(event)
         }
       }}
-      onClick={(e) => {
-        props.onClick?.(e)
-        if (e.isDefaultPrevented()) {
+      onClick={(event) => {
+        props.onClick?.(event)
+        if (event.isDefaultPrevented()) {
           return
         }
-        invoke(e)
+        invoke(event)
       }}
     />
   )
 }
-
 
 export function ButtonText(
   props: ComponentPropsWithoutRef<typeof Ariakit.Button>,
@@ -96,7 +95,7 @@ export function ButtonText(
   return (
     <BaseButton
       {...props}
-      className={btn({
+      className={button({
         className: props.className,
       })}
     >
@@ -121,7 +120,7 @@ export const ButtonTonal: Button = (props) => {
   return (
     <BaseButton
       {...props}
-      className={btn({ variant: "tonal", class: props.className })}
+      className={button({ variant: "tonal", class: props.className })}
     />
   )
 }
@@ -142,7 +141,7 @@ export const ButtonFilled: Button = (props) => {
   return (
     <BaseButton
       {...props}
-      className={btn({
+      className={button({
         variant: "filled",
         className: props.className,
       })}
@@ -166,7 +165,10 @@ export const ButtonElevated: Button = (props) => {
   return (
     <BaseButton
       {...props}
-      className={btn({ className: props.className, variant: "elevated" })}
+      className={button({
+        className: props.className,
+        variant: "elevated",
+      })}
     ></BaseButton>
   )
 }
@@ -187,7 +189,10 @@ export const ButtonOutlined: Button = (props) => {
   return (
     <BaseButton
       {...props}
-      className={btn({ className: props.className, variant: "outlined" })}
+      className={button({
+        className: props.className,
+        variant: "outlined",
+      })}
     ></BaseButton>
   )
 }
@@ -203,4 +208,3 @@ ButtonOutlined.Icon = (props) => {
 
 ButtonOutlined.displayName = "Button.Outlined"
 ButtonOutlined.Icon.displayName = "Button.Outlined.Icon"
- 

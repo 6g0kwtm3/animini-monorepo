@@ -20,19 +20,19 @@ import { memo } from "react"
     className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-primary peer-checked:text-primary group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100 "
   />,
 ]
-export const point5Icons = Array.from({ length: 5 }, (_, i) => (
+export const point5Icons = Array.from({ length: 5 }, (_, index) => (
   <>
     <div
-      key={i}
+      key={index}
       className="hover:text-yellow-400 peer-checked:text-yellow-400 absolute left-0 top-0 flex text-transparent group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100"
     >
-      {Array.from({ length: 5 - i }, (_, j) => (
-        <StarIcon className="h-6 w-6 hover:scale-110" key={j}></StarIcon>
+      {Array.from({ length: 5 - index }, (_, index_) => (
+        <StarIcon className="h-6 w-6 hover:scale-110" key={index_}></StarIcon>
       ))}
     </div>
 
     <StarIcon
-      key={`bg-${i}`}
+      key={`bg-${index}`}
       className="text-gray-300 dark:text-gray-500 h-6 w-6"
     ></StarIcon>
   </>
@@ -46,18 +46,18 @@ const Rating = (props: {
   return (
     <div className="flex">
       <div className="group relative flex">
-        {props.children.map((icon, i, { length }) => (
+        {props.children.map((icon, index, { length }) => (
           <label
-            id={String(length - i)}
-            aria-label={String(length - i)}
-            key={i}
+            id={String(length - index)}
+            aria-label={String(length - index)}
+            key={index}
           >
             <input
               name={props.name}
               type="radio"
               className="peer hidden"
-              defaultChecked={props.defaultValue === length - i}
-              value={length - i}
+              defaultChecked={props.defaultValue === length - index}
+              value={length - index}
             />
             {icon}
           </label>

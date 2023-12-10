@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react"
 import { Predicate } from "effect"
 import { motion } from "framer-motion"
- 
+
 import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
 import { createContext, useContext, useId } from "react"
 

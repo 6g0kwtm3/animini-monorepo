@@ -1,7 +1,7 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  extends: ["@remix-run/eslint-config", "@remix-run/eslint-config/node"],
-  plugins: ["react-refresh"],
+  extends: [ "plugin:compat/recommended", "@remix-run/eslint-config", "@remix-run/eslint-config/node"],
+  plugins: ["react-refresh", "compat"],
   overrides: [
     {
       files: ["*.js"],

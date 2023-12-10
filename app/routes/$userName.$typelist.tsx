@@ -33,12 +33,13 @@ import {
 } from "effect"
 
 import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
+import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
 import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { } from "~/components/Dialog"
+import {} from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
 import { Select } from "~/components/Select"
 import { btnIcon } from "~/lib/button"
@@ -200,12 +201,14 @@ function behind(entry: any) {
   return (
     (entry.media?.nextAiringEpisode?.episode - 1 ||
       entry.media?.episodes ||
-      Infinity) - (entry.progress ?? 0)
+      Number.POSITIVE_INFINITY) -
+      (entry.progress ?? 0)) *
+      ((entry.media?.duration ?? 25) - 3) || Number.POSITIVE_INFINITY
   )
 }
 
 function formatWatch(minutes: number) {
-  if (!isFinite(minutes)) {
+  if (!Number.isFinite(minutes)) {
     return ""
   }
   if (minutes > 60) {
@@ -260,7 +263,7 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
             {formatWatch(
               entries
                 ?.map(toWatch)
-                .filter(isFinite)
+                .filter(Number.isFinite)
                 .reduce((a, b) => a + b, 0) ?? 0,
             )}
           </div>
@@ -386,15 +389,18 @@ function ButtonIcon({
   children,
   variant,
   className,
-  ...props
+  ...properties
 }: PropsWithChildren<
-  VariantProps<typeof btnIcon> &
+  VariantProps<typeof buttonIcon> &
     Omit<ComponentPropsWithoutRef<typeof BaseButton>, "children">
 >) {
-  const styles = btnIcon()
+  const styles = buttonIcon()
 
   return (
-    <BaseButton {...props} className={styles.root({ variant, className })}>
+    <BaseButton
+      {...properties}
+      className={styles.root({ variant, className })}
+    >
       <div className={styles.content()}>{children}</div>
     </BaseButton>
   )
@@ -422,11 +428,14 @@ export default function Page() {
   const order = ReadonlyRecord.fromEntries(
     (data?.User?.mediaListOptions?.animeList?.sectionOrder ?? [])
       .filter(nonNull)
-      .map((key, i) => [key, i]),
+      .map((key, index) => [key, index]),
   )
 
   lists?.sort(
-    Order.mapInput(Order.number, (list) => order[list.name ?? ""] ?? Infinity),
+    Order.mapInput(
+      Order.number,
+      (list) => order[list.name ?? ""] ?? Number.POSITIVE_INFINITY,
+    ),
   )
 
   return (
