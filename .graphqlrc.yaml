@@ -1,2 +1,9 @@
-schema: ./schema.graphql # ./introspection.json #https://graphql.anilist.co #
-documents: ./app/**/*.{ts,tsx}
+projects:
+  default:
+    schema:
+      - ./schema.graphql
+      - ./$houdini/graphql/schema.graphql
+    documents:
+      - '**/*.gql'
+      - '**/*.tsx'
+      - ./$houdini/graphql/documents.gql

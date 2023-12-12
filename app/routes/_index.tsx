@@ -3,7 +3,6 @@ import type {
 	LoaderFunction,
 	MetaFunction,
 } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
 import {
 	ButtonElevated,
 	ButtonFilled,
@@ -14,7 +13,11 @@ import {
 import { UrqlForm } from "~/components/UrqlForm"
 import { graphql } from "~/gql"
 
-import { getClient, useLoadedQuery } from "~/lib/urql"
+import { getClient } from "~/lib/urql"
+
+import { useLoaderData } from "@remix-run/react"
+import { useMemo, useSyncExternalStore } from "react"
+import client from "../client"
 
 export const meta: MetaFunction = () => {
 	return [
@@ -50,9 +53,9 @@ export const action = (async (arguments_) => {
 		.toPromise()
 }) satisfies ActionFunction
 
-export const loader = (({ request }) => {
-	return getClient(request).query(QUERY, {}).toPromise()
-}) satisfies LoaderFunction
+// export const loader = (({ request }) => {
+// 	return getClient(request).query(QUERY, {}).toPromise()
+// }) satisfies LoaderFunction
 
 function HomeMutationVariables(data: FormData) {
 	return {
@@ -61,18 +64,50 @@ function HomeMutationVariables(data: FormData) {
 	}
 }
 
-export default function Index() {
-	const [{ data }] = useLoadedQuery(
-		{
-			query: QUERY,
-		},
-		useLoaderData<typeof loader>().data,
+export const loader = (async (args) => {
+	const observer = client.observe(QUERY)
+	try {
+		return await observer.send()
+	} finally {
+		observer.cleanup()
+	}
+}) satisfies LoaderFunction
+
+// export const clientLoader = (async (args) => {
+// 	const observer = client.observe(QUERY)
+// 	try {
+// 		return await observer.send()
+// 	} finally {
+// 		observer.cleanup()
+// 	}
+// }) satisfies ClientLoaderFunction
+
+function useQuery({ artifact }) {
+	const initialValue = useLoaderData<typeof loader>()
+
+	const observer = useMemo(
+		() =>
+			client.observe({
+				artifact,
+				initialValue: initialValue?.data ?? {},
+			}),
+		[artifact, initialValue],
 	)
+
+	return useSyncExternalStore(
+		(fn) => observer.subscribe(fn),
+		() => observer.state,
+		() => initialValue,
+	)
+}
+
+export default function Index() {
+	const data = useQuery(QUERY)
 
 	return (
 		<div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
 			<h1>Welcome to Remix</h1>
-			<pre>{JSON.stringify(data)}</pre>
+			<pre>{JSON.stringify(data, Object.keys(data).sort())}</pre>
 
 			<UrqlForm mutation={MUTATION} variables={HomeMutationVariables}>
 				<input type="hidden" value={data?.Media?.id} name="animeId" />
