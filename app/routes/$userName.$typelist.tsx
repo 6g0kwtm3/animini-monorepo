@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
-import type { Params } from "@remix-run/react"
+import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
@@ -154,6 +154,7 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const clientLoader = (async (args) => {
+ 
 	return pipe(
 		_loader,
 		Stream.run(Sink.head()),
@@ -162,7 +163,7 @@ export const clientLoader = (async (args) => {
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
 	)
-}) satisfies LoaderFunction
+}) satisfies ClientLoaderFunction
 
 function toWatch(data: FragmentType<typeof ToWatch_entry>) {
 	const entry = readFragment(ToWatch_entry, data)
