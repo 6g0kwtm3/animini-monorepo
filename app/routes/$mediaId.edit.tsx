@@ -3,7 +3,6 @@ import {
 	type ClientLoaderFunction,
 	Form,
 	Link,
-	
 	useActionData,
 	useLoaderData,
 	useNavigation,
@@ -55,11 +54,7 @@ import { parse } from "@conform-to/dom"
 import { type ComponentPropsWithoutRef } from "react"
 import { Select } from "~/components/Select"
 
-
-function ChipFilter({
-	children,
-	...props
-}: ComponentPropsWithoutRef<"input">) {
+function ChipFilter({ children, ...props }: ComponentPropsWithoutRef<"input">) {
 	return (
 		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow surface state-on-surface-variant hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 has-[:checked]:state-on-secondary-container">
 			<input type="checkbox" className="peer hidden" {...props} />
@@ -70,14 +65,13 @@ function ChipFilter({
 	)
 }
 
- function ChipFilterIcon() {
+function ChipFilterIcon() {
 	return (
 		<div className="i -ms-2 w-0 opacity-0 transition-all ease-out peer-checked:w-[1.125rem] peer-checked:opacity-100">
 			check
 		</div>
 	)
 }
-
 
 function isTouched(form: HTMLFormElement) {
 	return !(
@@ -191,7 +185,6 @@ export const loader = (async (args) => {
 		Effect.runPromise,
 	)
 }) satisfies LoaderFunction
-
 
 export const clientLoader = (async (args) => {
 	return pipe(
@@ -346,12 +339,6 @@ const OPTIONS = {
 export default function Page() {
 	const data = useLoader(_loader, useLoaderData<typeof loader>())
 
-
-	
-
-	
-	
-
 	const score = useSignal(String(data?.Media?.mediaListEntry?.score || 0))
 
 	const navigation = useNavigation()
@@ -386,7 +373,7 @@ export default function Page() {
 									advancedScores,
 									Option.flatMap(ReadonlyRecord.get(category)),
 									Option.filter(Predicate.isNumber),
-									Option.getOrElse(()=>""),
+									Option.getOrElse(() => ""),
 								),
 							),
 					)
@@ -395,18 +382,18 @@ export default function Page() {
 				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.completedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-				Option.getOrElse(()=>""),
+				Option.getOrElse(() => ""),
 			),
 			startedAt: pipe(
 				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.startedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-				Option.getOrElse(()=>""),
+				Option.getOrElse(() => ""),
 			),
 			notes: data?.Media?.mediaListEntry?.notes,
 			progress: data?.Media?.mediaListEntry?.progress,
 			repeat: data?.Media?.mediaListEntry?.repeat,
-			score: (data?.Media?.mediaListEntry?.score || 0),
+			score: data?.Media?.mediaListEntry?.score || 0,
 			status: pipe(
 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
@@ -416,7 +403,7 @@ export default function Page() {
 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
 				Option.map(Object.keys),
-				Option.getOrElse(()=>""),
+				Option.getOrElse(() => ""),
 			),
 		},
 		...(lastSubmission ? { lastSubmission } : {}),
@@ -568,8 +555,9 @@ export default function Page() {
 										></CustomLists>
 										<div className="border-b border-outline-variant sm:w-full" />
 										<footer className={actions({ className: "max-sm:hidden" })}>
-												
-											<ButtonText type="reset" aria-disabled={!touched.value}>Reset</ButtonText>
+											<ButtonText type="reset" aria-disabled={!touched.value}>
+												Reset
+											</ButtonText>
 											<ButtonText aria-busy={busy} type="submit">
 												{busy && (
 													<ButtonText.Icon className="animate-spin">

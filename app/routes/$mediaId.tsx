@@ -172,9 +172,7 @@ function parseArgb(value: number) {
 	return color
 }
 
-
-
- const ThemeProvider = ({
+const ThemeProvider = ({
 	theme,
 	children,
 	...props
@@ -210,7 +208,7 @@ export default function Page() {
 	const data = useLoader(_loader, useLoaderData<typeof loader>())
 
 	const outlet = useOutlet()
-	const {pathname} = useLocation()
+	const { pathname } = useLocation()
 
 	return (
 		<>
@@ -336,11 +334,13 @@ export default function Page() {
 						</Link>
 					</motion.div>
 
-					{outlet&&<AnimatePresence mode="wait">
-						{cloneElement(outlet, {
-							key: pathname,
-						})}
-					</AnimatePresence>}
+					{outlet && (
+						<AnimatePresence mode="wait">
+							{cloneElement(outlet, {
+								key: pathname,
+							})}
+						</AnimatePresence>
+					)}
 				</PaneFlexible>
 			</ThemeProvider>
 		</>

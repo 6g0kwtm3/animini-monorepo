@@ -8,22 +8,25 @@ import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = textField({})
 
-
-const SelectLazy = lazy(()=>import("./SelectLazy"))
+const SelectLazy = lazy(() => import("./SelectLazy"))
 
 export function Select({
 	children,
 	options,
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> &ComponentPropsWithoutRef<'select'>& {
-	options: string[]
-	children?: ReactNode
-}) {
+}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
+	ComponentPropsWithoutRef<"select"> & {
+		options: string[]
+		children?: ReactNode
+	}) {
 	return (
 		<ClientOnly
 			fallback={
 				<TextFieldOutlined>
-					<select {...props} className={input({ className: "appearance-none" })}>
+					<select
+						{...props}
+						className={input({ className: "appearance-none" })}
+					>
 						{options.map((value) => {
 							return (
 								<option
@@ -44,13 +47,14 @@ export function Select({
 			}
 		>
 			{() => (
-				<SelectLazy {...{	
-					
-					options,
-	children,
-					
-				
-					...props}}/>
+				<SelectLazy
+					{...{
+						options,
+						children,
+
+						...props,
+					}}
+				/>
 			)}
 		</ClientOnly>
 	)

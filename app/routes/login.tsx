@@ -1,10 +1,11 @@
-
-
 import type { ActionFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { type ClientActionFunction, Form } from "@remix-run/react"
 import { ButtonFilled, ButtonText } from "~/components/Button"
-import { TextFieldOutlined as Outlined,  TextFieldOutlinedInput } from "~/components/TextField"
+import {
+	TextFieldOutlined as Outlined,
+	TextFieldOutlinedInput,
+} from "~/components/TextField"
 
 import cookie from "cookie"
 import { button as btn } from "~/lib/button"
@@ -19,12 +20,6 @@ export const action = (async ({ context, params, request }) => {
 	if (typeof token !== "string") {
 		return {}
 	}
-
-
-	
-
-
-	
 
 	return redirect("/Hoodboi/animelist/?selected=Watching", {
 		headers: {
@@ -45,9 +40,6 @@ export const clientAction = (async ({ request }) => {
 	if (typeof token !== "string") {
 		return {}
 	}
-
-
-	
 
 	return redirect("/Hoodboi/animelist/?selected=Watching", {
 		headers: {

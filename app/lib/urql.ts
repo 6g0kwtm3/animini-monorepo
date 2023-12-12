@@ -127,9 +127,6 @@ if (!IS_SERVER) {
 		authExchange(async (utils) => {
 			const { "anilist-token": token } = cookie.parse(document.cookie)
 
-		
-			
-
 			return {
 				addAuthToOperation(operation) {
 					if (!token) return operation
@@ -193,11 +190,8 @@ function createStatelessClient(request: Request) {
 		cacheExchange<GraphCacheConfig>(graphcacheConfig),
 		authExchange(async (utils) => {
 			const { "anilist-token": token } = cookie.parse(
-				request.headers.get("Cookie")  ??  "",
+				request.headers.get("Cookie") ?? "",
 			)
-
-	
-			
 
 			return {
 				addAuthToOperation(operation) {
@@ -321,7 +315,9 @@ interface EffectUrql {
 }
 
 export const EffectUrql = Context.Tag<EffectUrql>("Urql")
-export const LoaderArgs = Context.Tag<LoaderFunctionArgs|ClientLoaderFunctionArgs>("loader(args)")
+export const LoaderArgs = Context.Tag<
+	LoaderFunctionArgs | ClientLoaderFunctionArgs
+>("loader(args)")
 export const UrqlClient = Context.Tag<Client>("UrqlClient")
 
 type Arguments = {
