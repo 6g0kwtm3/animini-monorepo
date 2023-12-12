@@ -154,7 +154,6 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const clientLoader = (async (args) => {
- 
 	return pipe(
 		_loader,
 		Stream.run(Sink.head()),
