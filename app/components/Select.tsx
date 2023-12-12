@@ -1,7 +1,5 @@
-import * as Ariakit from "@ariakit/react"
-import { Predicate } from "effect"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { menu } from "~/lib/menu"
+import type * as Ariakit from "@ariakit/react"
+import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
 import { textField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
@@ -9,15 +7,15 @@ import { TextFieldOutlined } from "./TextField"
 import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = textField({})
-const { root, item } = menu()
+
+
+const SelectLazy = lazy(()=>import("./SelectLazy"))
 
 export function Select({
 	children,
 	options,
-	defaultValue,
-
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> & {
+}: ComponentPropsWithoutRef<typeof Ariakit.Select> &ComponentPropsWithoutRef<'select'>& {
 	options: string[]
 	children?: ReactNode
 }) {
@@ -25,7 +23,7 @@ export function Select({
 		<ClientOnly
 			fallback={
 				<TextFieldOutlined>
-					<select className={input({ className: "appearance-none" })}>
+					<select {...props} className={input({ className: "appearance-none" })}>
 						{options.map((value) => {
 							return (
 								<option
@@ -46,39 +44,13 @@ export function Select({
 			}
 		>
 			{() => (
-				<Ariakit.SelectProvider
-					{...(Predicate.isString(defaultValue) || Array.isArray(defaultValue)
-						? { defaultValue }
-						: {})}
-				>
-					<TextFieldOutlined>
-						<Ariakit.SelectLabel className="sr-only">
-							{children}
-						</Ariakit.SelectLabel>
-						<Ariakit.Select
-							className={input({ className: "cursor-default" })}
-							{...props}
-						/>
-						<TextFieldOutlined.Label>{children}</TextFieldOutlined.Label>
-						<Ariakit.SelectPopover
-							sameWidth
-							className={root({
-								className:
-									"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
-							})}
-						>
-							{options.map((value) => (
-								<Ariakit.SelectItem
-									className={item({
-										className: "data-[active-item]:state-focus",
-									})}
-									value={value}
-									key={value}
-								/>
-							))}
-						</Ariakit.SelectPopover>
-					</TextFieldOutlined>
-				</Ariakit.SelectProvider>
+				<SelectLazy {...{	
+					
+					options,
+	children,
+					
+				
+					...props}}/>
 			)}
 		</ClientOnly>
 	)

@@ -1,8 +1,9 @@
 import { type ActionFunction, type LoaderFunction } from "@remix-run/node"
 import {
+	type ClientLoaderFunction,
 	Form,
 	Link,
-	unstable_useBlocker,
+	
 	useActionData,
 	useLoaderData,
 	useNavigation,
@@ -29,6 +30,7 @@ import { MediaListStatus } from "~/gql/graphql"
 import type { InferVariables } from "~/lib/urql"
 import {
 	ClientArgs,
+	ClientLoaderLive,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
@@ -36,7 +38,6 @@ import {
 	nonNull,
 	useLoader,
 } from "~/lib/urql"
-import { ChipFilter } from "./$mediaId"
 
 import * as S from "@effect/schema/Schema"
 import { DialogFullscreenIcon } from "~/components/Dialog"
@@ -53,6 +54,30 @@ import { dialog } from "~/lib/dialog"
 import { parse } from "@conform-to/dom"
 import { type ComponentPropsWithoutRef } from "react"
 import { Select } from "~/components/Select"
+
+
+function ChipFilter({
+	children,
+	...props
+}: ComponentPropsWithoutRef<"input">) {
+	return (
+		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow surface state-on-surface-variant hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 has-[:checked]:state-on-secondary-container">
+			<input type="checkbox" className="peer hidden" {...props} />
+
+			<ChipFilterIcon></ChipFilterIcon>
+			{children}
+		</label>
+	)
+}
+
+ function ChipFilterIcon() {
+	return (
+		<div className="i -ms-2 w-0 opacity-0 transition-all ease-out peer-checked:w-[1.125rem] peer-checked:opacity-100">
+			check
+		</div>
+	)
+}
+
 
 function isTouched(form: HTMLFormElement) {
 	return !(
@@ -91,10 +116,10 @@ export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 				value: {
 					...payload,
 					completedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-						formdata?.get("completedAt") || null,
+						formData.get("completedAt") || null,
 					),
 					startedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-						formdata?.get("startedAt") || null,
+						formData.get("startedAt") || null,
 					),
 				},
 			}
@@ -161,12 +186,23 @@ export const loader = (async (args) => {
 	return pipe(
 		_loader,
 		Stream.run(Sink.head()),
-		Effect.flatten,
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
 	)
 }) satisfies LoaderFunction
+
+
+export const clientLoader = (async (args) => {
+	return pipe(
+		_loader,
+		Stream.run(Sink.head()),
+		Effect.flatten,
+		Effect.provide(ClientLoaderLive),
+		Effect.provideService(LoaderArgs, args),
+		Effect.runPromise,
+	)
+}) satisfies ClientLoaderFunction
 
 const FuzzyDateInput = S.compose(
 	S.compose(
@@ -310,6 +346,12 @@ const OPTIONS = {
 export default function Page() {
 	const data = useLoader(_loader, useLoaderData<typeof loader>())
 
+
+	
+
+	
+	
+
 	const score = useSignal(String(data?.Media?.mediaListEntry?.score || 0))
 
 	const navigation = useNavigation()
@@ -319,7 +361,7 @@ export default function Page() {
 
 	const touched = useSignal(false)
 
-	unstable_useBlocker(touched.value)
+	// unstable_useBlocker(touched.value)
 
 	const busy = navigation.state === "submitting"
 
@@ -344,7 +386,7 @@ export default function Page() {
 									advancedScores,
 									Option.flatMap(ReadonlyRecord.get(category)),
 									Option.filter(Predicate.isNumber),
-									Option.getOrUndefined,
+									Option.getOrElse(()=>""),
 								),
 							),
 					)
@@ -353,18 +395,18 @@ export default function Page() {
 				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.completedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-				Option.getOrUndefined,
+				Option.getOrElse(()=>""),
 			),
 			startedAt: pipe(
 				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.startedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-				Option.getOrUndefined,
+				Option.getOrElse(()=>""),
 			),
 			notes: data?.Media?.mediaListEntry?.notes,
 			progress: data?.Media?.mediaListEntry?.progress,
 			repeat: data?.Media?.mediaListEntry?.repeat,
-			score: score.value,
+			score: (data?.Media?.mediaListEntry?.score || 0),
 			status: pipe(
 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
@@ -374,7 +416,7 @@ export default function Page() {
 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
 				Option.map(Object.keys),
-				Option.getOrUndefined,
+				Option.getOrElse(()=>""),
 			),
 		},
 		...(lastSubmission ? { lastSubmission } : {}),
@@ -526,7 +568,8 @@ export default function Page() {
 										></CustomLists>
 										<div className="border-b border-outline-variant sm:w-full" />
 										<footer className={actions({ className: "max-sm:hidden" })}>
-											<ButtonText type="reset">Reset</ButtonText>
+												
+											<ButtonText type="reset" aria-disabled={!touched.value}>Reset</ButtonText>
 											<ButtonText aria-busy={busy} type="submit">
 												{busy && (
 													<ButtonText.Icon className="animate-spin">

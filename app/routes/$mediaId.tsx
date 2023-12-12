@@ -44,7 +44,7 @@ import {
 	ButtonTonal,
 } from "~/components/Button"
 
-import { fab } from "~/lib/button"
+import { button, fab } from "~/lib/button"
 
 import {
 	Menu,
@@ -172,29 +172,9 @@ function parseArgb(value: number) {
 	return color
 }
 
-export function ChipFilter({
-	children,
-	...props
-}: ComponentPropsWithoutRef<"input">) {
-	return (
-		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow surface state-on-surface-variant hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 has-[:checked]:state-on-secondary-container">
-			<input type="checkbox" className="peer hidden" {...props} />
 
-			<ChipFilterIcon></ChipFilterIcon>
-			{children}
-		</label>
-	)
-}
 
-export function ChipFilterIcon() {
-	return (
-		<div className="i -ms-2 w-0 opacity-0 transition-all ease-out peer-checked:w-[1.125rem] peer-checked:opacity-100">
-			check
-		</div>
-	)
-}
-
-export const ThemeProvider = ({
+ const ThemeProvider = ({
 	theme,
 	children,
 	...props
@@ -228,6 +208,9 @@ export const ThemeProvider = ({
 
 export default function Page() {
 	const data = useLoader(_loader, useLoaderData<typeof loader>())
+
+	const outlet = useOutlet()
+	const {pathname} = useLocation()
 
 	return (
 		<>
@@ -353,11 +336,11 @@ export default function Page() {
 						</Link>
 					</motion.div>
 
-					<AnimatePresence initial={false}>
-						{cloneElement(useOutlet() ?? <></>, {
-							key: useLocation().pathname,
+					{outlet&&<AnimatePresence mode="wait">
+						{cloneElement(outlet, {
+							key: pathname,
 						})}
-					</AnimatePresence>
+					</AnimatePresence>}
 				</PaneFlexible>
 			</ThemeProvider>
 		</>

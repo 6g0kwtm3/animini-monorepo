@@ -305,9 +305,9 @@ export default withTV({
 		plugin(({ addComponents, matchComponents, addVariant, matchVariant }) => {
 			matchComponents({}, {})
 
-			addVariant("error", ["&:has(:invalid)", "&:has([aria-invalid=true])"])
+			addVariant("error", ["&:has(:user-invalid)", "&:has([aria-invalid=true])"])
 			addVariant("group-error", [
-				":merge(.group):has(:invalid) &",
+				":merge(.group):has(:user-invalid) &",
 				":merge(.group):has([aria-invalid=true]) &",
 			])
 		}),
