@@ -349,7 +349,7 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
 					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
 				<Link to={`/${entry.media?.id}`}>
-					<span className="line-clamp-1 text-body-lg text-balance">
+					<span className="line-clamp-1 text-balance text-body-lg">
 						{entry.media?.title?.userPreferred}
 					</span>
 					<div className="gap-2 text-body-md text-on-surface-variant">

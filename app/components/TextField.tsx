@@ -23,7 +23,7 @@ export function TextFieldOutlinedSupporting(
 		<p
 			{...props}
 			className={classes(
-				"order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-data-[error=true]:text-error group-has-[:disabled]:text-on-surface/[.38] group-has-[:invalid]:text-error",
+				"order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38] group-has-[:invalid]:text-error group-data-[error=true]:text-error",
 				props.className,
 			)}
 		></p>
