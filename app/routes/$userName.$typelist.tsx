@@ -33,7 +33,7 @@ import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
 import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { } from "~/components/Dialog"
+import {} from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
 import { Select } from "~/components/Select"
 import { btnIcon } from "~/lib/button"
