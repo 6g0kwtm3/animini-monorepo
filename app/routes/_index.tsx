@@ -1,9 +1,5 @@
-import type {
-	ActionFunction,
-	LoaderFunction,
-	MetaFunction,
-} from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import type { ActionFunction, MetaFunction } from "@remix-run/node"
+import { Link, useLoaderData, useSearchParams } from "@remix-run/react"
 import {
 	ButtonElevated,
 	ButtonFilled,
@@ -14,7 +10,8 @@ import {
 import { UrqlForm } from "~/components/UrqlForm"
 import { graphql } from "~/gql"
 
-import { getClient, useLoadedQuery } from "~/lib/urql"
+import { getClient } from "~/lib/urql"
+import { loadQuery, useQuery } from "~/schema/resolvers"
 
 export const meta: MetaFunction = () => {
 	return [
@@ -22,18 +19,6 @@ export const meta: MetaFunction = () => {
 		{ name: "description", content: "Welcome to Remix!" },
 	]
 }
-
-const QUERY = graphql(/* GraphQL */ `
-	query HomeQuery {
-		Media(id: 1) {
-			id
-			title {
-				userPreferred
-			}
-			isFavourite
-		}
-	}
-`)
 
 const MUTATION = graphql(/* GraphQL */ `
 	mutation HomeMutation($animeId: Int) {
@@ -50,10 +35,6 @@ export const action = (async (arguments_) => {
 		.toPromise()
 }) satisfies ActionFunction
 
-export const loader = (({ request }) => {
-	return getClient(request).query(QUERY, {}).toPromise()
-}) satisfies LoaderFunction
-
 function HomeMutationVariables(data: FormData) {
 	return {
 		animeId: Number(data.get("animeId")),
@@ -61,18 +42,49 @@ function HomeMutationVariables(data: FormData) {
 	}
 }
 
+const QUERY = graphql(`
+	query Test {
+		MediaListCollection(userName: "Hoodboi", type: ANIME) {
+			lists {
+				name
+				entries {
+					id
+					behind
+					toWatch
+					#  {
+					# 	raw
+					# 	string
+					# }
+					ListItem
+				}
+			}
+		}
+	}
+`)
+
+export const loader = async () => {
+	return {
+		Test: await loadQuery(QUERY),
+	}
+}
+
 export default function Index() {
-	const [{ data }] = useLoadedQuery(
-		{
-			query: QUERY,
-		},
-		useLoaderData<typeof loader>().data,
-	)
+	const { Test } = useLoaderData<typeof loader>()
+
+	const { data } = useQuery(Test)
+
+	const [params] = useSearchParams()
 
 	return (
 		<div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
 			<h1>Welcome to Remix</h1>
-			<pre>{JSON.stringify(data)}</pre>
+
+			<pre>{data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]?.ListItem?.({})}</pre>
+			<pre>{data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]?.behind}</pre>
+			<pre>{JSON.stringify(data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]?.toWatch)}</pre>
+
+			<Link to={`?entry=${(+params.get("entry") || 0) - 1}`}>prev</Link>
+			<Link to={`?entry=${(+params.get("entry") || 0) + 1}`}>next</Link>
 
 			<UrqlForm mutation={MUTATION} variables={HomeMutationVariables}>
 				<input type="hidden" value={data?.Media?.id} name="animeId" />
