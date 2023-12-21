@@ -273,35 +273,8 @@ export default withTV({
 				)
 			},
 		),
-		plugin(({ addUtilities }) => {
-			addUtilities({
-				".text-wrap": { "text-wrap": "wrap" },
-				".text-nowrap": { "text-wrap": "nowrap" },
-				".text-balance": { "text-wrap": "balance" },
-				".text-pretty": { "text-wrap": "pretty" },
-			})
-		}),
-		plugin(({ matchVariant }) => {
-			matchVariant("has", (value) => `&:has(${normalize(value)})`, {
-				values: {},
-			})
-			matchVariant(
-				"group-has",
-				(value, { modifier }) =>
-					modifier
-						? `:merge(.group\\/${modifier}):has(${normalize(value)}) &`
-						: `:merge(.group):has(${normalize(value)}) &`,
-				{ values: {} },
-			)
-			matchVariant(
-				"peer-has",
-				(value, { modifier }) =>
-					modifier
-						? `:merge(.peer\\/${modifier}):has(${normalize(value)}) ~ &`
-						: `:merge(.peer):has(${normalize(value)}) ~ &`,
-				{ values: {} },
-			)
-		}),
+		plugin(({ addUtilities }) => {}),
+		plugin(({ matchVariant }) => {}),
 		plugin(({ addComponents, matchComponents, addVariant, matchVariant }) => {
 			matchComponents({}, {})
 
