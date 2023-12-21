@@ -33,7 +33,7 @@ import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
 import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import {} from "~/components/Dialog"
+import { } from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
 import { Select } from "~/components/Select"
 import { btnIcon } from "~/lib/button"
@@ -193,11 +193,9 @@ function toWatch(data: FragmentType<typeof ToWatch_entry>) {
 
 function behind(entry: any) {
 	return (
-		((entry.media?.nextAiringEpisode?.episode - 1 ||
+		(entry.media?.nextAiringEpisode?.episode - 1 ||
 			entry.media?.episodes ||
-			Number.POSITIVE_INFINITY) -
-			(entry.progress ?? 0)) *
-			((entry.media?.duration ?? 25) - 3) || Number.POSITIVE_INFINITY
+			Number.POSITIVE_INFINITY) - (entry.progress ?? 0)
 	)
 }
 
@@ -349,7 +347,7 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
 					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
 				<Link to={`/${entry.media?.id}`}>
-					<span className="line-clamp-1 text-body-lg text-balance">
+					<span className="line-clamp-1 text-balance text-body-lg">
 						{entry.media?.title?.userPreferred}
 					</span>
 					<div className="gap-2 text-body-md text-on-surface-variant">
