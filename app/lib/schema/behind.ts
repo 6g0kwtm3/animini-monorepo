@@ -8,8 +8,7 @@ export default function (data: FragmentType<typeof behind_data>) {
 		((entry.media?.nextAiringEpisode?.episode - 1 ||
 			entry.media?.episodes ||
 			Number.POSITIVE_INFINITY) -
-			(entry.progress ?? 0)) *
-			((entry.media?.duration ?? 25) - 3) || Number.POSITIVE_INFINITY
+			(entry.progress ?? 0))
 	)
 }
 
@@ -17,7 +16,6 @@ const behind_data = graphql(`
 	fragment behind on MediaList @component {
 		progress
 		media {
-			duration
 			episodes
 			nextAiringEpisode {
 				episode
