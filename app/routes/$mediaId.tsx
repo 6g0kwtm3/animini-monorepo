@@ -262,7 +262,7 @@ export default function Page() {
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
 							<CardElevated className="!rounded-xl !p-16">
-								<h1 className="text-display-lg text-balance">
+								<h1 className="text-balance text-display-lg">
 									{data?.Media?.title?.userPreferred}
 								</h1>
 								<Menu>
