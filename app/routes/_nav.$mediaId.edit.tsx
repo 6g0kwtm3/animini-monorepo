@@ -1,11 +1,15 @@
-import { type ActionFunction, type LoaderFunction } from "@remix-run/node"
 import {
-	type ClientLoaderFunction,
+	redirect,
+	type ActionFunction,
+	type LoaderFunction,
+} from "@remix-run/node"
+import {
 	Form,
 	Link,
 	useActionData,
-	useLoaderData,
+	useNavigate,
 	useNavigation,
+	type ClientLoaderFunction,
 } from "@remix-run/react"
 import {
 	Effect,
@@ -35,7 +39,9 @@ import {
 	LoaderLive,
 	getClient,
 	nonNull,
+	raw,
 	useLoader,
+	useRawLoaderData,
 } from "~/lib/urql"
 
 import * as S from "@effect/schema/Schema"
@@ -52,26 +58,8 @@ import { dialog } from "~/lib/dialog"
 
 import { parse } from "@conform-to/dom"
 import { type ComponentPropsWithoutRef } from "react"
+import { ChipFilter } from "~/components/Chip"
 import { Select } from "~/components/Select"
-
-function ChipFilter({ children, ...props }: ComponentPropsWithoutRef<"input">) {
-	return (
-		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow surface state-on-surface-variant hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 has-[:checked]:state-on-secondary-container">
-			<input type="checkbox" className="peer hidden" {...props} />
-
-			<ChipFilterIcon></ChipFilterIcon>
-			{children}
-		</label>
-	)
-}
-
-function ChipFilterIcon() {
-	return (
-		<div className="i -ms-2 w-0 opacity-0 transition-all ease-out peer-checked:w-[1.125rem] peer-checked:opacity-100">
-			check
-		</div>
-	)
-}
 
 function isTouched(form: HTMLFormElement) {
 	return !(
@@ -176,10 +164,17 @@ const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 		(s) => s.padStart(maxLength, fillString),
 	)
 
+
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
 		Stream.run(Sink.head()),
+		Effect.flatten,
+		Effect.filterOrElse(
+			(data) => Predicate.isNotNull(data?.Viewer),
+			() => Effect.succeed(redirect("..")),
+		),
+		Effect.map(raw),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -191,6 +186,11 @@ export const clientLoader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
+		Effect.filterOrElse(
+			(data) => Predicate.isNotNull(data?.Viewer),
+			() => Effect.succeed(redirect("..")),
+		),
+		Effect.map(raw),
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -263,7 +263,7 @@ const EditPageViewer = graphql(`
 				animeList {
 					advancedScoringEnabled
 					advancedScoring
-					...AdvancedScores_mediaListTypeOptions
+
 					...CustomLists_mediaListTypeOptions
 				}
 				scoreFormat
@@ -337,7 +337,10 @@ const OPTIONS = {
 }
 
 export default function Page() {
-	const data = useLoader(_loader, useLoaderData<typeof loader>())
+	const data = useLoader(
+		_loader,
+		useRawLoaderData<typeof loader | typeof clientLoader>(),
+	)
 
 	const score = useSignal(String(data?.Media?.mediaListEntry?.score || 0))
 
@@ -359,24 +362,26 @@ export default function Page() {
 		Option.filter(Predicate.isReadonlyRecord),
 	)
 
+	const defaultAdvancedScores = pipe(
+		data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
+			?.filter(nonNull)
+			.map((category) =>
+				pipe(
+					advancedScores,
+					Option.flatMap(ReadonlyRecord.get(category)),
+					Option.filter(Predicate.isNumber),
+					Option.getOrElse(() => ""),
+				),
+			),
+	)
+
 	const [form, fields] = useForm<
 		Record<keyof InferVariables<typeof Save>, unknown>
 	>({
 		defaultValue: {
 			advancedScores: data?.Viewer?.mediaListOptions?.animeList
 				?.advancedScoringEnabled
-				? pipe(
-						data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
-							?.filter(nonNull)
-							.map((category) =>
-								pipe(
-									advancedScores,
-									Option.flatMap(ReadonlyRecord.get(category)),
-									Option.filter(Predicate.isNumber),
-									Option.getOrElse(() => ""),
-								),
-							),
-					)
+				? defaultAdvancedScores
 				: [],
 			completedAt: pipe(
 				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.completedAt),
@@ -402,6 +407,7 @@ export default function Page() {
 			customLists: pipe(
 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
+				Option.map(ReadonlyRecord.filter((key) => !!key)),
 				Option.map(Object.keys),
 				Option.getOrElse(() => ""),
 			),
@@ -409,7 +415,10 @@ export default function Page() {
 		...(lastSubmission ? { lastSubmission } : {}),
 	})
 
-	const advancedScoresFields = useFieldList(form, fields["advancedScores"])
+	const advancedScoresFields = useFieldList(form.ref, fields["advancedScores"])
+
+	const navigate = useNavigate()
+
 	return (
 		<>
 			<>
@@ -428,7 +437,10 @@ export default function Page() {
 									<DialogFullscreenIcon className="sm:hidden">
 										<Ariakit.DialogDismiss
 											render={
-												<Link to=".." replace>
+												<Link
+													to=".."
+													onClick={(e) => (e.preventDefault(), navigate(-1))}
+												>
 													<span className="i">close</span>
 													<div className="sr-only">Cancel</div>
 												</Link>
@@ -595,12 +607,6 @@ const FuzzyDateLift = S.struct({
 	year: S.optionFromNullable(S.number),
 	day: S.optionFromNullable(S.number),
 })
-
-const AdvancedScores_mediaListTypeOptions = graphql(`
-	fragment AdvancedScores_mediaListTypeOptions on MediaListTypeOptions {
-		advancedScoring
-	}
-`)
 
 function calculateAverageScore(
 	e: React.FormEvent<HTMLInputElement>,

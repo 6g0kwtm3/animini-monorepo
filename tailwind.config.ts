@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss"
 //@ts-ignore
-import { normalize } from "tailwindcss/lib/util/dataTypes"
 //@ts-ignore
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette"
 //@ts-ignore
@@ -218,15 +217,15 @@ export default withTV({
 
 				const surfaceTint = theme("colors.surface-tint", "transparent").replace(
 					"<alpha-value>",
-					"var(--mdi-elevation-opacity)",
+					"var(--mdi-elevation-opacity, 0)",
 				)
 
 				const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
 
 				addUtilities({
 					".surface": {
-						"--mdi-elevation-opacity": "0",
-						"--mdi-state-color": "transparent",
+						// "--mdi-elevation-opacity": "0",
+						// "--mdi-state-color": "transparent",
 						backgroundImage,
 					},
 				})
@@ -263,7 +262,7 @@ export default withTV({
 								property: "--mdi-state-color",
 								variable: "--mdi-state-opacity",
 							}),
-							"--mdi-state-opacity": 0,
+							"--mdi-state-opacity": undefined,
 						}),
 					},
 					{
@@ -279,11 +278,11 @@ export default withTV({
 			matchComponents({}, {})
 
 			addVariant("error", [
-				"&:has(:user-invalid)",
+				"&:has(:is(:user-invalid,:-moz-ui-invalid,:invalid))",
 				"&:has([aria-invalid=true])",
 			])
 			addVariant("group-error", [
-				":merge(.group):has(:user-invalid) &",
+				":merge(.group):has(:is(:user-invalid,:-moz-ui-invalid,:invalid)) &",
 				":merge(.group):has([aria-invalid=true]) &",
 			])
 		}),
@@ -303,7 +302,7 @@ export default withTV({
 				},
 				{
 					values: Object.fromEntries(
-						Object.entries(theme("spacing")).filter(
+						Object.entries(theme("spacing") || {}).filter(
 							([key]) => 5 <= Number(key) && Number(key) <= 12,
 						),
 					),
@@ -337,6 +336,14 @@ export default withTV({
 					".i": {
 						"--grad": "-25",
 					},
+				},
+			})
+			addComponents({
+				".i-inline": {
+					"font-size": "inherit",
+					"vertical-align": "-11.5%",
+					"line-height": "inherit",
+					"font-weight": "inherit",
 				},
 			})
 		}),

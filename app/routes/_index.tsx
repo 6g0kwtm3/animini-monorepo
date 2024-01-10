@@ -3,7 +3,6 @@ import type {
 	LoaderFunction,
 	MetaFunction,
 } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
 import {
 	ButtonElevated,
 	ButtonFilled,
@@ -14,7 +13,7 @@ import {
 import { UrqlForm } from "~/components/UrqlForm"
 import { graphql } from "~/gql"
 
-import { getClient, useLoadedQuery } from "~/lib/urql"
+import { getClient, useLoadedQuery, useRawLoaderData } from "~/lib/urql"
 
 export const meta: MetaFunction = () => {
 	return [
@@ -66,7 +65,7 @@ export default function Index() {
 		{
 			query: QUERY,
 		},
-		useLoaderData<typeof loader>().data,
+		useRawLoaderData<typeof loader>().data,
 	)
 
 	return (

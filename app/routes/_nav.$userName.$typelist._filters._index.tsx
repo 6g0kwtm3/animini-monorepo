@@ -1,10 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
-import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react"
+import { Form, Link, useSearchParams } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
-import { MediaStatus, MediaType } from "~/gql/graphql"
+import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 
 import {
 	ClientArgs,
@@ -13,7 +13,9 @@ import {
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
+	raw,
 	useLoader,
+	useRawLoaderData,
 	type InferVariables,
 } from "~/lib/urql"
 
@@ -27,36 +29,20 @@ import {
 	pipe,
 } from "effect"
 
-import { BaseButton, ButtonText, ButtonTonal } from "~/components/Button"
+import { BaseButton, ButtonTonal } from "~/components/Button"
 import { CardOutlined } from "~/components/Card"
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
 import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
 import type { VariantProps } from "tailwind-variants"
-import {} from "~/components/Dialog"
+import { } from "~/components/Dialog"
 import { PaneFlexible } from "~/components/Pane"
-import { Select } from "~/components/Select"
 import { btnIcon } from "~/lib/button"
-
-const ToWatch_entry = graphql(`
-	fragment ToWatch_entry on MediaList {
-		progress
-		media {
-			episodes
-			nextAiringEpisode {
-				id
-				episode
-			}
-			duration
-			status
-			id
-		}
-	}
-`)
 
 const ListItem_entry = graphql(`
 	fragment ListItem_entry on MediaList {
 		...ToWatch_entry
+		...Behind_entry
 
 		score
 		progress
@@ -70,21 +56,6 @@ const ListItem_entry = graphql(`
 				medium
 			}
 			episodes
-		}
-	}
-`)
-
-const MediaList_group = graphql(`
-	fragment MediaList_group on MediaListGroup {
-		name
-		entries {
-			id
-			...ToWatch_entry
-			...ListItem_entry
-			media {
-				id
-				status
-			}
 		}
 	}
 `)
@@ -147,6 +118,7 @@ export const loader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
+		Effect.map(raw),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -158,45 +130,63 @@ export const clientLoader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
+		Effect.map(raw),
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
 	)
 }) satisfies ClientLoaderFunction
 
+const ToWatch_entry = graphql(`
+	fragment ToWatch_entry on MediaList {
+		...Behind_entry
+		media {
+			duration
+			id
+		}
+		id
+	}
+`)
+
 function toWatch(data: FragmentType<typeof ToWatch_entry>) {
 	const entry = readFragment(ToWatch_entry, data)
-
-	// return Option.gen(function* (_) {
-	//   const episodes = yield* _(
-	//     Option.firstSomeOf([
-	//       pipe(
-	//         Option.fromNullable(entry.media?.episodes),
-	//         Option.filter(() => entry.media?.status === MediaStatus.Finished)
-	//       ),
-	//       pipe(
-	//         Option.fromNullable(entry.media?.nextAiringEpisode?.episode),
-	//         Option.filter(() => entry.media?.status === MediaStatus.Releasing),
-	//         Option.subtract(Option.some(1))
-	//       ),
-	//     ])
-	//   )
-
-	//   const progress = entry.progress ?? 0
-	//   const duration = entry.media?.duration ?? 25
-
-	//   return (episodes - progress) * duration
-	// })
-
-	return behind(entry) * ((entry.media?.duration ?? 25) - 3) || Infinity
+	return (
+		behind(entry) * ((entry.media?.duration ?? 25) - 3) ||
+		Number.POSITIVE_INFINITY
+	)
 }
 
-function behind(entry: any) {
-	return (
-		(entry.media?.nextAiringEpisode?.episode - 1 ||
-			entry.media?.episodes ||
-			Number.POSITIVE_INFINITY) - (entry.progress ?? 0)
-	)
+const Behind_entry = graphql(`
+	fragment Behind_entry on MediaList {
+		progress
+		media {
+			status
+			episodes
+			nextAiringEpisode {
+				id
+				episode
+			}
+			id
+		}
+	}
+`)
+
+function behind(data: FragmentType<typeof Behind_entry>) {
+	const entry = readFragment(Behind_entry, data)
+
+	if (
+		entry?.media?.status === MediaStatus.Releasing ||
+		entry?.media?.status === MediaStatus.Finished ||
+		entry?.media?.status === MediaStatus.Cancelled
+	) {
+		return (
+			(Number(entry.media?.nextAiringEpisode?.episode) - 1 ||
+				entry.media?.episodes ||
+				Number.POSITIVE_INFINITY) - (entry.progress ?? 0)
+		)
+	}
+
+	return 0
 }
 
 function formatWatch(minutes: number) {
@@ -215,35 +205,58 @@ declare global {
 	}
 }
 
+const MediaList_group = graphql(`
+	fragment MediaList_group on MediaListGroup {
+		name
+		entries {
+			id
+			...ToWatch_entry
+			...ListItem_entry
+			media {
+				id
+				status
+				format
+			}
+		}
+	}
+`)
+
 function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 	const page = readFragment(MediaList_group, props.item)
 
 	const [searchParams] = useSearchParams()
 
-	const status = Object.entries(OPTIONS).find(
-		([, value]) => value === searchParams.get("status"),
-	)?.[0]
+	const status = searchParams
+		.getAll("status")
+		.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
+
+	const format = searchParams
+		.getAll("format")
+		.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
 
 	let entries = pipe(
 		page?.entries?.filter(nonNull) ?? [],
 		ReadonlyArray.sortBy(
 			// Order.mapInput(Order.number, (entry) => behind(entry)),
-			Order.mapInput(
-				Order.number,
-				(entry: FragmentType<typeof ToWatch_entry>) => toWatch(entry),
-			),
+			Order.mapInput(Order.number, toWatch),
 			Order.mapInput(Order.number, (entry) => {
-				const status = readFragment(ToWatch_entry, entry)?.media?.status
-
 				return [MediaStatus.Releasing, MediaStatus.NotYetReleased].indexOf(
-					status,
+					entry?.media?.status,
 				)
 			}),
 		),
 	)
 
-	if (status) {
-		entries = entries.filter((entry) => entry?.media?.status === status)
+	if (status.length) {
+		entries = entries.filter((entry) =>
+			status.includes(entry?.media?.status ?? ""),
+		)
+	}
+
+	if (format.length) {
+		entries = entries.filter((entry) =>
+			format.includes(entry?.media?.format ?? ""),
+		)
 	}
 
 	return (
@@ -329,7 +342,6 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 
 function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
 	const entry = readFragment(ListItem_entry, props.entry)
-	const watch = toWatch(entry)
 
 	return (
 		<div className="group flex grid-flow-col items-start gap-4 px-4 py-3 text-on-surface surface state-on-surface hover:state-hover">
@@ -350,10 +362,21 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
 					<span className="line-clamp-1 text-balance text-body-lg">
 						{entry.media?.title?.userPreferred}
 					</span>
-					<div className="gap-2 text-body-md text-on-surface-variant">
-						<div>Score: {entry.score}</div>
-						<div>To watch: {formatWatch(watch)}</div>
-						<div>Behind: {behind(entry)}</div>
+					<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
+						<div>
+							<span className="i i-inline">grade</span>
+							{entry.score}
+						</div>
+						&middot;
+						<div>
+							<span className="i i-inline">timer</span>
+							{formatWatch(toWatch(entry))} to watch
+						</div>
+						&middot;
+						<div>
+							<span className="i i-inline">next_plan</span>
+							{behind(entry)} behind
+						</div>
 					</div>
 				</Link>
 				<div className="ms-auto shrink-0 text-label-sm text-on-surface-variant">
@@ -398,7 +421,7 @@ function ButtonIcon({
 export default function Page() {
 	const [searchParams] = useSearchParams()
 
-	const data = useLoader(_loader, useLoaderData<typeof loader>())
+	const data = useLoader(_loader, useRawLoaderData<typeof loader>())
 
 	const selected = searchParams.get("selected")
 
@@ -504,8 +527,6 @@ export default function Page() {
             </Tabs>
           </nav> */}
 
-							<StatusFilter></StatusFilter>
-
 							<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
 								{allLists?.map((list) => {
 									return (
@@ -568,31 +589,19 @@ export default function Page() {
 	)
 }
 
-const OPTIONS = {
+const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: "Finished",
 	[MediaStatus.Releasing]: "Releasing",
 	[MediaStatus.NotYetReleased]: "Not Yet Released",
 	[MediaStatus.Cancelled]: "Cancelled",
 }
 
-function StatusFilter() {
-	const [searchParams] = useSearchParams()
-
-	return (
-		<Form>
-			<input
-				type="hidden"
-				name="selected"
-				value={searchParams.get("selected") ?? undefined}
-			/>
-			<Select
-				name="status"
-				defaultValue={searchParams.get("status") ?? "Any"}
-				options={["Any", ...Object.values(OPTIONS)]}
-			>
-				Status
-			</Select>
-			<ButtonText type="submit">Filter</ButtonText>
-		</Form>
-	)
+const FORMAT_OPTIONS = {
+	[MediaFormat.Tv]: "TV",
+	[MediaFormat.TvShort]: "TV Short",
+	[MediaFormat.Movie]: "Movie",
+	[MediaFormat.Special]: "Special",
+	[MediaFormat.Ova]: "OVA",
+	[MediaFormat.Ona]: "ONA",
+	[MediaFormat.Music]: "Music",
 }

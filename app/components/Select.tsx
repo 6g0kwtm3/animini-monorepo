@@ -13,17 +13,20 @@ const SelectLazy = lazy(() => import("./SelectLazy"))
 export function Select({
 	children,
 	options,
+	store,
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
-	ComponentPropsWithoutRef<"select"> & {
-		options: string[]
-		children?: ReactNode
-	}) {
+}: (ComponentPropsWithoutRef<typeof Ariakit.Select> &
+	ComponentPropsWithoutRef<"select">) & {
+	options: string[]
+	children?: ReactNode
+	store?: ComponentPropsWithoutRef<typeof Ariakit.Select>["store"]
+}) {
 	return (
 		<ClientOnly
 			fallback={
 				<TextFieldOutlined>
 					<select
+						defaultValue={store?.getState().value ?? undefined}
 						{...props}
 						className={input({ className: "appearance-none" })}
 					>
@@ -48,12 +51,10 @@ export function Select({
 		>
 			{() => (
 				<SelectLazy
-					{...{
-						options,
-						children,
-
-						...props,
-					}}
+					options={options}
+					store={store}
+					children={children}
+					{...props}
 				/>
 			)}
 		</ClientOnly>

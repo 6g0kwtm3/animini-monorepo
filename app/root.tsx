@@ -21,7 +21,7 @@ export const loader = (async () => {
 
 export default function App() {
 	const data = IS_SERVER ? ssr.extractData() : window.__URQL_DATA__
-
+	
 	return (
 		<html lang="en" className="bg-surface text-on-surface">
 			<head>
@@ -43,6 +43,7 @@ export default function App() {
 				></script>
 				<Provider value={urql}>
 					<SnackbarQueue>
+
 						<Outlet />
 					</SnackbarQueue>
 				</Provider>

@@ -21,6 +21,7 @@ export default function SelectLazy({
 }) {
 	return (
 		<Ariakit.SelectProvider
+			{...(props.store ? { store: props.store } : {})}
 			{...(Predicate.isString(defaultValue) || Array.isArray(defaultValue)
 				? { defaultValue }
 				: {})}

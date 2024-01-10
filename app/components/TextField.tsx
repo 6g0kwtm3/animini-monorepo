@@ -8,7 +8,7 @@ export function TextFieldOutlined({
 	...props
 }: ComponentPropsWithoutRef<"label">) {
 	return (
-		<label {...props} className={classes("group mt-[10px]", props.className)}>
+		<label {...props} className={classes("group block mt-[.35rem]", props.className)}>
 			<div className="relative flex items-center justify-between">
 				{children}
 			</div>
@@ -37,13 +37,13 @@ function OutlinedLabel({ children }: ComponentPropsWithoutRef<"div">) {
 				{children}
 			</div>
 
-			<fieldset className="pointer-events-none absolute -top-[10px] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
+			<fieldset className="pointer-events-none absolute -top-[0.71875rem] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
 				<legend
 					className={
 						"overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-focus-within:group-has-[:placeholder-shown]:max-w-none"
 					}
 				>
-					<span className="px-1 text-label-sm group-has-[:required]:after:content-['*']">
+					<span className="px-1 text-body-sm group-has-[:required]:after:content-['*']">
 						{children}
 					</span>
 				</legend>

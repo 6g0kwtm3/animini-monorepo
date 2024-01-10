@@ -1,10 +1,9 @@
 import type { LoaderFunction } from "@remix-run/node"
 import {
 	Link,
-	useLoaderData,
 	useLocation,
 	useOutlet,
-	useOutletContext,
+	useOutletContext
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
@@ -15,7 +14,9 @@ import {
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
+	raw,
 	useLoader,
+	useRawLoaderData,
 } from "~/lib/urql"
 
 import type { Theme } from "@material/material-color-utilities"
@@ -77,6 +78,14 @@ const EntryPageQuery = graphql(`
 	}
 `)
 
+const EntryPageViewerQuery = graphql(`
+	query EntryPageViewer {
+		Viewer {
+			id
+		}
+	}
+`)
+
 const variants = {
 	enter: (direction: number) => {
 		return {
@@ -115,18 +124,27 @@ const _loader = pipe(
 	Stream.Do,
 	Stream.bind("args", () => ClientArgs),
 	Stream.bind("client", () => EffectUrql),
-	Stream.flatMap(({ client, args: { params } }) =>
-		client.query(EntryPageQuery, {
+	Stream.bind("EntryPageQuery", ({ client, args: { params } }) =>
+		(console.log(params),client.query(EntryPageQuery, {
 			id: Number(params["mediaId"]),
-		}),
+		})),
 	),
+	Stream.bind("EntryPageViewerQuery", ({ client }) =>
+		client.query(EntryPageViewerQuery, {}),
+	),
+	Stream.map(({ EntryPageViewerQuery, EntryPageQuery }) => ({
+		...EntryPageViewerQuery,
+		...EntryPageQuery,
+	})),
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
+
 		Stream.run(Sink.head()),
 		Effect.flatten,
+		Effect.map(raw),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -205,7 +223,7 @@ const ThemeProvider = ({
 }
 
 export default function Page() {
-	const data = useLoader(_loader, useLoaderData<typeof loader>())
+	const data = useLoader(_loader, useRawLoaderData<typeof loader>())
 
 	const outlet = useOutlet()
 	const { pathname } = useLocation()
@@ -329,7 +347,16 @@ export default function Page() {
 					</motion.div>
 
 					<motion.div layoutId="edit" className="fixed bottom-4 end-4">
-						<Link to="edit" className={fab({})} replace>
+						<Link
+							to={
+								data?.Viewer
+									? "edit"
+									: `/login/?${new URLSearchParams({
+											redirect: `${pathname}/edit`,
+										})}`
+							}
+							className={fab({})}
+						>
 							edit
 						</Link>
 					</motion.div>

@@ -6,6 +6,7 @@ import type {
 	DocumentInput,
 	Exchange,
 	OperationContext,
+	OperationResult,
 	SSRData,
 	TypedDocumentNode,
 } from "urql"
@@ -19,7 +20,7 @@ import cookie from "cookie"
 
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import type { ClientLoaderFunctionArgs, Params } from "@remix-run/react"
-import { useParams, useSearchParams } from "@remix-run/react"
+import { useLoaderData, useParams, useSearchParams } from "@remix-run/react"
 
 import { useMemo, useSyncExternalStore } from "react"
 
@@ -37,6 +38,8 @@ import {
 
 import * as wonka from "wonka"
 import { IS_SERVER } from "./isClient"
+
+import { uneval } from "devalue"
 
 export const ssr = ssrExchange({
 	isClient: !IS_SERVER,
@@ -125,10 +128,9 @@ if (!IS_SERVER) {
 	exchanges.push(
 		offlineExchange<GraphCacheConfig>(Object.assign(graphcacheConfig, {})),
 		authExchange(async (utils) => {
-			const { "anilist-token": token } = cookie.parse(document.cookie)
-
 			return {
 				addAuthToOperation(operation) {
+					const { "anilist-token": token } = cookie.parse(document.cookie)
 					if (!token) return operation
 					return utils.appendHeaders(operation, {
 						Authorization: `Bearer ${token}`,
@@ -139,11 +141,11 @@ if (!IS_SERVER) {
 				},
 				didAuthError(error, _operation) {
 					return error.graphQLErrors.some((e) =>
-						e.message.includes("Unauthorized"),
+						e.message.includes("Invalid token"),
 					)
 				},
 				async refreshAuth() {
-					// document.cookie = ""
+					document.cookie = ""
 					logout()
 				},
 			}
@@ -189,12 +191,12 @@ function createStatelessClient(request: Request) {
 	exchanges.push(
 		cacheExchange<GraphCacheConfig>(graphcacheConfig),
 		authExchange(async (utils) => {
-			const { "anilist-token": token } = cookie.parse(
-				request.headers.get("Cookie") ?? "",
-			)
-
+			
 			return {
 				addAuthToOperation(operation) {
+					const { "anilist-token": token } = cookie.parse(
+						request.headers.get("Cookie") ?? "",
+					)
 					if (!token) return operation
 					return utils.appendHeaders(operation, {
 						Authorization: `Bearer ${token}`,
@@ -208,9 +210,7 @@ function createStatelessClient(request: Request) {
 						e.message.includes("Unauthorized"),
 					)
 				},
-				async refreshAuth() {
-					throw new Error("Unauthorized")
-				},
+				async refreshAuth() {},
 			}
 		}),
 		fetchExchange,
@@ -243,6 +243,8 @@ export function useLoader<E, A>(
 	_loader: Stream.Stream<EffectUrql | Arguments, E, A>,
 	initialData: A,
 ) {
+	return initialData;
+	
 	const params = useParams()
 	const [searchParams] = useSearchParams()
 
@@ -259,6 +261,7 @@ export function useLoader<E, A>(
 				if (listeners.length === 0) {
 					const fiber = pipe(
 						_loader,
+
 						Stream.runForEach((data) =>
 							Effect.sync(() => {
 								if (data === state) {
@@ -301,17 +304,25 @@ export function useLoader<E, A>(
 	)
 }
 
+class NetworkError extends Error {
+	_tag = "Network"
+}
+
+type Result<Data> = Stream.Stream<never, NetworkError, Data | undefined>
+
+type Args<Data, Variables extends AnyVariables> = [
+	query: DocumentInput<Data, Variables>,
+	variables: Variables,
+	context?: Partial<OperationContext>,
+]
+
 interface EffectUrql {
 	query<Data = any, Variables extends AnyVariables = AnyVariables>(
-		query: DocumentInput<Data, Variables>,
-		variables: Variables,
-		context?: Partial<OperationContext>,
-	): Stream.Stream<never, Error, Data | undefined>
+		...args: Args<Data, Variables>
+	): Result<Data>
 	mutation<Data = any, Variables extends AnyVariables = AnyVariables>(
-		mutation: DocumentInput<Data, Variables>,
-		variables: Variables,
-		context?: Partial<OperationContext>,
-	): Stream.Stream<never, Error, Data | undefined>
+		...args: Args<Data, Variables>
+	): Result<Data>
 }
 
 export const EffectUrql = Context.Tag<EffectUrql>("Urql")
@@ -339,37 +350,37 @@ export function StreamFromSource<T>(source: wonka.Source<T>) {
 	})
 }
 
+function streamFromResult<Data, Variables extends AnyVariables = AnyVariables>(
+	result: OperationResult<Data, Variables>,
+) {
+	if (result.error?.networkError) {
+		return Stream.fail(
+			new NetworkError(result.error.networkError.message, {
+				cause: result.error.networkError.cause,
+			}),
+		)
+	}
+
+	// if (result.error?.graphQLErrors.length) {
+	// 	console.error(print(result.operation.query), ...result.error?.graphQLErrors)
+	// }
+
+	return Stream.succeed(result.data)
+}
+
 const UrqlLive = Layer.effect(
 	EffectUrql,
 	Effect.map(UrqlClient, (client) => {
 		return EffectUrql.of({
-			query: <Data = any, Variables extends AnyVariables = AnyVariables>(
-				query: DocumentInput<Data, Variables>,
-				variables: Variables,
-				context?: Partial<OperationContext>,
-			): Stream.Stream<never, Error, Data | undefined> =>
+			query: (...args) =>
 				pipe(
-					StreamFromSource(client.query(query, variables)),
-					Stream.flatMap((result) => {
-						if (result.error?.networkError) {
-							return Stream.fail(result.error.networkError)
-						}
-						return Stream.succeed(result.data)
-					}),
+					StreamFromSource(client.query(...args)),
+					Stream.flatMap(streamFromResult),
 				),
-			mutation: <Data = any, Variables extends AnyVariables = AnyVariables>(
-				mutation: DocumentInput<Data, Variables>,
-				variables: Variables,
-				context?: Partial<OperationContext>,
-			): Stream.Stream<never, Error, Data | undefined> =>
+			mutation: (...args) =>
 				pipe(
-					StreamFromSource(client.mutation(mutation, variables)),
-					Stream.flatMap((result) => {
-						if (result.error?.networkError) {
-							return Stream.fail(result.error.networkError)
-						}
-						return Stream.succeed(result.data)
-					}),
+					StreamFromSource(client.mutation(...args)),
+					Stream.flatMap(streamFromResult),
 				),
 		})
 	}),
@@ -401,3 +412,26 @@ export const ClientLoaderLive = Layer.merge(
 	ArgsAdapterLive,
 	UrqlLive.pipe(Layer.provide(GetClientUrqlLive)),
 )
+
+
+
+type RawValue<T> = T extends Raw<infer U> ? U : unknown
+
+export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
+	? RawValue<Awaited<Output>>
+	: RawValue<T>
+
+abstract class Raw<T> {
+	value!: T
+}
+
+export function raw<T>(value: T): Raw<T> {
+	return uneval(value) as unknown as Raw<T>
+}
+
+export function useRawLoaderData<T = unknown>() {
+	const data = useLoaderData()
+
+	// eslint-disable-next-line no-eval
+	return useMemo(() => (0, eval)(`(${data})`) as SerializeFrom<T>, [data])
+}

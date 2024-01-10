@@ -1,6 +1,6 @@
 import type { ActionFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
-import { type ClientActionFunction, Form } from "@remix-run/react"
+import { Form } from "@remix-run/react"
 import { ButtonFilled, ButtonText } from "~/components/Button"
 import {
 	TextFieldOutlined as Outlined,
@@ -21,36 +21,41 @@ export const action = (async ({ context, params, request }) => {
 		return {}
 	}
 
-	return redirect("/Hoodboi/animelist/?selected=Watching", {
-		headers: {
-			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
-				sameSite: "lax",
-				maxAge: 604_800,
-				path: "/",
-			}),
+	const url = new URL(request.url)
+
+	return redirect(
+		url.searchParams.get("redirect") ?? "/Hoodboi/animelist/?selected=Watching",
+		{
+			headers: {
+				"Set-Cookie": cookie.serialize(`anilist-token`, token, {
+					sameSite: "lax",
+					maxAge: 604_800,
+					path: "/",
+				}),
+			},
 		},
-	})
+	)
 }) satisfies ActionFunction
 
-export const clientAction = (async ({ request }) => {
-	const formData = await request.formData()
+// export const clientAction = (async ({ request }) => {
+// 	const formData = await request.formData()
 
-	const token = formData.get("token")
+// 	const token = formData.get("token")
 
-	if (typeof token !== "string") {
-		return {}
-	}
+// 	if (typeof token !== "string") {
+// 		return {}
+// 	}
 
-	return redirect("/Hoodboi/animelist/?selected=Watching", {
-		headers: {
-			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
-				sameSite: "lax",
-				maxAge: 604_800,
-				path: "/",
-			}),
-		},
-	})
-}) satisfies ClientActionFunction
+// 	return redirect("/Hoodboi/animelist/?selected=Watching", {
+// 		headers: {
+// 			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
+// 				sameSite: "lax",
+// 				maxAge: 604_800,
+// 				path: "/",
+// 			}),
+// 		},
+// 	})
+// }) satisfies ClientActionFunction
 
 export default function Login() {
 	return (
@@ -64,7 +69,7 @@ export default function Login() {
 				<footer className="flex justify-end gap-2">
 					<a
 						target="_blank"
-						href={`https://anilist.co/api/v2/oauth/authorize?${new URLSearchParams(
+						href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
 							{
 								client_id: String(ANILIST_CLIENT_ID),
 								response_type: "token",
