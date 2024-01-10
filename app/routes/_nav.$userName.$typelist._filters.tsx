@@ -178,8 +178,6 @@ export default function Filters() {
 		[entries],
 	)
 
-	
-
 	return (
 		<div>
 			<Form

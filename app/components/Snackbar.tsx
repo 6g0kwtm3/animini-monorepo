@@ -1,6 +1,10 @@
 import { useSignal } from "@preact/signals-react"
 import { Predicate } from "effect"
-import type { ComponentPropsWithoutRef, ElementRef, PropsWithChildren } from "react"
+import type {
+	ComponentPropsWithoutRef,
+	ElementRef,
+	PropsWithChildren,
+} from "react"
 import {
 	createContext,
 	useCallback,
@@ -83,7 +87,7 @@ export function Snackbar({
 	timeout?: number
 	open: boolean
 }) {
-	const ref = useRef<ElementRef<'div'>>(null)
+	const ref = useRef<ElementRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
 	useEffect(() => {

@@ -191,7 +191,6 @@ function createStatelessClient(request: Request) {
 	exchanges.push(
 		cacheExchange<GraphCacheConfig>(graphcacheConfig),
 		authExchange(async (utils) => {
-			
 			return {
 				addAuthToOperation(operation) {
 					const { "anilist-token": token } = cookie.parse(
@@ -243,8 +242,8 @@ export function useLoader<E, A>(
 	_loader: Stream.Stream<EffectUrql | Arguments, E, A>,
 	initialData: A,
 ) {
-	return initialData;
-	
+	return initialData
+
 	const params = useParams()
 	const [searchParams] = useSearchParams()
 
@@ -412,8 +411,6 @@ export const ClientLoaderLive = Layer.merge(
 	ArgsAdapterLive,
 	UrqlLive.pipe(Layer.provide(GetClientUrqlLive)),
 )
-
-
 
 type RawValue<T> = T extends Raw<infer U> ? U : unknown
 

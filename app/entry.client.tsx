@@ -17,6 +17,4 @@ startTransition(() => {
 	)
 })
 
-
-
 // loadServiceWorker()

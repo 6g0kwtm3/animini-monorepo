@@ -1,8 +1,8 @@
-import { Slot } from "@radix-ui/react-slot";
-import type { ComponentPropsWithoutRef, ElementRef } from "react";
-import { useEffect, useRef } from "react";
+import { Slot } from "@radix-ui/react-slot"
+import type { ComponentPropsWithoutRef, ElementRef } from "react"
+import { useEffect, useRef } from "react"
 
-import { classes } from "./classes";
+import { classes } from "./classes"
 
 export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 	return (
@@ -23,7 +23,7 @@ export function MenuTrigger(props: ComponentPropsWithoutRef<"summary">) {
 }
 
 export function Menu(props: ComponentPropsWithoutRef<"details">) {
-	const ref = useRef<ElementRef<'details'>>(null)
+	const ref = useRef<ElementRef<"details">>(null)
 
 	useEffect(() => {
 		const listener = (event: MouseEvent): void => {

@@ -3,7 +3,7 @@ import {
 	Link,
 	useLocation,
 	useOutlet,
-	useOutletContext
+	useOutletContext,
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
@@ -124,10 +124,14 @@ const _loader = pipe(
 	Stream.Do,
 	Stream.bind("args", () => ClientArgs),
 	Stream.bind("client", () => EffectUrql),
-	Stream.bind("EntryPageQuery", ({ client, args: { params } }) =>
-		(console.log(params),client.query(EntryPageQuery, {
-			id: Number(params["mediaId"]),
-		})),
+	Stream.bind(
+		"EntryPageQuery",
+		({ client, args: { params } }) => (
+			console.log(params),
+			client.query(EntryPageQuery, {
+				id: Number(params["mediaId"]),
+			})
+		),
 	),
 	Stream.bind("EntryPageViewerQuery", ({ client }) =>
 		client.query(EntryPageViewerQuery, {}),

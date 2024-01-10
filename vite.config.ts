@@ -6,7 +6,7 @@ import config from "./remix.config"
 
 export default defineConfig({
 	plugins: [
-		million.vite({ auto: true, mute: true, }),
+		million.vite({ auto: true, mute: true }),
 		remix(config),
 		tsconfigPaths(),
 	],

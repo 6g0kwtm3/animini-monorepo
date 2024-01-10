@@ -8,7 +8,10 @@ export function TextFieldOutlined({
 	...props
 }: ComponentPropsWithoutRef<"label">) {
 	return (
-		<label {...props} className={classes("group block mt-[.35rem]", props.className)}>
+		<label
+			{...props}
+			className={classes("group mt-[.35rem] block", props.className)}
+		>
 			<div className="relative flex items-center justify-between">
 				{children}
 			</div>
