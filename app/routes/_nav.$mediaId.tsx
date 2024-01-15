@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node"
 import {
 	Link,
+	useLoaderData,
 	useLocation,
 	useOutlet,
 	useOutletContext,
@@ -9,15 +10,7 @@ import {
 import type { Variants } from "framer-motion"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	raw,
-	useLoader,
-	useRawLoaderData,
-} from "~/lib/urql"
+import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 
 import type { Theme } from "@material/material-color-utilities"
 import {
@@ -47,6 +40,7 @@ import {
 
 import { button, fab } from "~/lib/button"
 
+import { useTooltipStore } from "@ariakit/react"
 import {
 	Menu,
 	MenuDivider,
@@ -58,6 +52,11 @@ import {
 	MenuTrigger,
 } from "~/components/Menu"
 import { PaneFlexible } from "~/components/Pane"
+import {
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
+} from "~/components/Tooltip"
 import { graphql } from "~/gql"
 
 const EntryPageQuery = graphql(`
@@ -148,7 +147,7 @@ export const loader = (async (args) => {
 
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -227,7 +226,7 @@ const ThemeProvider = ({
 }
 
 export default function Page() {
-	const data = useLoader(_loader, useRawLoaderData<typeof loader>())
+	const data = useLoaderData<typeof loader>()
 
 	const outlet = useOutlet()
 	const { pathname } = useLocation()
@@ -350,20 +349,7 @@ export default function Page() {
 						</CardFilled>
 					</motion.div>
 
-					<motion.div layoutId="edit" className="fixed bottom-4 end-4">
-						<Link
-							to={
-								data?.Viewer
-									? "edit"
-									: `/login/?${new URLSearchParams({
-											redirect: `${pathname}/edit`,
-										})}`
-							}
-							className={fab({})}
-						>
-							edit
-						</Link>
-					</motion.div>
+					<Edit />
 
 					{outlet && (
 						<AnimatePresence mode="wait">
@@ -388,4 +374,42 @@ declare global {
 			popover?: "manual" | true | "auto" | undefined
 		}
 	}
+}
+
+function Edit() {
+	const data = useLoaderData<typeof loader>()
+
+	const { pathname } = useLocation()
+
+
+
+	const store = useTooltipStore()
+
+	return (
+		<motion.div layoutId="edit" className="fixed bottom-4 end-4">
+			<div className="relative">
+				<TooltipPlain store={store}>
+					<TooltipPlainTrigger
+						render={
+							<Link
+								to={
+									data?.Viewer
+										? "edit"
+										: `/login/?${new URLSearchParams({
+												redirect: `${pathname}/edit`,
+											})}`
+								}
+								preventScrollReset={true}
+								className={fab({})}
+								onClick={() => store.setOpen(false)}
+							>
+								edit
+							</Link>
+						}
+					></TooltipPlainTrigger>
+					<TooltipPlainContainer>Edit</TooltipPlainContainer>
+				</TooltipPlain>
+			</div>
+		</motion.div>
+	)
 }

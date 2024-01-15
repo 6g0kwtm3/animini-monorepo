@@ -1,64 +1,59 @@
 import type { LoaderFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
-import { Form, Link, useSearchParams } from "@remix-run/react"
+import {
+    Form,
+    Link,
+    useLoaderData,
+    useParams,
+    useRouteLoaderData,
+    useSearchParams,
+} from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 
 import {
-	ClientArgs,
-	ClientLoaderLive,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	nonNull,
-	raw,
-	useLoader,
-	useRawLoaderData,
-	type InferVariables,
+    ClientArgs,
+    ClientLoaderLive,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+    nonNull,
+    type InferVariables,
 } from "~/lib/urql"
 
 import {
-	Effect,
-	Order,
-	ReadonlyArray,
-	ReadonlyRecord,
-	Sink,
-	Stream,
-	pipe,
+    Effect,
+    Order,
+    Predicate,
+    ReadonlyArray,
+    ReadonlyRecord,
+    Sink,
+    Stream,
+    pipe,
 } from "effect"
 
-import { BaseButton, ButtonTonal } from "~/components/Button"
-import { CardOutlined } from "~/components/Card"
-import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
+import { ButtonText, ButtonTonal } from "~/components/Button"
+import {
+    graphql,
+    useFragment as readFragment,
+    useFragment,
+    type FragmentType,
+} from "~/gql"
 
-import { type ComponentPropsWithoutRef, type PropsWithChildren } from "react"
-import type { VariantProps } from "tailwind-variants"
-import {} from "~/components/Dialog"
-import { PaneFlexible } from "~/components/Pane"
-import { btnIcon } from "~/lib/button"
+import { } from "~/components/Dialog"
 
-const ListItem_entry = graphql(`
-	fragment ListItem_entry on MediaList {
-		...ToWatch_entry
-		...Behind_entry
-
-		score
-		progress
-		media {
-			id
-			title {
-				userPreferred
-			}
-			coverImage {
-				extraLarge
-				medium
-			}
-			episodes
-		}
-	}
-`)
+import {
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichSupportingText,
+    TooltipRichTrigger
+} from "~/components/Tooltip"
+import { avalible as getAvalible } from "~/lib/avalible"
+import { behind } from "~/lib/behind"
+import type { loader as rootLoader } from "~/root"
 
 const TypelistQuery = graphql(`
 	query TypelistQuery($userName: String!, $type: MediaType!) {
@@ -118,7 +113,6 @@ export const loader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -130,7 +124,7 @@ export const clientLoader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
+
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -151,42 +145,8 @@ const ToWatch_entry = graphql(`
 function toWatch(data: FragmentType<typeof ToWatch_entry>) {
 	const entry = readFragment(ToWatch_entry, data)
 	return (
-		behind(entry) * ((entry.media?.duration ?? 25) - 3) ||
-		Number.POSITIVE_INFINITY
+		behind(entry) * ((entry.media?.duration ?? 25) - 3)
 	)
-}
-
-const Behind_entry = graphql(`
-	fragment Behind_entry on MediaList {
-		progress
-		media {
-			status
-			episodes
-			nextAiringEpisode {
-				id
-				episode
-			}
-			id
-		}
-	}
-`)
-
-function behind(data: FragmentType<typeof Behind_entry>) {
-	const entry = readFragment(Behind_entry, data)
-
-	if (
-		entry?.media?.status === MediaStatus.Releasing ||
-		entry?.media?.status === MediaStatus.Finished ||
-		entry?.media?.status === MediaStatus.Cancelled
-	) {
-		return (
-			(Number(entry.media?.nextAiringEpisode?.episode) - 1 ||
-				entry.media?.episodes ||
-				Number.POSITIVE_INFINITY) - (entry.progress ?? 0)
-		)
-	}
-
-	return 0
 }
 
 function formatWatch(minutes: number) {
@@ -238,7 +198,7 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 		page?.entries?.filter(nonNull) ?? [],
 		ReadonlyArray.sortBy(
 			// Order.mapInput(Order.number, (entry) => behind(entry)),
-			Order.mapInput(Order.number, toWatch),
+			Order.mapInput(Order.number, (entry)=>toWatch(entry)||Number.POSITIVE_INFINITY),
 			Order.mapInput(Order.number, (entry) => {
 				return [MediaStatus.Releasing, MediaStatus.NotYetReleased].indexOf(
 					entry?.media?.status,
@@ -340,11 +300,29 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 	)
 }
 
+const ListItem_entry = graphql(`
+	fragment ListItem_entry on MediaList {
+		...ToWatch_entry
+		...Progress_entry
+		score
+		media {
+			id
+			title {
+				userPreferred
+			}
+			coverImage {
+				extraLarge
+				medium
+			}
+		}
+	}
+`)
+
 function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
 	const entry = readFragment(ListItem_entry, props.entry)
 
 	return (
-		<div className="group flex grid-flow-col items-start gap-4 px-4 py-3 text-on-surface surface state-on-surface hover:state-hover">
+		<div className="group flex grid-flow-col items-start gap-4 px-4 py-3 text-on-surface state-on-surface hover:state-hover">
 			<>
 				<div className="h-14 w-14 shrink-0">
 					<img
@@ -367,61 +345,110 @@ function ListItem(props: { entry: FragmentType<typeof ListItem_entry> }) {
 							<span className="i i-inline">grade</span>
 							{entry.score}
 						</div>
-						&middot;
-						<div>
-							<span className="i i-inline">timer</span>
-							{formatWatch(toWatch(entry))} to watch
-						</div>
-						&middot;
+						<>
+							&middot;
+							<div>
+								<span className="i i-inline">timer</span>
+								{formatWatch(toWatch(entry))} to watch
+							</div>
+						</>
+
+						{/* &middot;
 						<div>
 							<span className="i i-inline">next_plan</span>
 							{behind(entry)} behind
-						</div>
+						</div> */}
 					</div>
 				</Link>
-				<div className="ms-auto shrink-0 text-label-sm text-on-surface-variant">
-					<span className="group-hover:hidden">
-						{entry.progress}/{entry.media?.episodes}
-					</span>
-					<Form method="post" className="hidden group-hover:inline">
-						<input type="hidden" name="mediaId" value={entry.media?.id} />
-						<input
-							type="hidden"
-							name="progress"
-							value={(entry.progress ?? 0) + 1}
-						/>
-						<ButtonIcon type="submit" className="-m-3">
-							add
-						</ButtonIcon>
-					</Form>
-				</div>
+				{entry && (
+					<div className="ms-auto shrink-0 text-label-sm text-on-surface-variant">
+						<Progress entry={entry}></Progress>
+					</div>
+				)}
 			</>
 		</div>
 	)
 }
 
-function ButtonIcon({
-	children,
-	variant,
-	className,
-	...properties
-}: PropsWithChildren<
-	VariantProps<typeof btnIcon> &
-		Omit<ComponentPropsWithoutRef<typeof BaseButton>, "children">
->) {
-	const styles = btnIcon()
+const Progress_entry = graphql(`
+	fragment Progress_entry on MediaList {
+		id
+		progress
+		media {
+			...Avalible_media
+			id
+			episodes
+		}
+	}
+`)
+
+function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
+	const entry = useFragment(Progress_entry, props.entry)
+	const avalible = getAvalible(entry.media)
+	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const params = useParams()
 
 	return (
-		<BaseButton {...properties} className={styles.root({ variant, className })}>
-			<div className={styles.content()}>{children}</div>
-		</BaseButton>
+		<TooltipRich placement="top">
+			<TooltipRichTrigger className="relative">
+				{entry.progress}
+				{Predicate.isNumber(avalible) ? (
+					<>
+						/
+						<span
+							className={
+								avalible != entry.media?.episodes
+									? "underline decoration-dotted"
+									: ""
+							}
+						>
+							{avalible}
+						</span>
+					</>
+				) : (
+					""
+				)}
+			</TooltipRichTrigger>
+			<TooltipRichContainer>
+				<TooltipRichSupportingText>
+					{avalible !== entry.media?.episodes ? (
+						<>
+							Avalible episodes: {avalible ?? "unknown"}
+							<br />
+							Total episodes: {entry.media?.episodes ?? "unknown"}
+						</>
+					) : (
+						<>All episodes are avalible</>
+					)}
+				</TooltipRichSupportingText>
+				{Predicate.isString(data?.Viewer?.name) &&
+					data.Viewer.name === params["userName"] && (
+						<TooltipRichActions>
+							<Form method="post">
+								<input type="hidden" name="mediaId" value={entry.media?.id} />
+								<input
+									type="hidden"
+									name="progress"
+									value={(entry.progress ?? 0) + 1}
+								/>
+								<ButtonText type="submit" className="">
+									<ButtonText.Icon>add</ButtonText.Icon>
+									Increment progress
+								</ButtonText>
+							</Form>
+						</TooltipRichActions>
+					)}
+			</TooltipRichContainer>
+		</TooltipRich>
 	)
 }
+
+
 
 export default function Page() {
 	const [searchParams] = useSearchParams()
 
-	const data = useLoader(_loader, useRawLoaderData<typeof loader>())
+	const data = useLoaderData<typeof loader>()
 
 	const selected = searchParams.get("selected")
 
@@ -451,141 +478,35 @@ export default function Page() {
 	)
 
 	return (
-		<>
-			<>
-				<PaneFlexible className="?max-h-screen flex flex-col overflow-hidden">
-					<main className="grid grid-cols-12 md:gap-6">
-						{/* <aside className="py-2">
-          <Navigation>
-            <ul className="grid">
-              <li>
-                <Link
-                  to={{
-                    search: ``,
-                  }}
-                >
-                  <NavigationItem active={!selected}>
-                    <NavigationItemIcon></NavigationItemIcon>
-                    All
-                  </NavigationItem>
-                </Link>
-              </li>
-              {allLists?.map((list) => {
-                return (
-                  <li key={list.name}>
-                    <Link
-                      to={{
-                        search: `?selected=${list.name}`,
-                      }}
-                    >
-                      <NavigationItem active={selected === list.name}>
-                        <NavigationItemIcon></NavigationItemIcon>
-                        {list.name}
-                      </NavigationItem>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </Navigation>
-        </aside> */}
-						<div
-							className={`col-span-full hidden last:block max-md:last:flex-1 md:col-span-4 md:block`}
-						>
-							<CardOutlined>
-								<aside>
-									<nav>
-										<ul>
-											<li></li>
-										</ul>
-									</nav>
-								</aside>
-							</CardOutlined>
-						</div>
-						<div
-							className={`col-span-full hidden last:block max-md:last:flex-1 md:col-span-8 md:block`}
-						>
-							{/* <nav className="z-10">
-            <Tabs>
-              <ul className="grid grid-flow-col">
-                {allLists?.map((list) => {
-                  return (
-                    <li className="first:ms-[3.25rem]" key={list.name}>
-                      <TabsTab
-                        active={selected === list.name}
-                        to={{
-                          search: `?selected=${list.name}`,
-                        }}
-                      >
-                        {list.name}
-                      </TabsTab>
-                    </li>
-                  )
-                })}
-              </ul>
-              <hr className="border-surface-variant" />
-            </Tabs>
-          </nav> */}
+		<main className=" ">
+			<div className={` `}>
+				<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
+					{allLists?.map((list) => {
+						return (
+							<li className="min-w-max" key={list.name}>
+								<Link
+									to={{
+										search: `?selected=${list.name}`,
+									}}
+								>
+									<ButtonTonal
+										className={`${
+											selected === list.name ? `!bg-tertiary-container ` : ``
+										}!rounded capitalize`}
+									>
+										{list.name}
+									</ButtonTonal>
+								</Link>
+							</li>
+						)
+					})}
+				</ul>
 
-							<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
-								{allLists?.map((list) => {
-									return (
-										<li className="min-w-max" key={list.name}>
-											<Link
-												to={{
-													search: `?selected=${list.name}`,
-												}}
-											>
-												<ButtonTonal
-													className={`${
-														selected === list.name
-															? `!bg-tertiary-container `
-															: ``
-													}!rounded capitalize`}
-												>
-													{list.name}
-												</ButtonTonal>
-											</Link>
-										</li>
-									)
-								})}
-							</ul>
-
-							{/* <Dialog id="show-dialog">
-                <DialogIcon>
-                  <Activity></Activity>
-                </DialogIcon>
-                <DialogHeadline>Delete selected images?</DialogHeadline>
-                <DialogBody>
-                  <span className="text-balance">
-                    Images will be permanently removed from you account and all
-                    synced devices.
-                  </span>
-                </DialogBody>
-                <DialogActions>
-                  <ButtonText>Cancel</ButtonText>
-                  <ButtonText>Delete</ButtonText>
-                </DialogActions>
-              </Dialog> */}
-
-							{lists?.map((list) => {
-								return <MediaList key={list.name} item={list}></MediaList>
-							})}
-						</div>
-
-						{/* {params["entryId"] && (
-              <div className={`md:block flex-1 col-span-full md:col-span-8`}>
-                <AnimatePresence mode="wait" initial={false} custom={direction}>
-                  {cloneElement(useOutlet(direction) ?? <></>, {
-                    key: useLocation().pathname,
-                  })}
-                </AnimatePresence>
-              </div>
-            )} */}
-					</main>
-				</PaneFlexible>
-			</>
-		</>
+				{lists?.map((list) => {
+					return <MediaList key={list.name} item={list}></MediaList>
+				})}
+			</div>
+		</main>
 	)
 }
 

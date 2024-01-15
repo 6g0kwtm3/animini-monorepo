@@ -4,9 +4,10 @@ import {
 	type LoaderFunction,
 } from "@remix-run/node"
 import {
-	Form,
 	Link,
 	useActionData,
+	useFetcher,
+	useLoaderData,
 	useNavigate,
 	useNavigation,
 	type ClientLoaderFunction,
@@ -24,13 +25,13 @@ import {
 
 import { ButtonText } from "~/components/Button"
 
-import { sumAll } from "effect/Number"
+import { divide, sumAll } from "effect/Number"
 import {
 	TextFieldOutlined,
 	TextFieldOutlinedInput,
+	TextFieldOutlinedInputFactory,
 } from "~/components/TextField"
 import { MediaListStatus } from "~/gql/graphql"
-import type { InferVariables } from "~/lib/urql"
 import {
 	ClientArgs,
 	ClientLoaderLive,
@@ -39,9 +40,6 @@ import {
 	LoaderLive,
 	getClient,
 	nonNull,
-	raw,
-	useLoader,
-	useRawLoaderData,
 } from "~/lib/urql"
 
 import * as S from "@effect/schema/Schema"
@@ -49,8 +47,7 @@ import { DialogFullscreenIcon } from "~/components/Dialog"
 
 import * as Ariakit from "@ariakit/react"
 import type { FieldConfig, Submission } from "@conform-to/react"
-import { conform, useFieldList, useForm } from "@conform-to/react"
-import { useSignal } from "@preact/signals-react"
+import { conform } from "@conform-to/react"
 import { motion } from "framer-motion"
 import type { FragmentType } from "~/gql"
 import { graphql, useFragment } from "~/gql"
@@ -59,35 +56,9 @@ import { dialog } from "~/lib/dialog"
 import { parse } from "@conform-to/dom"
 import { type ComponentPropsWithoutRef } from "react"
 import { ChipFilter } from "~/components/Chip"
-import { Select } from "~/components/Select"
-
-function isTouched(form: HTMLFormElement) {
-	return !(
-		Object.values(form.elements)
-			.flatMap((element) =>
-				element instanceof HTMLTextAreaElement ? [element] : [],
-			)
-			.every((element) => element.defaultValue === element.value) &&
-		Object.values(form.elements)
-			.flatMap((element) =>
-				element instanceof HTMLInputElement ? [element] : [],
-			)
-			.every(
-				(element) =>
-					element.defaultValue === element.value &&
-					element.defaultChecked === element.checked,
-			) &&
-		Object.values(form.elements)
-			.flatMap((element) =>
-				element instanceof HTMLSelectElement ? [element] : [],
-			)
-			.every((element) =>
-				[...element.selectedOptions].every(
-					(option) => option.defaultSelected === true,
-				),
-			)
-	)
-}
+import { SelectFactory } from "~/components/Select"
+import { SelectOption } from "~/components/SelectOption"
+import { button } from "~/lib/button"
 
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
@@ -97,6 +68,9 @@ export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 			return {
 				value: {
 					...payload,
+					status: Object.entries(OPTIONS).find(
+						([, value]) => value === formData.get("status"),
+					)?.[0],
 					completedAt: S.parseSync(S.nullable(FuzzyDateInput))(
 						formData.get("completedAt") || null,
 					),
@@ -116,7 +90,17 @@ export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 		return submission
 	}
 
+	console.log("request")
 	const result = await getClient(request).mutation(Save, submission.value)
+
+	console.log(result)
+
+	if (!result.error) {
+		throw redirect("..")
+	}
+
+	if (result.error?.networkError) {
+	}
 
 	const errorEntries =
 		result.error?.graphQLErrors
@@ -173,7 +157,6 @@ export const loader = (async (args) => {
 			(data) => Predicate.isNotNull(data?.Viewer),
 			() => Effect.succeed(redirect("..")),
 		),
-		Effect.map(raw),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -189,7 +172,7 @@ export const clientLoader = (async (args) => {
 			(data) => Predicate.isNotNull(data?.Viewer),
 			() => Effect.succeed(redirect("..")),
 		),
-		Effect.map(raw),
+
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -262,7 +245,11 @@ const EditPageViewer = graphql(`
 				animeList {
 					advancedScoringEnabled
 					advancedScoring
-
+					...CustomLists_mediaListTypeOptions
+				}
+				mangaList {
+					advancedScoringEnabled
+					advancedScoring
 					...CustomLists_mediaListTypeOptions
 				}
 				scoreFormat
@@ -276,6 +263,8 @@ const EditPageMedia = graphql(`
 		Media(id: $id) {
 			id
 			episodes
+			type
+			...Progress_media
 			mediaListEntry {
 				status
 				id
@@ -335,53 +324,56 @@ const OPTIONS = {
 	[MediaListStatus.Dropped]: "Dropped",
 }
 
+const Score = (
+	props: Omit<
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		"label"
+	>,
+) => (
+	<TextFieldOutlinedInputFactory
+		{...props}
+		min={0}
+		step={0.01}
+		type="number"
+		label="Score"
+	/>
+)
 export default function Page() {
-	const data = useLoader(
-		_loader,
-		useRawLoaderData<typeof loader | typeof clientLoader>(),
-	)
-
-	const score = useSignal(String(data?.Media?.mediaListEntry?.score || 0))
+	const data = useLoaderData<typeof loader>()
 
 	const navigation = useNavigation()
 
 	const actionData = useActionData<typeof action>()
-	const saved = (actionData?.intent === "submit" && !actionData?.error) ?? false
-
-	const touched = useSignal(false)
-
-	// unstable_useBlocker(touched.value)
 
 	const busy = navigation.state === "submitting"
-
-	const lastSubmission = useActionData<typeof action>()
 
 	const advancedScores = pipe(
 		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
 		Option.filter(Predicate.isReadonlyRecord),
 	)
 
-	const defaultAdvancedScores = pipe(
-		data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
-			?.filter(nonNull)
-			.map((category) =>
-				pipe(
-					advancedScores,
-					Option.flatMap(ReadonlyRecord.get(category)),
-					Option.filter(Predicate.isNumber),
-					Option.getOrElse(() => ""),
+	const defaultAdvancedScores =
+		pipe(
+			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
+				?.filter(nonNull)
+				.map((category) =>
+					pipe(
+						advancedScores,
+						Option.flatMap(ReadonlyRecord.get(category)),
+						Option.filter(Predicate.isNumber),
+						Option.getOrElse(() => 0),
+					),
 				),
-			),
-	)
+		) ?? []
 
-	const [form, fields] = useForm<
-		Record<keyof InferVariables<typeof Save>, unknown>
-	>({
-		defaultValue: {
-			advancedScores: data?.Viewer?.mediaListOptions?.animeList
-				?.advancedScoringEnabled
-				? defaultAdvancedScores
-				: [],
+	const navigate = useNavigate()
+
+	const store = Ariakit.useFormStore({
+		defaultValues: {
+			// ...(data?.Viewer?.mediaListOptions?.animeList?.advancedScoringEnabled
+			// 	? {	advancedScores: defaultAdvancedScores,}
+			// 	: {}),
+			advancedScores: defaultAdvancedScores,
 			completedAt: pipe(
 				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.completedAt),
 				Option.flatMap(Option.all),
@@ -394,9 +386,9 @@ export default function Page() {
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
 				Option.getOrElse(() => ""),
 			),
-			notes: data?.Media?.mediaListEntry?.notes,
-			progress: data?.Media?.mediaListEntry?.progress,
-			repeat: data?.Media?.mediaListEntry?.repeat,
+			notes: data?.Media?.mediaListEntry?.notes ?? "",
+			progress: data?.Media?.mediaListEntry?.progress || 0,
+			repeat: data?.Media?.mediaListEntry?.repeat || 0,
 			score: data?.Media?.mediaListEntry?.score || 0,
 			status: pipe(
 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
@@ -406,198 +398,143 @@ export default function Page() {
 			customLists: pipe(
 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
-				Option.map(ReadonlyRecord.filter((key) => !!key)),
-				Option.map(Object.keys),
-				Option.getOrElse(() => ""),
+				Option.getOrElse(ReadonlyRecord.empty),
+				ReadonlyRecord.filter((key) => !!key),
+				Object.keys,
 			),
 		},
-		...(lastSubmission ? { lastSubmission } : {}),
 	})
 
-	const advancedScoresFields = useFieldList(form.ref, fields["advancedScores"])
+	const fetcher = useFetcher()
 
-	const navigate = useNavigate()
+	store.useSubmit(async (state) => {
+		await new Promise((resolve) => setTimeout(resolve, 10_000, state))
+		// fetcher.submit(state.values, { method: "post" })
+	})
+
+	const values = store.useState("values")
+
+	const avgScore = pipe(
+		values.advancedScores.map((n) => Number(n)),
+		avg,
+		Option.getOrElse(() => 0),
+		round,
+	)
+
+	function avg(numbers: number[]) {
+		return divide(sumAll(numbers), numbers.length)
+	}
+
+	function round(n: number) {
+		return Math.round(n * 10) / 10
+	}
+
+	const listOptions =
+		data.Media?.type === "MANGA"
+			? data?.Viewer?.mediaListOptions?.mangaList
+			: data?.Viewer?.mediaListOptions?.animeList
+	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
 	return (
-		<>
-			<>
-				<div>
-					<div>
-						<Ariakit.Dialog
-							portal={false}
-							alwaysVisible
-							hideOnInteractOutside={false}
-							className={root()}
-							backdrop={<div className={backdrop()} />}
-							render={<motion.div layoutId="edit" initial={false} />}
-						>
-							<div className={content()}>
-								<header className={headline()}>
-									<DialogFullscreenIcon className="sm:hidden">
-										<Ariakit.DialogDismiss
-											render={
-												<Link
-													to=".."
-													onClick={(e) => (e.preventDefault(), navigate(-1))}
-												>
-													<span className="i">close</span>
-													<div className="sr-only">Cancel</div>
-												</Link>
-											}
-										/>
-									</DialogFullscreenIcon>
-									Foo fa ra fa
-									<ButtonText type="submit" className="ms-auto sm:hidden">
-										Save
-									</ButtonText>
-								</header>
-								<div className={body()}>
-									<Form
-										method="post"
-										className="grid gap-2"
-										onChange={(event) => {
-											touched.value = isTouched(event.currentTarget)
-										}}
-										onReset={(event) => {
-											console.log("reset")
-											touched.value = false
-										}}
-										{...form.props}
-									>
-										<input
-											type="hidden"
-											name="mediaId"
-											value={data?.Media?.id}
-										/>
-										<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
-											<Select
-												options={Object.values(OPTIONS)}
-												{...conform.select(fields.status)}
-												children="Status"
-											/>
-											<TextFieldOutlinedInput
-												min={0}
-												step={0.01}
-												onChange={(e) => (score.value = e.currentTarget.value)}
-												{...conform.input(fields["score"], {
-													type: "number",
-												})}
-												children="Score"
-											/>
+		<div>
+			<div>
+				<Ariakit.Dialog
+					portal={false}
+					alwaysVisible
+					hideOnInteractOutside={false}
+					className={root()}
+					backdrop={<div className={backdrop()} />}
+					render={<motion.div layoutId="edit" initial={false} />}
+				>
+					<Ariakit.Form store={store} method="post" className={content({})}>
+						<header className={headline()}>
+							<DialogFullscreenIcon className="sm:hidden">
+								<Ariakit.DialogDismiss
+									render={
+										<Link
+											to=".."
+											onClick={(e) => (e.preventDefault(), navigate(-1))}
+										>
+											<span className="i">close</span>
+											<div className="sr-only">Cancel</div>
+										</Link>
+									}
+								/>
+							</DialogFullscreenIcon>
+							Foo fa ra fa
+							<ButtonText type="submit" className="ms-auto sm:hidden">
+								Save
+							</ButtonText>
+						</header>
+						<div className={body()}>
+							<div className="grid gap-2">
+								<input type="hidden" name="mediaId" value={data?.Media?.id} />
+								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
+									<Status name={store.names.status}></Status>
+									<Score name={store.names.score}></Score>
 
-											<TextFieldOutlined>
-												<TextFieldOutlinedInput
-													min={0}
-													{...conform.input(fields["progress"], {
-														type: "number",
-													})}
-													className={
-														Number.isFinite(data?.Media?.episodes)
-															? "text-right [appearance:textfield] [&::-webkit-inner-spin-button]:hidden"
-															: ""
-													}
-												/>
-												<TextFieldOutlined.Label>
-													Episode Progress
-												</TextFieldOutlined.Label>
-												{Number.isFinite(data?.Media?.episodes) && (
-													<TextFieldOutlined.Suffix className="pointer-events-none">
-														/{data?.Media?.episodes}
-													</TextFieldOutlined.Suffix>
-												)}
-											</TextFieldOutlined>
-
-											<TextFieldOutlinedInput
-												{...conform.input(fields["startedAt"], {
-													type: "date",
-												})}
-												children="Start Date"
-											/>
-
-											<TextFieldOutlinedInput
-												type="date"
-												{...conform.input(fields["completedAt"], {
-													type: "date",
-												})}
-												children="Finish Date"
-											/>
-
-											<TextFieldOutlinedInput
-												min={0}
-												{...conform.input(fields["repeat"], {
-													type: "number",
-												})}
-												children="Total Rewatches"
-											/>
-										</div>
-
-										<TextFieldOutlinedInput
-											render={<textarea />}
-											spellCheck
-											onInput={(e) => {
-												e.currentTarget.style.height = ""
-												e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
-											}}
-											{...conform.textarea(fields["notes"])}
-											children="Notes"
-										/>
-
-										{data?.Viewer?.mediaListOptions?.animeList
-											?.advancedScoringEnabled && (
-											<AdvancedScores
-												form={form}
-												advancedScoring={
-													data?.Viewer?.mediaListOptions?.animeList
-														?.advancedScoring
-												}
-												fields={advancedScoresFields}
-												onScoreChange={(newScore) => {
-													score.value = newScore
-													console.log(score.value)
-												}}
-											></AdvancedScores>
-										)}
-
-										<CustomLists
-											field={fields["customLists"]}
-											mediaListTypeOptions={
-												data?.Viewer?.mediaListOptions?.animeList ?? null
-											}
-										></CustomLists>
-										<div className="border-b border-outline-variant sm:w-full" />
-										<footer className={actions({ className: "max-sm:hidden" })}>
-											<ButtonText type="reset" aria-disabled={!touched.value}>
-												Reset
-											</ButtonText>
-											<ButtonText aria-busy={busy} type="submit">
-												{busy && (
-													<ButtonText.Icon className="animate-spin">
-														progress_activity
-													</ButtonText.Icon>
-												)}
-												Save changes
-											</ButtonText>
-										</footer>
-										{/* <Snackbar open={touched}>
-                      Careful - you have unsaved changes!
-                      <SnackbarAction type="reset">Reset</SnackbarAction>
-                      <SnackbarAction
-                        onClick={() => form.current!.requestSubmit()}
-                      >
-                        Save changes
-                      </SnackbarAction>
-                    </Snackbar> */}
-									</Form>
+									<Progress
+										name={store.names.progress}
+										media={data.Media}
+									></Progress>
+									<StartDate name={store.names.startedAt} />
+									<FinishDate name={store.names.completedAt} />
+									<Repeat name={store.names.repeat}></Repeat>
 								</div>
-								{/* <Snackbar timeout={4000} open={saved}>
+								<Notes name={store.names.notes}></Notes>
+
+								<AdvancedScores advancedScoring={listOptions}>
+									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
+										(label, i) => {
+											const name = store.names.advancedScores[i]
+											return name ? (
+												<AdvancedScore
+													onChange={() => store.setValue("score", avgScore)}
+													key={label}
+													label={label}
+													name={name}
+												></AdvancedScore>
+											) : null
+										},
+									)}
+								</AdvancedScores>
+
+								<CustomLists
+									field={store.names.customLists}
+									mediaListTypeOptions={listOptions}
+								></CustomLists>
+
+								{/* <Snackbar open={touched}>
+																			Careful - you have unsaved changes!
+																			<SnackbarAction type="reset">Reset</SnackbarAction>
+																			<SnackbarAction
+																				onClick={() => form.current!.requestSubmit()}
+																			>
+																				Save changes
+																			</SnackbarAction>
+																		</Snackbar> */}
+							</div>
+						</div>
+
+						<div className="mx-6 border-b border-outline-variant max-sm:hidden" />
+						<footer className={actions({ className: "max-sm:hidden" })}>
+							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
+							<Ariakit.FormSubmit className={button()}>
+								{busy && (
+									<ButtonText.Icon className="animate-spin">
+										progress_activity
+									</ButtonText.Icon>
+								)}
+								Save changes
+							</Ariakit.FormSubmit>
+						</footer>
+						{/* <Snackbar timeout={4000} open={saved}>
                   Entry saved
                 </Snackbar> */}
-							</div>
-						</Ariakit.Dialog>
-					</div>
-				</div>
-			</>
-		</>
+					</Ariakit.Form>
+				</Ariakit.Dialog>
+			</div>
+		</div>
 	)
 }
 
@@ -607,59 +544,152 @@ const FuzzyDateLift = S.struct({
 	day: S.optionFromNullable(S.number),
 })
 
-function calculateAverageScore(
-	e: React.FormEvent<HTMLInputElement>,
-	advancedScoresFields: FieldConfig<unknown>[],
-) {
-	const formData = new FormData(e.currentTarget.form ?? undefined)
-
-	console.log({ e: e.currentTarget, formData: Object.fromEntries(formData) })
-
-	return String(
-		Math.round(
-			avg(
-				advancedScoresFields
-					.map((field) => field.name)
-					.map((name) => formData.get(name))
-					.map((s) => Number(s))
-					.filter((s) => s),
-			) * 10,
-		) / 10,
+function Status(props: ComponentPropsWithoutRef<typeof SelectFactory>) {
+	return (
+		<SelectFactory
+			{...props}
+			children={Object.values(OPTIONS).map((value) => {
+				return <SelectOption value={value} key={value} />
+			})}
+			label="Status"
+		/>
 	)
 }
 
+function FinishDate(
+	props: Omit<
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		"label"
+	>,
+) {
+	return (
+		<TextFieldOutlinedInputFactory {...props} type="date" label="Finish Date" />
+	)
+}
+
+function StartDate(
+	props: Omit<
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		"label"
+	>,
+) {
+	return (
+		<TextFieldOutlinedInputFactory {...props} type="date" label="Start Date" />
+	)
+}
+
+const Progress_media = graphql(`
+	fragment Progress_media on Media {
+		id
+		episodes
+	}
+`)
+
+function Progress({
+	media,
+	...props
+}: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
+	media: FragmentType<typeof Progress_media> | null
+}) {
+	const data = useFragment(Progress_media, media)
+	return (
+		<TextFieldOutlined>
+			<TextFieldOutlinedInput {...props} min={0} type="number" />
+			{Number.isFinite(data?.episodes) && (
+				<TextFieldOutlined.Suffix className="pointer-events-none">
+					/{data.episodes}
+				</TextFieldOutlined.Suffix>
+			)}
+			<TextFieldOutlined.Label name={props.name}>
+				Episode Progress
+			</TextFieldOutlined.Label>
+		</TextFieldOutlined>
+	)
+}
+
+function Repeat(
+	props: Omit<
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		"label"
+	>,
+) {
+	return (
+		<TextFieldOutlinedInputFactory
+			{...props}
+			min={0}
+			type="number"
+			label="Total Rewatches"
+		/>
+	)
+}
+
+type StringLike = {
+	toString: () => string
+	valueOf: () => string
+}
+
+function Notes(
+	props: Omit<
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		"label"
+	>,
+) {
+	return (
+		<TextFieldOutlinedInputFactory
+			{...props}
+			render={<textarea />}
+			spellCheck
+			onInput={(e) => {
+				e.currentTarget.style.height = ""
+				e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
+			}}
+			label="Notes"
+		/>
+	)
+}
+
+const AdvancedScoring_listOptions = graphql(`
+	fragment AdvancedScoring_listOptions on MediaListTypeOptions {
+		advancedScoringEnabled
+		advancedScoring
+	}
+`)
+
 function AdvancedScores({
-	advancedScoring,
-	fields,
-	onScoreChange: onChange,
+	advancedScoring: listOptions,
+	children,
 	...props
 }: {
-	field: FieldConfig<unknown>
-} & ComponentPropsWithoutRef<"fieldset">): React.ReactNode {
-	if (!fields.length) {
+	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
+}): React.ReactNode {
+	const data = useFragment(AdvancedScoring_listOptions, listOptions)
+	if (!data?.advancedScoringEnabled) {
+		return null
+	}
+
+	if (!data.advancedScoring?.length) {
 		return null
 	}
 
 	return (
-		<fieldset className="grid grid-cols-1  gap-2 sm:grid-cols-2" {...props}>
+		<fieldset className="grid grid-cols-1  gap-2 sm:grid-cols-2">
 			<legend className="col-span-full mt-2">Advanced Scores</legend>
-			{fields.map((field) => {
-				return (
-					<TextFieldOutlinedInput
-						key={field.key}
-						min={0}
-						step={0.01}
-						onChange={(e) => {
-							onChange(calculateAverageScore(e, fields))
-						}}
-						{...conform.input(field, {
-							type: "number",
-						})}
-						children={advancedScoring[field.key]}
-					/>
-				)
-			})}
+			{children}
 		</fieldset>
+	)
+}
+
+function AdvancedScore(
+	props: ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+): React.ReactNode {
+	return (
+		<TextFieldOutlinedInputFactory
+			{...props}
+			min={0}
+			max={100}
+			step={0.01}
+			type="number"
+		/>
 	)
 }
 

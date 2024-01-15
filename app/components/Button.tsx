@@ -1,9 +1,15 @@
-import type { ComponentPropsWithoutRef, SyntheticEvent } from "react"
+import type {
+	ComponentPropsWithoutRef,
+	PropsWithChildren,
+	SyntheticEvent,
+} from "react"
 import React from "react"
 
 import * as Ariakit from "@ariakit/react"
-import { button } from "~/lib/button"
+import { btnIcon, button } from "~/lib/button"
 import { classes } from "./classes"
+import { VariantProps } from "tailwind-variants"
+import { TouchTarget } from "./Tooltip"
 
 export type Icon = React.FC<ComponentPropsWithoutRef<"div">>
 
@@ -211,3 +217,18 @@ ButtonOutlined.Icon = (props) => {
 
 ButtonOutlined.displayName = "Button.Outlined"
 ButtonOutlined.Icon.displayName = "Button.Outlined.Icon"
+
+export function ButtonIcon({
+	children,
+	variant,
+	className,
+	...props
+}: VariantProps<typeof btnIcon> &
+	PropsWithChildren<ComponentPropsWithoutRef<typeof BaseButton>>) {
+	return (
+		<BaseButton {...props} className={btnIcon({ variant, className })}>
+			{children}
+			<TouchTarget></TouchTarget>
+		</BaseButton>
+	)
+}

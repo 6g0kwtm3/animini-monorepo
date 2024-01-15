@@ -217,16 +217,18 @@ export default withTV({
 
 				const surfaceTint = theme("colors.surface-tint", "transparent").replace(
 					"<alpha-value>",
-					"var(--mdi-elevation-opacity, 0)",
+					"var(--mdi-elevation-opacity)",
 				)
 
 				const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
 
-				addUtilities({
-					".surface": {
-						// "--mdi-elevation-opacity": "0",
-						// "--mdi-state-color": "transparent",
-						backgroundImage,
+		
+
+				addBase({
+					"*,::before,::after": {
+						"--mdi-state-opacity": "0",
+						"--mdi-elevation-opacity": "0",
+						"--mdi-state-color": "transparent",
 					},
 				})
 
@@ -234,6 +236,7 @@ export default withTV({
 					{
 						elevation: (opacity) => ({
 							"--mdi-elevation-opacity": opacity,
+							backgroundImage,
 						}),
 					},
 					{
@@ -246,6 +249,7 @@ export default withTV({
 					{
 						state: (opacity) => ({
 							"--mdi-state-opacity": opacity,
+							backgroundImage,
 						}),
 					},
 					{
@@ -263,6 +267,7 @@ export default withTV({
 								variable: "--mdi-state-opacity",
 							}),
 							"--mdi-state-opacity": undefined,
+							backgroundImage,
 						}),
 					},
 					{
@@ -286,6 +291,10 @@ export default withTV({
 				":merge(.group):has([aria-invalid=true]) &",
 			])
 		}),
+		plugin(({ addVariant }) => {
+			addVariant("force", "&:not(\\#)")
+		}),
+
 		plugin(({ addComponents, matchUtilities, theme }) => {
 			matchUtilities(
 				{
@@ -356,3 +365,5 @@ function isKeyOf<T extends {}>(
 ): key is keyof T {
 	return key in value
 }
+
+

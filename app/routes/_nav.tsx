@@ -1,36 +1,27 @@
 import type { LoaderFunction } from "@remix-run/node"
-import { Form, Link, Outlet, useLocation } from "@remix-run/react"
+import { Form, Link, Outlet, useLocation, useRouteLoaderData } from "@remix-run/react"
 
 import { Effect, Sink, Stream, pipe } from "effect"
 
 import { ButtonText } from "~/components/Button"
-import { graphql } from "~/gql"
 import { button } from "~/lib/button"
 import {
 	ClientArgs,
 	ClientLoaderLive,
 	EffectUrql,
 	LoaderArgs,
-	LoaderLive,
-	raw,
-	useLoader,
-	useRawLoaderData,
+	LoaderLive
 } from "~/lib/urql"
 
-const NavQuery = graphql(`
-	query NavQuery {
-		Viewer {
-			id
-			name
-		}
-	}
-`)
+import type { loader as rootLoader } from '~/root'
+
+ 
 
 const _loader = pipe(
 	Stream.Do,
 	Stream.bind("args", () => ClientArgs),
 	Stream.bind("client", () => EffectUrql),
-	Stream.flatMap(({ client }) => client.query(NavQuery, {})),
+	Stream.map(({ client }) => null),
 )
 
 export const loader = (async (args) => {
@@ -38,7 +29,7 @@ export const loader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
+		
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -50,15 +41,14 @@ export const clientLoader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
 	)
 }) satisfies LoaderFunction
 
-export default function Layout() {
-	const data = useLoader(_loader, useRawLoaderData<typeof loader>())
+export default function Nav() {
+	const data = useRouteLoaderData<typeof rootLoader>("root")
 
 	const { pathname } = useLocation()
 

@@ -5,9 +5,9 @@ import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import {
 	Form,
 	Outlet,
-	useFetcher,
+	useLoaderData,
 	useSearchParams,
-	useSubmit,
+	useSubmit
 } from "@remix-run/react"
 import {
 	Effect,
@@ -34,10 +34,7 @@ import {
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
-	nonNull,
-	raw,
-	useLoader,
-	useRawLoaderData,
+	nonNull
 } from "~/lib/urql"
 
 const FiltersQuery = graphql(`
@@ -81,6 +78,15 @@ const _loader = pipe(
 	Stream.bind("args", () => ClientArgs),
 	Stream.bind("client", () => EffectUrql),
 	Stream.flatMap(({ client, args }) =>
+		// Stream.fromEffect(
+		// 	Effect.request(
+		// 		new GqlRequest({
+		// 			operation: FiltersQuery,
+		// 			variables: FiltersQueryVariables(args.params),
+		// 		}),
+		// 		ResolveOperation,
+		// 	),	Effect.withRequestCache(true),
+		// ),
 		client.query(FiltersQuery, FiltersQueryVariables(args.params)),
 	),
 )
@@ -90,7 +96,7 @@ export const loader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
+		
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -102,7 +108,7 @@ export const clientLoader = (async (args) => {
 		_loader,
 		Stream.run(Sink.head()),
 		Effect.flatten,
-		Effect.map(raw),
+		 
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -112,7 +118,7 @@ export const clientLoader = (async (args) => {
 export default function Filters() {
 	const [searchParams] = useSearchParams()
 
-	const data = useLoader(_loader, useRawLoaderData<typeof loader>())
+	const data = useLoaderData<typeof loader>()
 
 	const selected = searchParams.get("selected")
 
@@ -180,6 +186,7 @@ export default function Filters() {
 
 	return (
 		<div>
+			
 			<Form
 				replace
 				onChange={(e) => submit(e.currentTarget)}
@@ -188,8 +195,8 @@ export default function Filters() {
 				<SearchParam name="selected" />
 				{Object.entries(status).length > 1 && (
 					<CheckboxProvider defaultValue={searchParams.getAll("status")}>
-						<Group className="col-span-2">
-							<GroupLabel>Status</GroupLabel>
+						<Group className="col-span-2" render={<fieldset />}>
+							<GroupLabel render={<legend />}>Status</GroupLabel>
 							<ul className="flex flex-wrap gap-2">
 								{Object.entries(status).map(([value, label]) => {
 									return (
@@ -205,26 +212,22 @@ export default function Filters() {
 					</CheckboxProvider>
 				)}
 				{Object.entries(format).length > 1 && (
-					<fieldset className="col-span-2">
-						<legend>Format</legend>
-						<ul className="flex flex-wrap gap-2">
-							{Object.entries(format).map(([value, label]) => {
-								return (
-									<li key={value}>
-										<ChipFilter
-											name="format"
-											value={value}
-											defaultChecked={searchParams
-												.getAll("format")
-												.includes(value)}
-										>
-											{label}
-										</ChipFilter>
-									</li>
-								)
-							})}
-						</ul>
-					</fieldset>
+					<CheckboxProvider defaultValue={searchParams.getAll("format")}>
+						<Group className="col-span-2" render={<fieldset />}>
+							<GroupLabel render={<legend />}>Format</GroupLabel>
+							<ul className="flex flex-wrap gap-2">
+								{Object.entries(format).map(([value, label]) => {
+									return (
+										<li key={value}>
+											<ChipFilter name="format" value={value}>
+												{label}
+											</ChipFilter>
+										</li>
+									)
+								})}
+							</ul>
+						</Group>
+					</CheckboxProvider>
 				)}
 				<ButtonText type="submit">Filter</ButtonText>
 				<ButtonText type="reset">Reset</ButtonText>

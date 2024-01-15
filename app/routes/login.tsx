@@ -1,14 +1,15 @@
 import type { ActionFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
-import { Form } from "@remix-run/react"
-import { ButtonFilled, ButtonText } from "~/components/Button"
+import { useFetcher } from "@remix-run/react"
+import { ButtonText } from "~/components/Button"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
+import * as Ariakit from "@ariakit/react"
 import cookie from "cookie"
-import { button as btn } from "~/lib/button"
+import { button as btn, button } from "~/lib/button"
 
 const ANILIST_CLIENT_ID = 3455
 
@@ -29,7 +30,7 @@ export const action = (async ({ context, params, request }) => {
 			headers: {
 				"Set-Cookie": cookie.serialize(`anilist-token`, token, {
 					sameSite: "lax",
-					maxAge: 604_800,
+					maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
 					path: "/",
 				}),
 			},
@@ -58,12 +59,22 @@ export const action = (async ({ context, params, request }) => {
 // }) satisfies ClientActionFunction
 
 export default function Login() {
+	const fetcher = useFetcher()
+	const store = Ariakit.useFormStore({defaultValues:{token:''}})
+
+	store.onSubmit((state) => {
+		console.log(state)
+		fetcher.submit(state.values, {
+			method: "post",
+		})
+	})
+
 	return (
 		<main>
-			<Form action="" method="post" className="grid gap-2">
+			<Ariakit.Form store={store} method="post" className="grid gap-2">
 				<Outlined>
-					<TextFieldOutlinedInput name="token" required render={<textarea />} />
-					<Outlined.Label>Token</Outlined.Label>
+					<TextFieldOutlinedInput name={store.names.token} required render={<textarea />} />
+					<Outlined.Label name={store.names.token}>Token</Outlined.Label>
 				</Outlined>
 
 				<footer className="flex justify-end gap-2">
@@ -88,9 +99,11 @@ export default function Login() {
 						<span>Get token</span>
 					</a>
 
-					<ButtonFilled type="submit">Login</ButtonFilled>
+					<Ariakit.FormSubmit className={button({ variant: "filled" })}>
+						Login
+					</Ariakit.FormSubmit>
 				</footer>
-			</Form>
+			</Ariakit.Form>
 		</main>
 	)
 }

@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants"
 export const dialog = tv(
 	{
 		slots: {
-			root: "flex bg-surface-container-high surface elevation-3",
+			root: "flex bg-surface-container-high elevation-3",
 			content: "flex w-full flex-col overflow-hidden",
 			backdrop: "",
 			headline: "text-on-surface",

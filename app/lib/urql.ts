@@ -10,7 +10,7 @@ import type {
 	SSRData,
 	TypedDocumentNode,
 } from "urql"
-import { Client, fetchExchange, ssrExchange, useClient } from "urql"
+import { Client, fetchExchange, ssrExchange } from "urql"
 import { graphql } from "~/gql"
 import type { GraphCacheConfig } from "../gql/graphql"
 
@@ -20,18 +20,17 @@ import cookie from "cookie"
 
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import type { ClientLoaderFunctionArgs, Params } from "@remix-run/react"
-import { useLoaderData, useParams, useSearchParams } from "@remix-run/react"
-
-import { useMemo, useSyncExternalStore } from "react"
 
 import {
 	Chunk,
 	Context,
+	Data,
 	Effect,
 	Either,
-	Fiber,
 	Layer,
 	Predicate,
+	Request,
+	RequestResolver,
 	Stream,
 	pipe,
 } from "effect"
@@ -39,7 +38,9 @@ import {
 import * as wonka from "wonka"
 import { IS_SERVER } from "./isClient"
 
-import { uneval } from "devalue"
+import { print } from "graphql"
+import type { RequestOptions, Variables } from "graphql-request"
+import { GraphQLClient } from "graphql-request"
 
 export const ssr = ssrExchange({
 	isClient: !IS_SERVER,
@@ -161,6 +162,64 @@ function logout() {
 
 const API_URL = "https://graphql.anilist.co"
 
+export class GqlRequest<R, V extends Variables> extends Request.TaggedClass(
+	"GqlRequest",
+)<ClientNetworkError, R, { args: RequestOptions<V, R> }> {}
+
+class ClientNetworkError extends Data.TaggedError("ClientNetworkError")<{
+	reason: string
+	error: unknown
+}> {}
+
+const client = new GraphQLClient(API_URL, {
+	errorPolicy: "ignore",
+	// signal,
+})
+
+export const ResolveGqlRequest = pipe(
+	RequestResolver.fromEffect((req: GqlRequest<any, any>) => {
+		return pipe(
+			Effect.promise(() =>
+				client.rawRequest(
+					print(req.args.document),
+					req.args.variables,
+					req.args.requestHeaders,
+				),
+			),
+			Effect.map(({ data }) => data),
+			// Effect.tap(Console.log),
+
+			// Effect.tryPromise({
+			// 	try: (signal) => client.request(req.args),
+			// 	catch: (error) => new ClientNetworkError({ error, reason: "Client" }),
+			// }),
+
+			// Http.request.post(API_URL, {
+			// 	acceptJson: true,
+			// 	body: Http.body.raw(
+			// 		JSON.stringify({
+			// 			query: print(req.operation),
+			// 			variables: req.variables,
+			// 		}),
+			// 	),
+			// }),
+			// pipe(
+			// 	Http.client.fetchOk(),
+			// 	Http.client.catchAll(
+			// 		(e) => new ClientNetworkError({ error: e, reason: "HttpClient" }),
+			// 	),
+			// ),
+			// Effect.flatMap(Http.response.schemaBodyJson(unknown)),
+			// Effect.catchTags({
+			// 	ParseError: (error) =>
+			// 		new ClientNetworkError({ error, reason: "Parse" }),
+			// 	ResponseError: (error) =>
+			// 		new ClientNetworkError({ error, reason: "Response" }),
+			// }),
+		)
+	}),
+)
+
 declare global {
 	interface Window {
 		__URQL_DATA__: SSRData
@@ -197,6 +256,7 @@ function createStatelessClient(request: Request) {
 						request.headers.get("Cookie") ?? "",
 					)
 					if (!token) return operation
+
 					return utils.appendHeaders(operation, {
 						Authorization: `Bearer ${token}`,
 					})
@@ -237,71 +297,6 @@ interface JSONArray extends Array<JSONValue> {}
 export type InferVariables<T> = T extends TypedDocumentNode<any, infer V>
 	? V
 	: never
-
-export function useLoader<E, A>(
-	_loader: Stream.Stream<EffectUrql | Arguments, E, A>,
-	initialData: A,
-) {
-	return initialData
-
-	const params = useParams()
-	const [searchParams] = useSearchParams()
-
-	const client = useClient()
-
-	const store = useMemo(() => {
-		let listeners: (() => void)[] = []
-		let state = initialData
-		let cleanup = () => {}
-
-		return {
-			getSnapshot: () => state,
-			subscribe: (listener: () => void) => {
-				if (listeners.length === 0) {
-					const fiber = pipe(
-						_loader,
-
-						Stream.runForEach((data) =>
-							Effect.sync(() => {
-								if (data === state) {
-									return
-								}
-								state = data
-								for (const listener of listeners) {
-									listener()
-								}
-							}),
-						),
-						Effect.provide(UrqlLive),
-						Effect.provideService(UrqlClient, client),
-						Effect.provideService(ClientArgs, {
-							params: params,
-							searchParams: searchParams,
-						}),
-						Effect.runFork,
-					)
-
-					cleanup = () => {
-						Effect.runPromise(Fiber.interrupt(fiber))
-					}
-				}
-				listeners.push(listener)
-				return () => {
-					listeners = listeners.filter((l) => l !== listener)
-					if (listeners.length === 0) {
-						cleanup()
-					}
-				}
-			},
-		}
-	}, [client, params, searchParams, _loader, initialData])
-
-	return useSyncExternalStore(
-		store.subscribe,
-		store.getSnapshot,
-		store.getSnapshot,
-	)
-}
 
 class NetworkError extends Error {
 	_tag = "Network"
@@ -369,13 +364,37 @@ function streamFromResult<Data, Variables extends AnyVariables = AnyVariables>(
 
 const UrqlLive = Layer.effect(
 	EffectUrql,
-	Effect.map(UrqlClient, (client) => {
+	Effect.map(LoaderArgs, ({ request }) => {
 		return EffectUrql.of({
-			query: (...args) =>
-				pipe(
-					StreamFromSource(client.query(...args)),
-					Stream.flatMap(streamFromResult),
-				),
+			query: (...args) => {
+				const headers = new Headers()
+
+				const { "anilist-token": token } = cookie.parse(
+					globalThis.document?.cookie ?? request.headers.get("Cookie") ?? "",
+				)
+
+				if (Predicate.isString(token))
+					headers.append("Authorization", `Bearer ${token.trim()}`)
+				console.log({ token: typeof token })
+
+				return pipe(
+					// StreamFromSource(client.query(...args)),
+					// Stream.flatMap(streamFromResult),
+					Effect.request(
+						new GqlRequest({
+							args: {
+								document: args[0],
+								variables: args[1],
+								requestHeaders: headers,
+								signal: request.signal,
+							},
+						}),
+						ResolveGqlRequest,
+					),
+					Effect.withRequestCaching(true),
+					Stream.fromEffect,
+				)
+			},
 			mutation: (...args) =>
 				pipe(
 					StreamFromSource(client.mutation(...args)),
@@ -411,24 +430,3 @@ export const ClientLoaderLive = Layer.merge(
 	ArgsAdapterLive,
 	UrqlLive.pipe(Layer.provide(GetClientUrqlLive)),
 )
-
-type RawValue<T> = T extends Raw<infer U> ? U : unknown
-
-export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
-	? RawValue<Awaited<Output>>
-	: RawValue<T>
-
-abstract class Raw<T> {
-	value!: T
-}
-
-export function raw<T>(value: T): Raw<T> {
-	return uneval(value) as unknown as Raw<T>
-}
-
-export function useRawLoaderData<T = unknown>() {
-	const data = useLoaderData()
-
-	// eslint-disable-next-line no-eval
-	return useMemo(() => (0, eval)(`(${data})`) as SerializeFrom<T>, [data])
-}

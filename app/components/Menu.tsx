@@ -9,7 +9,7 @@ export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 		<ul
 			{...props}
 			className={classes(
-				"absolute min-w-[7rem] max-w-[17.5rem] rounded-xs bg-surface-container py-2 text-label-lg text-on-surface surface elevation-2",
+				"absolute min-w-[7rem] max-w-[17.5rem] rounded-xs bg-surface-container py-2 text-label-lg text-on-surface elevation-2",
 				props.className,
 			)}
 		>
@@ -64,7 +64,7 @@ export function MenuItem({
 	return (
 		<Component
 			className={classes(
-				"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface surface elevation-2 state-on-surface hover:state-hover focus:state-focus",
+				"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface elevation-2 state-on-surface hover:state-hover focus:state-focus",
 				props.className,
 			)}
 		>

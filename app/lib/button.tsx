@@ -3,14 +3,10 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 
 export const btnIcon = tv({
-	slots: {
-		root: "group/btn-i p-1",
-		content:
-			"i rounded-full bg-center p-2 text-on-surface-variant surface state-on-surface-variant group-hover/btn-i:state-hover group-active/btn-i:state-pressed group-data-[active]/btn-i:state-pressed group-data-[focus-visible]/btn-i:state-focus",
-	},
+	base: "i relative rounded-full select-none bg-center p-2 text-on-surface-variant state-on-surface-variant hover:state-hover focus-visible:state-focus active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
 	variants: {
 		variant: {
-			standard: { root: "" },
+			standard: "",
 		},
 	},
 	defaultVariants: {
@@ -19,7 +15,7 @@ export const btnIcon = tv({
 })
 
 export const button = tv({
-	base: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg surface hover:state-hover active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus",
+	base: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus",
 	variants: {
 		variant: {
 			outlined:
@@ -39,7 +35,7 @@ export const button = tv({
 })
 
 export const fab = tv({
-	base: "i shadow surface elevation-3 hover:state-hover active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
+	base: "i shadow elevation-3 hover:state-hover focus-visible:state-focus active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
 	variants: {
 		size: {
 			default: "h-14 w-14 rounded-[1rem] p-4",

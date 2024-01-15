@@ -29,7 +29,7 @@ export function TabsTab(
 				props.active
 					? "text-primary state-primary"
 					: "text-on-surface-variant state-on-surface hover:text-on-surface focus:text-on-surface"
-			} flex justify-center px-4 text-title-sm surface hover:state-hover focus:state-focus`}
+			} flex justify-center px-4 text-title-sm hover:state-hover focus:state-focus`}
 		>
 			<div
 				className={`${
