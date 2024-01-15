@@ -1,9 +1,5 @@
-import type * as Ariakit from "@ariakit/react"
-import {
-	lazy,
-	type ComponentPropsWithoutRef,
-	type ReactNode
-} from "react"
+import * as Ariakit from "@ariakit/react"
+import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
 import { textField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
@@ -13,10 +9,8 @@ import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = textField({})
 
- 
 const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
 
- 
 const LazySelect = lazy(() => import("./LazySelect"))
 
 export function SelectFactory({
@@ -29,12 +23,21 @@ export function SelectFactory({
 		label: ReactNode
 		name: string
 	}) {
+	const form = Ariakit.useFormContext()
+	if (!form) throw new Error("FormSelect must be used within a Form")
+	const value = form.useValue(props.name)
+
+
+
+
 	const fallback = (
 		<TextFieldOutlined>
-			<select
+			<Ariakit.FormControl name={props.name} render={<select
 				{...props}
+				value={value}
+				onChange={(e) => form.setValue(props.name, e.currentTarget.value)}
 				className={input({ className: "appearance-none" })}
-			></select>
+			></select>} />
 			<TextFieldOutlined.Label name={props.name}>
 				{label}
 			</TextFieldOutlined.Label>

@@ -22,7 +22,7 @@ import { cloneElement, useId, useMemo } from "react"
 
 import colors from "colors.json"
 
-import { Effect, Sink, Stream, pipe } from "effect"
+import { Effect, pipe } from "effect"
 
 import type { ComponentPropsWithoutRef } from "react"
 
@@ -120,10 +120,10 @@ function useThemeFromHex(hex: string | null | undefined) {
 }
 
 const _loader = pipe(
-	Stream.Do,
-	Stream.bind("args", () => ClientArgs),
-	Stream.bind("client", () => EffectUrql),
-	Stream.bind(
+	Effect.Do,
+	Effect.bind("args", () => ClientArgs),
+	Effect.bind("client", () => EffectUrql),
+	Effect.bind(
 		"EntryPageQuery",
 		({ client, args: { params } }) => (
 			console.log(params),
@@ -132,10 +132,10 @@ const _loader = pipe(
 			})
 		),
 	),
-	Stream.bind("EntryPageViewerQuery", ({ client }) =>
+	Effect.bind("EntryPageViewerQuery", ({ client }) =>
 		client.query(EntryPageViewerQuery, {}),
 	),
-	Stream.map(({ EntryPageViewerQuery, EntryPageQuery }) => ({
+	Effect.map(({ EntryPageViewerQuery, EntryPageQuery }) => ({
 		...EntryPageViewerQuery,
 		...EntryPageQuery,
 	})),
@@ -145,8 +145,8 @@ export const loader = (async (args) => {
 	return pipe(
 		_loader,
 
-		Stream.run(Sink.head()),
-		Effect.flatten,
+		
+		
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -234,7 +234,7 @@ export default function Page() {
 	return (
 		<>
 			<ThemeProvider
-				theme={useThemeFromHex(data?.Media?.coverImage?.color)}
+				theme={useThemeFromHex(data.Media?.coverImage?.color)}
 				className="contents"
 			>
 				<PaneFlexible className="relative">
@@ -254,9 +254,9 @@ export default function Page() {
 					>
 						<CardFilled className="grid flex-1 gap-4 rounded-[2.5rem]">
 							<img
-								src={data?.Media?.coverImage?.extraLarge ?? ""}
+								src={data.Media?.coverImage?.extraLarge ?? ""}
 								style={{
-									"--bg": `url(${data?.Media?.coverImage?.medium})`,
+									"--bg": `url(${data.Media?.coverImage?.medium})`,
 								}}
 								loading="lazy"
 								className="rounded-xl bg-[image:--bg]"
@@ -282,9 +282,9 @@ export default function Page() {
               />
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
-							<CardElevated className="!rounded-xl !p-16">
+							<CardElevated className="force:rounded-xl force:p-16">
 								<h1 className="text-balance text-display-lg">
-									{data?.Media?.title?.userPreferred}
+									{data.Media?.title?.userPreferred}
 								</h1>
 								<Menu>
 									<MenuTrigger
@@ -342,7 +342,7 @@ export default function Page() {
 								<div
 									className="text-title-lg"
 									dangerouslySetInnerHTML={{
-										__html: data?.Media?.description || "",
+										__html: data.Media?.description || "",
 									}}
 								></div>
 							</CardElevated>
@@ -364,13 +364,13 @@ export default function Page() {
 	)
 }
 
-// type X = React.HTMLAttributes<any>
+// type X = HTMLAttributes<any>
 
 declare global {
 	namespace React {
 		interface HTMLAttributes<T>
-			extends React.AriaAttributes,
-				React.DOMAttributes<T> {
+			extends AriaAttributes,
+				DOMAttributes<T> {
 			popover?: "manual" | true | "auto" | undefined
 		}
 	}
@@ -393,7 +393,7 @@ function Edit() {
 						render={
 							<Link
 								to={
-									data?.Viewer
+									data.Viewer
 										? "edit"
 										: `/login/?${new URLSearchParams({
 												redirect: `${pathname}/edit`,

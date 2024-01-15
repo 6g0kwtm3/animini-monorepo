@@ -24,8 +24,10 @@ export const action = (async ({ context, params, request }) => {
 
 	const url = new URL(request.url)
 
+
+
 	return redirect(
-		url.searchParams.get("redirect") ?? "/Hoodboi/animelist/?selected=Watching",
+		url.searchParams.get("redirect") ?? "/Hoodboi/animelist/",
 		{
 			headers: {
 				"Set-Cookie": cookie.serialize(`anilist-token`, token, {

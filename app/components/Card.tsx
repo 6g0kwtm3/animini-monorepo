@@ -1,8 +1,8 @@
 import { Slot } from "@radix-ui/react-slot"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, FC } from "react"
 import { classes } from "./classes"
 
-type Card = React.FC<
+type Card = FC<
 	ComponentPropsWithoutRef<"div"> & {
 		disabled?: boolean
 		dragged?: boolean

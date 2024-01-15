@@ -1,5 +1,5 @@
+import type { ClientLoaderFunction } from "@remix-run/react"
 import {
-	ClientLoaderFunction,
 	Links,
 	LiveReload,
 	Meta,
@@ -8,17 +8,21 @@ import {
 	ScrollRestoration,
 	useRevalidator,
 } from "@remix-run/react"
-import { Provider } from "urql"
-import { ClientArgs, ClientLoaderLive, EffectUrql, LoaderArgs, LoaderLive, ssr, urql } from "./lib/urql"
+import {
+	ClientArgs,
+	ClientLoaderLive,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+} from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
 import type { LoaderFunction } from "@remix-run/node"
 
-import { Effect, Sink, Stream, pipe } from "effect"
+import { Effect, pipe } from "effect"
 import { useEffect } from "react"
 import { graphql } from "./gql"
-import { IS_SERVER } from "./lib/isClient"
 import "./tailwind.css"
 
 const ViewerQuery = graphql(`
@@ -31,17 +35,16 @@ const ViewerQuery = graphql(`
 `)
 
 const _loader = pipe(
-	Stream.Do,
-	Stream.bind("args", () => ClientArgs),
-	Stream.bind("client", () => EffectUrql),
-	Stream.flatMap(({ client, args }) => client.query(ViewerQuery, {})),
+	Effect.Do,
+	Effect.bind("args", () => ClientArgs),
+	Effect.bind("client", () => EffectUrql),
+	Effect.flatMap(({ client, args }) => client.query(ViewerQuery, {})),
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Stream.run(Sink.head()),
-		Effect.flatten,
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -51,8 +54,7 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-		Stream.run(Sink.head()),
-		Effect.flatten,
+
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -60,17 +62,14 @@ export const clientLoader = (async (args) => {
 }) satisfies ClientLoaderFunction
 
 export default function App() {
-	const data = IS_SERVER ? ssr.extractData() : window.__URQL_DATA__
-
 	const revalidator = useRevalidator()
-
 	useEffect(() => {
 		function listener() {
 			if (
 				document.visibilityState === "visible" &&
 				revalidator.state === "idle"
 			) {
-				console.log('revalidate')
+				console.log("revalidate")
 				revalidator.revalidate()
 			}
 		}
@@ -79,7 +78,7 @@ export default function App() {
 	}, [revalidator])
 
 	return (
-		<html lang="en" className="bg-surface text-on-surface overflow-x-hidden">
+		<html lang="en" className="overflow-x-hidden bg-surface text-on-surface">
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,16 +91,9 @@ export default function App() {
 				<Links />
 			</head>
 			<body>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `window.__URQL_DATA__ = (${JSON.stringify(data)});`,
-					}}
-				></script>
-				<Provider value={urql}>
-					<SnackbarQueue>
-						<Outlet />
-					</SnackbarQueue>
-				</Provider>
+				<SnackbarQueue>
+					<Outlet />
+				</SnackbarQueue>
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />

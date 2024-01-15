@@ -8,6 +8,15 @@ module.exports = {
 	plugins: ["react-refresh", "compat"],
 	overrides: [
 		{
+			files: ["*.ts", "*.tsx"],
+			parserOptions: {
+				project: true,
+			},
+			rules: {
+				"@typescript-eslint/no-unnecessary-condition": "error",
+			},
+		},
+		{
 			files: ["*.js"],
 			processor: "@graphql-eslint/graphql",
 		},

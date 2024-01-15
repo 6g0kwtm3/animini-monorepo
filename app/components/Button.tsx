@@ -1,17 +1,17 @@
 import type {
 	ComponentPropsWithoutRef,
+	FC,
 	PropsWithChildren,
 	SyntheticEvent,
 } from "react"
-import React from "react"
 
 import * as Ariakit from "@ariakit/react"
+import type { VariantProps } from "tailwind-variants"
 import { btnIcon, button } from "~/lib/button"
-import { classes } from "./classes"
-import { VariantProps } from "tailwind-variants"
 import { TouchTarget } from "./Tooltip"
+import { classes } from "./classes"
 
-export type Icon = React.FC<ComponentPropsWithoutRef<"div">>
+export type Icon = FC<ComponentPropsWithoutRef<"div">>
 
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
 	asChild?: boolean
@@ -19,7 +19,7 @@ interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
 	invokeaction?: string
 }
 
-interface Button extends React.FC<ButtonProps> {
+interface Button extends FC<ButtonProps> {
 	Icon: Icon
 }
 
@@ -53,7 +53,10 @@ declare global {
 }
 
 export function BaseButton(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Button>,
+	props: ComponentPropsWithoutRef<typeof Ariakit.Button> & {
+		invoketarget?: string
+		invokeaction?: string
+	},
 ) {
 	// props.type ??= "submit"
 
@@ -110,7 +113,7 @@ export function ButtonText(
 	)
 }
 
-ButtonText.Icon = (props) => {
+ButtonText.Icon = (props: ComponentPropsWithoutRef<"div">) => {
 	return (
 		<div
 			{...props}

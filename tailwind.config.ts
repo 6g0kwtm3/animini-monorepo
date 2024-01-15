@@ -10,7 +10,7 @@ import colors from "./colors.json"
 import themes from "./themes.json"
 
 export default withTV({
-	content: ["app/**/*.tsx"],
+	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
 		screens: {
@@ -222,8 +222,6 @@ export default withTV({
 
 				const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
 
-		
-
 				addBase({
 					"*,::before,::after": {
 						"--mdi-state-opacity": "0",
@@ -365,5 +363,3 @@ function isKeyOf<T extends {}>(
 ): key is keyof T {
 	return key in value
 }
-
-

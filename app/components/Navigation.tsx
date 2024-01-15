@@ -13,7 +13,7 @@ export function NavigationItem(props: PropsWithChildren<{ active: boolean }>) {
 		>
 			{props.active && (
 				<motion.div
-					{...(Predicate.isString(layoutId) ? { layoutId } : {})}
+					layoutId={layoutId}
 					className="absolute inset-0 -z-10 rounded-xl bg-secondary-container"
 				></motion.div>
 			)}

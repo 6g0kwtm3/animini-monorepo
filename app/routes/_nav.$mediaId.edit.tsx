@@ -18,8 +18,6 @@ import {
 	Predicate,
 	ReadonlyArray,
 	ReadonlyRecord,
-	Sink,
-	Stream,
 	pipe,
 } from "effect"
 
@@ -38,7 +36,6 @@ import {
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
-	getClient,
 	nonNull,
 } from "~/lib/urql"
 
@@ -46,15 +43,14 @@ import * as S from "@effect/schema/Schema"
 import { DialogFullscreenIcon } from "~/components/Dialog"
 
 import * as Ariakit from "@ariakit/react"
-import type { FieldConfig, Submission } from "@conform-to/react"
-import { conform } from "@conform-to/react"
+
 import { motion } from "framer-motion"
 import type { FragmentType } from "~/gql"
 import { graphql, useFragment } from "~/gql"
 import { dialog } from "~/lib/dialog"
 
-import { parse } from "@conform-to/dom"
-import { type ComponentPropsWithoutRef } from "react"
+import type { ReactNode, type ComponentPropsWithoutRef } from "react"
+
 import { ChipFilter } from "~/components/Chip"
 import { SelectFactory } from "~/components/Select"
 import { SelectOption } from "~/components/SelectOption"
@@ -99,11 +95,11 @@ export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 		throw redirect("..")
 	}
 
-	if (result.error?.networkError) {
+	if (result.error.networkError) {
 	}
 
 	const errorEntries =
-		result.error?.graphQLErrors
+		result.error.graphQLErrors
 			.flatMap((error) => {
 				return Predicate.isReadonlyRecord(error.originalError) &&
 					"validation" in error.originalError &&
@@ -151,10 +147,9 @@ const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Stream.run(Sink.head()),
-		Effect.flatten,
+
 		Effect.filterOrElse(
-			(data) => Predicate.isNotNull(data?.Viewer),
+			(data) => Predicate.isNotNull(data.Viewer),
 			() => Effect.succeed(redirect("..")),
 		),
 		Effect.provide(LoaderLive),
@@ -166,10 +161,9 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-		Stream.run(Sink.head()),
-		Effect.flatten,
+
 		Effect.filterOrElse(
-			(data) => Predicate.isNotNull(data?.Viewer),
+			(data) => Predicate.isNotNull(data.Viewer),
 			() => Effect.succeed(redirect("..")),
 		),
 
@@ -290,19 +284,19 @@ const EditPageMedia = graphql(`
 `)
 
 const _loader = pipe(
-	Stream.Do,
-	Stream.bind("args", () => ClientArgs),
-	Stream.bind("client", () => EffectUrql),
-	Stream.bind("EntryPageUser", ({ client }) =>
+	Effect.Do,
+	Effect.bind("args", () => ClientArgs),
+	Effect.bind("client", () => EffectUrql),
+	Effect.bind("EntryPageUser", ({ client }) =>
 		client.query(EditPageViewer, {}),
 	),
-	Stream.bind("EntryPage", ({ client, EntryPageUser, args: { params } }) =>
+	Effect.bind("EntryPage", ({ client, EntryPageUser, args: { params } }) =>
 		client.query(EditPageMedia, {
 			format: EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || null,
 			id: Number(params["mediaId"]),
 		}),
 	),
-	Stream.map(({ EntryPageUser, EntryPage }) => ({
+	Effect.map(({ EntryPageUser, EntryPage }) => ({
 		...EntryPageUser,
 		...EntryPage,
 	})),
@@ -348,13 +342,13 @@ export default function Page() {
 	const busy = navigation.state === "submitting"
 
 	const advancedScores = pipe(
-		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
+		Option.fromNullable(data.Media?.mediaListEntry?.advancedScores),
 		Option.filter(Predicate.isReadonlyRecord),
 	)
 
 	const defaultAdvancedScores =
 		pipe(
-			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
+			data.Viewer?.mediaListOptions?.animeList?.advancedScoring
 				?.filter(nonNull)
 				.map((category) =>
 					pipe(
@@ -370,33 +364,30 @@ export default function Page() {
 
 	const store = Ariakit.useFormStore({
 		defaultValues: {
-			// ...(data?.Viewer?.mediaListOptions?.animeList?.advancedScoringEnabled
-			// 	? {	advancedScores: defaultAdvancedScores,}
-			// 	: {}),
 			advancedScores: defaultAdvancedScores,
 			completedAt: pipe(
-				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.completedAt),
+				S.parseOption(FuzzyDateLift)(data.Media?.mediaListEntry?.completedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
 				Option.getOrElse(() => ""),
 			),
 			startedAt: pipe(
-				S.parseOption(FuzzyDateLift)(data?.Media?.mediaListEntry?.startedAt),
+				S.parseOption(FuzzyDateLift)(data.Media?.mediaListEntry?.startedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
 				Option.getOrElse(() => ""),
 			),
-			notes: data?.Media?.mediaListEntry?.notes ?? "",
-			progress: data?.Media?.mediaListEntry?.progress || 0,
-			repeat: data?.Media?.mediaListEntry?.repeat || 0,
-			score: data?.Media?.mediaListEntry?.score || 0,
+			notes: data.Media?.mediaListEntry?.notes ?? "",
+			progress: data.Media?.mediaListEntry?.progress || 0,
+			repeat: data.Media?.mediaListEntry?.repeat || 0,
+			score: data.Media?.mediaListEntry?.score || 0,
 			status: pipe(
-				Option.fromNullable(data?.Media?.mediaListEntry?.status),
+				Option.fromNullable(data.Media?.mediaListEntry?.status),
 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
 				Option.getOrElse(() => OPTIONS[MediaListStatus.Current]),
 			),
 			customLists: pipe(
-				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
+				Option.fromNullable(data.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
 				Option.getOrElse(ReadonlyRecord.empty),
 				ReadonlyRecord.filter((key) => !!key),
@@ -431,8 +422,8 @@ export default function Page() {
 
 	const listOptions =
 		data.Media?.type === "MANGA"
-			? data?.Viewer?.mediaListOptions?.mangaList
-			: data?.Viewer?.mediaListOptions?.animeList
+			? data.Viewer?.mediaListOptions?.mangaList
+			: data.Viewer?.mediaListOptions?.animeList
 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
 	return (
@@ -447,7 +438,7 @@ export default function Page() {
 					render={<motion.div layoutId="edit" initial={false} />}
 				>
 					<Ariakit.Form store={store} method="post" className={content({})}>
-						<header className={headline()}>
+						<header className={headline({ className: "text-balance" })}>
 							<DialogFullscreenIcon className="sm:hidden">
 								<Ariakit.DialogDismiss
 									render={
@@ -468,7 +459,7 @@ export default function Page() {
 						</header>
 						<div className={body()}>
 							<div className="grid gap-2">
-								<input type="hidden" name="mediaId" value={data?.Media?.id} />
+								<input type="hidden" name="mediaId" value={data.Media?.id} />
 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
 									<Status name={store.names.status}></Status>
 									<Score name={store.names.score}></Score>
@@ -484,7 +475,7 @@ export default function Page() {
 								<Notes name={store.names.notes}></Notes>
 
 								<AdvancedScores advancedScoring={listOptions}>
-									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
+									{data.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
 										(label, i) => {
 											const name = store.names.advancedScores[i]
 											return name ? (
@@ -501,7 +492,7 @@ export default function Page() {
 
 								<CustomLists
 									field={store.names.customLists}
-									mediaListTypeOptions={listOptions}
+									listOptions={listOptions}
 								></CustomLists>
 
 								{/* <Snackbar open={touched}>
@@ -595,14 +586,14 @@ function Progress({
 	return (
 		<TextFieldOutlined>
 			<TextFieldOutlinedInput {...props} min={0} type="number" />
-			{Number.isFinite(data?.episodes) && (
-				<TextFieldOutlined.Suffix className="pointer-events-none">
-					/{data.episodes}
-				</TextFieldOutlined.Suffix>
-			)}
 			<TextFieldOutlined.Label name={props.name}>
 				Episode Progress
 			</TextFieldOutlined.Label>
+			{data && Predicate.isNumber(data.episodes) ? (
+				<TextFieldOutlined.Suffix className="pointer-events-none">
+					/{data.episodes}
+				</TextFieldOutlined.Suffix>
+			) : null}
 		</TextFieldOutlined>
 	)
 }
@@ -661,7 +652,7 @@ function AdvancedScores({
 	...props
 }: {
 	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
-}): React.ReactNode {
+}): ReactNode {
 	const data = useFragment(AdvancedScoring_listOptions, listOptions)
 	if (!data?.advancedScoringEnabled) {
 		return null
@@ -681,7 +672,7 @@ function AdvancedScores({
 
 function AdvancedScore(
 	props: ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
-): React.ReactNode {
+): ReactNode {
 	return (
 		<TextFieldOutlinedInputFactory
 			{...props}
@@ -700,17 +691,15 @@ const CustomLists_mediaListTypeOptions = graphql(`
 `)
 
 function CustomLists({
-	field,
 	...props
 }: {
-	field: FieldConfig<unknown>
-	mediaListTypeOptions: FragmentType<
+	listOptions: FragmentType<
 		typeof CustomLists_mediaListTypeOptions
 	> | null
 }) {
 	const mediaListTypeOptions = useFragment(
 		CustomLists_mediaListTypeOptions,
-		props.mediaListTypeOptions,
+		props.listOptions,
 	)
 
 	const customLists = mediaListTypeOptions?.customLists?.filter(nonNull) ?? []
@@ -723,18 +712,13 @@ function CustomLists({
 		<fieldset className="grid gap-2">
 			<legend>Custom Lists</legend>
 			<div className="flex flex-wrap gap-2">
-				{conform
-					.collection(field, {
-						type: "checkbox",
-						options: customLists,
-					})
-					.map((field) => {
-						return (
-							<ChipFilter {...field} key={field.value}>
-								{field.value}
-							</ChipFilter>
-						)
-					})}
+				{customLists.map((list) => {
+					return (
+						<ChipFilter {...props} key={list}>
+							{list}
+						</ChipFilter>
+					)
+				})}
 			</div>
 		</fieldset>
 	)

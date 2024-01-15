@@ -20,7 +20,6 @@ const config: CodegenConfig = {
 	generates: {
 		"app/gql/": {
 			preset: "client",
-			plugins: ["typescript-urql-graphcache"],
 			config: {
 				useTypeImports: true,
 			},
@@ -60,9 +59,6 @@ const config: CodegenConfig = {
 					},
 				},
 			],
-		},
-		"app/gql/introspection.json": {
-			plugins: ["urql-introspection"],
 		},
 	},
 }

@@ -3,21 +3,20 @@ import type { LoaderFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import {
-	Form,
-	Outlet,
-	useLoaderData,
-	useSearchParams,
-	useSubmit
+    Form,
+    Outlet,
+    useLoaderData,
+    useParams,
+    useSearchParams,
+    useSubmit
 } from "@remix-run/react"
 import {
-	Effect,
-	Function,
-	Order,
-	ReadonlyArray,
-	ReadonlyRecord,
-	Sink,
-	Stream,
-	pipe,
+    Effect,
+    Function,
+    Order,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 import { useMemo } from "react"
@@ -26,15 +25,14 @@ import { ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
 import { graphql } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
-import { SearchParam } from "~/lib/SearchParam"
 import type { InferVariables } from "~/lib/urql"
 import {
-	ClientArgs,
-	ClientLoaderLive,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	nonNull
+    ClientArgs,
+    ClientLoaderLive,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+    nonNull
 } from "~/lib/urql"
 
 const FiltersQuery = graphql(`
@@ -64,7 +62,7 @@ function FiltersQueryVariables(
 	}[String(params["typelist"])]
 
 	if (!type) {
-		throw redirect(`/${params["userName"]}/animelist`)
+		throw redirect(`/${params["userName"]}/animelist/${params.selected}`)
 	}
 
 	return {
@@ -74,11 +72,11 @@ function FiltersQueryVariables(
 }
 
 const _loader = pipe(
-	Stream.Do,
-	Stream.bind("args", () => ClientArgs),
-	Stream.bind("client", () => EffectUrql),
-	Stream.flatMap(({ client, args }) =>
-		// Stream.fromEffect(
+	Effect.Do,
+	Effect.bind("args", () => ClientArgs),
+	Effect.bind("client", () => EffectUrql),
+	Effect.flatMap(({ client, args }) =>
+		// Effect.fromEffect(
 		// 	Effect.request(
 		// 		new GqlRequest({
 		// 			operation: FiltersQuery,
@@ -94,8 +92,8 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Stream.run(Sink.head()),
-		Effect.flatten,
+		
+		
 		
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -106,8 +104,8 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-		Stream.run(Sink.head()),
-		Effect.flatten,
+		
+		
 		 
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -119,10 +117,11 @@ export default function Filters() {
 	const [searchParams] = useSearchParams()
 
 	const data = useLoaderData<typeof loader>()
+	const params = useParams()
 
-	const selected = searchParams.get("selected")
+	const selected = params[("selected")]
 
-	let allLists = data?.MediaListCollection?.lists
+	let allLists = data.MediaListCollection?.lists
 		?.filter(nonNull)
 		.sort(
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? "")),
@@ -155,7 +154,7 @@ export default function Filters() {
 	const status = useMemo(
 		() =>
 			pipe(
-				entries?.map((entry) => entry?.media?.status).filter(nonNull) ?? [],
+				entries.map((entry) => entry?.media?.status).filter(nonNull),
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
@@ -175,7 +174,7 @@ export default function Filters() {
 	const format = useMemo(
 		() =>
 			pipe(
-				entries?.map((entry) => entry?.media?.format).filter(nonNull) ?? [],
+				entries.map((entry) => entry?.media?.format).filter(nonNull) ,
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
@@ -192,7 +191,7 @@ export default function Filters() {
 				onChange={(e) => submit(e.currentTarget)}
 				className="grid grid-cols-2 gap-2"
 			>
-				<SearchParam name="selected" />
+
 				{Object.entries(status).length > 1 && (
 					<CheckboxProvider defaultValue={searchParams.getAll("status")}>
 						<Group className="col-span-2" render={<fieldset />}>
@@ -229,6 +228,7 @@ export default function Filters() {
 						</Group>
 					</CheckboxProvider>
 				)}
+
 				<ButtonText type="submit">Filter</ButtonText>
 				<ButtonText type="reset">Reset</ButtonText>
 			</Form>
