@@ -1,4 +1,3 @@
-
 import { resolve } from "node:path"
 
 /** @typedef {import("@remix-run/node").AppLoadContext} AppLoadContext */
@@ -26,15 +25,11 @@ import * as webFetch from "@remix-run/web-fetch"
 
 import { app } from "electron"
 
-
-
 // only override the File global
 // if we override everything else, we get errors caused by the mismatch of built-in types and remix types
 global.File = webFetch.File
 
-
-
-export { }
+export {}
 
 /**
  * Initialize and configure remix-electron

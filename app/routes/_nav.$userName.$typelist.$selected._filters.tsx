@@ -3,20 +3,20 @@ import type { LoaderFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import {
-    Form,
-    Outlet,
-    useLoaderData,
-    useParams,
-    useSearchParams,
-    useSubmit
+	Form,
+	Outlet,
+	useLoaderData,
+	useParams,
+	useSearchParams,
+	useSubmit,
 } from "@remix-run/react"
 import {
-    Effect,
-    Function,
-    Order,
-    ReadonlyArray,
-    ReadonlyRecord,
-    pipe
+	Effect,
+	Function,
+	Order,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe,
 } from "effect"
 
 import { useMemo } from "react"
@@ -27,12 +27,12 @@ import { graphql } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import type { InferVariables } from "~/lib/urql"
 import {
-    ClientArgs,
-    ClientLoaderLive,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive,
-    nonNull
+	ClientArgs,
+	ClientLoaderLive,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	nonNull,
 } from "~/lib/urql"
 
 const FiltersQuery = graphql(`
@@ -92,9 +92,7 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
-		
-		
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -104,9 +102,7 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-		
-		
-		 
+
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -119,7 +115,7 @@ export default function Filters() {
 	const data = useLoaderData<typeof loader>()
 	const params = useParams()
 
-	const selected = params[("selected")]
+	const selected = params["selected"]
 
 	let allLists = data.MediaListCollection?.lists
 		?.filter(nonNull)
@@ -174,7 +170,7 @@ export default function Filters() {
 	const format = useMemo(
 		() =>
 			pipe(
-				entries.map((entry) => entry?.media?.format).filter(nonNull) ,
+				entries.map((entry) => entry?.media?.format).filter(nonNull),
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
@@ -185,13 +181,11 @@ export default function Filters() {
 
 	return (
 		<div>
-			
 			<Form
 				replace
 				onChange={(e) => submit(e.currentTarget)}
 				className="grid grid-cols-2 gap-2"
 			>
-
 				{Object.entries(status).length > 1 && (
 					<CheckboxProvider defaultValue={searchParams.getAll("status")}>
 						<Group className="col-span-2" render={<fieldset />}>

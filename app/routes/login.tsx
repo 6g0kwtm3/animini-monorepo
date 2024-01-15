@@ -24,20 +24,15 @@ export const action = (async ({ context, params, request }) => {
 
 	const url = new URL(request.url)
 
-
-
-	return redirect(
-		url.searchParams.get("redirect") ?? "/Hoodboi/animelist/",
-		{
-			headers: {
-				"Set-Cookie": cookie.serialize(`anilist-token`, token, {
-					sameSite: "lax",
-					maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-					path: "/",
-				}),
-			},
+	return redirect(url.searchParams.get("redirect") ?? "/Hoodboi/animelist/", {
+		headers: {
+			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
+				sameSite: "lax",
+				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
+				path: "/",
+			}),
 		},
-	)
+	})
 }) satisfies ActionFunction
 
 // export const clientAction = (async ({ request }) => {
@@ -62,7 +57,7 @@ export const action = (async ({ context, params, request }) => {
 
 export default function Login() {
 	const fetcher = useFetcher()
-	const store = Ariakit.useFormStore({defaultValues:{token:''}})
+	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
 	store.onSubmit((state) => {
 		console.log(state)
@@ -75,7 +70,11 @@ export default function Login() {
 		<main>
 			<Ariakit.Form store={store} method="post" className="grid gap-2">
 				<Outlined>
-					<TextFieldOutlinedInput name={store.names.token} required render={<textarea />} />
+					<TextFieldOutlinedInput
+						name={store.names.token}
+						required
+						render={<textarea />}
+					/>
 					<Outlined.Label name={store.names.token}>Token</Outlined.Label>
 				</Outlined>
 

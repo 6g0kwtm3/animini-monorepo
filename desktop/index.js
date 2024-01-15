@@ -4,9 +4,9 @@ import { fileURLToPath } from "node:url"
 import { app, BrowserWindow, dialog } from "electron"
 import { initRemix } from "./remix-electron.js"
 
-export { }
+export {}
 
-const __dirname =dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /** @type {BrowserWindow | undefined} */
 let win
@@ -26,13 +26,11 @@ app.on("ready", () => {
 	void (async () => {
 		try {
 			if (process.env.NODE_ENV === "development") {
-				const {
-					default: installExtension,
-					REACT_DEVELOPER_TOOLS,
-				} = await import("electron-devtools-installer")
+				const { default: installExtension, REACT_DEVELOPER_TOOLS } =
+					await import("electron-devtools-installer")
 
-				if(typeof installExtension =='function')
-				await installExtension(REACT_DEVELOPER_TOOLS)
+				if (typeof installExtension == "function")
+					await installExtension(REACT_DEVELOPER_TOOLS)
 			}
 
 			const url = await initRemix({

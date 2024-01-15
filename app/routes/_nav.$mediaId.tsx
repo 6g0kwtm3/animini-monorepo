@@ -145,9 +145,6 @@ export const loader = (async (args) => {
 	return pipe(
 		_loader,
 
-		
-		
-
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -368,9 +365,7 @@ export default function Page() {
 
 declare global {
 	namespace React {
-		interface HTMLAttributes<T>
-			extends AriaAttributes,
-				DOMAttributes<T> {
+		interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
 			popover?: "manual" | true | "auto" | undefined
 		}
 	}
@@ -380,8 +375,6 @@ function Edit() {
 	const data = useLoaderData<typeof loader>()
 
 	const { pathname } = useLocation()
-
-
 
 	const store = useTooltipStore()
 

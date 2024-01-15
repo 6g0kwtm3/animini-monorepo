@@ -6,7 +6,7 @@ export function ChipFilter({
 	...props
 }: PropsWithChildren<ComponentPropsWithoutRef<typeof Ariakit.Checkbox>>) {
 	return (
-		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow state-on-surface-variant hover:[&:not(\#)]:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 has-[[data-focus-visible]]:[&:not(\#)]:state-focus has-[:checked]:state-on-secondary-container">
+		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow state-on-surface-variant has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 has-[:checked]:state-on-secondary-container hover:[&:not(\#)]:state-hover has-[[data-focus-visible]]:[&:not(\#)]:state-focus">
 			<Ariakit.VisuallyHidden className="peer">
 				<Ariakit.Checkbox {...props}></Ariakit.Checkbox>
 			</Ariakit.VisuallyHidden>

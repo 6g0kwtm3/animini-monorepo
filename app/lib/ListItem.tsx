@@ -3,11 +3,11 @@ import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
 import { Predicate } from "effect"
 import { ButtonText } from "~/components/Button"
 import {
-  TooltipRich,
-  TooltipRichActions,
-  TooltipRichContainer,
-  TooltipRichSupportingText,
-  TooltipRichTrigger,
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichSupportingText,
+	TooltipRichTrigger,
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/gql"
 import { graphql, useFragment as readFragment } from "~/gql"
@@ -151,10 +151,6 @@ export function ListItem(props: {
 		</div>
 	)
 }
-
-
-
-
 
 const Progress_entry = graphql(`
 	fragment Progress_entry on MediaList {

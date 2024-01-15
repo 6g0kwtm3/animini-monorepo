@@ -1,21 +1,25 @@
 import type { LoaderFunction } from "@remix-run/node"
-import { Form, Link, Outlet, useLocation, useRouteLoaderData } from "@remix-run/react"
+import {
+	Form,
+	Link,
+	Outlet,
+	useLocation,
+	useRouteLoaderData,
+} from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
 
 import { ButtonText } from "~/components/Button"
 import { button } from "~/lib/button"
 import {
-    ClientArgs,
-    ClientLoaderLive,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive
+	ClientArgs,
+	ClientLoaderLive,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
 } from "~/lib/urql"
 
-import type { loader as rootLoader } from '~/root'
-
- 
+import type { loader as rootLoader } from "~/root"
 
 const _loader = pipe(
 	Effect.Do,
@@ -27,9 +31,7 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
-		
-		
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -39,8 +41,7 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-		
-		
+
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,

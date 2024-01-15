@@ -38,7 +38,7 @@ export function avalible(data: FragmentType<typeof Avalible_media> | null) {
 	if (media.status === MediaStatus.NotYetReleased) {
 		return 0
 	}
-	
-	media.status satisfies never;
+
+	media.status satisfies never
 	return null
 }

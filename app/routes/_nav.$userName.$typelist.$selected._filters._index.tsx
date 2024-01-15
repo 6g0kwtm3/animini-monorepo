@@ -24,7 +24,7 @@ import { Effect, Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
-import { } from "~/components/Dialog"
+import {} from "~/components/Dialog"
 
 // import {} from 'glob'
 
@@ -180,7 +180,7 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 	return (
 		<>
 			<div className={""}>
-				<h2 className="mx-4 text-balance flex flex-wrap justify-between text-display-md">
+				<h2 className="mx-4 flex flex-wrap justify-between text-balance text-display-md">
 					<div>{page.name}</div>
 					<div className="">
 						{formatWatch(

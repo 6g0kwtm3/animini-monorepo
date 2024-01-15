@@ -2,13 +2,7 @@ import type { LoaderFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import { Link, useLoaderData, useParams } from "@remix-run/react"
-import {
-	Effect,
-	Order,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
-} from "effect"
+import { Effect, Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
 import { CardOutlined } from "~/components/Card"
 import { graphql } from "~/gql"
@@ -103,8 +97,7 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
-		
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -114,8 +107,7 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-		
-		
+
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -149,8 +141,8 @@ export default function Page() {
 	)
 
 	return (
-		<main className="p-2 flex flex-col gap-4">
-			<h1 className="text-headline-lg text-balance">{data.User?.name}</h1>
+		<main className="flex flex-col gap-4 p-2">
+			<h1 className="text-balance text-headline-lg">{data.User?.name}</h1>
 
 			<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
 				{lists.map((list) => {
@@ -159,7 +151,7 @@ export default function Page() {
 							<CardOutlined asChild>
 								<article>
 									<h2 className="text-balance">{list.name}</h2>
-									<ul className="grid -mx-4 py-2">
+									<ul className="-mx-4 grid py-2">
 										{list.entries
 											?.filter(nonNull)
 											.slice(0, 4)

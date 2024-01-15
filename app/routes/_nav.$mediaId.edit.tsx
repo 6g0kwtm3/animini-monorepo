@@ -693,9 +693,7 @@ const CustomLists_mediaListTypeOptions = graphql(`
 function CustomLists({
 	...props
 }: {
-	listOptions: FragmentType<
-		typeof CustomLists_mediaListTypeOptions
-	> | null
+	listOptions: FragmentType<typeof CustomLists_mediaListTypeOptions> | null
 }) {
 	const mediaListTypeOptions = useFragment(
 		CustomLists_mediaListTypeOptions,
