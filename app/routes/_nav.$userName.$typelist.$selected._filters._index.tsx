@@ -1,11 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import {
-	Link,
-	useLoaderData,
+	isRouteErrorResponse,
 	useParams,
-	useSearchParams,
+	useRouteError,
+	useSearchParams
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
@@ -17,34 +16,34 @@ import {
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
+	raw,
+	useRawLoaderData,
 	type InferVariables,
 } from "~/lib/urql"
 
-import { Effect, Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
+import {
+	Effect,
+	Option,
+	Order,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
+} from "effect"
 
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
-import {} from "~/components/Dialog"
+import { } from "~/components/Dialog"
 
 // import {} from 'glob'
 
 import { layer } from "@effect/platform-node/FileSystem"
 import { FileSystem } from "@effect/platform/FileSystem"
-import { Library, ListItem } from "~/lib/entry/ListItem"
-import { button } from "~/lib/button"
 import { getLibrary } from "~/lib/electron/library.server"
+import { Library, ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 const TypelistQuery = graphql(`
 	query TypelistQuery($userName: String!, $type: MediaType!) {
-		User(name: $userName) {
-			id
-			mediaListOptions {
-				animeList {
-					sectionOrder
-				}
-			}
-		}
 		MediaListCollection(userName: $userName, type: $type) {
 			lists {
 				name
@@ -63,38 +62,41 @@ const TypelistQuery = graphql(`
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>,
-): InferVariables<typeof TypelistQuery> {
-	const type = {
+): Option.Option<InferVariables<typeof TypelistQuery>> {
+	const map = {
 		animelist: MediaType.Anime,
 		mangalist: MediaType.Manga,
-	}[String(params["typelist"])]
-
-	if (!type) {
-		throw redirect(`/${params["userName"]}/animelist/${params.selected}`)
 	}
 
-	return {
-		userName: params["userName"]!,
-		type,
-	}
+	const type = pipe(
+		Option.fromNullable(params["typelist"]),
+		Option.flatMap((key) => ReadonlyRecord.get(map, key)),
+	)
+
+	return Option.all({
+		userName: Option.fromNullable(params["userName"]),
+		type: type,
+	})
 }
-
-const _loader = pipe(
-	Effect.Do,
-	Effect.bind("args", () => ClientArgs),
-	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client, args }) =>
-		client.query(TypelistQuery, TypelistQueryVariables(args.params)),
-	),
-)
 
 export const loader = (async (args) => {
 	// make()
 
 	return pipe(
 		Effect.Do,
+		Effect.bind("args", () => ClientArgs),
+		Effect.bind("client", () => EffectUrql),
+		Effect.bind("variables", () => TypelistQueryVariables(args.params)),
+		Effect.bind("selected", ({ args }) =>
+			Option.fromNullable(args.params["selected"]),
+		),
 		Effect.bind("FileSystem", () => FileSystem),
-		Effect.bind("TypelistQuery", () => _loader),
+		Effect.bind("MediaListCollection", ({ client, args, variables }) =>
+			pipe(
+				client.query(TypelistQuery, variables),
+				Effect.flatMap((data) => Effect.fromNullable(data.MediaListCollection)),
+			),
+		),
 		Effect.bind("Library", () =>
 			Effect.succeed(
 				ReadonlyArray.groupBy(
@@ -103,11 +105,21 @@ export const loader = (async (args) => {
 				),
 			),
 		),
-		Effect.map(({ TypelistQuery, Library }) => ({
-			...TypelistQuery,
-			Library,
-		})),
+		Effect.flatMap(({ MediaListCollection, Library, selected }) => {
+			const SelectedList = MediaListCollection?.lists?.find(
+				(list) => list?.name === selected,
+			)
 
+			return Effect.all({
+				SelectedList: Option.fromNullable(SelectedList),
+				Library: Option.some(Library),
+			})
+		}),
+
+		Effect.map(raw),
+		// Effect.catchTag("NoSuchElementException", () =>
+		// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
+		// ),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.provide(layer),
@@ -213,67 +225,56 @@ export default function Page() {
 	const [searchParams] = useSearchParams()
 	const params = useParams()
 
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 
-	const selected = params.selected
+	const selected = params["selected"]
 
-	let allLists = data.MediaListCollection?.lists
-		?.filter(nonNull)
-		.sort(
-			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? "")),
-		)
 
-	let lists = allLists
 
-	if (selected) {
-		lists = lists?.filter((list) => list.name === selected)
-	}
 
-	const order = ReadonlyRecord.fromEntries(
-		(data.User?.mediaListOptions?.animeList?.sectionOrder ?? [])
-			.filter(nonNull)
-			.map((key, index) => [key, index]),
-	)
 
-	lists?.sort(
-		Order.mapInput(
-			Order.number,
-			(list) => order[list.name ?? ""] ?? Number.POSITIVE_INFINITY,
-		),
-	)
+
+
+
+
 
 	return (
 		<main className=" ">
 			<div className={` `}>
-				<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
-					{allLists?.map((list) => {
-						return (
-							<li className="min-w-max" key={list.name}>
-								<Link
-									to={`/${params.userName}/${params.typelist}/${list.name}/`}
-									className={button({
-										variant: "tonal",
-										className: `${
-											selected === list.name
-												? `force:bg-tertiary-container `
-												: ``
-										}force:rounded capitalize`,
-									})}
-								>
-									{list.name}
-								</Link>
-							</li>
-						)
-					})}
-				</ul>
-
 				<Library.Provider value={data.Library}>
-					{lists?.map((list) => {
-						return <MediaList key={list.name} item={list}></MediaList>
-					})}
+					<MediaList item={data.SelectedList}></MediaList>
 				</Library.Provider>
 			</div>
 		</main>
+	)
+}
+export function ErrorBoundary() {
+	const error = useRouteError()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<div>
+				<h1>Oops</h1>
+				<p>Status: {error.status}</p>
+				<p>{error.data}</p>
+			</div>
+		)
+	}
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<div>
+			<h1>Uh oh ...</h1>
+			<p>Something went wrong.</p>
+			<pre>{errorMessage}</pre>
+		</div>
 	)
 }
 

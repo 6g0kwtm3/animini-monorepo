@@ -1,7 +1,16 @@
 import cookie from "cookie"
 
-import type { LoaderFunctionArgs } from "@remix-run/node"
-import type { ClientLoaderFunctionArgs, Params } from "@remix-run/react"
+import type {
+	LoaderFunctionArgs,
+	TypedDeferredData,
+	TypedResponse,
+} from "@remix-run/node"
+import {
+	useLoaderData,
+	useRouteLoaderData,
+	type ClientLoaderFunctionArgs,
+	type Params,
+} from "@remix-run/react"
 
 import {
 	Context,
@@ -9,7 +18,8 @@ import {
 	Effect,
 	Layer,
 	Predicate,
-	Request,
+	PrimaryKey,
+	ReadonlyArray,
 	RequestResolver,
 	pipe,
 } from "effect"
@@ -17,78 +27,24 @@ import {
 import { IS_SERVER } from "./isClient"
 
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
-import { print } from "graphql"
+import { parse, print } from "graphql"
+
+import { uneval } from "devalue"
+import { useMemo } from "react"
+
+import { Schema } from "@effect/schema"
+
+import { cacheExchange } from "@urql/exchange-graphcache"
+import { Client, fetchExchange } from "urql"
+import { graphql } from "~/gql"
+import { GraphCacheConfig } from "~/gql/graphql"
 
 const API_URL = "https://graphql.anilist.co"
-
-export class GqlRequest<R, V> extends Request.TaggedClass("GqlRequest")<
-	ClientNetworkError,
-	R,
-	{
-		document: TypedDocumentNode<R, V>
-		requestHeaders?: Headers
-		signal?: AbortSignal
-		variables: V
-	}
-> {}
 
 class ClientNetworkError extends Data.TaggedError("ClientNetworkError")<{
 	reason: string
 	error: unknown
 }> {}
-
-export const ResolveGqlRequest = pipe(
-	RequestResolver.fromEffect((req: GqlRequest<any, any>) => {
-		return pipe(
-			Effect.promise(() =>
-				fetch(API_URL, {
-					body: JSON.stringify({
-						query: print(req.document),
-						variables: req.variables,
-					}),
-					headers: req.requestHeaders,
-					method: "post",
-					signal: req.signal,
-				}),
-			),
-
-			// Effect.filterOrDie(reponse=>reponse.ok, ()=> new Error()),
-			// Effect.tapBoth({onFailure:Console.error,onSuccess:Console.log}),
-
-			Effect.flatMap((response) => Effect.promise(() => response.json())),
-			Effect.map(({ data }) => data),
-			// Effect.tap(Console.log),
-
-			// Effect.tryPromise({
-			// 	try: (signal) => client.request(req.args),
-			// 	catch: (error) => new ClientNetworkError({ error, reason: "Client" }),
-			// }),
-
-			// Http.request.post(API_URL, {
-			// 	acceptJson: true,
-			// 	body: Http.body.raw(
-			// 		JSON.stringify({
-			// 			query: print(req.operation),
-			// 			variables: req.variables,
-			// 		}),
-			// 	),
-			// }),
-			// pipe(
-			// 	Http.client.fetchOk(),
-			// 	Http.client.catchAll(
-			// 		(e) => new ClientNetworkError({ error: e, reason: "HttpClient" }),
-			// 	),
-			// ),
-			// Effect.flatMap(Http.response.schemaBodyJson(unknown)),
-			// Effect.catchTags({
-			// 	ParseError: (error) =>
-			// 		new ClientNetworkError({ error, reason: "Parse" }),
-			// 	ResponseError: (error) =>
-			// 		new ClientNetworkError({ error, reason: "Response" }),
-			// }),
-		)
-	}),
-)
 
 export function nonNull<T>(value: T): value is NonNullable<T> {
 	return value !== undefined && value !== null
@@ -133,6 +89,62 @@ type Arguments = {
 
 export const ClientArgs = Context.Tag<Arguments>("client/Args")
 
+const Document = Schema.transform(Schema.any, Schema.string, print, (query) =>
+	parse(query),
+)
+
+class GqlRequest extends Schema.TaggedRequest<GqlRequest>()(
+	"GqlRequest",
+	Schema.any,
+	Schema.any,
+	{
+		token: Schema.string,
+		document: Document,
+		variables: Schema.any,
+	},
+) {
+	[PrimaryKey.symbol]() {
+		return this.document + JSON.stringify(this.variables)
+	}
+}
+
+RequestResolver.fromEffectTagged<GqlRequest>()({
+	GqlRequest: (reqs) =>
+		Effect.succeed(ReadonlyArray.map(reqs, (req) => req.id)),
+})
+
+function query() {
+	const headers = new Headers()
+	headers.append("Content-Type", "application/json")
+
+	const { "anilist-token": token } = cookie.parse(
+		(!IS_SERVER ? globalThis.document.cookie : null) ??
+			request.headers.get("Cookie") ??
+			"",
+	)
+
+	if (Predicate.isString(token))
+		headers.append("Authorization", `Bearer ${token.trim()}`)
+
+	return pipe(
+		Effect.promise(() =>
+			fetch(API_URL, {
+				body: JSON.stringify({
+					query: print(args[0]),
+					variables: args[1],
+				}),
+				headers: headers,
+				method: "post",
+				signal: request.signal,
+			}),
+		),
+		// ),
+
+		Effect.flatMap((response) => Effect.promise(() => response.json())),
+		Effect.map(({ data }) => data),
+	)
+}
+
 const UrqlLive = Layer.effect(
 	EffectUrql,
 	Effect.map(LoaderArgs, ({ request }) => {
@@ -151,16 +163,27 @@ const UrqlLive = Layer.effect(
 					headers.append("Authorization", `Bearer ${token.trim()}`)
 
 				return pipe(
-					Effect.request(
-						new GqlRequest({
-							document: args[0],
-							variables: args[1],
-							requestHeaders: headers,
+					// Effect.async((resolve) => {
+					// 	request.signal.addEventListener("abort", () =>
+					// 		resolve(Effect.interrupt),
+					// 	)
+					// }),
+					// Effect.race(
+					Effect.promise(() =>
+						fetch(API_URL, {
+							body: JSON.stringify({
+								query: print(args[0]),
+								variables: args[1],
+							}),
+							headers: headers,
+							method: "post",
 							signal: request.signal,
 						}),
-						ResolveGqlRequest,
 					),
-					Effect.withRequestCaching(true),
+					// ),
+
+					Effect.flatMap((response) => Effect.promise(() => response.json())),
+					Effect.map(({ data }) => data),
 				)
 			},
 			mutation: (...args) => {
@@ -183,3 +206,52 @@ export const ArgsAdapterLive = Layer.effect(
 export const LoaderLive = Layer.merge(ArgsAdapterLive, UrqlLive)
 
 export const ClientLoaderLive = Layer.merge(ArgsAdapterLive, UrqlLive)
+
+class Raw<T> {
+	protected opaque!: T
+}
+
+export function raw<T>(value: T): Raw<T> {
+	return uneval(value) as unknown as Raw<T>
+}
+
+type Jsonify<T> = T extends Raw<infer U> ? U : { [K in keyof T]: Jsonify<T[K]> }
+
+export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
+	? Serialize<Awaited<Output>>
+	: Jsonify<Awaited<T>>
+type Serialize<Output> =
+	Output extends TypedDeferredData<infer U>
+		? {
+				[K in keyof U as K extends symbol
+					? never
+					: Promise<any> extends U[K]
+						? K
+						: never]: DeferValue<U[K]>
+			} & Jsonify<{
+				[K in keyof U as Promise<any> extends U[K] ? never : K]: U[K]
+			}>
+		: Output extends TypedResponse<infer U>
+			? Jsonify<U>
+			: Jsonify<Output>
+type DeferValue<T> = T extends undefined
+	? undefined
+	: T extends Promise<unknown>
+		? Promise<Jsonify<Awaited<T>>>
+		: Jsonify<T>
+
+export function useRawLoaderData<T>(): SerializeFrom<T> {
+	const value = useLoaderData()
+
+	// eslint-disable-next-line no-eval
+	return useMemo(() => (0, eval)(`(${value})`) as SerializeFrom<T>, [value])
+}
+
+export function useRawRouteLoaderData<T>(
+	...args: Parameters<typeof useRouteLoaderData>
+): SerializeFrom<T> | undefined {
+	const value = useRouteLoaderData(...args)
+
+	// eslint-disable-next-line no-eval
+	return useMemo(() => (0, eval)(`(${value})`) as SerializeFrom<T>, [value])
+}

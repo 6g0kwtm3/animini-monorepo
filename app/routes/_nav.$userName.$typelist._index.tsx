@@ -1,14 +1,13 @@
 import type { LoaderFunction } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
-import { Link, useLoaderData, useParams } from "@remix-run/react"
+import { Link, useParams } from "@remix-run/react"
 import { Effect, Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
 import { CardOutlined } from "~/components/Card"
 import { graphql } from "~/gql"
 import { MediaType } from "~/gql/graphql"
-import { ListItem } from "~/lib/entry/ListItem"
 import { button } from "~/lib/button"
+import { ListItem } from "~/lib/entry/ListItem"
 import type { InferVariables } from "~/lib/urql"
 import {
 	ClientArgs,
@@ -17,27 +16,29 @@ import {
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
+	raw,
+	useRawLoaderData,
 } from "~/lib/urql"
 
 const ListsQuery = graphql(`
 	query ListsQuery($userName: String!, $type: MediaType!) {
-		User(name: $userName) {
-			id
-			name
-			mediaListOptions {
-				animeList {
-					sectionOrder
-				}
-				mangaList {
-					sectionOrder
-				}
-			}
-		}
 		MediaListCollection(
 			userName: $userName
 			type: $type
 			sort: UPDATED_TIME_DESC
 		) {
+			user {
+				id
+				name
+				mediaListOptions {
+					animeList {
+						sectionOrder
+					}
+					mangaList {
+						sectionOrder
+					}
+				}
+			}
 			lists {
 				name
 				entries {
@@ -69,7 +70,7 @@ function FiltersQueryVariables(
 	}[String(params["typelist"])]
 
 	if (!type) {
-		throw redirect(`/${params["userName"]}/animelist`)
+		throw new Error(`Invalid list type`)
 	}
 
 	return {
@@ -85,11 +86,14 @@ const _loader = pipe(
 	Effect.bind("variables", ({ args }) =>
 		Effect.succeed(FiltersQueryVariables(args.params)),
 	),
-	Effect.bind("ListsQuery", ({ client, variables }) =>
-		client.query(ListsQuery, variables),
+	Effect.bind("MediaListCollection", ({ client, variables }) =>
+		pipe(
+			client.query(ListsQuery, variables),
+			Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection)),
+		),
 	),
-	Effect.map(({ ListsQuery, variables }) => ({
-		...ListsQuery,
+	Effect.map(({ MediaListCollection, variables }) => ({
+		MediaListCollection,
 		mediaType: variables.type,
 	})),
 )
@@ -97,6 +101,7 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
+		Effect.map(raw),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -107,6 +112,7 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
+		Effect.map(raw),
 
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -115,13 +121,13 @@ export const clientLoader = (async (args) => {
 }) satisfies ClientLoaderFunction
 
 export default function Page() {
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 	const params = useParams()
 
 	const listOptions =
 		data.mediaType === MediaType.Anime
-			? data.User?.mediaListOptions?.animeList
-			: data.User?.mediaListOptions?.mangaList
+			? data.MediaListCollection.user?.mediaListOptions?.animeList
+			: data.MediaListCollection.user?.mediaListOptions?.mangaList
 
 	const order = ReadonlyRecord.fromEntries(
 		(listOptions?.sectionOrder ?? [])
@@ -130,7 +136,7 @@ export default function Page() {
 	)
 
 	let lists = pipe(
-		data.MediaListCollection?.lists?.filter(nonNull) ?? [],
+		data.MediaListCollection.lists?.filter(nonNull) ?? [],
 		ReadonlyArray.sortBy(
 			Order.mapInput(
 				Order.number,
@@ -142,7 +148,9 @@ export default function Page() {
 
 	return (
 		<main className="flex flex-col gap-4 p-2">
-			<h1 className="text-balance text-headline-lg">{data.User?.name}</h1>
+			<h1 className="text-balance text-headline-lg">
+				{data.MediaListCollection.user?.name}
+			</h1>
 
 			<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
 				{lists.map((list) => {

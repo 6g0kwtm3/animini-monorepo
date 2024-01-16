@@ -1,10 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node"
 import {
-	Form,
-	Link,
-	Outlet,
-	useLocation,
-	useRouteLoaderData,
+    Form,
+    Link,
+    Outlet,
+    useLocation,
+    useRouteLoaderData,
 } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
@@ -12,11 +12,13 @@ import { Effect, pipe } from "effect"
 import { ButtonText } from "~/components/Button"
 import { button } from "~/lib/button"
 import {
-	ClientArgs,
-	ClientLoaderLive,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
+    ClientArgs,
+    ClientLoaderLive,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+		raw,
+		useRawRouteLoaderData,
 } from "~/lib/urql"
 
 import type { loader as rootLoader } from "~/root"
@@ -30,7 +32,7 @@ const _loader = pipe(
 
 export const loader = (async (args) => {
 	return pipe(
-		_loader,
+		_loader,Effect.map(raw),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -40,7 +42,7 @@ export const loader = (async (args) => {
 
 export const clientLoader = (async (args) => {
 	return pipe(
-		_loader,
+		_loader,Effect.map(raw),
 
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -49,7 +51,7 @@ export const clientLoader = (async (args) => {
 }) satisfies LoaderFunction
 
 export default function Nav() {
-	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const data = useRawRouteLoaderData<typeof rootLoader>("root")
 
 	const { pathname } = useLocation()
 

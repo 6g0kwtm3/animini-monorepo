@@ -75,8 +75,12 @@ export async function initRemix({
 
 	server.use(express.static(resolve(appRoot, "build/client"), { maxAge: "1h" }))
 
-	const serverBuild =
-		typeof serverBuildOption === "string"
+	const serverBuild = viteDevServer
+		? () =>
+				/** @type {Promise<ServerBuild>} */ (
+					viteDevServer.ssrLoadModule("virtual:remix/server-build")
+				)
+		: typeof serverBuildOption === "string"
 			? /** @type {ServerBuild} */ (
 					await import(pathToFileURL(serverBuildOption).toString())
 				)
@@ -86,12 +90,7 @@ export async function initRemix({
 	server.all(
 		"*",
 		createRequestHandler({
-			build: viteDevServer
-				? () =>
-						/** @type {Promise<ServerBuild>} */ (
-							viteDevServer.ssrLoadModule("virtual:remix/server-build")
-						)
-				: serverBuild,
+			build: serverBuild,
 			mode,
 			getLoadContext,
 		}),

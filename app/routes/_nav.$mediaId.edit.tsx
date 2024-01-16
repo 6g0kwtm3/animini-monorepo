@@ -7,7 +7,6 @@ import {
 	Link,
 	useActionData,
 	useFetcher,
-	useLoaderData,
 	useNavigate,
 	useNavigation,
 	type ClientLoaderFunction,
@@ -37,6 +36,8 @@ import {
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
+	raw,
+	useRawLoaderData,
 } from "~/lib/urql"
 
 import * as S from "@effect/schema/Schema"
@@ -49,7 +50,7 @@ import type { FragmentType } from "~/gql"
 import { graphql, useFragment } from "~/gql"
 import { dialog } from "~/lib/dialog"
 
-import type { ReactNode, ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 
 import { ChipFilter } from "~/components/Chip"
 import { SelectFactory } from "~/components/Select"
@@ -147,10 +148,8 @@ const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-
-		Effect.filterOrElse(
-			(data) => Predicate.isNotNull(data.Viewer),
-			() => Effect.succeed(redirect("..")),
+		Effect.map((data) =>
+			Predicate.isNotNull(data.Viewer) ? raw(data) : redirect(".."),
 		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -161,12 +160,9 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-
-		Effect.filterOrElse(
-			(data) => Predicate.isNotNull(data.Viewer),
-			() => Effect.succeed(redirect("..")),
+		Effect.map((data) =>
+			Predicate.isNotNull(data.Viewer) ? raw(data) : redirect(".."),
 		),
-
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -333,7 +329,7 @@ const Score = (
 	/>
 )
 export default function Page() {
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 
 	const navigation = useNavigation()
 

@@ -4,8 +4,8 @@ import { redirect } from "@remix-run/node"
 import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import {
 	Form,
+	Link,
 	Outlet,
-	useLoaderData,
 	useParams,
 	useSearchParams,
 	useSubmit,
@@ -25,6 +25,7 @@ import { ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
 import { graphql } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+import { button } from "~/lib/button"
 import type { InferVariables } from "~/lib/urql"
 import {
 	ClientArgs,
@@ -33,6 +34,8 @@ import {
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
+	raw,
+	useRawLoaderData,
 } from "~/lib/urql"
 
 const FiltersQuery = graphql(`
@@ -62,7 +65,7 @@ function FiltersQueryVariables(
 	}[String(params["typelist"])]
 
 	if (!type) {
-		throw redirect(`/${params["userName"]}/animelist/${params.selected}`)
+		throw new Error(`Invalid list type`)
 	}
 
 	return {
@@ -92,7 +95,7 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-
+		Effect.map(raw),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -102,7 +105,7 @@ export const loader = (async (args) => {
 export const clientLoader = (async (args) => {
 	return pipe(
 		_loader,
-
+		Effect.map(raw),
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise,
@@ -112,12 +115,12 @@ export const clientLoader = (async (args) => {
 export default function Filters() {
 	const [searchParams] = useSearchParams()
 
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 	const params = useParams()
 
 	const selected = params["selected"]
 
-	let allLists = data.MediaListCollection?.lists
+	let allLists = data?.MediaListCollection?.lists
 		?.filter(nonNull)
 		.sort(
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? "")),
@@ -226,6 +229,29 @@ export default function Filters() {
 				<ButtonText type="submit">Filter</ButtonText>
 				<ButtonText type="reset">Reset</ButtonText>
 			</Form>
+
+			<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
+					{allLists?.map((list) => {
+						return (
+							<li className="min-w-max" key={list.name}>
+								<Link
+									to={`/${params["userName"]}/${params["typelist"]}/${list.name}/`}
+									className={button({
+										variant: "tonal",
+										className: `${
+											selected === list.name
+												? `force:bg-tertiary-container `
+												: ``
+										}force:rounded capitalize`,
+									})}
+								>
+									{list.name}
+								</Link>
+							</li>
+						)
+					})}
+				</ul>
+				
 			<Outlet></Outlet>
 		</div>
 	)

@@ -19,7 +19,6 @@ import type { NonEmptyArray } from "effect/ReadonlyArray"
 import { createContext, useContext } from "react"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
-import { divide } from "effect/BigDecimal"
 
 const ListItem_entry = graphql(`
 	fragment ListItem_entry on MediaList {
@@ -112,9 +111,10 @@ export function ListItem(props: {
 					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
 				<Link to={`/${entry.media?.id}/`}>
-					<span className="line-clamp-1 flex items-center gap-1 text-balance text-body-lg">
-						{(libraryHasNextEpisode || true) && (
-							<span className="h-2 w-2 rounded-full bg-secondary"> </span>
+					<span className="line-clamp-1 text-body-lg">
+						{(libraryHasNextEpisode ) && (
+							<span className="i i-inline text-primary">priority_high</span>
+							// <span className="i i-inline text-primary">video_library</span>
 						)}
 						{entry.media?.title?.userPreferred}
 					</span>
