@@ -30,7 +30,7 @@ import {} from "~/components/Dialog"
 
 import { layer } from "@effect/platform-node/FileSystem"
 import { FileSystem } from "@effect/platform/FileSystem"
-import { Library, ListItem, } from "~/lib/entry/ListItem"
+import { Library, ListItem } from "~/lib/entry/ListItem"
 import { button } from "~/lib/button"
 import { getLibrary } from "~/lib/electron/library.server"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"

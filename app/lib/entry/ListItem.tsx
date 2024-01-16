@@ -112,10 +112,10 @@ export function ListItem(props: {
 					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
 				<Link to={`/${entry.media?.id}/`}>
-					<span className="line-clamp-1 flex gap-1 items-center text-balance text-body-lg">
-						{(libraryHasNextEpisode
-							
-							||true) && <span className="h-2 w-2 rounded-full bg-secondary"> </span>}
+					<span className="line-clamp-1 flex items-center gap-1 text-balance text-body-lg">
+						{(libraryHasNextEpisode || true) && (
+							<span className="h-2 w-2 rounded-full bg-secondary"> </span>
+						)}
 						{entry.media?.title?.userPreferred}
 					</span>
 					<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
