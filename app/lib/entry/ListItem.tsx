@@ -12,13 +12,14 @@ import {
 import type { FragmentType } from "~/gql"
 import { graphql, useFragment as readFragment } from "~/gql"
 
-import { avalible as getAvalible } from "./avalible"
+import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
 import { createContext, useContext } from "react"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
+import { divide } from "effect/BigDecimal"
 
 const ListItem_entry = graphql(`
 	fragment ListItem_entry on MediaList {
@@ -111,7 +112,10 @@ export function ListItem(props: {
 					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
 				<Link to={`/${entry.media?.id}/`}>
-					<span className="line-clamp-1 text-balance text-body-lg">
+					<span className="line-clamp-1 flex gap-1 items-center text-balance text-body-lg">
+						{(libraryHasNextEpisode
+							
+							||true) && <span className="h-2 w-2 rounded-full bg-secondary"> </span>}
 						{entry.media?.title?.userPreferred}
 					</span>
 					<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">

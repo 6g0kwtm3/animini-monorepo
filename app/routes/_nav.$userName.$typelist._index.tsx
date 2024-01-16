@@ -4,10 +4,11 @@ import type { ClientLoaderFunction, Params } from "@remix-run/react"
 import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { Effect, Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
+
 import { CardOutlined } from "~/components/Card"
 import { graphql } from "~/gql"
 import { MediaType } from "~/gql/graphql"
-import { ListItem } from "~/lib/ListItem"
+import { ListItem } from "~/lib/entry/ListItem"
 import { button } from "~/lib/button"
 import type { InferVariables } from "~/lib/urql"
 import {

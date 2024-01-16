@@ -1,6 +1,6 @@
 import type { FragmentType } from "~/gql"
 import { graphql, useFragment as readFragment } from "~/gql"
-import { avalible } from "./avalible"
+import { avalible } from "../media/avalible"
 
 const Behind_entry = graphql(`
 	fragment Behind_entry on MediaList {

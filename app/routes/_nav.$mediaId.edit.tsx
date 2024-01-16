@@ -49,7 +49,7 @@ import type { FragmentType } from "~/gql"
 import { graphql, useFragment } from "~/gql"
 import { dialog } from "~/lib/dialog"
 
-import type { ReactNode, type ComponentPropsWithoutRef } from "react"
+import type { ReactNode, ComponentPropsWithoutRef } from "react"
 
 import { ChipFilter } from "~/components/Chip"
 import { SelectFactory } from "~/components/Select"

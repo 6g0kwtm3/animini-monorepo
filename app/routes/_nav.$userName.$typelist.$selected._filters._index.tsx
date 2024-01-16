@@ -30,9 +30,10 @@ import {} from "~/components/Dialog"
 
 import { layer } from "@effect/platform-node/FileSystem"
 import { FileSystem } from "@effect/platform/FileSystem"
-import { Library, ListItem, formatWatch, toWatch } from "~/lib/ListItem"
+import { Library, ListItem, } from "~/lib/entry/ListItem"
 import { button } from "~/lib/button"
-import { getLibrary } from "~/library.server"
+import { getLibrary } from "~/lib/electron/library.server"
+import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 const TypelistQuery = graphql(`
 	query TypelistQuery($userName: String!, $type: MediaType!) {
