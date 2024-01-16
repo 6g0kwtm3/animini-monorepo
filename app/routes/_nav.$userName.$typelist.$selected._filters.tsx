@@ -231,27 +231,25 @@ export default function Filters() {
 			</Form>
 
 			<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
-					{allLists?.map((list) => {
-						return (
-							<li className="min-w-max" key={list.name}>
-								<Link
-									to={`/${params["userName"]}/${params["typelist"]}/${list.name}/`}
-									className={button({
-										variant: "tonal",
-										className: `${
-											selected === list.name
-												? `force:bg-tertiary-container `
-												: ``
-										}force:rounded capitalize`,
-									})}
-								>
-									{list.name}
-								</Link>
-							</li>
-						)
-					})}
-				</ul>
-				
+				{allLists?.map((list) => {
+					return (
+						<li className="min-w-max" key={list.name}>
+							<Link
+								to={`/${params["userName"]}/${params["typelist"]}/${list.name}/`}
+								className={button({
+									variant: "tonal",
+									className: `${
+										selected === list.name ? `force:bg-tertiary-container ` : ``
+									}force:rounded capitalize`,
+								})}
+							>
+								{list.name}
+							</Link>
+						</li>
+					)
+				})}
+			</ul>
+
 			<Outlet></Outlet>
 		</div>
 	)

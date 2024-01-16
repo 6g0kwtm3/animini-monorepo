@@ -1,21 +1,28 @@
 import type { LoaderFunction } from "@remix-run/node"
 import {
-    Link,
-    useLocation,
-    useOutlet,
-    useOutletContext
+	Link,
+	useLocation,
+	useOutlet,
+	useOutletContext,
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
-import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive, raw, useRawLoaderData } from "~/lib/urql"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	raw,
+	useRawLoaderData,
+} from "~/lib/urql"
 
 import type { Theme } from "@material/material-color-utilities"
 import {
-    argbFromHex,
-    hexFromArgb,
-    themeFromSourceColor,
+	argbFromHex,
+	hexFromArgb,
+	themeFromSourceColor,
 } from "@material/material-color-utilities"
 import { cloneElement, useId, useMemo } from "react"
 
@@ -30,31 +37,31 @@ import { CardElevated, CardFilled } from "~/components/Card"
 import { cssEscape } from "~/lib/cssEscape"
 
 import {
-    ButtonElevated,
-    ButtonFilled,
-    ButtonOutlined,
-    ButtonText,
-    ButtonTonal,
+	ButtonElevated,
+	ButtonFilled,
+	ButtonOutlined,
+	ButtonText,
+	ButtonTonal,
 } from "~/components/Button"
 
 import { button, fab } from "~/lib/button"
 
 import { useTooltipStore } from "@ariakit/react"
 import {
-    Menu,
-    MenuDivider,
-    MenuItem,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuTrigger,
+	Menu,
+	MenuDivider,
+	MenuItem,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuTrigger,
 } from "~/components/Menu"
 import { PaneFlexible } from "~/components/Pane"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger,
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
 
@@ -142,7 +149,8 @@ const _loader = pipe(
 
 export const loader = (async (args) => {
 	return pipe(
-		_loader,Effect.map(raw),
+		_loader,
+		Effect.map(raw),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),

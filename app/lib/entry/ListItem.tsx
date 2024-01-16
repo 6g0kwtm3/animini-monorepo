@@ -112,7 +112,7 @@ export function ListItem(props: {
 				</div>
 				<Link to={`/${entry.media?.id}/`}>
 					<span className="line-clamp-1 text-body-lg">
-						{(libraryHasNextEpisode ) && (
+						{libraryHasNextEpisode && (
 							<span className="i i-inline text-primary">priority_high</span>
 							// <span className="i i-inline text-primary">video_library</span>
 						)}

@@ -4,7 +4,7 @@ import {
 	isRouteErrorResponse,
 	useParams,
 	useRouteError,
-	useSearchParams
+	useSearchParams,
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
@@ -27,12 +27,12 @@ import {
 	Order,
 	ReadonlyArray,
 	ReadonlyRecord,
-	pipe
+	pipe,
 } from "effect"
 
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
-import { } from "~/components/Dialog"
+import {} from "~/components/Dialog"
 
 // import {} from 'glob'
 
@@ -228,15 +228,6 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	const selected = params["selected"]
-
-
-
-
-
-
-
-
-
 
 	return (
 		<main className=" ">

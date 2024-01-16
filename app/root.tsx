@@ -1,20 +1,20 @@
 import type { ClientLoaderFunction } from "@remix-run/react"
 import {
-    Links,
-    LiveReload,
-    Meta,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useRevalidator,
+	Links,
+	LiveReload,
+	Meta,
+	Outlet,
+	Scripts,
+	ScrollRestoration,
+	useRevalidator,
 } from "@remix-run/react"
 import {
-    ClientArgs,
-    ClientLoaderLive,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive,
-		raw,
+	ClientArgs,
+	ClientLoaderLive,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	raw,
 } from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
@@ -44,7 +44,8 @@ const _loader = pipe(
 
 export const loader = (async (args) => {
 	return pipe(
-		_loader,Effect.map(raw),
+		_loader,
+		Effect.map(raw),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -54,7 +55,8 @@ export const loader = (async (args) => {
 
 export const clientLoader = (async (args) => {
 	return pipe(
-		_loader,Effect.map(raw),
+		_loader,
+		Effect.map(raw),
 
 		Effect.provide(ClientLoaderLive),
 		Effect.provideService(LoaderArgs, args),
