@@ -46,6 +46,7 @@ const QUERY = graphql(`
 	query Test {
 		MediaListCollection(userName: "Hoodboi", type: ANIME) {
 			lists {
+				MediaGroup
 				name
 				entries {
 					id
@@ -62,9 +63,9 @@ const QUERY = graphql(`
 	}
 `)
 
-export const loader = async () => {
+export const loader = async ({ request }) => {
 	return {
-		Test: await loadQuery(QUERY),
+		Test: await loadQuery(request, QUERY, {}),
 	}
 }
 
@@ -72,6 +73,7 @@ export default function Index() {
 	const { Test } = useLoaderData<typeof loader>()
 
 	const { data } = useQuery(Test)
+	console.log({ Test, data })
 
 	const [params] = useSearchParams()
 
@@ -79,9 +81,23 @@ export default function Index() {
 		<div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
 			<h1>Welcome to Remix</h1>
 
-			<pre>{data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]?.ListItem?.({})}</pre>
-			<pre>{data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]?.behind}</pre>
-			<pre>{JSON.stringify(data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]?.toWatch)}</pre>
+			<pre>
+				{data?.MediaListCollection?.lists?.[7]?.entries?.[
+					+params.get("entry")
+				]?.ListItem?.({})}
+			</pre>
+			<pre>
+				{
+					data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]
+						?.behind
+				}
+			</pre>
+			<pre>
+				{JSON.stringify(
+					data?.MediaListCollection?.lists?.[7]?.entries?.[+params.get("entry")]
+						?.toWatch,
+				)}
+			</pre>
 
 			<Link to={`?entry=${(+params.get("entry") || 0) - 1}`}>prev</Link>
 			<Link to={`?entry=${(+params.get("entry") || 0) + 1}`}>next</Link>

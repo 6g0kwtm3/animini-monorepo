@@ -31,12 +31,30 @@ import {
 	Fiber,
 	Layer,
 	Predicate,
+	ReadonlyArray,
 	Stream,
 	pipe,
 } from "effect"
 
+import type { FieldNode, SelectionNode } from "graphql"
+import {
+	Kind,
+	TypeInfo,
+	buildASTSchema,
+	isNonNullType,
+	isScalarType,
+	parse,
+	print,
+	visit,
+	visitWithTypeInfo,
+} from "graphql"
 import * as wonka from "wonka"
 import { IS_SERVER } from "./isClient"
+
+import { mergeTypeDefs } from "@graphql-tools/merge"
+import mainfile from "~/../schema.graphql?raw"
+import typeDefs from "~/schema/.schema.graphql?raw"
+import { resolvers } from "~/schema/resolvers"
 
 export const ssr = ssrExchange({
 	isClient: !IS_SERVER,
@@ -183,10 +201,198 @@ export function getClient(request: Request) {
 	return client
 }
 
+function dedupe(
+	selections: readonly SelectionNode[],
+): readonly SelectionNode[] {
+	const { "...rest": rest = [], ...fields } = ReadonlyArray.groupBy(
+		selections,
+		(node) => (node.kind === Kind.FIELD ? node.name.value : "...rest"),
+	)
+
+	return [
+		...rest,
+		...Object.entries(
+			fields as Record<string, [FieldNode, ...FieldNode[]]>,
+		).map(([, values]) => {
+			return values.reduce((a, b) => ({
+				...a,
+				...b,
+				...(a.selectionSet &&
+					b.selectionSet && {
+						selectionSet: {
+							...a.selectionSet,
+							...b.selectionSet,
+							selections: [
+								...a.selectionSet.selections,
+								...b.selectionSet.selections,
+							],
+						},
+					}),
+			}))
+		}),
+	]
+}
+
+function doStuff(
+	typeInfo: TypeInfo,
+	selections: readonly SelectionNode[],
+): readonly SelectionNode[] {
+	return selections.flatMap((node) => {
+		typeInfo.enter(node)
+
+		const def = typeInfo.getFieldDef()
+
+		if (
+			isNonNullType(def?.type) &&
+			isScalarType(def.type.ofType) &&
+			def.type.ofType?.astNode?.directives?.some(
+				(dir) => dir.name.value === "component",
+			)
+		) {
+			const selections = parse(
+				resolvers[typeInfo.getParentType()?.name][node.name.value]["selectionSet"],
+			).definitions[0].selectionSet.selections
+
+			typeInfo.leave(node)
+			return [
+				{ kind: Kind.FIELD, name: { kind: Kind.NAME, value: "__typename" } },
+				...doStuff(typeInfo, selections),
+			]
+		}
+
+		typeInfo.leave(node)
+		return [
+			{ kind: Kind.FIELD, name: { kind: Kind.NAME, value: "__typename" } },
+			node,
+		]
+	})
+}
+
+const schema = buildASTSchema(mergeTypeDefs([mainfile, typeDefs]))
+const componentExchange: Exchange = ({ client, forward }) => {
+	return (operations$) => {
+		// <-- The ExchangeIO function
+		const operationResult$ = forward(
+			wonka.pipe(
+				operations$,
+				wonka.map((operation) => {
+					const typeInfo = new TypeInfo(schema)
+
+					const visitor = visitWithTypeInfo(typeInfo, {
+						SelectionSet(selectionSet) {
+							return {
+								...selectionSet,
+								selections: dedupe(doStuff(typeInfo, selectionSet.selections)),
+							}
+						},
+					})
+
+					const query = visit(operation.query, visitor)
+
+					console.log(print(query))
+
+					return {
+						...operation,
+						query,
+						extensions: {
+							...operation.extensions,
+							__original_query__: operation.query,
+						},
+					}
+				}),
+			),
+		)
+
+		return wonka.pipe(
+			operationResult$,
+			wonka.tap((result) => {
+				if (result.operation.extensions?.["__original_query__"]) {
+					patchData(result)
+				}
+
+				// console.log(result.data.MediaListCollection)
+
+				return result
+			}),
+		)
+	}
+}
+
+function patchData(result) {
+	let stack = [[result.data]]
+	const typeInfo = new TypeInfo(schema)
+
+	const visitor = visitWithTypeInfo(typeInfo, {
+		Field: {
+			enter(node) {
+				stack.push(
+					stack
+						.at(-1)
+						.flatMap(
+							(data) => data?.[node.alias?.value ?? node.name.value] ?? [],
+						),
+				)
+			},
+			leave() {
+				stack.pop()
+			},
+		},
+		SelectionSet: {
+			enter(selectionSet) {
+				for (const node of selectionSet.selections) {
+					if(node.kind !== Kind.FIELD){
+						continue
+					}
+
+					typeInfo.enter(node)
+					const def = typeInfo.getFieldDef()
+
+					if (
+						isNonNullType(def?.type) &&
+						isScalarType(def.type.ofType) &&
+						def.type.ofType?.astNode?.directives?.some(
+							(dir) => dir.name.value === "component",
+						)
+					) {
+						for (const data of stack.at(-1)) {
+							if (data?.__typename) {
+								data[node.name.value] = resolvers[data.__typename][
+									node.name.value
+								].resolve(
+									data,
+									// patchData({
+									// 	data,
+									// 	operation: {
+									// 		extensions: {
+									// 			__original_query__: parse(
+									// 				`fragment _ on ${data.__typename} ${
+									// 					resolvers[data.__typename][def.name]["selectionSet"]
+									// 				}`,
+									// 			),
+									// 		},
+									// 	},
+									// }),
+								)
+							}
+						}
+					}
+
+					typeInfo.leave(node)
+				}
+				return selectionSet
+			},
+			leave() {},
+		},
+	})
+
+	visit(result.operation.extensions.__original_query__, visitor)
+}
+
 function createStatelessClient(request: Request) {
 	const exchanges = []
 
 	exchanges.push(
+		componentExchange,
 		cacheExchange<GraphCacheConfig>(graphcacheConfig),
 		authExchange(async (utils) => {
 			const { "anilist-token": token } = cookie.parse(
@@ -215,7 +421,7 @@ function createStatelessClient(request: Request) {
 		}),
 		fetchExchange,
 	)
-	exchanges.push(ssr, fetchExchange)
+	// exchanges.push(ssr, fetchExchange)
 
 	return new Client({
 		url: API_URL,

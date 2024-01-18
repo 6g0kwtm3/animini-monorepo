@@ -97,22 +97,13 @@ const genResolvers: PluginFunction = (schema, documents, config, info) => {
 				}
 				
 
-				const resolvers = mergeResolvers([${fragments
+				export const resolvers = mergeResolvers([${fragments
 					.map(
 						({ fragment, location }, i) => dedent`
 					${fragment.name.value}Resolvers`,
 					)
 					.join(",")}
 				])
-
-
-				export const schema = stitchSchemas({
-					subschemas: [
-						mainschema
-					],
-					typeDefs,
-					resolvers,
-				})
 			
 				const components: any = {${fragments
 					.map(
@@ -150,19 +141,19 @@ const genResolvers: PluginFunction = (schema, documents, config, info) => {
 						GraphqlError: (data) => new GraphQLError(data.message, data),
 					}) as unknown as T
 				}
-
+				
+				import {getClient} from "~/lib/urql"
 
 				export async function loadQuery<T, V extends { readonly [variable: string]: unknown; }>(
+					request: Request,
 					document: DocumentTypeDecoration<T>,
 					variableValues: V
 				): Promise<Ref<ExecutionResult<T>>> {
-					const result = (await execute({
-						schema,
-						document,
-						variableValues,
-					})) as ExecutionResult<T>
+					const {data, error} = (await getClient(request).query(document, variableValues)) as ExecutionResult<T>
+
+					if(error)console.error(error)
 				
-					return ref(result)
+					return ref({data})
 				}
 				
 				export function useQuery<T>(ref: Ref<ExecutionResult<T>>): ExecutionResult<T> {
@@ -196,11 +187,11 @@ const genTypedefs = ((schema, documents) => {
 	)
 
 	let i = 0
-
+	
 	return {
 		prepend: [],
 		content:
-			`directive @component(url: String) on SCALAR | FRAGMENT_DEFINITION\n` +
+			`directive @component(url: String) on SCALAR | FRAGMENT_DEFINITION\ndirective @_client on FIELD\n` +
 			Object.entries(groups)
 				.map(([key, fragments]) => {
 					const typeDefs = `${fragments

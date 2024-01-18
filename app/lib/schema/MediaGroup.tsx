@@ -21,7 +21,7 @@ export default function MediaListData(
 	return function MediaGroup(props: {}) {
 		const page = useFragment(MediaGroup_data, data)
 
-		(page.entries)
+;		(page.entries)
 
 		const [searchParams] = useSearchParams()
 

@@ -1,0 +1,18 @@
+directive @component(url: String) on SCALAR | FRAGMENT_DEFINITION
+directive @_client on FIELD
+scalar ListItem @component(url: "E:/projekty-next/remix-pwa/app/lib/schema/ListItem.tsx")
+scalar behind @component(url: "E:/projekty-next/remix-pwa/app/lib/schema/behind.ts")
+scalar toWatch @component(url: "E:/projekty-next/remix-pwa/app/lib/schema/toWatch.ts")
+
+type MediaList {
+	ListItem: ListItem!
+behind: behind!
+toWatch: toWatch!
+}
+				
+scalar MediaGroup @component(url: "E:/projekty-next/remix-pwa/app/lib/schema/MediaGroup.tsx")
+
+type MediaListGroup {
+	MediaGroup: MediaGroup!
+}
+				
