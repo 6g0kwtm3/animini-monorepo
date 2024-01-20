@@ -6,10 +6,8 @@ import type {
 	TypedResponse,
 } from "@remix-run/node"
 import {
-	useLoaderData,
-	useRouteLoaderData,
 	type ClientLoaderFunctionArgs,
-	type Params,
+	type Params
 } from "@remix-run/react"
 
 import {
@@ -17,29 +15,38 @@ import {
 	Data,
 	Effect,
 	Layer,
+	Option,
 	Predicate,
 	PrimaryKey,
 	ReadonlyArray,
 	RequestResolver,
-	pipe,
+	pipe
 } from "effect"
 
 import { IS_SERVER } from "./isClient"
 
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
-import { parse, print } from "graphql"
+import {
+	parse,
+	print
+} from "graphql"
 
 import { uneval } from "devalue"
-import { useMemo } from "react"
 
 import { Schema } from "@effect/schema"
 
-import { cacheExchange } from "@urql/exchange-graphcache"
-import { Client, fetchExchange } from "urql"
-import { graphql } from "~/gql"
-import { GraphCacheConfig } from "~/gql/graphql"
+import { buildHTTPExecutor } from "@graphql-tools/executor-http"
+import { stitchSchemas } from "@graphql-tools/stitch"
 
-const API_URL = "https://graphql.anilist.co"
+import { makeExecutableSchema } from "@graphql-tools/schema"
+
+import mainfile from "~/../schema.graphql?raw"
+
+
+import { delegateToSchema } from "@graphql-tools/delegate"
+import { TransformObjectFields } from "@graphql-tools/wrap"
+
+const API_URL = "https://graphql.anilist.co/"
 
 class ClientNetworkError extends Data.TaggedError("ClientNetworkError")<{
 	reason: string
@@ -113,41 +120,11 @@ RequestResolver.fromEffectTagged<GqlRequest>()({
 		Effect.succeed(ReadonlyArray.map(reqs, (req) => req.id)),
 })
 
-function query() {
-	const headers = new Headers()
-	headers.append("Content-Type", "application/json")
-
-	const { "anilist-token": token } = cookie.parse(
-		(!IS_SERVER ? globalThis.document.cookie : null) ??
-			request.headers.get("Cookie") ??
-			"",
-	)
-
-	if (Predicate.isString(token))
-		headers.append("Authorization", `Bearer ${token.trim()}`)
-
-	return pipe(
-		Effect.promise(() =>
-			fetch(API_URL, {
-				body: JSON.stringify({
-					query: print(args[0]),
-					variables: args[1],
-				}),
-				headers: headers,
-				method: "post",
-				signal: request.signal,
-			}),
-		),
-		// ),
-
-		Effect.flatMap((response) => Effect.promise(() => response.json())),
-		Effect.map(({ data }) => data),
-	)
-}
-
 const UrqlLive = Layer.effect(
 	EffectUrql,
-	Effect.map(LoaderArgs, ({ request }) => {
+	Effect.map(Effect.serviceOption(LoaderArgs), (args) => {
+		const request = Option.getOrElse(args, () => null)?.request
+
 		return EffectUrql.of({
 			query: (...args) => {
 				const headers = new Headers()
@@ -155,7 +132,7 @@ const UrqlLive = Layer.effect(
 
 				const { "anilist-token": token } = cookie.parse(
 					(!IS_SERVER ? globalThis.document.cookie : null) ??
-						request.headers.get("Cookie") ??
+						request?.headers.get("Cookie") ??
 						"",
 				)
 
@@ -170,19 +147,20 @@ const UrqlLive = Layer.effect(
 					// }),
 					// Effect.race(
 					Effect.promise(() =>
-						fetch(API_URL, {
+						fetch(${API_URL}, {
 							body: JSON.stringify({
 								query: print(args[0]),
 								variables: args[1],
 							}),
 							headers: headers,
 							method: "post",
-							signal: request.signal,
+							signal: request?.signal,
 						}),
 					),
 					// ),
 
 					Effect.flatMap((response) => Effect.promise(() => response.json())),
+
 					Effect.map(({ data }) => data),
 				)
 			},
@@ -215,11 +193,12 @@ export function raw<T>(value: T): Raw<T> {
 	return uneval(value) as unknown as Raw<T>
 }
 
-type Jsonify<T> = T extends Raw<infer U> ? U : { [K in keyof T]: Jsonify<T[K]> }
+type Jsonify<T> = T
 
 export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>
 	: Jsonify<Awaited<T>>
+
 type Serialize<Output> =
 	Output extends TypedDeferredData<infer U>
 		? {
@@ -240,18 +219,83 @@ type DeferValue<T> = T extends undefined
 		? Promise<Jsonify<Awaited<T>>>
 		: Jsonify<T>
 
-export function useRawLoaderData<T>(): SerializeFrom<T> {
-	const value = useLoaderData()
-
-	// eslint-disable-next-line no-eval
-	return useMemo(() => (0, eval)(`(${value})`) as SerializeFrom<T>, [value])
+const mainschema = {
+	schema: makeExecutableSchema({
+		typeDefs: mainfile,
+	}),
+	batch: true,
+	executor: buildHTTPExecutor({
+		endpoint: "https://graphql.anilist.co/",
+	}),
+	transforms: [
+		new TransformObjectFields((typeName, fieldName, fieldConfig) =>
+			names.includes(typeName) && fieldName === "id"
+				? [`anilistId`, fieldConfig]
+				: [fieldName, fieldConfig],
+		),
+	],
 }
 
-export function useRawRouteLoaderData<T>(
-	...args: Parameters<typeof useRouteLoaderData>
-): SerializeFrom<T> | undefined {
-	const value = useRouteLoaderData(...args)
+const names = [
+	"Media",
+	"AiringSchedule",
+	"Character",
+	"Staff",
+	"MediaList",
+	"User",
+	"Studio",
+	"Review",
+	"Activity",
+	"ActivityReply",
+	"Thread",
+	"Recommendation",
+]
 
-	// eslint-disable-next-line no-eval
-	return useMemo(() => (0, eval)(`(${value})`) as SerializeFrom<T>, [value])
+const Node = {
+	id(parent, args, ctx, info) {
+		return Buffer.from(
+			`${names.indexOf(info.parentType.name)}:${parent.id}`,
+		).toString("base64")
+	},
 }
+
+export const schema = stitchSchemas({
+	subschemas: [mainschema],
+	resolvers: {
+		...Object.fromEntries(names.map((name) => [name, Node])),
+		Query: {
+			node(_, args, ctx, info) {
+				const [i, id] = Buffer.from(args.id, "base64")
+					.toString("ascii")
+					.split(":")
+					.map((n) => parseInt(n))
+
+				const fieldName = names[i]
+
+				return delegateToSchema({
+					schema: mainschema,
+					fieldName,
+					args: { id },
+					info,
+				})
+			},
+		},
+	},
+	typeDefs: `
+		interface Node {
+			id: ID!
+			anilistId: Int
+		}
+		${names
+			.map(
+				(name) => `type ${name} implements Node {
+			id: ID!
+			anilistId: Int
+		}`,
+			)
+			.join("\n")}
+		type Query {
+			node(id: ID!): Node
+		}
+	`,
+})

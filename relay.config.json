@@ -1,0 +1,11 @@
+{
+	"src": "./app",
+	"schema": "./.schema.graphql",
+	"artifactDirectory": "./app/__generated__",
+
+	"eagerEsModules": true,
+	"excludes": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
+	"customScalars": {
+		"Json": "Json.t"
+	}
+}

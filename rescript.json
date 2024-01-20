@@ -1,0 +1,20 @@
+{
+	"name": "unknown",
+	"uncurried": true,
+	"jsx": {
+		"version": 4,
+		"mode": "automatic"
+	},
+	"sources": {
+		"dir": "app",
+		"subdirs": true
+	},
+	"package-specs": {
+		"module": "es6",
+		"in-source": true
+	},
+	"suffix": ".res.mjs",
+	"ppx-flags": [["rescript-relay/ppx", "-uncurried"]],
+	"bs-dependencies": ["@rescript/core", "@rescript/react", "rescript-relay"],
+	"bsc-flags": ["-open RescriptCore"]
+}

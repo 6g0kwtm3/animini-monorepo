@@ -9,3 +9,6 @@ vite.config.ts.timestamp-*
 $houdini
 **/gql
 *.log
+/lib/
+.bsb.lock
+**/*.res.mjs

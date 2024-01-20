@@ -81,10 +81,10 @@ export default function Nav() {
 					<>
 						<Link
 							state={{
-								redirect: `${pathname}/edit`,
+								redirect: `${pathname}`,
 							}}
 							to={`/login/?${new URLSearchParams({
-								redirect: `${pathname}/edit`,
+								redirect: `${pathname}`,
 							})}`}
 							className={button()}
 						>
