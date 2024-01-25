@@ -282,11 +282,11 @@ export default withTV({
 
 			addVariant("error", [
 				"&:has(:is(:user-invalid,:-moz-ui-invalid,:invalid))",
-				"&:has([aria-invalid=true])",
+				"&:has([aria-invalid='true'])",
 			])
 			addVariant("group-error", [
 				":merge(.group):has(:is(:user-invalid,:-moz-ui-invalid,:invalid)) &",
-				":merge(.group):has([aria-invalid=true]) &",
+				":merge(.group):has([aria-invalid='true']) &",
 			])
 		}),
 		plugin(({ addVariant }) => {

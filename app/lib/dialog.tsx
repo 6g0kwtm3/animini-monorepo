@@ -3,8 +3,8 @@ import { tv } from "tailwind-variants"
 export const dialog = tv(
 	{
 		slots: {
-			root: "flex bg-surface-container-high elevation-3",
-			content: "flex w-full flex-col overflow-hidden",
+			root: "flex bg-surface-container-high elevation-3 fixed overflow-hidden",
+			content: "flex w-full flex-col",
 			backdrop: "",
 			headline: "text-on-surface",
 			body: "overflow-auto overscroll-contain px-6 text-body-md text-on-surface",
@@ -22,7 +22,7 @@ export const dialog = tv(
 					actions: "h-auto",
 				},
 				fullscreen: {
-					root: "fixed inset-0",
+					root: "inset-0",
 					content: "",
 					headline:
 						"flex h-14 shrink-0 items-center gap-4 truncate px-4 text-title-lg",

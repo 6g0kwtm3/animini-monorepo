@@ -1,23 +1,23 @@
 import {
+	json,
 	redirect,
 	type ActionFunction,
-	type LoaderFunction,
+	type LoaderFunction
 } from "@remix-run/node"
 import {
 	Link,
 	useActionData,
 	useFetcher,
 	useNavigate,
-	useNavigation,
-	type ClientLoaderFunction,
+	useNavigation
 } from "@remix-run/react"
 import {
 	Effect,
 	Option,
+	pipe,
 	Predicate,
 	ReadonlyArray,
-	ReadonlyRecord,
-	pipe,
+	ReadonlyRecord
 } from "effect"
 
 import { ButtonText } from "~/components/Button"
@@ -25,19 +25,17 @@ import { ButtonText } from "~/components/Button"
 import { divide, sumAll } from "effect/Number"
 import {
 	TextFieldOutlined,
-	TextFieldOutlinedInput,
-	TextFieldOutlinedInputFactory,
+	TextFieldOutlinedFactory,
+	TextFieldOutlinedInput
 } from "~/components/TextField"
-import { MediaListStatus } from "~/gql/graphql"
+import { MediaListStatus, ScoreFormat } from "~/gql/graphql"
 import {
 	ClientArgs,
-	ClientLoaderLive,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
-	raw,
-	useRawLoaderData,
+	useRawLoaderData
 } from "~/lib/urql"
 
 import * as S from "@effect/schema/Schema"
@@ -56,6 +54,7 @@ import { ChipFilter } from "~/components/Chip"
 import { SelectFactory } from "~/components/Select"
 import { SelectOption } from "~/components/SelectOption"
 import { button } from "~/lib/button"
+import { Remix } from "~/lib/Remix"
 
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
@@ -66,17 +65,17 @@ export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 				value: {
 					...payload,
 					status: Object.entries(OPTIONS).find(
-						([, value]) => value === formData.get("status"),
+						([, value]) => value === formData.get("status")
 					)?.[0],
 					completedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-						formData.get("completedAt") || null,
+						formData.get("completedAt") || null
 					),
 					startedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-						formData.get("startedAt") || null,
-					),
-				},
+						formData.get("startedAt") || null
+					)
+				}
 			}
-		},
+		}
 	})
 
 	console.log(submission)
@@ -110,17 +109,17 @@ export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 			})
 			.flatMap(([key, value]) =>
 				(Array.isArray(value) ? value : [value]).flatMap((value) =>
-					Predicate.isString(value) ? [[key, value] as const] : [],
-				),
+					Predicate.isString(value) ? [[key, value] as const] : []
+				)
 			) ?? []
 
 	const errorKeys = Object.fromEntries(
-		errorEntries.map(([key, value]) => [value, key]),
+		errorEntries.map(([key, value]) => [value, key])
 	)
 
 	const error = ReadonlyArray.groupBy(
 		errorEntries.map(([, value]) => value),
-		(value) => errorKeys[value] ?? "undefined",
+		(value) => errorKeys[value] ?? "undefined"
 	)
 
 	return { ...submission, error }
@@ -133,7 +132,7 @@ function avg(nums: number[]) {
 		sumAll(nums) / nums.length,
 		Option.some,
 		Option.filter(Number.isFinite),
-		Option.getOrElse(() => 0),
+		Option.getOrElse(() => 0)
 	)
 }
 
@@ -142,32 +141,48 @@ const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 		S.string,
 		S.string,
 		(s) => s.replace(new RegExp(`^${fillString}{0,${maxLength}}`), ""),
-		(s) => s.padStart(maxLength, fillString),
+		(s) => s.padStart(maxLength, fillString)
 	)
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
 		Effect.map((data) =>
-			Predicate.isNotNull(data.Viewer) ? raw(data) : redirect(".."),
+			Predicate.isNotNull(data?.Viewer) ? (data) : redirect("..")
 		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
+
+		Effect.map((data) =>
+			json(data, {
+				headers: {
+					"Cache-Control": "max-age=60, private"
+				}
+			})
+		),
+		Remix.runLoader
 	)
 }) satisfies LoaderFunction
 
-export const clientLoader = (async (args) => {
-	return pipe(
-		_loader,
-		Effect.map((data) =>
-			Predicate.isNotNull(data.Viewer) ? raw(data) : redirect(".."),
-		),
-		Effect.provide(ClientLoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
-	)
-}) satisfies ClientLoaderFunction
+// export const clientLoader = (async (args) => {
+// 	return pipe(
+// 		_loader,
+// 		Effect.map((data) =>
+// 			Predicate.isNotNull(data?.Viewer) ? (data) : redirect("..")
+// 		),
+// 		Effect.provide(ClientLoaderLive),
+// 		Effect.provideService(LoaderArgs, args),
+
+// 		Effect.map((data) =>
+// 			json(data, {
+// 				headers: {
+// 					"Cache-Control": "max-age=60, private"
+// 				}
+// 			})
+// 		),
+// 		Remix.runLoader
+// 	)
+// }) satisfies ClientLoaderFunction
 
 const FuzzyDateInput = S.compose(
 	S.compose(
@@ -176,25 +191,25 @@ const FuzzyDateInput = S.compose(
 			S.tuple(
 				S.nullable(UnpadStart(4, "0")),
 				S.nullable(UnpadStart(2, "0")),
-				S.nullable(UnpadStart(2, "0")),
-			),
+				S.nullable(UnpadStart(2, "0"))
+			)
 		),
 		S.tuple(
 			S.nullable(S.NumberFromString),
 			S.nullable(S.NumberFromString),
-			S.nullable(S.NumberFromString),
-		),
+			S.nullable(S.NumberFromString)
+		)
 	),
 	S.transform(
 		S.tuple(S.nullable(S.number), S.nullable(S.number), S.nullable(S.number)),
 		S.struct({
 			year: S.nullable(S.number),
 			month: S.nullable(S.number),
-			day: S.nullable(S.number),
+			day: S.nullable(S.number)
 		}),
 		([year, month, day]) => ({ year, month, day }),
-		({ year, month, day }) => [year, month, day] as const,
-	),
+		({ year, month, day }) => [year, month, day] as const
+	)
 )
 
 const Save = graphql(`
@@ -227,8 +242,8 @@ const Save = graphql(`
 	}
 `)
 
-const EditPageViewer = graphql(`
-	query EditPageViewer {
+const EditPageMedia = graphql(`
+	query EditPageMedia($mediaId: Int!, $format: ScoreFormat) {
 		Viewer {
 			id
 			mediaListOptions {
@@ -242,15 +257,9 @@ const EditPageViewer = graphql(`
 					advancedScoring
 					...CustomLists_mediaListTypeOptions
 				}
-				scoreFormat
 			}
 		}
-	}
-`)
-
-const EditPageMedia = graphql(`
-	query EditPageMedia($id: Int!, $format: ScoreFormat) {
-		Media(id: $id) {
+		Media(id: $mediaId) {
 			id
 			episodes
 			type
@@ -279,30 +288,32 @@ const EditPageMedia = graphql(`
 	}
 `)
 
+const ScoreFormatSchema = S.enums(ScoreFormat)
+
 const _loader = pipe(
-	Effect.Do,
-	Effect.bind("args", () => ClientArgs),
-	Effect.bind("client", () => EffectUrql),
-	Effect.bind("EntryPageUser", ({ client }) =>
-		client.query(EditPageViewer, {}),
-	),
-	Effect.bind("EntryPage", ({ client, EntryPageUser, args: { params } }) =>
-		client.query(EditPageMedia, {
-			format: EntryPageUser?.Viewer?.mediaListOptions?.scoreFormat || null,
-			id: Number(params["mediaId"]),
-		}),
-	),
-	Effect.map(({ EntryPageUser, EntryPage }) => ({
-		...EntryPageUser,
-		...EntryPage,
-	})),
+	Effect.gen(function* (_) {
+		const { mediaId } = yield* _(Remix.params({ mediaId: S.NumberFromString }))
+		const { searchParams } = yield* _(ClientArgs)
+		const client = yield* _(EffectUrql)
+
+		const format = yield* _(
+			S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(searchParams.get("format"))
+		)
+
+		return yield* _(
+			client.query(EditPageMedia, {
+				format,
+				mediaId
+			})
+		)
+	})
 )
 
 const { root, content, headline, backdrop, body, actions } = dialog({
 	variant: {
 		initial: "fullscreen",
-		sm: "basic",
-	},
+		sm: "basic"
+	}
 })
 
 const OPTIONS = {
@@ -311,16 +322,16 @@ const OPTIONS = {
 	[MediaListStatus.Completed]: "Completed",
 	[MediaListStatus.Repeating]: "Rewatching",
 	[MediaListStatus.Paused]: "Paused",
-	[MediaListStatus.Dropped]: "Dropped",
+	[MediaListStatus.Dropped]: "Dropped"
 }
 
 const Score = (
 	props: Omit<
-		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
 		"label"
-	>,
+	>
 ) => (
-	<TextFieldOutlinedInputFactory
+	<TextFieldOutlinedFactory
 		{...props}
 		min={0}
 		step={0.01}
@@ -339,7 +350,7 @@ export default function Page() {
 
 	const advancedScores = pipe(
 		Option.fromNullable(data.Media?.mediaListEntry?.advancedScores),
-		Option.filter(Predicate.isReadonlyRecord),
+		Option.filter(Predicate.isReadonlyRecord)
 	)
 
 	const defaultAdvancedScores =
@@ -351,9 +362,9 @@ export default function Page() {
 						advancedScores,
 						Option.flatMap(ReadonlyRecord.get(category)),
 						Option.filter(Predicate.isNumber),
-						Option.getOrElse(() => 0),
-					),
-				),
+						Option.getOrElse(() => 0)
+					)
+				)
 		) ?? []
 
 	const navigate = useNavigate()
@@ -362,16 +373,16 @@ export default function Page() {
 		defaultValues: {
 			advancedScores: defaultAdvancedScores,
 			completedAt: pipe(
-				S.parseOption(FuzzyDateLift)(data.Media?.mediaListEntry?.completedAt),
+				S.decodeUnknownOption(FuzzyDateLift)(data.Media?.mediaListEntry?.completedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-				Option.getOrElse(() => ""),
+				Option.getOrElse(() => "")
 			),
 			startedAt: pipe(
-				S.parseOption(FuzzyDateLift)(data.Media?.mediaListEntry?.startedAt),
+				S.decodeUnknownOption(FuzzyDateLift)(data.Media?.mediaListEntry?.startedAt),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-				Option.getOrElse(() => ""),
+				Option.getOrElse(() => "")
 			),
 			notes: data.Media?.mediaListEntry?.notes ?? "",
 			progress: data.Media?.mediaListEntry?.progress || 0,
@@ -380,16 +391,16 @@ export default function Page() {
 			status: pipe(
 				Option.fromNullable(data.Media?.mediaListEntry?.status),
 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
-				Option.getOrElse(() => OPTIONS[MediaListStatus.Current]),
+				Option.getOrElse(() => OPTIONS[MediaListStatus.Current])
 			),
 			customLists: pipe(
 				Option.fromNullable(data.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
 				Option.getOrElse(ReadonlyRecord.empty),
 				ReadonlyRecord.filter((key) => !!key),
-				Object.keys,
-			),
-		},
+				Object.keys
+			)
+		}
 	})
 
 	const fetcher = useFetcher()
@@ -405,7 +416,7 @@ export default function Page() {
 		values.advancedScores.map((n) => Number(n)),
 		avg,
 		Option.getOrElse(() => 0),
-		round,
+		round
 	)
 
 	function avg(numbers: number[]) {
@@ -482,7 +493,7 @@ export default function Page() {
 													name={name}
 												></AdvancedScore>
 											) : null
-										},
+										}
 									)}
 								</AdvancedScores>
 
@@ -528,7 +539,7 @@ export default function Page() {
 const FuzzyDateLift = S.struct({
 	month: S.optionFromNullable(S.number),
 	year: S.optionFromNullable(S.number),
-	day: S.optionFromNullable(S.number),
+	day: S.optionFromNullable(S.number)
 })
 
 function Status(props: ComponentPropsWithoutRef<typeof SelectFactory>) {
@@ -545,24 +556,20 @@ function Status(props: ComponentPropsWithoutRef<typeof SelectFactory>) {
 
 function FinishDate(
 	props: Omit<
-		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
 		"label"
-	>,
+	>
 ) {
-	return (
-		<TextFieldOutlinedInputFactory {...props} type="date" label="Finish Date" />
-	)
+	return <TextFieldOutlinedFactory {...props} type="date" label="Finish Date" />
 }
 
 function StartDate(
 	props: Omit<
-		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
 		"label"
-	>,
+	>
 ) {
-	return (
-		<TextFieldOutlinedInputFactory {...props} type="date" label="Start Date" />
-	)
+	return <TextFieldOutlinedFactory {...props} type="date" label="Start Date" />
 }
 
 const Progress_media = graphql(`
@@ -596,12 +603,12 @@ function Progress({
 
 function Repeat(
 	props: Omit<
-		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
 		"label"
-	>,
+	>
 ) {
 	return (
-		<TextFieldOutlinedInputFactory
+		<TextFieldOutlinedFactory
 			{...props}
 			min={0}
 			type="number"
@@ -617,12 +624,12 @@ type StringLike = {
 
 function Notes(
 	props: Omit<
-		ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
 		"label"
-	>,
+	>
 ) {
 	return (
-		<TextFieldOutlinedInputFactory
+		<TextFieldOutlinedFactory
 			{...props}
 			render={<textarea />}
 			spellCheck
@@ -667,10 +674,10 @@ function AdvancedScores({
 }
 
 function AdvancedScore(
-	props: ComponentPropsWithoutRef<typeof TextFieldOutlinedInputFactory>,
+	props: ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>
 ): ReactNode {
 	return (
-		<TextFieldOutlinedInputFactory
+		<TextFieldOutlinedFactory
 			{...props}
 			min={0}
 			max={100}
@@ -693,7 +700,7 @@ function CustomLists({
 }) {
 	const mediaListTypeOptions = useFragment(
 		CustomLists_mediaListTypeOptions,
-		props.listOptions,
+		props.listOptions
 	)
 
 	const customLists = mediaListTypeOptions?.customLists?.filter(nonNull) ?? []

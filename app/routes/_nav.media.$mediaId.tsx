@@ -3,7 +3,7 @@ import {
 	Link,
 	useLocation,
 	useOutlet,
-	useOutletContext,
+	useOutletContext
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
@@ -14,34 +14,25 @@ import {
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
-	raw,
 	useRawLoaderData,
+	useRawRouteLoaderData
 } from "~/lib/urql"
 
-import type { Theme } from "@material/material-color-utilities"
-import {
-	argbFromHex,
-	hexFromArgb,
-	themeFromSourceColor,
-} from "@material/material-color-utilities"
-import { cloneElement, useId, useMemo } from "react"
+import { cloneElement } from "react"
 
-import colors from "colors.json"
 
 import { Effect, pipe } from "effect"
 
-import type { ComponentPropsWithoutRef } from "react"
 
 import { CardElevated, CardFilled } from "~/components/Card"
 
-import { cssEscape } from "~/lib/cssEscape"
 
 import {
 	ButtonElevated,
 	ButtonFilled,
 	ButtonOutlined,
 	ButtonText,
-	ButtonTonal,
+	ButtonTonal
 } from "~/components/Button"
 
 import { button, fab } from "~/lib/button"
@@ -55,15 +46,21 @@ import {
 	MenuItemTrailingIcon,
 	MenuItemTrailingText,
 	MenuList,
-	MenuTrigger,
+	MenuTrigger
 } from "~/components/Menu"
 import { PaneFlexible } from "~/components/Pane"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
-	TooltipPlainTrigger,
+	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
+
+import { Remix } from "~/lib/Remix"
+
+import { useThemeFromHex } from "~/lib/theme"
+import { ThemeProvider } from "~/lib/theme/Theme"
+import type { loader as rootLoader } from "~/root"
 
 const EntryPageQuery = graphql(`
 	query EntryPage($id: Int!) {
@@ -83,151 +80,55 @@ const EntryPageQuery = graphql(`
 	}
 `)
 
-const EntryPageViewerQuery = graphql(`
-	query EntryPageViewer {
-		Viewer {
-			id
-		}
-	}
-`)
-
 const variants = {
 	enter: (direction: number) => {
 		return {
 			y: direction > 0 ? 1000 : -1000,
-			opacity: 0,
+			opacity: 0
 		}
 	},
 	center: {
 		zIndex: 1,
 		y: 0,
-		opacity: 1,
+		opacity: 1
 	},
 	exit: (direction: number) => {
 		return {
 			zIndex: 0,
 			y: direction < 0 ? 1000 : -1000,
-			opacity: 0,
+			opacity: 0
 		}
-	},
+	}
 } satisfies Variants
 
-function getThemeFromHex(hex: string) {
-	const theme = themeFromSourceColor(argbFromHex(hex))
 
-	return theme
-}
-
-function useThemeFromHex(hex: string | null | undefined) {
-	return useMemo(
-		() => (typeof hex === "string" ? getThemeFromHex(hex) : hex),
-		[hex],
-	)
-}
 
 const _loader = pipe(
 	Effect.Do,
 	Effect.bind("args", () => ClientArgs),
 	Effect.bind("client", () => EffectUrql),
-	Effect.bind(
-		"EntryPageQuery",
-		({ client, args: { params } }) => (
-			console.log(params),
-			client.query(EntryPageQuery, {
-				id: Number(params["mediaId"]),
-			})
-		),
-	),
-	Effect.bind("EntryPageViewerQuery", ({ client }) =>
-		client.query(EntryPageViewerQuery, {}),
-	),
-	Effect.map(({ EntryPageViewerQuery, EntryPageQuery }) => ({
-		...EntryPageViewerQuery,
-		...EntryPageQuery,
-	})),
+	Effect.flatMap(({ client, args: { params } }) =>
+		client.query(EntryPageQuery, {
+			id: Number(params["mediaId"])
+		})
+	)
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Effect.map(raw),
-
+		
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
+		
+ 
+Remix.runLoader
 	)
 }) satisfies LoaderFunction
 
-function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
-	if (!theme) return {}
 
-	const mapping = dark ? colors.dark : colors.light
 
-	return Object.fromEntries(
-		Object.entries(mapping).map(([key, value]) => {
-			const [token = "", tone] = value.replaceAll(/(\d+)$/g, "_$1").split("_")
 
-			const palette = (
-				{
-					primary: "primary",
-					secondary: "secondary",
-					tertiary: "tertiary",
-					neutral: "neutral",
-					"neutral-variant": "neutralVariant",
-					error: "error",
-				} as const
-			)[token]
-			if (!palette) {
-				return []
-			}
-			return [`--${key}`, parseArgb(theme.palettes[palette].tone(Number(tone)))]
-		}),
-	)
-}
-
-function parseArgb(value: number) {
-	const [, r1 = "", r2 = "", g1 = "", g2 = "", b1 = "", b2 = ""] =
-		hexFromArgb(value)
-	const color = [
-		Number.parseInt(r1 + r2, 16),
-		Number.parseInt(g1 + g2, 16),
-		Number.parseInt(b1 + b2, 16),
-	].join(" ")
-
-	return color
-}
-
-const ThemeProvider = ({
-	theme,
-	children,
-	...props
-}: ComponentPropsWithoutRef<"div"> & {
-	theme: Theme | undefined | null
-}) => {
-	const rawId = useId()
-
-	const id = `#${cssEscape(rawId)}`
-
-	return (
-		<div {...props} id={rawId}>
-			<style>
-				{`${id}, ${id} ::backdrop{${Object.entries(
-					getStyleFromTheme(theme, false),
-				)
-					.map(([key, value]) => `${key}:${value};`)
-					.join(
-						"",
-					)}} @media(prefers-color-scheme: dark){${id}, ${id} ::backdrop{${Object.entries(
-					getStyleFromTheme(theme, true),
-				)
-					.map(([key, value]) => `${key}:${value};`)
-					.join("")}}}`}
-			</style>
-
-			{children}
-		</div>
-	)
-}
 
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
@@ -238,8 +139,9 @@ export default function Page() {
 	return (
 		<>
 			<ThemeProvider
-				theme={useThemeFromHex(data.Media?.coverImage?.color)}
+				theme={useThemeFromHex(data?.Media?.coverImage?.color)}
 				className="contents"
+				data-hex={data?.Media?.coverImage?.color}
 			>
 				<PaneFlexible className="relative">
 					<motion.div
@@ -247,20 +149,20 @@ export default function Page() {
 						{...(!useReducedMotion() && {
 							initial: "enter",
 							animate: "center",
-							exit: "exit",
+							exit: "exit"
 						})}
 						transition={{
 							y: { type: "spring", stiffness: 300, damping: 30 },
-							opacity: { duration: 0.2 },
+							opacity: { duration: 0.2 }
 						}}
 						custom={useOutletContext()}
 						className="flex gap-2"
 					>
 						<CardFilled className="grid flex-1 gap-4 rounded-[2.5rem]">
 							<img
-								src={data.Media?.coverImage?.extraLarge ?? ""}
+								src={data?.Media?.coverImage?.extraLarge ?? ""}
 								style={{
-									"--bg": `url(${data.Media?.coverImage?.medium})`,
+									"--bg": `url(${data?.Media?.coverImage?.medium})`
 								}}
 								loading="lazy"
 								className="rounded-xl bg-[image:--bg]"
@@ -288,12 +190,12 @@ export default function Page() {
               <div className="border-outline-variant border-r min-h-full"></div> */}
 							<CardElevated className="force:rounded-xl force:p-16">
 								<h1 className="text-balance text-display-lg">
-									{data.Media?.title?.userPreferred}
+									{data?.Media?.title?.userPreferred}
 								</h1>
 								<Menu>
 									<MenuTrigger
 										className={button({
-											className: "cursor-default",
+											className: "cursor-default"
 										})}
 									>
 										Format
@@ -346,7 +248,7 @@ export default function Page() {
 								<div
 									className="text-title-lg"
 									dangerouslySetInnerHTML={{
-										__html: data.Media?.description || "",
+										__html: data?.Media?.description || ""
 									}}
 								></div>
 							</CardElevated>
@@ -358,7 +260,7 @@ export default function Page() {
 					{outlet && (
 						<AnimatePresence mode="wait">
 							{cloneElement(outlet, {
-								key: pathname,
+								key: pathname
 							})}
 						</AnimatePresence>
 					)}
@@ -379,11 +281,11 @@ declare global {
 }
 
 function Edit() {
-	const data = useRawLoaderData<typeof loader>()
-
 	const { pathname } = useLocation()
 
 	const store = useTooltipStore()
+
+	const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
 	return (
 		<motion.div layoutId="edit" className="fixed bottom-4 end-4">
@@ -393,10 +295,10 @@ function Edit() {
 						render={
 							<Link
 								to={
-									data.Viewer
-										? "edit"
+									root?.Viewer
+										? `edit/?${new URLSearchParams({ format: root.Viewer.mediaListOptions?.scoreFormat ?? undefined })}`
 										: `/login/?${new URLSearchParams({
-												redirect: `${pathname}/edit`,
+												redirect: `${pathname}`
 											})}`
 								}
 								preventScrollReset={true}

@@ -1,4 +1,3 @@
-import type { ClientLoaderFunction } from "@remix-run/react"
 import {
 	Links,
 	LiveReload,
@@ -6,15 +5,13 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	useRevalidator,
+	useRevalidator
 } from "@remix-run/react"
 import {
 	ClientArgs,
-	ClientLoaderLive,
 	EffectUrql,
 	LoaderArgs,
-	LoaderLive,
-	raw,
+	LoaderLive
 } from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
@@ -24,13 +21,18 @@ import type { LoaderFunction } from "@remix-run/node"
 import { Effect, pipe } from "effect"
 import { useEffect } from "react"
 import { graphql } from "./gql"
+import { Remix } from "./lib/Remix"
 import "./tailwind.css"
+
 
 const ViewerQuery = graphql(`
 	query ViewerQuery {
 		Viewer {
 			id
 			name
+			mediaListOptions {
+				scoreFormat
+			}
 		}
 	}
 `)
@@ -39,30 +41,34 @@ const _loader = pipe(
 	Effect.Do,
 	Effect.bind("args", () => ClientArgs),
 	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client, args }) => client.query(ViewerQuery, {})),
+	Effect.flatMap(({ client, args }) => client.query(ViewerQuery, {}))
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Effect.map(raw),
+		
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
+
+ 
+		Remix.runLoader
 	)
 }) satisfies LoaderFunction
 
-export const clientLoader = (async (args) => {
-	return pipe(
-		_loader,
-		Effect.map(raw),
+// export const clientLoader = (async (args) => {
+// 	return pipe(
+// 		_loader,
+// 		
 
-		Effect.provide(ClientLoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
-	)
-}) satisfies ClientLoaderFunction
+// 		Effect.provide(ClientLoaderLive),
+// 		Effect.provideService(LoaderArgs, args),
+
+ 
+// 		Remix.runLoader
+// 	)
+// }) satisfies ClientLoaderFunction
 
 export default function App() {
 	const revalidator = useRevalidator()
@@ -81,7 +87,7 @@ export default function App() {
 	}, [revalidator])
 
 	return (
-		<html lang="en" className="overflow-x-hidden bg-surface text-on-surface">
+		<html lang="en" className="overflow-x-hidden bg-background text-on-background">
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -104,3 +110,4 @@ export default function App() {
 		</html>
 	)
 }
+ 

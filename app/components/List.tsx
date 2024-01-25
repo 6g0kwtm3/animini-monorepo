@@ -1,33 +1,13 @@
-import type { ComponentPropsWithoutRef, ElementType } from "react"
-import {} from "react-dom"
-import { classes } from "~/lib/styled"
+import type { ComponentPropsWithoutRef } from "react"
+import { } from "react-dom"
+import { list } from "~/lib/list"
 
-type ItemProps<E extends ElementType> = ComponentPropsWithoutRef<E> & {
-	as: E
-	lines?: "one" | "two" | "three"
-}
 
-function Item<E extends ElementType = "span">({
-	as: Component,
-	lines,
-	...props
-}: ItemProps<E>) {
-	Component ??= "span"
 
+const {item,root} = list()
+function Item(props: ComponentPropsWithoutRef<"div">) {
 	return (
-		<Component
-			{...props}
-			className={classes(
-				lines === "two"
-					? "h-[4.5rem] items-center py-2"
-					: lines === "three"
-						? "h-[5.5rem] py-3"
-						: "h-14 items-center py-2",
-				"flex gap-4 pe-6 ps-4",
-
-				props.className,
-			)}
-		/>
+		<div {...props} className={item({ className: props.className })} />
 	)
 }
 
@@ -44,46 +24,46 @@ Item.Headline = function Headline(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 Item.SupportingText = function SupportingText(
-	props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">
 ) {
 	return (
 		<div
 			{...props}
 			className={classes(
 				"line-clamp-2 text-body-md text-on-surface-variant",
-				props.className,
+				props.className
 			)}
 		></div>
 	)
 }
 Item.TrailingSupportingText = function TrailingSupportingText(
-	props: ComponentPropsWithoutRef<"span">,
+	props: ComponentPropsWithoutRef<"span">
 ) {
 	return (
 		<span
 			{...props}
 			className={classes(
 				"text-label-sm text-on-surface-variant",
-				props.className,
+				props.className
 			)}
 		></span>
 	)
 }
 Item.LeadingIcon = function LeadingIcon(
-	props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">
 ) {
 	return (
 		<div
 			{...props}
 			className={classes(
 				"h-[1.125rem] w-[1.125rem] text-on-surface-variant",
-				props.className,
+				props.className
 			)}
 		></div>
 	)
 }
 Item.TrailingIcon = function TrailingIcon(
-	props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">
 ) {
 	return (
 		<div
@@ -101,14 +81,14 @@ Item.Divider = function Divider(props: ComponentPropsWithoutRef<"hr">) {
 	)
 }
 Item.LeadingAvatar = function LeadingAvatar(
-	props: ComponentPropsWithoutRef<"div">,
+	props: ComponentPropsWithoutRef<"div">
 ) {
 	return (
 		<div
 			{...props}
 			className={classes(
 				"h-10 w-10 shrink-0 text-title-md text-on-primary-container",
-				props.className,
+				props.className
 			)}
 		></div>
 	)
@@ -123,7 +103,7 @@ Item.Img = function Img(props: ComponentPropsWithoutRef<"img">) {
 	)
 }
 Item.LeadingVideo = function LeadingVideo(
-	props: ComponentPropsWithoutRef<"video">,
+	props: ComponentPropsWithoutRef<"video">
 ) {
 	return (
 		<video
@@ -138,14 +118,16 @@ Item.Overline = function Overline(props: ComponentPropsWithoutRef<"div">) {
 			{...props}
 			className={classes(
 				"text-label-sm text-on-surface-variant",
-				props.className,
+				props.className
 			)}
 		></div>
 	)
 }
 
-function List(props: ComponentPropsWithoutRef<"div">) {
-	return <div {...props} className={classes("py-2", props.className)}></div>
+function List(props: ComponentPropsWithoutRef<"ul">) {
+	return (
+		<ul {...props} className={root({ className: props.className })}></ul>
+	)
 }
 
 List.Item = Item

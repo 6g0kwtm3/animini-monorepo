@@ -3,13 +3,13 @@ import cookie from "cookie"
 import type {
 	LoaderFunctionArgs,
 	TypedDeferredData,
-	TypedResponse,
+	TypedResponse
 } from "@remix-run/node"
 import {
 	useLoaderData,
 	useRouteLoaderData,
 	type ClientLoaderFunctionArgs,
-	type Params,
+	type Params
 } from "@remix-run/react"
 
 import {
@@ -17,11 +17,11 @@ import {
 	Data,
 	Effect,
 	Layer,
+	Option,
 	Predicate,
 	PrimaryKey,
-	ReadonlyArray,
 	RequestResolver,
-	pipe,
+	pipe
 } from "effect"
 
 import { IS_SERVER } from "./isClient"
@@ -34,14 +34,21 @@ import { useMemo } from "react"
 
 import { Schema } from "@effect/schema"
 
-import { cacheExchange } from "@urql/exchange-graphcache"
-import { Client, fetchExchange } from "urql"
-import { graphql } from "~/gql"
-import { GraphCacheConfig } from "~/gql/graphql"
+// Schema.transform()
+import {} from "@effect/platform/HttpClient"
+import type { DocumentNode } from "graphql"
+// Cache.make({
+// 	capacity: 256,
+// 	timeToLive: "60 minutes",
+// 	lookup: (key: GqlRequest) => {}
+// })
+
+// import { Cache } from "effect"
+// Cache.makeWith()
 
 const API_URL = "https://graphql.anilist.co"
 
-class ClientNetworkError extends Data.TaggedError("ClientNetworkError")<{
+class NetworkError extends Data.TaggedError("NetworkError")<{
 	reason: string
 	error: unknown
 }> {}
@@ -61,18 +68,14 @@ interface JSONArray extends Array<JSONValue> {}
 export type InferVariables<T> =
 	T extends TypedDocumentNode<any, infer V> ? V : never
 
-class NetworkError extends Error {
-	_tag = "Network"
-}
-
-type Result<Data> = Effect.Effect<never, NetworkError, Data | undefined>
+type Result<Data> = Effect.Effect<never, NetworkError, Data | undefined | null>
 
 type Args<Data, Variables> = [
-	query: TypedDocumentNode<Data, Variables>,
-	variables: Variables,
+	query: TypedDocumentNode<Data, Variables> | string,
+	variables: Variables
 ]
 
-interface EffectUrql {
+export interface EffectUrql {
 	query<Data, Variables>(...args: Args<Data, Variables>): Result<Data>
 	mutation<Data, Variables>(...args: Args<Data, Variables>): Result<Data>
 }
@@ -89,108 +92,126 @@ type Arguments = {
 
 export const ClientArgs = Context.Tag<Arguments>("client/Args")
 
-const Document = Schema.transform(Schema.any, Schema.string, print, (query) =>
-	parse(query),
+const Document: Schema.Schema<DocumentNode, string> = Schema.transform(
+	Schema.any,
+	Schema.string,
+	print,
+	(query) => parse(query)
 )
+
+const Variables: Schema.Schema<JSONObject, string> = Schema.transform(
+	Schema.record(Schema.string, Schema.any),
+	Schema.string,
+	(variables) => JSON.stringify(variables),
+	(parsed) => JSON.parse(parsed)
+)
+export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
+	reset: Schema.number
+}) {}
 
 class GqlRequest extends Schema.TaggedRequest<GqlRequest>()(
 	"GqlRequest",
-	Schema.any,
+	Timeout,
 	Schema.any,
 	{
-		token: Schema.string,
+		token: Schema.nullish(Schema.string),
 		document: Document,
-		variables: Schema.any,
-	},
+		variables: Variables
+	}
 ) {
 	[PrimaryKey.symbol]() {
-		return this.document + JSON.stringify(this.variables)
+		return [this.document, this.variables, this.token].join(":")
 	}
 }
 
 RequestResolver.fromEffectTagged<GqlRequest>()({
-	GqlRequest: (reqs) =>
-		Effect.succeed(ReadonlyArray.map(reqs, (req) => req.id)),
+	GqlRequest: (reqs) => Effect.succeed(reqs.map((req) => req.variables))
 })
 
-function query() {
+const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 	const headers = new Headers()
 	headers.append("Content-Type", "application/json")
+	headers.append("Accept", "application/json")
 
-	const { "anilist-token": token } = cookie.parse(
-		(!IS_SERVER ? globalThis.document.cookie : null) ??
-			request.headers.get("Cookie") ??
-			"",
-	)
+	if (Predicate.isString(req.token))
+		headers.append("Authorization", `Bearer ${req.token.trim()}`)
 
-	if (Predicate.isString(token))
-		headers.append("Authorization", `Bearer ${token.trim()}`)
+	return Effect.gen(function* (_) {
+		if (Date.now() / 1000 < timeout) {
+			return yield* _(new Timeout({ reset: timeout }))
+		}
 
-	return pipe(
-		Effect.promise(() =>
-			fetch(API_URL, {
-				body: JSON.stringify({
-					query: print(args[0]),
-					variables: args[1],
-				}),
-				headers: headers,
-				method: "post",
-				signal: request.signal,
-			}),
-		),
-		// ),
+		console.log("request")
 
-		Effect.flatMap((response) => Effect.promise(() => response.json())),
-		Effect.map(({ data }) => data),
-	)
-}
+		const response = yield* _(
+			Effect.promise((signal) =>
+				fetch(API_URL, {
+					body: JSON.stringify({
+						query: req.document,
+						variables: req.variables
+					}),
+					headers: headers,
+					method: "post",
+					signal
+				})
+			)
+		)
+
+		timeout = Math.max(
+			timeout,
+			pipe(
+				Option.fromNullable(response.headers.get("X-RateLimit-Reset")),
+				Option.map(parseInt),
+				Option.filter(isFinite),
+				Option.getOrElse(() => 0)
+			)
+		)
+
+		const { data, errors } = yield* _(Effect.promise(() => response.json()))
+
+		if (errors?.length) {
+			console.error(errors)
+		}
+
+		if (errors?.some((error) => error.status === 429)) {
+			return yield* _(new Timeout({ reset: -1 }))
+		}
+
+		return data
+	})
+})
+
+let timeout = 0
 
 const UrqlLive = Layer.effect(
 	EffectUrql,
-	Effect.map(LoaderArgs, ({ request }) => {
+	Effect.map(Effect.serviceOption(LoaderArgs), (args) => {
+		const request = Option.getOrNull(args)?.request
+
+		const { "anilist-token": token } = cookie.parse(
+			(!IS_SERVER ? globalThis.document.cookie : null) ??
+				request?.headers.get("Cookie") ??
+				""
+		)
+
 		return EffectUrql.of({
 			query: (...args) => {
-				const headers = new Headers()
-				headers.append("Content-Type", "application/json")
-
-				const { "anilist-token": token } = cookie.parse(
-					(!IS_SERVER ? globalThis.document.cookie : null) ??
-						request.headers.get("Cookie") ??
-						"",
-				)
-
-				if (Predicate.isString(token))
-					headers.append("Authorization", `Bearer ${token.trim()}`)
-
 				return pipe(
-					// Effect.async((resolve) => {
-					// 	request.signal.addEventListener("abort", () =>
-					// 		resolve(Effect.interrupt),
-					// 	)
-					// }),
-					// Effect.race(
-					Effect.promise(() =>
-						fetch(API_URL, {
-							body: JSON.stringify({
-								query: print(args[0]),
-								variables: args[1],
-							}),
-							headers: headers,
-							method: "post",
-							signal: request.signal,
+					Effect.request(
+						new GqlRequest({
+							document: Predicate.isString(args[0]) ? args[0] : print(args[0]),
+							variables: JSON.stringify(args[1]),
+							token: token?.trim()
 						}),
-					),
-					// ),
-
-					Effect.flatMap((response) => Effect.promise(() => response.json())),
-					Effect.map(({ data }) => data),
+						GqlRequestResolver
+					)
 				)
 			},
 			mutation: (...args) => {
 				throw new Error("Not implemented")
-			},
+			}
 		})
-	}),
+	})
 )
 
 export const ArgsAdapterLive = Layer.effect(
@@ -198,9 +219,9 @@ export const ArgsAdapterLive = Layer.effect(
 	Effect.map(LoaderArgs, ({ params, request }) => {
 		return ClientArgs.of({
 			params,
-			searchParams: new URL(request.url).searchParams,
+			searchParams: new URL(request.url).searchParams
 		})
-	}),
+	})
 )
 
 export const LoaderLive = Layer.merge(ArgsAdapterLive, UrqlLive)
@@ -212,10 +233,101 @@ class Raw<T> {
 }
 
 export function raw<T>(value: T): Raw<T> {
-	return uneval(value) as unknown as Raw<T>
+	return ["Raw", uneval(value)] as unknown as Raw<T>
 }
 
-type Jsonify<T> = T extends Raw<infer U> ? U : { [K in keyof T]: Jsonify<T[K]> }
+export type Jsonify<T> =
+	IsAny<T> extends true
+		? any
+		: T extends Raw<infer U>
+			? U
+			: T extends {
+						toJSON(): infer U
+				  }
+				? U extends JsonValue
+					? U
+					: Jsonify<U>
+				: T extends JsonPrimitive
+					? T
+					: T extends String
+						? string
+						: T extends Number
+							? number
+							: T extends Boolean
+								? boolean
+								: T extends Promise<unknown>
+									? EmptyObject
+									: T extends Map<unknown, unknown>
+										? EmptyObject
+										: T extends Set<unknown>
+											? EmptyObject
+											: T extends TypedArray
+												? Record<string, number>
+												: T extends NotJson
+													? never
+													: T extends []
+														? []
+														: T extends readonly [infer F, ...infer R]
+															? [NeverToNull<Jsonify<F>>, ...Jsonify<R>]
+															: T extends readonly unknown[]
+																? Array<NeverToNull<Jsonify<T[number]>>>
+																: T extends Record<keyof unknown, unknown>
+																	? JsonifyObject<T>
+																	: unknown extends T
+																		? unknown
+																		: never
+
+type ValueIsNotJson<T> = T extends NotJson ? true : false
+type IsNotJson<T> = {
+	[K in keyof T]-?: ValueIsNotJson<T[K]>
+}
+type JsonifyValues<T> = {
+	[K in keyof T]: Jsonify<T[K]>
+}
+type JsonifyObject<T extends Record<keyof unknown, unknown>> = {
+	[K in keyof T as unknown extends T[K]
+		? never
+		: IsNotJson<T>[K] extends false
+			? K
+			: never]: JsonifyValues<T>[K]
+} & {
+	[K in keyof T as unknown extends T[K]
+		? K
+		: IsNotJson<T>[K] extends false
+			? never
+			: IsNotJson<T>[K] extends true
+				? never
+				: K]?: JsonifyValues<T>[K]
+}
+type JsonPrimitive = string | number | boolean | null
+type JsonArray = JsonValue[] | readonly JsonValue[]
+type JsonObject = {
+	[K in string]: JsonValue
+} & {
+	[K in string]?: JsonValue
+}
+type JsonValue = JsonPrimitive | JsonObject | JsonArray
+type NotJson = undefined | symbol | AnyFunction
+type TypedArray =
+	| Int8Array
+	| Uint8Array
+	| Uint8ClampedArray
+	| Int16Array
+	| Uint16Array
+	| Int32Array
+	| Uint32Array
+	| Float32Array
+	| Float64Array
+	| BigInt64Array
+	| BigUint64Array
+type AnyFunction = (...args: any[]) => unknown
+type NeverToNull<T> = [T] extends [never] ? null : T
+declare const emptyObjectSymbol: unique symbol
+export type EmptyObject = {
+	[emptyObjectSymbol]?: never
+}
+type IsAny<T> = 0 extends 1 & T ? true : false
+export {}
 
 export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>
@@ -241,17 +353,43 @@ type DeferValue<T> = T extends undefined
 		: Jsonify<T>
 
 export function useRawLoaderData<T>(): SerializeFrom<T> {
-	const value = useLoaderData()
-
-	// eslint-disable-next-line no-eval
-	return useMemo(() => (0, eval)(`(${value})`) as SerializeFrom<T>, [value])
+	return useLoaderData()
+	return useMemo(
+		() =>
+			JSON.parse(JSON.stringify(value), (key, value) => {
+				if (
+					Array.isArray(value) &&
+					value.length === 2 &&
+					value[0] === "Raw" &&
+					Predicate.isString(value[1])
+				) {
+					// eslint-disable-next-line no-eval
+					return (0, eval)(`(${value[1]})`)
+				}
+				return value
+			}) as SerializeFrom<T>,
+		[value]
+	)
 }
 
 export function useRawRouteLoaderData<T>(
 	...args: Parameters<typeof useRouteLoaderData>
 ): SerializeFrom<T> | undefined {
-	const value = useRouteLoaderData(...args)
-
-	// eslint-disable-next-line no-eval
-	return useMemo(() => (0, eval)(`(${value})`) as SerializeFrom<T>, [value])
+	return useRouteLoaderData(...args)
+	return useMemo(
+		() =>
+			JSON.parse(JSON.stringify(value), (key, value) => {
+				if (
+					Array.isArray(value) &&
+					value.length === 2 &&
+					value[0] === "Raw" &&
+					Predicate.isString(value[1])
+				) {
+					// eslint-disable-next-line no-eval
+					return (0, eval)(`(${value[1]})`)
+				}
+				return value
+			}) as SerializeFrom<T>,
+		[value]
+	)
 }

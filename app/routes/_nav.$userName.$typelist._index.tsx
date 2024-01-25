@@ -1,23 +1,23 @@
-import type { LoaderFunction } from "@remix-run/node"
-import type { ClientLoaderFunction, Params } from "@remix-run/react"
-import { Link, useParams } from "@remix-run/react"
+import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
+import type { Params } from "@remix-run/react"
+import { Link, json, useParams } from "@remix-run/react"
 import { Effect, Order, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
 import { CardOutlined } from "~/components/Card"
+import List from "~/components/List"
 import { graphql } from "~/gql"
 import { MediaType } from "~/gql/graphql"
+import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 import { ListItem } from "~/lib/entry/ListItem"
 import type { InferVariables } from "~/lib/urql"
 import {
 	ClientArgs,
-	ClientLoaderLive,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
-	raw,
-	useRawLoaderData,
+	useRawLoaderData
 } from "~/lib/urql"
 
 const ListsQuery = graphql(`
@@ -25,7 +25,7 @@ const ListsQuery = graphql(`
 		MediaListCollection(
 			userName: $userName
 			type: $type
-			sort: UPDATED_TIME_DESC
+			sort: [FINISHED_ON_DESC, UPDATED_TIME_DESC]
 		) {
 			user {
 				id
@@ -57,16 +57,16 @@ function isTypelist(value: unknown): value is "animelist" | "mangalist" {
 function typelistToMediaType(typelist: "animelist" | "mangalist") {
 	return {
 		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga,
+		mangalist: MediaType.Manga
 	}[typelist]
 }
 
 function FiltersQueryVariables(
-	params: Readonly<Params<string>>,
+	params: Readonly<Params<string>>
 ): InferVariables<typeof ListsQuery> {
 	const type = {
 		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga,
+		mangalist: MediaType.Manga
 	}[String(params["typelist"])]
 
 	if (!type) {
@@ -75,7 +75,7 @@ function FiltersQueryVariables(
 
 	return {
 		userName: params["userName"]!,
-		type,
+		type
 	}
 }
 
@@ -84,41 +84,61 @@ const _loader = pipe(
 	Effect.bind("args", () => ClientArgs),
 	Effect.bind("client", () => EffectUrql),
 	Effect.bind("variables", ({ args }) =>
-		Effect.succeed(FiltersQueryVariables(args.params)),
+		Effect.succeed(FiltersQueryVariables(args.params))
 	),
 	Effect.bind("MediaListCollection", ({ client, variables }) =>
 		pipe(
 			client.query(ListsQuery, variables),
-			Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection)),
-		),
+			Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
+		)
 	),
 	Effect.map(({ MediaListCollection, variables }) => ({
 		MediaListCollection,
-		mediaType: variables.type,
-	})),
+		mediaType: variables.type
+	}))
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Effect.map(raw),
+		
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
+
+		Effect.map((data) =>
+			json(data, {
+				headers: {
+					"Cache-Control": "max-age=60, s-maxage=60"
+				}
+			})
+		),
+		Remix.runLoader
 	)
 }) satisfies LoaderFunction
 
-export const clientLoader = (async (args) => {
-	return pipe(
-		_loader,
-		Effect.map(raw),
+// export const clientLoader = (async (args) => {
+// 	return pipe(
+// 		_loader,
+// 		
 
-		Effect.provide(ClientLoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
-	)
-}) satisfies ClientLoaderFunction
+// 		Effect.provide(ClientLoaderLive),
+// 		Effect.provideService(LoaderArgs, args),
+
+// 		Effect.map((data) =>
+// 			json(data, {
+// 				headers: {
+// 					"Cache-Control": "max-age=60, s-maxage=60"
+// 				}
+// 			})
+// 		),
+// 		Remix.runLoader
+// 	)
+// }) satisfies ClientLoaderFunction
+
+export const headers: HeadersFunction = () => {
+	return {	"Cache-Control": "max-age=60, private"}
+}
 
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
@@ -132,7 +152,7 @@ export default function Page() {
 	const order = ReadonlyRecord.fromEntries(
 		(listOptions?.sectionOrder ?? [])
 			.filter(nonNull)
-			.map((key, index) => [key, index]),
+			.map((key, index) => [key, index])
 	)
 
 	let lists = pipe(
@@ -140,10 +160,10 @@ export default function Page() {
 		ReadonlyArray.sortBy(
 			Order.mapInput(
 				Order.number,
-				(list) => order[list.name ?? ""] ?? Number.POSITIVE_INFINITY,
+				(list) => order[list.name ?? ""] ?? Number.POSITIVE_INFINITY
 			),
-			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? "")),
-		),
+			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
+		)
 	)
 
 	return (
@@ -159,18 +179,16 @@ export default function Page() {
 							<CardOutlined asChild>
 								<article>
 									<h2 className="text-balance">{list.name}</h2>
-									<ul className="-mx-4 grid py-2">
+									<List className="-mx-4">
 										{list.entries
 											?.filter(nonNull)
 											.slice(0, 4)
 											.map((entry) => {
 												return (
-													<li key={entry.id}>
-														<ListItem entry={entry}></ListItem>
-													</li>
+													<ListItem entry={entry} key={entry.id}></ListItem>
 												)
 											})}
-									</ul>
+									</List>
 									<Link
 										to={list.name}
 										className={button({ className: "w-full" })}

@@ -1,43 +1,46 @@
-import type { LoaderFunction } from "@remix-run/node"
+import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import {
-	isRouteErrorResponse,
-	useParams,
-	useRouteError,
-	useSearchParams,
+    isRouteErrorResponse,
+    json,
+    useParams,
+    useRouteError,
+    useSearchParams
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	nonNull,
-	raw,
-	useRawLoaderData,
-	type InferVariables,
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+    nonNull,
+    useRawLoaderData,
+    type InferVariables
 } from "~/lib/urql"
 
 import {
-	Effect,
-	Option,
-	Order,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe,
+    Effect,
+    Option,
+    Order,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
-import {} from "~/components/Dialog"
+import { } from "~/components/Dialog"
 
 // import {} from 'glob'
 
 import { layer } from "@effect/platform-node/FileSystem"
 import { FileSystem } from "@effect/platform/FileSystem"
+import { CardElevated } from "~/components/Card"
+import List from "~/components/List"
+import { Remix } from "~/lib/Remix"
 import { getLibrary } from "~/lib/electron/library.server"
 import { Library, ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
@@ -61,21 +64,21 @@ const TypelistQuery = graphql(`
 `)
 
 function TypelistQueryVariables(
-	params: Readonly<Params<string>>,
+	params: Readonly<Params<string>>
 ): Option.Option<InferVariables<typeof TypelistQuery>> {
 	const map = {
 		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga,
+		mangalist: MediaType.Manga
 	}
 
 	const type = pipe(
 		Option.fromNullable(params["typelist"]),
-		Option.flatMap((key) => ReadonlyRecord.get(map, key)),
+		Option.flatMap((key) => ReadonlyRecord.get(map, key))
 	)
 
 	return Option.all({
 		userName: Option.fromNullable(params["userName"]),
-		type: type,
+		type: type
 	})
 }
 
@@ -88,44 +91,53 @@ export const loader = (async (args) => {
 		Effect.bind("client", () => EffectUrql),
 		Effect.bind("variables", () => TypelistQueryVariables(args.params)),
 		Effect.bind("selected", ({ args }) =>
-			Option.fromNullable(args.params["selected"]),
+			Option.fromNullable(args.params["selected"])
 		),
 		Effect.bind("FileSystem", () => FileSystem),
 		Effect.bind("MediaListCollection", ({ client, args, variables }) =>
 			pipe(
 				client.query(TypelistQuery, variables),
-				Effect.flatMap((data) => Effect.fromNullable(data.MediaListCollection)),
-			),
+				Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
+			)
 		),
 		Effect.bind("Library", () =>
 			Effect.succeed(
-				ReadonlyArray.groupBy(
-					Object.values(getLibrary()),
-					({ title }) => title,
-				),
-			),
+				ReadonlyArray.groupBy(Object.values(getLibrary()), ({ title }) => title)
+			)
 		),
 		Effect.flatMap(({ MediaListCollection, Library, selected }) => {
-			const SelectedList = MediaListCollection?.lists?.find(
-				(list) => list?.name === selected,
+			const SelectedList = MediaListCollection.lists?.find(
+				(list) => list?.name === selected
 			)
 
 			return Effect.all({
 				SelectedList: Option.fromNullable(SelectedList),
-				Library: Option.some(Library),
+				Library: Option.some(Library)
 			})
 		}),
 
-		Effect.map(raw),
+		
 		// Effect.catchTag("NoSuchElementException", () =>
 		// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
 		// ),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.provide(layer),
-		Effect.runPromise,
+
+		Effect.map((data) =>
+			json(data, {
+				headers: {
+					"Cache-Control": "max-age=60, s-maxage=60"
+				}
+			})
+		),
+		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+
+export const headers: HeadersFunction = () => {
+	return {	"Cache-Control": "max-age=60, private"}
+}
 
 declare global {
 	interface Array<T> {
@@ -168,25 +180,25 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 			// Order.mapInput(Order.number, (entry) => behind(entry)),
 			Order.mapInput(
 				Order.number,
-				(entry) => toWatch(entry) || Number.POSITIVE_INFINITY,
+				(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
 			),
 			Order.mapInput(Order.number, (entry) => {
 				return [MediaStatus.Releasing, MediaStatus.NotYetReleased].indexOf(
-					entry.media?.status,
+					entry.media?.status
 				)
-			}),
-		),
+			})
+		)
 	)
 
 	if (status.length) {
 		entries = entries.filter((entry) =>
-			status.includes(entry.media?.status ?? ""),
+			status.includes(entry.media?.status ?? "")
 		)
 	}
 
 	if (format.length) {
 		entries = entries.filter((entry) =>
-			format.includes(entry.media?.format ?? ""),
+			format.includes(entry.media?.format ?? "")
 		)
 	}
 
@@ -200,21 +212,15 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 							entries
 								.map(toWatch)
 								.filter(Number.isFinite)
-								.reduce((a, b) => a + b, 0),
+								.reduce((a, b) => a + b, 0)
 						)}
 					</div>
 				</h2>
-				<div className="py-2">
-					<ol>
-						{entries.map((entry) => {
-							return (
-								<li key={entry.id}>
-									<ListItem entry={entry}></ListItem>
-								</li>
-							)
-						})}
-					</ol>
-				</div>
+				<List className="py-2">
+					{entries.map((entry) => {
+						return <ListItem key={entry.id} entry={entry}></ListItem>
+					})}
+				</List> 
 				{/* <ol className="flex justify-center gap-2"> <li> <Link   to={     pageNumber > 1       ? `?page=${pageNumber - 1}&${deleteSearchParam( searchParams, "page",         )}`       : `?${searchParams}`   }   className={btn()}   aria-disabled={!(pageNumber > 1)} >   <div>Prev</div> </Link> </li> <li> <Form action="get">   <input     type="hidden"     name="selected"     defaultValue={searchParams.get("selected") ?? undefined}   />   <label htmlFor="" className="p-1">     <input       name="page"       type="text"       className="box-content h-[2ch] w-[2ch]"       defaultValue={pageNumber}     />   </label> </Form> </li> <li> <Link   to={     page?.pageInfo?.hasNextPage       ? `?page=${Number(pageNumber) + 1}&${deleteSearchParam( searchParams, "page",         )}`       : `?${searchParams}`   }   className={btn()}   aria-disabled={!page?.pageInfo?.hasNextPage} >   <div>Next</div> </Link> </li>         </ol> */}
 			</div>
 		</>
@@ -239,6 +245,7 @@ export default function Page() {
 		</main>
 	)
 }
+
 export function ErrorBoundary() {
 	const error = useRouteError()
 
@@ -261,11 +268,11 @@ export function ErrorBoundary() {
 	}
 
 	return (
-		<div>
-			<h1>Uh oh ...</h1>
-			<p>Something went wrong.</p>
-			<pre>{errorMessage}</pre>
-		</div>
+		<CardElevated className="m-4 bg-error-container text-on-error-container">
+			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
+			<p className="text-headline-sm">Something went wrong.</p>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+		</CardElevated>
 	)
 }
 
@@ -273,7 +280,7 @@ const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: "Finished",
 	[MediaStatus.Releasing]: "Releasing",
 	[MediaStatus.NotYetReleased]: "Not Yet Released",
-	[MediaStatus.Cancelled]: "Cancelled",
+	[MediaStatus.Cancelled]: "Cancelled"
 }
 
 const FORMAT_OPTIONS = {
@@ -283,5 +290,5 @@ const FORMAT_OPTIONS = {
 	[MediaFormat.Special]: "Special",
 	[MediaFormat.Ova]: "OVA",
 	[MediaFormat.Ona]: "ONA",
-	[MediaFormat.Music]: "Music",
+	[MediaFormat.Music]: "Music"
 }

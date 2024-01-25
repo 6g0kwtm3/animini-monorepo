@@ -7,7 +7,7 @@ import {
 	TooltipRichActions,
 	TooltipRichContainer,
 	TooltipRichSupportingText,
-	TooltipRichTrigger,
+	TooltipRichTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/gql"
 import { graphql, useFragment as readFragment } from "~/gql"
@@ -19,6 +19,7 @@ import type { NonEmptyArray } from "effect/ReadonlyArray"
 import { createContext, useContext } from "react"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
+import List from "~/components/List"
 
 const ListItem_entry = graphql(`
 	fragment ListItem_entry on MediaList {
@@ -50,67 +51,27 @@ export function ListItem(props: {
 	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
 
 	const libraryHasNextEpisode = library?.some(
-		({ episode }) => episode.number === entry.progress + 1,
+		({ episode }) => episode.number === (entry.progress || 0) + 1
 	)
 
 	return (
-		<div className="group relative flex grid-flow-col items-start gap-4 px-4 py-3 text-on-surface state-on-surface hover:state-hover">
-			{/* <div
-				style={{
-					gridTemplateColumns: `repeat(${entry.media?.episodes}, minmax(0, 1fr))`,
-				}}
-				className="absolute grid bottom-0 left-0 right-0 gap-[0.0625rem]"
-			>
-				{Array.from({ length: entry.progress }).map((_, i) => (
-					<div
-						style={{
-							gridColumnStart: i+1,
-						}}
-						key={i}
-						className={`row-start-1 h-[0.25rem] bg-primary-container`}
-					></div>
-				))}
-			</div> */}
-			{/* <div
-				style={{
-					gridTemplateColumns: `repeat(${entry.media?.episodes}, minmax(0, 1fr))`,
-				}}
-				className="absolute grid bottom-0 left-0 right-0 gap-[0.0625rem]"
-			>
-				{Array.from({ length: entry.media.episodes }).map((_, i) => (
-					<div
-						style={{
-							gridColumnStart: i+1,
-						}}
-						key={i}
-						className={`row-start-1 h-[0.0625rem] ${
-							Array.isArray(entry.library) &&
-							entry.library.some(({ episode }) => episode.number === i+1)
-								? "bg-primary"
-								: (i < getAvalible(entry.media))
-									? "bg-primary-container"
-									: "hidden"
-						}`}
-					></div>
-				))}
-			</div> */}
-			<>
-				<div className="relative h-14 w-14 shrink-0">
-					{/* {libraryHasNextEpisode && (
-						<span className="bg-tertiary border-tertiary-container absolute left-0 -translate-x-1/2 top-0 h-3.5 w-3.5 -translate-y-1/2 transform rounded-full border-2"></span>
-					)} */}
+		<List.Item className="">
+				<div className="col-start-1 h-14 w-14">
 					<img
 						src={entry.media?.coverImage?.extraLarge || ""}
 						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
 						style={{
-							"--bg": `url(${entry.media?.coverImage?.medium})`,
+							"--bg": `url(${entry.media?.coverImage?.medium})`
 						}}
 						loading="lazy"
 						alt=""
 					/>
 					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
-				<Link to={`/${entry.media?.id}/`}>
+				<Link
+					to={`/media/${entry.media?.id}/`}
+					className="col-start-2 grid grid-cols-subgrid"
+				>
 					<span className="line-clamp-1 text-body-lg">
 						{libraryHasNextEpisode && (
 							<span className="i i-inline text-primary">priority_high</span>
@@ -123,36 +84,22 @@ export function ListItem(props: {
 							<span className="i i-inline">grade</span>
 							{entry.score}
 						</div>
-						<>
-							&middot;
-							<div>
-								<span className="i i-inline">timer</span>
-								{formatWatch(toWatch(entry))} to watch
-							</div>
-						</>
-
-						{/* {libraryHasNextEpisode ? (
-							<>
-								&middot;
-								<div>
-									<span className="i i-inline">next_plan</span>
-								</div>
-							</>
-						) : null} */}
-
-						{/* &middot;
+						&middot;
 						<div>
-							<span className="i i-inline">next_plan</span>
-							{behind(entry)} behind
-						</div> */}
+							<span className="i i-inline">timer</span>
+							{toWatch(entry) > 0
+								? formatWatch(toWatch(entry))
+								: "Nothing"}{" "}
+							to watch
+						</div>
 					</div>
 				</Link>
 
-				<div className="ms-auto shrink-0 text-label-sm text-on-surface-variant">
+				<div className="col-start-3 text-label-sm text-on-surface-variant">
 					<Progress entry={entry}></Progress>
 				</div>
-			</>
-		</div>
+			
+		</List.Item>
 	)
 }
 

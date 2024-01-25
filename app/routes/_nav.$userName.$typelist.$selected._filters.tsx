@@ -1,14 +1,15 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
+import { Schema } from "@effect/schema"
 import type { LoaderFunction } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
-import type { ClientLoaderFunction, Params } from "@remix-run/react"
+import type { Params } from "@remix-run/react"
 import {
 	Form,
 	Link,
 	Outlet,
+	useMatches,
 	useParams,
 	useSearchParams,
-	useSubmit,
+	useSubmit
 } from "@remix-run/react"
 import {
 	Effect,
@@ -16,7 +17,7 @@ import {
 	Order,
 	ReadonlyArray,
 	ReadonlyRecord,
-	pipe,
+	pipe
 } from "effect"
 
 import { useMemo } from "react"
@@ -25,17 +26,15 @@ import { ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
 import { graphql } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 import type { InferVariables } from "~/lib/urql"
 import {
-	ClientArgs,
-	ClientLoaderLive,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
 	nonNull,
-	raw,
-	useRawLoaderData,
+	useRawLoaderData
 } from "~/lib/urql"
 
 const FiltersQuery = graphql(`
@@ -57,11 +56,11 @@ const FiltersQuery = graphql(`
 `)
 
 function FiltersQueryVariables(
-	params: Readonly<Params<string>>,
+	params: Readonly<Params<string>>
 ): InferVariables<typeof FiltersQuery> {
 	const type = {
 		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga,
+		mangalist: MediaType.Manga
 	}[String(params["typelist"])]
 
 	if (!type) {
@@ -70,50 +69,51 @@ function FiltersQueryVariables(
 
 	return {
 		userName: params["userName"]!,
-		type,
+		type
 	}
 }
 
 const _loader = pipe(
-	Effect.Do,
-	Effect.bind("args", () => ClientArgs),
-	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client, args }) =>
-		// Effect.fromEffect(
-		// 	Effect.request(
-		// 		new GqlRequest({
-		// 			operation: FiltersQuery,
-		// 			variables: FiltersQueryVariables(args.params),
-		// 		}),
-		// 		ResolveOperation,
-		// 	),	Effect.withRequestCache(true),
-		// ),
-		client.query(FiltersQuery, FiltersQueryVariables(args.params)),
-	),
+	Effect.gen(function* (_) {
+		const params = yield* _(
+			Remix.params({
+				userName: Schema.string,
+				typelist: Schema.string
+			})
+		)
+
+		const client = yield* _(EffectUrql)
+
+		return yield* _(client.query(FiltersQuery, FiltersQueryVariables(params)))
+	})
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		Effect.map(raw),
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
+
+		Remix.runLoader
 	)
 }) satisfies LoaderFunction
 
-export const clientLoader = (async (args) => {
-	return pipe(
-		_loader,
-		Effect.map(raw),
-		Effect.provide(ClientLoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise,
-	)
-}) satisfies ClientLoaderFunction
+// export const clientLoader = (async (args) => {
+// 	return pipe(
+// 		_loader,
+//
+// 		Effect.provide(ClientLoaderLive),
+// 		Effect.provideService(LoaderArgs, args),
+
+// 		Remix.runLoader
+// 	)
+// }) satisfies ClientLoaderFunction
 
 export default function Filters() {
 	const [searchParams] = useSearchParams()
+
+	console.log({ matches: useMatches() })
 
 	const data = useRawLoaderData<typeof loader>()
 	const params = useParams()
@@ -123,7 +123,7 @@ export default function Filters() {
 	let allLists = data?.MediaListCollection?.lists
 		?.filter(nonNull)
 		.sort(
-			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? "")),
+			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
 		)
 
 	let lists = allLists
@@ -157,16 +157,16 @@ export default function Filters() {
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
-				ReadonlyRecord.intersection(STATUS_OPTIONS, (a, b) => `${b} (${a})`),
+				ReadonlyRecord.intersection(STATUS_OPTIONS, (a, b) => `${b} (${a})`)
 			),
-		[entries],
+		[entries]
 	)
 
 	entries = useMemo(() => lists?.[0]?.entries ?? [], [lists])
 
 	if (statusParams.length) {
 		entries = entries.filter((entry) =>
-			statusParams.includes(entry?.media?.status ?? ""),
+			statusParams.includes(entry?.media?.status ?? "")
 		)
 	}
 
@@ -177,9 +177,9 @@ export default function Filters() {
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
-				ReadonlyRecord.intersection(FORMAT_OPTIONS, (a, b) => `${b} (${a})`),
+				ReadonlyRecord.intersection(FORMAT_OPTIONS, (a, b) => `${b} (${a})`)
 			),
-		[entries],
+		[entries]
 	)
 
 	return (
@@ -240,7 +240,7 @@ export default function Filters() {
 									variant: "tonal",
 									className: `${
 										selected === list.name ? `force:bg-tertiary-container ` : ``
-									}force:rounded capitalize`,
+									}force:rounded capitalize`
 								})}
 							>
 								{list.name}
@@ -259,7 +259,7 @@ const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: "Finished",
 	[MediaStatus.Releasing]: "Releasing",
 	[MediaStatus.NotYetReleased]: "Not Yet Released",
-	[MediaStatus.Cancelled]: "Cancelled",
+	[MediaStatus.Cancelled]: "Cancelled"
 }
 
 const FORMAT_OPTIONS = {
@@ -269,5 +269,5 @@ const FORMAT_OPTIONS = {
 	[MediaFormat.Special]: "Special",
 	[MediaFormat.Ova]: "OVA",
 	[MediaFormat.Ona]: "ONA",
-	[MediaFormat.Music]: "Music",
+	[MediaFormat.Music]: "Music"
 }

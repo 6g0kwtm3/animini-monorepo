@@ -1,8 +1,9 @@
-import type {
-	ComponentPropsWithoutRef,
-	FC,
-	PropsWithChildren,
-	SyntheticEvent,
+import {
+	forwardRef,
+	type ComponentPropsWithoutRef,
+	type FC,
+	type PropsWithChildren,
+	type SyntheticEvent
 } from "react"
 
 import * as Ariakit from "@ariakit/react"
@@ -52,12 +53,13 @@ declare global {
 	}
 }
 
-export function BaseButton(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Button> & {
+export const BaseButton = forwardRef<
+	HTMLButtonElement,
+	ComponentPropsWithoutRef<typeof Ariakit.Button> & {
 		invoketarget?: string
 		invokeaction?: string
-	},
-) {
+	}
+>(function BaseButton(props, ref) {
 	// props.type ??= "submit"
 
 	function invoke(event: SyntheticEvent<HTMLElement>) {
@@ -68,14 +70,15 @@ export function BaseButton(
 					relatedTarget: event.currentTarget,
 					...(typeof props.invokeaction === "string"
 						? { action: props.invokeaction }
-						: {}),
-				}),
+						: {})
+				})
 			)
 		}
 	}
 
 	return (
 		<Ariakit.Button
+			ref={ref}
 			{...props}
 			onKeyDown={(event) => {
 				props.onKeyDown?.(event)
@@ -96,22 +99,24 @@ export function BaseButton(
 			}}
 		/>
 	)
-}
+})
 
-export function ButtonText(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Button>,
-) {
+export const ButtonText = forwardRef<
+	HTMLButtonElement,
+	ComponentPropsWithoutRef<typeof Ariakit.Button>
+>(function ButtonText(props, ref) {
 	return (
 		<BaseButton
+			ref={ref}
 			{...props}
 			className={button({
-				className: props.className,
+				className: props.className
 			})}
 		>
 			{/* TODO: right padding +4px if icon */}
 		</BaseButton>
 	)
-}
+})
 
 ButtonText.Icon = (props: ComponentPropsWithoutRef<"div">) => {
 	return (
@@ -119,7 +124,7 @@ ButtonText.Icon = (props: ComponentPropsWithoutRef<"div">) => {
 			{...props}
 			className={classes(
 				"i h-[1.125rem] w-[1.125rem] i-[1.125rem]",
-				props.className,
+				props.className
 			)}
 		></div>
 	)
@@ -155,7 +160,7 @@ export const ButtonFilled: Button = (props) => {
 			{...props}
 			className={button({
 				variant: "filled",
-				className: props.className,
+				className: props.className
 			})}
 		/>
 	)
@@ -179,7 +184,7 @@ export const ButtonElevated: Button = (props) => {
 			{...props}
 			className={button({
 				className: props.className,
-				variant: "elevated",
+				variant: "elevated"
 			})}
 		></BaseButton>
 	)
@@ -203,7 +208,7 @@ export const ButtonOutlined: Button = (props) => {
 			{...props}
 			className={button({
 				className: props.className,
-				variant: "outlined",
+				variant: "outlined"
 			})}
 		></BaseButton>
 	)
@@ -221,17 +226,19 @@ ButtonOutlined.Icon = (props) => {
 ButtonOutlined.displayName = "Button.Outlined"
 ButtonOutlined.Icon.displayName = "Button.Outlined.Icon"
 
-export function ButtonIcon({
-	children,
-	variant,
-	className,
-	...props
-}: VariantProps<typeof btnIcon> &
-	PropsWithChildren<ComponentPropsWithoutRef<typeof BaseButton>>) {
+export const ButtonIcon = forwardRef<
+	HTMLButtonElement,
+	VariantProps<typeof btnIcon> &
+		PropsWithChildren<ComponentPropsWithoutRef<typeof BaseButton>>
+>(function ButtonIcon({ children, variant, className, ...props }, ref) {
 	return (
-		<BaseButton {...props} className={btnIcon({ variant, className })}>
+		<BaseButton
+			ref={ref}
+			{...props}
+			className={btnIcon({ variant, className })}
+		>
 			{children}
 			<TouchTarget></TouchTarget>
 		</BaseButton>
 	)
-}
+})
