@@ -60,6 +60,7 @@ export const loader = (async (args) => {
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
+import { SpeedInsights } from "@vercel/speed-insights/remix"
 
 export default function App() {
 	const revalidator = useRevalidator()
@@ -100,6 +101,7 @@ export default function App() {
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
+				<SpeedInsights></SpeedInsights>
 			</body>
 		</html>
 	)
