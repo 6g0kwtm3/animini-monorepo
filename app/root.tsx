@@ -13,7 +13,7 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import type { LoaderFunction } from "@remix-run/node"
 
-import { Analytics } from '@vercel/analytics/react'
+import { Analytics } from "@vercel/analytics/react"
 import { Effect, pipe } from "effect"
 import { useEffect } from "react"
 import { graphql } from "./gql"
