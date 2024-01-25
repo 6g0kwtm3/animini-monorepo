@@ -1,6 +1,6 @@
 import type { AnitomyResult } from "anitomy"
 
-import electron, { anitomy, path } from "./electron.server"
+import { electron, anitomy, path } from "./electron.server"
 
 import chokidar from "chokidar"
 
