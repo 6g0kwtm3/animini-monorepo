@@ -27,7 +27,6 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -39,7 +38,7 @@ export const loader = (async (args) => {
 // export const clientLoader = (async (args) => {
 // 	return pipe(
 // 		_loader,
-// 		
+//
 
 // 		Effect.provide(ClientLoaderLive),
 // 		Effect.provideService(LoaderArgs, args),

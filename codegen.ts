@@ -11,17 +11,17 @@ const config: CodegenConfig = {
 	config: {
 		avoidOptionals: {
 			field: true,
-			inputValue: false,
+			inputValue: false
 		},
 		defaultScalarType: "unknown",
 		dedupeFragments: true,
-		scalars: { Json: "~/lib/urql#JSONValue" },
+		scalars: { Json: "~/lib/urql#JSONValue" }
 	},
 	generates: {
 		"app/gql/": {
 			preset: "client",
 			config: {
-				useTypeImports: true,
+				useTypeImports: true
 			},
 			documentTransforms: [
 				{
@@ -29,20 +29,20 @@ const config: CodegenConfig = {
 						const fragments = Object.fromEntries(
 							documents
 								.flatMap(({ document }) =>
-									document ? document.definitions : [],
+									document ? document.definitions : []
 								)
 								.flatMap((definition) =>
 									definition.kind === Kind.FRAGMENT_DEFINITION
 										? [[definition.name.value, definition]]
-										: [],
-								),
+										: []
+								)
 						)
 
 						// return documents
 
 						const docs = optimizeDocuments(
 							buildASTSchema(schema),
-							documents.flatMap(({ document }) => (document ? [document] : [])),
+							documents.flatMap(({ document }) => (document ? [document] : []))
 							// {
 							//   includeFragments: true,
 							// },
@@ -52,15 +52,15 @@ const config: CodegenConfig = {
 							.concat(
 								Object.values(fragments).map((definition) => ({
 									definitions: [definition],
-									kind: Kind.DOCUMENT,
-								})),
+									kind: Kind.DOCUMENT
+								}))
 							)
 							.map((document) => ({ document }))
-					},
-				},
-			],
-		},
-	},
+					}
+				}
+			]
+		}
+	}
 }
 
 export default config

@@ -1,6 +1,6 @@
 import {
 	FaceSmileIcon as EmojiHappyIcon,
-	FaceFrownIcon as EmojiSadIcon,
+	FaceFrownIcon as EmojiSadIcon
 } from "@heroicons/react/24/outline"
 import { StarIcon } from "@heroicons/react/24/solid"
 import type { ReactNode } from "react"
@@ -18,7 +18,7 @@ const point3Icons = [
 	<EmojiHappyIcon
 		key="face-smile-2"
 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-primary peer-checked:text-primary group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100 "
-	/>,
+	/>
 ]
 export const point5Icons = Array.from({ length: 5 }, (_, index) => (
 	<>

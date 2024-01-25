@@ -13,7 +13,7 @@ const ASSETS = "assets-cache"
 
 // Open the caches and wrap them in `RemixCache` instances.
 const dataCache = Storage.open(DATA, {
-	ttl: 60 * 60 * 24 * 7 * 1000, // 7 days
+	ttl: 60 * 60 * 24 * 7 * 1000 // 7 days
 })
 const documentCache = Storage.open(PAGES)
 const assetCache = Storage.open(ASSETS)
@@ -29,22 +29,22 @@ self.addEventListener("activate", (event: ExtendableEvent) => {
 })
 
 const dataHandler = staleWhileRevalidate({
-	cache: dataCache,
+	cache: dataCache
 })
 
 const assetsHandler = cacheFirst({
 	cache: assetCache,
 	cacheQueryOptions: {
 		ignoreSearch: true,
-		ignoreVary: true,
-	},
+		ignoreVary: true
+	}
 })
 
 // The default fetch event handler will be invoke if the
 // route is not matched by any of the worker action/loader.
 export const defaultFetchHandler: DefaultFetchHandler = ({
 	context,
-	request,
+	request
 }) => {
 	const type = matchRequest(request)
 

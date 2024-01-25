@@ -7,12 +7,7 @@ import {
 	ScrollRestoration,
 	useRevalidator
 } from "@remix-run/react"
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
-} from "./lib/urql"
+import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
@@ -23,7 +18,6 @@ import { useEffect } from "react"
 import { graphql } from "./gql"
 import { Remix } from "./lib/Remix"
 import "./tailwind.css"
-
 
 const ViewerQuery = graphql(`
 	query ViewerQuery {
@@ -47,12 +41,10 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 
- 
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
@@ -60,12 +52,11 @@ export const loader = (async (args) => {
 // export const clientLoader = (async (args) => {
 // 	return pipe(
 // 		_loader,
-// 		
+//
 
 // 		Effect.provide(ClientLoaderLive),
 // 		Effect.provideService(LoaderArgs, args),
 
- 
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
@@ -87,7 +78,10 @@ export default function App() {
 	}, [revalidator])
 
 	return (
-		<html lang="en" className="overflow-x-hidden bg-background text-on-background">
+		<html
+			lang="en"
+			className="overflow-x-hidden bg-background text-on-background"
+		>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -110,4 +104,3 @@ export default function App() {
 		</html>
 	)
 }
- 

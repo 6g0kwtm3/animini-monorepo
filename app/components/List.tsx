@@ -1,14 +1,10 @@
 import type { ComponentPropsWithoutRef } from "react"
-import { } from "react-dom"
+import {} from "react-dom"
 import { list } from "~/lib/list"
 
-
-
-const {item,root} = list()
+const { item, root } = list()
 function Item(props: ComponentPropsWithoutRef<"div">) {
-	return (
-		<div {...props} className={item({ className: props.className })} />
-	)
+	return <div {...props} className={item({ className: props.className })} />
 }
 
 Item.Content = function Content(props: ComponentPropsWithoutRef<"div">) {
@@ -125,9 +121,7 @@ Item.Overline = function Overline(props: ComponentPropsWithoutRef<"div">) {
 }
 
 function List(props: ComponentPropsWithoutRef<"ul">) {
-	return (
-		<ul {...props} className={root({ className: props.className })}></ul>
-	)
+	return <ul {...props} className={root({ className: props.className })}></ul>
 }
 
 List.Item = Item

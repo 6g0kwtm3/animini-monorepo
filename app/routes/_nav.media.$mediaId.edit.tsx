@@ -148,7 +148,7 @@ export const loader = (async (args) => {
 	return pipe(
 		_loader,
 		Effect.map((data) =>
-			Predicate.isNotNull(data?.Viewer) ? (data) : redirect("..")
+			Predicate.isNotNull(data?.Viewer) ? data : redirect("..")
 		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -297,7 +297,9 @@ const _loader = pipe(
 		const client = yield* _(EffectUrql)
 
 		const format = yield* _(
-			S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(searchParams.get("format"))
+			S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(
+				searchParams.get("format")
+			)
 		)
 
 		return yield* _(
@@ -373,13 +375,17 @@ export default function Page() {
 		defaultValues: {
 			advancedScores: defaultAdvancedScores,
 			completedAt: pipe(
-				S.decodeUnknownOption(FuzzyDateLift)(data.Media?.mediaListEntry?.completedAt),
+				S.decodeUnknownOption(FuzzyDateLift)(
+					data.Media?.mediaListEntry?.completedAt
+				),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
 				Option.getOrElse(() => "")
 			),
 			startedAt: pipe(
-				S.decodeUnknownOption(FuzzyDateLift)(data.Media?.mediaListEntry?.startedAt),
+				S.decodeUnknownOption(FuzzyDateLift)(
+					data.Media?.mediaListEntry?.startedAt
+				),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
 				Option.getOrElse(() => "")

@@ -1,9 +1,9 @@
-import type { Theme } from "@material/material-color-utilities";
-import { hexFromArgb } from "@material/material-color-utilities";
-import type { ComponentPropsWithoutRef } from "react";
-import { useId } from "react";
-import colors from '../../../colors.json';
-import { cssEscape } from "../cssEscape";
+import type { Theme } from "@material/material-color-utilities"
+import { hexFromArgb } from "@material/material-color-utilities"
+import type { ComponentPropsWithoutRef } from "react"
+import { useId } from "react"
+import colors from "../../../colors.json"
+import { cssEscape } from "../cssEscape"
 
 function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
 	if (!theme) return {}
@@ -31,8 +31,6 @@ function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
 		})
 	)
 }
-
-
 
 function parseArgb(value: number) {
 	const [, r1 = "", r2 = "", g1 = "", g2 = "", b1 = "", b2 = ""] =

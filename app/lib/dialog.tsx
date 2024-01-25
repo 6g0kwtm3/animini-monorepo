@@ -3,12 +3,12 @@ import { tv } from "tailwind-variants"
 export const dialog = tv(
 	{
 		slots: {
-			root: "flex bg-surface-container-high elevation-3 fixed overflow-hidden",
+			root: "fixed flex overflow-hidden bg-surface-container-high elevation-3",
 			content: "flex w-full flex-col",
 			backdrop: "",
 			headline: "text-on-surface",
 			body: "overflow-auto overscroll-contain px-6 text-body-md text-on-surface",
-			actions: "flex justify-end gap-2 px-6",
+			actions: "flex justify-end gap-2 px-6"
 		},
 		variants: {
 			variant: {
@@ -19,7 +19,7 @@ export const dialog = tv(
 					headline:
 						"-mb-2 h-auto px-6 text-center text-headline-sm first:text-start",
 					body: "pt-0",
-					actions: "h-auto",
+					actions: "h-auto"
 				},
 				fullscreen: {
 					root: "inset-0",
@@ -27,11 +27,11 @@ export const dialog = tv(
 					headline:
 						"flex h-14 shrink-0 items-center gap-4 truncate px-4 text-title-lg",
 					body: "pt-6",
-					actions: "h-14",
-				},
-			},
+					actions: "h-14"
+				}
+			}
 		},
-		defaultVariants: { variant: "basic" },
+		defaultVariants: { variant: "basic" }
 	},
-	{ responsiveVariants: ["sm"] },
+	{ responsiveVariants: ["sm"] }
 )

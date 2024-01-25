@@ -4,7 +4,7 @@ import { useFetcher } from "@remix-run/react"
 import { ButtonText } from "~/components/Button"
 import {
 	TextFieldOutlined as Outlined,
-	TextFieldOutlinedInput,
+	TextFieldOutlinedInput
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
@@ -29,9 +29,9 @@ export const action = (async ({ context, params, request }) => {
 			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
 				sameSite: "lax",
 				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-				path: "/",
-			}),
-		},
+				path: "/"
+			})
+		}
 	})
 }) satisfies ActionFunction
 
@@ -62,7 +62,7 @@ export default function Login() {
 	store.onSubmit((state) => {
 		console.log(state)
 		fetcher.submit(state.values, {
-			method: "post",
+			method: "post"
 		})
 	})
 
@@ -84,8 +84,8 @@ export default function Login() {
 						href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
 							{
 								client_id: String(ANILIST_CLIENT_ID),
-								response_type: "token",
-							},
+								response_type: "token"
+							}
 						)}`}
 						rel="noreferrer"
 						className={btn({})}

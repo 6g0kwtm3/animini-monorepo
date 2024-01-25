@@ -1,38 +1,38 @@
 import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import {
-    isRouteErrorResponse,
-    json,
-    useParams,
-    useRouteError,
-    useSearchParams
+	isRouteErrorResponse,
+	json,
+	useParams,
+	useRouteError,
+	useSearchParams
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive,
-    nonNull,
-    useRawLoaderData,
-    type InferVariables
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	nonNull,
+	useRawLoaderData,
+	type InferVariables
 } from "~/lib/urql"
 
 import {
-    Effect,
-    Option,
-    Order,
-    ReadonlyArray,
-    ReadonlyRecord,
-    pipe
+	Effect,
+	Option,
+	Order,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
 } from "effect"
 
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
 
-import { } from "~/components/Dialog"
+import {} from "~/components/Dialog"
 
 // import {} from 'glob'
 
@@ -116,7 +116,6 @@ export const loader = (async (args) => {
 			})
 		}),
 
-		
 		// Effect.catchTag("NoSuchElementException", () =>
 		// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
 		// ),
@@ -136,7 +135,7 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const headers: HeadersFunction = () => {
-	return {	"Cache-Control": "max-age=60, private"}
+	return { "Cache-Control": "max-age=60, private" }
 }
 
 declare global {
@@ -220,7 +219,7 @@ function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
 					{entries.map((entry) => {
 						return <ListItem key={entry.id} entry={entry}></ListItem>
 					})}
-				</List> 
+				</List>
 				{/* <ol className="flex justify-center gap-2"> <li> <Link   to={     pageNumber > 1       ? `?page=${pageNumber - 1}&${deleteSearchParam( searchParams, "page",         )}`       : `?${searchParams}`   }   className={btn()}   aria-disabled={!(pageNumber > 1)} >   <div>Prev</div> </Link> </li> <li> <Form action="get">   <input     type="hidden"     name="selected"     defaultValue={searchParams.get("selected") ?? undefined}   />   <label htmlFor="" className="p-1">     <input       name="page"       type="text"       className="box-content h-[2ch] w-[2ch]"       defaultValue={pageNumber}     />   </label> </Form> </li> <li> <Link   to={     page?.pageInfo?.hasNextPage       ? `?page=${Number(pageNumber) + 1}&${deleteSearchParam( searchParams, "page",         )}`       : `?${searchParams}`   }   className={btn()}   aria-disabled={!page?.pageInfo?.hasNextPage} >   <div>Next</div> </Link> </li>         </ol> */}
 			</div>
 		</>

@@ -3,27 +3,27 @@ module.exports = {
 	extends: [
 		"plugin:compat/recommended",
 		"@remix-run/eslint-config",
-		"@remix-run/eslint-config/node",
+		"@remix-run/eslint-config/node"
 	],
 	plugins: ["react-refresh", "compat"],
 	overrides: [
 		{
 			files: ["*.ts", "*.tsx"],
 			parserOptions: {
-				project: true,
+				project: true
 			},
 			rules: {
-				"@typescript-eslint/no-unnecessary-condition": "error",
-			},
+				"@typescript-eslint/no-unnecessary-condition": "error"
+			}
 		},
 		{
 			files: ["*.js"],
-			processor: "@graphql-eslint/graphql",
+			processor: "@graphql-eslint/graphql"
 		},
 		{
 			files: ["*.graphql"],
-			extends: "plugin:@graphql-eslint/operations-recommended",
-		},
+			extends: "plugin:@graphql-eslint/operations-recommended"
+		}
 	],
 	rules: {
 		"react-refresh/only-export-components": [
@@ -37,9 +37,9 @@ module.exports = {
 					"loader",
 					"action",
 					"clientAction",
-					"clientLoader",
-				],
-			},
-		],
-	},
+					"clientLoader"
+				]
+			}
+		]
+	}
 }

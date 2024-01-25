@@ -56,49 +56,46 @@ export function ListItem(props: {
 
 	return (
 		<List.Item className="">
-				<div className="col-start-1 h-14 w-14">
-					<img
-						src={entry.media?.coverImage?.extraLarge || ""}
-						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
-						style={{
-							"--bg": `url(${entry.media?.coverImage?.medium})`
-						}}
-						loading="lazy"
-						alt=""
-					/>
-					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
-				</div>
-				<Link
-					to={`/media/${entry.media?.id}/`}
-					className="col-start-2 grid grid-cols-subgrid"
-				>
-					<span className="line-clamp-1 text-body-lg">
-						{libraryHasNextEpisode && (
-							<span className="i i-inline text-primary">priority_high</span>
-							// <span className="i i-inline text-primary">video_library</span>
-						)}
-						{entry.media?.title?.userPreferred}
-					</span>
-					<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
-						<div>
-							<span className="i i-inline">grade</span>
-							{entry.score}
-						</div>
-						&middot;
-						<div>
-							<span className="i i-inline">timer</span>
-							{toWatch(entry) > 0
-								? formatWatch(toWatch(entry))
-								: "Nothing"}{" "}
-							to watch
-						</div>
+			<div className="col-start-1 h-14 w-14">
+				<img
+					src={entry.media?.coverImage?.extraLarge || ""}
+					className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
+					style={{
+						"--bg": `url(${entry.media?.coverImage?.medium})`
+					}}
+					loading="lazy"
+					alt=""
+				/>
+				<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
+			</div>
+			<Link
+				to={`/media/${entry.media?.id}/`}
+				className="col-start-2 grid grid-cols-subgrid"
+			>
+				<span className="line-clamp-1 text-body-lg">
+					{libraryHasNextEpisode && (
+						<span className="i i-inline text-primary">priority_high</span>
+						// <span className="i i-inline text-primary">video_library</span>
+					)}
+					{entry.media?.title?.userPreferred}
+				</span>
+				<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
+					<div>
+						<span className="i i-inline">grade</span>
+						{entry.score}
 					</div>
-				</Link>
-
-				<div className="col-start-3 text-label-sm text-on-surface-variant">
-					<Progress entry={entry}></Progress>
+					&middot;
+					<div>
+						<span className="i i-inline">timer</span>
+						{toWatch(entry) > 0 ? formatWatch(toWatch(entry)) : "Nothing"} to
+						watch
+					</div>
 				</div>
-			
+			</Link>
+
+			<div className="col-start-3 text-label-sm text-on-surface-variant">
+				<Progress entry={entry}></Progress>
+			</div>
 		</List.Item>
 	)
 }

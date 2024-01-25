@@ -19,7 +19,7 @@ export function TabsTab(
 	props: PropsWithChildren<{
 		active: boolean
 		to: ComponentPropsWithoutRef<typeof Link>["to"]
-	}>,
+	}>
 ) {
 	const layoutId = useContext(TabsContext)
 	return (

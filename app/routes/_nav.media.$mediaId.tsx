@@ -20,12 +20,9 @@ import {
 
 import { cloneElement } from "react"
 
-
 import { Effect, pipe } from "effect"
 
-
 import { CardElevated, CardFilled } from "~/components/Card"
-
 
 import {
 	ButtonElevated,
@@ -101,8 +98,6 @@ const variants = {
 	}
 } satisfies Variants
 
-
-
 const _loader = pipe(
 	Effect.Do,
 	Effect.bind("args", () => ClientArgs),
@@ -117,18 +112,13 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-		
- 
-Remix.runLoader
+
+		Remix.runLoader
 	)
 }) satisfies LoaderFunction
-
-
-
-
 
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()

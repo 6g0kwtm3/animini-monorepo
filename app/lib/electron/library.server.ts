@@ -15,8 +15,8 @@ if (IS_ELECTRON) {
 		path.resolve(electron.app.getPath("downloads"), "**", "*.mkv"),
 		{
 			ignored: /(^|[\/\\])\../, // ignore dotfiles
-			persistent: true,
-		},
+			persistent: true
+		}
 	)
 
 	function parsePath(filePath: string) {
@@ -25,9 +25,9 @@ if (IS_ELECTRON) {
 		return pipe(
 			Option.fromNullable(
 				anitomy.parse(file, {
-					parseFileExtension: true,
-				}),
-			),
+					parseFileExtension: true
+				})
+			)
 			// Option.filter(() => {
 
 			// }),
@@ -39,7 +39,7 @@ if (IS_ELECTRON) {
 			parsePath(filePath),
 			Effect.tap((result) => (library[filePath] = result)),
 
-			Effect.runSync,
+			Effect.runSync
 		)
 	})
 
@@ -48,7 +48,7 @@ if (IS_ELECTRON) {
 			parsePath(filePath),
 			Effect.tap(() => delete library[filePath]),
 
-			Effect.runSync,
+			Effect.runSync
 		)
 	})
 }

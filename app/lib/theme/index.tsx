@@ -1,5 +1,8 @@
-import { argbFromHex, themeFromSourceColor } from "@material/material-color-utilities";
-import { useMemo } from "react";
+import {
+	argbFromHex,
+	themeFromSourceColor
+} from "@material/material-color-utilities"
+import { useMemo } from "react"
 export function getThemeFromHex(hex: string) {
 	const theme = themeFromSourceColor(argbFromHex(hex))
 

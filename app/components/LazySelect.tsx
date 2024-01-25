@@ -19,12 +19,12 @@ export interface SelectProps extends Ariakit.SelectProps {
 export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 	function LazySelect(
 		{ children, value, setValue, defaultValue, ...props },
-		ref,
+		ref
 	) {
 		const store = Ariakit.useSelectStore({
 			value,
 			setValue,
-			defaultValue: defaultValue ?? "",
+			defaultValue: defaultValue ?? ""
 		})
 		const portalRef = useRef<HTMLDivElement>(null)
 
@@ -53,14 +53,14 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 					onBlur={onBlur}
 					className={root({
 						className:
-							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
+							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]"
 					})}
 				>
 					{children}
 				</Ariakit.SelectPopover>
 			</SelectContext.Provider>
 		)
-	},
+	}
 )
 
 export interface FormSelectProps
@@ -87,7 +87,7 @@ const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
 		)
 		const field = <Ariakit.FormControl name={name} render={select} />
 		return <Ariakit.Role.button {...props} render={field} />
-	},
+	}
 )
 
 export default FormSelect
@@ -95,13 +95,13 @@ export default FormSelect
 const { item } = menu({})
 
 function LazySelectOption(
-	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>,
+	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>
 ) {
 	return (
 		<Ariakit.SelectItem
 			{...props}
 			className={item({
-				className: "data-[active-item]:state-focus",
+				className: "data-[active-item]:state-focus"
 			})}
 		/>
 	)

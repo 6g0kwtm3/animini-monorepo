@@ -33,7 +33,7 @@ export const CardElevated: Card = ({ asChild, ...props }) => {
 					!props.dragged &&
 					"hover:elevation-2 hover:state-hover",
 				"relative overflow-hidden rounded-md bg-surface-container-low p-4 state-on-surface focus:elevation-1 focus:state-focus",
-				props.className,
+				props.className
 			)}
 		></Component>
 	)
@@ -60,7 +60,7 @@ export const CardFilled: Card = ({ asChild, ...props }) => {
 					!props.dragged &&
 					"hover:elevation-1 hover:state-hover",
 				"relative overflow-hidden rounded-md bg-surface-container-highest p-4 state-on-surface-variant focus:elevation-1 focus:state-focus",
-				props.className,
+				props.className
 			)}
 		></Component>
 	)
@@ -88,7 +88,7 @@ export const CardOutlined: Card = ({ asChild, ...props }) => {
 					!props.dragged &&
 					"hover:elevation-1 hover:state-hover",
 				"relative overflow-hidden rounded-md border p-4 state-on-surface focus:elevation-1 focus:state-focus",
-				props.className,
+				props.className
 			)}
 		></Component>
 	)

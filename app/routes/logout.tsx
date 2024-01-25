@@ -9,8 +9,8 @@ export const action = (async (args) => {
 			"Set-Cookie": cookie.serialize(`anilist-token`, "", {
 				sameSite: "lax",
 				maxAge: 0,
-				path: "/",
-			}),
-		},
+				path: "/"
+			})
+		}
 	})
 }) satisfies ActionFunction

@@ -3,7 +3,7 @@ import { Predicate } from "effect"
 import type {
 	ComponentPropsWithoutRef,
 	ElementRef,
-	PropsWithChildren,
+	PropsWithChildren
 } from "react"
 import {
 	createContext,
@@ -12,7 +12,7 @@ import {
 	useEffect,
 	useId,
 	useRef,
-	useState,
+	useState
 } from "react"
 import { BaseButton, type InvokeEvent } from "./Button"
 
@@ -47,7 +47,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 
 			return
 		},
-		[queue],
+		[queue]
 	)
 
 	useEffect(() => {
@@ -178,11 +178,11 @@ export function SnackbarAction(props: ComponentPropsWithoutRef<"button">) {
 			{...(supportsPopover
 				? {
 						popovertargetaction: "hide",
-						popovertarget: invoketarget,
+						popovertarget: invoketarget
 					}
 				: {
 						invokeaction: "hide",
-						invoketarget,
+						invoketarget
 					})}
 			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary state-inverse-primary first:ms-auto hover:state-hover focus:state-focus"
 		></BaseButton>

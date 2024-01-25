@@ -101,7 +101,6 @@ const _loader = pipe(
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-		
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -120,7 +119,7 @@ export const loader = (async (args) => {
 // export const clientLoader = (async (args) => {
 // 	return pipe(
 // 		_loader,
-// 		
+//
 
 // 		Effect.provide(ClientLoaderLive),
 // 		Effect.provideService(LoaderArgs, args),
@@ -137,7 +136,7 @@ export const loader = (async (args) => {
 // }) satisfies ClientLoaderFunction
 
 export const headers: HeadersFunction = () => {
-	return {	"Cache-Control": "max-age=60, private"}
+	return { "Cache-Control": "max-age=60, private" }
 }
 
 export default function Page() {

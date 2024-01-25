@@ -1,11 +1,9 @@
-import { Schema,  } from "@effect/schema"
-import type { StructFields,  } from "@effect/schema/Schema"
+import { Schema } from "@effect/schema"
+import type { StructFields } from "@effect/schema/Schema"
 import { json, redirect } from "@remix-run/node"
 import { Cause, Data, Effect, Exit, pipe } from "effect"
 import { NoSuchElementException } from "effect/Cause"
 import { LoaderArgs, Timeout } from "../urql"
-
-
 
 import crypto from "node:crypto"
 
