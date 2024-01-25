@@ -37,7 +37,6 @@ export const links: LinksFunction = () => {
 	return [{ rel: "stylesheet", href: tailwindcss }]
 }
 
-
 const ViewerQuery = graphql(`
 	query ViewerQuery {
 		Viewer {
