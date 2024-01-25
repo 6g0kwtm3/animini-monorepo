@@ -1,7 +1,7 @@
 import type * as Electron from "electron"
 import { createRequire } from "node:module"
 
-let electron: typeof Electron|string|undefined
+let electron: typeof Electron | string | undefined
 
 try {
 	electron = createRequire(import.meta.url)("electron")
