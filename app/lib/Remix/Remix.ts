@@ -5,8 +5,6 @@ import { Cause, Data, Effect, Exit, pipe } from "effect"
 import { NoSuchElementException } from "effect/Cause"
 import { LoaderArgs, Timeout } from "../urql"
 
-
-
 export function params<Fields extends StructFields>(fields: Fields) {
 	return Effect.gen(function* (_) {
 		const { params } = yield* _(LoaderArgs)

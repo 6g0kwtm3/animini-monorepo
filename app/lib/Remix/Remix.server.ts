@@ -4,7 +4,6 @@ import { json } from "@remix-run/node"
 import { Effect } from "effect"
 import { LoaderArgs } from "../urql"
 
-
 export function eTag() {
 	return Effect.flatMap((data) =>
 		Effect.gen(function* (_) {
