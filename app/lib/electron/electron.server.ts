@@ -11,7 +11,4 @@ export * as anitomy from "anitomy"
 export * as fs from "fs"
 export { default as path } from "path"
 
-
-
 export { electron }
-
