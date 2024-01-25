@@ -5,7 +5,7 @@
 	"main": "desktop/index.js",
 	"scripts": {
 		"build": "remix build",
-		"dev": "remix dev",
+		"dev": "remix vite:dev",
 		"start": "remix-serve ./build/index.js",
 		"dev:electron": "nodemon .",
 		"start:electron": "electron .",

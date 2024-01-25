@@ -18,7 +18,7 @@ import { Effect, pipe } from "effect"
 import { useEffect } from "react"
 import { graphql } from "./gql"
 import { Remix } from "./lib/Remix"
-import tailwindcss from "./tailwind.css"
+import tailwindcss from "./tailwind.css?url"
 
 // export const clientLoader = (async (args) => {
 // 	return pipe(
@@ -36,7 +36,7 @@ import { SpeedInsights } from "@vercel/speed-insights/remix"
 export const links: LinksFunction = () => {
 	return [{ rel: "stylesheet", href: tailwindcss }]
 }
-export const config = { runtime: "edge" }
+
 
 const ViewerQuery = graphql(`
 	query ViewerQuery {
