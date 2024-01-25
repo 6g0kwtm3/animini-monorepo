@@ -13,11 +13,25 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import type { LoaderFunction } from "@remix-run/node"
 
+import { Analytics } from '@vercel/analytics/react'
 import { Effect, pipe } from "effect"
 import { useEffect } from "react"
 import { graphql } from "./gql"
 import { Remix } from "./lib/Remix"
 import "./tailwind.css"
+
+// export const clientLoader = (async (args) => {
+// 	return pipe(
+// 		_loader,
+//
+
+// 		Effect.provide(ClientLoaderLive),
+// 		Effect.provideService(LoaderArgs, args),
+
+// 		Remix.runLoader
+// 	)
+// }) satisfies ClientLoaderFunction
+import { SpeedInsights } from "@vercel/speed-insights/remix"
 
 const ViewerQuery = graphql(`
 	query ViewerQuery {
@@ -48,19 +62,6 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
-
-// export const clientLoader = (async (args) => {
-// 	return pipe(
-// 		_loader,
-//
-
-// 		Effect.provide(ClientLoaderLive),
-// 		Effect.provideService(LoaderArgs, args),
-
-// 		Remix.runLoader
-// 	)
-// }) satisfies ClientLoaderFunction
-import { SpeedInsights } from "@vercel/speed-insights/remix"
 
 export default function App() {
 	const revalidator = useRevalidator()
@@ -101,6 +102,7 @@ export default function App() {
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
+				<Analytics />
 				<SpeedInsights></SpeedInsights>
 			</body>
 		</html>
