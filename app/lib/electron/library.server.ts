@@ -1,6 +1,6 @@
 import type { AnitomyResult } from "anitomy"
 
-import { electron, anitomy, path } from "./electron.server"
+import { anitomy, electron, path } from "./electron.server"
 
 import chokidar from "chokidar"
 
@@ -8,9 +8,7 @@ import { Effect, Option, Predicate, pipe } from "effect"
 
 let library: Record<string, AnitomyResult> = {}
 
-const IS_ELECTRON = !Predicate.isString(electron)
-
-if (IS_ELECTRON) {
+if (electron && !Predicate.isString(electron)) {
 	const watcher = chokidar.watch(
 		path.resolve(electron.app.getPath("downloads"), "**", "*.mkv"),
 		{
