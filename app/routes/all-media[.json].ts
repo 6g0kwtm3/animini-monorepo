@@ -9,6 +9,10 @@ const Page = Schema.struct({
 	media: Schema.nullable(Schema.array(Schema.nullable(Media)))
 })
 
+export const config = {
+	runtime: "nodejs"
+}
+
 export const loader = (async (args) => {
 	return pipe(
 		Effect.gen(function* (_) {
@@ -55,15 +59,13 @@ export const loader = (async (args) => {
 				)
 			)
 
-			return media.flat()
-		}),
-		Effect.map((data) =>
-			json(data, {
+			return json(media.flat(), {
 				headers: {
-					"Cache-Control": "max-age=86400, s-maxage=86400, public"
+					"Cache-Control": `max-age=${24 * 60 * 60}, s-maxage=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, public`
 				}
 			})
-		),
+		}),
+
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Effect.runPromise

@@ -36,6 +36,7 @@ import { SpeedInsights } from "@vercel/speed-insights/remix"
 export const links: LinksFunction = () => {
 	return [{ rel: "stylesheet", href: tailwindcss }]
 }
+export const config = { runtime: 'edge' };
 
 const ViewerQuery = graphql(`
 	query ViewerQuery {

@@ -59,7 +59,7 @@ export const loader = (async (args) => {
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=60, s-maxage=60, public"
+					"Cache-Control": `max-age=${24 * 60 * 60}, s-maxage=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, public`
 				}
 			})
 		),

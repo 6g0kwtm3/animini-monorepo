@@ -113,8 +113,6 @@ export const loader = (async (args) => {
 export default function Filters() {
 	const [searchParams] = useSearchParams()
 
-	console.log({ matches: useMatches() })
-
 	const data = useRawLoaderData<typeof loader>()
 	const params = useParams()
 
