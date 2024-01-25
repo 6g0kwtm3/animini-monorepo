@@ -11,14 +11,14 @@ import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "./lib/urql"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
-import type { LoaderFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunction } from "@remix-run/node"
 
 import { Analytics } from "@vercel/analytics/react"
 import { Effect, pipe } from "effect"
 import { useEffect } from "react"
 import { graphql } from "./gql"
 import { Remix } from "./lib/Remix"
-import "./tailwind.css"
+import tailwindcss from "./tailwind.css"
 
 // export const clientLoader = (async (args) => {
 // 	return pipe(
@@ -32,6 +32,10 @@ import "./tailwind.css"
 // 	)
 // }) satisfies ClientLoaderFunction
 import { SpeedInsights } from "@vercel/speed-insights/remix"
+
+export const links: LinksFunction = () => {
+	return [{ rel: "stylesheet", href: tailwindcss }]
+}
 
 const ViewerQuery = graphql(`
 	query ViewerQuery {

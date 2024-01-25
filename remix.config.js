@@ -1,7 +1,7 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 export default {
-	ignoredRouteFiles: ["**/.*"]
-
+	ignoredRouteFiles: ["**/.*"],
+	dev: { port: 8002 }
 	// appDirectory: "app",
 	// assetsBuildDirectory: "public/build",
 	// publicPath: "/build/",

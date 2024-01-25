@@ -1,5 +1,6 @@
 /// <reference types="@remix-run/node" />
-/// <reference types="vite/client" />
+/// <reference types="@remix-run/dev" />
+// / <reference types="vite/client" />
 
 declare module "react" {
 	interface CSSProperties {
@@ -7,4 +8,5 @@ declare module "react" {
 	}
 }
 
-export {}
+export { }
+

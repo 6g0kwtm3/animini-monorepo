@@ -37,7 +37,8 @@ module.exports = {
 					"loader",
 					"action",
 					"clientAction",
-					"clientLoader"
+					"clientLoader",
+					"config"
 				]
 			}
 		]
