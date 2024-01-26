@@ -147,16 +147,6 @@ export function Search() {
 							ref={ref}
 							placeholder="Search anime or manga"
 							onChange={(e) => submit.submit(e.currentTarget.form, {})}
-							onKeyDown={(event) => {
-								if (
-									event.key === "Escape" &&
-									event.currentTarget.value === ""
-								) {
-									setShow(false)
-								} else {
-									event.stopPropagation()
-								}
-							}}
 							type="search"
 							name={store.names.q}
 						/>
