@@ -59,140 +59,47 @@ import { Remix } from "~/lib/Remix"
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
 
-	const submission = parse(formData, {
-		resolve(payload) {
-			return {
-				value: {
-					...payload,
-					status: Object.entries(OPTIONS).find(
-						([, value]) => value === formData.get("status")
-					)?.[0],
-					completedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-						formData.get("completedAt") || null
-					),
-					startedAt: S.parseSync(S.nullable(FuzzyDateInput))(
-						formData.get("startedAt") || null
-					)
-				}
-			}
-		}
-	})
-
-	console.log(submission)
-
-	// const submission = SaveVariables(formData)
-
-	if (submission.intent !== "submit" || !submission.value) {
-		return submission
-	}
-
-	console.log("request")
-	const result = await getClient(request).mutation(Save, submission.value)
-
-	console.log(result)
-
-	if (!result.error) {
-		throw redirect("..")
-	}
-
-	if (result.error.networkError) {
-	}
-
-	const errorEntries =
-		result.error.graphQLErrors
-			.flatMap((error) => {
-				return Predicate.isReadonlyRecord(error.originalError) &&
-					"validation" in error.originalError &&
-					Predicate.isReadonlyRecord(error.originalError["validation"])
-					? Object.entries(error.originalError["validation"])
-					: []
-			})
-			.flatMap(([key, value]) =>
-				(Array.isArray(value) ? value : [value]).flatMap((value) =>
-					Predicate.isString(value) ? [[key, value] as const] : []
-				)
-			) ?? []
-
-	const errorKeys = Object.fromEntries(
-		errorEntries.map(([key, value]) => [value, key])
-	)
-
-	const error = ReadonlyArray.groupBy(
-		errorEntries.map(([, value]) => value),
-		(value) => errorKeys[value] ?? "undefined"
-	)
-
-	return { ...submission, error }
-
-	return submission
+return null
 }) satisfies ActionFunction
 
-function avg(nums: number[]) {
-	return pipe(
-		sumAll(nums) / nums.length,
-		Option.some,
-		Option.filter(Number.isFinite),
-		Option.getOrElse(() => 0)
-	)
-}
 
 const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 	S.transform(
 		S.string,
 		S.string,
-		(s) => s.replace(new RegExp(`^${fillString}{0,${maxLength}}`), ""),
-		(s) => s.padStart(maxLength, fillString)
+		(s: string) => s.replace(new RegExp(`^${fillString}{0,${maxLength}}`), ""),
+		(s: string) => s.padStart(maxLength, fillString)
 	)
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
 		Effect.map((data) =>
-			Predicate.isNotNull(data?.Viewer) ? data : redirect("..")
+			Predicate.isNotNull(data?.Viewer)
+				? json(data, {
+						headers: {
+							"Cache-Control": "max-age=60, private"
+						}
+					})
+				: redirect("..")
 		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-
-		Effect.map((data) =>
-			json(data, {
-				headers: {
-					"Cache-Control": "max-age=60, private"
-				}
-			})
-		),
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
 
-// export const clientLoader = (async (args) => {
-// 	return pipe(
-// 		_loader,
-// 		Effect.map((data) =>
-// 			Predicate.isNotNull(data?.Viewer) ? (data) : redirect("..")
-// 		),
-// 		Effect.provide(ClientLoaderLive),
-// 		Effect.provideService(LoaderArgs, args),
-
-// 		Effect.map((data) =>
-// 			json(data, {
-// 				headers: {
-// 					"Cache-Control": "max-age=60, private"
-// 				}
-// 			})
-// 		),
-// 		Remix.runLoader
-// 	)
-// }) satisfies ClientLoaderFunction
+ 
 
 const FuzzyDateInput = S.compose(
 	S.compose(
 		S.compose(
-			S.split(S.string, "-"),
+			S.split("-"),
 			S.tuple(
 				S.nullable(UnpadStart(4, "0")),
 				S.nullable(UnpadStart(2, "0")),
 				S.nullable(UnpadStart(2, "0"))
-			)
+			),
 		),
 		S.tuple(
 			S.nullable(S.NumberFromString),
@@ -351,13 +258,13 @@ export default function Page() {
 	const busy = navigation.state === "submitting"
 
 	const advancedScores = pipe(
-		Option.fromNullable(data.Media?.mediaListEntry?.advancedScores),
+		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
 		Option.filter(Predicate.isReadonlyRecord)
 	)
 
 	const defaultAdvancedScores =
 		pipe(
-			data.Viewer?.mediaListOptions?.animeList?.advancedScoring
+			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
 				?.filter(nonNull)
 				.map((category) =>
 					pipe(
@@ -376,7 +283,7 @@ export default function Page() {
 			advancedScores: defaultAdvancedScores,
 			completedAt: pipe(
 				S.decodeUnknownOption(FuzzyDateLift)(
-					data.Media?.mediaListEntry?.completedAt
+					data?.Media?.mediaListEntry?.completedAt
 				),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
@@ -384,23 +291,23 @@ export default function Page() {
 			),
 			startedAt: pipe(
 				S.decodeUnknownOption(FuzzyDateLift)(
-					data.Media?.mediaListEntry?.startedAt
+					data?.Media?.mediaListEntry?.startedAt
 				),
 				Option.flatMap(Option.all),
 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
 				Option.getOrElse(() => "")
 			),
-			notes: data.Media?.mediaListEntry?.notes ?? "",
-			progress: data.Media?.mediaListEntry?.progress || 0,
-			repeat: data.Media?.mediaListEntry?.repeat || 0,
-			score: data.Media?.mediaListEntry?.score || 0,
+			notes: data?.Media?.mediaListEntry?.notes ?? "",
+			progress: data?.Media?.mediaListEntry?.progress || 0,
+			repeat: data?.Media?.mediaListEntry?.repeat || 0,
+			score: data?.Media?.mediaListEntry?.score || 0,
 			status: pipe(
-				Option.fromNullable(data.Media?.mediaListEntry?.status),
+				Option.fromNullable(data?.Media?.mediaListEntry?.status),
 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
 				Option.getOrElse(() => OPTIONS[MediaListStatus.Current])
 			),
 			customLists: pipe(
-				Option.fromNullable(data.Media?.mediaListEntry?.customLists),
+				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
 				Option.filter(Predicate.isReadonlyRecord),
 				Option.getOrElse(ReadonlyRecord.empty),
 				ReadonlyRecord.filter((key) => !!key),
@@ -434,9 +341,9 @@ export default function Page() {
 	}
 
 	const listOptions =
-		data.Media?.type === "MANGA"
-			? data.Viewer?.mediaListOptions?.mangaList
-			: data.Viewer?.mediaListOptions?.animeList
+		data?.Media?.type === "MANGA"
+			? data?.Viewer?.mediaListOptions?.mangaList
+			: data?.Viewer?.mediaListOptions?.animeList
 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
 	return (
@@ -472,14 +379,14 @@ export default function Page() {
 						</header>
 						<div className={body()}>
 							<div className="grid gap-2">
-								<input type="hidden" name="mediaId" value={data.Media?.id} />
+								<input type="hidden" name="mediaId" value={data?.Media?.id} />
 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
 									<Status name={store.names.status}></Status>
 									<Score name={store.names.score}></Score>
 
 									<Progress
 										name={store.names.progress}
-										media={data.Media}
+										media={data?.Media}
 									></Progress>
 									<StartDate name={store.names.startedAt} />
 									<FinishDate name={store.names.completedAt} />
@@ -488,7 +395,7 @@ export default function Page() {
 								<Notes name={store.names.notes}></Notes>
 
 								<AdvancedScores advancedScoring={listOptions}>
-									{data.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
+									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
 										(label, i) => {
 											const name = store.names.advancedScores[i]
 											return name ? (
@@ -504,7 +411,7 @@ export default function Page() {
 								</AdvancedScores>
 
 								<CustomLists
-									field={store.names.customLists}
+									name={store.names.customLists}
 									listOptions={listOptions}
 								></CustomLists>
 
@@ -598,9 +505,9 @@ function Progress({
 			<TextFieldOutlined.Label name={props.name}>
 				Episode Progress
 			</TextFieldOutlined.Label>
-			{data && Predicate.isNumber(data.episodes) ? (
+			{data && Predicate.isNumber(data?.episodes) ? (
 				<TextFieldOutlined.Suffix className="pointer-events-none">
-					/{data.episodes}
+					/{data?.episodes}
 				</TextFieldOutlined.Suffix>
 			) : null}
 		</TextFieldOutlined>
@@ -643,6 +550,7 @@ function Notes(
 				e.currentTarget.style.height = ""
 				e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
 			}}
+			className="[field-sizing:content]"
 			label="Notes"
 		/>
 	)
@@ -667,7 +575,7 @@ function AdvancedScores({
 		return null
 	}
 
-	if (!data.advancedScoring?.length) {
+	if (!data?.advancedScoring?.length) {
 		return null
 	}
 
@@ -700,13 +608,14 @@ const CustomLists_mediaListTypeOptions = graphql(`
 `)
 
 function CustomLists({
+	listOptions,
 	...props
 }: {
 	listOptions: FragmentType<typeof CustomLists_mediaListTypeOptions> | null
 }) {
 	const mediaListTypeOptions = useFragment(
 		CustomLists_mediaListTypeOptions,
-		props.listOptions
+		listOptions
 	)
 
 	const customLists = mediaListTypeOptions?.customLists?.filter(nonNull) ?? []
@@ -719,7 +628,7 @@ function CustomLists({
 		<fieldset className="grid gap-2">
 			<legend>Custom Lists</legend>
 			<div className="flex flex-wrap gap-2">
-				{customLists.map((list) => {
+				{customLists.map((list, i) => {
 					return (
 						<ChipFilter {...props} key={list}>
 							{list}

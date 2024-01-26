@@ -17,6 +17,13 @@ import {
 
 import type { loader as rootLoader } from "~/root"
 
+import {
+	NavigationBar,
+	NavigationBarItem,
+	NavigationBarItemIcon,
+	NavigationItemLargeBadge
+} from "~/components/NavigationBar"
+
 const _loader = pipe(
 	Effect.Do,
 	Effect.bind("args", () => ClientArgs),
@@ -54,18 +61,18 @@ export default function Nav() {
 
 	return (
 		<>
-			<nav className="flex gap-2 px-2 py-1">
+			<nav className="flex flex-wrap gap-2 px-2 py-1">
 				{data?.Viewer ? (
 					<>
 						<Link
-							prefetch="viewport"
+							prefetch="intent"
 							to={`/${data.Viewer.name}/animelist/`}
 							className={button()}
 						>
 							Anime List
 						</Link>
 						<Link
-							prefetch="viewport"
+							prefetch="intent"
 							to={`/${data.Viewer.name}/mangalist/`}
 							className={button()}
 						>
@@ -93,11 +100,34 @@ export default function Nav() {
 					</>
 				)}
 
-				<div className="ml-auto">
+				<div className="self-end">
 					<Search></Search>
 				</div>
 			</nav>
-			<Outlet></Outlet>
+			<main className="flex-1">
+				<Outlet></Outlet>
+			</main>
+
+			{data?.Viewer && (
+				<NavigationBar>
+					<NavigationBarItem to="/">
+						<NavigationBarItemIcon>feed</NavigationBarItemIcon>
+						Feed
+					</NavigationBarItem>
+					<NavigationBarItem
+						prefetch="intent"
+						to={`/${data.Viewer.name}/animelist/`}
+					>
+						<NavigationBarItemIcon>person</NavigationBarItemIcon>
+						Profile
+					</NavigationBarItem>
+					<NavigationBarItem to="/notifications">
+						<NavigationBarItemIcon>notifications</NavigationBarItemIcon>
+						<NavigationItemLargeBadge>7</NavigationItemLargeBadge>
+						Notifications
+					</NavigationBarItem>
+				</NavigationBar>
+			)}
 		</>
 	)
 }

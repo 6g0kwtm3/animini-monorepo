@@ -26,7 +26,7 @@ export default withTV({
 			sm: "0.5rem",
 			md: "0.75rem",
 			DEFAULT: "0.75rem",
-			l: "1rem",
+			lg: "1rem",
 			xl: "1.75rem",
 			full: "9999px",
 			inherit: "inherit"
@@ -332,9 +332,10 @@ export default withTV({
 					"-webkit-font-smoothing": "antialiased",
 					"font-size": "1.5rem",
 					"--grad": "0",
+					"--fill": "0",
 					"--opsz": "24",
 					"font-variation-settings": `
-          'FILL' 0,
+          'FILL' var(--fill),
           'wght' 400,
           'GRAD' var(--grad),
           'opsz' var(--opsz)`
@@ -351,6 +352,9 @@ export default withTV({
 					"vertical-align": "-11.5%",
 					"line-height": "inherit",
 					"font-weight": "inherit"
+				},
+				".i-fill": {
+					"--fill": "1"
 				}
 			})
 		})

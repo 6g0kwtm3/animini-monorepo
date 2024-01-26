@@ -141,8 +141,6 @@ const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 			return yield* _(new Timeout({ reset: timeout }))
 		}
 
-		console.log("request")
-
 		const response = yield* _(
 			Effect.promise((signal) =>
 				fetch(API_URL, {
@@ -160,7 +158,10 @@ const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 		timeout = Math.max(
 			timeout,
 			pipe(
-				Option.fromNullable(response.headers.get("X-RateLimit-Reset")),
+				Option.fromNullable(response.headers.get("Retry-After")),
+				Option.orElse(() =>
+					Option.fromNullable(response.headers.get("X-RateLimit-Reset"))
+				),
 				Option.map(parseInt),
 				Option.filter(isFinite),
 				Option.getOrElse(() => 0)
@@ -173,7 +174,7 @@ const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 			console.error(errors)
 		}
 
-		if (errors?.some((error) => error.status === 429)) {
+		if (errors?.length) {
 			return yield* _(new Timeout({ reset: -1 }))
 		}
 
@@ -183,7 +184,7 @@ const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 
 let timeout = 0
 
-const UrqlLive = Layer.effect(
+export const UrqlLive = Layer.effect(
 	EffectUrql,
 	Effect.map(Effect.serviceOption(LoaderArgs), (args) => {
 		const request = Option.getOrNull(args)?.request
@@ -327,7 +328,7 @@ export type EmptyObject = {
 	[emptyObjectSymbol]?: never
 }
 type IsAny<T> = 0 extends 1 & T ? true : false
-export {}
+export { }
 
 export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>

@@ -1,26 +1,32 @@
 import * as Ariakit from "@ariakit/react"
 import {
+	Await,
 	Link,
 	useFetcher,
 	useLocation,
+	useRouteLoaderData,
 	useSearchParams
 } from "@remix-run/react"
 import { nonNull } from "../urql"
 
-import type { ComponentPropsWithoutRef, ElementRef } from "react"
-import { forwardRef, useEffect, useRef, useState } from "react"
+import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
+import { Suspense, forwardRef, useEffect, useRef, useState } from "react"
 import { ButtonIcon, ButtonText } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { dialog } from "../dialog"
 
-import { tv } from "tailwind-variants"
-import List from "~/components/List"
+import { ReadonlyArray } from "effect"
+import { createTV } from "tailwind-variants"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
+import type { FragmentType } from "~/gql"
+import { graphql, useFragment } from "~/gql"
 import { list } from "../list"
+
+const tv = createTV({ twMerge: false })
 
 const { backdrop, body } = dialog({})
 
@@ -54,19 +60,75 @@ const { input: search, container: root } = searchView({
 	variant: { initial: "fullscreen", sm: "docked" }
 })
 
-const SearchInput = forwardRef<
-	HTMLInputElement,
-	ComponentPropsWithoutRef<typeof Ariakit.FormInput>
->(function SearchInput(props, ref) {
+export interface SelectProps extends Ariakit.ComboboxProps {
+	value?: string
+	setValue?: (value: string) => void
+	defaultValue?: string
+	onBlur?: React.FocusEventHandler<HTMLElement>
+}
+
+const Select = forwardRef<HTMLInputElement, SelectProps>(function Select(
+	this: Function,
+	{ children, value, setValue, defaultValue, ...props },
+	ref
+) {
+	const store = Ariakit.useComboboxContext()
+
+	if (!store)
+		throw new Error(`${this.name} must be wrapped in ComboboxProvider`)
+
+	// const storeValue = store.useState("value")
+
+	// useEffect(() => {
+	// 	if (storeValue !== value) {
+	// 		setValue?.(storeValue)
+	// 		store.setValue(value)
+	// 	}
+	// }, [setValue, store, storeValue, value])
+
+	const onBlur = (event: FocusEvent<HTMLElement>) => {
+		const { popoverElement } = store.getState()
+		if (popoverElement?.contains(event.relatedTarget)) return
+		props.onBlur?.(event)
+	}
+
 	return (
-		<Ariakit.FormInput
-			placeholder="Search"
+		<Ariakit.Combobox
+			autoSelect
 			ref={ref}
-			results={5}
 			{...props}
-			type="search"
+			store={store}
+			onBlur={onBlur}
 			className={search({ className: props.className })}
 		/>
+	)
+})
+
+const SearchInput = forwardRef<
+	HTMLInputElement,
+	ComponentPropsWithoutRef<typeof Select> & {
+		name: string
+	}
+>(function SearchInput(this: Function, { name, ...props }, ref) {
+	const form = Ariakit.useFormContext()
+	if (!form) throw new Error(`${this.name} must be used within a Form`)
+
+	const value = form.useValue(name)
+
+	const select = (
+		<Select
+			placeholder="Search"
+			ref={ref}
+			value={value}
+			setValue={(value) => form.setValue(name, value)}
+			{...props}
+		/>
+	)
+
+	return (
+		<>
+			<Ariakit.FormControl name={name} render={select} />
+		</>
 	)
 })
 
@@ -104,14 +166,15 @@ export function Search() {
 		return () => window.removeEventListener("keydown", listener)
 	}, [])
 
-	const found = submit.data?.Page?.media?.filter(nonNull)
+	const media = submit.data?.page?.media?.filter(nonNull) ?? []
+
+	const rootData = useRouteLoaderData("root")
+
 	return (
 		<>
 			<TooltipPlain>
 				<TooltipPlainTrigger
-					onClick={() => {
-						setShow(true)
-					}}
+					onClick={() => setShow(true)}
 					render={<ButtonText></ButtonText>}
 				>
 					<ButtonText.Icon>search</ButtonText.Icon>
@@ -131,84 +194,150 @@ export function Search() {
 				initialFocus={ref}
 				backdrop={<div className={backdrop()} />}
 			>
-				<div className={"flex w-full flex-col"}>
-					<Ariakit.Form
-						store={store}
-						render={<submit.Form action="/search"></submit.Form>}
-						className="flex items-center"
+				<Ariakit.Form
+					store={store}
+					render={<submit.Form action="/search"></submit.Form>}
+					className={"flex w-full flex-col"}
+				>
+					<Ariakit.ComboboxProvider
+						
+						focusLoop={false}
+						includesBaseElement={false}
+						resetValueOnHide={true}
 					>
-						<Ariakit.DialogDismiss
-							render={<ButtonIcon className="-me-2 ms-2 h-10" />}
-						>
-							arrow_back
-						</Ariakit.DialogDismiss>
+						<div className="flex items-center">
+							<Ariakit.DialogDismiss
+								render={<ButtonIcon className="-me-2 ms-2 h-10" />}
+							>
+								arrow_back
+							</Ariakit.DialogDismiss>
 
-						<SearchInput
-							ref={ref}
-							placeholder="Search anime or manga"
-							onChange={(e) => submit.submit(e.currentTarget.form, {})}
-							type="search"
-							name={store.names.q}
-						/>
-					</Ariakit.Form>
-					<div className="border-b border-outline-variant sm:last:hidden"></div>
-					{(found?.length ?? 0) > 0 && (
-						<>
-							<div className={body({})}>
-								<List className="-mx-6">
-									{submit.data?.Page?.media?.filter(nonNull).map((media) => (
-										<li
-											key={media.id}
-											className="col-span-full grid grid-cols-subgrid"
-										>
-											<Link
-												prefetch="intent"
-												to={`/media/${media.id}/`}
-												className={item({ className: "items-center" })}
-											>
-												{media.coverImage?.extraLarge ? (
-													<div className="col-start-1 flex h-10 w-10">
-														<img
-															src={media.coverImage.extraLarge}
-															alt=""
-															className="h-10 w-10 rounded-full bg-[image:--bg] bg-cover object-cover"
-															style={{
-																"--bg": `url(${media.coverImage.medium})`
-															}}
-															loading="lazy"
-														/>
-													</div>
-												) : (
-													<div className="col-start-1 flex h-10 w-10 items-center justify-center rounded-full bg-error">
-														<div className="i text-on-error">error</div>
-													</div>
-												)}
-												<div className="col-span-2 col-start-2">
-													<div
-														className="line-clamp-1 text-body-lg text-on-surface"
-														dangerouslySetInnerHTML={{
-															__html:
-																media.title?.userPreferred ??
-																media.title?.romaji
-														}}
-													>
-														{}
-													</div>
-													<div className="text-body-md text-on-surface-variant">
-														{media.type?.toLowerCase()}
-													</div>
-												</div>
-											</Link>
-										</li>
+							<SearchInput
+								ref={ref}
+								placeholder="Search anime or manga"
+								onChange={(e) => submit.submit(e.currentTarget.form, {})}
+				
+								name={store.names.q}
+							/>
+							<Ariakit.ComboboxCancel
+								render={<ButtonIcon className="-ms-2 me-2 h-10" />}
+							/>
+						</div>
+						<div className="border-b border-outline-variant sm:last:hidden"></div>
+
+						{ReadonlyArray.isNonEmptyArray(media) ? (
+							<Ariakit.ComboboxList className={body({})}>
+								<Ariakit.ComboboxGroup
+									className={listRoot({ className: "-mx-6" })}
+								>
+									<Ariakit.ComboboxGroupLabel
+										className={item({
+											className: "-mt-2 force:hover:state-none"
+										})}
+									>
+										<div className="text-body-md text-on-surface-variant col-span-full">
+											Results
+										</div>
+									</Ariakit.ComboboxGroupLabel>
+									{media.map((media) => (
+										<SearchItem media={media} key={media.id}></SearchItem>
 									))}
-								</List>
-							</div>
-						</>
-					)}
-				</div>
+								</Ariakit.ComboboxGroup>
+							</Ariakit.ComboboxList>
+						) : rootData.trending ? (
+							<Suspense fallback="">
+								<Await resolve={rootData.trending}>
+									{(trending) =>
+										ReadonlyArray.isNonEmptyArray(trending.media) && (
+											<Ariakit.ComboboxList className={body({})}>
+												<Ariakit.ComboboxGroup
+													className={listRoot({ className: "-mx-6" })}
+												>
+													<Ariakit.ComboboxGroupLabel
+														className={item({
+															className: "-mt-2 force:hover:state-none"
+														})}
+													>
+														<div className="text-body-md text-on-surface-variant col-span-full">
+															Trending
+														</div>
+													</Ariakit.ComboboxGroupLabel>
+													{trending.media.map((media) => (
+														<SearchItem
+															media={media}
+															key={media.id}
+														></SearchItem>
+													))}
+												</Ariakit.ComboboxGroup>
+											</Ariakit.ComboboxList>
+										)
+									}
+								</Await>
+							</Suspense>
+						) : null}
+					</Ariakit.ComboboxProvider>
+				</Ariakit.Form>
 			</Ariakit.Dialog>
 		</>
 	)
 }
 
-const { item } = list()
+const { item, root: listRoot } = list()
+
+const SearchItem_media = graphql(`
+	fragment SearchItem_media on Media {
+		id
+		type
+		coverImage {
+			medium
+			extraLarge
+		}
+		title {
+			userPreferred
+		}
+	}
+`)
+
+function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
+	const media = useFragment(SearchItem_media, props.media)
+
+	return (
+		<Ariakit.ComboboxItem
+			key={media.id}
+			className={item({})}
+			hideOnClick
+			focusOnHover
+			blurOnHoverEnd={false}
+			render={<Link to={`/media/${media.id}/`} title={media.title?.romaji} />}
+		>
+			{media.coverImage?.extraLarge ? (
+				<div className="col-start-1 flex h-10 w-10">
+					<img
+						src={media.coverImage.extraLarge}
+						alt=""
+						className="h-10 w-10 rounded-full bg-[image:--bg] bg-cover object-cover"
+						style={{
+							"--bg": `url(${media.coverImage.medium})`
+						}}
+						loading="lazy"
+					/>
+				</div>
+			) : (
+				<div className="col-start-1 flex h-10 w-10 items-center justify-center rounded-full bg-error">
+					<div className="i text-on-error">error</div>
+				</div>
+			)}
+			<div className="col-start-2">
+				<div
+					className="line-clamp-1 text-body-lg text-on-surface"
+					dangerouslySetInnerHTML={{
+						__html: media.title?.userPreferred ?? media.title?.romaji
+					}}
+				></div>
+			</div>
+			<div className="text-end text-label-sm text-on-surface-variant">
+				{media.type?.toLowerCase()}
+			</div>
+		</Ariakit.ComboboxItem>
+	)
+}

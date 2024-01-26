@@ -1,5 +1,6 @@
-import { tv } from "tailwind-variants"
+import { createTV } from "tailwind-variants"
 
+const tv = createTV({ twMerge: false })
 export const menu = tv({
 	slots: {
 		root: "flex flex-col overflow-auto overscroll-contain rounded-xs bg-surface-container py-2 text-label-lg text-on-surface elevation-2",

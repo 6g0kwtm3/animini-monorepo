@@ -37,7 +37,6 @@ export const links: LinksFunction = () => {
 	return [{ rel: "stylesheet", href: tailwindcss }]
 }
 
-
 const ViewerQuery = graphql(`
 	query ViewerQuery {
 		Viewer {
@@ -45,6 +44,12 @@ const ViewerQuery = graphql(`
 			name
 			mediaListOptions {
 				scoreFormat
+			}
+		}
+		trending: Page(perPage: 10) {
+			media(sort: [TRENDING_DESC]) {
+				id
+				...SearchItem_media
 			}
 		}
 	}
@@ -100,7 +105,7 @@ export default function App() {
 				<Meta />
 				<Links />
 			</head>
-			<body>
+			<body className="min-h-[100dvh] flex flex-col">
 				<SnackbarQueue>
 					<Outlet />
 				</SnackbarQueue>
