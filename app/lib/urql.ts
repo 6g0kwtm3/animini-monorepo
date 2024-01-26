@@ -328,7 +328,7 @@ export type EmptyObject = {
 	[emptyObjectSymbol]?: never
 }
 type IsAny<T> = 0 extends 1 & T ? true : false
-export { }
+export {}
 
 export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>

@@ -105,7 +105,7 @@ export default function App() {
 				<Meta />
 				<Links />
 			</head>
-			<body className="min-h-[100dvh] flex flex-col">
+			<body className="flex min-h-[100dvh] flex-col">
 				<SnackbarQueue>
 					<Outlet />
 				</SnackbarQueue>

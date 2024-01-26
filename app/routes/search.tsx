@@ -75,4 +75,3 @@ export async function clientLoader(args: ClientLoaderFunctionArgs) {
 
 	return pipe(fork, Fiber.join, Effect.runPromise)
 }
-

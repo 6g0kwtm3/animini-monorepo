@@ -200,7 +200,6 @@ export function Search() {
 					className={"flex w-full flex-col"}
 				>
 					<Ariakit.ComboboxProvider
-						
 						focusLoop={false}
 						includesBaseElement={false}
 						resetValueOnHide={true}
@@ -216,7 +215,6 @@ export function Search() {
 								ref={ref}
 								placeholder="Search anime or manga"
 								onChange={(e) => submit.submit(e.currentTarget.form, {})}
-				
 								name={store.names.q}
 							/>
 							<Ariakit.ComboboxCancel
@@ -235,7 +233,7 @@ export function Search() {
 											className: "-mt-2 force:hover:state-none"
 										})}
 									>
-										<div className="text-body-md text-on-surface-variant col-span-full">
+										<div className="col-span-full text-body-md text-on-surface-variant">
 											Results
 										</div>
 									</Ariakit.ComboboxGroupLabel>
@@ -258,7 +256,7 @@ export function Search() {
 															className: "-mt-2 force:hover:state-none"
 														})}
 													>
-														<div className="text-body-md text-on-surface-variant col-span-full">
+														<div className="col-span-full text-body-md text-on-surface-variant">
 															Trending
 														</div>
 													</Ariakit.ComboboxGroupLabel>

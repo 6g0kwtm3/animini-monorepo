@@ -59,9 +59,8 @@ import { Remix } from "~/lib/Remix"
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
 
-return null
+	return null
 }) satisfies ActionFunction
-
 
 const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 	S.transform(
@@ -89,8 +88,6 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
- 
-
 const FuzzyDateInput = S.compose(
 	S.compose(
 		S.compose(
@@ -99,7 +96,7 @@ const FuzzyDateInput = S.compose(
 				S.nullable(UnpadStart(4, "0")),
 				S.nullable(UnpadStart(2, "0")),
 				S.nullable(UnpadStart(2, "0"))
-			),
+			)
 		),
 		S.tuple(
 			S.nullable(S.NumberFromString),
