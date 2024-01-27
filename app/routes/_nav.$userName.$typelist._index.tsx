@@ -12,12 +12,12 @@ import { button } from "~/lib/button"
 import { ListItem } from "~/lib/entry/ListItem"
 import type { InferVariables } from "~/lib/urql"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	nonNull,
-	useRawLoaderData
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+    nonNull,
+    useRawLoaderData
 } from "~/lib/urql"
 
 const ListsQuery = graphql(`
@@ -166,7 +166,7 @@ export default function Page() {
 	)
 
 	return (
-		<main className="flex flex-col gap-4 p-2">
+		<div className="flex flex-col gap-4 p-2">
 			<h1 className="text-balance text-headline-lg">
 				{data.MediaListCollection.user?.name}
 			</h1>
@@ -200,6 +200,6 @@ export default function Page() {
 					)
 				})}
 			</ul>
-		</main>
+		</div>
 	)
 }

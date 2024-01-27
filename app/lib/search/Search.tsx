@@ -26,6 +26,8 @@ import type { FragmentType } from "~/gql"
 import { graphql, useFragment } from "~/gql"
 import { list } from "../list"
 
+import type { loader as navLoader } from "~/routes/_nav"
+
 const tv = createTV({ twMerge: false })
 
 const { backdrop, body } = dialog({})
@@ -168,7 +170,7 @@ export function Search() {
 
 	const media = submit.data?.page?.media?.filter(nonNull) ?? []
 
-	const rootData = useRouteLoaderData("root")
+	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
 	return (
 		<>
@@ -242,9 +244,9 @@ export function Search() {
 									))}
 								</Ariakit.ComboboxGroup>
 							</Ariakit.ComboboxList>
-						) : rootData.trending ? (
+						) : data?.trending ? (
 							<Suspense fallback="">
-								<Await resolve={rootData.trending}>
+								<Await resolve={data.trending} errorElement="">
 									{(trending) =>
 										ReadonlyArray.isNonEmptyArray(trending.media) && (
 											<Ariakit.ComboboxList className={body({})}>
@@ -326,12 +328,9 @@ function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 				</div>
 			)}
 			<div className="col-start-2">
-				<div
-					className="line-clamp-1 text-body-lg text-on-surface"
-					dangerouslySetInnerHTML={{
-						__html: media.title?.userPreferred ?? media.title?.romaji
-					}}
-				></div>
+				<div className="line-clamp-1 text-body-lg text-on-surface">
+					{media.title?.userPreferred}
+				</div>
 			</div>
 			<div className="text-end text-label-sm text-on-surface-variant">
 				{media.type?.toLowerCase()}

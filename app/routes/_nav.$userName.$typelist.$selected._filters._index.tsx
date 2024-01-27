@@ -1,33 +1,33 @@
 import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import {
-	isRouteErrorResponse,
-	json,
-	useParams,
-	useRouteError,
-	useSearchParams
+    isRouteErrorResponse,
+    json,
+    useParams,
+    useRouteError,
+    useSearchParams
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
 // import { graphql, useFragment as readFragment } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	nonNull,
-	useRawLoaderData,
-	type InferVariables
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+    nonNull,
+    useRawLoaderData,
+    type InferVariables
 } from "~/lib/urql"
 
 import {
-	Effect,
-	Option,
-	Order,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
+    Effect,
+    Option,
+    Order,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 import { graphql, useFragment as readFragment, type FragmentType } from "~/gql"
@@ -233,13 +233,13 @@ export default function Page() {
 	const selected = params["selected"]
 
 	return (
-		<main className=" ">
+		<div className=" ">
 			<div className={` `}>
 				<Library.Provider value={data.Library}>
 					<MediaList item={data.SelectedList}></MediaList>
 				</Library.Provider>
 			</div>
-		</main>
+		</div>
 	)
 }
 

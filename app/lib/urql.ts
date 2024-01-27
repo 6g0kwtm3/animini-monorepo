@@ -37,6 +37,7 @@ import { Schema } from "@effect/schema"
 // Schema.transform()
 
 import type { DocumentNode } from "graphql"
+import { JsonToToken } from "./viewer"
 // Cache.make({
 // 	capacity: 256,
 // 	timeToLive: "60 minutes",
@@ -68,7 +69,7 @@ interface JSONArray extends Array<JSONValue> {}
 export type InferVariables<T> =
 	T extends TypedDocumentNode<any, infer V> ? V : never
 
-type Result<Data> = Effect.Effect<never, NetworkError, Data | undefined | null>
+type Result<Data> = Effect.Effect<never, NetworkError, Data | null>
 
 type Args<Data, Variables> = [
 	query: TypedDocumentNode<Data, Variables> | string,
@@ -171,14 +172,14 @@ const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 		const { data, errors } = yield* _(Effect.promise(() => response.json()))
 
 		if (errors?.length) {
-			console.error(errors)
+			console.log(errors)
 		}
 
-		if (errors?.length) {
-			return yield* _(new Timeout({ reset: -1 }))
-		}
+		// if (errors?.length) {
+		// 	return yield* _(new Timeout({ reset: -1 }))
+		// }
 
-		return data
+		return data ?? null
 	})
 })
 
@@ -189,10 +190,17 @@ export const UrqlLive = Layer.effect(
 	Effect.map(Effect.serviceOption(LoaderArgs), (args) => {
 		const request = Option.getOrNull(args)?.request
 
-		const { "anilist-token": token } = cookie.parse(
+		let { "anilist-token": token } = cookie.parse(
 			(!IS_SERVER ? globalThis.document.cookie : null) ??
 				request?.headers.get("Cookie") ??
 				""
+		)
+
+		token = pipe(
+			token,
+			Schema.decodeOption(JsonToToken),
+			Option.map(({ token }) => token),
+			Option.getOrUndefined
 		)
 
 		return EffectUrql.of({

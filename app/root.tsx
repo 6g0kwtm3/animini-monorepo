@@ -14,9 +14,8 @@ import { SnackbarQueue } from "./components/Snackbar"
 import type { LinksFunction, LoaderFunction } from "@remix-run/node"
 
 import { Analytics } from "@vercel/analytics/react"
-import { Effect, pipe } from "effect"
+import { Effect, Option, pipe } from "effect"
 import { useEffect } from "react"
-import { graphql } from "./gql"
 import { Remix } from "./lib/Remix"
 import tailwindcss from "./tailwind.css?url"
 
@@ -32,43 +31,26 @@ import tailwindcss from "./tailwind.css?url"
 // 	)
 // }) satisfies ClientLoaderFunction
 import { SpeedInsights } from "@vercel/speed-insights/remix"
+import { Viewer } from "./lib/Remix/Remix.server"
 
 export const links: LinksFunction = () => {
 	return [{ rel: "stylesheet", href: tailwindcss }]
 }
 
-const ViewerQuery = graphql(`
-	query ViewerQuery {
-		Viewer {
-			id
-			name
-			mediaListOptions {
-				scoreFormat
-			}
-		}
-		trending: Page(perPage: 10) {
-			media(sort: [TRENDING_DESC]) {
-				id
-				...SearchItem_media
-			}
-		}
-	}
-`)
-
 const _loader = pipe(
 	Effect.Do,
 	Effect.bind("args", () => ClientArgs),
 	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client, args }) => client.query(ViewerQuery, {}))
+	Effect.flatMap(({ client, args }) => Viewer),
+	Effect.map(Option.getOrNull),
+	Effect.map((Viewer) => ({ Viewer }))
 )
 
 export const loader = (async (args) => {
 	return pipe(
 		_loader,
-
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction

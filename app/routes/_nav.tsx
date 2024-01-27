@@ -23,23 +23,38 @@ import {
 	NavigationBarItemIcon,
 	NavigationItemLargeBadge
 } from "~/components/NavigationBar"
+import { graphql } from "~/gql"
+
+import { defer } from "@remix-run/node"
+
+const NavQuery = graphql(`
+	query NavQuery {
+		trending: Page(perPage: 10) {
+			media(sort: [TRENDING_DESC]) {
+				id
+				...SearchItem_media
+			}
+		}
+	}
+`)
 
 const _loader = pipe(
 	Effect.Do,
 	Effect.bind("args", () => ClientArgs),
 	Effect.bind("client", () => EffectUrql),
-	Effect.map(({ client }) => null)
+	Effect.flatMap(({ client }) => client.query(NavQuery, {})),
+	Effect.map((data) => data?.trending ?? null)
 )
 
 export const loader = (async (args) => {
-	return pipe(
-		_loader,
-
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-
-		Remix.runLoader
-	)
+	return defer({
+		trending: pipe(
+			_loader,
+			Effect.provide(LoaderLive),
+			Effect.provideService(LoaderArgs, args),
+			Remix.runLoader
+		)
+	})
 }) satisfies LoaderFunction
 
 // export const clientLoader = (async (args) => {

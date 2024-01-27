@@ -3,7 +3,7 @@ import type { StructFields } from "@effect/schema/Schema"
 import { redirect } from "@remix-run/node"
 import { Cause, Data, Effect, Exit, pipe } from "effect"
 import { NoSuchElementException } from "effect/Cause"
-import { LoaderArgs, Timeout } from "../urql"
+import { ClientArgs, LoaderArgs, Timeout } from "../urql"
 
 export function params<Fields extends StructFields>(fields: Fields) {
 	return Effect.gen(function* (_) {
@@ -11,6 +11,11 @@ export function params<Fields extends StructFields>(fields: Fields) {
 		return yield* _(Schema.decodeUnknownEither(Schema.struct(fields))(params))
 	})
 }
+
+export const formData = Effect.gen(function*(_){
+	const {request} = yield*_(LoaderArgs)
+	return yield *_(Effect.promise(()=>request.formData()))
+})
 
 class RedirectError extends Data.TaggedError("Redirect")<{
 	url: string

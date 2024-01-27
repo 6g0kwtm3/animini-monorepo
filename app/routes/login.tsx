@@ -10,29 +10,78 @@ import {
 import * as Ariakit from "@ariakit/react"
 import cookie from "cookie"
 import { button as btn, button } from "~/lib/button"
+import { Effect, pipe } from "effect"
+import { Remix } from "~/lib/Remix"
+import { LoaderLive, LoaderArgs, ClientArgs, EffectUrql } from "~/lib/urql"
+import { graphql } from "~/gql"
+import { JsonToToken } from "~/lib/viewer"
+import { Schema } from "@effect/schema"
 
 const ANILIST_CLIENT_ID = 3455
 
-export const action = (async ({ context, params, request }) => {
-	const formData = await request.formData()
-
-	const token = formData.get("token")
-
-	if (typeof token !== "string") {
-		return {}
+const LoginQuery = graphql(`
+	query LoginQuery {
+		Viewer {
+			id
+			name
+		}
 	}
+`)
 
-	const url = new URL(request.url)
+export const action = (async (args) => {
+	return pipe(
+		Effect.gen(function* (_) {
+			const formData = yield* _(Remix.formData)
+			const { searchParams } = yield* _(ClientArgs)
+			const { request } = yield* _(LoaderArgs)
 
-	return redirect(url.searchParams.get("redirect") ?? "/Hoodboi/animelist/", {
-		headers: {
-			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
+			const token = formData.get("token")
+
+			if (typeof token !== "string") {
+				return {}
+			}
+
+			const client = yield* _(EffectUrql)
+
+			const setCookie = cookie.serialize(`anilist-token`, token, {
 				sameSite: "lax",
 				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
 				path: "/"
 			})
-		}
-	})
+
+			request.headers.set("Cookie", setCookie)
+			const data = yield* _(client.query(LoginQuery, {}))
+
+			if (!data?.Viewer) {
+				return {}
+			}
+
+			const encoded = yield* _(
+				Schema.encodeOption(JsonToToken)({
+					token,
+					viewer: data.Viewer
+				})
+			)
+
+			return redirect(
+				searchParams.get("redirect") ?? `/${data.Viewer.name}/animelist/`,
+				{
+					headers: {
+						"Set-Cookie": cookie.serialize(`anilist-token`, encoded, {
+							sameSite: "lax",
+							maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
+							path: "/"
+						})
+					}
+				}
+			)
+		}),
+		Effect.provide(LoaderLive),
+		Effect.provideService(LoaderArgs, args),
+		Remix.runLoader
+	)
+
+	const formData = await args.request.formData()
 }) satisfies ActionFunction
 
 // export const clientAction = (async ({ request }) => {
