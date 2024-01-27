@@ -50,23 +50,6 @@ import {
 	ButtonTonal
 } from "~/components/Button"
 
-const EntryPageQuery = graphql(`
-	query EntryPage($id: Int!) {
-		Media(id: $id) {
-			id
-			coverImage {
-				extraLarge
-				medium
-				color
-			}
-			bannerImage
-			title {
-				userPreferred
-			}
-			description
-		}
-	}
-`)
 
 const variants = {
 	enter: (direction: number) => {
@@ -89,20 +72,34 @@ const variants = {
 	}
 } satisfies Variants
 
-const _loader = pipe(
-	Effect.Do,
-	Effect.bind("args", () => ClientArgs),
-	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client, args: { params } }) =>
-		client.query(EntryPageQuery, {
-			id: Number(params["mediaId"])
-		})
-	)
-)
 
 export const loader = (async (args) => {
 	return pipe(
-		_loader,
+		pipe(
+			Effect.Do,
+			Effect.bind("args", () => ClientArgs),
+			Effect.bind("client", () => EffectUrql),
+			Effect.flatMap(({ client, args: { params } }) => client.query(graphql(`
+	query EntryPage($id: Int!) {
+		Media(id: $id) {
+			id
+			coverImage {
+				extraLarge
+				medium
+				color
+			}
+			bannerImage
+			title {
+				userPreferred
+			}
+			description
+		}
+	}
+`), {
+				id: Number(params["mediaId"])
+			})
+			)
+		),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),

@@ -30,23 +30,7 @@ import { graphql } from "~/lib/graphql.server"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
-const FiltersQuery = graphql(`
-	query FiltersQuery($userName: String!, $type: MediaType!) {
-		MediaListCollection(userName: $userName, type: $type) {
-			lists {
-				name
-				entries {
-					id
-					media {
-						id
-						status
-						format
-					}
-				}
-			}
-		}
-	}
-`)
+ 
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>
@@ -66,24 +50,39 @@ function FiltersQueryVariables(
 	}
 }
 
-const _loader = pipe(
-	Effect.gen(function* (_) {
-		const params = yield* _(
-			Remix.params({
-				userName: Schema.string,
-				typelist: Schema.string
-			})
-		)
 
-		const client = yield* _(EffectUrql)
-
-		return yield* _(client.query(FiltersQuery, FiltersQueryVariables(params)))
-	})
-)
+ 
 
 export const loader = (async (args) => {
 	return pipe(
-		_loader,
+		Effect.gen(function* (_) {
+			const params = yield* _(
+				Remix.params({
+					userName: Schema.string,
+					typelist: Schema.string
+				})
+			)
+	
+			const client = yield* _(EffectUrql)
+	
+			return yield* _(client.query(graphql(`
+			query FiltersQuery($userName: String!, $type: MediaType!) {
+				MediaListCollection(userName: $userName, type: $type) {
+					lists {
+						name
+						entries {
+							id
+							media {
+								id
+								status
+								format
+							}
+						}
+					}
+				}
+			}
+		`), FiltersQueryVariables(params)))
+		}),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),

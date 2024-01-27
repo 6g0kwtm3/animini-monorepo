@@ -32,23 +32,7 @@ import { useRawLoaderData } from "~/lib/data"
 import { getLibrary } from "~/lib/electron/library.server"
 import { Library } from "~/lib/entry/ListItem"
 
-const TypelistQuery = graphql(`
-	query TypelistQuery($userName: String!, $type: MediaType!) {
-		MediaListCollection(userName: $userName, type: $type) {
-			lists {
-				name
-				...MediaList_group
-				entries {
-					id
-					media {
-						id
-						status
-					}
-				}
-			}
-		}
-	}
-`)
+ 
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>
@@ -83,7 +67,23 @@ export const loader = (async (args) => {
 		Effect.bind("FileSystem", () => FileSystem),
 		Effect.bind("MediaListCollection", ({ client, args, variables }) =>
 			pipe(
-				client.query(TypelistQuery, variables),
+				client.query(graphql(`
+				query TypelistQuery($userName: String!, $type: MediaType!) {
+					MediaListCollection(userName: $userName, type: $type) {
+						lists {
+							name
+							...MediaList_group
+							entries {
+								id
+								media {
+									id
+									status
+								}
+							}
+						}
+					}
+				}
+			`), variables),
 				Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
 			)
 		),

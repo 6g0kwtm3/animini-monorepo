@@ -26,7 +26,17 @@ import { graphql } from "~/lib/graphql.server"
 
 import { defer } from "@remix-run/node"
 
-const NavQuery = graphql(`
+ 
+
+
+export const loader = (async (args) => {
+	return defer({
+		trending: pipe(
+			pipe(
+				Effect.Do,
+				Effect.bind("args", () => ClientArgs),
+				Effect.bind("client", () => EffectUrql),
+				Effect.flatMap(({ client }) => client.query(graphql(`
 	query NavQuery {
 		trending: Page(perPage: 10) {
 			media(sort: [TRENDING_DESC]) {
@@ -35,20 +45,9 @@ const NavQuery = graphql(`
 			}
 		}
 	}
-`)
-
-const _loader = pipe(
-	Effect.Do,
-	Effect.bind("args", () => ClientArgs),
-	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client }) => client.query(NavQuery, {})),
-	Effect.map((data) => data?.trending ?? null)
-)
-
-export const loader = (async (args) => {
-	return defer({
-		trending: pipe(
-			_loader,
+`), {})),
+				Effect.map((data) => data?.trending ?? null)
+			),
 			Effect.provide(LoaderLive),
 			Effect.provideService(LoaderArgs, args),
 			Remix.runLoader
