@@ -12,9 +12,9 @@ export function params<Fields extends StructFields>(fields: Fields) {
 	})
 }
 
-export const formData = Effect.gen(function*(_){
-	const {request} = yield*_(LoaderArgs)
-	return yield *_(Effect.promise(()=>request.formData()))
+export const formData = Effect.gen(function* (_) {
+	const { request } = yield* _(LoaderArgs)
+	return yield* _(Effect.promise(() => request.formData()))
 })
 
 class RedirectError extends Data.TaggedError("Redirect")<{
