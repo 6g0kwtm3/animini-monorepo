@@ -3,42 +3,26 @@ import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
 import { Predicate } from "effect"
 import { ButtonText } from "~/components/Button"
 import {
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichSupportingText,
-	TooltipRichTrigger
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichSupportingText,
+    TooltipRichTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/gql"
-import { graphql, useFragment as readFragment } from "~/gql"
+import { useFragment as readFragment } from "~/lib/graphql"
 
+import type {ListItem_entry, Progress_entry} from './ListItem.server'
 import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
 import { createContext, useContext } from "react"
+import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
-import List from "~/components/List"
 
-const ListItem_entry = graphql(`
-	fragment ListItem_entry on MediaList {
-		...ToWatch_entry
-		...Progress_entry
-		score
-		progress
-		media {
-			id
-			title {
-				userPreferred
-			}
-			coverImage {
-				extraLarge
-				medium
-			}
-		}
-	}
-`)
+
 
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
@@ -47,7 +31,7 @@ export const Library = createContext<
 export function ListItem(props: {
 	entry: FragmentType<typeof ListItem_entry>
 }) {
-	const entry = readFragment(ListItem_entry, props.entry)
+	const entry = readFragment<typeof ListItem_entry>(props.entry)
 	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
 
 	const libraryHasNextEpisode = library?.some(
@@ -100,20 +84,10 @@ export function ListItem(props: {
 	)
 }
 
-const Progress_entry = graphql(`
-	fragment Progress_entry on MediaList {
-		id
-		progress
-		media {
-			...Avalible_media
-			id
-			episodes
-		}
-	}
-`)
+
 
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
-	const entry = readFragment(Progress_entry, props.entry)
+	const entry = readFragment<typeof Progress_entry>( props.entry)
 	const avalible = getAvalible(entry.media)
 	const data = useRouteLoaderData<typeof rootLoader>("root")
 	const params = useParams()

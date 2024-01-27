@@ -4,17 +4,16 @@ import { Form, Link, Outlet, useLocation } from "@remix-run/react"
 import { Effect, pipe } from "effect"
 
 import { ButtonText } from "~/components/Button"
-import { Remix } from "~/lib/Remix"
+import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
+import { useRawRouteLoaderData } from "~/lib/data"
 import { Search } from "~/lib/search/Search"
 import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
-	LoaderLive,
-	useRawRouteLoaderData
-} from "~/lib/urql"
-
+	LoaderLive
+} from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
 import {
@@ -23,7 +22,7 @@ import {
 	NavigationBarItemIcon,
 	NavigationItemLargeBadge
 } from "~/components/NavigationBar"
-import { graphql } from "~/gql"
+import { graphql } from "~/lib/graphql.server"
 
 import { defer } from "@remix-run/node"
 

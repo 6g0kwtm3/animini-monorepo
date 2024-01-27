@@ -3,24 +3,23 @@ import { redirect } from "@remix-run/node"
 import { useFetcher } from "@remix-run/react"
 import { ButtonText } from "~/components/Button"
 import {
-	TextFieldOutlined as Outlined,
-	TextFieldOutlinedInput
+    TextFieldOutlined as Outlined,
+    TextFieldOutlinedInput
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import cookie from "cookie"
 import { Effect, pipe } from "effect"
-import { graphql } from "~/gql"
-import { Remix } from "~/lib/Remix"
+import { Remix } from "~/lib/Remix/index.server"
 import { button as btn, button } from "~/lib/button"
+import { graphql } from "~/lib/graphql.server"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	operation
-} from "~/lib/urql"
+    ClientArgs,
+    LoaderArgs,
+    LoaderLive,
+    operation
+} from "~/lib/urql.server"
 import { JsonToToken } from "~/lib/viewer"
 
 const ANILIST_CLIENT_ID = 3455

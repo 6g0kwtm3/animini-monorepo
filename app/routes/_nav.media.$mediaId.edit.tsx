@@ -11,14 +11,7 @@ import {
 	useNavigate,
 	useNavigation
 } from "@remix-run/react"
-import {
-	Effect,
-	Option,
-	pipe,
-	Predicate,
-	ReadonlyArray,
-	ReadonlyRecord
-} from "effect"
+import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 
 import { ButtonText } from "~/components/Button"
 
@@ -33,10 +26,8 @@ import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
-	LoaderLive,
-	nonNull,
-	useRawLoaderData
-} from "~/lib/urql"
+	LoaderLive
+} from "~/lib/urql.server"
 
 import * as S from "@effect/schema/Schema"
 import { DialogFullscreenIcon } from "~/components/Dialog"
@@ -44,17 +35,18 @@ import { DialogFullscreenIcon } from "~/components/Dialog"
 import * as Ariakit from "@ariakit/react"
 
 import { motion } from "framer-motion"
-import type { FragmentType } from "~/gql"
-import { graphql, useFragment } from "~/gql"
-import { dialog } from "~/lib/dialog"
-
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { FragmentType } from "~/gql"
+import { useFragment  } from "~/lib/graphql"
+import { dialog } from "~/lib/dialog"
+import { graphql } from "~/lib/graphql.server"
 
 import { ChipFilter } from "~/components/Chip"
 import { SelectFactory } from "~/components/Select"
 import { SelectOption } from "~/components/SelectOption"
+import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
-import { Remix } from "~/lib/Remix"
+import { useRawLoaderData } from "~/lib/data"
 
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
@@ -82,6 +74,7 @@ export const loader = (async (args) => {
 					})
 				: redirect("..")
 		),
+		Effect.catchTags({ ResponseError: () => Effect.succeed(redirect("..")) }),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader
@@ -151,6 +144,7 @@ const EditPageMedia = graphql(`
 		Viewer {
 			id
 			mediaListOptions {
+				scoreFormat
 				animeList {
 					advancedScoringEnabled
 					advancedScoring
@@ -262,7 +256,7 @@ export default function Page() {
 	const defaultAdvancedScores =
 		pipe(
 			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
-				?.filter(nonNull)
+				?.filter(Predicate.isNotNull)
 				.map((category) =>
 					pipe(
 						advancedScores,
@@ -495,7 +489,7 @@ function Progress({
 }: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
 	media: FragmentType<typeof Progress_media> | null
 }) {
-	const data = useFragment(Progress_media, media)
+	const data = useFragment <typeof Progress_media>( media)
 	return (
 		<TextFieldOutlined>
 			<TextFieldOutlinedInput {...props} min={0} type="number" />
@@ -567,7 +561,7 @@ function AdvancedScores({
 }: {
 	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
 }): ReactNode {
-	const data = useFragment(AdvancedScoring_listOptions, listOptions)
+	const data = useFragment<typeof AdvancedScoring_listOptions>( listOptions)
 	if (!data?.advancedScoringEnabled) {
 		return null
 	}
@@ -610,12 +604,12 @@ function CustomLists({
 }: {
 	listOptions: FragmentType<typeof CustomLists_mediaListTypeOptions> | null
 }) {
-	const mediaListTypeOptions = useFragment(
-		CustomLists_mediaListTypeOptions,
+	const mediaListTypeOptions = useFragment<typeof CustomLists_mediaListTypeOptions>(
+		
 		listOptions
 	)
 
-	const customLists = mediaListTypeOptions?.customLists?.filter(nonNull) ?? []
+	const customLists = mediaListTypeOptions?.customLists?.filter(Predicate.isNotNull) ?? []
 
 	if (!customLists.length) {
 		return null

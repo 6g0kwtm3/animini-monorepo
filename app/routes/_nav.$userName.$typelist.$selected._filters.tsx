@@ -6,7 +6,6 @@ import {
 	Form,
 	Link,
 	Outlet,
-	useMatches,
 	useParams,
 	useSearchParams,
 	useSubmit
@@ -24,18 +23,16 @@ import { useMemo } from "react"
 
 import { ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
-import { graphql } from "~/gql"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
-import { Remix } from "~/lib/Remix"
+import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
-import type { InferVariables } from "~/lib/urql"
+import { graphql } from "~/lib/graphql.server"
+import type { InferVariables } from "~/lib/urql.server"
 import {
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
-	nonNull,
-	useRawLoaderData
-} from "~/lib/urql"
+} from "~/lib/urql.server"
 
 const FiltersQuery = graphql(`
 	query FiltersQuery($userName: String!, $type: MediaType!) {
@@ -109,7 +106,8 @@ export const loader = (async (args) => {
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
-
+import { Predicate } from "effect"
+import { useRawLoaderData } from "~/lib/data"
 export default function Filters() {
 	const [searchParams] = useSearchParams()
 
@@ -119,7 +117,7 @@ export default function Filters() {
 	const selected = params["selected"]
 
 	let allLists = data?.MediaListCollection?.lists
-		?.filter(nonNull)
+		?.filter(Predicate.isNotNull)
 		.sort(
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
 		)
@@ -151,7 +149,7 @@ export default function Filters() {
 	const status = useMemo(
 		() =>
 			pipe(
-				entries.map((entry) => entry?.media?.status).filter(nonNull),
+				entries.map((entry) => entry?.media?.status).filter(Predicate.isNotNull),
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
@@ -171,7 +169,7 @@ export default function Filters() {
 	const format = useMemo(
 		() =>
 			pipe(
-				entries.map((entry) => entry?.media?.format).filter(nonNull),
+				entries.map((entry) => entry?.media?.format).filter(Predicate.isNotNull),
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),

@@ -15,7 +15,7 @@ const config: CodegenConfig = {
 		},
 		defaultScalarType: "unknown",
 		dedupeFragments: true,
-		scalars: { Json: "~/lib/urql#JSONValue" }
+		scalars: { Json: "~/lib/urql.server#JSONValue" }
 	},
 	generates: {
 		"app/gql/": {

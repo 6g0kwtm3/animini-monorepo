@@ -1,9 +1,14 @@
 import type { LoaderFunction } from "@remix-run/node"
 import { json, type ClientLoaderFunctionArgs } from "@remix-run/react"
-import { Duration, Effect, Fiber, pipe } from "effect"
-import { graphql } from "~/gql"
-import { Remix } from "~/lib/Remix"
-import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
+import { Effect, pipe } from "effect"
+import { graphql } from "~/lib/graphql.server"
+import { Remix } from "~/lib/Remix/index.server"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
+} from "~/lib/urql.server"
 
 const SearchQuery = graphql(`
 	query SearchQuery(
@@ -54,24 +59,7 @@ export async function clientLoader(args: ClientLoaderFunctionArgs) {
 	return new Promise(
 		(resolve, reject) =>
 			(timeout = setTimeout(() => {
-				pipe(
-					_loader,
-					Effect.provide(LoaderLive),
-					Effect.provideService(LoaderArgs, args),
-					Effect.runPromise
-				).then(resolve, reject)
+				args.serverLoader().then(resolve, reject)
 			}, 300))
 	)
-
-	const fork = pipe(
-		Effect.sleep(Duration.millis(300)),
-		Effect.flatMap(() => _loader),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise
-	)
-
-	args.request.signal.onabort = () => Fiber.interrupt(fork)
-
-	return pipe(fork, Fiber.join, Effect.runPromise)
 }

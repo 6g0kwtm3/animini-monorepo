@@ -1,13 +1,13 @@
 import {
-	Links,
-	LiveReload,
-	Meta,
-	Outlet,
-	Scripts,
-	ScrollRestoration,
-	useRevalidator
+    Links,
+    LiveReload,
+    Meta,
+    Outlet,
+    Scripts,
+    ScrollRestoration,
+    useRevalidator
 } from "@remix-run/react"
-import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "./lib/urql"
+import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "./lib/urql.server"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
@@ -16,7 +16,7 @@ import type { LinksFunction, LoaderFunction } from "@remix-run/node"
 import { Analytics } from "@vercel/analytics/react"
 import { Effect, Option, pipe } from "effect"
 import { useEffect } from "react"
-import { Remix } from "./lib/Remix"
+import { Remix } from "./lib/Remix/index.server"
 import tailwindcss from "./tailwind.css?url"
 
 // export const clientLoader = (async (args) => {

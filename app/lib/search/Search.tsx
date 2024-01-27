@@ -7,7 +7,6 @@ import {
 	useRouteLoaderData,
 	useSearchParams
 } from "@remix-run/react"
-import { nonNull } from "../urql"
 
 import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
 import { Suspense, forwardRef, useEffect, useRef, useState } from "react"
@@ -15,7 +14,7 @@ import { ButtonIcon, ButtonText } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { dialog } from "../dialog"
 
-import { ReadonlyArray } from "effect"
+import { Predicate, ReadonlyArray } from "effect"
 import { createTV } from "tailwind-variants"
 import {
 	TooltipPlain,
@@ -23,8 +22,9 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/gql"
-import { graphql, useFragment } from "~/gql"
+import { useFragment  } from "~/lib/graphql"
 import { list } from "../list"
+import type {SearchItem_media} from './Search.server'
 
 import type { loader as navLoader } from "~/routes/_nav"
 
@@ -133,7 +133,6 @@ const SearchInput = forwardRef<
 		</>
 	)
 })
-
 export function Search() {
 	const [searchParams] = useSearchParams()
 
@@ -168,7 +167,7 @@ export function Search() {
 		return () => window.removeEventListener("keydown", listener)
 	}, [])
 
-	const media = submit.data?.page?.media?.filter(nonNull) ?? []
+	const media = submit.data?.page?.media?.filter(Predicate.isNotNull) ?? []
 
 	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
@@ -284,22 +283,10 @@ export function Search() {
 
 const { item, root: listRoot } = list()
 
-const SearchItem_media = graphql(`
-	fragment SearchItem_media on Media {
-		id
-		type
-		coverImage {
-			medium
-			extraLarge
-		}
-		title {
-			userPreferred
-		}
-	}
-`)
+
 
 function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
-	const media = useFragment(SearchItem_media, props.media)
+	const media = useFragment<typeof SearchItem_media>( props.media)
 
 	return (
 		<Ariakit.ComboboxItem

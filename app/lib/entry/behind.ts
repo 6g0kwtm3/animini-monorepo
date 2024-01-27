@@ -1,19 +1,10 @@
 import type { FragmentType } from "~/gql"
-import { graphql, useFragment as readFragment } from "~/gql"
+import { useFragment as readFragment } from "~/lib/graphql"
 import { avalible } from "../media/avalible"
-
-const Behind_entry = graphql(`
-	fragment Behind_entry on MediaList {
-		progress
-		media {
-			id
-			...Avalible_media
-		}
-	}
-`)
+import type {Behind_entry} from './behind.server'
 
 export function behind(data: FragmentType<typeof Behind_entry>) {
-	const entry = readFragment(Behind_entry, data)
+	const entry = readFragment<typeof Behind_entry>( data)
 
 	return (
 		(avalible(entry.media) ?? entry.progress ?? Number.POSITIVE_INFINITY) -

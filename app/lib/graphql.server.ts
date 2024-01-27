@@ -1,0 +1,2 @@
+export { graphql } from "~/gql";
+

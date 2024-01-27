@@ -3,7 +3,7 @@ import type { LoaderFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Effect, ReadonlyArray, pipe } from "effect"
 import { Media } from "~/lib/search"
-import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
+import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 const Page = Schema.struct({
 	media: Schema.nullable(Schema.array(Schema.nullable(Media)))

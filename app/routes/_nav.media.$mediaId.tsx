@@ -9,32 +9,10 @@ import {
 import type { Variants } from "framer-motion"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	useRawLoaderData,
-	useRawRouteLoaderData
-} from "~/lib/urql"
-
-import { cloneElement } from "react"
-
-import { Effect, pipe } from "effect"
-
-import { CardElevated, CardFilled } from "~/components/Card"
-
-import {
-	ButtonElevated,
-	ButtonFilled,
-	ButtonOutlined,
-	ButtonText,
-	ButtonTonal
-} from "~/components/Button"
-
-import { button, fab } from "~/lib/button"
-
 import { useTooltipStore } from "@ariakit/react"
+import { Effect, pipe } from "effect"
+import { cloneElement } from "react"
+import { CardElevated, CardFilled } from "~/components/Card"
 import {
 	Menu,
 	MenuDivider,
@@ -51,13 +29,26 @@ import {
 	TooltipPlainContainer,
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
-import { graphql } from "~/gql"
-
-import { Remix } from "~/lib/Remix"
-
+import { Remix } from "~/lib/Remix/index.server"
+import { button, fab } from "~/lib/button"
+import { graphql } from "~/lib/graphql.server"
 import { useThemeFromHex } from "~/lib/theme"
 import { ThemeProvider } from "~/lib/theme/Theme"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
+} from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
+
+import {
+	ButtonElevated,
+	ButtonFilled,
+	ButtonOutlined,
+	ButtonText,
+	ButtonTonal
+} from "~/components/Button"
 
 const EntryPageQuery = graphql(`
 	query EntryPage($id: Int!) {
@@ -270,6 +261,8 @@ declare global {
 	}
 }
 
+import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
+
 function Edit() {
 	const { pathname } = useLocation()
 
@@ -286,7 +279,7 @@ function Edit() {
 							<Link
 								to={
 									root?.Viewer
-										? `edit/?${new URLSearchParams({ format: root.Viewer.mediaListOptions?.scoreFormat ?? undefined })}`
+										? `edit/`
 										: `/login/?${new URLSearchParams({
 												redirect: `${pathname}`
 											})}`

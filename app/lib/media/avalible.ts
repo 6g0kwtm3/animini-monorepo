@@ -1,21 +1,11 @@
 import { Predicate } from "effect"
 import type { FragmentType } from "~/gql"
-import { graphql, useFragment as readFragment } from "~/gql"
 import { MediaStatus } from "~/gql/graphql"
-const Avalible_media = graphql(`
-	fragment Avalible_media on Media {
-		status
-		episodes
-		nextAiringEpisode {
-			id
-			episode
-		}
-		id
-	}
-`)
+import { useFragment as readFragment } from "~/lib/graphql"
 
+import type { Avalible_media } from './avalible.server'
 export function avalible(data: FragmentType<typeof Avalible_media> | null) {
-	const media = readFragment(Avalible_media, data)
+	const media = readFragment<typeof Avalible_media>( data)
 
 	if (media?.status == null) {
 		return null
