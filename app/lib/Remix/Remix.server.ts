@@ -33,7 +33,7 @@ export function eTag() {
 		})
 	)
 }
- 
+
 export const Viewer = Effect.gen(function* (_) {
 	const { request } = yield* _(LoaderArgs)
 
@@ -52,4 +52,3 @@ export const Viewer = Effect.gen(function* (_) {
 })
 
 import cookie from "cookie"
-

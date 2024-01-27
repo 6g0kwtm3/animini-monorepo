@@ -12,12 +12,12 @@ import { button } from "~/lib/button"
 import { ListItem } from "~/lib/entry/ListItem"
 import type { InferVariables } from "~/lib/urql"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive,
-    nonNull,
-    useRawLoaderData
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	nonNull,
+	useRawLoaderData
 } from "~/lib/urql"
 
 const ListsQuery = graphql(`

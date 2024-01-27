@@ -27,7 +27,7 @@ export function NavigationBarItem({
 
 function NavigationBarActiveIndicator() {
 	return (
-		<div className="rounded-lg absolute -z-10 h-8 w-0 bg-secondary-container transition-all group-aria-[current='page']:w-16"></div>
+		<div className="absolute -z-10 h-8 w-0 rounded-lg bg-secondary-container transition-all group-aria-[current='page']:w-16"></div>
 	)
 }
 
@@ -35,7 +35,7 @@ export function NavigationBarItemIcon(props: ComponentPropsWithoutRef<"div">) {
 	return (
 		<div
 			{...props}
-			className="group-aria-[current='page']:i-fill i  relative my-1 h-6 w-6 group-aria-[current='page']:text-on-secondary-container"
+			className="i relative  my-1 h-6 w-6 group-aria-[current='page']:i-fill group-aria-[current='page']:text-on-secondary-container"
 		></div>
 	)
 }
