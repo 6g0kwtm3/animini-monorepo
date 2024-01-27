@@ -10,9 +10,6 @@ import {
 	LoaderLive
 } from "~/lib/urql.server"
 
- 
-
-
 export const loader = (async (args) => {
 	return await pipe(
 		Effect.gen(function* (_) {
@@ -20,21 +17,24 @@ export const loader = (async (args) => {
 			const { searchParams } = yield* _(ClientArgs)
 
 			const data = yield* _(
-				client.query(graphql(`
-		query SearchQuery(
-			$q: String
-			$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
-		) {
-			page: Page(perPage: 10) {
-				media(search: $q, sort: $sort) {
-					id
-					...SearchItem_media
-				}
-			}
-		}
-	`), {
-					q: searchParams.get("q")
-				})
+				client.query(
+					graphql(`
+						query SearchQuery(
+							$q: String
+							$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
+						) {
+							page: Page(perPage: 10) {
+								media(search: $q, sort: $sort) {
+									id
+									...SearchItem_media
+								}
+							}
+						}
+					`),
+					{
+						q: searchParams.get("q")
+					}
+				)
 			)
 
 			return json(data, {

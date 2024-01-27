@@ -24,7 +24,6 @@ import { JsonToToken } from "~/lib/viewer"
 
 const ANILIST_CLIENT_ID = 3455
 
-
 // import {  request} from "@effect/platform/HttpClient";
 // request.jsonBody()
 
@@ -43,13 +42,13 @@ export const action = (async (args) => {
 			const data = yield* _(
 				operation(
 					graphql(`
-	query LoginQuery {
-		Viewer {
-			id
-			name
-		}
-	}
-`),
+						query LoginQuery {
+							Viewer {
+								id
+								name
+							}
+						}
+					`),
 					{},
 					{ headers: new Headers({ Authorization: `Bearer ${token.trim()}` }) }
 				)
@@ -83,8 +82,6 @@ export const action = (async (args) => {
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader
 	)
-
- 
 }) satisfies ActionFunction
 
 // export const clientAction = (async ({ request }) => {

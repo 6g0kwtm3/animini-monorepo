@@ -30,8 +30,6 @@ import { graphql } from "~/lib/graphql.server"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
- 
-
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>
 ): InferVariables<typeof FiltersQuery> {
@@ -50,9 +48,6 @@ function FiltersQueryVariables(
 	}
 }
 
-
- 
-
 export const loader = (async (args) => {
 	return pipe(
 		Effect.gen(function* (_) {
@@ -62,26 +57,31 @@ export const loader = (async (args) => {
 					typelist: Schema.string
 				})
 			)
-	
+
 			const client = yield* _(EffectUrql)
-	
-			return yield* _(client.query(graphql(`
-			query FiltersQuery($userName: String!, $type: MediaType!) {
-				MediaListCollection(userName: $userName, type: $type) {
-					lists {
-						name
-						entries {
-							id
-							media {
-								id
-								status
-								format
+
+			return yield* _(
+				client.query(
+					graphql(`
+						query FiltersQuery($userName: String!, $type: MediaType!) {
+							MediaListCollection(userName: $userName, type: $type) {
+								lists {
+									name
+									entries {
+										id
+										media {
+											id
+											status
+											format
+										}
+									}
+								}
 							}
 						}
-					}
-				}
-			}
-		`), FiltersQueryVariables(params)))
+					`),
+					FiltersQueryVariables(params)
+				)
+			)
 		}),
 
 		Effect.provide(LoaderLive),

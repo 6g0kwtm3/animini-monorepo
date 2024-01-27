@@ -50,7 +50,6 @@ import {
 	ButtonTonal
 } from "~/components/Button"
 
-
 const variants = {
 	enter: (direction: number) => {
 		return {
@@ -72,32 +71,35 @@ const variants = {
 	}
 } satisfies Variants
 
-
 export const loader = (async (args) => {
 	return pipe(
 		pipe(
 			Effect.Do,
 			Effect.bind("args", () => ClientArgs),
 			Effect.bind("client", () => EffectUrql),
-			Effect.flatMap(({ client, args: { params } }) => client.query(graphql(`
-	query EntryPage($id: Int!) {
-		Media(id: $id) {
-			id
-			coverImage {
-				extraLarge
-				medium
-				color
-			}
-			bannerImage
-			title {
-				userPreferred
-			}
-			description
-		}
-	}
-`), {
-				id: Number(params["mediaId"])
-			})
+			Effect.flatMap(({ client, args: { params } }) =>
+				client.query(
+					graphql(`
+						query EntryPage($id: Int!) {
+							Media(id: $id) {
+								id
+								coverImage {
+									extraLarge
+									medium
+									color
+								}
+								bannerImage
+								title {
+									userPreferred
+								}
+								description
+							}
+						}
+					`),
+					{
+						id: Number(params["mediaId"])
+					}
+				)
 			)
 		),
 

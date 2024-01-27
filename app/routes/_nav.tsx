@@ -26,9 +26,6 @@ import { graphql } from "~/lib/graphql.server"
 
 import { defer } from "@remix-run/node"
 
- 
-
-
 export const loader = (async (args) => {
 	return defer({
 		trending: pipe(
@@ -36,16 +33,21 @@ export const loader = (async (args) => {
 				Effect.Do,
 				Effect.bind("args", () => ClientArgs),
 				Effect.bind("client", () => EffectUrql),
-				Effect.flatMap(({ client }) => client.query(graphql(`
-	query NavQuery {
-		trending: Page(perPage: 10) {
-			media(sort: [TRENDING_DESC]) {
-				id
-				...SearchItem_media
-			}
-		}
-	}
-`), {})),
+				Effect.flatMap(({ client }) =>
+					client.query(
+						graphql(`
+							query NavQuery {
+								trending: Page(perPage: 10) {
+									media(sort: [TRENDING_DESC]) {
+										id
+										...SearchItem_media
+									}
+								}
+							}
+						`),
+						{}
+					)
+				),
 				Effect.map((data) => data?.trending ?? null)
 			),
 			Effect.provide(LoaderLive),

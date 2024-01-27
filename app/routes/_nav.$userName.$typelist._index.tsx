@@ -26,7 +26,6 @@ import {
 	LoaderLive
 } from "~/lib/urql.server"
 
- 
 function isTypelist(value: unknown): value is "animelist" | "mangalist" {
 	return value === "animelist" || value === "mangalist"
 }
@@ -62,36 +61,38 @@ const _loader = Effect.gen(function* (_) {
 	const variables = FiltersQueryVariables(args.params)
 
 	const MediaListCollection = yield* _(
-		client.query(graphql(`
-		query ListsQuery($userName: String!, $type: MediaType!) {
-			MediaListCollection(
-				userName: $userName
-				type: $type
-				sort: [FINISHED_ON_DESC, UPDATED_TIME_DESC]
-			) {
-				user {
-					id
-					name
-					mediaListOptions {
-						animeList {
-							sectionOrder
+		client.query(
+			graphql(`
+				query ListsQuery($userName: String!, $type: MediaType!) {
+					MediaListCollection(
+						userName: $userName
+						type: $type
+						sort: [FINISHED_ON_DESC, UPDATED_TIME_DESC]
+					) {
+						user {
+							id
+							name
+							mediaListOptions {
+								animeList {
+									sectionOrder
+								}
+								mangaList {
+									sectionOrder
+								}
+							}
 						}
-						mangaList {
-							sectionOrder
+						lists {
+							name
+							entries {
+								id
+								...ListItem_entry
+							}
 						}
 					}
 				}
-				lists {
-					name
-					entries {
-						id
-						...ListItem_entry
-					}
-				}
-			}
-		}
-	`)
-	, variables),
+			`),
+			variables
+		),
 		Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
 	)
 
