@@ -6,7 +6,7 @@ const Viewer = Schema.struct({
 })
 
 const Token = Schema.struct({
-	token: Schema.string,
+	token: Schema.Trim,
 	viewer: Viewer
 })
 

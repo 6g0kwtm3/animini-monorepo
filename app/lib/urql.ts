@@ -12,17 +12,7 @@ import {
 	type Params
 } from "@remix-run/react"
 
-import {
-	Context,
-	Data,
-	Effect,
-	Layer,
-	Option,
-	Predicate,
-	PrimaryKey,
-	RequestResolver,
-	pipe
-} from "effect"
+import { Context, Data, Effect, Layer, Option, Predicate, pipe } from "effect"
 
 import { IS_SERVER } from "./isClient"
 
@@ -93,63 +83,42 @@ type Arguments = {
 
 export const ClientArgs = Context.Tag<Arguments>("client/Args")
 
-const Document: Schema.Schema<DocumentNode, string> = Schema.transform(
-	Schema.any,
-	Schema.string,
-	print,
-	(query) => parse(query)
-)
-
-const Variables: Schema.Schema<JSONObject, string> = Schema.transform(
-	Schema.record(Schema.string, Schema.any),
-	Schema.string,
-	(variables) => JSON.stringify(variables),
-	(parsed) => JSON.parse(parsed)
-)
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.number
 }) {}
 
-class GqlRequest extends Schema.TaggedRequest<GqlRequest>()(
-	"GqlRequest",
-	Timeout,
-	Schema.any,
-	{
-		token: Schema.nullish(Schema.string),
-		document: Document,
-		variables: Variables
+export function operation<T, V>(
+	document: string | TypedDocumentNode<T, V>,
+	variables: V,
+	options?: {
+		headers?: Headers
 	}
 ) {
-	[PrimaryKey.symbol]() {
-		return [this.document, this.variables, this.token].join(":")
-	}
-}
-
-RequestResolver.fromEffectTagged<GqlRequest>()({
-	GqlRequest: (reqs) => Effect.succeed(reqs.map((req) => req.variables))
-})
-
-const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 	const headers = new Headers()
 	headers.append("Content-Type", "application/json")
 	headers.append("Accept", "application/json")
 
-	if (Predicate.isString(req.token))
-		headers.append("Authorization", `Bearer ${req.token.trim()}`)
+	for (const [key, value] of options?.headers?.entries() ?? []) {
+		headers.append(key, value)
+	}
 
 	return Effect.gen(function* (_) {
 		if (Date.now() / 1000 < timeout) {
 			return yield* _(new Timeout({ reset: timeout }))
 		}
 
+		const body = yield* _(
+			Schema.encode(Schema.parseJson(Schema.any))({
+				query: Predicate.isString(document) ? document : print(document),
+				variables: variables
+			})
+		)
+
 		const response = yield* _(
 			Effect.promise((signal) =>
 				fetch(API_URL, {
-					body: JSON.stringify({
-						query: req.document,
-						variables: req.variables
-					}),
-					headers: headers,
+					body,
+					headers,
 					method: "post",
 					signal
 				})
@@ -179,9 +148,9 @@ const GqlRequestResolver = RequestResolver.fromEffect((req: GqlRequest) => {
 		// 	return yield* _(new Timeout({ reset: -1 }))
 		// }
 
-		return data ?? null
+		return (data as T) ?? null
 	})
-})
+}
 
 let timeout = 0
 
@@ -206,13 +175,16 @@ export const UrqlLive = Layer.effect(
 		return EffectUrql.of({
 			query: (...args) => {
 				return pipe(
-					Effect.request(
-						new GqlRequest({
-							document: Predicate.isString(args[0]) ? args[0] : print(args[0]),
-							variables: JSON.stringify(args[1]),
-							token: token?.trim()
-						}),
-						GqlRequestResolver
+					operation(
+						args[0],
+						args[1],
+						token
+							? {
+									headers: new Headers({
+										Authorization: `Bearer ${token.trim()}`
+									})
+								}
+							: undefined
 					)
 				)
 			},

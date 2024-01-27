@@ -8,14 +8,20 @@ import {
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
-import cookie from "cookie"
-import { button as btn, button } from "~/lib/button"
-import { Effect, pipe } from "effect"
-import { Remix } from "~/lib/Remix"
-import { LoaderLive, LoaderArgs, ClientArgs, EffectUrql } from "~/lib/urql"
-import { graphql } from "~/gql"
-import { JsonToToken } from "~/lib/viewer"
 import { Schema } from "@effect/schema"
+import cookie from "cookie"
+import { Effect, pipe } from "effect"
+import { graphql } from "~/gql"
+import { Remix } from "~/lib/Remix"
+import { button as btn, button } from "~/lib/button"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	operation
+} from "~/lib/urql"
+import { JsonToToken } from "~/lib/viewer"
 
 const ANILIST_CLIENT_ID = 3455
 
@@ -28,12 +34,14 @@ const LoginQuery = graphql(`
 	}
 `)
 
+// import {  request} from "@effect/platform/HttpClient";
+// request.jsonBody()
+
 export const action = (async (args) => {
 	return pipe(
 		Effect.gen(function* (_) {
 			const formData = yield* _(Remix.formData)
 			const { searchParams } = yield* _(ClientArgs)
-			const { request } = yield* _(LoaderArgs)
 
 			const token = formData.get("token")
 
@@ -41,16 +49,13 @@ export const action = (async (args) => {
 				return {}
 			}
 
-			const client = yield* _(EffectUrql)
-
-			const setCookie = cookie.serialize(`anilist-token`, token, {
-				sameSite: "lax",
-				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-				path: "/"
-			})
-
-			request.headers.set("Cookie", setCookie)
-			const data = yield* _(client.query(LoginQuery, {}))
+			const data = yield* _(
+				operation(
+					LoginQuery,
+					{},
+					{ headers: new Headers({ Authorization: `Bearer ${token.trim()}` }) }
+				)
+			)
 
 			if (!data?.Viewer) {
 				return {}
@@ -58,7 +63,7 @@ export const action = (async (args) => {
 
 			const encoded = yield* _(
 				Schema.encodeOption(JsonToToken)({
-					token,
+					token: token,
 					viewer: data.Viewer
 				})
 			)
@@ -109,7 +114,6 @@ export default function Login() {
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
 	store.onSubmit((state) => {
-		console.log(state)
 		fetcher.submit(state.values, {
 			method: "post"
 		})
