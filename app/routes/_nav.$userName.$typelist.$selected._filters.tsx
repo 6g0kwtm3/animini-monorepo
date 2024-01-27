@@ -54,13 +54,14 @@ export const loader = (async (args) => {
 			const params = yield* _(
 				Remix.params({
 					userName: Schema.string,
-					typelist: Schema.string
+					typelist: Schema.string,
+					selected: Schema.string
 				})
 			)
 
 			const client = yield* _(EffectUrql)
 
-			return yield* _(
+			const data = yield* _(
 				client.query(
 					graphql(`
 						query FiltersQuery($userName: String!, $type: MediaType!) {
@@ -82,6 +83,31 @@ export const loader = (async (args) => {
 					FiltersQueryVariables(params)
 				)
 			)
+			const SelectedList = yield* _(
+				Option.fromNullable(
+					data?.MediaListCollection?.lists?.find(
+						(list) => list?.name === params.selected
+					)
+				)
+			)
+
+			return {
+				SelectedList,
+				MediaListCollection: {
+					...data?.MediaListCollection,
+					lists: data?.MediaListCollection?.lists
+						?.filter(Predicate.isNotNull)
+						.sort(
+							Order.reverse(
+								Order.mapInput(Order.string, (list) => list.name ?? "")
+							)
+						)
+						.map((list) => ({
+							...list,
+							entries: null
+						}))
+				}
+			}
 		}),
 
 		Effect.provide(LoaderLive),
@@ -90,6 +116,8 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+
+import { Option } from "effect"
 
 // export const clientLoader = (async (args) => {
 // 	return pipe(
@@ -111,35 +139,16 @@ export default function Filters() {
 
 	const selected = params["selected"]
 
-	let allLists = data?.MediaListCollection?.lists
-		?.filter(Predicate.isNotNull)
-		.sort(
-			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
-		)
-
-	let lists = allLists
-
-	if (selected) {
-		lists = lists?.filter((list) => list.name === selected)
-	}
-
 	const submit = useSubmit()
 
 	const statusParams = searchParams
 		.getAll("status")
 		.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
 
-	const formatParams = searchParams
-		.getAll("format")
-		.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
-
-	let entries = useMemo(() => lists?.[0]?.entries ?? [], [lists])
-
-	// if (formatParams.length) {
-	// 	entries = entries.filter((entry) =>
-	// 		formatParams.includes(entry?.media?.format ?? ""),
-	// 	)
-	// }
+	let entries = useMemo(
+		() => data.SelectedList?.entries ?? [],
+		[data.SelectedList]
+	)
 
 	const status = useMemo(
 		() =>
@@ -155,7 +164,7 @@ export default function Filters() {
 		[entries]
 	)
 
-	entries = useMemo(() => lists?.[0]?.entries ?? [], [lists])
+	entries = useMemo(() => data.SelectedList?.entries ?? [], [data.SelectedList])
 
 	if (statusParams.length) {
 		entries = entries.filter((entry) =>
@@ -226,7 +235,7 @@ export default function Filters() {
 			</Form>
 
 			<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
-				{allLists?.map((list) => {
+				{data.MediaListCollection.lists?.map((list) => {
 					return (
 						<li className="min-w-max" key={list.name}>
 							<Link
