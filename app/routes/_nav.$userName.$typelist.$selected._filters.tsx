@@ -28,11 +28,7 @@ import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
 import { graphql } from "~/lib/graphql.server"
 import type { InferVariables } from "~/lib/urql.server"
-import {
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-} from "~/lib/urql.server"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 const FiltersQuery = graphql(`
 	query FiltersQuery($userName: String!, $type: MediaType!) {
@@ -149,7 +145,9 @@ export default function Filters() {
 	const status = useMemo(
 		() =>
 			pipe(
-				entries.map((entry) => entry?.media?.status).filter(Predicate.isNotNull),
+				entries
+					.map((entry) => entry?.media?.status)
+					.filter(Predicate.isNotNull),
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),
@@ -169,7 +167,9 @@ export default function Filters() {
 	const format = useMemo(
 		() =>
 			pipe(
-				entries.map((entry) => entry?.media?.format).filter(Predicate.isNotNull),
+				entries
+					.map((entry) => entry?.media?.format)
+					.filter(Predicate.isNotNull),
 				ReadonlyArray.groupBy(Function.identity),
 				ReadonlyRecord.map(ReadonlyArray.length),
 				ReadonlyRecord.map(String),

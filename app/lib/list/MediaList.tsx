@@ -1,17 +1,9 @@
-
-import {
-  useSearchParams
-} from "@remix-run/react"
+import { useSearchParams } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
- 
+
 import { MediaFormat, MediaStatus } from "~/gql/graphql"
 
-
-import {
-  Order,
-  ReadonlyArray,
-  pipe
-} from "effect"
+import { Order, ReadonlyArray, pipe } from "effect"
 import { type FragmentType } from "~/gql"
 import { useFragment as readFragment } from "~/lib/graphql"
 
@@ -22,8 +14,7 @@ import List from "~/components/List"
 import { ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
-import type { MediaList_group } from './MediaList.server'
-
+import type { MediaList_group } from "./MediaList.server"
 
 const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: "Finished",
@@ -42,9 +33,10 @@ const FORMAT_OPTIONS = {
 	[MediaFormat.Music]: "Music"
 }
 
-
-export function MediaList(props: { item: FragmentType<typeof MediaList_group> }) {
-	const page = readFragment<typeof MediaList_group>( props.item)
+export function MediaList(props: {
+	item: FragmentType<typeof MediaList_group>
+}) {
+	const page = readFragment<typeof MediaList_group>(props.item)
 
 	const [searchParams] = useSearchParams()
 

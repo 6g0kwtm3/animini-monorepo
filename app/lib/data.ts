@@ -12,12 +12,8 @@ export function useRawRouteLoaderData<T>(
 }
 
 type SerializeFrom<T> = T extends (...args: any[]) => infer Output
-? Serialize<Awaited<Output>>
-: Jsonify<Awaited<T>>
-
-
-
-
+	? Serialize<Awaited<Output>>
+	: Jsonify<Awaited<T>>
 
 type Serialize<Output> =
 	Output extends TypedDeferredData<infer U>
@@ -40,4 +36,4 @@ type DeferValue<T> = T extends undefined
 		? Promise<Jsonify<Awaited<T>>>
 		: Jsonify<T>
 
-    export type Jsonify<T> = T
+export type Jsonify<T> = T

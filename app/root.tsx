@@ -1,13 +1,18 @@
 import {
-    Links,
-    LiveReload,
-    Meta,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useRevalidator
+	Links,
+	LiveReload,
+	Meta,
+	Outlet,
+	Scripts,
+	ScrollRestoration,
+	useRevalidator
 } from "@remix-run/react"
-import { ClientArgs, EffectUrql, LoaderArgs, LoaderLive } from "./lib/urql.server"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
+} from "./lib/urql.server"
 
 import { SnackbarQueue } from "./components/Snackbar"
 

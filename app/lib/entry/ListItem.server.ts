@@ -11,20 +11,20 @@ export const Progress_entry = graphql(`
 `)
 import { graphql } from "~/lib/graphql.server"
 export const ListItem_entry = graphql(`
-fragment ListItem_entry on MediaList {
-  ...ToWatch_entry
-  ...Progress_entry
-  score
-  progress
-  media {
-    id
-    title {
-      userPreferred
-    }
-    coverImage {
-      extraLarge
-      medium
-    }
-  }
-}
+	fragment ListItem_entry on MediaList {
+		...ToWatch_entry
+		...Progress_entry
+		score
+		progress
+		media {
+			id
+			title {
+				userPreferred
+			}
+			coverImage {
+				extraLarge
+				medium
+			}
+		}
+	}
 `)

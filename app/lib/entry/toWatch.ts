@@ -2,10 +2,10 @@ import type { FragmentType } from "~/gql"
 import { useFragment as readFragment } from "~/lib/graphql"
 
 import { behind } from "./behind"
-import type {ToWatch_entry} from './toWatch.server'
+import type { ToWatch_entry } from "./toWatch.server"
 
 export function toWatch(data: FragmentType<typeof ToWatch_entry>) {
-const entry = readFragment<typeof ToWatch_entry>(data)
+	const entry = readFragment<typeof ToWatch_entry>(data)
 	return behind(entry) * ((entry.media?.duration ?? 25) - 3)
 }
 

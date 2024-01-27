@@ -1,9 +1,8 @@
 import crypto from "node:crypto"
 
- 
 import { json } from "@remix-run/node"
 import { Option, Predicate } from "effect"
-import { } from "~/lib/urql.server"
+import {} from "~/lib/urql.server"
 import { JsonToToken } from "../viewer"
 
 import { Schema } from "@effect/schema"
@@ -27,8 +26,6 @@ export const formData = Effect.gen(function* (_) {
 export class ResponseError extends Data.TaggedError("ResponseError")<{
 	response: Response
 }> {}
-
-
 
 export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 	const exit = await pipe(effect, Effect.runPromiseExit)
@@ -76,7 +73,6 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 	})
 }
 
-
 export function eTag() {
 	return Effect.flatMap((data) =>
 		Effect.gen(function* (_) {
@@ -123,4 +119,3 @@ export const Viewer = Effect.gen(function* (_) {
 })
 
 import cookie from "cookie"
-

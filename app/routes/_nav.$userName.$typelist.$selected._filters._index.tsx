@@ -8,27 +8,19 @@ import {
 	useSearchParams
 } from "@remix-run/react"
 // import type { FragmentType } from "~/gql"
- 
+
 import { MediaType } from "~/gql/graphql"
 import { graphql } from "~/lib/graphql.server"
-import { MediaList } from '~/lib/list/MediaList'
+import { MediaList } from "~/lib/list/MediaList"
 import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive,
-
-
 	type InferVariables
 } from "~/lib/urql.server"
 
-import {
-	Effect,
-	Option,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
-} from "effect"
+import { Effect, Option, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
 
 // import {} from 'glob'
 

@@ -37,7 +37,7 @@ import * as Ariakit from "@ariakit/react"
 import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import type { FragmentType } from "~/gql"
-import { useFragment  } from "~/lib/graphql"
+import { useFragment } from "~/lib/graphql"
 import { dialog } from "~/lib/dialog"
 import { graphql } from "~/lib/graphql.server"
 
@@ -489,7 +489,7 @@ function Progress({
 }: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
 	media: FragmentType<typeof Progress_media> | null
 }) {
-	const data = useFragment <typeof Progress_media>( media)
+	const data = useFragment<typeof Progress_media>(media)
 	return (
 		<TextFieldOutlined>
 			<TextFieldOutlinedInput {...props} min={0} type="number" />
@@ -561,7 +561,7 @@ function AdvancedScores({
 }: {
 	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
 }): ReactNode {
-	const data = useFragment<typeof AdvancedScoring_listOptions>( listOptions)
+	const data = useFragment<typeof AdvancedScoring_listOptions>(listOptions)
 	if (!data?.advancedScoringEnabled) {
 		return null
 	}
@@ -604,12 +604,11 @@ function CustomLists({
 }: {
 	listOptions: FragmentType<typeof CustomLists_mediaListTypeOptions> | null
 }) {
-	const mediaListTypeOptions = useFragment<typeof CustomLists_mediaListTypeOptions>(
-		
-		listOptions
-	)
+	const mediaListTypeOptions =
+		useFragment<typeof CustomLists_mediaListTypeOptions>(listOptions)
 
-	const customLists = mediaListTypeOptions?.customLists?.filter(Predicate.isNotNull) ?? []
+	const customLists =
+		mediaListTypeOptions?.customLists?.filter(Predicate.isNotNull) ?? []
 
 	if (!customLists.length) {
 		return null

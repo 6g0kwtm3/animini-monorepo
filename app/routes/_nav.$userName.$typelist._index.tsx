@@ -1,7 +1,14 @@
 import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import { Link, json } from "@remix-run/react"
-import { Effect, Order, Predicate, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
+import {
+	Effect,
+	Order,
+	Predicate,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
+} from "effect"
 
 import { CardOutlined } from "~/components/Card"
 import List from "~/components/List"
@@ -16,7 +23,7 @@ import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
-	LoaderLive,
+	LoaderLive
 } from "~/lib/urql.server"
 
 const ListsQuery = graphql(`
@@ -78,7 +85,6 @@ function FiltersQueryVariables(
 	}
 }
 
-
 const _loader = Effect.gen(function* (_) {
 	const args = yield* _(ClientArgs)
 	const client = yield* _(EffectUrql)
@@ -105,10 +111,12 @@ const _loader = Effect.gen(function* (_) {
 			MediaListCollection: {
 				...MediaListCollection,
 				lists: pipe(
-					MediaListCollection.lists?.filter(Predicate.isNotNull).map((list) => ({
-						...list,
-						entries: list.entries?.slice(0, 4).filter(Predicate.isNotNull)
-					})) ?? [],
+					MediaListCollection.lists
+						?.filter(Predicate.isNotNull)
+						.map((list) => ({
+							...list,
+							entries: list.entries?.slice(0, 4).filter(Predicate.isNotNull)
+						})) ?? [],
 					ReadonlyArray.sortBy(
 						Order.mapInput(
 							Order.number,

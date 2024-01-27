@@ -22,9 +22,9 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/gql"
-import { useFragment  } from "~/lib/graphql"
+import { useFragment } from "~/lib/graphql"
 import { list } from "../list"
-import type {SearchItem_media} from './Search.server'
+import type { SearchItem_media } from "./Search.server"
 
 import type { loader as navLoader } from "~/routes/_nav"
 
@@ -283,10 +283,8 @@ export function Search() {
 
 const { item, root: listRoot } = list()
 
-
-
 function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
-	const media = useFragment<typeof SearchItem_media>( props.media)
+	const media = useFragment<typeof SearchItem_media>(props.media)
 
 	return (
 		<Ariakit.ComboboxItem

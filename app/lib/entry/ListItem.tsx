@@ -3,16 +3,16 @@ import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
 import { Predicate } from "effect"
 import { ButtonText } from "~/components/Button"
 import {
-    TooltipRich,
-    TooltipRichActions,
-    TooltipRichContainer,
-    TooltipRichSupportingText,
-    TooltipRichTrigger
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichSupportingText,
+	TooltipRichTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/gql"
 import { useFragment as readFragment } from "~/lib/graphql"
 
-import type {ListItem_entry, Progress_entry} from './ListItem.server'
+import type { ListItem_entry, Progress_entry } from "./ListItem.server"
 import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
@@ -21,8 +21,6 @@ import { createContext, useContext } from "react"
 import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
-
-
 
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
@@ -84,10 +82,8 @@ export function ListItem(props: {
 	)
 }
 
-
-
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
-	const entry = readFragment<typeof Progress_entry>( props.entry)
+	const entry = readFragment<typeof Progress_entry>(props.entry)
 	const avalible = getAvalible(entry.media)
 	const data = useRouteLoaderData<typeof rootLoader>("root")
 	const params = useParams()
