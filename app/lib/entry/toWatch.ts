@@ -3,7 +3,7 @@ import { useFragment as readFragment } from "~/lib/graphql"
 
 import { behind } from "./behind"
 
-import { graphql } from "~/lib/graphql.server"
+import { graphql } from "~/lib/graphql"
 
 function ToWatch_entry() {
 	return graphql(`
