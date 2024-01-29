@@ -9,11 +9,34 @@ import {
 	TooltipRichSupportingText,
 	TooltipRichTrigger
 } from "~/components/Tooltip"
-import type { FragmentType } from "~/gql"
+import type { FragmentType } from "~/lib/graphql"
 import { useFragment as readFragment } from "~/lib/graphql"
 
-import type { ListItem_entry, Progress_entry } from "./ListItem.server"
+import { graphql } from "~/lib/graphql"
 import { avalible as getAvalible } from "../media/avalible"
+
+
+
+function ListItem_entry() {
+	return graphql(`
+		fragment ListItem_entry on MediaList {
+			...ToWatch_entry
+			...Progress_entry
+			score
+			progress
+			media {
+				id
+				title {
+					userPreferred
+				}
+				coverImage {
+					extraLarge
+					medium
+				}
+			}
+		}
+	`)
+}
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
@@ -80,6 +103,20 @@ export function ListItem(props: {
 			</div>
 		</List.Item>
 	)
+}
+
+function Progress_entry() {
+	return graphql(`
+		fragment Progress_entry on MediaList {
+			id
+			progress
+			media {
+				...Avalible_media
+				id
+				episodes
+			}
+		}
+	`)
 }
 
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {

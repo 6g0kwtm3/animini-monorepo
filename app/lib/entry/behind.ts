@@ -1,7 +1,19 @@
-import type { FragmentType } from "~/gql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import type { } from "~/gql"
+import { graphql } from "~/gql"
+import { FragmentType, useFragment as readFragment } from "~/lib/graphql"
 import { avalible } from "../media/avalible"
-import type { Behind_entry } from "./behind.server"
+
+function Behind_entry() {
+	return graphql(`
+		fragment Behind_entry on MediaList {
+			progress
+			media {
+				id
+				...Avalible_media
+			}
+		}
+	`)
+}
 
 export function behind(data: FragmentType<typeof Behind_entry>) {
 	const entry = readFragment<typeof Behind_entry>(data)

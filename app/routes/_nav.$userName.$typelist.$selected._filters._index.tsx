@@ -7,10 +7,10 @@ import {
 	useRouteError,
 	useSearchParams
 } from "@remix-run/react"
-// import type { FragmentType } from "~/gql"
+// import type { FragmentType } from "~/lib/graphql"
 
 import { MediaType } from "~/gql/graphql"
-import { graphql } from "~/lib/graphql.server"
+import { graphql } from "~/lib/graphql"
 import { MediaList } from "~/lib/list/MediaList"
 import {
 	ClientArgs,

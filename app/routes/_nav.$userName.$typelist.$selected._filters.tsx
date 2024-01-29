@@ -26,7 +26,7 @@ import { ChipFilter } from "~/components/Chip"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
-import { graphql } from "~/lib/graphql.server"
+import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 

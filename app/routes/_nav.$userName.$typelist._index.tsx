@@ -2,12 +2,12 @@ import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import { Link, json } from "@remix-run/react"
 import {
-	Effect,
-	Order,
-	Predicate,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
+    Effect,
+    Order,
+    Predicate,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 import { CardOutlined } from "~/components/Card"
@@ -17,13 +17,13 @@ import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 import { ListItem } from "~/lib/entry/ListItem"
-import { graphql } from "~/lib/graphql.server"
+import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 
 function isTypelist(value: unknown): value is "animelist" | "mangalist" {

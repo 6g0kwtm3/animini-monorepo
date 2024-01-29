@@ -21,10 +21,10 @@ import {
 	TooltipPlainContainer,
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
-import type { FragmentType } from "~/gql"
+import type { FragmentType } from "~/lib/graphql"
 import { useFragment } from "~/lib/graphql"
 import { list } from "../list"
-import type { SearchItem_media } from "./Search.server"
+
 
 import type { loader as navLoader } from "~/routes/_nav"
 
@@ -133,6 +133,7 @@ const SearchInput = forwardRef<
 		</>
 	)
 })
+
 export function Search() {
 	const [searchParams] = useSearchParams()
 
@@ -282,6 +283,23 @@ export function Search() {
 }
 
 const { item, root: listRoot } = list()
+
+import { graphql } from "~/lib/graphql"
+function SearchItem_media() {
+	return graphql(`
+		fragment SearchItem_media on Media {
+			id
+			type
+			coverImage {
+				medium
+				extraLarge
+			}
+			title {
+				userPreferred
+			}
+		}
+	`)
+}
 
 function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 	const media = useFragment<typeof SearchItem_media>(props.media)

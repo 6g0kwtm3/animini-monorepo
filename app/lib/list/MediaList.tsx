@@ -1,11 +1,10 @@
 import { useSearchParams } from "@remix-run/react"
-// import type { FragmentType } from "~/gql"
+// import type { FragmentType } from "~/lib/graphql"
 
 import { MediaFormat, MediaStatus } from "~/gql/graphql"
 
 import { Order, ReadonlyArray, pipe } from "effect"
-import { type FragmentType } from "~/gql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 
 // import {} from 'glob'
 
@@ -13,8 +12,7 @@ import { Predicate } from "effect"
 import List from "~/components/List"
 import { ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
-
-import type { MediaList_group } from "./MediaList.server"
+ 
 
 const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: "Finished",
@@ -31,6 +29,26 @@ const FORMAT_OPTIONS = {
 	[MediaFormat.Ova]: "OVA",
 	[MediaFormat.Ona]: "ONA",
 	[MediaFormat.Music]: "Music"
+}
+
+import { graphql } from "~/lib/graphql"
+
+function MediaList_group() {
+	return graphql(`
+		fragment MediaList_group on MediaListGroup {
+			name
+			entries {
+				id
+				...ToWatch_entry
+				...ListItem_entry
+				media {
+					id
+					status
+					format
+				}
+			}
+		}
+	`)
 }
 
 export function MediaList(props: {

@@ -1,9 +1,9 @@
 import type { LoaderFunction } from "@remix-run/node"
 import {
-	Link,
-	useLocation,
-	useOutlet,
-	useOutletContext
+    Link,
+    useLocation,
+    useOutlet,
+    useOutletContext
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
@@ -14,40 +14,40 @@ import { Effect, pipe } from "effect"
 import { cloneElement } from "react"
 import { CardElevated, CardFilled } from "~/components/Card"
 import {
-	Menu,
-	MenuDivider,
-	MenuItem,
-	MenuItemLeadingIcon,
-	MenuItemTrailingIcon,
-	MenuItemTrailingText,
-	MenuList,
-	MenuTrigger
+    Menu,
+    MenuDivider,
+    MenuItem,
+    MenuItemLeadingIcon,
+    MenuItemTrailingIcon,
+    MenuItemTrailingText,
+    MenuList,
+    MenuTrigger
 } from "~/components/Menu"
 import { PaneFlexible } from "~/components/Pane"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { Remix } from "~/lib/Remix/index.server"
 import { button, fab } from "~/lib/button"
-import { graphql } from "~/lib/graphql.server"
+import { graphql } from "~/lib/graphql"
 import { useThemeFromHex } from "~/lib/theme"
 import { ThemeProvider } from "~/lib/theme/Theme"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
 import {
-	ButtonElevated,
-	ButtonFilled,
-	ButtonOutlined,
-	ButtonText,
-	ButtonTonal
+    ButtonElevated,
+    ButtonFilled,
+    ButtonOutlined,
+    ButtonText,
+    ButtonTonal
 } from "~/components/Button"
 
 const variants = {

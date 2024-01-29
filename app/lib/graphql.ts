@@ -1,9 +1,16 @@
 import type {
-	ResultOf,
-	DocumentTypeDecoration,
-	TypedDocumentNode
+	DocumentTypeDecoration as DocumentTypeDecoration_,
+	ResultOf as ResultOf_
 } from "@graphql-typed-document-node/core"
-import { FragmentType } from "~/gql"
+import { FragmentType as FragmentType_ } from "~/gql"
+export { graphql } from "~/gql"
+
+export type FragmentType<F extends (...args: any) => any> = FragmentType_<
+	ReturnType<F>
+>
+
+type DocumentTypeDecoration<T, V> = () => DocumentTypeDecoration_<T, V>
+type ResultOf<F extends (...args: any) => any> = ResultOf_<ReturnType<F>>
 
 // return non-nullable if `fragmentType` is non-nullable
 export function useFragment<F extends DocumentTypeDecoration<any, any>>(
