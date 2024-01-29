@@ -15,8 +15,6 @@ import { useFragment as readFragment } from "~/lib/graphql"
 import { graphql } from "~/lib/graphql"
 import { avalible as getAvalible } from "../media/avalible"
 
-
-
 function ListItem_entry() {
 	return graphql(`
 		fragment ListItem_entry on MediaList {

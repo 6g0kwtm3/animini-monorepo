@@ -12,7 +12,6 @@ import { Predicate } from "effect"
 import List from "~/components/List"
 import { ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
- 
 
 const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: "Finished",

@@ -1,4 +1,4 @@
-import type { } from "~/gql"
+import type {} from "~/gql"
 import { graphql } from "~/gql"
 import { FragmentType, useFragment as readFragment } from "~/lib/graphql"
 import { avalible } from "../media/avalible"

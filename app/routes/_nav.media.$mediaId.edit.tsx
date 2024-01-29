@@ -1,15 +1,15 @@
 import {
-    json,
-    redirect,
-    type ActionFunction,
-    type LoaderFunction
+	json,
+	redirect,
+	type ActionFunction,
+	type LoaderFunction
 } from "@remix-run/node"
 import {
-    Link,
-    useActionData,
-    useFetcher,
-    useNavigate,
-    useNavigation
+	Link,
+	useActionData,
+	useFetcher,
+	useNavigate,
+	useNavigation
 } from "@remix-run/react"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 
@@ -17,16 +17,16 @@ import { ButtonText } from "~/components/Button"
 
 import { divide, sumAll } from "effect/Number"
 import {
-    TextFieldOutlined,
-    TextFieldOutlinedFactory,
-    TextFieldOutlinedInput
+	TextFieldOutlined,
+	TextFieldOutlinedFactory,
+	TextFieldOutlinedInput
 } from "~/components/TextField"
 import { MediaListStatus, ScoreFormat } from "~/gql/graphql"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
 } from "~/lib/urql.server"
 
 import * as S from "@effect/schema/Schema"
