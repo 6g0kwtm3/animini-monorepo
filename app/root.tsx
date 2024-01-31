@@ -42,18 +42,16 @@ export const links: LinksFunction = () => {
 	return [{ rel: "stylesheet", href: tailwindcss }]
 }
 
-const _loader = pipe(
-	Effect.Do,
-	Effect.bind("args", () => ClientArgs),
-	Effect.bind("client", () => EffectUrql),
-	Effect.flatMap(({ client, args }) => Viewer),
-	Effect.map(Option.getOrNull),
-	Effect.map((Viewer) => ({ Viewer }))
-)
-
 export const loader = (async (args) => {
 	return pipe(
-		_loader,
+		pipe(
+			Effect.Do,
+			Effect.bind("args", () => ClientArgs),
+			Effect.bind("client", () => EffectUrql),
+			Effect.flatMap(({ client, args }) => Viewer),
+			Effect.map(Option.getOrNull),
+			Effect.map((Viewer) => ({ Viewer }))
+		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader

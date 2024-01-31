@@ -1,15 +1,15 @@
 import {
-    json,
-    redirect,
-    type ActionFunction,
-    type LoaderFunction
+	json,
+	redirect,
+	type ActionFunction,
+	type LoaderFunction
 } from "@remix-run/node"
 import {
-    Link,
-    useActionData,
-    useFetcher,
-    useNavigate,
-    useNavigation
+	Link,
+	useActionData,
+	useFetcher,
+	useNavigate,
+	useNavigation
 } from "@remix-run/react"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 
@@ -17,16 +17,16 @@ import { ButtonText } from "~/components/Button"
 
 import { divide, sumAll } from "effect/Number"
 import {
-    TextFieldOutlined,
-    TextFieldOutlinedFactory,
-    TextFieldOutlinedInput
+	TextFieldOutlined,
+	TextFieldOutlinedFactory,
+	TextFieldOutlinedInput
 } from "~/components/TextField"
 import { MediaListStatus, ScoreFormat } from "~/gql/graphql"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
 } from "~/lib/urql.server"
 
 import * as S from "@effect/schema/Schema"
@@ -63,7 +63,74 @@ const UnpadStart = (maxLength: number, fillString?: string | undefined) =>
 
 export const loader = (async (args) => {
 	return pipe(
-		_loader,
+		Effect.gen(function* (_) {
+			const { mediaId } = yield* _(
+				Remix.params({ mediaId: S.NumberFromString })
+			)
+			const { searchParams } = yield* _(ClientArgs)
+			const client = yield* _(EffectUrql)
+
+			const format = yield* _(
+				S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(
+					searchParams.get("format")
+				)
+			)
+
+			return yield* _(
+				client.query(
+					graphql(`
+						query EditPageMedia($mediaId: Int!, $format: ScoreFormat) {
+							Viewer {
+								id
+								mediaListOptions {
+									scoreFormat
+									animeList {
+										advancedScoringEnabled
+										advancedScoring
+										...CustomLists_mediaListTypeOptions
+									}
+									mangaList {
+										advancedScoringEnabled
+										advancedScoring
+										...CustomLists_mediaListTypeOptions
+									}
+								}
+							}
+							Media(id: $mediaId) {
+								id
+								episodes
+								type
+								...Progress_media
+								mediaListEntry {
+									status
+									id
+									advancedScores
+									customLists
+									notes
+									score(format: $format)
+									repeat
+									progress
+									startedAt {
+										day
+										month
+										year
+									}
+									completedAt {
+										day
+										month
+										year
+									}
+								}
+							}
+						}
+					`),
+					{
+						format,
+						mediaId
+					}
+				)
+			)
+		}),
 		Effect.map((data) =>
 			Predicate.isNotNull(data?.Viewer)
 				? json(data, {
@@ -108,105 +175,38 @@ const FuzzyDateInput = S.compose(
 	)
 )
 
-const Save = graphql(`
-	mutation Save(
-		$mediaId: Int
-		$advancedScores: [Float]
-		$completedAt: FuzzyDateInput
-		$startedAt: FuzzyDateInput
-		$notes: String
-		$progress: Int
-		$repeat: Int
-		$score: Float
-		$status: MediaListStatus
-		$customLists: [String]
-	) {
-		SaveMediaListEntry(
-			advancedScores: $advancedScores
-			completedAt: $completedAt
-			startedAt: $startedAt
-			notes: $notes
-			mediaId: $mediaId
-			progress: $progress
-			repeat: $repeat
-			score: $score
-			status: $status
-			customLists: $customLists
+function Save() {
+	return graphql(`
+		mutation Save(
+			$mediaId: Int
+			$advancedScores: [Float]
+			$completedAt: FuzzyDateInput
+			$startedAt: FuzzyDateInput
+			$notes: String
+			$progress: Int
+			$repeat: Int
+			$score: Float
+			$status: MediaListStatus
+			$customLists: [String]
 		) {
-			id
-		}
-	}
-`)
-
-const EditPageMedia = graphql(`
-	query EditPageMedia($mediaId: Int!, $format: ScoreFormat) {
-		Viewer {
-			id
-			mediaListOptions {
-				scoreFormat
-				animeList {
-					advancedScoringEnabled
-					advancedScoring
-					...CustomLists_mediaListTypeOptions
-				}
-				mangaList {
-					advancedScoringEnabled
-					advancedScoring
-					...CustomLists_mediaListTypeOptions
-				}
-			}
-		}
-		Media(id: $mediaId) {
-			id
-			episodes
-			type
-			...Progress_media
-			mediaListEntry {
-				status
+			SaveMediaListEntry(
+				advancedScores: $advancedScores
+				completedAt: $completedAt
+				startedAt: $startedAt
+				notes: $notes
+				mediaId: $mediaId
+				progress: $progress
+				repeat: $repeat
+				score: $score
+				status: $status
+				customLists: $customLists
+			) {
 				id
-				advancedScores
-				customLists
-				notes
-				score(format: $format)
-				repeat
-				progress
-				startedAt {
-					day
-					month
-					year
-				}
-				completedAt {
-					day
-					month
-					year
-				}
 			}
 		}
-	}
-`)
-
+	`)
+}
 const ScoreFormatSchema = S.enums(ScoreFormat)
-
-const _loader = pipe(
-	Effect.gen(function* (_) {
-		const { mediaId } = yield* _(Remix.params({ mediaId: S.NumberFromString }))
-		const { searchParams } = yield* _(ClientArgs)
-		const client = yield* _(EffectUrql)
-
-		const format = yield* _(
-			S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(
-				searchParams.get("format")
-			)
-		)
-
-		return yield* _(
-			client.query(EditPageMedia, {
-				format,
-				mediaId
-			})
-		)
-	})
-)
 
 const { root, content, headline, backdrop, body, actions } = dialog({
 	variant: {
@@ -475,12 +475,14 @@ function StartDate(
 	return <TextFieldOutlinedFactory {...props} type="date" label="Start Date" />
 }
 
-const Progress_media = graphql(`
-	fragment Progress_media on Media {
-		id
-		episodes
-	}
-`)
+function Progress_media() {
+	return graphql(`
+		fragment Progress_media on Media {
+			id
+			episodes
+		}
+	`)
+}
 
 function Progress({
 	media,
@@ -546,12 +548,14 @@ function Notes(
 	)
 }
 
-const AdvancedScoring_listOptions = graphql(`
-	fragment AdvancedScoring_listOptions on MediaListTypeOptions {
-		advancedScoringEnabled
-		advancedScoring
-	}
-`)
+function AdvancedScoring_listOptions() {
+	return graphql(`
+		fragment AdvancedScoring_listOptions on MediaListTypeOptions {
+			advancedScoringEnabled
+			advancedScoring
+		}
+	`)
+}
 
 function AdvancedScores({
 	advancedScoring: listOptions,
@@ -591,11 +595,13 @@ function AdvancedScore(
 	)
 }
 
-const CustomLists_mediaListTypeOptions = graphql(`
-	fragment CustomLists_mediaListTypeOptions on MediaListTypeOptions {
-		customLists
-	}
-`)
+function CustomLists_mediaListTypeOptions() {
+	return graphql(`
+		fragment CustomLists_mediaListTypeOptions on MediaListTypeOptions {
+			customLists
+		}
+	`)
+}
 
 function CustomLists({
 	listOptions,

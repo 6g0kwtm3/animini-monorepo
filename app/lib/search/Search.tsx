@@ -25,7 +25,6 @@ import type { FragmentType } from "~/lib/graphql"
 import { useFragment } from "~/lib/graphql"
 import { list } from "../list"
 
-
 import type { loader as navLoader } from "~/routes/_nav"
 
 const tv = createTV({ twMerge: false })

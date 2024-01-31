@@ -2,12 +2,12 @@ import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import { Link, json } from "@remix-run/react"
 import {
-    Effect,
-    Order,
-    Predicate,
-    ReadonlyArray,
-    ReadonlyRecord,
-    pipe
+	Effect,
+	Order,
+	Predicate,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
 } from "effect"
 
 import { CardOutlined } from "~/components/Card"
@@ -20,10 +20,10 @@ import { ListItem } from "~/lib/entry/ListItem"
 import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
 } from "~/lib/urql.server"
 
 function isTypelist(value: unknown): value is "animelist" | "mangalist" {
@@ -55,92 +55,90 @@ function FiltersQueryVariables(
 	}
 }
 
-const _loader = Effect.gen(function* (_) {
-	const args = yield* _(ClientArgs)
-	const client = yield* _(EffectUrql)
-	const variables = FiltersQueryVariables(args.params)
-
-	const MediaListCollection = yield* _(
-		client.query(
-			graphql(`
-				query ListsQuery($userName: String!, $type: MediaType!) {
-					MediaListCollection(
-						userName: $userName
-						type: $type
-						sort: [FINISHED_ON_DESC, UPDATED_TIME_DESC]
-					) {
-						user {
-							id
-							name
-							mediaListOptions {
-								animeList {
-									sectionOrder
-								}
-								mangaList {
-									sectionOrder
-								}
-							}
-						}
-						lists {
-							name
-							entries {
-								id
-								...ListItem_entry
-							}
-						}
-					}
-				}
-			`),
-			variables
-		),
-		Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
-	)
-
-	const listOptions =
-		variables.type === MediaType.Anime
-			? MediaListCollection.user?.mediaListOptions?.animeList
-			: MediaListCollection.user?.mediaListOptions?.mangaList
-
-	const order = ReadonlyRecord.fromEntries(
-		(listOptions?.sectionOrder ?? [])
-			.filter(Predicate.isNotNull)
-			.map((key, index) => [key, index])
-	)
-
-	return json(
-		{
-			MediaListCollection: {
-				...MediaListCollection,
-				lists: pipe(
-					MediaListCollection.lists
-						?.filter(Predicate.isNotNull)
-						.map((list) => ({
-							...list,
-							entries: list.entries?.slice(0, 4).filter(Predicate.isNotNull)
-						})) ?? [],
-					ReadonlyArray.sortBy(
-						Order.mapInput(
-							Order.number,
-							(list) => order[list.name ?? ""] ?? Number.POSITIVE_INFINITY
-						),
-						Order.reverse(
-							Order.mapInput(Order.string, (list) => list.name ?? "")
-						)
-					)
-				)
-			}
-		},
-		{
-			headers: {
-				"Cache-Control": "max-age=60, s-maxage=60"
-			}
-		}
-	)
-})
-
 export const loader = (async (args) => {
 	return pipe(
-		_loader,
+		Effect.gen(function* (_) {
+			const args = yield* _(ClientArgs)
+			const client = yield* _(EffectUrql)
+			const variables = FiltersQueryVariables(args.params)
+
+			const MediaListCollection = yield* _(
+				client.query(
+					graphql(`
+						query ListsQuery($userName: String!, $type: MediaType!) {
+							MediaListCollection(
+								userName: $userName
+								type: $type
+								sort: [FINISHED_ON_DESC, UPDATED_TIME_DESC]
+							) {
+								user {
+									id
+									name
+									mediaListOptions {
+										animeList {
+											sectionOrder
+										}
+										mangaList {
+											sectionOrder
+										}
+									}
+								}
+								lists {
+									name
+									entries {
+										id
+										...ListItem_entry
+									}
+								}
+							}
+						}
+					`),
+					variables
+				),
+				Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
+			)
+
+			const listOptions =
+				variables.type === MediaType.Anime
+					? MediaListCollection.user?.mediaListOptions?.animeList
+					: MediaListCollection.user?.mediaListOptions?.mangaList
+
+			const order = ReadonlyRecord.fromEntries(
+				(listOptions?.sectionOrder ?? [])
+					.filter(Predicate.isNotNull)
+					.map((key, index) => [key, index])
+			)
+
+			return json(
+				{
+					MediaListCollection: {
+						...MediaListCollection,
+						lists: pipe(
+							MediaListCollection.lists
+								?.filter(Predicate.isNotNull)
+								.map((list) => ({
+									...list,
+									entries: list.entries?.slice(0, 4).filter(Predicate.isNotNull)
+								})) ?? [],
+							ReadonlyArray.sortBy(
+								Order.mapInput(
+									Order.number,
+									(list) => order[list.name ?? ""] ?? Number.POSITIVE_INFINITY
+								),
+								Order.reverse(
+									Order.mapInput(Order.string, (list) => list.name ?? "")
+								)
+							)
+						)
+					}
+				},
+				{
+					headers: {
+						"Cache-Control": "max-age=60, s-maxage=60"
+					}
+				}
+			)
+		}),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
