@@ -148,11 +148,11 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 				<TooltipRichSupportingText>
 					{avalible !== entry.media?.episodes ? (
 						<>
-							{m.avalible_episodes({avalible:avalible?? "unknown"})}
+							{m.avalible_episodes({ avalible: avalible ?? "unknown" })}
 							<br />
 							{m.total_episodes({
 								total: entry.media?.episodes ?? "unknown"
-							})} 
+							})}
 						</>
 					) : (
 						<>{m.all_avalible()}</>
@@ -181,4 +181,3 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 }
 
 import * as m from "~/paraglide/messages.js"
-
