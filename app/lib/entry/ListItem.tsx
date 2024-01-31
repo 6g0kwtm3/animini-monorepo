@@ -148,12 +148,14 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 				<TooltipRichSupportingText>
 					{avalible !== entry.media?.episodes ? (
 						<>
-							Avalible episodes: {avalible ?? "unknown"}
+							{m.avalible_episodes({avalible:avalible?? "unknown"})}
 							<br />
-							Total episodes: {entry.media?.episodes ?? "unknown"}
+							{m.total_episodes({
+								total: entry.media?.episodes ?? "unknown"
+							})} 
 						</>
 					) : (
-						<>All episodes are avalible</>
+						<>{m.all_avalible()}</>
 					)}
 				</TooltipRichSupportingText>
 				{Predicate.isString(data?.Viewer?.name) &&
@@ -168,7 +170,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 								/>
 								<ButtonText type="submit" className="">
 									<ButtonText.Icon>add</ButtonText.Icon>
-									Increment progress
+									{m.increment_progress()}
 								</ButtonText>
 							</Form>
 						</TooltipRichActions>
@@ -177,3 +179,6 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 		</TooltipRich>
 	)
 }
+
+import * as m from "~/paraglide/messages.js"
+

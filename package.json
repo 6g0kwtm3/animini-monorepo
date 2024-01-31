@@ -11,10 +11,10 @@
 		"start:electron": "electron .",
 		"typecheck": "tsc",
 		"codegen": "graphql-codegen-esm --config codegen.ts",
-		"prepare": "pnpm run codegen",
 		"knip": "knip",
 		"lint": "eslint . --fix",
-		"format": "prettier . -w"
+		"format": "prettier . -w",
+		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide"
 	},
 	"dependencies": {
 		"@ariakit/react": "^0.4.0",
@@ -60,6 +60,8 @@
 		"@graphql-eslint/eslint-plugin": "^3.20.1",
 		"@graphql-tools/relay-operation-optimizer": "^7.0.0",
 		"@graphql-typed-document-node/core": "^3.2.0",
+		"@inlang/paraglide-js": "1.2.2",
+		"@inlang/paraglide-js-adapter-vite": "^1.2.11",
 		"@parcel/watcher": "^2.4.0",
 		"@remix-run/dev": "2.5.1",
 		"@remix-run/eslint-config": "2.5.1",

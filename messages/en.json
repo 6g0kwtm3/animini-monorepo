@@ -1,0 +1,7 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"increment_progress": "Increment progress",
+	"avalible_episodes": "Avalible episodes: {avalible}",
+	"total_episodes": "Total episodes: {total}",
+	"all_avalible": "All episodes are avalible"
+}
