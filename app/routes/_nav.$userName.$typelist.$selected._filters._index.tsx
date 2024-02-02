@@ -1,17 +1,22 @@
 import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
 import type { Params } from "@remix-run/react"
 import {
+	Await,
+	defer,
 	isRouteErrorResponse,
-	json,
-	useParams,
-	useRouteError,
-	useSearchParams
+	useRouteError
 } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
-import { MediaType } from "~/gql/graphql"
+import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { graphql } from "~/lib/graphql"
-import { MediaList } from "~/lib/list/MediaList"
+import {
+	AwaitLibrary,
+	MediaList,
+	MediaListHeader,
+	MediaListHeaderToWatch,
+	MediaListRoot
+} from "~/lib/list/MediaList"
 import {
 	ClientArgs,
 	EffectUrql,
@@ -20,17 +25,28 @@ import {
 	type InferVariables
 } from "~/lib/urql.server"
 
-import { Effect, Option, ReadonlyArray, ReadonlyRecord, pipe } from "effect"
+import {
+	Effect,
+	Option,
+	Order,
+	Predicate,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
+} from "effect"
 
 // import {} from 'glob'
 
 import { layer } from "@effect/platform-node/FileSystem"
-import { FileSystem } from "@effect/platform/FileSystem"
+import { Suspense } from "react"
 import { CardElevated } from "~/components/Card"
+import List from "~/components/List"
+import { Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { getLibrary } from "~/lib/electron/library.server"
-import { Library } from "~/lib/entry/ListItem"
+import { ListItemLoader } from "~/lib/entry/ListItem"
+import { toWatch } from "~/lib/entry/toWatch"
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>
@@ -51,76 +67,127 @@ function TypelistQueryVariables(
 	})
 }
 
+function TypelistQuery() {
+	return graphql(`
+		query TypelistQuery($userName: String!, $type: MediaType!) {
+			MediaListCollection(userName: $userName, type: $type) {
+				lists {
+					name
+					...MediaList_group
+					entries {
+						...ToWatch_entry
+						id
+						media {
+							id
+							status
+							format
+						}
+					}
+				}
+			}
+		}
+	`)
+}
+
 export const loader = (async (args) => {
 	// make()
 
-	return pipe(
-		Effect.Do,
-		Effect.bind("args", () => ClientArgs),
-		Effect.bind("client", () => EffectUrql),
-		Effect.bind("variables", () => TypelistQueryVariables(args.params)),
-		Effect.bind("selected", ({ args }) =>
-			Option.fromNullable(args.params["selected"])
-		),
-		Effect.bind("FileSystem", () => FileSystem),
-		Effect.bind("MediaListCollection", ({ client, args, variables }) =>
-			pipe(
-				client.query(
-					graphql(`
-						query TypelistQuery($userName: String!, $type: MediaType!) {
-							MediaListCollection(userName: $userName, type: $type) {
-								lists {
-									name
-									...MediaList_group
-									entries {
-										id
-										media {
-											id
-											status
-										}
-									}
-								}
-							}
-						}
-					`),
-					variables
-				),
-				Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
-			)
-		),
-		Effect.bind("Library", () =>
+	return defer({
+		Library: pipe(
 			Effect.succeed(
 				ReadonlyArray.groupBy(Object.values(getLibrary()), ({ title }) => title)
-			)
+			),
+			Effect.provide(LoaderLive),
+			Effect.provideService(LoaderArgs, args),
+			Effect.provide(layer),
+			Remix.runLoader
 		),
-		Effect.flatMap(({ MediaListCollection, Library, selected }) => {
-			const SelectedList = MediaListCollection.lists?.find(
-				(list) => list?.name === selected
-			)
+		SelectedList: pipe(
+			Effect.Do,
+			Effect.bind("args", () => ClientArgs),
+			Effect.bind("client", () => EffectUrql),
+			Effect.bind("variables", () => TypelistQueryVariables(args.params)),
+			Effect.bind("selected", ({ args }) => {
+				return Option.fromNullable(args.params["selected"])
+			}),
+			Effect.bind("data", ({ client, args, variables }) => {
+				return client.query(TypelistQuery(), variables)
+			}),
+			Effect.bind("SelectedList", ({ data, selected }) => {
+				return Option.fromNullable(
+					data?.MediaListCollection?.lists?.find(
+						(list) => list?.name === selected
+					)
+				)
+			}),
+			Effect.map(({ SelectedList, args: { searchParams } }) => {
+				const status = searchParams
+					.getAll("status")
+					.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
 
-			return Effect.all({
-				SelectedList: Option.fromNullable(SelectedList),
-				Library: Option.some(Library)
-			})
-		}),
+				const format = searchParams
+					.getAll("format")
+					.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
 
-		// Effect.catchTag("NoSuchElementException", () =>
-		// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
-		// ),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.provide(layer),
+				let entries = pipe(
+					SelectedList.entries?.filter(Predicate.isNotNull) ?? [],
+					ReadonlyArray.sortBy(
+						// Order.mapInput(Order.number, (entry) => behind(entry)),
+						Order.mapInput(
+							Order.number,
+							(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
+						),
+						Order.mapInput(Order.number, (entry) => {
+							return [
+								MediaStatus.Releasing,
+								MediaStatus.NotYetReleased
+							].indexOf(entry.media?.status)
+						})
+					)
+				)
 
-		Effect.map((data) =>
-			json(data, {
-				headers: {
-					"Cache-Control": "max-age=60, s-maxage=60"
+				if (status.length) {
+					entries = entries.filter((entry) =>
+						status.includes(entry.media?.status ?? "")
+					)
 				}
-			})
-		),
-		Remix.runLoader
-	)
+
+				if (format.length) {
+					entries = entries.filter((entry) =>
+						format.includes(entry.media?.format ?? "")
+					)
+				}
+
+				return { ...SelectedList, entries }
+			}),
+
+			// Effect.catchTag("NoSuchElementException", () =>
+			// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
+			// ),
+			Effect.provide(LoaderLive),
+			Effect.provideService(LoaderArgs, args),
+			Effect.provide(layer),
+			Remix.runLoader
+		)
+	})
 }) satisfies LoaderFunction
+
+const STATUS_OPTIONS = {
+	[MediaStatus.Finished]: "Finished",
+	[MediaStatus.Releasing]: "Releasing",
+	[MediaStatus.NotYetReleased]: "Not Yet Released",
+	[MediaStatus.Cancelled]: "Cancelled"
+}
+
+const FORMAT_OPTIONS = {
+	[MediaFormat.Tv]: "TV",
+	[MediaFormat.TvShort]: "TV Short",
+	[MediaFormat.Movie]: "Movie",
+	[MediaFormat.Special]: "Special",
+	[MediaFormat.Ova]: "OVA",
+	[MediaFormat.Ona]: "ONA",
+	[MediaFormat.Music]: "Music"
+}
 
 export const headers: HeadersFunction = () => {
 	return { "Cache-Control": "max-age=60, private" }
@@ -133,19 +200,49 @@ declare global {
 }
 
 export default function Page() {
-	const [searchParams] = useSearchParams()
-	const params = useParams()
-
 	const data = useRawLoaderData<typeof loader>()
-
-	const selected = params["selected"]
 
 	return (
 		<div className=" ">
-			<div className={` `}>
-				<Library.Provider value={data.Library}>
-					<MediaList item={data.SelectedList}></MediaList>
-				</Library.Provider>
+			<div className={`pt-4`}>
+				<MediaListRoot>
+					<MediaListHeader>
+						<Suspense
+							fallback={
+								<Skeleton>
+									154h 43min
+								</Skeleton>
+							}
+						>
+							<Await resolve={data.SelectedList}>
+								{(selectedList) => (
+									<MediaListHeaderToWatch
+										entries={selectedList.entries}
+									></MediaListHeaderToWatch>
+								)}
+							</Await>
+						</Suspense>
+					</MediaListHeader>
+					<List>
+						<Suspense
+							fallback={ReadonlyArray.range(1, 7).map((i) => (
+								<ListItemLoader key={i} />
+							))}
+						>
+							<Await resolve={data.SelectedList}>
+								{(selectedList) => (
+									<Suspense
+										fallback={<MediaList entries={selectedList.entries} />}
+									>
+										<AwaitLibrary resolve={data.Library}>
+											<MediaList entries={selectedList.entries} />
+										</AwaitLibrary>
+									</Suspense>
+								)}
+							</Await>
+						</Suspense>
+					</List>
+				</MediaListRoot>
 			</div>
 		</div>
 	)

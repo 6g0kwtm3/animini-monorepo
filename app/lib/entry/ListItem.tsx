@@ -1,5 +1,8 @@
 import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
 
+import { Skeleton } from "~/components/Skeleton"
+import { m } from "~/lib/paraglide"
+
 import { Predicate } from "effect"
 import { ButtonText } from "~/components/Button"
 import {
@@ -103,6 +106,39 @@ export function ListItem(props: {
 	)
 }
 
+export function ListItemLoader(props: {}) {
+	return (
+		<List.Item className="">
+			<div className="col-start-1 h-14 w-14">
+				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent"></div>
+			</div>
+			<div className="col-start-2 grid grid-cols-subgrid">
+				<span className="line-clamp-1 text-body-lg">
+					<Skeleton>Mahou Shoujo ni Akogarete</Skeleton>
+				</span>
+				<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
+					<div>
+						<Skeleton>
+							<span className="i i-inline">grade</span>7
+						</Skeleton>
+					</div>
+					&middot;
+					<div>
+						<Skeleton>
+							<span className="i i-inline">timer</span>
+							24min to watch
+						</Skeleton>
+					</div>
+				</div>
+			</div>
+
+			<div className="col-start-3 text-label-sm text-on-surface-variant">
+				<Skeleton>1/12</Skeleton>
+			</div>
+		</List.Item>
+	)
+}
+
 function Progress_entry() {
 	return graphql(`
 		fragment Progress_entry on MediaList {
@@ -179,5 +215,3 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 		</TooltipRich>
 	)
 }
-
-import * as m from "~/paraglide/messages.js"

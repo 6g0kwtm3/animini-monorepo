@@ -291,9 +291,12 @@ function Edit() {
 							</Link>
 						}
 					></TooltipPlainTrigger>
-					<TooltipPlainContainer>Edit</TooltipPlainContainer>
+					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
 				</TooltipPlain>
 			</div>
 		</motion.div>
 	)
 }
+
+import { m } from "~/lib/paraglide"
+
