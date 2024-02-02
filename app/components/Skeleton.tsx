@@ -2,7 +2,7 @@ export function Skeleton(props) {
 	return (
 		<div
 			{...props}
-			className="h-[1lh] animate-pulse overflow-hidden rounded-xs bg-surface-container-highest text-transparent inline select-none"
+			className="inline h-[1lh] animate-pulse select-none overflow-hidden rounded-xs bg-surface-container-highest text-transparent"
 		></div>
 	)
 }

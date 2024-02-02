@@ -207,13 +207,7 @@ export default function Page() {
 			<div className={`pt-4`}>
 				<MediaListRoot>
 					<MediaListHeader>
-						<Suspense
-							fallback={
-								<Skeleton>
-									154h 43min
-								</Skeleton>
-							}
-						>
+						<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
 							<Await resolve={data.SelectedList}>
 								{(selectedList) => (
 									<MediaListHeaderToWatch
