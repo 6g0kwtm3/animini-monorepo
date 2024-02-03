@@ -10,7 +10,7 @@ import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 import { AnitomyResult } from "anitomy"
 import { NonEmptyArray } from "effect/ReadonlyArray"
-import { PropsWithChildren, ReactNode } from "react"
+import { ComponentPropsWithoutRef, PropsWithChildren, ReactNode } from "react"
 import { graphql } from "~/lib/graphql"
 
 function MediaListHeaderToWatch_entries() {
@@ -43,15 +43,17 @@ export function MediaList(props) {
 	)
 }
 
-export function AwaitLibrary(
-	props: PropsWithChildren<{
-		resolve: Promise<Record<string, NonEmptyArray<AnitomyResult>>>
-	}>
-) {
+export function AwaitLibrary({
+	children,
+	...props
+}: ComponentPropsWithoutRef<typeof Await> & {
+	children: ReactNode
+	resolve: Promise<Record<string, NonEmptyArray<AnitomyResult>>>
+}) {
 	return (
-		<Await resolve={props.resolve}>
+		<Await {...props}>
 			{(library) => (
-				<Library.Provider value={library}>{props.children}</Library.Provider>
+				<Library.Provider value={library}>{children}</Library.Provider>
 			)}
 		</Await>
 	)
