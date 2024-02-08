@@ -25,5 +25,10 @@ export default defineConfig({
 	},
 	define: {
 		"process.env.NODE_DEBUG": false
-	}
+	},
+	ssr: {
+    resolve: {
+      externalConditions: ["workerd", "worker"],
+    },
+  },
 })
