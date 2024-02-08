@@ -1,9 +1,9 @@
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import { useFragment as readFragment , graphql } from "~/lib/graphql"
 
 import { behind } from "./behind"
 
-import { graphql } from "~/lib/graphql"
+
 
 function ToWatch_entry() {
 	return graphql(`

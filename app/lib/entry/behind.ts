@@ -1,6 +1,5 @@
-import type {} from "~/gql"
 import { graphql } from "~/gql"
-import { FragmentType, useFragment as readFragment } from "~/lib/graphql"
+import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 import { avalible } from "../media/avalible"
 
 function Behind_entry() {

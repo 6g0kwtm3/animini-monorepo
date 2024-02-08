@@ -8,9 +8,9 @@ import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 import { Library, ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
-import { AnitomyResult } from "anitomy"
-import { NonEmptyArray } from "effect/ReadonlyArray"
-import { ComponentPropsWithoutRef, PropsWithChildren, ReactNode } from "react"
+import type { AnitomyResult } from "anitomy"
+import type { NonEmptyArray } from "effect/ReadonlyArray"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { graphql } from "~/lib/graphql"
 
 function MediaListHeaderToWatch_entries() {

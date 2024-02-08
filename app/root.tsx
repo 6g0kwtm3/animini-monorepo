@@ -18,7 +18,6 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import type { LinksFunction, LoaderFunction } from "@remix-run/node"
 
-import { Analytics } from "@vercel/analytics/react"
 import { Effect, Option, pipe } from "effect"
 import { useEffect } from "react"
 import { Remix } from "./lib/Remix/index.server"
@@ -35,7 +34,6 @@ import tailwindcss from "./tailwind.css?url"
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
-import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { Viewer } from "./lib/Remix/Remix.server"
 
 export const links: LinksFunction = () => {
@@ -97,8 +95,6 @@ export default function App() {
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
-				<Analytics />
-				<SpeedInsights></SpeedInsights>
 			</body>
 		</html>
 	)

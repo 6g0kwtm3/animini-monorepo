@@ -47,6 +47,7 @@ import { useRawLoaderData } from "~/lib/data"
 import { getLibrary } from "~/lib/electron/library.server"
 import { ListItemLoader } from "~/lib/entry/ListItem"
 import { toWatch } from "~/lib/entry/toWatch"
+import { m } from "~/lib/paraglide"
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>
@@ -141,7 +142,7 @@ export const loader = (async (args) => {
 							return [
 								MediaStatus.Releasing,
 								MediaStatus.NotYetReleased
-							].indexOf(entry.media?.status)
+							].indexOf(entry.media?.status ?? MediaStatus.Cancelled)
 						})
 					)
 				)
@@ -173,30 +174,24 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 const STATUS_OPTIONS = {
-	[MediaStatus.Finished]: "Finished",
-	[MediaStatus.Releasing]: "Releasing",
-	[MediaStatus.NotYetReleased]: "Not Yet Released",
-	[MediaStatus.Cancelled]: "Cancelled"
+	[MediaStatus.Finished]: m.media_status_finished(),
+	[MediaStatus.Releasing]: m.media_status_releasing(),
+	[MediaStatus.NotYetReleased]: m.media_status_not_yet_released(),
+	[MediaStatus.Cancelled]: m.media_status_cancelled()
 }
 
 const FORMAT_OPTIONS = {
-	[MediaFormat.Tv]: "TV",
-	[MediaFormat.TvShort]: "TV Short",
-	[MediaFormat.Movie]: "Movie",
-	[MediaFormat.Special]: "Special",
-	[MediaFormat.Ova]: "OVA",
-	[MediaFormat.Ona]: "ONA",
-	[MediaFormat.Music]: "Music"
+	[MediaFormat.Tv]: m.media_format_tv(),
+	[MediaFormat.TvShort]: m.media_format_tv_short(),
+	[MediaFormat.Movie]: m.media_format_movie(),
+	[MediaFormat.Special]: m.media_format_special(),
+	[MediaFormat.Ova]: m.media_format_ova(),
+	[MediaFormat.Ona]: m.media_format_ona(),
+	[MediaFormat.Music]: m.media_format_music()
 }
 
 export const headers: HeadersFunction = () => {
 	return { "Cache-Control": "max-age=60, private" }
-}
-
-declare global {
-	interface Array<T> {
-		indexOf(searchElement: unknown, fromIndex?: number): number
-	}
 }
 
 export default function Page() {
