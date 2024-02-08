@@ -1,0 +1,19 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"increment_progress": "Increment progress",
+	"avalible_episodes": "Avalible episodes: {avalible}",
+	"total_episodes": "Total episodes: {total}",
+	"all_avalible": "All episodes are avalible",
+	"edit": "Edit",
+	"media_status_finished": "Finished",
+	"media_status_releasing": "Releasing",
+	"media_status_not_yet_released": "Not Yet Released",
+	"media_status_cancelled": "Cancelled",
+	"media_format_tv": "TV",
+	"media_format_tv_short": "TV Short",
+	"media_format_movie": "Movie",
+	"media_format_special": "Special",
+	"media_format_ova": "OVA",
+	"media_format_ona": "ONA",
+	"media_format_music": "Music"
+}
