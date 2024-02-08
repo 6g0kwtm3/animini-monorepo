@@ -1,4 +1,4 @@
-import { TypedDeferredData, TypedResponse } from "@remix-run/node"
+import { TypedDeferredData, TypedResponse } from "@remix-run/cloudflare"
 import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
 
 export function useRawLoaderData<T>(): SerializeFrom<T> {

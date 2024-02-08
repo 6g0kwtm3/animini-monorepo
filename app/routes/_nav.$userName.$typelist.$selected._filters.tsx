@@ -1,14 +1,14 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import type { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import {
-	Form,
-	Link,
-	Outlet,
-	useParams,
-	useSearchParams,
-	useSubmit
+    Form,
+    Link,
+    Outlet,
+    useParams,
+    useSearchParams,
+    useSubmit
 } from "@remix-run/react"
 import { Effect, Order, pipe } from "effect"
 

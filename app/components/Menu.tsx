@@ -1,4 +1,5 @@
-import { Slot } from "@radix-ui/react-slot"
+const Slot = 'li'
+
 import type { ComponentPropsWithoutRef, ElementRef } from "react"
 import { useEffect, useRef } from "react"
 

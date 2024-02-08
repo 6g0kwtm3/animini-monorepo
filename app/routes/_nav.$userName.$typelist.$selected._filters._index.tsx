@@ -1,44 +1,45 @@
-import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
+import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import {
-	Await,
-	defer,
-	isRouteErrorResponse,
-	useRouteError
+    Await,
+    defer,
+    isRouteErrorResponse,
+    useRouteError
 } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { graphql } from "~/lib/graphql"
 import {
-	AwaitLibrary,
-	MediaList,
-	MediaListHeader,
-	MediaListHeaderToWatch,
-	MediaListRoot
+    AwaitLibrary,
+    MediaList,
+    MediaListHeader,
+    MediaListHeaderToWatch,
+    MediaListRoot
 } from "~/lib/list/MediaList"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	type InferVariables
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive,
+    type InferVariables
 } from "~/lib/urql.server"
 
 import {
-	Effect,
-	Option,
-	Order,
-	Predicate,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
+    Effect,
+    Option,
+    Order,
+    Predicate,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 // import {} from 'glob'
 
 import { layer } from "@effect/platform-node/FileSystem"
 import { Suspense } from "react"
+import { serverOnly$ } from "vite-env-only"
 import { CardElevated } from "~/components/Card"
 import List from "~/components/List"
 import { Skeleton } from "~/components/Skeleton"
@@ -68,8 +69,7 @@ function TypelistQueryVariables(
 	})
 }
 
-function TypelistQuery() {
-	return graphql(`
+function TypelistQuery (){return (graphql(`
 		query TypelistQuery($userName: String!, $type: MediaType!) {
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
@@ -87,8 +87,7 @@ function TypelistQuery() {
 				}
 			}
 		}
-	`)
-}
+	`))}
 
 export const loader = (async (args) => {
 	// make()

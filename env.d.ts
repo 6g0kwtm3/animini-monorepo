@@ -1,5 +1,5 @@
+/// <reference types="@remix-run/cloudflare" />
 /// <reference types="vite/client" />
-/// <reference types="@remix-run/node" />
 
 declare module "react" {
 	interface CSSProperties {

@@ -1,13 +1,13 @@
 import { Schema } from "@effect/schema"
-import type { LoaderFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import { Effect, ReadonlyArray, pipe } from "effect"
 import { Media } from "~/lib/search"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 
 const Page = Schema.struct({

@@ -22,10 +22,13 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment } from "~/lib/graphql"
+import { graphql, useFragment } from "~/lib/graphql"
 import { list } from "../list"
 
+import { serverOnly$ } from "vite-env-only"
 import type { loader as navLoader } from "~/routes/_nav"
+
+
 
 const tv = createTV({ twMerge: false })
 
@@ -280,12 +283,8 @@ export function Search() {
 		</>
 	)
 }
-
 const { item, root: listRoot } = list()
-
-import { graphql } from "~/lib/graphql"
-function SearchItem_media() {
-	return graphql(`
+const SearchItem_media = serverOnly$(graphql(`
 		fragment SearchItem_media on Media {
 			id
 			type
@@ -297,8 +296,7 @@ function SearchItem_media() {
 				userPreferred
 			}
 		}
-	`)
-}
+	`))
 
 function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 	const media = useFragment<typeof SearchItem_media>(props.media)

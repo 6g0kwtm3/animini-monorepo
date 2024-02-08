@@ -13,13 +13,20 @@ import {
 	TooltipRichTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
-import { graphql } from "~/lib/graphql"
+
 import { avalible as getAvalible } from "../media/avalible"
 
-function ListItem_entry() {
-	return graphql(`
+import type { AnitomyResult } from "anitomy"
+import type { NonEmptyArray } from "effect/ReadonlyArray"
+import { createContext, useContext } from "react"
+import { serverOnly$ } from "vite-env-only"
+import List from "~/components/List"
+import type { loader as rootLoader } from "~/root"
+import { formatWatch, toWatch } from "./toWatch"
+
+const ListItem_entry = serverOnly$(graphql(`
 		fragment ListItem_entry on MediaList {
 			...ToWatch_entry
 			...Progress_entry
@@ -37,14 +44,7 @@ function ListItem_entry() {
 			}
 		}
 	`)
-}
-
-import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/ReadonlyArray"
-import { createContext, useContext } from "react"
-import List from "~/components/List"
-import type { loader as rootLoader } from "~/root"
-import { formatWatch, toWatch } from "./toWatch"
+)
 
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
@@ -139,19 +139,18 @@ export function ListItemLoader(props: {}) {
 	)
 }
 
-function Progress_entry() {
-	return graphql(`
-		fragment Progress_entry on MediaList {
+const Progress_entry = serverOnly$(graphql(`
+	fragment Progress_entry on MediaList {
+		id
+		progress
+		media {
+			...Avalible_media
 			id
-			progress
-			media {
-				...Avalible_media
-				id
-				episodes
-			}
+			episodes
 		}
-	`)
-}
+	}
+`))
+
 
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 	const entry = readFragment<typeof Progress_entry>(props.entry)

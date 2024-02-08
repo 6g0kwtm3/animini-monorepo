@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/cloudflare"
 import { Form, Link, Outlet, useLocation } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
@@ -9,22 +9,22 @@ import { button } from "~/lib/button"
 import { useRawRouteLoaderData } from "~/lib/data"
 import { Search } from "~/lib/search/Search"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
 import {
-	NavigationBar,
-	NavigationBarItem,
-	NavigationBarItemIcon,
-	NavigationItemLargeBadge
+    NavigationBar,
+    NavigationBarItem,
+    NavigationBarItemIcon,
+    NavigationItemLargeBadge
 } from "~/components/NavigationBar"
 import { graphql } from "~/lib/graphql"
 
-import { defer } from "@remix-run/node"
+import { defer } from "@remix-run/cloudflare"
 
 export const loader = (async (args) => {
 	return defer({

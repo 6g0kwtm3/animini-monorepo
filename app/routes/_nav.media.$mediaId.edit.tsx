@@ -1,15 +1,15 @@
 import {
-	json,
-	redirect,
-	type ActionFunction,
-	type LoaderFunction
-} from "@remix-run/node"
+    json,
+    redirect,
+    type ActionFunction,
+    type LoaderFunction
+} from "@remix-run/cloudflare"
 import {
-	Link,
-	useActionData,
-	useFetcher,
-	useNavigate,
-	useNavigation
+    Link,
+    useActionData,
+    useFetcher,
+    useNavigate,
+    useNavigation
 } from "@remix-run/react"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 
@@ -17,16 +17,16 @@ import { ButtonText } from "~/components/Button"
 
 import { divide, sumAll } from "effect/Number"
 import {
-	TextFieldOutlined,
-	TextFieldOutlinedFactory,
-	TextFieldOutlinedInput
+    TextFieldOutlined,
+    TextFieldOutlinedFactory,
+    TextFieldOutlinedInput
 } from "~/components/TextField"
 import { MediaListStatus, ScoreFormat } from "~/gql/graphql"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 
 import * as S from "@effect/schema/Schema"
@@ -175,8 +175,9 @@ const FuzzyDateInput = S.compose(
 	)
 )
 
-function Save() {
-	return graphql(`
+import { serverOnly$ } from "vite-env-only"
+
+const Save = serverOnly$(graphql(`
 		mutation Save(
 			$mediaId: Int
 			$advancedScores: [Float]
@@ -204,8 +205,7 @@ function Save() {
 				id
 			}
 		}
-	`)
-}
+	`))
 const ScoreFormatSchema = S.enums(ScoreFormat)
 
 const { root, content, headline, backdrop, body, actions } = dialog({
@@ -475,14 +475,12 @@ function StartDate(
 	return <TextFieldOutlinedFactory {...props} type="date" label="Start Date" />
 }
 
-function Progress_media() {
-	return graphql(`
+const Progress_media = serverOnly$(graphql(`
 		fragment Progress_media on Media {
 			id
 			episodes
 		}
-	`)
-}
+	`))
 
 function Progress({
 	media,
@@ -548,14 +546,12 @@ function Notes(
 	)
 }
 
-function AdvancedScoring_listOptions() {
-	return graphql(`
+const AdvancedScoring_listOptions = serverOnly$(graphql(`
 		fragment AdvancedScoring_listOptions on MediaListTypeOptions {
 			advancedScoringEnabled
 			advancedScoring
 		}
-	`)
-}
+	`))
 
 function AdvancedScores({
 	advancedScoring: listOptions,
@@ -595,13 +591,11 @@ function AdvancedScore(
 	)
 }
 
-function CustomLists_mediaListTypeOptions() {
-	return graphql(`
+const CustomLists_mediaListTypeOptions = serverOnly$(graphql(`
 		fragment CustomLists_mediaListTypeOptions on MediaListTypeOptions {
 			customLists
 		}
-	`)
-}
+	`))
 
 function CustomLists({
 	listOptions,

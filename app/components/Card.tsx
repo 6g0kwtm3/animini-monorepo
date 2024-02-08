@@ -1,4 +1,5 @@
-import { Slot } from "@radix-ui/react-slot"
+const Slot = 'div'
+
 import type { ComponentPropsWithoutRef, FC } from "react"
 import { classes } from "./classes"
 

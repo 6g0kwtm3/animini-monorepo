@@ -1,13 +1,13 @@
-import type { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/cloudflare"
 import { json, type ClientLoaderFunctionArgs } from "@remix-run/react"
 import { Effect, pipe } from "effect"
 import { graphql } from "~/lib/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 
 export const loader = (async (args) => {

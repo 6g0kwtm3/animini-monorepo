@@ -1,6 +1,6 @@
 import cookie from "cookie"
 
-import type { LoaderFunctionArgs } from "@remix-run/node"
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
 
 import { Context, Effect, Layer, Option, Predicate, pipe } from "effect"

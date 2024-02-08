@@ -3,8 +3,7 @@ import {
 	Meta,
 	Outlet,
 	Scripts,
-	ScrollRestoration,
-	useRevalidator
+	ScrollRestoration
 } from "@remix-run/react"
 import {
 	ClientArgs,
@@ -15,12 +14,11 @@ import {
 
 import { SnackbarQueue } from "./components/Snackbar"
 
-import type { LinksFunction, LoaderFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunction } from "@remix-run/cloudflare"
 
 import { Effect, Option, pipe } from "effect"
-import { useEffect } from "react"
 import { Remix } from "./lib/Remix/index.server"
-import tailwindcss from "./tailwind.css?url"
+import "./tailwind.css"
 
 // export const clientLoader = (async (args) => {
 // 	return pipe(
@@ -36,7 +34,7 @@ import tailwindcss from "./tailwind.css?url"
 import { Viewer } from "./lib/Remix/Remix.server"
 
 export const links: LinksFunction = () => {
-	return [{ rel: "stylesheet", href: tailwindcss }]
+	return []
 }
 
 export const loader = (async (args) => {
@@ -56,20 +54,20 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export default function App() {
-	const revalidator = useRevalidator()
-	useEffect(() => {
-		function listener() {
-			if (
-				document.visibilityState === "visible" &&
-				revalidator.state === "idle"
-			) {
-				console.log("revalidate")
-				revalidator.revalidate()
-			}
-		}
-		window.addEventListener("visibilitychange", listener)
-		return () => window.removeEventListener("visibilitychange", listener)
-	}, [revalidator])
+	// const revalidator = useRevalidator()
+	// useEffect(() => {
+	// 	function listener() {
+	// 		if (
+	// 			document.visibilityState === "visible" &&
+	// 			revalidator.state === "idle"
+	// 		) {
+	// 			console.log("revalidate")
+	// 			revalidator.revalidate()
+	// 		}
+	// 	}
+	// 	window.addEventListener("visibilitychange", listener)
+	// 	return () => window.removeEventListener("visibilitychange", listener)
+	// }, [revalidator])
 
 	return (
 		<html
