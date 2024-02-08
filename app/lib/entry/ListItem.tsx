@@ -15,7 +15,6 @@ import {
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
-
 import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
@@ -26,7 +25,8 @@ import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
 
-const ListItem_entry = serverOnly$(graphql(`
+const ListItem_entry = serverOnly$(
+	graphql(`
 		fragment ListItem_entry on MediaList {
 			...ToWatch_entry
 			...Progress_entry
@@ -139,18 +139,19 @@ export function ListItemLoader(props: {}) {
 	)
 }
 
-const Progress_entry = serverOnly$(graphql(`
-	fragment Progress_entry on MediaList {
-		id
-		progress
-		media {
-			...Avalible_media
+const Progress_entry = serverOnly$(
+	graphql(`
+		fragment Progress_entry on MediaList {
 			id
-			episodes
+			progress
+			media {
+				...Avalible_media
+				id
+				episodes
+			}
 		}
-	}
-`))
-
+	`)
+)
 
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 	const entry = readFragment<typeof Progress_entry>(props.entry)

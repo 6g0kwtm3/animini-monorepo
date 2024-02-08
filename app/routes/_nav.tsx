@@ -9,18 +9,18 @@ import { button } from "~/lib/button"
 import { useRawRouteLoaderData } from "~/lib/data"
 import { Search } from "~/lib/search/Search"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
 } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
 import {
-    NavigationBar,
-    NavigationBarItem,
-    NavigationBarItemIcon,
-    NavigationItemLargeBadge
+	NavigationBar,
+	NavigationBarItem,
+	NavigationBarItemIcon,
+	NavigationItemLargeBadge
 } from "~/components/NavigationBar"
 import { graphql } from "~/lib/graphql"
 

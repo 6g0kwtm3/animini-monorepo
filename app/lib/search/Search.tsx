@@ -28,8 +28,6 @@ import { list } from "../list"
 import { serverOnly$ } from "vite-env-only"
 import type { loader as navLoader } from "~/routes/_nav"
 
-
-
 const tv = createTV({ twMerge: false })
 
 const { backdrop, body } = dialog({})
@@ -284,7 +282,8 @@ export function Search() {
 	)
 }
 const { item, root: listRoot } = list()
-const SearchItem_media = serverOnly$(graphql(`
+const SearchItem_media = serverOnly$(
+	graphql(`
 		fragment SearchItem_media on Media {
 			id
 			type
@@ -296,7 +295,8 @@ const SearchItem_media = serverOnly$(graphql(`
 				userPreferred
 			}
 		}
-	`))
+	`)
+)
 
 function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 	const media = useFragment<typeof SearchItem_media>(props.media)

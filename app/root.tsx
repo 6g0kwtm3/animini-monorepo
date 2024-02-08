@@ -90,7 +90,7 @@ export default function App() {
 					<Outlet />
 				</SnackbarQueue>
 				<ScrollRestoration />
-        <Scripts />
+				<Scripts />
 			</body>
 		</html>
 	)

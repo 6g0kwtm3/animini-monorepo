@@ -3,7 +3,8 @@ import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 import { avalible } from "../media/avalible"
 import { serverOnly$ } from "vite-env-only"
 
-const  Behind_entry =  serverOnly$(graphql(`
+const Behind_entry = serverOnly$(
+	graphql(`
 		fragment Behind_entry on MediaList {
 			progress
 			media {

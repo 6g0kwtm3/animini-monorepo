@@ -13,21 +13,25 @@ import type { NonEmptyArray } from "effect/ReadonlyArray"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { graphql } from "~/lib/graphql"
 import { serverOnly$ } from "vite-env-only"
-const MediaListHeaderToWatch_entries = serverOnly$(graphql(`
+const MediaListHeaderToWatch_entries = serverOnly$(
+	graphql(`
 		fragment MediaListHeaderToWatch_entries on MediaList {
 			id
 			...ToWatch_entry
 		}
-	`))
+	`)
+)
 
-const MediaList_group = serverOnly$(graphql(`
+const MediaList_group = serverOnly$(
+	graphql(`
 		fragment MediaList_group on MediaListGroup {
 			entries {
 				id
 				...ListItem_entry
 			}
 		}
-	`))
+	`)
+)
 
 export function MediaList(props) {
 	return (

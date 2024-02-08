@@ -5,7 +5,8 @@ import { useFragment as readFragment } from "~/lib/graphql"
 
 import { serverOnly$ } from "vite-env-only"
 import { graphql } from "~/lib/graphql"
-const Avalible_media = serverOnly$(graphql(`
+const Avalible_media = serverOnly$(
+	graphql(`
 		fragment Avalible_media on Media {
 			status
 			episodes
@@ -15,7 +16,8 @@ const Avalible_media = serverOnly$(graphql(`
 			}
 			id
 		}
-	`))
+	`)
+)
 
 export function avalible(data: FragmentType<typeof Avalible_media> | null) {
 	const media = readFragment<typeof Avalible_media>(data)

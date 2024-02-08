@@ -1,38 +1,38 @@
 import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import {
-    Await,
-    defer,
-    isRouteErrorResponse,
-    useRouteError
+	Await,
+	defer,
+	isRouteErrorResponse,
+	useRouteError
 } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { graphql } from "~/lib/graphql"
 import {
-    AwaitLibrary,
-    MediaList,
-    MediaListHeader,
-    MediaListHeaderToWatch,
-    MediaListRoot
+	AwaitLibrary,
+	MediaList,
+	MediaListHeader,
+	MediaListHeaderToWatch,
+	MediaListRoot
 } from "~/lib/list/MediaList"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive,
-    type InferVariables
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	type InferVariables
 } from "~/lib/urql.server"
 
 import {
-    Effect,
-    Option,
-    Order,
-    Predicate,
-    ReadonlyArray,
-    ReadonlyRecord,
-    pipe
+	Effect,
+	Option,
+	Order,
+	Predicate,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
 } from "effect"
 
 // import {} from 'glob'
@@ -69,7 +69,8 @@ function TypelistQueryVariables(
 	})
 }
 
-function TypelistQuery (){return (graphql(`
+function TypelistQuery() {
+	return graphql(`
 		query TypelistQuery($userName: String!, $type: MediaType!) {
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
@@ -87,7 +88,8 @@ function TypelistQuery (){return (graphql(`
 				}
 			}
 		}
-	`))}
+	`)
+}
 
 export const loader = (async (args) => {
 	// make()
