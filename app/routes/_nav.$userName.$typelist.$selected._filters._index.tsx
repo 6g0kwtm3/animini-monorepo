@@ -37,9 +37,8 @@ import {
 
 // import {} from 'glob'
 
-import { layer } from "@effect/platform-node/FileSystem"
+
 import { Suspense } from "react"
-import { serverOnly$ } from "vite-env-only"
 import { CardElevated } from "~/components/Card"
 import List from "~/components/List"
 import { Skeleton } from "~/components/Skeleton"
@@ -101,7 +100,7 @@ export const loader = (async (args) => {
 			),
 			Effect.provide(LoaderLive),
 			Effect.provideService(LoaderArgs, args),
-			Effect.provide(layer),
+			
 			Remix.runLoader
 		),
 		SelectedList: pipe(
@@ -168,7 +167,7 @@ export const loader = (async (args) => {
 			// ),
 			Effect.provide(LoaderLive),
 			Effect.provideService(LoaderArgs, args),
-			Effect.provide(layer),
+			
 			Remix.runLoader
 		)
 	})

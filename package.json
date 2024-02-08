@@ -16,7 +16,6 @@
 	},
 	"dependencies": {
 		"@ariakit/react": "^0.4.1",
-		"@effect/platform-node": "^0.42.11",
 		"@effect/schema": "^0.61.7",
 		"@material/material-color-utilities": "^0.2.7",
 		"@remix-run/cloudflare": "^2.6.0",
