@@ -37,7 +37,6 @@ import {
 
 // import {} from 'glob'
 
-
 import { Suspense } from "react"
 import { CardElevated } from "~/components/Card"
 import List from "~/components/List"
@@ -100,7 +99,7 @@ export const loader = (async (args) => {
 			),
 			Effect.provide(LoaderLive),
 			Effect.provideService(LoaderArgs, args),
-			
+
 			Remix.runLoader
 		),
 		SelectedList: pipe(
@@ -167,7 +166,7 @@ export const loader = (async (args) => {
 			// ),
 			Effect.provide(LoaderLive),
 			Effect.provideService(LoaderArgs, args),
-			
+
 			Remix.runLoader
 		)
 	})

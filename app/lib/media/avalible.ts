@@ -1,10 +1,10 @@
 import { Predicate } from "effect"
 import { MediaStatus } from "~/gql/graphql"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import { useFragment as readFragment , graphql } from "~/lib/graphql"
 
 import { serverOnly$ } from "vite-env-only"
-import { graphql } from "~/lib/graphql"
+
 const Avalible_media = serverOnly$(
 	graphql(`
 		fragment Avalible_media on Media {

@@ -21,6 +21,20 @@ import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
+// export const clientLoader = (async (args) => {
+// 	return pipe(
+// 		_loader,
+//
+// 		Effect.provide(ClientLoaderLive),
+// 		Effect.provideService(LoaderArgs, args),
+
+// 		Remix.runLoader
+// 	)
+// }) satisfies ClientLoaderFunction
+import { Predicate } from "effect"
+import { useRawLoaderData } from "~/lib/data"
+import { m } from "~/lib/paraglide"
+
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>
 ): InferVariables<typeof FiltersQuery> {
@@ -76,20 +90,6 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
-
-// export const clientLoader = (async (args) => {
-// 	return pipe(
-// 		_loader,
-//
-// 		Effect.provide(ClientLoaderLive),
-// 		Effect.provideService(LoaderArgs, args),
-
-// 		Remix.runLoader
-// 	)
-// }) satisfies ClientLoaderFunction
-import { Predicate } from "effect"
-import { useRawLoaderData } from "~/lib/data"
-import { m } from "~/lib/paraglide"
 export default function Filters() {
 	const [searchParams] = useSearchParams()
 

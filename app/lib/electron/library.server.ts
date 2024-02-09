@@ -2,13 +2,12 @@ import type { AnitomyResult } from "anitomy"
 
 import { anitomy, electron, path } from "./electron.server"
 
-
 import { Effect, Option, Predicate, pipe } from "effect"
 
 let library: Record<string, AnitomyResult> = {}
 
 if (electron && !Predicate.isString(electron)) {
-	const chokidar = await import( "chokidar")
+	const chokidar = await import("chokidar")
 	const watcher = chokidar.watch(
 		path.resolve(electron.app.getPath("downloads"), "**", "*.mkv"),
 		{

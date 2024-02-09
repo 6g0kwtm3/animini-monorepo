@@ -47,6 +47,8 @@ import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 
+import { serverOnly$ } from "vite-env-only"
+
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
 
@@ -174,8 +176,6 @@ const FuzzyDateInput = S.compose(
 		({ year, month, day }) => [year, month, day] as const
 	)
 )
-
-import { serverOnly$ } from "vite-env-only"
 
 const Save = serverOnly$(
 	graphql(`
@@ -334,7 +334,7 @@ export default function Page() {
 
 	const listOptions =
 		data?.Media?.type === "MANGA"
-			? data?.Viewer?.mediaListOptions?.mangaList
+			? data.Viewer?.mediaListOptions?.mangaList
 			: data?.Viewer?.mediaListOptions?.animeList
 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 

@@ -3,7 +3,8 @@ import {
 	Meta,
 	Outlet,
 	Scripts,
-	ScrollRestoration
+	ScrollRestoration,
+	useRevalidator
 } from "@remix-run/react"
 import {
 	ClientArgs,
@@ -32,9 +33,15 @@ import "./tailwind.css"
 // 	)
 // }) satisfies ClientLoaderFunction
 import { Viewer } from "./lib/Remix/Remix.server"
+import { useEffect } from "react"
 
 export const links: LinksFunction = () => {
-	return []
+	return [
+		{
+			rel: "stylesheet",
+			href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,-25..0"
+		}
+	]
 }
 
 export const loader = (async (args) => {
@@ -54,20 +61,20 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export default function App() {
-	// const revalidator = useRevalidator()
-	// useEffect(() => {
-	// 	function listener() {
-	// 		if (
-	// 			document.visibilityState === "visible" &&
-	// 			revalidator.state === "idle"
-	// 		) {
-	// 			console.log("revalidate")
-	// 			revalidator.revalidate()
-	// 		}
-	// 	}
-	// 	window.addEventListener("visibilitychange", listener)
-	// 	return () => window.removeEventListener("visibilitychange", listener)
-	// }, [revalidator])
+	const revalidator = useRevalidator()
+	useEffect(() => {
+		function listener() {
+			if (
+				document.visibilityState === "visible" &&
+				revalidator.state === "idle"
+			) {
+				console.log("revalidate")
+				revalidator.revalidate()
+			}
+		}
+		window.addEventListener("visibilitychange", listener)
+		return () => window.removeEventListener("visibilitychange", listener)
+	}, [revalidator])
 
 	return (
 		<html
@@ -77,10 +84,6 @@ export default function App() {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link
-					rel="stylesheet"
-					href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,-25..0"
-				/>
 
 				<Meta />
 				<Links />

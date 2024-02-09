@@ -1,13 +1,13 @@
 {
-	"name": "my-remix-app",
 	"private": true,
 	"sideEffects": false,
 	"type": "module",
+	"main": "desktop/index.js",
 	"scripts": {
 		"build": "remix vite:build",
 		"deploy": "wrangler pages deploy ./build/client",
 		"dev": "remix vite:dev",
-		"lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"start": "wrangler pages dev ./build/client",
 		"typecheck": "tsc",
 		"codegen": "graphql-codegen-esm --config codegen.ts",
@@ -37,19 +37,23 @@
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20230518.0",
 		"@graphql-codegen/cli": "^5.0.2",
+		"@graphql-eslint/eslint-plugin": "^3.20.1",
 		"@inlang/paraglide-js": "^1.2.3",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.12",
 		"@remix-run/dev": "^2.6.0",
+		"@remix-run/eslint-config": "^2.6.0",
 		"@types/react": "^18.2.20",
 		"@types/react-dom": "^18.2.7",
 		"@typescript-eslint/eslint-plugin": "^6.7.4",
 		"autoprefixer": "^10.4.17",
 		"eslint": "^8.38.0",
 		"eslint-import-resolver-typescript": "^3.6.1",
+		"eslint-plugin-compat": "^4.2.0",
 		"eslint-plugin-import": "^2.28.1",
 		"eslint-plugin-jsx-a11y": "^6.7.1",
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.4.5",
 		"million": "^3.0.2",
 		"node-fetch": "^3.3.2",
 		"prettier": "^3.2.5",
@@ -64,5 +68,10 @@
 	},
 	"engines": {
 		"node": ">=18.0.0"
-	}
+	},
+	"packageManager": "pnpm@8.14.1",
+	"browserslist": [
+		"defaults and fully supports es6-module",
+		"maintained node versions"
+	]
 }

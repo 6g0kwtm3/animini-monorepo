@@ -56,7 +56,7 @@ export function ListItem(props: {
 	const entry = readFragment<typeof ListItem_entry>(props.entry)
 	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
 
-	const libraryHasNextEpisode = library?.some(
+	const libraryHasNextEpisode = library.some(
 		({ episode }) => episode.number === (entry.progress || 0) + 1
 	)
 

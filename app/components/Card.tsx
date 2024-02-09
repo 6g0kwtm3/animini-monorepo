@@ -1,7 +1,7 @@
-const Slot = "div"
-
 import type { ComponentPropsWithoutRef, FC } from "react"
 import { classes } from "./classes"
+
+const Slot = "div"
 
 type Card = FC<
 	ComponentPropsWithoutRef<"div"> & {

@@ -14,6 +14,8 @@ import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "./viewer"
 
+import { Remix } from "./Remix/index.server"
+
 const API_URL = "https://graphql.anilist.co"
 
 export type JSONValue = string | number | boolean | JSONObject | JSONArray
@@ -35,8 +37,8 @@ type Args<Data, Variables> = [
 ]
 
 export interface EffectUrql {
-	query<Data, Variables>(...args: Args<Data, Variables>): Result<Data>
-	mutation<Data, Variables>(...args: Args<Data, Variables>): Result<Data>
+	query: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
+	mutation: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
 }
 
 export const EffectUrql = Context.Tag<EffectUrql>("Urql")
@@ -120,8 +122,6 @@ export function operation<T, V>(
 		return (data as T) ?? null
 	})
 }
-
-import { Remix } from "./Remix/index.server"
 
 let timeout = 0
 
