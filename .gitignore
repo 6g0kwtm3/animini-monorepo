@@ -10,4 +10,4 @@ $houdini
 **/gql
 *.log
 .vercel
-.wrangle
+.wrangler

@@ -14,7 +14,6 @@ import {
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 import { ButtonText, ButtonTextIcon } from "~/components/Button"
 
-
 import { divide, sumAll } from "effect/Number"
 import {
 	TextFieldOutlined,
@@ -499,9 +498,9 @@ function Progress({
 			<TextFieldOutlined.Label name={props.name}>
 				Episode Progress
 			</TextFieldOutlined.Label>
-			{data && Predicate.isNumber(data?.episodes) ? (
+			{data && Predicate.isNumber(data.episodes) ? (
 				<TextFieldOutlined.Suffix className="pointer-events-none">
-					/{data?.episodes}
+					/{data.episodes}
 				</TextFieldOutlined.Suffix>
 			) : null}
 		</TextFieldOutlined>
@@ -561,17 +560,17 @@ const AdvancedScoring_listOptions = serverOnly$(
 
 function AdvancedScores({
 	advancedScoring: listOptions,
-	children,
-	...props
+	children
 }: {
+	children: ReactNode
 	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
-}): ReactNode {
+}) {
 	const data = useFragment<typeof AdvancedScoring_listOptions>(listOptions)
 	if (!data?.advancedScoringEnabled) {
 		return null
 	}
 
-	if (!data?.advancedScoring?.length) {
+	if (!data.advancedScoring?.length) {
 		return null
 	}
 
