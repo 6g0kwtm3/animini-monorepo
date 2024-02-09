@@ -88,6 +88,9 @@ devDependencies:
   '@remix-run/eslint-config':
     specifier: ^2.6.0
     version: 2.6.0(eslint@8.56.0)(react@18.2.0)(typescript@5.3.3)
+  '@types/cookie':
+    specifier: ^0.6.0
+    version: 0.6.0
   '@types/react':
     specifier: ^18.2.20
     version: 18.2.55

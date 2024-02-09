@@ -12,8 +12,8 @@ import {
 	useNavigation
 } from "@remix-run/react"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
+import { ButtonText, ButtonTextIcon } from "~/components/Button"
 
-import { ButtonText } from "~/components/Button"
 
 import { divide, sumAll } from "effect/Number"
 import {
@@ -424,9 +424,9 @@ export default function Page() {
 							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
 							<Ariakit.FormSubmit className={button()}>
 								{busy && (
-									<ButtonText.Icon className="animate-spin">
+									<ButtonTextIcon className="animate-spin">
 										progress_activity
-									</ButtonText.Icon>
+									</ButtonTextIcon>
 								)}
 								Save changes
 							</Ariakit.FormSubmit>

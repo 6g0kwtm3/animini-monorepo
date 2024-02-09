@@ -4,7 +4,7 @@ import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import { Predicate } from "effect"
-import { ButtonText } from "~/components/Button"
+import { ButtonText, ButtonTextIcon } from "~/components/Button"
 import {
 	TooltipRich,
 	TooltipRichActions,
@@ -24,6 +24,7 @@ import { serverOnly$ } from "vite-env-only"
 import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
+
 
 const ListItem_entry = serverOnly$(
 	graphql(`
@@ -205,7 +206,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 									value={(entry.progress ?? 0) + 1}
 								/>
 								<ButtonText type="submit" className="">
-									<ButtonText.Icon>add</ButtonText.Icon>
+									<ButtonTextIcon>add</ButtonTextIcon>
 									{m.increment_progress()}
 								</ButtonText>
 							</Form>

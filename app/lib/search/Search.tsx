@@ -10,7 +10,7 @@ import {
 
 import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
 import { Suspense, forwardRef, useEffect, useRef, useState } from "react"
-import { ButtonIcon, ButtonText } from "~/components/Button"
+import { ButtonIcon, ButtonText, ButtonTextIcon } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { dialog } from "../dialog"
 
@@ -27,6 +27,7 @@ import { list } from "../list"
 
 import { serverOnly$ } from "vite-env-only"
 import type { loader as navLoader } from "~/routes/_nav"
+
 
 const tv = createTV({ twMerge: false })
 
@@ -179,7 +180,7 @@ export function Search() {
 					onClick={() => setShow(true)}
 					render={<ButtonText></ButtonText>}
 				>
-					<ButtonText.Icon>search</ButtonText.Icon>
+					<ButtonTextIcon>search</ButtonTextIcon>
 					Search
 				</TooltipPlainTrigger>
 				<TooltipPlainContainer>
