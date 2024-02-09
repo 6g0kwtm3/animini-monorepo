@@ -14,7 +14,6 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { graphql } from "~/lib/graphql"
 import { serverOnly$ } from "vite-env-only"
 
-
 const MediaList_group = serverOnly$(
 	graphql(`
 		fragment MediaList_group on MediaListGroup {

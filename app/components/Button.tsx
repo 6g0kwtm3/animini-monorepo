@@ -118,7 +118,7 @@ export const ButtonText = forwardRef<
 	)
 })
 
-export function ButtonTextIcon (props: ComponentPropsWithoutRef<"div">)  {
+export function ButtonTextIcon(props: ComponentPropsWithoutRef<"div">) {
 	return (
 		<div
 			{...props}

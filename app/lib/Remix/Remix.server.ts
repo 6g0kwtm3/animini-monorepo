@@ -1,7 +1,7 @@
 import crypto from "node:crypto"
 
 import { json } from "@remix-run/cloudflare"
-import { Option, Predicate , Cause, Data, Effect, Exit, pipe } from "effect"
+import { Option, Predicate, Cause, Data, Effect, Exit, pipe } from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql.server"
 import { JsonToToken } from "../viewer"
 
@@ -9,7 +9,6 @@ import { Schema } from "@effect/schema"
 import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
-
 
 import cookie from "cookie"
 

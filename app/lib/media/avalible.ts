@@ -1,7 +1,7 @@
 import { Predicate } from "effect"
 import { MediaStatus } from "~/gql/graphql"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment , graphql } from "~/lib/graphql"
+import { useFragment as readFragment, graphql } from "~/lib/graphql"
 
 import { serverOnly$ } from "vite-env-only"
 
