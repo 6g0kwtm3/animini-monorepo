@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/cloudflare"
 import { Form, Link, Outlet, useLocation } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
@@ -24,7 +24,7 @@ import {
 } from "~/components/NavigationBar"
 import { graphql } from "~/lib/graphql"
 
-import { defer } from "@remix-run/node"
+import { defer } from "@remix-run/cloudflare"
 
 export const loader = (async (args) => {
 	return defer({

@@ -1,6 +1,5 @@
 import {
 	Links,
-	LiveReload,
 	Meta,
 	Outlet,
 	Scripts,
@@ -16,13 +15,11 @@ import {
 
 import { SnackbarQueue } from "./components/Snackbar"
 
-import type { LinksFunction, LoaderFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunction } from "@remix-run/cloudflare"
 
-import { Analytics } from "@vercel/analytics/react"
 import { Effect, Option, pipe } from "effect"
-import { useEffect } from "react"
 import { Remix } from "./lib/Remix/index.server"
-import tailwindcss from "./tailwind.css?url"
+import "./tailwind.css"
 
 // export const clientLoader = (async (args) => {
 // 	return pipe(
@@ -35,11 +32,16 @@ import tailwindcss from "./tailwind.css?url"
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
-import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { Viewer } from "./lib/Remix/Remix.server"
+import { useEffect } from "react"
 
 export const links: LinksFunction = () => {
-	return [{ rel: "stylesheet", href: tailwindcss }]
+	return [
+		{
+			rel: "stylesheet",
+			href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,-25..0"
+		}
+	]
 }
 
 export const loader = (async (args) => {
@@ -82,10 +84,6 @@ export default function App() {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link
-					rel="stylesheet"
-					href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,-25..0"
-				/>
 
 				<Meta />
 				<Links />
@@ -96,9 +94,6 @@ export default function App() {
 				</SnackbarQueue>
 				<ScrollRestoration />
 				<Scripts />
-				<LiveReload />
-				<Analytics />
-				<SpeedInsights></SpeedInsights>
 			</body>
 		</html>
 	)

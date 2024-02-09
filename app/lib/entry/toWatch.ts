@@ -1,12 +1,11 @@
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
+import { serverOnly$ } from "vite-env-only"
 import { behind } from "./behind"
 
-import { graphql } from "~/lib/graphql"
-
-function ToWatch_entry() {
-	return graphql(`
+const ToWatch_entry = serverOnly$(
+	graphql(`
 		fragment ToWatch_entry on MediaList {
 			...Behind_entry
 			media {
@@ -16,7 +15,7 @@ function ToWatch_entry() {
 			id
 		}
 	`)
-}
+)
 
 export function toWatch(data: FragmentType<typeof ToWatch_entry>) {
 	const entry = readFragment<typeof ToWatch_entry>(data)

@@ -1,6 +1,6 @@
 import cookie from "cookie"
 
-import type { LoaderFunctionArgs } from "@remix-run/node"
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
 
 import { Context, Effect, Layer, Option, Predicate, pipe } from "effect"
@@ -13,6 +13,8 @@ import { print } from "graphql"
 import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "./viewer"
+
+import { Remix } from "./Remix/index.server"
 
 const API_URL = "https://graphql.anilist.co"
 
@@ -35,8 +37,8 @@ type Args<Data, Variables> = [
 ]
 
 export interface EffectUrql {
-	query<Data, Variables>(...args: Args<Data, Variables>): Result<Data>
-	mutation<Data, Variables>(...args: Args<Data, Variables>): Result<Data>
+	query: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
+	mutation: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
 }
 
 export const EffectUrql = Context.Tag<EffectUrql>("Urql")
@@ -120,8 +122,6 @@ export function operation<T, V>(
 		return (data as T) ?? null
 	})
 }
-
-import { Remix } from "./Remix/index.server"
 
 let timeout = 0
 

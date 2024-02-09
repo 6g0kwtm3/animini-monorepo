@@ -67,7 +67,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 				clearTimeout(timeoutId)
 			}
 		}
-	}, [queue, queue.current])
+	}, [queue])
 
 	return (
 		<SnackbarQueueContext.Provider value={add}>

@@ -1,12 +1,12 @@
 import { Predicate } from "effect"
 import { MediaStatus } from "~/gql/graphql"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment } from "~/lib/graphql"
+import { useFragment as readFragment , graphql } from "~/lib/graphql"
 
-import { graphql } from "~/lib/graphql"
+import { serverOnly$ } from "vite-env-only"
 
-function Avalible_media() {
-	return graphql(`
+const Avalible_media = serverOnly$(
+	graphql(`
 		fragment Avalible_media on Media {
 			status
 			episodes
@@ -17,7 +17,7 @@ function Avalible_media() {
 			id
 		}
 	`)
-}
+)
 
 export function avalible(data: FragmentType<typeof Avalible_media> | null) {
 	const media = readFragment<typeof Avalible_media>(data)

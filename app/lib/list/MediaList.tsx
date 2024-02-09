@@ -8,22 +8,15 @@ import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 import { Library, ListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
-import { AnitomyResult } from "anitomy"
-import { NonEmptyArray } from "effect/ReadonlyArray"
-import { ComponentPropsWithoutRef, PropsWithChildren, ReactNode } from "react"
+import type { AnitomyResult } from "anitomy"
+import type { NonEmptyArray } from "effect/ReadonlyArray"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { graphql } from "~/lib/graphql"
+import { serverOnly$ } from "vite-env-only"
 
-function MediaListHeaderToWatch_entries() {
-	return graphql(`
-		fragment MediaListHeaderToWatch_entries on MediaList {
-			id
-			...ToWatch_entry
-		}
-	`)
-}
 
-function MediaList_group() {
-	return graphql(`
+const MediaList_group = serverOnly$(
+	graphql(`
 		fragment MediaList_group on MediaListGroup {
 			entries {
 				id
@@ -31,7 +24,7 @@ function MediaList_group() {
 			}
 		}
 	`)
-}
+)
 
 export function MediaList(props) {
 	return (
@@ -58,6 +51,15 @@ export function AwaitLibrary({
 		</Await>
 	)
 }
+
+const MediaListHeaderToWatch_entries = serverOnly$(
+	graphql(`
+		fragment MediaListHeaderToWatch_entries on MediaList {
+			id
+			...ToWatch_entry
+		}
+	`)
+)
 
 export function MediaListHeaderToWatch(props: {
 	entries: FragmentType<typeof MediaListHeaderToWatch_entries>[]

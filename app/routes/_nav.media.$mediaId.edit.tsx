@@ -3,7 +3,7 @@ import {
 	redirect,
 	type ActionFunction,
 	type LoaderFunction
-} from "@remix-run/node"
+} from "@remix-run/cloudflare"
 import {
 	Link,
 	useActionData,
@@ -12,8 +12,7 @@ import {
 	useNavigation
 } from "@remix-run/react"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
-
-import { ButtonText } from "~/components/Button"
+import { ButtonText, ButtonTextIcon } from "~/components/Button"
 
 import { divide, sumAll } from "effect/Number"
 import {
@@ -46,6 +45,8 @@ import { SelectOption } from "~/components/SelectOption"
 import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
+
+import { serverOnly$ } from "vite-env-only"
 
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
@@ -175,8 +176,8 @@ const FuzzyDateInput = S.compose(
 	)
 )
 
-function Save() {
-	return graphql(`
+const Save = serverOnly$(
+	graphql(`
 		mutation Save(
 			$mediaId: Int
 			$advancedScores: [Float]
@@ -205,7 +206,7 @@ function Save() {
 			}
 		}
 	`)
-}
+)
 const ScoreFormatSchema = S.enums(ScoreFormat)
 
 const { root, content, headline, backdrop, body, actions } = dialog({
@@ -332,7 +333,7 @@ export default function Page() {
 
 	const listOptions =
 		data?.Media?.type === "MANGA"
-			? data?.Viewer?.mediaListOptions?.mangaList
+			? data.Viewer?.mediaListOptions?.mangaList
 			: data?.Viewer?.mediaListOptions?.animeList
 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
@@ -422,9 +423,9 @@ export default function Page() {
 							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
 							<Ariakit.FormSubmit className={button()}>
 								{busy && (
-									<ButtonText.Icon className="animate-spin">
+									<ButtonTextIcon className="animate-spin">
 										progress_activity
-									</ButtonText.Icon>
+									</ButtonTextIcon>
 								)}
 								Save changes
 							</Ariakit.FormSubmit>
@@ -475,14 +476,14 @@ function StartDate(
 	return <TextFieldOutlinedFactory {...props} type="date" label="Start Date" />
 }
 
-function Progress_media() {
-	return graphql(`
+const Progress_media = serverOnly$(
+	graphql(`
 		fragment Progress_media on Media {
 			id
 			episodes
 		}
 	`)
-}
+)
 
 function Progress({
 	media,
@@ -497,9 +498,9 @@ function Progress({
 			<TextFieldOutlined.Label name={props.name}>
 				Episode Progress
 			</TextFieldOutlined.Label>
-			{data && Predicate.isNumber(data?.episodes) ? (
+			{data && Predicate.isNumber(data.episodes) ? (
 				<TextFieldOutlined.Suffix className="pointer-events-none">
-					/{data?.episodes}
+					/{data.episodes}
 				</TextFieldOutlined.Suffix>
 			) : null}
 		</TextFieldOutlined>
@@ -548,28 +549,28 @@ function Notes(
 	)
 }
 
-function AdvancedScoring_listOptions() {
-	return graphql(`
+const AdvancedScoring_listOptions = serverOnly$(
+	graphql(`
 		fragment AdvancedScoring_listOptions on MediaListTypeOptions {
 			advancedScoringEnabled
 			advancedScoring
 		}
 	`)
-}
+)
 
 function AdvancedScores({
 	advancedScoring: listOptions,
-	children,
-	...props
+	children
 }: {
+	children: ReactNode
 	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
-}): ReactNode {
+}) {
 	const data = useFragment<typeof AdvancedScoring_listOptions>(listOptions)
 	if (!data?.advancedScoringEnabled) {
 		return null
 	}
 
-	if (!data?.advancedScoring?.length) {
+	if (!data.advancedScoring?.length) {
 		return null
 	}
 
@@ -595,13 +596,13 @@ function AdvancedScore(
 	)
 }
 
-function CustomLists_mediaListTypeOptions() {
-	return graphql(`
+const CustomLists_mediaListTypeOptions = serverOnly$(
+	graphql(`
 		fragment CustomLists_mediaListTypeOptions on MediaListTypeOptions {
 			customLists
 		}
 	`)
-}
+)
 
 function CustomLists({
 	listOptions,

@@ -1,9 +1,9 @@
 import type { Config } from "tailwindcss"
 //@ts-ignore
-//@ts-ignore
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette"
 //@ts-ignore
 import { withTV } from "tailwind-variants/transformer"
+//@ts-ignore
 import withAlphaVariable from "tailwindcss/lib/util/withAlphaVariable"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"

@@ -10,17 +10,15 @@
 		"resolveJsonModule": true,
 		"target": "ES2022",
 		"strict": true,
-		"skipLibCheck": true,
-		"noUncheckedIndexedAccess": true,
-		"noPropertyAccessFromIndexSignature": true,
 		"allowJs": true,
+		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {
 			"~/*": ["./app/*"]
 		},
-
-		// Remix takes care of building everything in `remix build`.
+		"noUncheckedIndexedAccess": true,
+		// Vite takes care of building everything, not tsc.
 		"noEmit": true
 	}
 }

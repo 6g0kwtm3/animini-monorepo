@@ -118,7 +118,7 @@ export const ButtonText = forwardRef<
 	)
 })
 
-ButtonText.Icon = (props: ComponentPropsWithoutRef<"div">) => {
+export function ButtonTextIcon (props: ComponentPropsWithoutRef<"div">)  {
 	return (
 		<div
 			{...props}
@@ -131,7 +131,7 @@ ButtonText.Icon = (props: ComponentPropsWithoutRef<"div">) => {
 }
 
 ButtonText.displayName = "Button.Text"
-ButtonText.Icon.displayName = "Button.Text.Icon"
+ButtonTextIcon.displayName = "Button.Text.Icon"
 
 export const ButtonTonal: Button = (props) => {
 	return (

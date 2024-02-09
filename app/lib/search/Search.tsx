@@ -10,7 +10,7 @@ import {
 
 import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
 import { Suspense, forwardRef, useEffect, useRef, useState } from "react"
-import { ButtonIcon, ButtonText } from "~/components/Button"
+import { ButtonIcon, ButtonText, ButtonTextIcon } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { dialog } from "../dialog"
 
@@ -22,10 +22,12 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment } from "~/lib/graphql"
+import { graphql, useFragment } from "~/lib/graphql"
 import { list } from "../list"
 
+import { serverOnly$ } from "vite-env-only"
 import type { loader as navLoader } from "~/routes/_nav"
+
 
 const tv = createTV({ twMerge: false })
 
@@ -178,7 +180,7 @@ export function Search() {
 					onClick={() => setShow(true)}
 					render={<ButtonText></ButtonText>}
 				>
-					<ButtonText.Icon>search</ButtonText.Icon>
+					<ButtonTextIcon>search</ButtonTextIcon>
 					Search
 				</TooltipPlainTrigger>
 				<TooltipPlainContainer>
@@ -280,12 +282,9 @@ export function Search() {
 		</>
 	)
 }
-
 const { item, root: listRoot } = list()
-
-import { graphql } from "~/lib/graphql"
-function SearchItem_media() {
-	return graphql(`
+const SearchItem_media = serverOnly$(
+	graphql(`
 		fragment SearchItem_media on Media {
 			id
 			type
@@ -298,7 +297,7 @@ function SearchItem_media() {
 			}
 		}
 	`)
-}
+)
 
 function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 	const media = useFragment<typeof SearchItem_media>(props.media)

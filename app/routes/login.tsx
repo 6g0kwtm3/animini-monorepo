@@ -1,7 +1,6 @@
-import type { ActionFunction } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
+import type { ActionFunction } from "@remix-run/cloudflare"
+import { redirect } from "@remix-run/cloudflare"
 import { useFetcher } from "@remix-run/react"
-import { ButtonText } from "~/components/Button"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput
@@ -21,6 +20,7 @@ import {
 	operation
 } from "~/lib/urql.server"
 import { JsonToToken } from "~/lib/viewer"
+import { ButtonTextIcon } from "~/components/Button"
 
 const ANILIST_CLIENT_ID = 3455
 
@@ -138,13 +138,13 @@ export default function Login() {
 						rel="noreferrer"
 						className={btn({})}
 					>
-						<ButtonText.Icon>
+						<ButtonTextIcon>
 							<img
 								loading="lazy"
 								src="https://anilist.co/img/icons/icon.svg"
 								alt=""
 							/>
-						</ButtonText.Icon>
+						</ButtonTextIcon>
 						<span>Get token</span>
 					</a>
 

@@ -1,4 +1,4 @@
-import type { HeadersFunction, LoaderFunction } from "@remix-run/node"
+import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import { Link, json } from "@remix-run/react"
 import {
@@ -25,17 +25,6 @@ import {
 	LoaderArgs,
 	LoaderLive
 } from "~/lib/urql.server"
-
-function isTypelist(value: unknown): value is "animelist" | "mangalist" {
-	return value === "animelist" || value === "mangalist"
-}
-
-function typelistToMediaType(typelist: "animelist" | "mangalist") {
-	return {
-		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga
-	}[typelist]
-}
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>

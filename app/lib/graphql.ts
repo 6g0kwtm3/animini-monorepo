@@ -1,46 +1,53 @@
 import type {
-	DocumentTypeDecoration as DocumentTypeDecoration_,
-	ResultOf as ResultOf_
+	DocumentTypeDecoration,
+	ResultOf
 } from "@graphql-typed-document-node/core"
-import { FragmentType as FragmentType_ } from "~/gql"
+import type { FragmentType as FragmentType_ } from "~/gql"
 export { graphql } from "~/gql"
 
-export type FragmentType<F extends (...args: any) => any> = FragmentType_<
-	ReturnType<F>
->
-
-type DocumentTypeDecoration<T, V> = () => DocumentTypeDecoration_<T, V>
-type ResultOf<F extends (...args: any) => any> = ResultOf_<ReturnType<F>>
+export type FragmentType<
+	F extends DocumentTypeDecoration<any, any> | undefined
+> = FragmentType_<NonNullable<F>>
 
 // return non-nullable if `fragmentType` is non-nullable
-export function useFragment<F extends DocumentTypeDecoration<any, any>>(
-	fragmentType: FragmentType<F>
-): ResultOf<F>
+export function useFragment<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(fragmentType: FragmentType_<NonNullable<F>>): ResultOf<F>
 // return nullable if `fragmentType` is nullable
-export function useFragment<F extends DocumentTypeDecoration<any, any>>(
-	fragmentType: FragmentType<F> | null | undefined
+export function useFragment<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(
+	fragmentType: FragmentType_<NonNullable<F>> | null | undefined
 ): ResultOf<F> | null | undefined
 
 // return array of non-nullable if `fragmentType` is array of non-nullable
-export function useFragment<F extends DocumentTypeDecoration<any, any>>(
-	fragmentType: ReadonlyArray<FragmentType<F>>
+export function useFragment<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(
+	fragmentType: ReadonlyArray<FragmentType_<NonNullable<F>>>
 ): ReadonlyArray<ResultOf<F>>
 // return array of nullable if `fragmentType` is array of nullable
-export function useFragment<F extends DocumentTypeDecoration<any, any>>(
-	fragmentType: ReadonlyArray<FragmentType<F>> | null | undefined
+export function useFragment<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(
+	fragmentType: ReadonlyArray<FragmentType_<NonNullable<F>>> | null | undefined
 ): ReadonlyArray<ResultOf<F>> | null | undefined
-export function useFragment<F extends DocumentTypeDecoration<any, any>>(
+export function useFragment<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(
 	fragmentType:
-		| ReadonlyArray<FragmentType<F> | null | undefined>
+		| ReadonlyArray<FragmentType_<NonNullable<F>> | null | undefined>
 		| null
 		| undefined
 ): ReadonlyArray<ResultOf<F> | null | undefined> | null | undefined
 
-export function useFragment<F extends DocumentTypeDecoration<any, any>>(
+export function useFragment<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(
 	fragmentType:
-		| FragmentType<F>
-		| ReadonlyArray<FragmentType<F>>
-		| ReadonlyArray<FragmentType<F> | null | undefined>
+		| FragmentType_<NonNullable<F>>
+		| ReadonlyArray<FragmentType_<NonNullable<F>>>
+		| ReadonlyArray<FragmentType_<NonNullable<F>> | null | undefined>
 		| null
 		| undefined
 ):

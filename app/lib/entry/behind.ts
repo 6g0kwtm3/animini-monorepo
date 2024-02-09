@@ -1,10 +1,10 @@
-import type {} from "~/gql"
 import { graphql } from "~/gql"
-import { FragmentType, useFragment as readFragment } from "~/lib/graphql"
+import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 import { avalible } from "../media/avalible"
+import { serverOnly$ } from "vite-env-only"
 
-function Behind_entry() {
-	return graphql(`
+const Behind_entry = serverOnly$(
+	graphql(`
 		fragment Behind_entry on MediaList {
 			progress
 			media {
@@ -13,7 +13,7 @@ function Behind_entry() {
 			}
 		}
 	`)
-}
+)
 
 export function behind(data: FragmentType<typeof Behind_entry>) {
 	const entry = readFragment<typeof Behind_entry>(data)
