@@ -26,17 +26,6 @@ import {
 	LoaderLive
 } from "~/lib/urql.server"
 
-function isTypelist(value: unknown): value is "animelist" | "mangalist" {
-	return value === "animelist" || value === "mangalist"
-}
-
-function typelistToMediaType(typelist: "animelist" | "mangalist") {
-	return {
-		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga
-	}[typelist]
-}
-
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>
 ): InferVariables<typeof ListsQuery> {

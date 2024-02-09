@@ -6,6 +6,7 @@ import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages"
 import * as build from "../build/server"
 
 export const onRequest = createPagesFunctionHandler({
+	// @ts-ignore
 	build,
 	getLoadContext: (context) => ({ env: context.env })
 })
