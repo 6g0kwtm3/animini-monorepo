@@ -45,6 +45,7 @@
 		"@graphql-typed-document-node/core": "^3.2.0",
 		"@inlang/paraglide-js": "^1.2.3",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.12",
+		"@parcel/watcher": "^2.4.0",
 		"@remix-run/dev": "^2.6.0",
 		"@remix-run/eslint-config": "^2.6.0",
 		"@types/cookie": "^0.6.0",

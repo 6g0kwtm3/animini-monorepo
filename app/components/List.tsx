@@ -1,9 +1,15 @@
-import type { ComponentPropsWithoutRef } from "react"
+import { createContext, type ComponentPropsWithoutRef, useContext } from "react"
 import {} from "react-dom"
+import type { VariantProps } from "tailwind-variants"
 import { list } from "~/lib/list"
 
-const { item, root } = list()
+type ListVariantProps = VariantProps<typeof list>
+
+const ListContext = createContext(list())
+
 function Item(props: ComponentPropsWithoutRef<"div">) {
+	const { item } = useContext(ListContext)
+
 	return <div {...props} className={item({ className: props.className })} />
 }
 
@@ -11,37 +17,35 @@ Item.Content = function Content(props: ComponentPropsWithoutRef<"div">) {
 	return <div {...props} className={classes("flex-1", props.className)}></div>
 }
 
-Item.Headline = function Headline(props: ComponentPropsWithoutRef<"div">) {
+Item.Title = function Headline(props: ComponentPropsWithoutRef<"div">) {
+	const { itemTitle } = useContext(ListContext)
 	return (
-		<div
-			{...props}
-			className={classes("text-body-lg text-on-surface", props.className)}
-		></div>
+		<div {...props} className={itemTitle({ className: props.className })}></div>
 	)
 }
-Item.SupportingText = function SupportingText(
+
+Item.Subtitle = function SupportingText(
 	props: ComponentPropsWithoutRef<"div">
 ) {
+	const { itemSubtitle } = useContext(ListContext)
+
 	return (
 		<div
 			{...props}
-			className={classes(
-				"line-clamp-2 text-body-md text-on-surface-variant",
-				props.className
-			)}
+			className={itemSubtitle({ className: props.className })}
 		></div>
 	)
 }
+
 Item.TrailingSupportingText = function TrailingSupportingText(
 	props: ComponentPropsWithoutRef<"span">
 ) {
+	const { trailingSupportingText } = useContext(ListContext)
+
 	return (
 		<span
 			{...props}
-			className={classes(
-				"text-label-sm text-on-surface-variant",
-				props.className
-			)}
+			className={trailingSupportingText({ className: props.className })}
 		></span>
 	)
 }
@@ -120,8 +124,20 @@ Item.Overline = function Overline(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function List(props: ComponentPropsWithoutRef<"ul">) {
-	return <ul {...props} className={root({ className: props.className })}></ul>
+function List({
+	lines,
+	...props
+}: ComponentPropsWithoutRef<"ul"> & ListVariantProps) {
+	const styles = list({ lines })
+
+	return (
+		<ListContext.Provider value={styles}>
+			<ul
+				{...props}
+				className={styles.root({ className: props.className })}
+			></ul>
+		</ListContext.Provider>
+	)
 }
 
 List.Item = Item

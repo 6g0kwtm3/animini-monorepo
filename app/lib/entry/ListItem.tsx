@@ -6,11 +6,11 @@ import { m } from "~/lib/paraglide"
 import { Predicate } from "effect"
 import { ButtonText, ButtonTextIcon } from "~/components/Button"
 import {
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichSupportingText,
-	TooltipRichTrigger
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichSupportingText,
+    TooltipRichTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
@@ -25,7 +25,7 @@ import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
 
-const ListItem_entry = serverOnly$(
+const MediaListItem_entry = serverOnly$(
 	graphql(`
 		fragment ListItem_entry on MediaList {
 			...ToWatch_entry
@@ -50,10 +50,10 @@ export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
 >({})
 
-export function ListItem(props: {
-	entry: FragmentType<typeof ListItem_entry>
+export function MediaListItem(props: {
+	entry: FragmentType<typeof MediaListItem_entry>
 }) {
-	const entry = readFragment<typeof ListItem_entry>(props.entry)
+	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
 	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
 
 	const libraryHasNextEpisode = library?.some(
@@ -61,7 +61,7 @@ export function ListItem(props: {
 	)
 
 	return (
-		<List.Item className="">
+		<List.Item >
 			<div className="col-start-1 h-14 w-14">
 				<img
 					src={entry.media?.coverImage?.extraLarge || ""}
@@ -78,14 +78,14 @@ export function ListItem(props: {
 				to={`/media/${entry.media?.id}/`}
 				className="col-start-2 grid grid-cols-subgrid"
 			>
-				<span className="line-clamp-1 text-body-lg">
+				<List.Item.Title >
 					{libraryHasNextEpisode && (
 						<span className="i i-inline text-primary">priority_high</span>
 						// <span className="i i-inline text-primary">video_library</span>
 					)}
 					{entry.media?.title?.userPreferred}
-				</span>
-				<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
+				</List.Item.Title>
+				<List.Item.Subtitle className="flex flex-wrap gap-1">
 					<div>
 						<span className="i i-inline">grade</span>
 						{entry.score}
@@ -96,7 +96,7 @@ export function ListItem(props: {
 						{toWatch(entry) > 0 ? formatWatch(toWatch(entry)) : "Nothing"} to
 						watch
 					</div>
-				</div>
+				</List.Item.Subtitle>
 			</Link>
 
 			<div className="col-start-3 text-label-sm text-on-surface-variant">
@@ -108,12 +108,12 @@ export function ListItem(props: {
 
 export function ListItemLoader(props: {}) {
 	return (
-		<List.Item className="">
+		<List.Item >
 			<div className="col-start-1 h-14 w-14">
 				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent"></div>
 			</div>
 			<div className="col-start-2 grid grid-cols-subgrid">
-				<span className="line-clamp-1 text-body-lg">
+				<span className="truncate text-body-lg">
 					<Skeleton>Mahou Shoujo ni Akogarete</Skeleton>
 				</span>
 				<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
@@ -204,7 +204,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 									name="progress"
 									value={(entry.progress ?? 0) + 1}
 								/>
-								<ButtonText type="submit" className="">
+								<ButtonText type="submit" >
 									<ButtonTextIcon>add</ButtonTextIcon>
 									{m.increment_progress()}
 								</ButtonText>

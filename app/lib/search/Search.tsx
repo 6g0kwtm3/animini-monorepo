@@ -4,13 +4,14 @@ import {
 	Link,
 	useFetcher,
 	useLocation,
+	useNavigate,
 	useRouteLoaderData,
 	useSearchParams
 } from "@remix-run/react"
 
 import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
-import { Suspense, forwardRef, useEffect, useRef, useState } from "react"
-import { ButtonIcon, ButtonText, ButtonTextIcon } from "~/components/Button"
+import { Suspense, forwardRef, useEffect, useRef } from "react"
+import { ButtonIcon, ButtonTextIcon } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { dialog } from "../dialog"
 
@@ -27,6 +28,7 @@ import { list } from "../list"
 
 import { serverOnly$ } from "vite-env-only"
 import type { loader as navLoader } from "~/routes/_nav"
+import { button } from "../button"
 
 const tv = createTV({ twMerge: false })
 
@@ -143,30 +145,24 @@ export function Search() {
 
 	const submit = useFetcher<typeof searchLoader>()
 
-	// store.onSubmit((state) => {
-	// 	submit.submit(state.values, {})
-	// })
-
-	let [show, setShow] = useState(false)
 	let ref = useRef<ElementRef<"input">>(null)
 
 	let location = useLocation()
+	let navigate = useNavigate()
 
-	useEffect(() => {
-		setShow(false)
-	}, [location])
+	const show = location.hash === "#search"
 
 	// bind command + k
 	useEffect(() => {
 		let listener = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
 				event.preventDefault()
-				setShow(true)
+				navigate({ hash: "#search" })
 			}
 		}
 		window.addEventListener("keydown", listener)
 		return () => window.removeEventListener("keydown", listener)
-	}, [])
+	}, [navigate])
 
 	const media = submit.data?.page?.media?.filter(Predicate.isNotNull) ?? []
 
@@ -176,8 +172,8 @@ export function Search() {
 		<>
 			<TooltipPlain>
 				<TooltipPlainTrigger
-					onClick={() => setShow(true)}
-					render={<ButtonText></ButtonText>}
+					className={button()}
+					render={<Link to="#search"></Link>}
 				>
 					<ButtonTextIcon>search</ButtonTextIcon>
 					Search
@@ -189,7 +185,9 @@ export function Search() {
 
 			<Ariakit.Dialog
 				open={show}
-				onClose={() => setShow(false)}
+				onClose={() => {
+					navigate({ pathname: location.pathname, search: location.search })
+				}}
 				className={root({
 					className: ``
 				})}
@@ -205,6 +203,7 @@ export function Search() {
 						focusLoop={false}
 						includesBaseElement={false}
 						resetValueOnHide={true}
+						open
 					>
 						<div className="flex items-center">
 							<Ariakit.DialogDismiss
@@ -244,11 +243,11 @@ export function Search() {
 									))}
 								</Ariakit.ComboboxGroup>
 							</Ariakit.ComboboxList>
-						) : data?.trending ? (
+						) : data ? (
 							<Suspense fallback="">
 								<Await resolve={data.trending} errorElement="">
 									{(trending) =>
-										ReadonlyArray.isNonEmptyArray(trending.media) && (
+										ReadonlyArray.isNonEmptyArray(trending?.media) && (
 											<Ariakit.ComboboxList className={body({})}>
 												<Ariakit.ComboboxGroup
 													className={listRoot({ className: "-mx-6" })}
@@ -262,12 +261,14 @@ export function Search() {
 															Trending
 														</div>
 													</Ariakit.ComboboxGroupLabel>
-													{trending.media.map((media) => (
-														<SearchItem
-															media={media}
-															key={media.id}
-														></SearchItem>
-													))}
+													{trending.media
+														.filter(Predicate.isNotNull)
+														.map((media) => (
+															<SearchItem
+																media={media}
+																key={media.id}
+															></SearchItem>
+														))}
 												</Ariakit.ComboboxGroup>
 											</Ariakit.ComboboxList>
 										)
@@ -281,7 +282,14 @@ export function Search() {
 		</>
 	)
 }
-const { item, root: listRoot } = list()
+const {
+	item,
+	root: listRoot,
+	trailingSupportingText,
+
+	itemTitle
+} = list({ lines: "one" })
+
 const SearchItem_media = serverOnly$(
 	graphql(`
 		fragment SearchItem_media on Media {
@@ -308,7 +316,12 @@ function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 			hideOnClick
 			focusOnHover
 			blurOnHoverEnd={false}
-			render={<Link to={`/media/${media.id}/`} title={media.title?.romaji} />}
+			render={
+				<Link
+					to={`/media/${media.id}/`}
+					title={media.title?.userPreferred ?? undefined}
+				/>
+			}
 		>
 			{media.coverImage?.extraLarge ? (
 				<div className="col-start-1 flex h-10 w-10">
@@ -327,14 +340,16 @@ function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 					<div className="i text-on-error">error</div>
 				</div>
 			)}
-			<div className="col-start-2">
-				<div className="line-clamp-1 text-body-lg text-on-surface">
-					{media.title?.userPreferred}
+
+			<div className="col-start-2 grid grid-cols-subgrid">
+				<div className={itemTitle()}>{media.title?.userPreferred}</div>
+			</div>
+
+			{media.type && (
+				<div className={trailingSupportingText()}>
+					{media.type.toLowerCase()}
 				</div>
-			</div>
-			<div className="text-end text-label-sm text-on-surface-variant">
-				{media.type?.toLowerCase()}
-			</div>
+			)}
 		</Ariakit.ComboboxItem>
 	)
 }

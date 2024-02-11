@@ -5,14 +5,14 @@ import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
 
 // import {} from 'glob'
 
-import { Library, ListItem } from "~/lib/entry/ListItem"
+import { Library, MediaListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { graphql } from "~/lib/graphql"
 import { serverOnly$ } from "vite-env-only"
+import { graphql } from "~/lib/graphql"
 
 const MediaList_group = serverOnly$(
 	graphql(`
@@ -29,7 +29,7 @@ export function MediaList(props) {
 	return (
 		<>
 			{props.entries.map((entry) => (
-				<ListItem key={entry.id} entry={entry}></ListItem>
+				<MediaListItem key={entry.id} entry={entry}></MediaListItem>
 			))}
 		</>
 	)
@@ -85,7 +85,7 @@ export function MediaListHeader(props: { children: ReactNode }) {
 	return (
 		<h2 className="mx-4 flex flex-wrap justify-between text-balance text-display-md">
 			<div>{params["selected"]}</div>
-			<div className="">{props.children}</div>
+			<div >{props.children}</div>
 		</h2>
 	)
 }

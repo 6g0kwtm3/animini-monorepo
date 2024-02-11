@@ -27,5 +27,8 @@ export default defineConfig({
 		resolve: {
 			externalConditions: ["workerd", "worker"]
 		}
+	},
+	server: {
+		port: 3000
 	}
 })

@@ -1,7 +1,14 @@
-import type { ComponentPropsWithoutRef, ElementRef } from "react"
-import { useEffect, useRef } from "react"
+import type {
+	ComponentPropsWithoutRef,
+	ElementRef,
+	ElementType,
+	ReactElement,
+	ReactNode
+} from "react"
+import { cloneElement, isValidElement, useEffect, useRef } from "react"
 
 import { classes } from "./classes"
+import { createElement } from "~/lib/createElement"
 
 const Slot = "li"
 
@@ -54,24 +61,20 @@ export function Menu(props: ComponentPropsWithoutRef<"details">) {
 
 MenuList.displayName = "Menu"
 
+
+
 export function MenuItem({
-	asChild,
 	...props
 }: ComponentPropsWithoutRef<"div"> & {
-	asChild?: boolean
+	render?: ReactElement
 }) {
-	const Component = asChild ? Slot : "li"
-
-	return (
-		<Component
-			className={classes(
-				"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface elevation-2 state-on-surface hover:state-hover focus:state-focus",
-				props.className
-			)}
-		>
-			{props.children}
-		</Component>
-	)
+	return createElement("li", {
+		...props,
+		className: classes(
+			"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface elevation-2 state-on-surface hover:state-hover focus:state-focus",
+			props.className
+		)
+	})
 }
 
 export function MenuItemIcon(props: ComponentPropsWithoutRef<"div">) {

@@ -1,5 +1,5 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Form, Link, Outlet, useLocation } from "@remix-run/react"
+import { Form, Link, Outlet, useLocation, useMatches } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
 
@@ -74,6 +74,9 @@ export default function Nav() {
 
 	const { pathname } = useLocation()
 
+ 
+ 
+
 	return (
 		<>
 			<nav className="flex flex-wrap gap-2 px-2 py-1">
@@ -136,7 +139,7 @@ export default function Nav() {
 						<NavigationBarItemIcon>person</NavigationBarItemIcon>
 						Profile
 					</NavigationBarItem>
-					<NavigationBarItem to="/notifications">
+					<NavigationBarItem to="/notifications" prefetch="render">
 						<NavigationBarItemIcon>notifications</NavigationBarItemIcon>
 						<NavigationItemLargeBadge>7</NavigationItemLargeBadge>
 						Notifications

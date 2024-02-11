@@ -1,96 +1,55 @@
-import type { ComponentPropsWithoutRef, FC } from "react"
-import { classes } from "./classes"
+import { type ComponentPropsWithoutRef, type ReactElement } from "react"
+import type { VariantProps } from "tailwind-variants"
+import { createTV } from "tailwind-variants"
+import { createElement } from "~/lib/createElement"
 
-const Slot = "div"
+const tv = createTV({ twMerge: false })
 
-type Card = FC<
-	ComponentPropsWithoutRef<"div"> & {
-		disabled?: boolean
-		dragged?: boolean
-		pressed?: boolean
-		action?: boolean
-		asChild?: boolean
-	}
->
+const card = tv({
+	base: "rounded-md p-4 state-on-surface",
+	variants: {
+		variant: {
+			outlined:
+				"border-outline-variant border bg-surface elevation-0 disabled:border-outline/[.12]",
+			filled:
+				"bg-surface-container-highest elevation-0  disabled:bg-surface-variant/[.38]",
+			elevated: "bg-surface-container-low elevation-1 disabled:bg-surface/[.38]"
+		},
+		interactive: {
+			true: "pressed:state-pressed focused:state-focus hover:state-hover",
+			false: ""
+		}
+	},
+	compoundVariants: [
+		{
+			variant: "outlined",
+			interactive: true,
+			className:
+				"focused:border-on-surface pressed:border-outline-variant pressed:elevation-0 focused:elevation-0  hover:elevation-1"
+		},
+		{
+			variant: "filled",
+			interactive: true,
+			className: "focused:elevation-0 pressed:elevation-0 hover:elevation-1"
+		},
+		{
+			variant: "elevated",
+			interactive: true,
+			className: "focused:elevation-1 pressed:elevation-1 hover:elevation-2"
+		}
+	],
+	defaultVariants: { variant: "outlined", interactive: false }
+})
 
-export const CardElevated: Card = ({ asChild, ...props }) => {
-	const Component = asChild ? Slot : "div"
-	return (
-		<Component
-			{...props}
-			tabIndex={props.disabled ? -1 : props.tabIndex}
-			className={classes(
-				props.disabled
-					? "text-on-surface/[.38]"
-					: props.pressed
-						? "text-on-surface elevation-1 state-pressed"
-						: props.dragged
-							? "text-on-surface elevation-3 state-dragged"
-							: "text-on-surface elevation-1",
-
-				props.action &&
-					!props.disabled &&
-					!props.pressed &&
-					!props.dragged &&
-					"hover:elevation-2 hover:state-hover",
-				"relative overflow-hidden rounded-md bg-surface-container-low p-4 state-on-surface focus:elevation-1 focus:state-focus",
-				props.className
-			)}
-		></Component>
-	)
-}
-
-export const CardFilled: Card = ({ asChild, ...props }) => {
-	const Component = asChild ? Slot : "div"
-	return (
-		<Component
-			{...props}
-			tabIndex={props.disabled ? -1 : props.tabIndex}
-			className={classes(
-				props.disabled
-					? "text-on-surface-variant/[.38]"
-					: props.pressed
-						? "text-on-surface-variant state-pressed"
-						: props.dragged
-							? "text-on-surface-variant elevation-3 state-dragged"
-							: "text-on-surface-variant",
-
-				props.action &&
-					!props.disabled &&
-					!props.pressed &&
-					!props.dragged &&
-					"hover:elevation-1 hover:state-hover",
-				"relative overflow-hidden rounded-md bg-surface-container-highest p-4 state-on-surface-variant focus:elevation-1 focus:state-focus",
-				props.className
-			)}
-		></Component>
-	)
-}
-
-export const CardOutlined: Card = ({ asChild, ...props }) => {
-	const Component = asChild ? Slot : "div"
-
-	return (
-		<Component
-			{...props}
-			tabIndex={props.disabled ? -1 : props.tabIndex}
-			className={classes(
-				props.disabled
-					? "border-outline/[.12] text-on-surface/[.38]"
-					: props.pressed
-						? "border-outline-variant text-on-surface state-pressed"
-						: props.dragged
-							? "border-outline-variant text-on-surface elevation-3 state-dragged"
-							: "border-outline-variant text-on-surface focus:border-on-surface",
-
-				props.action &&
-					!props.disabled &&
-					!props.pressed &&
-					!props.dragged &&
-					"hover:elevation-1 hover:state-hover",
-				"relative overflow-hidden rounded-md border p-4 state-on-surface focus:elevation-1 focus:state-focus",
-				props.className
-			)}
-		></Component>
-	)
+export function Card({
+	variant,
+	...props
+}: ComponentPropsWithoutRef<"div"> &
+	VariantProps<typeof card> & {
+		render?: ReactElement
+	}) {
+	return createElement("div", {
+		...props,
+		className: card({ variant: variant, className: props.className })
+	})
 }

@@ -288,6 +288,9 @@ export default withTV({
 				":merge(.group):has(:is(:user-invalid,:-moz-ui-invalid,:invalid)) &",
 				":merge(.group):has([aria-invalid='true']) &"
 			])
+			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
+			addVariant("pressed", ["&[data-active]","&:active"])
+			// addVariant("dragged", [])
 		}),
 		plugin(({ addVariant }) => {
 			addVariant("force", "&:not(\\#)")

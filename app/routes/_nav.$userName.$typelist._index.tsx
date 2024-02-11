@@ -10,13 +10,13 @@ import {
 	pipe
 } from "effect"
 
-import { CardOutlined } from "~/components/Card"
+import { Card } from "~/components/Card"
 import List from "~/components/List"
 import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
-import { ListItem } from "~/lib/entry/ListItem"
+import { MediaListItem } from "~/lib/entry/ListItem"
 import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import {
@@ -150,23 +150,26 @@ export default function Page() {
 			<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
 				{data.MediaListCollection.lists.map((list) => {
 					return (
-						<li key={list.name} className="">
-							<CardOutlined asChild>
-								<article>
-									<h2 className="text-balance">{list.name}</h2>
-									<List className="-mx-4">
-										{list.entries?.map((entry) => {
-											return <ListItem entry={entry} key={entry.id}></ListItem>
-										})}
-									</List>
-									<Link
-										to={list.name}
-										className={button({ className: "w-full" })}
-									>
-										more
-									</Link>
-								</article>
-							</CardOutlined>
+						<li key={list.name}>
+							<Card variant="outlined" render={<article />}>
+								<h2 className="text-balance">{list.name}</h2>
+								<List className="-mx-4">
+									{list.entries?.map((entry) => {
+										return (
+											<MediaListItem
+												entry={entry}
+												key={entry.id}
+											></MediaListItem>
+										)
+									})}
+								</List>
+								<Link
+									to={list.name}
+									className={button({ className: "w-full" })}
+								>
+									more
+								</Link>
+							</Card>
 						</li>
 					)
 				})}

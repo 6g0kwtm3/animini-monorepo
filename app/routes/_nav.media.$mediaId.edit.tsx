@@ -356,12 +356,12 @@ export default function Page() {
 										<Link
 											to=".."
 											onClick={(e) => (e.preventDefault(), navigate(-1))}
-										>
-											<span className="i">close</span>
-											<div className="sr-only">Cancel</div>
-										</Link>
+										/>
 									}
-								/>
+								>
+									<span className="i">close</span>
+									<div className="sr-only">Cancel</div>
+								</Ariakit.DialogDismiss>
 							</DialogFullscreenIcon>
 							Foo fa ra fa
 							<ButtonText type="submit" className="ms-auto sm:hidden">

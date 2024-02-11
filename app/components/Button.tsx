@@ -3,7 +3,8 @@ import {
 	type ComponentPropsWithoutRef,
 	type FC,
 	type PropsWithChildren,
-	type SyntheticEvent
+	type SyntheticEvent,
+	ReactElement
 } from "react"
 
 import * as Ariakit from "@ariakit/react"
@@ -15,7 +16,7 @@ import { classes } from "./classes"
 export type Icon = FC<ComponentPropsWithoutRef<"div">>
 
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
-	asChild?: boolean
+	render?: ReactElement
 	invoketarget?: string
 	invokeaction?: string
 }

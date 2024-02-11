@@ -38,7 +38,7 @@ import {
 // import {} from 'glob'
 
 import { Suspense } from "react"
-import { CardElevated } from "~/components/Card"
+import { Card } from "~/components/Card"
 import List from "~/components/List"
 import { Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
@@ -258,10 +258,10 @@ export function ErrorBoundary() {
 	}
 
 	return (
-		<CardElevated className="m-4 bg-error-container text-on-error-container">
+		<Card variant="elevated" className="m-4 bg-error-container text-on-error-container">
 			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
-		</CardElevated>
+		</Card>
 	)
 }

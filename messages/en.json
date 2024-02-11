@@ -15,5 +15,6 @@
 	"media_format_special": "Special",
 	"media_format_ova": "OVA",
 	"media_format_ona": "ONA",
-	"media_format_music": "Music"
+	"media_format_music": "Music",
+	"episode_aired": "Episode {episode} aired."
 }

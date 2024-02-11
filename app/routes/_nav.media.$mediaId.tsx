@@ -12,7 +12,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useTooltipStore } from "@ariakit/react"
 import { Effect, pipe } from "effect"
 import { cloneElement } from "react"
-import { CardElevated, CardFilled } from "~/components/Card"
+import { Card,  } from "~/components/Card"
 import {
 	Menu,
 	MenuDivider,
@@ -142,7 +142,7 @@ export default function Page() {
 						custom={useOutletContext()}
 						className="flex gap-2"
 					>
-						<CardFilled className="grid flex-1 gap-4 rounded-[2.5rem]">
+						<Card variant="filled" className="grid flex-1 gap-4 rounded-[2.5rem]">
 							<img
 								src={data?.Media?.coverImage?.extraLarge ?? ""}
 								style={{
@@ -172,7 +172,7 @@ export default function Page() {
               />
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
-							<CardElevated className="force:rounded-xl force:p-16">
+							<Card variant="elevated" className="force:rounded-xl force:p-16">
 								<h1 className="text-balance text-display-lg">
 									{data?.Media?.title?.userPreferred}
 								</h1>
@@ -187,11 +187,9 @@ export default function Page() {
 
 									<MenuList className="top-auto">
 										<li>
-											<MenuItem asChild>
-												<a href="">
-													<MenuItemLeadingIcon>visibility</MenuItemLeadingIcon>
-													Item 1
-												</a>
+											<MenuItem render={<a href=""></a>}>
+												<MenuItemLeadingIcon>visibility</MenuItemLeadingIcon>
+												Item 1
 											</MenuItem>
 										</li>
 										<MenuItem>
@@ -201,7 +199,7 @@ export default function Page() {
 												<span className="i">keyboard_command_key</span>+Shift+X
 											</MenuItemTrailingText>
 										</MenuItem>
-										<MenuItem>
+										<MenuItem>-
 											<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
 											Item 3<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
 										</MenuItem>
@@ -235,8 +233,8 @@ export default function Page() {
 										__html: data?.Media?.description || ""
 									}}
 								></div>
-							</CardElevated>
-						</CardFilled>
+							</Card>
+						</Card>
 					</motion.div>
 
 					<Edit />
@@ -288,11 +286,11 @@ function Edit() {
 								preventScrollReset={true}
 								className={fab({})}
 								onClick={() => store.setOpen(false)}
-							>
-								edit
-							</Link>
+							/>
 						}
-					></TooltipPlainTrigger>
+					>
+						edit
+					</TooltipPlainTrigger>
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
 				</TooltipPlain>
 			</div>
