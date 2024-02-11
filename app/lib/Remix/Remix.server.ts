@@ -36,8 +36,6 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 	}
 	const { cause } = exit
 
- 
-
 	if (process.env.NODE_ENV === "development" || import.meta.env.DEV) {
 		// throw new Error(Cause.pretty(cause))
 	}

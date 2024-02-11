@@ -6,11 +6,11 @@ import { m } from "~/lib/paraglide"
 import { Predicate } from "effect"
 import { ButtonText, ButtonTextIcon } from "~/components/Button"
 import {
-    TooltipRich,
-    TooltipRichActions,
-    TooltipRichContainer,
-    TooltipRichSupportingText,
-    TooltipRichTrigger
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichSupportingText,
+	TooltipRichTrigger
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
@@ -61,7 +61,7 @@ export function MediaListItem(props: {
 	)
 
 	return (
-		<List.Item >
+		<List.Item>
 			<div className="col-start-1 h-14 w-14">
 				<img
 					src={entry.media?.coverImage?.extraLarge || ""}
@@ -78,7 +78,7 @@ export function MediaListItem(props: {
 				to={`/media/${entry.media?.id}/`}
 				className="col-start-2 grid grid-cols-subgrid"
 			>
-				<List.Item.Title >
+				<List.Item.Title>
 					{libraryHasNextEpisode && (
 						<span className="i i-inline text-primary">priority_high</span>
 						// <span className="i i-inline text-primary">video_library</span>
@@ -108,7 +108,7 @@ export function MediaListItem(props: {
 
 export function ListItemLoader(props: {}) {
 	return (
-		<List.Item >
+		<List.Item>
 			<div className="col-start-1 h-14 w-14">
 				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent"></div>
 			</div>
@@ -204,7 +204,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 									name="progress"
 									value={(entry.progress ?? 0) + 1}
 								/>
-								<ButtonText type="submit" >
+								<ButtonText type="submit">
 									<ButtonTextIcon>add</ButtonTextIcon>
 									{m.increment_progress()}
 								</ButtonText>

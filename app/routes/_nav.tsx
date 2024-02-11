@@ -74,9 +74,6 @@ export default function Nav() {
 
 	const { pathname } = useLocation()
 
- 
- 
-
 	return (
 		<>
 			<nav className="flex flex-wrap gap-2 px-2 py-1">

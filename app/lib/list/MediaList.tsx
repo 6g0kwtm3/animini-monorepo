@@ -85,7 +85,7 @@ export function MediaListHeader(props: { children: ReactNode }) {
 	return (
 		<h2 className="mx-4 flex flex-wrap justify-between text-balance text-display-md">
 			<div>{params["selected"]}</div>
-			<div >{props.children}</div>
+			<div>{props.children}</div>
 		</h2>
 	)
 }
