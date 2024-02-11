@@ -44,12 +44,9 @@ export const fab = tv({
 		},
 		color: {
 			surface: "bg-surface text-on-surface",
-			primary:
-				"bg-primary-container text-on-primary-container",
-			secondary:
-				"bg-secondary-container text-on-secondary-container",
-			tertiary:
-				"bg-tertiary-container text-on-tertiary-container"
+			primary: "bg-primary-container text-on-primary-container",
+			secondary: "bg-secondary-container text-on-secondary-container",
+			tertiary: "bg-tertiary-container text-on-tertiary-container"
 		}
 	},
 	defaultVariants: {

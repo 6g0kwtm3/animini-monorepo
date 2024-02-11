@@ -35,7 +35,6 @@ import "./tailwind.css"
 import { useEffect } from "react"
 import { Viewer } from "./lib/Remix/Remix.server"
 
-
 export const links: LinksFunction = () => {
 	return [
 		{

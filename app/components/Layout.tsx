@@ -9,14 +9,14 @@ const pane = tv({
 	base: "flex-col",
 	variants: {
 		variant: {
-			fixed: "hidden md:flex w-[22.5rem]",
+			fixed: "hidden w-[22.5rem] md:flex",
 			flexible: "flex flex-1"
 		}
 	},
 	defaultVariants: { variant: "flexible" }
 })
 
-export function Layout(props:ComponentPropsWithoutRef<'div'>) {
+export function Layout(props: ComponentPropsWithoutRef<"div">) {
 	return <div className="flex flex-1 gap-6 px-4 sm:px-6">{props.children}</div>
 }
 

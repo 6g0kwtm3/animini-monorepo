@@ -127,14 +127,15 @@ export default function Nav() {
 								<NavigationItemIcon>feed</NavigationItemIcon>
 								Feed
 							</NavigationItem>
-							<NavigationItem to={`/${data.Viewer.name}/`}					className="max-lg:hidden" end>
+							<NavigationItem
+								to={`/${data.Viewer.name}/`}
+								className="max-lg:hidden"
+								end
+							>
 								<NavigationItemIcon>person</NavigationItemIcon>
 								Profile
 							</NavigationItem>
-							<NavigationItem
-								to={`/${data.Viewer.name}/animelist/`}
-			
-							>
+							<NavigationItem to={`/${data.Viewer.name}/animelist/`}>
 								<NavigationItemIcon>play_arrow</NavigationItemIcon>
 								Anime List
 							</NavigationItem>

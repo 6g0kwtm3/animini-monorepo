@@ -1,19 +1,11 @@
-import { NavLink } from "@remix-run/react";
-import { motion } from "framer-motion";
-import type {
-	ReactNode,
+import { NavLink } from "@remix-run/react"
+import { motion } from "framer-motion"
+import type { ReactNode, ComponentPropsWithoutRef } from "react"
+import { createContext, useContext, useId } from "react"
 
-	 ComponentPropsWithoutRef
-} from "react";
-import {
-	createContext,
-	useContext,
-	useId
-} from "react";
-
-import type { VariantProps } from "tailwind-variants";
-import { createTV } from "tailwind-variants";
-import { TouchTarget } from "~/components/Tooltip";
+import type { VariantProps } from "tailwind-variants"
+import { createTV } from "tailwind-variants"
+import { TouchTarget } from "~/components/Tooltip"
 
 const tv = createTV({ twMerge: false })
 
@@ -33,14 +25,14 @@ const navigation = tv(
 					root: "sticky bottom-0 left-0 right-0 z-10 flex h-20 gap-2 bg-surface-container pb-4 pt-3 elevation-2",
 					label: `flex-1 flex-col items-center gap-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
 					activeIndicator: "h-8 w-16 rounded-lg",
-					icon: "group-focused:state-focus group-pressed:state-pressed group-aria-[current='page']:ifill relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container",
+					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				drawer: {
 					root: "sticky bottom-0 left-0 top-0 block w-[22.5rem] shrink-0 bg-transparent px-3 py-0 elevation-0",
-					label: `focused:state-focus pressed:state-pressed h-14 flex-row items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container `,
+					label: `h-14 flex-row items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator: "inset-0 h-full rounded-xl force:w-full",
-					icon: "!ifill-none group-focused:state-none group-pressed:state-none h-6 w-6 group-hover:state-none ",
+					icon: "h-6 w-6 !ifill-none group-hover:state-none group-focused:state-none group-pressed:state-none ",
 					largeBadge: "static ms-auto"
 				}
 			}

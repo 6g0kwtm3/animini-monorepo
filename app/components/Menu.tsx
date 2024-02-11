@@ -1,8 +1,4 @@
-import type {
-	ComponentPropsWithoutRef,
-	ElementRef,
-	ReactElement
-} from "react"
+import type { ComponentPropsWithoutRef, ElementRef, ReactElement } from "react"
 import { useEffect, useRef } from "react"
 
 import { createElement } from "~/lib/createElement"
