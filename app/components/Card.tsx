@@ -6,7 +6,7 @@ import { createElement } from "~/lib/createElement"
 const tv = createTV({ twMerge: false })
 
 const card = tv({
-	base: "rounded-md p-4 state-on-surface",
+	base: "rounded-md p-4",
 	variants: {
 		variant: {
 			outlined:

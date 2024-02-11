@@ -142,7 +142,7 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<div className="flex flex-col gap-4 p-2">
+		<div className="flex flex-col gap-4">
 			<h1 className="text-balance text-headline-lg">
 				{data.MediaListCollection.user?.name}
 			</h1>

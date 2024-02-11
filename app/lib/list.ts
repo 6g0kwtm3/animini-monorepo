@@ -6,7 +6,7 @@ export const list = tv({
 	slots: {
 		root: "grid [grid-auto-rows:1fr] grid-cols-[auto_1fr_auto] gap-x-4 py-2",
 		subheader: "",
-		item: "group col-span-full grid grid-cols-subgrid px-4 outline-none state-on-surface hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
+		item: "group col-span-full grid grid-cols-subgrid px-4 outline-none hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
 		itemTitle: "truncate text-body-lg text-on-surface",
 		itemSubtitle: "text-pretty text-body-md text-on-surface-variant",
 		trailingSupportingText: "text-end text-label-sm text-on-surface-variant"

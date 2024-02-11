@@ -32,8 +32,9 @@ import "./tailwind.css"
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
-import { Viewer } from "./lib/Remix/Remix.server"
 import { useEffect } from "react"
+import { Viewer } from "./lib/Remix/Remix.server"
+
 
 export const links: LinksFunction = () => {
 	return [

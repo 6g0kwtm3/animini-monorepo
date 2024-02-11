@@ -197,7 +197,7 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<div className=" ">
+		<div className="-mx-4">
 			<div className={`pt-4`}>
 				<MediaListRoot>
 					<MediaListHeader>

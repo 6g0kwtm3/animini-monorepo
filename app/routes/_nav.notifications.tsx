@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
 import { Link, useLoaderData } from "@remix-run/react"
 import { Effect, Predicate, pipe } from "effect"
+import { LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
 import { Remix } from "~/lib/Remix/index.server"
@@ -62,7 +63,7 @@ export default function Page() {
 	const data = useLoaderData<typeof loader>()
 
 	return (
-		<div>
+		<LayoutPane>
 			<List lines="two">
 				{data?.Page?.notifications
 					?.filter(Predicate.isNotNull)
@@ -110,7 +111,7 @@ export default function Page() {
 						return null
 					})}
 			</List>
-		</div>
+		</LayoutPane>
 	)
 }
 

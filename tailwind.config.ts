@@ -1,10 +1,8 @@
 import type { Config } from "tailwindcss"
 //@ts-ignore
-import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette"
 //@ts-ignore
 import { withTV } from "tailwind-variants/transformer"
 //@ts-ignore
-import withAlphaVariable from "tailwindcss/lib/util/withAlphaVariable"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
 import themes from "./themes.json"
@@ -16,9 +14,8 @@ export default withTV({
 		screens: {
 			sm: "600px",
 			md: "840px",
-			lg: "1024px",
-			xl: "1280px",
-			"2xl": "1536px"
+			lg: "1200px",
+			xl: "1600px"
 		},
 		borderRadius: {
 			none: "0",
@@ -246,7 +243,8 @@ export default withTV({
 				matchUtilities(
 					{
 						state: (opacity) => ({
-							"--mdi-state-opacity": opacity,
+							// "--mdi-state-opacity": opacity,
+							"--mdi-state-color": `color-mix(in oklab, currentColor, transparent ${100 - parseInt(opacity.replace("%", ""))}%)`,
 							backgroundImage
 						})
 					},
@@ -256,23 +254,23 @@ export default withTV({
 					}
 				)
 
-				matchUtilities(
-					{
-						state: (color) => ({
-							...withAlphaVariable({
-								color,
-								property: "--mdi-state-color",
-								variable: "--mdi-state-opacity"
-							}),
-							"--mdi-state-opacity": undefined,
-							backgroundImage
-						})
-					},
-					{
-						values: flattenColorPalette(theme("colors")),
-						type: ["color", "any"]
-					}
-				)
+				// matchUtilities(
+				// 	{
+				// 		state: (color) => ({
+				// 			...withAlphaVariable({
+				// 				color: "currentColor",
+				// 				property: "--mdi-state-color",
+				// 				variable: "--mdi-state-opacity"
+				// 			}),
+				// 			"--mdi-state-opacity": undefined,
+				// 			backgroundImage
+				// 		})
+				// 	},
+				// 	{
+				// 		values: flattenColorPalette(theme("colors")),
+				// 		type: ["color", "any"]
+				// 	}
+				// )
 			}
 		),
 		plugin(({ addUtilities }) => {}),
@@ -289,7 +287,15 @@ export default withTV({
 				":merge(.group):has([aria-invalid='true']) &"
 			])
 			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
-			addVariant("pressed", ["&[data-active]","&:active"])
+			addVariant("pressed", ["&[data-active]", "&:active"])
+			addVariant("group-focused", [
+				":merge(.group)[data-focus-visible] &",
+				":merge(.group):focus-visible &"
+			])
+			addVariant("group-pressed", [
+				":merge(.group)[data-active] &",
+				":merge(.group):active &"
+			])
 			// addVariant("dragged", [])
 		}),
 		plugin(({ addVariant }) => {
@@ -316,6 +322,23 @@ export default withTV({
 							([key]) => 5 <= Number(key) && Number(key) <= 12
 						)
 					)
+				}
+			)
+
+			matchUtilities(
+				{
+					ifill: (value) => {
+						return {
+							"--fill": value
+						}
+					}
+				},
+				{
+					values: {
+						none: "0",
+						DEFAULT: "1"
+					},
+					type: ["number"]
 				}
 			)
 
@@ -355,9 +378,6 @@ export default withTV({
 					"vertical-align": "-11.5%",
 					"line-height": "inherit",
 					"font-weight": "inherit"
-				},
-				".i-fill": {
-					"--fill": "1"
 				}
 			})
 		})

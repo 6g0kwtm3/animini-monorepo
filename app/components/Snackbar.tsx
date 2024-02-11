@@ -1,17 +1,17 @@
 import { Predicate } from "effect"
 import type {
-	ComponentPropsWithoutRef,
-	ElementRef,
-	PropsWithChildren
+    ComponentPropsWithoutRef,
+    ElementRef,
+    PropsWithChildren
 } from "react"
 import {
-	createContext,
-	useCallback,
-	useContext,
-	useEffect,
-	useId,
-	useRef,
-	useState
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useId,
+    useRef,
+    useState
 } from "react"
 import { BaseButton, type InvokeEvent } from "./Button"
 
@@ -183,7 +183,7 @@ export function SnackbarAction(props: ComponentPropsWithoutRef<"button">) {
 						invokeaction: "hide",
 						invoketarget
 					})}
-			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary state-inverse-primary first:ms-auto hover:state-hover focus:state-focus"
+			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary first:ms-auto hover:state-hover focus:state-focus"
 		></BaseButton>
 	)
 }

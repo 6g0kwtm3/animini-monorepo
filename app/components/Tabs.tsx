@@ -27,8 +27,8 @@ export function TabsTab(
 			to={props.to}
 			className={`${
 				props.active
-					? "text-primary state-primary"
-					: "text-on-surface-variant state-on-surface hover:text-on-surface focus:text-on-surface"
+					? "text-primary"
+					: "text-on-surface-variant hover:text-on-surface focus:text-on-surface"
 			} flex justify-center px-4 text-title-sm hover:state-hover focus:state-focus`}
 		>
 			<div

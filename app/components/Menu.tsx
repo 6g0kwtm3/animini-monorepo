@@ -1,14 +1,12 @@
 import type {
 	ComponentPropsWithoutRef,
 	ElementRef,
-	ElementType,
-	ReactElement,
-	ReactNode
+	ReactElement
 } from "react"
-import { cloneElement, isValidElement, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
-import { classes } from "./classes"
 import { createElement } from "~/lib/createElement"
+import { classes } from "./classes"
 
 const Slot = "li"
 
@@ -71,7 +69,7 @@ export function MenuItem({
 	return createElement("li", {
 		...props,
 		className: classes(
-			"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface elevation-2 state-on-surface hover:state-hover focus:state-focus",
+			"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface elevation-2 hover:state-hover focus:state-focus",
 			props.className
 		)
 	})

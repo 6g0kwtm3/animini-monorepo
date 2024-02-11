@@ -1,5 +1,5 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Form, Link, Outlet, useLocation, useMatches } from "@remix-run/react"
+import { Form, Link, Outlet, useLocation } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
 
@@ -17,14 +17,15 @@ import {
 import type { loader as rootLoader } from "~/root"
 
 import {
-	NavigationBar,
-	NavigationBarItem,
-	NavigationBarItemIcon,
+	Navigation,
+	NavigationItem,
+	NavigationItemIcon,
 	NavigationItemLargeBadge
-} from "~/components/NavigationBar"
+} from "~/components/Navigation"
 import { graphql } from "~/lib/graphql"
 
 import { defer } from "@remix-run/cloudflare"
+import { Layout } from "~/components/Layout"
 
 export const loader = (async (args) => {
 	return defer({
@@ -74,26 +75,15 @@ export default function Nav() {
 
 	const { pathname } = useLocation()
 
- 
- 
-
 	return (
 		<>
 			<nav className="flex flex-wrap gap-2 px-2 py-1">
 				{data?.Viewer ? (
 					<>
-						<Link
-							prefetch="intent"
-							to={`/${data.Viewer.name}/animelist/`}
-							className={button()}
-						>
+						<Link to={`/${data.Viewer.name}/animelist/`} className={button()}>
 							Anime List
 						</Link>
-						<Link
-							prefetch="intent"
-							to={`/${data.Viewer.name}/mangalist/`}
-							className={button()}
-						>
+						<Link to={`/${data.Viewer.name}/mangalist/`} className={button()}>
 							Manga List
 						</Link>
 						<Form
@@ -122,30 +112,51 @@ export default function Nav() {
 					<Search></Search>
 				</div>
 			</nav>
-			<main className="flex-1">
-				<Outlet></Outlet>
-			</main>
 
-			{data?.Viewer && (
-				<NavigationBar>
-					<NavigationBarItem to="/">
-						<NavigationBarItemIcon>feed</NavigationBarItemIcon>
-						Feed
-					</NavigationBarItem>
-					<NavigationBarItem
-						prefetch="intent"
-						to={`/${data.Viewer.name}/animelist/`}
-					>
-						<NavigationBarItemIcon>person</NavigationBarItemIcon>
-						Profile
-					</NavigationBarItem>
-					<NavigationBarItem to="/notifications" prefetch="render">
-						<NavigationBarItemIcon>notifications</NavigationBarItemIcon>
-						<NavigationItemLargeBadge>7</NavigationItemLargeBadge>
-						Notifications
-					</NavigationBarItem>
-				</NavigationBar>
-			)}
+			<main className="flex flex-1 flex-col lg:flex-row">
+				{data?.Viewer && (
+					<>
+						<Navigation
+							className="max-lg:order-last max-lg:w-full"
+							variant={{
+								initial: "bar",
+								lg: "drawer"
+							}}
+						>
+							<NavigationItem to="/">
+								<NavigationItemIcon>feed</NavigationItemIcon>
+								Feed
+							</NavigationItem>
+							<NavigationItem to={`/${data.Viewer.name}/`}					className="max-lg:hidden" end>
+								<NavigationItemIcon>person</NavigationItemIcon>
+								Profile
+							</NavigationItem>
+							<NavigationItem
+								to={`/${data.Viewer.name}/animelist/`}
+			
+							>
+								<NavigationItemIcon>play_arrow</NavigationItemIcon>
+								Anime List
+							</NavigationItem>
+							<NavigationItem
+								to={`/${data.Viewer.name}/mangalist/`}
+								className="max-lg:hidden"
+							>
+								<NavigationItemIcon>menu_book</NavigationItemIcon>
+								Manga List
+							</NavigationItem>
+							<NavigationItem to="/notifications">
+								<NavigationItemIcon>notifications</NavigationItemIcon>
+								Notifications
+								<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
+							</NavigationItem>
+						</Navigation>
+					</>
+				)}
+				<Layout>
+					<Outlet></Outlet>
+				</Layout>
+			</main>
 		</>
 	)
 }

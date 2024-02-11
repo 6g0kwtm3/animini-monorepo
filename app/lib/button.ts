@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 
 export const btnIcon = tv({
-	base: "i relative select-none rounded-full bg-center p-2 text-on-surface-variant state-on-surface-variant hover:state-hover focus-visible:state-focus active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
+	base: "i relative select-none rounded-full bg-center p-2 text-on-surface-variant hover:state-hover focus-visible:state-focus active:state-pressed data-[active]:state-pressed data-[focus-visible]:state-focus",
 	variants: {
 		variant: {
 			standard: ""
@@ -19,14 +19,14 @@ export const button = tv({
 	variants: {
 		variant: {
 			outlined:
-				"gap-4 border border-outline px-6 text-primary state-primary focus:border-primary aria-disabled:border-on-surface/[.12]",
+				"gap-4 border border-outline px-6 text-primary focus:border-primary aria-disabled:border-on-surface/[.12]",
 			elevated:
-				"gap-4 bg-surface px-6 text-primary shadow elevation-1 state-primary hover:elevation-2 aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:elevation-1",
+				"gap-4 bg-surface px-6 text-primary shadow elevation-1 hover:elevation-2 aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:elevation-1",
 			filled:
-				"gap-4 bg-primary px-6 text-on-primary state-on-primary aria-disabled:bg-on-surface/[.12]",
-			text: "gap-2 px-3 text-primary state-primary",
+				"gap-4 bg-primary px-6 text-on-primary aria-disabled:bg-on-surface/[.12]",
+			text: "gap-2 px-3 text-primary",
 			tonal:
-				"gap-4 bg-secondary-container px-6 text-on-secondary-container state-on-secondary-container hover:elevation-1 aria-disabled:bg-on-surface/[.12] aria-disabled:hover:elevation-0"
+				"gap-4 bg-secondary-container px-6 text-on-secondary-container hover:elevation-1 aria-disabled:bg-on-surface/[.12] aria-disabled:hover:elevation-0"
 		}
 	},
 	defaultVariants: {
@@ -43,13 +43,13 @@ export const fab = tv({
 			large: "h-24 w-24 rounded-xl p-[1.875rem] i-9"
 		},
 		color: {
-			surface: "bg-surface text-on-surface state-on-surface",
+			surface: "bg-surface text-on-surface",
 			primary:
-				"bg-primary-container text-on-primary-container state-on-primary-container",
+				"bg-primary-container text-on-primary-container",
 			secondary:
-				"bg-secondary-container text-on-secondary-container state-on-secondary-container",
+				"bg-secondary-container text-on-secondary-container",
 			tertiary:
-				"bg-tertiary-container text-on-tertiary-container state-on-tertiary-container"
+				"bg-tertiary-container text-on-tertiary-container"
 		}
 	},
 	defaultVariants: {

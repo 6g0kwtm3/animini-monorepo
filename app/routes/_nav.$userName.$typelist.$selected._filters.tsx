@@ -32,6 +32,8 @@ import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 // 	)
 // }) satisfies ClientLoaderFunction
 import { Predicate } from "effect"
+import { Card } from "~/components/Card"
+import { LayoutPane } from "~/components/Layout"
 import { useRawLoaderData } from "~/lib/data"
 import { m } from "~/lib/paraglide"
 
@@ -101,81 +103,89 @@ export default function Filters() {
 	const submit = useSubmit()
 
 	return (
-		<div>
-			<Form
-				replace
-				onChange={(e) => submit(e.currentTarget)}
-				className="grid grid-cols-2 gap-2"
-			>
-				<CheckboxProvider defaultValue={searchParams.getAll("status")}>
-					<Group className="col-span-2" render={<fieldset />}>
-						<GroupLabel render={<legend />}>Status</GroupLabel>
-						<ul className="flex flex-wrap gap-2">
-							{Object.entries(STATUS_OPTIONS).map(([value, label]) => {
-								return (
-									<li key={value}>
-										<ChipFilter name="status" value={value}>
-											{label}
-										</ChipFilter>
-									</li>
-								)
-							})}
-						</ul>
-					</Group>
-				</CheckboxProvider>
-
-				<CheckboxProvider defaultValue={searchParams.getAll("format")}>
-					<Group className="col-span-2" render={<fieldset />}>
-						<GroupLabel render={<legend />}>Format</GroupLabel>
-						<ul className="flex flex-wrap gap-2">
-							{Object.entries(FORMAT_OPTIONS).map(([value, label]) => {
-								return (
-									<li key={value}>
-										<ChipFilter name="format" value={value}>
-											{label}
-										</ChipFilter>
-									</li>
-								)
-							})}
-						</ul>
-					</Group>
-				</CheckboxProvider>
-
-				<ButtonText type="submit">Filter</ButtonText>
-				<ButtonText type="reset">Reset</ButtonText>
-			</Form>
-
-			<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
-				{data?.MediaListCollection?.lists
-					?.filter(Predicate.isNotNull)
-					.sort(
-						Order.reverse(
-							Order.mapInput(Order.string, (list) => list.name ?? "")
-						)
-					)
-					?.map((list) => {
-						return (
-							<li className="min-w-max" key={list.name}>
-								<Link
-									to={`/${params["userName"]}/${params["typelist"]}/${list.name}/`}
-									className={button({
-										variant: "tonal",
-										className: `${
-											selected === list.name
-												? `force:bg-tertiary-container `
-												: ``
-										}force:rounded capitalize`
+		<>
+			<LayoutPane variant="fixed">
+				<Card variant="elevated">
+					<Form
+						replace
+						onChange={(e) => submit(e.currentTarget)}
+						className="grid grid-cols-2 gap-2"
+					>
+						<CheckboxProvider defaultValue={searchParams.getAll("status")}>
+							<Group className="col-span-2" render={<fieldset />}>
+								<GroupLabel render={<legend />}>Status</GroupLabel>
+								<ul className="flex flex-wrap gap-2">
+									{Object.entries(STATUS_OPTIONS).map(([value, label]) => {
+										return (
+											<li key={value}>
+												<ChipFilter name="status" value={value}>
+													{label}
+												</ChipFilter>
+											</li>
+										)
 									})}
-								>
-									{list.name}
-								</Link>
-							</li>
-						)
-					})}
-			</ul>
+								</ul>
+							</Group>
+						</CheckboxProvider>
 
-			<Outlet></Outlet>
-		</div>
+						<CheckboxProvider defaultValue={searchParams.getAll("format")}>
+							<Group className="col-span-2" render={<fieldset />}>
+								<GroupLabel render={<legend />}>Format</GroupLabel>
+								<ul className="flex flex-wrap gap-2">
+									{Object.entries(FORMAT_OPTIONS).map(([value, label]) => {
+										return (
+											<li key={value}>
+												<ChipFilter name="format" value={value}>
+													{label}
+												</ChipFilter>
+											</li>
+										)
+									})}
+								</ul>
+							</Group>
+						</CheckboxProvider>
+
+						<ButtonText type="submit">Filter</ButtonText>
+						<ButtonText type="reset">Reset</ButtonText>
+					</Form>
+
+					<ul className="flex gap-2 overflow-x-auto overscroll-contain [@media(pointer:fine)]:flex-wrap [@media(pointer:fine)]:justify-center">
+						{data?.MediaListCollection?.lists
+							?.filter(Predicate.isNotNull)
+							.sort(
+								Order.reverse(
+									Order.mapInput(Order.string, (list) => list.name ?? "")
+								)
+							)
+							?.map((list) => {
+								return (
+									<li className="min-w-max" key={list.name}>
+										<Link
+											to={`/${params["userName"]}/${params["typelist"]}/${list.name}/`}
+											className={button({
+												variant: "tonal",
+												className: `${
+													selected === list.name
+														? `force:bg-tertiary-container `
+														: ``
+												}force:rounded capitalize`
+											})}
+										>
+											{list.name}
+										</Link>
+									</li>
+								)
+							})}
+					</ul>
+				</Card>
+			</LayoutPane>
+
+			<LayoutPane>
+				<Card variant="elevated" className="max-sm:contents">
+					<Outlet></Outlet>
+				</Card>
+			</LayoutPane>
+		</>
 	)
 }
 

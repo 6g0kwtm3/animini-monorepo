@@ -12,7 +12,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useTooltipStore } from "@ariakit/react"
 import { Effect, pipe } from "effect"
 import { cloneElement } from "react"
-import { Card,  } from "~/components/Card"
+import { Card } from "~/components/Card"
+import { LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
 	Menu,
 	MenuDivider,
@@ -23,7 +24,6 @@ import {
 	MenuList,
 	MenuTrigger
 } from "~/components/Menu"
-import { PaneFlexible } from "~/components/Pane"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
@@ -142,7 +142,10 @@ export default function Page() {
 						custom={useOutletContext()}
 						className="flex gap-2"
 					>
-						<Card variant="filled" className="grid flex-1 gap-4 rounded-[2.5rem]">
+						<Card
+							variant="filled"
+							className="grid flex-1 gap-4 rounded-[2.5rem]"
+						>
 							<img
 								src={data?.Media?.coverImage?.extraLarge ?? ""}
 								style={{
@@ -199,21 +202,19 @@ export default function Page() {
 												<span className="i">keyboard_command_key</span>+Shift+X
 											</MenuItemTrailingText>
 										</MenuItem>
-										<MenuItem>-
-											<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
+										<MenuItem>
+											-<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
 											Item 3<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
 										</MenuItem>
 										<MenuDivider></MenuDivider>
 										<li>
 											<Menu className="group">
-												<MenuItem asChild>
-													<MenuTrigger>
-														<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
-														Item 4
-														<MenuItemTrailingIcon className="group-open:rotate-180">
-															chevron_right
-														</MenuItemTrailingIcon>
-													</MenuTrigger>
+												<MenuItem render={<MenuTrigger />}>
+													<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
+													Item 4
+													<MenuItemTrailingIcon className="group-open:rotate-180">
+														chevron_right
+													</MenuItemTrailingIcon>
 												</MenuItem>
 												<MenuList className="-top-2 left-full">
 													<MenuItem>
