@@ -258,7 +258,10 @@ export function ErrorBoundary() {
 	}
 
 	return (
-		<Card variant="elevated" className="m-4 bg-error-container text-on-error-container">
+		<Card
+			variant="elevated"
+			className="m-4 bg-error-container text-on-error-container"
+		>
 			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>

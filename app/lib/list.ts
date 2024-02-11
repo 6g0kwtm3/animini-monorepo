@@ -4,7 +4,7 @@ const tv = createTV({ twMerge: false })
 
 export const list = tv({
 	slots: {
-		root: "grid [grid-auto-rows:1fr] grid-cols-[auto_1fr_auto] gap-x-4 py-2",
+		root: "grid grid-cols-[auto_1fr_auto] gap-x-4 py-2 [grid-auto-rows:1fr]",
 		subheader: "",
 		item: "group col-span-full grid grid-cols-subgrid px-4 outline-none hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
 		itemTitle: "truncate text-body-lg text-on-surface",

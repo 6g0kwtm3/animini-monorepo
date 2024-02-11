@@ -59,8 +59,6 @@ export function Menu(props: ComponentPropsWithoutRef<"details">) {
 
 MenuList.displayName = "Menu"
 
-
-
 export function MenuItem({
 	...props
 }: ComponentPropsWithoutRef<"div"> & {

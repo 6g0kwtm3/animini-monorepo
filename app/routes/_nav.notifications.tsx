@@ -90,12 +90,16 @@ export default function Page() {
 											/>
 										</div>
 										<div className="col-start-2 grid grid-cols-subgrid">
-											<List.Item.Title >
-												{m.episode_aired({episode:notification.episode})}
+											<List.Item.Title>
+												{m.episode_aired({ episode: notification.episode })}
 												{/* Episode {notification.episode} of{" "}
 												{notification.media?.title?.userPreferred} aired. */}
 											</List.Item.Title>
-											<List.Item.Subtitle title={notification.media?.title?.userPreferred??undefined}>
+											<List.Item.Subtitle
+												title={
+													notification.media?.title?.userPreferred ?? undefined
+												}
+											>
 												{notification.media?.title?.userPreferred}
 											</List.Item.Subtitle>
 										</div>

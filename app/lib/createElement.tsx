@@ -1,6 +1,5 @@
-import type { ComponentPropsWithoutRef, ElementType } from "react";
-import { cloneElement, isValidElement } from "react";
-
+import type { ComponentPropsWithoutRef, ElementType } from "react"
+import { cloneElement, isValidElement } from "react"
 
 export function createElement(
 	Type: ElementType,
