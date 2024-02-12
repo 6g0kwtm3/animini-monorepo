@@ -126,7 +126,7 @@ export default function Nav() {
 						>
 							<NavigationItem to="/">
 								<NavigationItemIcon>feed</NavigationItemIcon>
-								Feed
+								<div className="truncate max-w-full">Feed</div>
 							</NavigationItem>
 							<NavigationItem
 								to={`/${data.Viewer.name}/`}
@@ -134,28 +134,28 @@ export default function Nav() {
 								end
 							>
 								<NavigationItemIcon>person</NavigationItemIcon>
-								Profile
+								<div className="truncate max-w-full">Profile</div>
 							</NavigationItem>
 							<NavigationItem to={`/${data.Viewer.name}/animelist/`}>
 								<NavigationItemIcon>play_arrow</NavigationItemIcon>
-								Anime List
+								<div className="truncate max-w-full">Anime List</div>
 							</NavigationItem>
 							<NavigationItem
 								to={`/${data.Viewer.name}/mangalist/`}
 								className="max-sm:hidden"
 							>
 								<NavigationItemIcon>menu_book</NavigationItemIcon>
-								Manga List
+								<div className="truncate max-w-full">Manga List</div>
 							</NavigationItem>
 							<NavigationItem to="/notifications">
 								<NavigationItemIcon>notifications</NavigationItemIcon>
-								Notifications
+								<div className="truncate max-w-full">Notifications</div>
 								<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
 							</NavigationItem>
 						</Navigation>
 					</>
 				)}
-				<Layout>
+				<Layout className="sm:-ms-6">
 					<Outlet></Outlet>
 				</Layout>
 			</main>

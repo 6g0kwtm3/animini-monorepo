@@ -12,7 +12,7 @@ const tv = createTV({ twMerge: false })
 const navigation = tv(
 	{
 		slots: {
-			root: "flex",
+			root: "",
 			label: `group relative flex`,
 			activeIndicator: "absolute -z-10 bg-secondary-container",
 			icon: "i",
@@ -22,25 +22,25 @@ const navigation = tv(
 		variants: {
 			variant: {
 				bar: {
-					root: "sticky bottom-0 left-0 right-0 z-10 h-20 gap-2 bg-surface-container pb-4 pt-3 elevation-2",
+					root: "grid [grid-auto-columns:minmax(0,1fr)] grid-flow-col sticky bottom-0 left-0 right-0 z-10 h-20 gap-2 bg-surface-container pb-4 pt-3 elevation-2",
 					label: `flex-1 flex-col items-center gap-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
 					activeIndicator: "h-8 w-16 rounded-lg",
 					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				rail: {
-					root: "sticky bottom-0 left-0 top-0 h-auto w-20 shrink-0 flex-col gap-3 bg-surface py-0 elevation-0",
+					root: "flex sticky bottom-0 start-0 top-0 h-full w-20 shrink-0 flex-col gap-3 bg-surface py-0 elevation-0",
 					label:
-						"flex-[0] flex-col items-center gap-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
+						"grow-0 flex-col px-1 items-center gap-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
 					activeIndicator: "h-8 w-14 rounded-lg",
-					icon: "relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
+					icon: "relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-hover:text-on-surface group-pressed:text-on-surface group-focused:text-on-surface group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				drawer: {
-					root: "sticky bottom-0 left-0 top-0 h-auto w-[22.5rem] shrink-0 flex-col gap-0 bg-transparent px-3 py-0 elevation-0",
-					label: `min-h-14 flex-[0] flex-row items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
+					root: "flex sticky bottom-0 start-0 top-0 h-full w-[22.5rem] shrink-0 flex-col gap-0 bg-transparent px-3 py-0 elevation-0",
+					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator: "inset-0 h-full rounded-xl force:w-full",
-					icon: "h-6 w-6 !ifill-none group-hover:state-none group-focused:state-none group-pressed:state-none ",
+					icon: "h-6 w-6 !ifill-none group-hover:state-none group-focused:state-none group-pressed:state-none group-hover:text-on-surface group-pressed:text-on-surface group-focused:text-on-surface",
 					largeBadge: "static ms-auto"
 				}
 			}
