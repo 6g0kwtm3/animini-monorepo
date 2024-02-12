@@ -113,13 +113,14 @@ export default function Nav() {
 				</div>
 			</nav>
 
-			<main className="flex flex-1 flex-col lg:flex-row">
+			<main className="flex flex-1 flex-col sm:flex-row">
 				{data?.Viewer && (
 					<>
 						<Navigation
-							className="max-lg:order-last max-lg:w-full"
+							className="max-sm:order-last max-sm:w-full"
 							variant={{
 								initial: "bar",
+								sm: "rail",
 								lg: "drawer"
 							}}
 						>
@@ -129,7 +130,7 @@ export default function Nav() {
 							</NavigationItem>
 							<NavigationItem
 								to={`/${data.Viewer.name}/`}
-								className="max-lg:hidden"
+								className="max-sm:hidden"
 								end
 							>
 								<NavigationItemIcon>person</NavigationItemIcon>
@@ -141,7 +142,7 @@ export default function Nav() {
 							</NavigationItem>
 							<NavigationItem
 								to={`/${data.Viewer.name}/mangalist/`}
-								className="max-lg:hidden"
+								className="max-sm:hidden"
 							>
 								<NavigationItemIcon>menu_book</NavigationItemIcon>
 								Manga List
