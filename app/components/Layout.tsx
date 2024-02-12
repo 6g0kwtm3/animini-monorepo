@@ -17,11 +17,15 @@ const pane = tv({
 })
 
 const layout = tv({
-	base: "flex flex-1 gap-6 px-4 sm:px-6",
+	base: "flex flex-1 gap-6 px-4 sm:px-6"
 })
 
 export function Layout(props: ComponentPropsWithoutRef<"div">) {
-	return <div className={layout({className:props.className})}>{props.children}</div>
+	return (
+		<div className={layout({ className: props.className })}>
+			{props.children}
+		</div>
+	)
 }
 
 export function LayoutPane({
