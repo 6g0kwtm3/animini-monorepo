@@ -29,15 +29,16 @@ const navigation = tv(
 					largeBadge: "absolute left-1/2"
 				},
 				rail: {
-					root: "sticky bottom-0 left-0 top-0 w-20 h-auto shrink-0 flex-col bg-surface py-0 elevation-0 gap-3",
-					label: "flex-col items-center gap-1 flex-[0] text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
+					root: "sticky bottom-0 left-0 top-0 h-auto w-20 shrink-0 flex-col gap-3 bg-surface py-0 elevation-0",
+					label:
+						"flex-[0] flex-col items-center gap-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
 					activeIndicator: "h-8 w-14 rounded-lg",
 					icon: "relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				drawer: {
-					root: "sticky bottom-0 left-0 top-0 w-[22.5rem] shrink-0 flex-col bg-transparent px-3 py-0 elevation-0 gap-0 h-auto",
-					label: `min-h-14 flex-row flex-[0] items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
+					root: "sticky bottom-0 left-0 top-0 h-auto w-[22.5rem] shrink-0 flex-col gap-0 bg-transparent px-3 py-0 elevation-0",
+					label: `min-h-14 flex-[0] flex-row items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator: "inset-0 h-full rounded-xl force:w-full",
 					icon: "h-6 w-6 !ifill-none group-hover:state-none group-focused:state-none group-pressed:state-none ",
 					largeBadge: "static ms-auto"
