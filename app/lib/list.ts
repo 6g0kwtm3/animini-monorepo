@@ -2,7 +2,7 @@ import { createTV } from "tailwind-variants"
 
 const tv = createTV({ twMerge: false })
 
-export const list = tv({
+export const createList = tv({
 	slots: {
 		root: "grid grid-cols-[auto_1fr_auto] gap-x-4 py-2 [grid-auto-rows:1fr]",
 		subheader: "",

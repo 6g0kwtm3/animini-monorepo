@@ -1,16 +1,19 @@
-import { createContext, type ComponentPropsWithoutRef, useContext } from "react"
-import {} from "react-dom"
+import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import { createContext, useContext } from "react"
+
+
 import type { VariantProps } from "tailwind-variants"
-import { list } from "~/lib/list"
+import { createElement } from "~/lib/createElement"
+import { createList } from "~/lib/list"
 
-type ListVariantProps = VariantProps<typeof list>
+type ListVariantProps = VariantProps<typeof createList>
 
-const ListContext = createContext(list())
+const ListContext = createContext(createList())
 
-function Item(props: ComponentPropsWithoutRef<"div">) {
+function Item(props: ComponentPropsWithoutRef<"li">) {
 	const { item } = useContext(ListContext)
 
-	return <div {...props} className={item({ className: props.className })} />
+	return <li {...props} className={item({ className: props.className })} />
 }
 
 Item.Content = function Content(props: ComponentPropsWithoutRef<"div">) {
@@ -127,15 +130,18 @@ Item.Overline = function Overline(props: ComponentPropsWithoutRef<"div">) {
 function List({
 	lines,
 	...props
-}: ComponentPropsWithoutRef<"ul"> & ListVariantProps) {
-	const styles = list({ lines })
+}: ComponentPropsWithoutRef<"ul"> &
+	ListVariantProps & {
+		render?: ReactElement
+	}) {
+	const styles = createList({ lines })
 
 	return (
 		<ListContext.Provider value={styles}>
-			<ul
-				{...props}
-				className={styles.root({ className: props.className })}
-			></ul>
+			{createElement("ul", {
+				...props,
+				className: styles.root({ className: props.className })
+			})}
 		</ListContext.Provider>
 	)
 }

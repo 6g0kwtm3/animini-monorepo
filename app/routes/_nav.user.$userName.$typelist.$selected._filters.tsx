@@ -34,6 +34,7 @@ import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { Predicate } from "effect"
 import { Card } from "~/components/Card"
 import { LayoutPane } from "~/components/Layout"
+import { route_user_list_selected } from "~/lib/route"
 import { useRawLoaderData } from "~/lib/data"
 import { m } from "~/lib/paraglide"
 
@@ -96,7 +97,7 @@ export default function Filters() {
 	const [searchParams] = useSearchParams()
 
 	const data = useRawLoaderData<typeof loader>()
-	const params = useParams()
+	const params = useParams<"userName" | "selected">()
 
 	const selected = params["selected"]
 
@@ -104,7 +105,7 @@ export default function Filters() {
 
 	return (
 		<>
-			<LayoutPane variant="fixed">
+			<LayoutPane variant="fixed" className="max-md:hidden">
 				<Card variant="elevated">
 					<Form
 						replace
@@ -159,21 +160,26 @@ export default function Filters() {
 							)
 							?.map((list) => {
 								return (
-									<li className="min-w-max" key={list.name}>
-										<Link
-											to={`/${params["userName"]}/${params["typelist"]}/${list.name}/`}
-											className={button({
-												variant: "tonal",
-												className: `${
-													selected === list.name
-														? `force:bg-tertiary-container `
-														: ``
-												}force:rounded capitalize`
-											})}
-										>
-											{list.name}
-										</Link>
-									</li>
+									list.name && (
+										<li className="min-w-max" key={list.name}>
+											<Link
+												to={route_user_list_selected({
+													...params,
+													selected: list.name
+												})}
+												className={button({
+													variant: "tonal",
+													className: `${
+														selected === list.name
+															? `force:bg-tertiary-container `
+															: ``
+													}force:rounded capitalize`
+												})}
+											>
+												{list.name}
+											</Link>
+										</li>
+									)
 								)
 							})}
 					</ul>

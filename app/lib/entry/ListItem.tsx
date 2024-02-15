@@ -24,6 +24,7 @@ import { serverOnly$ } from "vite-env-only"
 import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
 import { formatWatch, toWatch } from "./toWatch"
+import { route_media } from "../route"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -75,7 +76,7 @@ export function MediaListItem(props: {
 				<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 			</div>
 			<Link
-				to={`/media/${entry.media?.id}/`}
+				to={route_media({ id: entry.media.id })}
 				className="col-start-2 grid grid-cols-subgrid"
 			>
 				<List.Item.Title>

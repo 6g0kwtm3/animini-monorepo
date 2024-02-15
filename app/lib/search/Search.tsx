@@ -13,7 +13,7 @@ import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
 import { Suspense, forwardRef, useEffect, useRef } from "react"
 import { ButtonIcon, ButtonTextIcon } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
-import { dialog } from "../dialog"
+import { createDialog } from "../dialog"
 
 import { Predicate, ReadonlyArray } from "effect"
 import { createTV } from "tailwind-variants"
@@ -24,21 +24,21 @@ import {
 } from "~/components/Tooltip"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment } from "~/lib/graphql"
-import { list } from "../list"
+import { createList } from "../list"
 
 import { serverOnly$ } from "vite-env-only"
 import type { loader as navLoader } from "~/routes/_nav"
 import { button } from "../button"
+import { route_media } from "../route"
 
 const tv = createTV({ twMerge: false })
 
-const { backdrop, body } = dialog({})
+const { backdrop, body } = createDialog({})
 
-const searchView = tv(
+const createSearchView = tv(
 	{
 		slots: {
-			container:
-				"fixed mt-0 flex overflow-hidden bg-surface-container-high elevation-3",
+			root: "fixed mt-0 flex overflow-hidden bg-surface-container-high elevation-3",
 			input:
 				"w-full bg-transparent p-4 text-body-lg text-on-surface outline-none placeholder:text-body-lg placeholder:text-on-surface-variant [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4"
 		},
@@ -46,12 +46,11 @@ const searchView = tv(
 			variant: {
 				fullscreen: {
 					input: "h-[4.5rem]",
-					container: `inset-0`
+					root: `inset-0`
 				},
 				docked: {
 					input: "h-14",
-					container:
-						"inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0"
+					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0"
 				}
 			}
 		},
@@ -60,7 +59,7 @@ const searchView = tv(
 	{ responsiveVariants: ["sm"] }
 )
 
-const { input: search, container: root } = searchView({
+const { input: search, root } = createSearchView({
 	variant: { initial: "fullscreen", sm: "docked" }
 })
 
@@ -288,7 +287,7 @@ const {
 	trailingSupportingText,
 
 	itemTitle
-} = list({ lines: "one" })
+} = createList({ lines: "one" })
 
 const SearchItem_media = serverOnly$(
 	graphql(`
@@ -318,7 +317,7 @@ function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 			blurOnHoverEnd={false}
 			render={
 				<Link
-					to={`/media/${media.id}/`}
+					to={route_media({ id: media.id })}
 					title={media.title?.userPreferred ?? undefined}
 				/>
 			}

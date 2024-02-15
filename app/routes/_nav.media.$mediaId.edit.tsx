@@ -35,7 +35,7 @@ import * as Ariakit from "@ariakit/react"
 
 import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { dialog } from "~/lib/dialog"
+import { createDialog } from "~/lib/dialog"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment } from "~/lib/graphql"
 
@@ -209,7 +209,7 @@ const Save = serverOnly$(
 )
 const ScoreFormatSchema = S.enums(ScoreFormat)
 
-const { root, content, headline, backdrop, body, actions } = dialog({
+const { root, content, headline, backdrop, body, actions } = createDialog({
 	variant: {
 		initial: "fullscreen",
 		sm: "basic"

@@ -4,7 +4,7 @@ import {
 	type ComponentPropsWithoutRef,
 	type ReactNode
 } from "react"
-import { textField } from "~/lib/textField"
+import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
 
 export function TextFieldOutlined({
@@ -70,7 +70,7 @@ export const TextFieldOutlinedInput = forwardRef<
 	HTMLInputElement,
 	ComponentPropsWithoutRef<typeof Ariakit.FormInput>
 >(function TextFieldOutlinedInput(props, ref) {
-	const { input } = textField({ variant: "outlined" })
+	const { input } = createTextField({ variant: "outlined" })
 	return (
 		<>
 			<Ariakit.FormInput

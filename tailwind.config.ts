@@ -165,6 +165,8 @@ export default withTV({
 		extend: {}
 	},
 	plugins: [
+		require("@tailwindcss/typography"),
+
 		plugin(
 			({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
 				addBase({

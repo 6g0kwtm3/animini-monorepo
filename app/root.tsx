@@ -3,8 +3,7 @@ import {
 	Meta,
 	Outlet,
 	Scripts,
-	ScrollRestoration,
-	useRevalidator
+	ScrollRestoration
 } from "@remix-run/react"
 import {
 	ClientArgs,
@@ -32,7 +31,7 @@ import "./tailwind.css"
 // 		Remix.runLoader
 // 	)
 // }) satisfies ClientLoaderFunction
-import { useEffect } from "react"
+import { Layout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 
 export const links: LinksFunction = () => {
@@ -61,21 +60,6 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export default function App() {
-	const revalidator = useRevalidator()
-	useEffect(() => {
-		function listener() {
-			if (
-				document.visibilityState === "visible" &&
-				revalidator.state === "idle"
-			) {
-				console.log("revalidate")
-				revalidator.revalidate()
-			}
-		}
-		window.addEventListener("visibilitychange", listener)
-		return () => window.removeEventListener("visibilitychange", listener)
-	}, [revalidator])
-
 	return (
 		<html
 			lang="en"
@@ -88,9 +72,11 @@ export default function App() {
 				<Meta />
 				<Links />
 			</head>
-			<body className="flex min-h-[100dvh] flex-col">
+			<body className="">
 				<SnackbarQueue>
-					<Outlet />
+					<Layout>
+						<Outlet />
+					</Layout>
 				</SnackbarQueue>
 				<ScrollRestoration />
 				<Scripts />

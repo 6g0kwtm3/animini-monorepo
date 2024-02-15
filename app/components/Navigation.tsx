@@ -9,11 +9,11 @@ import { TouchTarget } from "~/components/Tooltip"
 
 const tv = createTV({ twMerge: false })
 
-const navigation = tv(
+const createNavigation = tv(
 	{
 		slots: {
-			root: "",
-			label: `group relative flex`,
+			root: "[grid-area:navigation]",
+			label: `group relative flex text-center`,
 			activeIndicator: "absolute -z-10 bg-secondary-container",
 			icon: "i",
 			largeBadge:
@@ -22,23 +22,23 @@ const navigation = tv(
 		variants: {
 			variant: {
 				bar: {
-					root: "sticky bottom-0 left-0 right-0 z-10 grid h-20 grid-flow-col gap-2 bg-surface-container pb-4 pt-3 elevation-2 [grid-auto-columns:minmax(0,1fr)]",
-					label: `flex-1 flex-col items-center gap-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
+					root: "z-10 grid h-20 grid-flow-col gap-2 bg-surface-container elevation-2 [grid-auto-columns:minmax(0,1fr)]",
+					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
 					activeIndicator: "h-8 w-16 rounded-lg",
 					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				rail: {
-					root: "sticky bottom-0 start-0 top-0 flex h-full w-20 shrink-0 flex-col gap-3 bg-surface py-0 elevation-0",
+					root: "flex h-full w-20 shrink-0 flex-col justify-center gap-3 bg-surface elevation-0",
 					label:
-						"grow-0 flex-col items-center gap-1 px-1 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
+						"grow-0 flex-col items-center gap-1 px-2 py-0 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
 					activeIndicator: "h-8 w-14 rounded-lg",
 					icon: "relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:text-on-surface group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:text-on-surface group-focused:state-focus group-pressed:text-on-surface group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				drawer: {
-					root: "sticky bottom-0 start-0 top-0 flex h-full w-[22.5rem] shrink-0 flex-col gap-0 bg-transparent px-3 py-0 elevation-0",
-					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
+					root: "flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-transparent p-3 elevation-0",
+					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator: "inset-0 h-full rounded-xl force:w-full",
 					icon: "h-6 w-6 !ifill-none group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
 					largeBadge: "static ms-auto"
@@ -54,7 +54,7 @@ const navigation = tv(
 	}
 )
 
-const Context = createContext(navigation())
+const Context = createContext(createNavigation())
 
 export function NavigationItem({
 	children,
@@ -98,8 +98,8 @@ export function NavigationItemIcon(props: ComponentPropsWithoutRef<"div">) {
 export function Navigation({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof navigation>) {
-	const styles = navigation({ variant })
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof createNavigation>) {
+	const styles = createNavigation({ variant })
 
 	return (
 		<NavigationContext.Provider value={useId()}>

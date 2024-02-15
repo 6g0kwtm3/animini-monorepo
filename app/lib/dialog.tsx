@@ -2,7 +2,7 @@ import { createTV } from "tailwind-variants"
 
 const tv = createTV({ twMerge: false })
 
-export const dialog = tv(
+export const createDialog = tv(
 	{
 		slots: {
 			root: "fixed flex overflow-hidden bg-surface-container-high elevation-3",

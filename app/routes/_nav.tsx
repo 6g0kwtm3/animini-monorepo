@@ -1,13 +1,10 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Form, Link, Outlet, useLocation } from "@remix-run/react"
+import { Outlet, useLocation } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
 
-import { ButtonText } from "~/components/Button"
 import { Remix } from "~/lib/Remix/index.server"
-import { button } from "~/lib/button"
 import { useRawRouteLoaderData } from "~/lib/data"
-import { Search } from "~/lib/search/Search"
 import {
 	ClientArgs,
 	EffectUrql,
@@ -25,7 +22,8 @@ import {
 import { graphql } from "~/lib/graphql"
 
 import { defer } from "@remix-run/cloudflare"
-import { Layout } from "~/components/Layout"
+import { LayoutBody } from "~/components/Layout"
+import { route_user, route_user_list } from "~/lib/route"
 
 export const loader = (async (args) => {
 	return defer({
@@ -77,7 +75,7 @@ export default function Nav() {
 
 	return (
 		<>
-			<nav className="flex flex-wrap gap-2 px-2 py-1">
+			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
 				{data?.Viewer ? (
 					<>
 						<Link to={`/${data.Viewer.name}/animelist/`} className={button()}>
@@ -98,9 +96,9 @@ export default function Nav() {
 				) : (
 					<>
 						<Link
-							to={`/login/?${new URLSearchParams({
+							to={route_login(({
 								redirect: pathname
-							})}`}
+							}))}
 							className={button()}
 						>
 							Login
@@ -111,54 +109,59 @@ export default function Nav() {
 				<div className="self-end">
 					<Search></Search>
 				</div>
-			</nav>
+			</nav> */}
 
-			<main className="flex flex-1 flex-col sm:flex-row">
-				{data?.Viewer && (
-					<>
-						<Navigation
-							className="max-sm:order-last max-sm:w-full"
-							variant={{
-								initial: "bar",
-								sm: "rail",
-								lg: "drawer"
-							}}
+			{data?.Viewer && (
+				<>
+					<Navigation
+						variant={{
+							initial: "bar",
+							sm: "rail",
+							lg: "drawer"
+						}}
+					>
+						<NavigationItem to="/">
+							<NavigationItemIcon>feed</NavigationItemIcon>
+							<div className="max-w-full break-words">Feed</div>
+						</NavigationItem>
+						<NavigationItem
+							to={route_user({ userName: data.Viewer.name })}
+							className="max-sm:hidden"
+							end
 						>
-							<NavigationItem to="/">
-								<NavigationItemIcon>feed</NavigationItemIcon>
-								<div className="max-w-full truncate">Feed</div>
-							</NavigationItem>
-							<NavigationItem
-								to={`/${data.Viewer.name}/`}
-								className="max-sm:hidden"
-								end
-							>
-								<NavigationItemIcon>person</NavigationItemIcon>
-								<div className="max-w-full truncate">Profile</div>
-							</NavigationItem>
-							<NavigationItem to={`/${data.Viewer.name}/animelist/`}>
-								<NavigationItemIcon>play_arrow</NavigationItemIcon>
-								<div className="max-w-full truncate">Anime List</div>
-							</NavigationItem>
-							<NavigationItem
-								to={`/${data.Viewer.name}/mangalist/`}
-								className="max-sm:hidden"
-							>
-								<NavigationItemIcon>menu_book</NavigationItemIcon>
-								<div className="max-w-full truncate">Manga List</div>
-							</NavigationItem>
-							<NavigationItem to="/notifications">
-								<NavigationItemIcon>notifications</NavigationItemIcon>
-								<div className="max-w-full truncate">Notifications</div>
-								<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
-							</NavigationItem>
-						</Navigation>
-					</>
-				)}
-				<Layout className="sm:-ms-6">
-					<Outlet></Outlet>
-				</Layout>
-			</main>
+							<NavigationItemIcon>person</NavigationItemIcon>
+							<div className="max-w-full break-words">Profile</div>
+						</NavigationItem>
+						<NavigationItem
+							to={route_user_list({
+								userName: data.Viewer.name,
+								typelist: "animelist"
+							})}
+						>
+							<NavigationItemIcon>play_arrow</NavigationItemIcon>
+							<div className="max-w-full break-words">Anime List</div>
+						</NavigationItem>
+						<NavigationItem
+							to={route_user_list({
+								userName: data.Viewer.name,
+								typelist: "mangalist"
+							})}
+							className="max-sm:hidden"
+						>
+							<NavigationItemIcon>menu_book</NavigationItemIcon>
+							<div className="max-w-full break-words">Manga List</div>
+						</NavigationItem>
+						<NavigationItem to="/notifications">
+							<NavigationItemIcon>notifications</NavigationItemIcon>
+							<div className="max-w-full break-words">Notifications</div>
+							<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
+						</NavigationItem>
+					</Navigation>
+				</>
+			)}
+			<LayoutBody className="sm:ps-0">
+				<Outlet></Outlet>
+			</LayoutBody>
 		</>
 	)
 }

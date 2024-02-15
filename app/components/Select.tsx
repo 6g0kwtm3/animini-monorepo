@@ -1,13 +1,13 @@
 import * as Ariakit from "@ariakit/react"
 import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
-import { textField } from "~/lib/textField"
+import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
 import { Suspense } from "react"
 import { ClientOnly } from "remix-utils/client-only"
 
-const { input } = textField({})
+const { input } = createTextField({})
 
 const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
 

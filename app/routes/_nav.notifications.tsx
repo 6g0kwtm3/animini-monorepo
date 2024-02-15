@@ -5,8 +5,9 @@ import { LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
 import { Remix } from "~/lib/Remix/index.server"
-import { list } from "~/lib/list"
+import { createList } from "~/lib/list"
 import { m } from "~/lib/paraglide"
+import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
@@ -76,7 +77,9 @@ export default function Page() {
 								>
 									<Link
 										className={item()}
-										to={`/media/${notification.media?.id}`}
+										to={route_media({
+											id: notification.media?.id
+										})}
 									>
 										<div className="col-start-1 h-14 w-14">
 											<img
@@ -119,7 +122,7 @@ export default function Page() {
 	)
 }
 
-const { item } = list({ lines: "two" })
+const { item } = createList({ lines: "two" })
 
 function format(seconds: number) {
 	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
