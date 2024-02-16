@@ -136,7 +136,7 @@ export const loader = (async (args) => {
 			Predicate.isNotNull(data?.Viewer)
 				? json(data, {
 						headers: {
-							"Cache-Control": "max-age=60, private"
+							"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
 						}
 					})
 				: redirect("..")

@@ -24,6 +24,7 @@ import { graphql } from "~/lib/graphql"
 import { defer } from "@remix-run/cloudflare"
 import { LayoutBody } from "~/components/Layout"
 import { route_user, route_user_list } from "~/lib/route"
+import { Search } from "~/lib/search/Search"
 
 export const loader = (async (args) => {
 	return defer(
@@ -57,7 +58,7 @@ export const loader = (async (args) => {
 		},
 		{
 			headers: {
-				"Cache-Control": "max-age=60, private"
+				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
 			}
 		}
 	)
@@ -163,6 +164,7 @@ export default function Nav() {
 							<div className="max-w-full break-words">Notifications</div>
 							<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
 						</NavigationItem>
+						<Search></Search>
 					</Navigation>
 				</>
 			)}

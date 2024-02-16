@@ -11,7 +11,7 @@ import {
 
 import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
 import { Suspense, forwardRef, useEffect, useRef } from "react"
-import { ButtonIcon, ButtonTextIcon } from "~/components/Button"
+import { ButtonIcon } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { createDialog } from "../dialog"
 
@@ -27,8 +27,8 @@ import { graphql, useFragment } from "~/lib/graphql"
 import { createList } from "../list"
 
 import { serverOnly$ } from "vite-env-only"
+import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import type { loader as navLoader } from "~/routes/_nav"
-import { button } from "../button"
 import { route_media } from "../route"
 
 const tv = createTV({ twMerge: false })
@@ -169,13 +169,14 @@ export function Search() {
 
 	return (
 		<>
-			<TooltipPlain>
+			<TooltipPlain >
 				<TooltipPlainTrigger
-					className={button()}
-					render={<Link to="#search"></Link>}
+			
+					render={<NavigationItem to="#search"></NavigationItem>}
 				>
-					<ButtonTextIcon>search</ButtonTextIcon>
-					Search
+					<NavigationItemIcon>search</NavigationItemIcon>
+					
+					<div className="max-w-full break-words">Search</div>
 				</TooltipPlainTrigger>
 				<TooltipPlainContainer>
 					<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>

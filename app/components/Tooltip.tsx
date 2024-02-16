@@ -37,7 +37,7 @@ export function TooltipRichContainer(
 		<Ariakit.Hovercard
 			gutter={8}
 			{...props}
-			className="z-10 rounded-md bg-surface-container px-4 pb-2 pt-3 elevation-2"
+			className="rounded-md bg-surface-container px-4 pb-2 pt-3 elevation-2"
 		></Ariakit.Hovercard>
 	)
 }
@@ -110,7 +110,7 @@ export function TooltipPlainContainer(
 					gutter={4}
 					alwaysVisible
 					{...props}
-					className="z-20 flex min-h-6 items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface"
+					className="flex min-h-6 items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface"
 					render={
 						<motion.div
 							initial={{ opacity: 0, y }}

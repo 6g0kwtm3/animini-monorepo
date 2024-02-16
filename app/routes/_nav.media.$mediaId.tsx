@@ -60,13 +60,11 @@ const variants = {
 		}
 	},
 	center: {
-		zIndex: 1,
 		y: 0,
 		opacity: 1
 	},
 	exit: (direction: number) => {
 		return {
-			zIndex: 0,
 			y: direction < 0 ? 1000 : -1000,
 			opacity: 0
 		}
@@ -270,7 +268,7 @@ function Edit() {
 	const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
 	return (
-		<motion.div layoutId="edit" className="fixed bottom-4 end-4 z-20">
+		<motion.div layoutId="edit" className="fixed bottom-4 end-4">
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger

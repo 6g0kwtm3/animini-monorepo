@@ -176,7 +176,7 @@ export const loader = (async (args) => {
 		},
 		{
 			headers: {
-				"Cache-Control": "max-age=60, private"
+				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
 			}
 		}
 	)
@@ -200,7 +200,7 @@ const FORMAT_OPTIONS = {
 }
 
 export const headers: HeadersFunction = () => {
-	return { "Cache-Control": "max-age=60, private" }
+	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
 }
 
 export default function Page() {

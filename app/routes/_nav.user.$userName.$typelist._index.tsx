@@ -123,7 +123,7 @@ export const loader = (async (args) => {
 				},
 				{
 					headers: {
-						"Cache-Control": "max-age=60, s-maxage=60"
+						"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
 					}
 				}
 			)
@@ -136,7 +136,7 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const headers: HeadersFunction = () => {
-	return { "Cache-Control": "max-age=60, private" }
+	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
 }
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()

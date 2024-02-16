@@ -1,7 +1,7 @@
 import { NavLink } from "@remix-run/react"
 import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { createContext, useContext, useId } from "react"
+import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -14,7 +14,7 @@ const createNavigation = tv(
 		slots: {
 			root: "[grid-area:navigation]",
 			label: `group relative flex text-center`,
-			activeIndicator: "absolute -z-10 bg-secondary-container",
+			activeIndicator: "absolute bg-secondary-container",
 			icon: "i",
 			largeBadge:
 				"flex h-4 min-w-4 items-center justify-center rounded-sm bg-error px-1 text-label-sm text-on-error"
@@ -22,7 +22,7 @@ const createNavigation = tv(
 		variants: {
 			variant: {
 				bar: {
-					root: "z-10 grid h-20 grid-flow-col gap-2 bg-surface-container elevation-2 [grid-auto-columns:minmax(0,1fr)]",
+					root: "grid h-20 grid-flow-col gap-2 bg-surface-container elevation-2 [grid-auto-columns:minmax(0,1fr)]",
 					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
 					activeIndicator: "h-8 w-16 rounded-lg",
 					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
@@ -56,17 +56,19 @@ const createNavigation = tv(
 
 const Context = createContext(createNavigation())
 
-export function NavigationItem({
-	children,
-	...props
-}: ComponentPropsWithoutRef<typeof NavLink> & {
+export const NavigationItem =forwardRef<HTMLAnchorElement,
+ComponentPropsWithoutRef<typeof NavLink> & {
 	children?: ReactNode
 	className?: string
-}) {
+}
+>( function NavigationItem({
+	children,
+	...props
+}, ref) {
 	const { label } = useContext(Context)
 
 	return (
-		<NavLink {...props} className={label({ className: props.className })}>
+		<NavLink ref={ref} {...props} className={label({ className: props.className })}>
 			{({ isActive }) => (
 				<>
 					{isActive && <NavigationActiveIndicator></NavigationActiveIndicator>}
@@ -76,7 +78,7 @@ export function NavigationItem({
 			)}
 		</NavLink>
 	)
-}
+})
 
 const NavigationContext = createContext<string | undefined>(undefined)
 
