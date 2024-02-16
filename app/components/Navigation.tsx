@@ -56,19 +56,21 @@ const createNavigation = tv(
 
 const Context = createContext(createNavigation())
 
-export const NavigationItem =forwardRef<HTMLAnchorElement,
-ComponentPropsWithoutRef<typeof NavLink> & {
-	children?: ReactNode
-	className?: string
-}
->( function NavigationItem({
-	children,
-	...props
-}, ref) {
+export const NavigationItem = forwardRef<
+	HTMLAnchorElement,
+	ComponentPropsWithoutRef<typeof NavLink> & {
+		children?: ReactNode
+		className?: string
+	}
+>(function NavigationItem({ children, ...props }, ref) {
 	const { label } = useContext(Context)
 
 	return (
-		<NavLink ref={ref} {...props} className={label({ className: props.className })}>
+		<NavLink
+			ref={ref}
+			{...props}
+			className={label({ className: props.className })}
+		>
 			{({ isActive }) => (
 				<>
 					{isActive && <NavigationActiveIndicator></NavigationActiveIndicator>}

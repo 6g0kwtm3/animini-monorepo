@@ -169,13 +169,12 @@ export function Search() {
 
 	return (
 		<>
-			<TooltipPlain >
+			<TooltipPlain>
 				<TooltipPlainTrigger
-			
 					render={<NavigationItem to="#search"></NavigationItem>}
 				>
 					<NavigationItemIcon>search</NavigationItemIcon>
-					
+
 					<div className="max-w-full break-words">Search</div>
 				</TooltipPlainTrigger>
 				<TooltipPlainContainer>
