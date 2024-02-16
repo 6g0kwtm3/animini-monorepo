@@ -25,9 +25,11 @@ Item.Content = function Content(props: ComponentPropsWithoutRef<"div">) {
 	return <div {...props} className={classes("flex-1", props.className)}></div>
 }
 
-Item.Title = function Headline(props: ComponentPropsWithoutRef<"div">&{
-	render?: ReactElement
-}) {
+Item.Title = function Headline(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
 	const { itemTitle } = useContext(ListContext)
 
 	return createElement("div", {

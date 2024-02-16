@@ -33,14 +33,17 @@ function MediaLink({ mediaId, ...props }) {
 	return (
 		<Link to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
-				<Await errorElement={'Error...'} resolve={data.Media}>
+				<Await errorElement={"Error..."} resolve={data.Media}>
 					{(data) => {
 						const media = data[mediaId]
 						return (
 							media && (
 								<>
 									<Card
-										className="not-prose inline-flex overflow-hidden text-start force:p-0"
+										className="not-prose inline-flex overflow-hidden text-start theme-[--theme] force:p-0"
+										style={{
+											"--theme": media.coverImage?.color
+										}}
 										render={<span />}
 									>
 										<List className="force:p-0" render={<span />}>

@@ -5,7 +5,14 @@ import { withTV } from "tailwind-variants/transformer"
 //@ts-ignore
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
-import themes from "./themes.json"
+
+const K_1 = 0.173
+const K_2 = 0.004
+const K_3 = (1.0 + K_1) / (1.0 + K_2)
+
+function toe_inv(x: number): number {
+	return (x ** 2 + K_1 * x) / (K_3 * (x + K_2))
+}
 
 export default withTV({
 	content: ["app/**/*.{ts,tsx}"],
@@ -155,10 +162,16 @@ export default withTV({
 		},
 		colors: Object.assign(
 			Object.fromEntries(
-				Object.keys(colors.light).map((key) => [
-					key,
-					`rgb(var(--${key}) / <alpha-value>)`
-				])
+				Object.entries(colors.dark).map(([key, value]) => {
+					const [token = "", tone] = value
+						.replaceAll(/(\d+)$/g, "_$1")
+						.split("_")
+
+					return [
+						`${key}`,
+						`oklch(from var(--${token}) ${toe_inv(Number(tone) / 100)} c h / <alpha-value>)`
+					]
+				})
 			),
 			{ transparent: "transparent" }
 		),
@@ -170,47 +183,17 @@ export default withTV({
 		plugin(
 			({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
 				addBase({
-					":root": Object.assign(
-						Object.fromEntries(
-							Object.entries(colors.light).map(([key, value]) => [
-								`--${key}`,
-								isKeyOf(value, themes) ? themes[value] : `var(--${value})`
-							])
-						),
-						{
-							fontSize: "16px"
-						}
-					),
-					"::backdrop": Object.assign(
-						Object.fromEntries(
-							Object.entries(colors.light).map(([key, value]) => [
-								`--${key}`,
-								isKeyOf(value, themes) ? themes[value] : `var(--${value})`
-							])
-						),
-						{
-							fontSize: "16px"
-						}
-					),
+					":root": Object.assign({
+						fontSize: "16px"
+					}),
+					"::backdrop": Object.assign({
+						fontSize: "16px"
+					}),
 					"@media (prefers-color-scheme: dark)": {
-						":root": Object.assign(
-							Object.fromEntries(
-								Object.entries(colors.dark).map(([key, value]) => [
-									`--${key}`,
-									isKeyOf(value, themes) ? themes[value] : `var(--${value})`
-								])
-							),
-							{ "color-scheme": "dark" }
-						),
-						"::backdrop": Object.assign(
-							Object.fromEntries(
-								Object.entries(colors.dark).map(([key, value]) => [
-									`--${key}`,
-									isKeyOf(value, themes) ? themes[value] : `var(--${value})`
-								])
-							),
-							{ "color-scheme": "dark" }
-						)
+						":root": Object.assign({
+							"color-scheme": "dark"
+						}),
+						"::backdrop": Object.assign({ "color-scheme": "dark" })
 					}
 				})
 
@@ -341,6 +324,35 @@ export default withTV({
 						DEFAULT: "1"
 					},
 					type: ["number"]
+				}
+			)
+
+			matchUtilities(
+				{
+					"theme-content": (value) => {
+						return {
+							"--primary": `oklch(from ${value} l c h)`,
+							"--secondary": `oklch(from ${value} ${toe_inv(50 / 100)} calc(c / 3) h)`,
+							"--tertiary": `oklch(from ${value} ${toe_inv(50 / 100)} calc(c / 2) calc(h + 60))`,
+							"--neutral": `oklch(from ${value} ${toe_inv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
+							"--neutral-variant": `oklch(from ${value} ${toe_inv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
+							"--error": `oklch(${toe_inv(50 / 100)} 0.28 25)`
+						}
+					},
+					theme: (value) => {
+						return {
+							"--color": value,
+							"--primary": `oklch(from ${value} ${toe_inv(50 / 100)} max(c, 0.16) h)`,
+							"--secondary": `oklch(from ${value} ${toe_inv(50 / 100)} 0.05333333333333334 h)`,
+							"--tertiary": `oklch(from ${value} ${toe_inv(50 / 100)} 0.08 calc(h + 60))`,
+							"--neutral": `oklch(from ${value} ${toe_inv(50 / 100)} 0.013333333333333334 h)`,
+							"--neutral-variant": `oklch(from ${value} ${toe_inv(50 / 100)} 0.02666666666666667 h)`,
+							"--error": `oklch(${toe_inv(50 / 100)} 0.28 25)`
+						}
+					}
+				},
+				{
+					type: ["color", "any"]
 				}
 			)
 

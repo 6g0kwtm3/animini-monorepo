@@ -32,8 +32,6 @@ import {
 import { Remix } from "~/lib/Remix/index.server"
 import { button, fab } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
-import { useThemeFromHex } from "~/lib/theme"
-import { ThemeProvider } from "~/lib/theme/Theme"
 import {
 	ClientArgs,
 	EffectUrql,
@@ -122,10 +120,11 @@ export default function Page() {
 
 	return (
 		<>
-			<ThemeProvider
-				theme={useThemeFromHex(data?.Media?.coverImage?.color)}
-				className="contents"
-				data-hex={data?.Media?.coverImage?.color}
+			<div
+				style={{
+					"--theme": data?.Media?.coverImage?.color
+				}}
+				className="contents theme-[--theme]"
 			>
 				<PaneFlexible className="relative">
 					<motion.div
@@ -248,7 +247,7 @@ export default function Page() {
 						</AnimatePresence>
 					)}
 				</PaneFlexible>
-			</ThemeProvider>
+			</div>
 		</>
 	)
 }
@@ -271,7 +270,7 @@ function Edit() {
 	const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
 	return (
-		<motion.div layoutId="edit" className="fixed bottom-4 end-4">
+		<motion.div layoutId="edit" className="fixed bottom-4 end-4 z-20">
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger

@@ -20,8 +20,6 @@ import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
 import "./tailwind.css"
 
-
-
 import { Layout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 
@@ -54,7 +52,7 @@ export default function App() {
 	return (
 		<html
 			lang="en"
-			className="overflow-x-hidden bg-background text-on-background"
+			className="overflow-x-hidden bg-background text-on-background theme-[#6751a4]"
 		>
 			<head>
 				<meta charSet="utf-8" />

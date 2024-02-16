@@ -1,7 +1,7 @@
 import { Schema } from "@effect/schema"
 import { TypedDocumentNode } from "@graphql-typed-document-node/core"
 import { Option, Predicate, pipe } from "effect"
-import { print } from 'graphql'
+import { print } from "graphql"
 import { JsonToToken } from "./viewer"
 
 const API_URL = "https://graphql.anilist.co"
@@ -51,7 +51,7 @@ export async function client_operation<T, V>(
 	return (data as T) ?? null
 }
 
-import * as cookie from 'cookie'
+import * as cookie from "cookie"
 import { IS_SERVER } from "./isClient"
 
 export function client_get_headers(request: Request) {
