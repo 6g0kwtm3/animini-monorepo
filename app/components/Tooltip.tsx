@@ -110,7 +110,7 @@ export function TooltipPlainContainer(
 					gutter={4}
 					alwaysVisible
 					{...props}
-					className="flex min-h-6 items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface"
+					className="flex min-h-6 items-center rounded-xs bg-inverse-surface z-20 px-2 text-body-sm text-inverse-on-surface"
 					render={
 						<motion.div
 							initial={{ opacity: 0, y }}

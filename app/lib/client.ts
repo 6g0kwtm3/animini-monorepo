@@ -5,13 +5,19 @@ import { print } from "graphql"
 import { JsonToToken } from "./viewer"
 
 const API_URL = "https://graphql.anilist.co"
+
+export function client_get_client(args: LoaderFunctionArgs) {
+	return {
+		operation<T, V>(document: string | TypedDocumentNode<T, V>, variables: V) {
+			return client_operation(document, variables, args)
+		}
+	}
+}
+
 export async function client_operation<T, V>(
 	document: string | TypedDocumentNode<T, V>,
 	variables: V,
-	options?: {
-		headers?: Headers
-		signal?: AbortSignal
-	}
+	args: LoaderFunctionArgs
 ) {
 	const body = await Schema.encodePromise(Schema.parseJson(Schema.any))({
 		query: Predicate.isString(document) ? document : print(document),
@@ -22,7 +28,8 @@ export async function client_operation<T, V>(
 	headers.append("Content-Type", "application/json")
 	headers.append("Accept", "application/json")
 
-	for (const [key, value] of options?.headers?.entries() ?? []) {
+	for (const [key, value] of client_get_headers(args.request)?.entries() ??
+		[]) {
 		headers.append(key, value)
 	}
 
@@ -30,7 +37,7 @@ export async function client_operation<T, V>(
 		body,
 		headers,
 		method: "post",
-		signal: options?.signal
+		signal: args.request.signal
 	})
 
 	if (!response.ok) {
@@ -51,6 +58,7 @@ export async function client_operation<T, V>(
 	return (data as T) ?? null
 }
 
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
 import * as cookie from "cookie"
 import { IS_SERVER } from "./isClient"
 

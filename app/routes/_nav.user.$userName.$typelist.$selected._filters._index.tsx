@@ -92,84 +92,94 @@ function TypelistQuery() {
 export const loader = (async (args) => {
 	// make()
 
-	return defer({
-		Library: pipe(
-			Effect.succeed(
-				ReadonlyArray.groupBy(Object.values(getLibrary()), ({ title }) => title)
+	return defer(
+		{
+			Library: pipe(
+				Effect.succeed(
+					ReadonlyArray.groupBy(
+						Object.values(getLibrary()),
+						({ title }) => title
+					)
+				),
+				Effect.provide(LoaderLive),
+				Effect.provideService(LoaderArgs, args),
+
+				Remix.runLoader
 			),
-			Effect.provide(LoaderLive),
-			Effect.provideService(LoaderArgs, args),
-
-			Remix.runLoader
-		),
-		SelectedList: pipe(
-			Effect.Do,
-			Effect.bind("args", () => ClientArgs),
-			Effect.bind("client", () => EffectUrql),
-			Effect.bind("variables", () => TypelistQueryVariables(args.params)),
-			Effect.bind("selected", ({ args }) => {
-				return Option.fromNullable(args.params["selected"])
-			}),
-			Effect.bind("data", ({ client, args, variables }) => {
-				return client.query(TypelistQuery(), variables)
-			}),
-			Effect.bind("SelectedList", ({ data, selected }) => {
-				return Option.fromNullable(
-					data?.MediaListCollection?.lists?.find(
-						(list) => list?.name === selected
+			SelectedList: pipe(
+				Effect.Do,
+				Effect.bind("args", () => ClientArgs),
+				Effect.bind("client", () => EffectUrql),
+				Effect.bind("variables", () => TypelistQueryVariables(args.params)),
+				Effect.bind("selected", ({ args }) => {
+					return Option.fromNullable(args.params["selected"])
+				}),
+				Effect.bind("data", ({ client, args, variables }) => {
+					return client.query(TypelistQuery(), variables)
+				}),
+				Effect.bind("SelectedList", ({ data, selected }) => {
+					return Option.fromNullable(
+						data?.MediaListCollection?.lists?.find(
+							(list) => list?.name === selected
+						)
 					)
-				)
-			}),
-			Effect.map(({ SelectedList, args: { searchParams } }) => {
-				const status = searchParams
-					.getAll("status")
-					.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
+				}),
+				Effect.map(({ SelectedList, args: { searchParams } }) => {
+					const status = searchParams
+						.getAll("status")
+						.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
 
-				const format = searchParams
-					.getAll("format")
-					.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
+					const format = searchParams
+						.getAll("format")
+						.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
 
-				let entries = pipe(
-					SelectedList.entries?.filter(Predicate.isNotNull) ?? [],
-					ReadonlyArray.sortBy(
-						// Order.mapInput(Order.number, (entry) => behind(entry)),
-						Order.mapInput(
-							Order.number,
-							(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
-						),
-						Order.mapInput(Order.number, (entry) => {
-							return [
-								MediaStatus.Releasing,
-								MediaStatus.NotYetReleased
-							].indexOf(entry.media?.status ?? MediaStatus.Cancelled)
-						})
+					let entries = pipe(
+						SelectedList.entries?.filter(Predicate.isNotNull) ?? [],
+						ReadonlyArray.sortBy(
+							// Order.mapInput(Order.number, (entry) => behind(entry)),
+							Order.mapInput(
+								Order.number,
+								(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
+							),
+							Order.mapInput(Order.number, (entry) => {
+								return [
+									MediaStatus.Releasing,
+									MediaStatus.NotYetReleased
+								].indexOf(entry.media?.status ?? MediaStatus.Cancelled)
+							})
+						)
 					)
-				)
 
-				if (status.length) {
-					entries = entries.filter((entry) =>
-						status.includes(entry.media?.status ?? "")
-					)
-				}
+					if (status.length) {
+						entries = entries.filter((entry) =>
+							status.includes(entry.media?.status ?? "")
+						)
+					}
 
-				if (format.length) {
-					entries = entries.filter((entry) =>
-						format.includes(entry.media?.format ?? "")
-					)
-				}
+					if (format.length) {
+						entries = entries.filter((entry) =>
+							format.includes(entry.media?.format ?? "")
+						)
+					}
 
-				return { ...SelectedList, entries }
-			}),
+					return { ...SelectedList, entries }
+				}),
 
-			// Effect.catchTag("NoSuchElementException", () =>
-			// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
-			// ),
-			Effect.provide(LoaderLive),
-			Effect.provideService(LoaderArgs, args),
+				// Effect.catchTag("NoSuchElementException", () =>
+				// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
+				// ),
+				Effect.provide(LoaderLive),
+				Effect.provideService(LoaderArgs, args),
 
-			Remix.runLoader
-		)
-	})
+				Remix.runLoader
+			)
+		},
+		{
+			headers: {
+				"Cache-Control": "max-age=60, private"
+			}
+		}
+	)
 }) satisfies LoaderFunction
 
 const STATUS_OPTIONS = {

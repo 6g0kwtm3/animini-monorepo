@@ -26,34 +26,41 @@ import { LayoutBody } from "~/components/Layout"
 import { route_user, route_user_list } from "~/lib/route"
 
 export const loader = (async (args) => {
-	return defer({
-		trending: pipe(
-			pipe(
-				Effect.Do,
-				Effect.bind("args", () => ClientArgs),
-				Effect.bind("client", () => EffectUrql),
-				Effect.flatMap(({ client }) =>
-					client.query(
-						graphql(`
-							query NavQuery {
-								trending: Page(perPage: 10) {
-									media(sort: [TRENDING_DESC]) {
-										id
-										...SearchItem_media
+	return defer(
+		{
+			trending: pipe(
+				pipe(
+					Effect.Do,
+					Effect.bind("args", () => ClientArgs),
+					Effect.bind("client", () => EffectUrql),
+					Effect.flatMap(({ client }) =>
+						client.query(
+							graphql(`
+								query NavQuery {
+									trending: Page(perPage: 10) {
+										media(sort: [TRENDING_DESC]) {
+											id
+											...SearchItem_media
+										}
 									}
 								}
-							}
-						`),
-						{}
-					)
+							`),
+							{}
+						)
+					),
+					Effect.map((data) => data?.trending ?? null)
 				),
-				Effect.map((data) => data?.trending ?? null)
-			),
-			Effect.provide(LoaderLive),
-			Effect.provideService(LoaderArgs, args),
-			Remix.runLoader
-		)
-	})
+				Effect.provide(LoaderLive),
+				Effect.provideService(LoaderArgs, args),
+				Remix.runLoader
+			)
+		},
+		{
+			headers: {
+				"Cache-Control": "max-age=60, private"
+			}
+		}
+	)
 }) satisfies LoaderFunction
 
 // export const clientLoader = (async (args) => {

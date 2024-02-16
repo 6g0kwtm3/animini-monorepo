@@ -40,9 +40,9 @@ function MediaLink({ mediaId, ...props }) {
 							media && (
 								<>
 									<Card
-										className="not-prose inline-flex overflow-hidden text-start theme-[--theme] force:p-0"
+										className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-[--theme]` : ""}`}
 										style={{
-											"--theme": media.coverImage?.color
+											"--theme": media.coverImage?.color ?? ""
 										}}
 										render={<span />}
 									>
@@ -117,7 +117,7 @@ async function indexLoader(args: LoaderFunctionArgs) {
 			}
 		`),
 		{},
-		{ signal: args.request.signal }
+		args
 	)
 
 	const id_in =
@@ -128,12 +128,19 @@ async function indexLoader(args: LoaderFunctionArgs) {
 			return []
 		}) ?? []
 
-	return defer({
-		Page: data?.Page,
-		Media: ReadonlyArray.isNonEmptyArray(id_in)
-			? getMedia({ id_in }, args)
-			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
-	})
+	return defer(
+		{
+			Page: data?.Page,
+			Media: ReadonlyArray.isNonEmptyArray(id_in)
+				? getMedia({ id_in }, args)
+				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
+		},
+		{
+			headers: {
+				"Cache-Control": "max-age=60, private"
+			}
+		}
+	)
 }
 
 const IndexMediaQuery = graphql(`
@@ -159,9 +166,7 @@ async function getMedia(
 	variables: VariablesOf<typeof IndexMediaQuery>,
 	args: LoaderFunctionArgs
 ) {
-	const data = await client_operation(IndexMediaQuery, variables, {
-		signal: args.request.signal
-	})
+	const data = await client_operation(IndexMediaQuery, variables, args)
 
 	return ReadonlyRecord.fromEntries(
 		data?.Page?.media
