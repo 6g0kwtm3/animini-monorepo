@@ -3,6 +3,7 @@ import { hexFromArgb } from "@material/material-color-utilities"
 import type { ComponentPropsWithoutRef } from "react"
 import { useId } from "react"
 import colors from "../../../colors.json"
+import { createElement } from "../createElement"
 import { cssEscape } from "../cssEscape"
 
 function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
@@ -54,23 +55,27 @@ export const ThemeProvider = ({
 
 	const id = `#${cssEscape(rawId)}`
 
-	return (
-		<div {...props} id={rawId}>
-			<style>
-				{`${id}, ${id} ::backdrop{${Object.entries(
-					getStyleFromTheme(theme, false)
-				)
-					.map(([key, value]) => `${key}:${value};`)
-					.join(
-						""
-					)}} @media(prefers-color-scheme: dark){${id}, ${id} ::backdrop{${Object.entries(
-					getStyleFromTheme(theme, true)
-				)
-					.map(([key, value]) => `${key}:${value};`)
-					.join("")}}}`}
-			</style>
+	return createElement("div", {
+		...props,
+		id: rawId,
+		children: (
+			<>
+				<style>
+					{`${id}, ${id} ::backdrop{${Object.entries(
+						getStyleFromTheme(theme, false)
+					)
+						.map(([key, value]) => `${key}:${value};`)
+						.join(
+							""
+						)}} @media(prefers-color-scheme: dark){${id}, ${id} ::backdrop{${Object.entries(
+						getStyleFromTheme(theme, true)
+					)
+						.map(([key, value]) => `${key}:${value};`)
+						.join("")}}}`}
+				</style>
 
-			{children}
-		</div>
-	)
+				{children}
+			</>
+		)
+	})
 }

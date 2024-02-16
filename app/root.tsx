@@ -20,17 +20,8 @@ import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
 import "./tailwind.css"
 
-// export const clientLoader = (async (args) => {
-// 	return pipe(
-// 		_loader,
-//
 
-// 		Effect.provide(ClientLoaderLive),
-// 		Effect.provideService(LoaderArgs, args),
 
-// 		Remix.runLoader
-// 	)
-// }) satisfies ClientLoaderFunction
 import { Layout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 

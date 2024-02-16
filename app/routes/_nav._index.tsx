@@ -1,21 +1,31 @@
-import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Await, Link, defer, useLoaderData } from "@remix-run/react"
-import { Effect, Predicate, ReadonlyRecord, pipe } from "effect"
-import markdownit from "markdown-it"
-import type { Token } from "marked"
-import { Marked } from "marked"
-import { Suspense, isValidElement, type ReactNode } from "react"
+import type { LoaderFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
+import { Await, defer, Link, useLoaderData } from "@remix-run/react"
 
+import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
+import { Suspense } from "react"
+
+import marked from "marked"
 import { Card } from "~/components/Card"
 import { LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
-import { JsxMonoid, JsxRenderer, _Parser } from "~/lib/Parser"
-import { Remix } from "~/lib/Remix/index.server"
-import { route_media, route_user } from "~/lib/route"
-import { getThemeFromHex } from "~/lib/theme"
-import { ThemeProvider } from "~/lib/theme/Theme"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
+import { client_operation } from "~/lib/client"
+
+import createDOMPurify from "dompurify"
+import { route_media } from "~/lib/route"
+
+// import * as R from '@remix-run/router'
+// console.log(R)
+
+import { JSDOM } from "jsdom"
+import { serverOnly$ } from "vite-env-only"
+// import {RouterProvider} from 'react-router-dom'
+import type { VariablesOf } from "@graphql-typed-document-node/core"
+import parse, {
+	domToReact,
+	Element,
+	type HTMLReactParserOptions
+} from "html-react-parser"
 
 function MediaLink({ mediaId, ...props }) {
 	const data = useLoaderData<typeof loader>()
@@ -23,17 +33,20 @@ function MediaLink({ mediaId, ...props }) {
 	return (
 		<Link to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
-				<Await errorElement={props.children} resolve={data.Media}>
+				<Await errorElement={'Error...'} resolve={data.Media}>
 					{(data) => {
 						const media = data[mediaId]
 						return (
 							media && (
-								<ThemeProvider theme={getThemeFromHex(media.coverImage?.color)}>
-									<Card className="not-prose inline-flex overflow-hidden text-start force:p-0">
-										<List className="force:p-0">
-											<List.Item className="">
+								<>
+									<Card
+										className="not-prose inline-flex overflow-hidden text-start force:p-0"
+										render={<span />}
+									>
+										<List className="force:p-0" render={<span />}>
+											<List.Item className="" render={<span />}>
 												{media.coverImage?.extraLarge ? (
-													<div className="col-start-1 flex h-10 w-10">
+													<span className="col-start-1 flex h-10 w-10">
 														<img
 															src={media.coverImage.extraLarge}
 															alt=""
@@ -43,22 +56,24 @@ function MediaLink({ mediaId, ...props }) {
 															}}
 															loading="lazy"
 														/>
-													</div>
+													</span>
 												) : (
-													<div className="col-start-1 flex h-10 w-10 items-center justify-center rounded-full bg-error">
-														<div className="i text-on-error">error</div>
-													</div>
+													<span className="col-start-1 flex h-10 w-10 items-center justify-center rounded-full bg-error">
+														<span className="i text-on-error">error</span>
+													</span>
 												)}
-												<div className="col-start-2 grid grid-cols-subgrid">
-													<List.Item.Title>
+												<span className="col-start-2 grid grid-cols-subgrid">
+													<List.Item.Title render={<span />}>
 														{media.title?.userPreferred}
 													</List.Item.Title>
-													<List.Item.Subtitle>{media.type}</List.Item.Subtitle>
-												</div>
+													<List.Item.Subtitle render={<span />}>
+														{media.type}
+													</List.Item.Subtitle>
+												</span>
 											</List.Item>
 										</List>
 									</Card>
-								</ThemeProvider>
+								</>
 							)
 						)
 					}}
@@ -68,388 +83,97 @@ function MediaLink({ mediaId, ...props }) {
 	)
 }
 
-function getText(node: ReactNode): string {
-	if (Array.isArray(node)) {
-		return node.map(getText).join("")
-	}
-	if (node === null || node === false || node === undefined) {
-		return ""
-	}
-	if (isValidElement<any>(node)) {
-		return getText(
-			node.props?.children ?? node.props?.dangerouslySetInnerHTML?.__html
-		)
-	}
-
-	if (typeof node === "string" || typeof node === "number" || node === true) {
-		return String(node)
-	}
-
-	if (Predicate.isIterable(node)) {
-		return getText([...node])
-	}
-
-	node satisfies never
-
-	return ""
-}
-
-class MyJsxRenderer extends JsxRenderer {
-	link = (href: string, title: string | null | undefined, text: ReactNode) => {
-		if (getText(text) === href) {
-			return matchMediaId(href).map((mediaId, i) => {
-				return (
-					<MediaLink key={i} mediaId={mediaId} title={title || undefined}>
-						{text}
-					</MediaLink>
-				)
-			})
-		}
-
-		if (href.match(/https:\/\/anilist.co\/(anime|manga)\/(\d+)/))
-			return matchMediaId(href).map((mediaId, i) => {
-				return (
-					<Link
-						key={i}
-						to={route_media({ id: mediaId })}
-						title={title || undefined}
-					>
-						{text}
-					</Link>
-				)
-			})
-
-		return new JsxRenderer().link(href, title, text)
-	}
-}
-
-const instance = new Marked().use({
-	// gfm: true,
-	// pedantic: false,
-	// breaks: true,
-	renderer: new MyJsxRenderer(),
-	monoid: JsxMonoid,
-	silent: true,
-	tokenizer: {
-		heading(src) {
-			const match = src.match(/^(#+)([^\n]*)/)
-			if (match) {
-				const tokens: Token[] = []
-				const token = {
-					type: "heading",
-					raw: match[0],
-					text: match[2]?.trim() ?? "",
-					depth: match[1]?.length,
-					tokens
-				}
-				this.lexer.inline(token.text, token.tokens)
-				return token
-			}
-
-			return false
-		}
-	},
-	extensions: [
-		{
-			name: "youtube",
-			start(src) {
-				return src.match(/youtube\(/i)?.index
-			},
-			level: "inline",
-			tokenizer(src, tokens) {
-				const match = src.match(/^youtube\(([^)]*)\)/i)
-
-				if (match) {
-					try {
-						const src = new URL(match[1])
-
-						return {
-							type: "youtube",
-							raw: match[0],
-							src: `https://www.youtube.com/embed/${src.searchParams.get("v") ?? src.pathname.split("/").at(-1)}/?${src.searchParams}`
-						}
-					} catch {}
-				}
-			},
-			renderer(token) {
-				return (
-					<iframe
-						width="560"
-						height="315"
-						src={token.src}
-						title="YouTube video player"
-						frameBorder="0"
-						name="1"
-						className="rounded-md"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-						allowFullScreen
-						dangerouslySetInnerHTML={{
-							__html: "Your browser doesn't support iframes"
-						}}
-						loading="lazy"
-					></iframe>
-				)
-			}
-		},
-		{
-			name: "webm",
-			start(src) {
-				return src.match(/webm\(/i)?.index
-			},
-			level: "inline",
-			tokenizer(src, tokens) {
-				const match = src.match(/^webm\(([^)]*)\)/i)
-				if (match) {
-					return {
-						type: "webm",
-						raw: match[0],
-						src: match[1]
-					}
-				}
-			},
-			renderer(token) {
-				return (
-					<video
-						controls
-						src={token.src}
-						dangerouslySetInnerHTML={{
-							__html: "Your browser doesn't support the video tag."
-						}}
-					></video>
-				)
-			}
-		},
-		{
-			name: "image",
-			start(src) {
-				return src.match(/img([\d]*%?)\(/i)?.index
-			},
-			level: "inline",
-			tokenizer(src, tokens) {
-				const match = src.match(/^img([\d]*%?)\(([^)]*)\)/i)
-				if (match) {
-					return {
-						type: "image",
-						raw: match[0],
-						width: match[1],
-						src: match[2]?.trim()
-					}
-				}
-			},
-			renderer(token) {
-				return <img src={token.src} width={token.width} loading="lazy" alt="" />
-			}
-		},
-		{
-			name: "centerinline",
-			start(src) {
-				return src.match(/~~~[^\n]*?~~~/)?.index
-			},
-			level: "inline",
-			tokenizer(src, tokens) {
-				const match = src.match(/^~~~([\s\S]*?)~~~/)
-				if (match) {
-					const tokens: Token[] = []
-					const token = {
-						type: "centerinline",
-						raw: match[0],
-						text: match[1]?.trim() ?? "",
-						tokens
-					}
-					this.lexer.inline(token.text, token.tokens)
-					return token
-				}
-			},
-			renderer(token) {
-				return <center>{this.parser.parseInline(token.tokens!)}</center>
-			}
-		},
-		{
-			name: "user",
-			start(src) {
-				return src.match(/@\S*/)?.index
-			},
-			level: "inline",
-			tokenizer(src, tokens) {
-				const match = src.match(/^@(\S*)/)
-				if (match) {
-					const token = {
-						type: "user",
-						raw: match[0],
-						name: match[1]
-					}
-
-					return token
-				}
-			},
-			renderer(token) {
-				return (
-					<Link to={route_user({ userName: token.name })}>@{token.name}</Link>
-				)
-			}
-		},
-		{
-			name: "center",
-			start(src) {
-				return src.match(/~~~/)?.index
-			},
-			level: "block",
-			tokenizer(src, tokens) {
-				const match = src.match(/^~~~([\s\S]*?)~~~/)
-				if (match) {
-					const tokens: Token[] = []
-					const token = {
-						type: "center",
-						raw: match[0],
-						text: match[1]?.trim() ?? "",
-						tokens
-					}
-					this.lexer.blockTokens(token.text, token.tokens)
-					return token
-				}
-			},
-			renderer(token) {
-				return <center>{this.parser.parse(token.tokens!)}</center>
-			}
-		},
-		{
-			name: "spoiler",
-			start(src) {
-				return src.match(/~!/)?.index
-			},
-			level: "block",
-			tokenizer(src, tokens) {
-				const match = src.match(/^~!([\s\S]*?)!~/)
-				if (match) {
-					const tokens: Token[] = []
-					const token = {
-						type: "spoiler",
-						raw: match[0],
-						text: match[1]?.trim() ?? "",
-						tokens
-					}
-					this.lexer.blockTokens(token.text, token.tokens)
-					return token
-				}
-			},
-			renderer(token) {
-				return (
-					<details>
-						<summary>Show spoiler</summary>
-						{this.parser.parse(token.tokens!)}
-					</details>
-				)
-			}
-		}
-	]
-})
-
 function matchMediaId(s: string) {
 	return [...s.matchAll(/https:\/\/anilist.co\/(anime|manga)\/(\d+)/g)]
 		.map((group) => Number(group[2]))
 		.filter(isFinite)
 }
 
-export const loader = (async (args) => {
-	const Page = await pipe(
-		Effect.gen(function* (_) {
-			const client = yield* _(EffectUrql)
-
-			const data = yield* _(
-				client.query(
-					graphql(`
-						query IndexQuery {
-							Page {
-								activities(sort: [ID_DESC], type_in: [TEXT]) {
-									__typename
-									... on TextActivity {
-										id
-										createdAt
-										text
-										user {
-											id
-											name
-											avatar {
-												large
-												medium
-											}
-										}
-									}
+async function indexLoader(args: LoaderFunctionArgs) {
+	const data = await client_operation(
+		graphql(`
+			query IndexQuery {
+				Page {
+					activities(sort: [ID_DESC], type_in: [TEXT]) {
+						__typename
+						... on TextActivity {
+							id
+							createdAt
+							text
+							user {
+								id
+								name
+								avatar {
+									large
+									medium
 								}
 							}
 						}
-					`),
-					{}
-				)
-			)
-
-			return data?.Page
-		}),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Remix.runLoader
+					}
+				}
+			}
+		`),
+		{},
+		{ signal: args.request.signal }
 	)
 
+	const id_in =
+		data?.Page?.activities?.flatMap((activity) => {
+			if (activity?.__typename === "TextActivity") {
+				return activity.text ? matchMediaId(activity.text) : []
+			}
+			return []
+		}) ?? []
+
 	return defer({
-		Page: Page,
-		Media: pipe(
-			Effect.gen(function* (_) {
-				const client = yield* _(EffectUrql)
-
-				const id_in = Page?.activities?.flatMap((activity) => {
-					if (activity?.__typename === "TextActivity") {
-						return activity.text ? matchMediaId(activity.text) : []
-					}
-					return []
-				})
-
-				const data = yield* _(
-					client.query(
-						graphql(`
-							query IndexMediaQuery($id_in: [Int]) {
-								Page {
-									media(id_in: $id_in) {
-										id
-										title {
-											userPreferred
-										}
-										type
-										coverImage {
-											color
-											extraLarge
-											medium
-										}
-									}
-								}
-							}
-						`),
-						{ id_in }
-					)
-				)
-
-				return ReadonlyRecord.fromEntries(
-					data?.Page?.media
-						?.filter(Predicate.isNotNull)
-						.map((media) => [String(media.id), media] as const) ?? []
-				)
-			}),
-			Effect.provide(LoaderLive),
-			Effect.provideService(LoaderArgs, args),
-			Remix.runLoader
-		)
+		Page: data?.Page,
+		Media: ReadonlyArray.isNonEmptyArray(id_in)
+			? getMedia({ id_in }, args)
+			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
 	})
+}
+
+const IndexMediaQuery = graphql(`
+	query IndexMediaQuery($id_in: [Int]) {
+		Page {
+			media(id_in: $id_in) {
+				id
+				title {
+					userPreferred
+				}
+				type
+				coverImage {
+					color
+					extraLarge
+					medium
+				}
+			}
+		}
+	}
+`)
+
+async function getMedia(
+	variables: VariablesOf<typeof IndexMediaQuery>,
+	args: LoaderFunctionArgs
+) {
+	const data = await client_operation(IndexMediaQuery, variables, {
+		signal: args.request.signal
+	})
+
+	return ReadonlyRecord.fromEntries(
+		data?.Page?.media
+			?.filter(Predicate.isNotNull)
+			.map((media) => [String(media.id), media] as const) ?? []
+	)
+}
+
+export const loader = ((args) => {
+	return indexLoader(args)
 }) satisfies LoaderFunction
 
-const md = markdownit({
-	html: true,
-	breaks: true,
-	linkify: true,
-	typographer: true
-})
-
-// md.use(()=>{
-
-// })
+export const clientLoader = ((args) => {
+	return indexLoader(args)
+}) satisfies LoaderFunction
 
 export default function Index() {
 	const data = useLoaderData<typeof loader>()
@@ -497,15 +221,7 @@ export default function Index() {
 													{/* <List.Item.TrailingSupportingText></List.Item.TrailingSupportingText> */}
 												</List.Item>
 											</List>
-											{activity.text && (
-												<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
-													{_Parser.parse(
-														instance.lexer(activity.text),
-														instance.defaults
-													)}
-													{/* <pre>{activity.text}</pre> */}
-												</div>
-											)}
+											{activity.text && <Markdown>{activity.text}</Markdown>}
 										</Card>
 									</li>
 								)
@@ -517,4 +233,166 @@ export default function Index() {
 			<LayoutPane variant="flexible" className="max-md:hidden"></LayoutPane>
 		</>
 	)
+}
+
+const options: HTMLReactParserOptions = {
+	replace(domNode) {
+		if (
+			domNode instanceof Element &&
+			domNode.name === "a" &&
+			!domNode.attribs["href"]?.trim()
+		) {
+			return (
+				<span className="text-primary">
+					{domToReact(domNode.children, options)}
+				</span>
+			)
+		}
+
+		if (
+			domNode instanceof Element &&
+			domNode.attribs["class"] === "media-link" &&
+			domNode.attribs["data-id"] &&
+			domNode.name === "a"
+		) {
+			return <MediaLink mediaId={domNode.attribs["data-id"]}></MediaLink>
+		}
+	}
+}
+
+function Markdown(props: { children: string }) {
+	return (
+		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
+			{parse(markdownHtml(props.children), options)}
+		</div>
+	)
+}
+
+function _sanitize(t: string) {
+	const DOMPurify = createDOMPurify(
+		serverOnly$(new JSDOM("").window) ?? globalThis.window
+	)
+
+	return (
+		DOMPurify.addHook("afterSanitizeAttributes", (t) => {
+			if ("target" in t) {
+				t.setAttribute("target", "_blank")
+				t.setAttribute("rel", "noopener noreferrer")
+			}
+		}),
+		DOMPurify.sanitize(t, {
+			ALLOWED_TAGS: [
+				"a",
+				"b",
+				"blockquote",
+				"br",
+				"center",
+				"del",
+				"div",
+				"em",
+				"font",
+				"h1",
+				"h2",
+				"h3",
+				"h4",
+				"h5",
+				"hr",
+				"i",
+				"img",
+				"li",
+				"ol",
+				"p",
+				"pre",
+				"code",
+				"span",
+				"strike",
+				"strong",
+				"ul"
+			],
+			ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"]
+		})
+	)
+}
+
+function markdownHtml(t: string) {
+	marked.setOptions({
+		gfm: true,
+		tables: true,
+		breaks: true,
+		pedantic: false,
+		sanitize: false,
+		smartLists: true,
+		smartypants: false
+	})
+
+	const d = new marked.Renderer(),
+		u = new marked.Lexer()
+
+	d.link = (t, e, a) => {
+		return `<a target="_blank" rel="noopener noreferrer" href="${t}" title="${e}">${a}</a>`
+	}
+
+	u.rules.heading = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
+
+	return (
+		(t = t.replace(
+			/(http)(:([/|.|\w|\s|-])*\.(?:jpg|.jpeg|gif|png|mp4|webm))/gi,
+			"$1s$2"
+		)),
+		(t = t.replace(
+			/img\s?(\d+%?)?\s?\((.[\S]+)\)/gi,
+			"<img width='$1' src='$2'>"
+		)),
+		(t = t.replace(
+			/(^|>| )@([A-Za-z0-9]+)/gm,
+			"$1<a target='_blank' href='/user/$2'>@$2</a>"
+		)),
+		(t = t.replace(
+			/youtube\s?\([^]*?([-_0-9A-Za-z]{10,15})[^]*?\)/gi,
+			"youtube ($1)"
+		)),
+		(t = t.replace(
+			/webm\s?\(h?([A-Za-z0-9-._~:/?#[\]@!$&()*+,;=%]+)\)/gi,
+			"webmv(`$1`)"
+		)),
+		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
+		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
+		(t = _sanitize(
+			marked(t, {
+				renderer: d,
+				lexer: u
+			})
+		)),
+		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
+		(t = t.replace(
+			/<div rel="spoiler">([\s\S]*?)<\/div>/gm,
+			"<details><summary>Show spoiler</summary>$1</details>"
+		)),
+		(t = t.replace(
+			/youtube\s?\(([-_0-9A-Za-z]{10,15})\)/gi,
+			"<iframe width='450' height='315' src='https://www.youtube.com/embed/$1/' title='YouTube video player' frameBorder='0' name='1' class='rounded-md' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;' allowfullscreen loading='lazy'>Your browser does not support iframes</iframe>"
+		)),
+		(t = t.replace(
+			/webmv\s?\(<code>([A-Za-z0-9-._~:/?#[\]@!$&()*+,;=%]+)<\/code>\)/gi,
+			"<video muted loop controls><source src='h$1' type='video/webm'>Your browser does not support the video tag.</video>"
+		)),
+		(t = t.replace(
+			/(?:<a href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+).*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
+			(group, _, mediaId) => {
+				return `<a class="media-link" href="${route_media({ id: mediaId })}" data-id="${mediaId}">Loading...</a>`
+			}
+		)),
+		(serverOnly$(normalizeHtml) ?? clientNormalizeHtml)(t)
+	)
+}
+
+function clientNormalizeHtml(t: string) {
+	const div = document.createElement("div")
+	div.innerHTML = t
+	return div.innerHTML
+}
+
+function normalizeHtml(t: string) {
+	const dom = new JSDOM(t)
+	return dom.window.document.documentElement.innerHTML
 }

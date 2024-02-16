@@ -1,7 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactElement } from "react"
 import { createContext, useContext } from "react"
 
-
 import type { VariantProps } from "tailwind-variants"
 import { createElement } from "~/lib/createElement"
 import { createList } from "~/lib/list"
@@ -10,34 +9,44 @@ type ListVariantProps = VariantProps<typeof createList>
 
 const ListContext = createContext(createList())
 
-function Item(props: ComponentPropsWithoutRef<"li">) {
+function Item(
+	props: ComponentPropsWithoutRef<"li"> & {
+		render?: ReactElement
+	}
+) {
 	const { item } = useContext(ListContext)
-
-	return <li {...props} className={item({ className: props.className })} />
+	return createElement("li", {
+		...props,
+		className: item({ className: props.className })
+	})
 }
 
 Item.Content = function Content(props: ComponentPropsWithoutRef<"div">) {
 	return <div {...props} className={classes("flex-1", props.className)}></div>
 }
 
-Item.Title = function Headline(props: ComponentPropsWithoutRef<"div">) {
+Item.Title = function Headline(props: ComponentPropsWithoutRef<"div">&{
+	render?: ReactElement
+}) {
 	const { itemTitle } = useContext(ListContext)
-	return (
-		<div {...props} className={itemTitle({ className: props.className })}></div>
-	)
+
+	return createElement("div", {
+		...props,
+		className: itemTitle({ className: props.className })
+	})
 }
 
 Item.Subtitle = function SupportingText(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
 ) {
 	const { itemSubtitle } = useContext(ListContext)
 
-	return (
-		<div
-			{...props}
-			className={itemSubtitle({ className: props.className })}
-		></div>
-	)
+	return createElement("div", {
+		...props,
+		className: itemSubtitle({ className: props.className })
+	})
 }
 
 Item.TrailingSupportingText = function TrailingSupportingText(
