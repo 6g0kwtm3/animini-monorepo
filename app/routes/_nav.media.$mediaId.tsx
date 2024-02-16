@@ -122,11 +122,9 @@ export default function Page() {
 		<>
 			<div
 				style={{
-					"--theme": data?.Media?.coverImage?.color ?? ''
+					"--theme": data?.Media?.coverImage?.color ?? ""
 				}}
-				className={
-					`contents${data?.Media?.coverImage?.color ? ` theme-[--theme]` : ""}`
-				}
+				className={`contents${data?.Media?.coverImage?.color ? ` theme-[--theme]` : ""}`}
 			>
 				<PaneFlexible className="relative">
 					<motion.div
