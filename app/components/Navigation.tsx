@@ -1,4 +1,4 @@
-import { NavLink } from "@remix-run/react"
+import { NavLink, NavLinkProps } from "@remix-run/react"
 import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
@@ -6,6 +6,7 @@ import { createContext, forwardRef, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
+import { createElement } from "~/lib/createElement"
 
 const tv = createTV({ twMerge: false })
 
@@ -39,7 +40,7 @@ const createNavigation = tv(
 				drawer: {
 					root: "flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-transparent p-3 elevation-0",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
-					activeIndicator: "-z-10 inset-0 h-full rounded-xl force:w-full",
+					activeIndicator: "inset-0 -z-10 h-full rounded-xl force:w-full",
 					icon: "h-6 w-6 !ifill-none group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
 					largeBadge: "static ms-auto"
 				}
@@ -64,6 +65,23 @@ export const NavigationItem = forwardRef<
 	}
 >(function NavigationItem({ children, ...props }, ref) {
 	const { label } = useContext(Context)
+
+	return createElement(NavLink, {
+		ref,
+		...props,
+		className: label({ className: props.className }),
+		children: ({
+			isActive
+		}: Parameters<
+			Extract<NavLinkProps["children"], (...args: any) => any>
+		>[0]) => (
+			<>
+				{isActive && <NavigationActiveIndicator></NavigationActiveIndicator>}
+				{children}
+				<TouchTarget></TouchTarget>
+			</>
+		)
+	})
 
 	return (
 		<NavLink

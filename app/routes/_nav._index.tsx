@@ -34,7 +34,7 @@ function MediaLink({ mediaId, ...props }) {
 	return (
 		<Link to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
-				<Await errorElement={"Error..."} resolve={data.Media}>
+				<Await errorElement={"Error..."} resolve={data.media}>
 					{(data) => {
 						const media = data[mediaId]
 						return (
@@ -121,7 +121,7 @@ async function indexLoader(args: LoaderFunctionArgs) {
 		args
 	)
 
-	const id_in =
+	const ids =
 		data?.Page?.activities?.flatMap((activity) => {
 			if (activity?.__typename === "TextActivity") {
 				return activity.text ? matchMediaId(activity.text) : []
@@ -131,9 +131,9 @@ async function indexLoader(args: LoaderFunctionArgs) {
 
 	return defer(
 		{
-			Page: data?.Page,
-			Media: ReadonlyArray.isNonEmptyArray(id_in)
-				? getMedia({ id_in }, args)
+			page: data?.Page,
+			media: ReadonlyArray.isNonEmptyArray(ids)
+				? getMedia({ id_in: ids }, args)
 				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
 		},
 		{
@@ -144,10 +144,10 @@ async function indexLoader(args: LoaderFunctionArgs) {
 	)
 }
 
-const IndexMediaQuery = graphql(`
-	query IndexMediaQuery($id_in: [Int]) {
+const indexMediaQuery = serverOnly$(graphql(`
+	query IndexMediaQuery($ids: [Int]) {
 		Page {
-			media(id_in: $id_in) {
+			media(id_in: $ids) {
 				id
 				title {
 					userPreferred
@@ -161,13 +161,13 @@ const IndexMediaQuery = graphql(`
 			}
 		}
 	}
-`)
+`))
 
 async function getMedia(
-	variables: VariablesOf<typeof IndexMediaQuery>,
+	variables: VariablesOf<typeof indexMediaQuery>,
 	args: LoaderFunctionArgs
 ) {
-	const data = await client_operation(IndexMediaQuery, variables, args)
+	const data = await client_operation(indexMediaQuery!, variables, args)
 
 	return ReadonlyRecord.fromEntries(
 		data?.Page?.media
@@ -191,7 +191,7 @@ export default function Index() {
 		<>
 			<LayoutPane className="">
 				<ul className="flex flex-col gap-2">
-					{data.Page?.activities
+					{data.page?.activities
 						?.filter(Predicate.isNotNull)
 						.map((activity) => {
 							if (activity.__typename === "TextActivity") {
@@ -277,19 +277,19 @@ function Markdown(props: { children: string }) {
 	)
 }
 
-function _sanitize(t: string) {
-	const DOMPurify = createDOMPurify(
+function sanitizeHtml(t: string) {
+	const domPurify = createDOMPurify(
 		serverOnly$(new JSDOM("").window) ?? globalThis.window
 	)
 
 	return (
-		DOMPurify.addHook("afterSanitizeAttributes", (t) => {
+		domPurify.addHook("afterSanitizeAttributes", (t) => {
 			if ("target" in t) {
 				t.setAttribute("target", "_blank")
 				t.setAttribute("rel", "noopener noreferrer")
 			}
 		}),
-		DOMPurify.sanitize(t, {
+		domPurify.sanitize(t, {
 			ALLOWED_TAGS: [
 				"a",
 				"b",
@@ -337,10 +337,9 @@ function markdownHtml(t: string) {
 	const d = new marked.Renderer(),
 		u = new marked.Lexer()
 
-	d.link = (t, e, a) => {
+	d.link = (t:string, e:string|undefined, a:string) => {
 		return `<a target="_blank" rel="noopener noreferrer" href="${t}" title="${e}">${a}</a>`
 	}
-
 	u.rules.heading = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
 
 	return (
@@ -366,7 +365,7 @@ function markdownHtml(t: string) {
 		)),
 		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
 		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
-		(t = _sanitize(
+		(t = sanitizeHtml(
 			marked(t, {
 				renderer: d,
 				lexer: u

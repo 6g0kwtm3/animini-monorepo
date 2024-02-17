@@ -2,6 +2,7 @@ import * as Ariakit from "@ariakit/react"
 import {
 	Await,
 	Link,
+	NavLink,
 	useFetcher,
 	useLocation,
 	useNavigate,
@@ -135,6 +136,24 @@ const SearchInput = forwardRef<
 	)
 })
 
+const HashNavLink = forwardRef<
+	HTMLAnchorElement,
+	ComponentPropsWithoutRef<typeof NavLink>
+>(function HashNavLink({ children, ...props }, ref) {
+	const { hash } = useLocation()
+	return (
+		<NavLink ref={ref} {...props}>
+			{Predicate.isFunction(children)
+				? (renderProps) =>
+						children({
+							...renderProps,
+							isActive: props.to === hash
+						})
+				: children}
+		</NavLink>
+	)
+})
+
 export function Search() {
 	const [searchParams] = useSearchParams()
 
@@ -171,7 +190,12 @@ export function Search() {
 		<>
 			<TooltipPlain>
 				<TooltipPlainTrigger
-					render={<NavigationItem to="#search"></NavigationItem>}
+					render={
+						<NavigationItem
+							to="#search"
+							render={<HashNavLink />}
+						></NavigationItem>
+					}
 				>
 					<NavigationItemIcon>search</NavigationItemIcon>
 

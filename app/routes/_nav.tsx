@@ -23,7 +23,7 @@ import { graphql } from "~/lib/graphql"
 
 import { defer } from "@remix-run/cloudflare"
 import { LayoutBody } from "~/components/Layout"
-import { route_user, route_user_list } from "~/lib/route"
+import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search } from "~/lib/search/Search"
 
 export const loader = (async (args) => {
@@ -86,20 +86,7 @@ export default function Nav() {
 			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
 				{data?.Viewer ? (
 					<>
-						<Link to={`/${data.Viewer.name}/animelist/`} className={button()}>
-							Anime List
-						</Link>
-						<Link to={`/${data.Viewer.name}/mangalist/`} className={button()}>
-							Manga List
-						</Link>
-						<Form
-							method="post"
-							action={`/logout/?${new URLSearchParams({
-								redirect: pathname
-							})}`}
-						>
-							<ButtonText type="submit">Logout</ButtonText>
-						</Form>
+
 					</>
 				) : (
 					<>
@@ -119,28 +106,25 @@ export default function Nav() {
 				</div>
 			</nav> */}
 
-			{data?.Viewer && (
-				<>
-					<Navigation
-						variant={{
-							initial: "bar",
-							sm: "rail",
-							lg: "drawer"
-						}}
-					>
-						<NavigationItem to="/">
-							<NavigationItemIcon>feed</NavigationItemIcon>
-							<div className="max-w-full break-words">Feed</div>
-						</NavigationItem>
-						<NavigationItem
-							to={route_user({ userName: data.Viewer.name })}
-							className="max-sm:hidden"
-							end
-						>
+			<Navigation
+				variant={{
+					initial: "bar",
+					sm: "rail",
+					lg: "drawer"
+				}}
+			>
+				<NavigationItem to="/">
+					<NavigationItemIcon>feed</NavigationItemIcon>
+					<div className="max-w-full break-words">Feed</div>
+				</NavigationItem>
+				{data?.Viewer ? (
+					<>
+						<NavigationItem to={route_user({ userName: data.Viewer.name })} end>
 							<NavigationItemIcon>person</NavigationItemIcon>
 							<div className="max-w-full break-words">Profile</div>
 						</NavigationItem>
 						<NavigationItem
+							className="max-sm:hidden"
 							to={route_user_list({
 								userName: data.Viewer.name,
 								typelist: "animelist"
@@ -159,15 +143,24 @@ export default function Nav() {
 							<NavigationItemIcon>menu_book</NavigationItemIcon>
 							<div className="max-w-full break-words">Manga List</div>
 						</NavigationItem>
-						<NavigationItem to="/notifications">
-							<NavigationItemIcon>notifications</NavigationItemIcon>
-							<div className="max-w-full break-words">Notifications</div>
-							<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
-						</NavigationItem>
-						<Search></Search>
-					</Navigation>
-				</>
-			)}
+					</>
+				) : (
+					<NavigationItem
+						to={route_login({
+							redirect: pathname
+						})}
+					>
+						<NavigationItemIcon>person</NavigationItemIcon>
+						<div className="max-w-full break-words">Login</div>
+					</NavigationItem>
+				)}
+				<NavigationItem to="/notifications">
+					<NavigationItemIcon>notifications</NavigationItemIcon>
+					<div className="max-w-full break-words">Notifications</div>
+					<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
+				</NavigationItem>
+				<Search></Search>
+			</Navigation>
 			<LayoutBody className="sm:ps-0">
 				<Outlet></Outlet>
 			</LayoutBody>

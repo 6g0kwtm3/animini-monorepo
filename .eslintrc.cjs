@@ -26,6 +26,50 @@ module.exports = {
 		}
 	],
 	rules: {
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				selector: "default",
+				format: ["camelCase"]
+			},
+			{
+				selector: "function",
+				format: ["camelCase", "PascalCase"]
+			},
+			{
+				selector: "variable",
+				format: ["camelCase", "UPPER_CASE"]
+			},
+			{
+				selector: "parameter",
+				format: ["camelCase"],
+				leadingUnderscore: "allow"
+			},
+			{
+				selector: "memberLike",
+				modifiers: ["private"],
+				format: ["camelCase"],
+				leadingUnderscore: "require"
+			},
+			{
+				selector: "typeLike",
+				format: ["PascalCase"]
+			},
+			{
+				selector: [
+					"classProperty",
+					"objectLiteralProperty",
+					"typeProperty",
+					"classMethod",
+					"objectLiteralMethod",
+					"typeMethod",
+					"accessor",
+					"enumMember"
+				],
+				format: null,
+				modifiers: ["requiresQuotes"]
+			}
+		],
 		"@typescript-eslint/method-signature-style": ["error", "property"],
 		"react-refresh/only-export-components": [
 			"warn",
