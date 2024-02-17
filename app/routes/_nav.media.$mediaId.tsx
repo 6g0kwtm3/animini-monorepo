@@ -104,11 +104,13 @@ export const loader = (async (args) => {
 			)
 		),
 
-		Effect.map(data=>json(data,{
-			headers: {
-				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
-			}
-		})),
+		Effect.map((data) =>
+			json(data, {
+				headers: {
+					"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+				}
+			})
+		),
 
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
