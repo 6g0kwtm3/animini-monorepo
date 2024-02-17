@@ -11,7 +11,8 @@ import {
 	useSearchParams,
 	useSubmit
 } from "@remix-run/react"
-import { Effect, Order, pipe } from "effect"
+
+
 
 import { ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
@@ -22,17 +23,7 @@ import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
-// export const clientLoader = (async (args) => {
-// 	return pipe(
-// 		_loader,
-//
-// 		Effect.provide(ClientLoaderLive),
-// 		Effect.provideService(LoaderArgs, args),
-
-// 		Remix.runLoader
-// 	)
-// }) satisfies ClientLoaderFunction
-import { Predicate } from "effect"
+import { Effect, Order, Predicate, pipe } from "effect"
 import { Card } from "~/components/Card"
 import { LayoutPane } from "~/components/Layout"
 import { useRawLoaderData } from "~/lib/data"

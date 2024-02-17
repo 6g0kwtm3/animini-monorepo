@@ -23,8 +23,8 @@ import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
 import List from "~/components/List"
 import type { loader as rootLoader } from "~/root"
-import { formatWatch, toWatch } from "./toWatch"
 import { route_media } from "../route"
+import { formatWatch, toWatch } from "./toWatch"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -62,48 +62,50 @@ export function MediaListItem(props: {
 	)
 
 	return (
-		<List.Item>
-			<div className="col-start-1 h-14 w-14">
-				<img
-					src={entry.media?.coverImage?.extraLarge || ""}
-					className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
-					style={{
-						"--bg": `url(${entry.media?.coverImage?.medium})`
-					}}
-					loading="lazy"
-					alt=""
-				/>
-				<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
-			</div>
-			<Link
-				to={route_media({ id: entry.media.id })}
-				className="col-start-2 grid grid-cols-subgrid"
-			>
-				<List.Item.Title>
-					{libraryHasNextEpisode && (
-						<span className="i i-inline text-primary">priority_high</span>
-						// <span className="i i-inline text-primary">video_library</span>
-					)}
-					{entry.media?.title?.userPreferred}
-				</List.Item.Title>
-				<List.Item.Subtitle className="flex flex-wrap gap-1">
-					<div>
-						<span className="i i-inline">grade</span>
-						{entry.score}
-					</div>
-					&middot;
-					<div>
-						<span className="i i-inline">timer</span>
-						{toWatch(entry) > 0 ? formatWatch(toWatch(entry)) : "Nothing"} to
-						watch
-					</div>
-				</List.Item.Subtitle>
-			</Link>
+		entry.media && (
+			<List.Item>
+				<div className="col-start-1 h-14 w-14">
+					<img
+						src={entry.media.coverImage?.extraLarge || ""}
+						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
+						style={{
+							"--bg": `url(${entry.media.coverImage?.medium})`
+						}}
+						loading="lazy"
+						alt=""
+					/>
+					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
+				</div>
+				<Link
+					to={route_media({ id: entry.media.id })}
+					className="col-start-2 grid grid-cols-subgrid"
+				>
+					<List.Item.Title>
+						{libraryHasNextEpisode && (
+							<span className="i i-inline text-primary">priority_high</span>
+							// <span className="i i-inline text-primary">video_library</span>
+						)}
+						{entry.media.title?.userPreferred}
+					</List.Item.Title>
+					<List.Item.Subtitle className="flex flex-wrap gap-1">
+						<div>
+							<span className="i i-inline">grade</span>
+							{entry.score}
+						</div>
+						&middot;
+						<div>
+							<span className="i i-inline">timer</span>
+							{toWatch(entry) > 0 ? formatWatch(toWatch(entry)) : "Nothing"} to
+							watch
+						</div>
+					</List.Item.Subtitle>
+				</Link>
 
-			<div className="col-start-3 text-label-sm text-on-surface-variant">
-				<Progress entry={entry}></Progress>
-			</div>
-		</List.Item>
+				<div className="col-start-3 text-label-sm text-on-surface-variant">
+					<Progress entry={entry}></Progress>
+				</div>
+			</List.Item>
+		)
 	)
 }
 

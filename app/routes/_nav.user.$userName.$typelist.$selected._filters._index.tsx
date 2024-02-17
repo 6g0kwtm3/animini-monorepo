@@ -50,7 +50,7 @@ import { m } from "~/lib/paraglide"
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>
-): Option.Option<InferVariables<typeof TypelistQuery>> {
+): Option.Option<InferVariables<ReturnType<typeof TypelistQuery>>> {
 	const map = {
 		animelist: MediaType.Anime,
 		mangalist: MediaType.Manga
@@ -124,7 +124,7 @@ export const loader = (async (args) => {
 						)
 					)
 				}),
-				Effect.map(({ SelectedList, args: { searchParams } }) => {
+				Effect.map(({ SelectedList: selectedList, args: { searchParams } }) => {
 					const status = searchParams
 						.getAll("status")
 						.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
@@ -134,7 +134,7 @@ export const loader = (async (args) => {
 						.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
 
 					let entries = pipe(
-						SelectedList.entries?.filter(Predicate.isNotNull) ?? [],
+						selectedList.entries?.filter(Predicate.isNotNull) ?? [],
 						ReadonlyArray.sortBy(
 							// Order.mapInput(Order.number, (entry) => behind(entry)),
 							Order.mapInput(
@@ -162,7 +162,7 @@ export const loader = (async (args) => {
 						)
 					}
 
-					return { ...SelectedList, entries }
+					return { ...selectedList, entries }
 				}),
 
 				// Effect.catchTag("NoSuchElementException", () =>

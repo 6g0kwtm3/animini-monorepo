@@ -7,7 +7,7 @@ export const tokenCookie = createCookie("anilist-token", {
 export async function getToken(request: Request) {
 	const cookieHeader = request.headers.get("Cookie")
 
-	const token = tokenCookie.parse(cookieHeader)
+	const token = await tokenCookie.parse(cookieHeader)
 	if (typeof token === "string") {
 		return token
 	}

@@ -1,4 +1,5 @@
-import { NavLink, NavLinkProps } from "@remix-run/react"
+import type { NavLinkProps } from "@remix-run/react";
+import { NavLink } from "@remix-run/react"
 import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"

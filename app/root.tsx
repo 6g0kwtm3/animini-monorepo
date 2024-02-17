@@ -41,9 +41,9 @@ export const loader = (async (args) => {
 			Effect.bind("client", () => EffectUrql),
 			Effect.flatMap(({ client, args }) => Viewer),
 			Effect.map(Option.getOrNull),
-			Effect.map((Viewer) =>
+			Effect.map((viewer) =>
 				json(
-					{ Viewer },
+					{ Viewer: viewer },
 					{
 						headers: {
 							"Cache-Control": "max-age=5, stale-while-revalidate=55, private"

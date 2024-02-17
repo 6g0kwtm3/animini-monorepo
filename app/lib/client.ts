@@ -1,8 +1,12 @@
 import { Schema } from "@effect/schema"
-import { TypedDocumentNode } from "@graphql-typed-document-node/core"
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
 import { Option, Predicate, pipe } from "effect"
 import { print } from "graphql"
 import { JsonToToken } from "./viewer"
+
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
+import * as cookie from "cookie"
+import { IS_SERVER } from "./isClient"
 
 const API_URL = "https://graphql.anilist.co"
 
@@ -19,7 +23,7 @@ export async function client_operation<T, V>(
 	variables: V,
 	args: LoaderFunctionArgs
 ) {
-	const body = await Schema.encodePromise(Schema.parseJson(Schema.any))({
+	const body = Schema.encodeSync(Schema.parseJson(Schema.any))({
 		query: Predicate.isString(document) ? document : print(document),
 		variables: variables
 	})
@@ -44,7 +48,7 @@ export async function client_operation<T, V>(
 		throw response
 	}
 
-	const { data, errors } = await Schema.decodePromise(
+	const { data, errors } = Schema.decodeSync(
 		Schema.struct({
 			data: Schema.unknown,
 			errors: Schema.optional(Schema.array(Schema.unknown))
@@ -52,20 +56,16 @@ export async function client_operation<T, V>(
 	)(await response.json())
 
 	if (errors?.length) {
-		console.log(errors)
+		console.error(errors)
 	}
 
 	return (data as T) ?? null
 }
 
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
-import * as cookie from "cookie"
-import { IS_SERVER } from "./isClient"
-
 export function client_get_headers(request: Request) {
 	let cookies = cookie.parse(
 		(!IS_SERVER ? globalThis.document.cookie : null) ??
-			request?.headers.get("Cookie") ??
+			request.headers.get("Cookie") ??
 			""
 	)
 

@@ -10,7 +10,7 @@ const K_1 = 0.173
 const K_2 = 0.004
 const K_3 = (1.0 + K_1) / (1.0 + K_2)
 
-function toe_inv(x: number): number {
+function toeInv(x: number): number {
 	return (x ** 2 + K_1 * x) / (K_3 * (x + K_2))
 }
 
@@ -169,7 +169,7 @@ export default withTV({
 
 					return [
 						`${key}`,
-						`oklch(from var(--${token}) ${toe_inv(Number(tone) / 100)} c h / <alpha-value>)`
+						`oklch(from var(--${token}) ${toeInv(Number(tone) / 100)} c h / <alpha-value>)`
 					]
 				})
 			),
@@ -332,22 +332,22 @@ export default withTV({
 					"theme-content": (value) => {
 						return {
 							"--primary": `oklch(from ${value} l c h)`,
-							"--secondary": `oklch(from ${value} ${toe_inv(50 / 100)} calc(c / 3) h)`,
-							"--tertiary": `oklch(from ${value} ${toe_inv(50 / 100)} calc(c / 2) calc(h + 60))`,
-							"--neutral": `oklch(from ${value} ${toe_inv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
-							"--neutral-variant": `oklch(from ${value} ${toe_inv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
-							"--error": `oklch(${toe_inv(50 / 100)} 0.28 25)`
+							"--secondary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 3) h)`,
+							"--tertiary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 2) calc(h + 60))`,
+							"--neutral": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
+							"--neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
+							"--error": `oklch(${toeInv(50 / 100)} 0.28 25)`
 						}
 					},
 					theme: (value) => {
 						return {
 							"--color": value,
-							"--primary": `oklch(from ${value} ${toe_inv(50 / 100)} max(c, 0.16) h)`,
-							"--secondary": `oklch(from ${value} ${toe_inv(50 / 100)} 0.05333333333333334 h)`,
-							"--tertiary": `oklch(from ${value} ${toe_inv(50 / 100)} 0.08 calc(h + 60))`,
-							"--neutral": `oklch(from ${value} ${toe_inv(50 / 100)} 0.013333333333333334 h)`,
-							"--neutral-variant": `oklch(from ${value} ${toe_inv(50 / 100)} 0.02666666666666667 h)`,
-							"--error": `oklch(${toe_inv(50 / 100)} 0.28 25)`
+							"--primary": `oklch(from ${value} ${toeInv(50 / 100)} max(c, 0.16) h)`,
+							"--secondary": `oklch(from ${value} ${toeInv(50 / 100)} 0.05333333333333334 h)`,
+							"--tertiary": `oklch(from ${value} ${toeInv(50 / 100)} 0.08 calc(h + 60))`,
+							"--neutral": `oklch(from ${value} ${toeInv(50 / 100)} 0.013333333333333334 h)`,
+							"--neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} 0.02666666666666667 h)`,
+							"--error": `oklch(${toeInv(50 / 100)} 0.28 25)`
 						}
 					}
 				},
@@ -397,10 +397,4 @@ export default withTV({
 		})
 	]
 } satisfies Config)
-
-function isKeyOf<T extends {}>(
-	key: string | number | symbol,
-	value: T
-): key is keyof T {
-	return key in value
-}
+ 

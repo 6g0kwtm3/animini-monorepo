@@ -1,11 +1,14 @@
 import {
-	forwardRef,
+	forwardRef} from "react";
+import type {
+	ReactElement
+,
 	type ComponentPropsWithoutRef,
 	type FC,
 	type PropsWithChildren,
-	type SyntheticEvent,
-	ReactElement
-} from "react"
+	type SyntheticEvent
+} from "react";
+
 
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"

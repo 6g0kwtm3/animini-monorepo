@@ -10,7 +10,7 @@ import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import type { loader as rootLoader } from "~/root"
 
 export const loader = (async (args) => {
-	const { userName } = await Schema.decodeUnknownPromise(params())(args.params)
+	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
 	const data = await client_operation(
 		graphql(`
@@ -57,10 +57,10 @@ export default function Page() {
 		<>
 			<LayoutPane>
 				<nav>
-					<Link to={`/${data.user.name}/animelist/`} className={button()}>
+					<Link to="animelist" className={button()}>
 						Anime List
 					</Link>
-					<Link to={`/${data.user.name}/mangalist/`} className={button()}>
+					<Link to="mangalist" className={button()}>
 						Manga List
 					</Link>
 				</nav>

@@ -52,6 +52,7 @@ import {
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import { m } from "~/lib/paraglide"
+import { route_login, route_media_edit } from "~/lib/route"
 
 const variants = {
 	enter: (direction: number) => {
@@ -270,7 +271,7 @@ declare global {
 }
 
 function Edit() {
-	const { pathname } = useLocation()
+	const { mediaId } = useParams()
 
 	const store = useTooltipStore()
 
@@ -285,19 +286,19 @@ function Edit() {
 							<Link
 								to={
 									root?.Viewer
-										? `edit/`
-										: `/login/?${new URLSearchParams({
-												redirect: `${pathname}`
-											})}`
+										? route_media_edit({ id: mediaId })
+										: route_login({
+												redirect: route_media_edit({ id: mediaId })
+											})
 								}
 								preventScrollReset={true}
 								className={fab({})}
 								onClick={() => store.setOpen(false)}
-							/>
+							>
+								edit
+							</Link>
 						}
-					>
-						edit
-					</TooltipPlainTrigger>
+					></TooltipPlainTrigger>
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
 				</TooltipPlain>
 			</div>

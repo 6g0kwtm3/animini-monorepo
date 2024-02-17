@@ -307,7 +307,6 @@ export default function Page() {
 		}
 	})
 
-	const fetcher = useFetcher()
 
 	store.useSubmit(async (state) => {
 		await new Promise((resolve) => setTimeout(resolve, 10_000, state))

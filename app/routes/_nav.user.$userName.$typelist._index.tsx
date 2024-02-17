@@ -150,27 +150,29 @@ export default function Page() {
 			<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
 				{data.MediaListCollection.lists.map((list) => {
 					return (
-						<li key={list.name}>
-							<Card variant="outlined" render={<article />}>
-								<h2 className="text-balance">{list.name}</h2>
-								<List className="-mx-4">
-									{list.entries?.map((entry) => {
-										return (
-											<MediaListItem
-												entry={entry}
-												key={entry.id}
-											></MediaListItem>
-										)
-									})}
-								</List>
-								<Link
-									to={list.name}
-									className={button({ className: "w-full" })}
-								>
-									more
-								</Link>
-							</Card>
-						</li>
+						list.name && (
+							<li key={list.name}>
+								<Card variant="outlined" render={<article />}>
+									<h2 className="text-balance">{list.name}</h2>
+									<List className="-mx-4">
+										{list.entries?.map((entry) => {
+											return (
+												<MediaListItem
+													entry={entry}
+													key={entry.id}
+												></MediaListItem>
+											)
+										})}
+									</List>
+									<Link
+										to={list.name}
+										className={button({ className: "w-full" })}
+									>
+										more
+									</Link>
+								</Card>
+							</li>
+						)
 					)
 				})}
 			</ul>
