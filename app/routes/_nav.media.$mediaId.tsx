@@ -82,7 +82,7 @@ export const loader = (async (args) => {
 			Effect.flatMap(({ client, args: { params } }) =>
 				client.query(
 					graphql(`
-						query EntryPage($id: Int!) {
+						query MediaQuery($id: Int!) {
 							Media(id: $id) {
 								id
 								coverImage {

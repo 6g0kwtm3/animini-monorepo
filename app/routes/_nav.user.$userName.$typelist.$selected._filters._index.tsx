@@ -69,7 +69,7 @@ function TypelistQueryVariables(
 
 function TypelistQuery() {
 	return graphql(`
-		query TypelistQuery($userName: String!, $type: MediaType!) {
+		query UserListSelectedFiltersIndexQuery($userName: String!, $type: MediaType!) {
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
 					name

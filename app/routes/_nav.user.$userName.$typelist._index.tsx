@@ -54,7 +54,7 @@ export const loader = (async (args) => {
 			const MediaListCollection = yield* _(
 				client.query(
 					graphql(`
-						query ListsQuery($userName: String!, $type: MediaType!) {
+						query UserListQuery($userName: String!, $type: MediaType!) {
 							MediaListCollection(
 								userName: $userName
 								type: $type

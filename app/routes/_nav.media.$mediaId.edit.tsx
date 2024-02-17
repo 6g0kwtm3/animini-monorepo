@@ -7,7 +7,6 @@ import {
 import {
 	Link,
 	useActionData,
-	useFetcher,
 	useNavigate,
 	useNavigation
 } from "@remix-run/react"
@@ -80,7 +79,7 @@ export const loader = (async (args) => {
 			return yield* _(
 				client.query(
 					graphql(`
-						query EditPageMedia($mediaId: Int!, $format: ScoreFormat) {
+						query MediaEditQuery($mediaId: Int!, $format: ScoreFormat) {
 							Viewer {
 								id
 								mediaListOptions {
