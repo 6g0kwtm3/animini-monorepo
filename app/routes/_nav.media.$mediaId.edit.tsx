@@ -307,7 +307,6 @@ export default function Page() {
 		}
 	})
 
-
 	store.useSubmit(async (state) => {
 		await new Promise((resolve) => setTimeout(resolve, 10_000, state))
 		// fetcher.submit(state.values, { method: "post" })

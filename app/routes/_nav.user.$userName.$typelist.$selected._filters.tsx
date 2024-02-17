@@ -12,8 +12,6 @@ import {
 	useSubmit
 } from "@remix-run/react"
 
-
-
 import { ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
