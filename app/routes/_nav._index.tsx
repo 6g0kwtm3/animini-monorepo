@@ -144,24 +144,26 @@ async function indexLoader(args: LoaderFunctionArgs) {
 	)
 }
 
-const indexMediaQuery = serverOnly$(graphql(`
-	query IndexMediaQuery($ids: [Int]) {
-		Page {
-			media(id_in: $ids) {
-				id
-				title {
-					userPreferred
-				}
-				type
-				coverImage {
-					color
-					extraLarge
-					medium
+const indexMediaQuery = serverOnly$(
+	graphql(`
+		query IndexMediaQuery($ids: [Int]) {
+			Page {
+				media(id_in: $ids) {
+					id
+					title {
+						userPreferred
+					}
+					type
+					coverImage {
+						color
+						extraLarge
+						medium
+					}
 				}
 			}
 		}
-	}
-`))
+	`)
+)
 
 async function getMedia(
 	variables: VariablesOf<typeof indexMediaQuery>,
@@ -337,7 +339,7 @@ function markdownHtml(t: string) {
 	const d = new marked.Renderer(),
 		u = new marked.Lexer()
 
-	d.link = (t:string, e:string|undefined, a:string) => {
+	d.link = (t: string, e: string | undefined, a: string) => {
 		return `<a target="_blank" rel="noopener noreferrer" href="${t}" title="${e}">${a}</a>`
 	}
 	u.rules.heading = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
