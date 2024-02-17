@@ -1,5 +1,5 @@
 import type { LoaderFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { Await, defer, Link, useLoaderData } from "@remix-run/react"
+import { Await, defer, Link } from "@remix-run/react"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
 import { Suspense } from "react"
@@ -26,9 +26,10 @@ import parse, {
 	Element,
 	type HTMLReactParserOptions
 } from "html-react-parser"
+import { useRawLoaderData } from "~/lib/data"
 
 function MediaLink({ mediaId, ...props }) {
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 
 	return (
 		<Link to={route_media({ id: mediaId })} {...props}>
@@ -179,12 +180,12 @@ export const loader = ((args) => {
 	return indexLoader(args)
 }) satisfies LoaderFunction
 
-export const clientLoader = ((args) => {
-	return indexLoader(args)
-}) satisfies LoaderFunction
+// export const clientLoader = ((args) => {
+// 	return indexLoader(args)
+// }) satisfies LoaderFunction
 
 export default function Index() {
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 
 	return (
 		<>

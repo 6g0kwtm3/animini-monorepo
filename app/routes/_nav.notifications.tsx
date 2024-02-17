@@ -1,10 +1,11 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Link, json } from "@remix-run/react"
 import { Effect, Predicate, pipe } from "effect"
 import { LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
 import { Remix } from "~/lib/Remix/index.server"
+import { useRawLoaderData } from "~/lib/data"
 import { createList } from "~/lib/list"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
@@ -54,6 +55,11 @@ export const loader = (async (args) => {
 				)
 			)
 		}),
+		Effect.map(data=>json(data,{
+			headers: {
+				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+			}
+		})),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader
@@ -61,7 +67,7 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export default function Page() {
-	const data = useLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof loader>()
 
 	return (
 		<LayoutPane>

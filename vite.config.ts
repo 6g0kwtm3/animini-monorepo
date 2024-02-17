@@ -18,7 +18,7 @@ export default defineConfig({
 		envOnly(),
 		remixDevTools(),
 		remix({
-			presets: [cloudflare()]
+			presets: [cloudflare()], 
 		}),
 		tsconfigPaths(),
 		million.vite({ auto: true, log: false })

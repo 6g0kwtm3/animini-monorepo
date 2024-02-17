@@ -6,6 +6,7 @@ import {
 	Form,
 	Link,
 	Outlet,
+	json,
 	useParams,
 	useSearchParams,
 	useSubmit
@@ -34,9 +35,9 @@ import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { Predicate } from "effect"
 import { Card } from "~/components/Card"
 import { LayoutPane } from "~/components/Layout"
-import { route_user_list_selected } from "~/lib/route"
 import { useRawLoaderData } from "~/lib/data"
 import { m } from "~/lib/paraglide"
+import { route_user_list_selected } from "~/lib/route"
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>
@@ -86,10 +87,15 @@ export const loader = (async (args) => {
 
 			return data
 		}),
-
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
-
+		Effect.map((data) =>
+			json(data, {
+				headers: {
+					"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+				}
+			})
+		),
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
