@@ -533,10 +533,7 @@ function markdownHtml(t: string) {
 				lexer: u
 			})
 		)),
-		(t = t.replace(
-			/\+{3}([^]*?)\+{3}/gm,
-			"<div class='text-center'>$1</div>"
-		)),
+		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<div class='text-center'>$1</div>")),
 		(t = t.replace(
 			/<div rel="spoiler">([\s\S]*?)<\/div>/gm,
 			"<details><summary>Show spoiler</summary>$1</details>"
