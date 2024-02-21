@@ -8,7 +8,7 @@ export const createList = tv({
 		subheader: "",
 		item: "group col-span-full grid grid-cols-subgrid px-4 outline-none hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
 		itemTitle: "truncate text-body-lg text-on-surface",
-		itemSubtitle: "text-pretty text-body-md text-on-surface-variant",
+		itemSubtitle: "text-body-md text-on-surface-variant",
 		trailingSupportingText: "text-end text-label-sm text-on-surface-variant"
 	},
 	variants: {

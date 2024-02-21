@@ -4,7 +4,8 @@ import {
 	json,
 	useLocation,
 	useOutlet,
-	useOutletContext
+	useOutletContext,
+	useParams
 } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"

@@ -284,7 +284,7 @@ export function Search() {
 															Trending
 														</div>
 													</Ariakit.ComboboxGroupLabel>
-													{trending.media
+													{trending?.media
 														.filter(Predicate.isNotNull)
 														.map((media) => (
 															<SearchItem
