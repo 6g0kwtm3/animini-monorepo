@@ -16,15 +16,15 @@
 		"knip": "knip",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "prettier . -w",
-		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide"
+		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide && wrangler types"
 	},
 	"dependencies": {
 		"@ariakit/react": "^0.4.1",
 		"@effect/schema": "^0.61.7",
 		"@material/material-color-utilities": "^0.2.7",
-		"@remix-run/cloudflare": "^2.6.0",
-		"@remix-run/cloudflare-pages": "^2.6.0",
-		"@remix-run/react": "^2.6.0",
+		"@remix-run/cloudflare": "^2.7.1",
+		"@remix-run/cloudflare-pages": "^2.7.1",
+		"@remix-run/react": "^2.7.1",
 		"anitomy": "^0.0.34",
 		"chokidar": "^3.6.0",
 		"cookie": "^0.6.0",
@@ -33,7 +33,7 @@
 		"framer-motion": "^11.0.3",
 		"graphql": "^16.8.1",
 		"html-react-parser": "^5.1.5",
-		"isbot": "^4",
+    "isbot": "^4.1.0",
 		"jsdom": "^24.0.0",
 		"marked": "^0.3.19",
 		"react": "^18.2.0",
@@ -42,7 +42,7 @@
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.1.18"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20230518.0",
+		"@cloudflare/workers-types": "^4.20230914.0",
 		"@graphql-codegen/cli": "^5.0.2",
 		"@graphql-eslint/eslint-plugin": "^3.20.1",
 		"@graphql-tools/relay-operation-optimizer": "^7.0.0",
@@ -50,8 +50,8 @@
 		"@inlang/paraglide-js": "^1.2.3",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.12",
 		"@parcel/watcher": "^2.4.0",
-		"@remix-run/dev": "^2.6.0",
-		"@remix-run/eslint-config": "^2.6.0",
+		"@remix-run/dev": "^2.7.1",
+		"@remix-run/eslint-config": "^2.7.1",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/cookie": "^0.6.0",
 		"@types/dompurify": "^3.0.5",
@@ -71,10 +71,10 @@
 		"remix-development-tools": "^3.7.4",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5.1.6",
-		"vite": "^5.0.0",
+    "vite": "^5.1.0",
 		"vite-env-only": "^2.2.0",
 		"vite-tsconfig-paths": "^4.2.1",
-		"wrangler": "^3.24.0"
+		"wrangler": "^3.28.2"
 	},
 	"engines": {
 		"node": ">=18.0.0"

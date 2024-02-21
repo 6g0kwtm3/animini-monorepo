@@ -1,7 +1,5 @@
-import crypto from "node:crypto"
 
-import { json } from "@remix-run/cloudflare"
-import { Option, Predicate, Cause, Data, Effect, Exit, pipe } from "effect"
+import { Cause, Data, Effect, Exit, Option, Predicate, pipe } from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql.server"
 import { JsonToToken } from "../viewer"
 
@@ -71,35 +69,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 		status: 500
 	})
 }
-
-export function eTag() {
-	return Effect.flatMap((data) =>
-		Effect.gen(function* (_) {
-			const { request } = yield* _(LoaderArgs)
-			const IfNoneMatch = request.headers.get("If-None-Match")
-			const ETag = crypto
-				.createHmac("sha256", "secret")
-				.update(JSON.stringify(data))
-				.digest("hex")
-
-			if (!IfNoneMatch || ETag != IfNoneMatch) {
-				return json(data, {
-					headers: {
-						ETag,
-						"Cache-Control": ""
-					}
-				})
-			}
-
-			return json(null, {
-				status: 304,
-				statusText: "Not Modified",
-				headers: { ETag }
-			})
-		})
-	)
-}
-
+ 
 export const Viewer = Effect.gen(function* (_) {
 	const { request } = yield* _(LoaderArgs)
 

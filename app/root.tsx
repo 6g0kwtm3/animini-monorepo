@@ -21,7 +21,8 @@ import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
 import "./tailwind.css"
 
-import { Layout } from "./components/Layout"
+import { ReactNode } from "react"
+import { Layout as AppLayout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 
 export const links: LinksFunction = () => {
@@ -58,7 +59,7 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
-export default function App() {
+export function Layout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			lang="en"
@@ -67,19 +68,24 @@ export default function App() {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 				<Meta />
 				<Links />
 			</head>
 			<body className="">
-				<SnackbarQueue>
-					<Layout>
-						<Outlet />
-					</Layout>
-				</SnackbarQueue>
+				{children}
 				<ScrollRestoration />
 				<Scripts />
 			</body>
 		</html>
+	)
+}
+
+export default function App() {
+	return (
+		<SnackbarQueue>
+			<AppLayout>
+				<Outlet />
+			</AppLayout>
+		</SnackbarQueue>
 	)
 }

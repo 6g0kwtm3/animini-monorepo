@@ -1,5 +1,5 @@
 import { Schema } from "@effect/schema"
-import { json, type LoaderFunction } from "@remix-run/cloudflare"
+import { HeadersFunction, json, type LoaderFunction } from "@remix-run/cloudflare"
 import { Form, Link, useLocation } from "@remix-run/react"
 import { ButtonText } from "~/components/Button"
 import { LayoutPane } from "~/components/Layout"
@@ -40,6 +40,10 @@ export const loader = (async (args) => {
 		}
 	)
 }) satisfies LoaderFunction
+
+export const headers: HeadersFunction = () => {
+	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
+}
 
 function params() {
 	return Schema.struct({

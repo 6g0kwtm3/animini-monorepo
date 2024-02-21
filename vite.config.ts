@@ -1,7 +1,7 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import {
-	unstable_cloudflarePreset as cloudflare,
-	unstable_vitePlugin as remix
+	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
+	vitePlugin as remix
 } from "@remix-run/dev"
 import * as million from "million/compiler"
 import { remixDevTools } from "remix-development-tools/vite"
@@ -17,17 +17,11 @@ export default defineConfig({
 		}),
 		envOnly(),
 		remixDevTools(),
-		remix({
-			presets: [cloudflare()]
-		}),
+		cloudflareDevProxy(),
+		remix({}),
 		tsconfigPaths(),
 		million.vite({ auto: true, log: false })
 	],
-	ssr: {
-		resolve: {
-			externalConditions: ["workerd", "worker"]
-		}
-	},
 	server: {
 		port: 3000
 	}
