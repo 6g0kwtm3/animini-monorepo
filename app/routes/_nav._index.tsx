@@ -1,8 +1,13 @@
-import type { LoaderFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { Await, defer, Link } from "@remix-run/react"
+import type {
+	HeadersFunction,
+	LoaderFunction,
+	LoaderFunctionArgs
+} from "@remix-run/cloudflare"
+import { Await, Link, defer } from "@remix-run/react"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
-import { Suspense } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import { Fragment, Suspense, createElement } from "react"
 
 import marked from "marked"
 import { Card } from "~/components/Card"
@@ -11,22 +16,18 @@ import List from "~/components/List"
 import { graphql } from "~/gql"
 import { client_operation } from "~/lib/client"
 
-import createDOMPurify from "dompurify"
-import { route_media } from "~/lib/route"
+import { route_media, route_user } from "~/lib/route"
 
 // import * as R from '@remix-run/router'
 // console.log(R)
 
-import { JSDOM } from "jsdom"
 import { serverOnly$ } from "vite-env-only"
 // import {RouterProvider} from 'react-router-dom'
 import type { VariablesOf } from "@graphql-typed-document-node/core"
-import parse, {
-	domToReact,
-	Element,
-	type HTMLReactParserOptions
-} from "html-react-parser"
 import { useRawLoaderData } from "~/lib/data"
+
+import { Parser } from "htmlparser2"
+import sanitizeHtml_ from "sanitize-html"
 
 function MediaLink({ mediaId, ...props }) {
 	const data = useRawLoaderData<typeof loader>()
@@ -133,7 +134,7 @@ async function indexLoader(args: LoaderFunctionArgs) {
 		{
 			page: data?.Page,
 			media: ReadonlyArray.isNonEmptyArray(ids)
-				? getMedia({ id_in: ids }, args)
+				? getMedia({ ids: ids }, args)
 				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
 		},
 		{
@@ -142,6 +143,10 @@ async function indexLoader(args: LoaderFunctionArgs) {
 			}
 		}
 	)
+}
+
+export const headers: HeadersFunction = () => {
+	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
 }
 
 const indexMediaQuery = serverOnly$(
@@ -246,83 +251,239 @@ export default function Index() {
 	)
 }
 
-const options: HTMLReactParserOptions = {
-	replace(domNode) {
-		if (
-			domNode instanceof Element &&
-			domNode.name === "a" &&
-			!domNode.attribs["href"]?.trim()
-		) {
+const options = {
+	replace: {
+		center(props) {
+			return <span {...props} className="text-center"></span>
+		},
+		p(props) {
+			return <div {...props} className=""></div>
+		},
+		a(props) {
+			if (!props["href"]?.trim()) {
+				return <span className="text-primary">{props.children}</span>
+			}
+
+			if (props["className"] === "media-link" && props["data-id"]) {
+				return <MediaLink mediaId={props["data-id"]}></MediaLink>
+			}
+
+			if (props["className"] === "user-link" && props["data-user-name"]) {
+				return (
+					<Link to={route_user({ userName: props["data-user-name"] })}>
+						{props.children}
+					</Link>
+				)
+			}
+
 			return (
-				<span className="text-primary">
-					{domToReact(domNode.children, options)}
-				</span>
+				<a {...props} rel="noopener noreferrer" target="_blank">
+					{props.children}
+				</a>
 			)
 		}
-
-		if (
-			domNode instanceof Element &&
-			domNode.attribs["class"] === "media-link" &&
-			domNode.attribs["data-id"] &&
-			domNode.name === "a"
-		) {
-			return <MediaLink mediaId={domNode.attribs["data-id"]}></MediaLink>
-		}
+	}
+} satisfies {
+	replace: {
+		[K in keyof JSX.IntrinsicElements]: (
+			props: ComponentPropsWithoutRef<K>
+		) => ReactNode
 	}
 }
+
+// const options: HTMLReactParserOptions = {
+// 	replace(domNode) {
+// 		if (
+// 			domNode instanceof Element &&
+// 			domNode.name === "a" &&
+// 			!domNode.attribs["href"]?.trim()
+// 		) {
+// 			return (
+// 				<span className="text-primary">
+// 					{domToReact(domNode.children, options)}
+// 				</span>
+// 			)
+// 		}
+
+// 		if (domNode instanceof Element && domNode.name === "center") {
+// 			return (
+// 				<span className="text-center">
+// 					{domToReact(domNode.children, options)}
+// 				</span>
+// 			)
+// 		}
+
+// 		if (
+// 			domNode instanceof Element &&
+// 			domNode.attribs["class"] === "media-link" &&
+// 			domNode.attribs["data-id"] &&
+// 			domNode.name === "a"
+// 		) {
+// 			return <MediaLink mediaId={domNode.attribs["data-id"]}></MediaLink>
+// 		}
+
+// 		if (
+// 			domNode instanceof Element &&
+// 			domNode.attribs["class"] === "user-link" &&
+// 			domNode.attribs["data-user-name"] &&
+// 			domNode.name === "a"
+// 		) {
+// 			return (
+// 				<Link to={route_user({ userName: domNode.attribs["data-user-name"] })}>
+// 					{domToReact(domNode.children, options)}
+// 				</Link>
+// 			)
+// 		}
+
+// 		if (domNode instanceof Element && domNode.name === "a") {
+// 			return (
+// 				<a
+// 					{...attributesToProps(domNode.attribs)}
+// 					rel="noopener noreferrer"
+// 					target="_blank"
+// 				>
+// 					{domToReact(domNode.children, options)}
+// 				</a>
+// 			)
+// 		}
+// 	}
+// }
 
 function Markdown(props: { children: string }) {
 	return (
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
-			{parse(markdownHtml(props.children), options)}
+			{/* {(markdownHtml(props.children))} */}
+			{parse2(markdownHtml(props.children), options)}
 		</div>
 	)
 }
 
-function sanitizeHtml(t: string) {
-	const domPurify = createDOMPurify(
-		serverOnly$(new JSDOM("").window) ?? globalThis.window
-	)
+interface HtmlNode {
+	node: ReactNode
+}
 
-	return (
-		domPurify.addHook("afterSanitizeAttributes", (t) => {
-			if ("target" in t) {
-				t.setAttribute("target", "_blank")
-				t.setAttribute("rel", "noopener noreferrer")
-			}
-		}),
-		domPurify.sanitize(t, {
-			ALLOWED_TAGS: [
-				"a",
-				"b",
-				"blockquote",
-				"br",
-				"center",
-				"del",
-				"div",
-				"em",
-				"font",
-				"h1",
-				"h2",
-				"h3",
-				"h4",
-				"h5",
-				"hr",
-				"i",
-				"img",
-				"li",
-				"ol",
-				"p",
-				"pre",
-				"code",
-				"span",
-				"strike",
-				"strong",
-				"ul"
-			],
-			ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"]
-		})
-	)
+class HtmlTag implements HtmlNode {
+	constructor(
+		private _name: Parameters<typeof createElement>[0],
+		private _attributes?: {
+			[s: string]: string
+		},
+		private options
+	) {}
+
+	private _children: HtmlNode[] = []
+
+	get children(): ReactNode {
+		return this._children.reduce<ReactNode>(
+			(acc, node, i) => (
+				<>
+					{acc}
+					{node.node}
+				</>
+			),
+			null
+		)
+	}
+
+	get attributes() {
+		const {
+			class: className,
+			allowfullscreen: allowFullScreen,
+			frameborder: frameBorder,
+			..._attributes
+		} = this._attributes ?? {}
+		return {
+			..._attributes,
+			...(className ? { className } : {}),
+			...(allowFullScreen ? { allowFullScreen } : {}),
+			...(frameBorder ? { frameBorder } : {})
+		}
+	}
+
+	get node() {
+		if (Predicate.isString(this._name) && this._name in this.options?.replace)
+			return this.options.replace[this._name]({
+				...this.attributes,
+				children: this.children
+			})
+
+		return createElement(this._name, this.attributes, this.children)
+	}
+
+	appendNode(node: HtmlNode) {
+		this._children.push(node)
+	}
+}
+
+function parse2(html: string, options): ReactNode {
+	const stack = [new HtmlTag(Fragment)]
+
+	const log = {
+		html,
+		logs: []
+	}
+
+	const parser = new Parser({
+		onopentag(name, attributes) {
+			log.logs.push(["open", name])
+			const node = new HtmlTag(name, attributes, options)
+			stack.at(-1)?.appendNode(node)
+			stack.push(node)
+		},
+		ontext(text) {
+			stack.at(-1)?.appendNode({ node: text })
+		},
+		onclosetag(name) {
+			log.logs.push(["close", name])
+			stack.pop()
+		}
+	})
+	parser.write(html)
+	parser.end()
+
+	return stack[0]?.node
+}
+const d = Date.now()
+
+function sanitizeHtml(t: string) {
+	const out: string = sanitizeHtml_(t, {
+		allowedTags: [
+			"a",
+			"b",
+			"blockquote",
+			"br",
+			"center",
+			"del",
+			"div",
+			"em",
+			"font",
+			"h1",
+			"h2",
+			"h3",
+			"h4",
+			"h5",
+			"hr",
+			"i",
+			"img",
+			"li",
+			"ol",
+			"p",
+			"pre",
+			"code",
+			"span",
+			"strike",
+			"strong",
+			"ul"
+		],
+		allowedAttributes: {
+			"*": ["align", "height", "href", "src", "target", "width", "rel"]
+		}
+	})
+	// const domPurify = createDOMPurify(
+	// 	serverOnly$(new JSDOM("").window) ?? globalThis.window
+	// )
+
+	return out
 }
 
 function markdownHtml(t: string) {
@@ -340,7 +501,7 @@ function markdownHtml(t: string) {
 		u = new marked.Lexer()
 
 	d.link = (t: string, e: string | undefined, a: string) => {
-		return `<a target="_blank" rel="noopener noreferrer" href="${t}" title="${e}">${a}</a>`
+		return `<a href="${t}" title="${e}" target="_blank" rel="noopener noreferrer">${a}</a>`
 	}
 	u.rules.heading = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
 
@@ -349,13 +510,12 @@ function markdownHtml(t: string) {
 			/(http)(:([/|.|\w|\s|-])*\.(?:jpg|.jpeg|gif|png|mp4|webm))/gi,
 			"$1s$2"
 		)),
+		(t = t.replaceAll(/(^|>| )@([A-Za-z0-9]+)/gm, (group, one, userName) => {
+			return `${one}<a class='user-link' data-user-name='${userName}' href='${route_user({ userName: userName })}'>@${userName}</a>`
+		})),
 		(t = t.replace(
 			/img\s?(\d+%?)?\s?\((.[\S]+)\)/gi,
 			"<img width='$1' src='$2'>"
-		)),
-		(t = t.replace(
-			/(^|>| )@([A-Za-z0-9]+)/gm,
-			"$1<a target='_blank' href='/user/$2'>@$2</a>"
 		)),
 		(t = t.replace(
 			/youtube\s?\([^]*?([-_0-9A-Za-z]{10,15})[^]*?\)/gi,
@@ -373,7 +533,10 @@ function markdownHtml(t: string) {
 				lexer: u
 			})
 		)),
-		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
+		(t = t.replace(
+			/\+{3}([^]*?)\+{3}/gm,
+			"<span class='flex justify-center'>$1</span>"
+		)),
 		(t = t.replace(
 			/<div rel="spoiler">([\s\S]*?)<\/div>/gm,
 			"<details><summary>Show spoiler</summary>$1</details>"
@@ -392,17 +555,6 @@ function markdownHtml(t: string) {
 				return `<a class="media-link" href="${route_media({ id: mediaId })}" data-id="${mediaId}">Loading...</a>`
 			}
 		)),
-		(serverOnly$(normalizeHtml) ?? clientNormalizeHtml)(t)
+		t
 	)
-}
-
-function clientNormalizeHtml(t: string) {
-	const div = document.createElement("div")
-	div.innerHTML = t
-	return div.innerHTML
-}
-
-function normalizeHtml(t: string) {
-	const dom = new JSDOM(t)
-	return dom.window.document.documentElement.innerHTML
 }
