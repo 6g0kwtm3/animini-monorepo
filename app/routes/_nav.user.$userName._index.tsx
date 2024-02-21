@@ -1,5 +1,9 @@
 import { Schema } from "@effect/schema"
-import { HeadersFunction, json, type LoaderFunction } from "@remix-run/cloudflare"
+import {
+	HeadersFunction,
+	json,
+	type LoaderFunction
+} from "@remix-run/cloudflare"
 import { Form, Link, useLocation } from "@remix-run/react"
 import { ButtonText } from "~/components/Button"
 import { LayoutPane } from "~/components/Layout"
