@@ -1,4 +1,3 @@
-
 import { Cause, Data, Effect, Exit, Option, Predicate, pipe } from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql.server"
 import { JsonToToken } from "../viewer"
@@ -69,7 +68,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 		status: 500
 	})
 }
- 
+
 export const Viewer = Effect.gen(function* (_) {
 	const { request } = yield* _(LoaderArgs)
 
