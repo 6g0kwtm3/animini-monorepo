@@ -11,12 +11,12 @@
 		"start": "wrangler pages dev ./build/client",
 		"dev:electron": "nodemon .",
 		"start:electron": "electron .",
-		"check": "tsc",
+		"check": "wrangler types && tsc",
 		"codegen": "graphql-codegen-esm --config codegen.ts",
 		"knip": "knip",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "prettier . -w",
-		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide && wrangler types"
+		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide"
 	},
 	"dependencies": {
 		"@ariakit/react": "^0.4.1",
