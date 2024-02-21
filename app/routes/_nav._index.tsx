@@ -254,7 +254,7 @@ export default function Index() {
 const options = {
 	replace: {
 		center(props) {
-			return <div {...props} className="text-center"></div>
+			return <div {...props} className="text-center [&_*]:mx-auto"></div>
 		},
 		p(props) {
 			return <div {...props} className=""></div>
@@ -533,7 +533,7 @@ function markdownHtml(t: string) {
 				lexer: u
 			})
 		)),
-		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<div class='text-center'>$1</div>")),
+		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<div class='text-center [&_*]:mx-auto'>$1</div>")),
 		(t = t.replace(
 			/<div rel="spoiler">([\s\S]*?)<\/div>/gm,
 			"<details><summary>Show spoiler</summary>$1</details>"
