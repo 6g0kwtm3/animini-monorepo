@@ -11,3 +11,4 @@ $houdini
 *.log
 .vercel
 .wrangler
+worker-configuration.d
