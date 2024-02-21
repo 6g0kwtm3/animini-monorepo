@@ -1,2 +1,3 @@
 **/gql
 pnpm-lock.yaml
+worker-configuration.d.ts
