@@ -12,11 +12,11 @@ import {
 	useSubmit
 } from "@remix-run/react"
 
-import { ButtonText } from "~/components/Button"
+import { Button as ButtonText } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
-import { button } from "~/lib/button"
+import { createButton } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -27,6 +27,7 @@ import { LayoutPane } from "~/components/Layout"
 import { useRawLoaderData } from "~/lib/data"
 import { m } from "~/lib/paraglide"
 import { route_user_list_selected } from "~/lib/route"
+const {root:button} = createButton()
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>

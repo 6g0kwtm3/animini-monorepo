@@ -10,8 +10,9 @@ import * as Ariakit from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import cookie from "cookie"
 import { Effect, pipe } from "effect"
+import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { Remix } from "~/lib/Remix/index.server"
-import { button as btn, button } from "~/lib/button"
+import { button } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
 import {
 	ClientArgs,
@@ -20,12 +21,13 @@ import {
 	operation
 } from "~/lib/urql.server"
 import { JsonToToken } from "~/lib/viewer"
-import { ButtonTextIcon } from "~/components/Button"
-
-const ANILIST_CLIENT_ID = 3455
 
 // import {  request} from "@effect/platform/HttpClient";
 // request.jsonBody()
+
+
+
+const ANILIST_CLIENT_ID = 3455
 
 export const action = (async (args) => {
 	return pipe(
@@ -136,7 +138,7 @@ export default function Login() {
 							}
 						)}`}
 						rel="noreferrer"
-						className={btn({})}
+						className={button({})}
 					>
 						<ButtonTextIcon>
 							<img

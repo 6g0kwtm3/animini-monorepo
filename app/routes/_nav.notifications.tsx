@@ -6,7 +6,6 @@ import List from "~/components/List"
 import { graphql } from "~/gql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
-import { createList } from "~/lib/list"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -73,7 +72,7 @@ export default function Page() {
 
 	return (
 		<LayoutPane>
-			<List lines="two">
+			<List lines={{ initial: "three", sm: "two" }}>
 				{data?.Page?.notifications
 					?.filter(Predicate.isNotNull)
 					.map((notification) => {
@@ -83,11 +82,14 @@ export default function Page() {
 									key={notification.id}
 									className="col-span-full grid grid-cols-subgrid"
 								>
-									<Link
-										className={item()}
-										to={route_media({
-											id: notification.media?.id
-										})}
+									<List.Item
+										render={
+											<Link
+												to={route_media({
+													id: notification.media?.id
+												})}
+											/>
+										}
 									>
 										<div className="col-start-1 h-14 w-14">
 											<img
@@ -119,7 +121,7 @@ export default function Page() {
 												{format(notification.createdAt - Date.now() / 1000)}
 											</List.Item.TrailingSupportingText>
 										)}
-									</Link>
+									</List.Item>
 								</li>
 							)
 						}
@@ -129,8 +131,6 @@ export default function Page() {
 		</LayoutPane>
 	)
 }
-
-const { item } = createList({ lines: "two" })
 
 function format(seconds: number) {
 	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})

@@ -19,9 +19,9 @@ import type { LinksFunction, LoaderFunction } from "@remix-run/cloudflare"
 
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
-import "./tailwind.css"
+import tailwind from "./tailwind.css?url"
 
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 import { Layout as AppLayout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 
@@ -30,6 +30,10 @@ export const links: LinksFunction = () => {
 		{
 			rel: "stylesheet",
 			href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,-25..0"
+		},
+		{
+			rel: "stylesheet",
+			href: tailwind
 		}
 	]
 }

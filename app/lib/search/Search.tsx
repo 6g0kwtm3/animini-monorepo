@@ -12,7 +12,7 @@ import {
 
 import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
 import { Suspense, forwardRef, useEffect, useRef } from "react"
-import { ButtonIcon } from "~/components/Button"
+import { Icon as ButtonIcon } from "~/components/Button"
 import type { loader as searchLoader } from "~/routes/search"
 import { createDialog } from "../dialog"
 

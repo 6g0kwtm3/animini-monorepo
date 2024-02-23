@@ -4,7 +4,7 @@ import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import { Predicate } from "effect"
-import { ButtonText, ButtonTextIcon } from "~/components/Button"
+import { Button as ButtonText, ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import {
 	TooltipRich,
 	TooltipRichActions,

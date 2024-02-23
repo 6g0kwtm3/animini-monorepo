@@ -32,7 +32,7 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { Remix } from "~/lib/Remix/index.server"
-import { button, fab } from "~/lib/button"
+import { fab } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
 import {
 	ClientArgs,
@@ -42,18 +42,13 @@ import {
 } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
-import {
-	ButtonElevated,
-	ButtonFilled,
-	ButtonOutlined,
-	ButtonText,
-	ButtonTonal
-} from "~/components/Button"
+import { Button } from "~/components/Button"
 
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
+import { button } from "~/lib/button"
 
 const variants = {
 	enter: (direction: number) => {
@@ -165,13 +160,13 @@ export default function Page() {
 							/>
 
 							<div className="flex flex-wrap gap-2">
-								<ButtonFilled>Favourite</ButtonFilled>
-								<ButtonOutlined>Favourite</ButtonOutlined>
-								<ButtonText>Favourite</ButtonText>
-								<ButtonElevated>Favourite</ButtonElevated>
-								<ButtonTonal type="button" invoketarget="edit">
+								<Button variant="filled">Favourite</Button>
+								<Button variant="outlined">Favourite</Button>
+								<Button>Favourite</Button>
+								<Button variant="elevated">Favourite</Button>
+								<Button variant="tonal" type="button" invoketarget="edit">
 									Edit
-								</ButtonTonal>
+								</Button>
 							</div>
 
 							{/* <div className="grid gap-4 flex-1">

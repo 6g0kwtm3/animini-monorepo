@@ -163,14 +163,7 @@ export default withTV({
 		colors: Object.assign(
 			Object.fromEntries(
 				Object.entries(colors.dark).map(([key, value]) => {
-					const [token = "", tone] = value
-						.replaceAll(/(\d+)$/g, "_$1")
-						.split("_")
-
-					return [
-						`${key}`,
-						`oklch(from var(--${token}) ${toeInv(Number(tone) / 100)} c h / <alpha-value>)`
-					]
+					return [`${key}`, `oklch(from var(--${key}) l c h / <alpha-value>)`]
 				})
 			),
 			{ transparent: "transparent" }
@@ -327,27 +320,44 @@ export default withTV({
 				}
 			)
 
+			const themeColors = (theme: (typeof colors)["dark" | "light"]) =>
+				Object.fromEntries(
+					Object.entries(theme).map(([key, value]) => {
+						const [token = "", tone] = value
+							.replaceAll(/(\d+)$/g, "_$1")
+							.split("_")
+
+						return [
+							`--${key}`,
+							`oklch(from var(--theme-${token}) ${toeInv(Number(tone) / 100)} c h)`
+						]
+					})
+				)
+
 			matchUtilities(
 				{
 					"theme-content": (value) => {
 						return {
-							"--primary": `oklch(from ${value} l c h)`,
-							"--secondary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 3) h)`,
-							"--tertiary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 2) calc(h + 60))`,
-							"--neutral": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
-							"--neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
-							"--error": `oklch(${toeInv(50 / 100)} 0.28 25)`
+							"--theme-primary": `oklch(from ${value} l c h)`,
+							"--theme-secondary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 3) h)`,
+							"--theme-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 2) calc(h + 60))`,
+							"--theme-neutral": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
+							"--theme-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
+							"--theme-error": `oklch(${toeInv(50 / 100)} 0.28 25)`,
+							...themeColors(colors.light),
+							"@media (prefers-color-scheme: dark)": themeColors(colors.dark)
 						}
 					},
 					theme: (value) => {
 						return {
-							"--color": value,
-							"--primary": `oklch(from ${value} ${toeInv(50 / 100)} max(c, 0.16) h)`,
-							"--secondary": `oklch(from ${value} ${toeInv(50 / 100)} 0.05333333333333334 h)`,
-							"--tertiary": `oklch(from ${value} ${toeInv(50 / 100)} 0.08 calc(h + 60))`,
-							"--neutral": `oklch(from ${value} ${toeInv(50 / 100)} 0.013333333333333334 h)`,
-							"--neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} 0.02666666666666667 h)`,
-							"--error": `oklch(${toeInv(50 / 100)} 0.28 25)`
+							"--theme-primary": `oklch(from ${value} ${toeInv(50 / 100)} max(c, 0.16) h)`,
+							"--theme-secondary": `oklch(from ${value} ${toeInv(50 / 100)} 0.05333333333333334 h)`,
+							"--theme-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} 0.08 calc(h + 60))`,
+							"--theme-neutral": `oklch(from ${value} ${toeInv(50 / 100)} 0.013333333333333334 h)`,
+							"--theme-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} 0.02666666666666667 h)`,
+							"--theme-error": `oklch(${toeInv(50 / 100)} 0.28 25)`,
+							...themeColors(colors.light),
+							"@media (prefers-color-scheme: dark)": themeColors(colors.dark)
 						}
 					}
 				},

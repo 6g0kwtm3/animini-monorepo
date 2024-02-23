@@ -14,7 +14,6 @@ import { Card } from "~/components/Card"
 import List from "~/components/List"
 import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
-import { button } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaListItem } from "~/lib/entry/ListItem"
 import { graphql } from "~/lib/graphql"
@@ -25,6 +24,8 @@ import {
 	LoaderArgs,
 	LoaderLive
 } from "~/lib/urql.server"
+
+import { button } from "~/lib/button"
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>

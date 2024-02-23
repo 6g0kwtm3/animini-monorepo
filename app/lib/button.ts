@@ -14,25 +14,39 @@ export const btnIcon = tv({
 	}
 })
 
-export const button = tv({
-	base: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus",
+export const createButton = tv({
+	slots: {
+		root: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus",
+		icon: "i h-[1.125rem] w-[1.125rem] i-[1.125rem]"
+	},
 	variants: {
 		variant: {
-			outlined:
-				"gap-4 border border-outline px-6 text-primary focus:border-primary aria-disabled:border-on-surface/[.12]",
-			elevated:
-				"gap-4 bg-surface px-6 text-primary shadow elevation-1 hover:elevation-2 aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:elevation-1",
-			filled:
-				"gap-4 bg-primary px-6 text-on-primary aria-disabled:bg-on-surface/[.12]",
-			text: "gap-2 px-3 text-primary",
-			tonal:
-				"gap-4 bg-secondary-container px-6 text-on-secondary-container hover:elevation-1 aria-disabled:bg-on-surface/[.12] aria-disabled:hover:elevation-0"
+			outlined: {
+				root: "gap-4 border border-outline px-6 text-primary focus:border-primary aria-disabled:border-on-surface/[.12]",
+				icon: "-mx-2"
+			},
+			elevated: {
+				root: "gap-4 bg-surface px-6 text-primary shadow elevation-1 hover:elevation-2 aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:elevation-1",
+				icon: "-mx-2"
+			},
+			filled: {
+				root: "gap-4 bg-primary px-6 text-on-primary aria-disabled:bg-on-surface/[.12]",
+				icon: "-mx-2"
+			},
+			text: { root: "gap-2 px-3 text-primary" },
+			tonal: {
+				root: "gap-4 bg-secondary-container px-6 text-on-secondary-container hover:elevation-1 aria-disabled:bg-on-surface/[.12] aria-disabled:hover:elevation-0",
+				icon: "-mx-2"
+			}
 		}
 	},
 	defaultVariants: {
 		variant: "text"
 	}
 })
+
+const { root: button } = createButton()
+export { button }
 
 export const fab = tv({
 	base: "i shadow elevation-3 hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed data-[active]:state-pressed data-[focus-visible]:state-focus",

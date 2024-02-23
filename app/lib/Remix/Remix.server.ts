@@ -8,6 +8,7 @@ import type { StructFields } from "@effect/schema/Schema"
 import { NoSuchElementException } from "effect/Cause"
 
 import cookie from "cookie"
+import { dev } from "../dev"
 
 export function params<Fields extends StructFields>(fields: Fields) {
 	return Effect.gen(function* (_) {
@@ -33,7 +34,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 	}
 	const { cause } = exit
 
-	if (process.env.NODE_ENV === "development" || import.meta.env.DEV) {
+	if (dev) {
 		// throw new Error(Cause.pretty(cause))
 	}
 

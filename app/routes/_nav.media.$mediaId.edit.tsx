@@ -11,7 +11,10 @@ import {
 	useNavigation
 } from "@remix-run/react"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
-import { ButtonText, ButtonTextIcon } from "~/components/Button"
+import {
+	Button as ButtonText,
+	ButtonIcon as ButtonTextIcon
+} from "~/components/Button"
 
 import { divide, sumAll } from "effect/Number"
 import {
@@ -46,6 +49,8 @@ import { button } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 
 import { serverOnly$ } from "vite-env-only"
+
+
 
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
