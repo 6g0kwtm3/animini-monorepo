@@ -25,8 +25,6 @@ import { JsonToToken } from "~/lib/viewer"
 // import {  request} from "@effect/platform/HttpClient";
 // request.jsonBody()
 
-
-
 const ANILIST_CLIENT_ID = 3455
 
 export const action = (async (args) => {

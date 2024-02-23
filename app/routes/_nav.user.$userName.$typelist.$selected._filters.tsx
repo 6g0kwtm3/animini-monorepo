@@ -27,7 +27,7 @@ import { LayoutPane } from "~/components/Layout"
 import { useRawLoaderData } from "~/lib/data"
 import { m } from "~/lib/paraglide"
 import { route_user_list_selected } from "~/lib/route"
-const {root:button} = createButton()
+const { root: button } = createButton()
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>

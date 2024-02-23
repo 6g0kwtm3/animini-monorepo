@@ -50,8 +50,6 @@ import { useRawLoaderData } from "~/lib/data"
 
 import { serverOnly$ } from "vite-env-only"
 
-
-
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
 	const formData = await request.formData()
 

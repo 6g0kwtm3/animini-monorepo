@@ -11,7 +11,6 @@ import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import type { loader as rootLoader } from "~/root"
 import { button } from "~/lib/button"
 
-
 export const loader = (async (args) => {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
