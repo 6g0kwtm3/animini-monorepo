@@ -63,10 +63,10 @@ export default function Page() {
 		<LayoutBody>
 			<LayoutPane>
 				<nav>
-					<Link  to="animelist" className={button()}>
+					<Link to="animelist" className={button()}>
 						Anime List
 					</Link>
-					<Link  to="mangalist" className={button()}>
+					<Link to="mangalist" className={button()}>
 						Manga List
 					</Link>
 				</nav>

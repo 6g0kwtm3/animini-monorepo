@@ -217,9 +217,7 @@ export function Search() {
 						open
 					>
 						<div className="flex items-center px-4">
-							<Ariakit.DialogDismiss
-								render={<ButtonIcon className="" />}
-							>
+							<Ariakit.DialogDismiss render={<ButtonIcon className="" />}>
 								arrow_back
 							</Ariakit.DialogDismiss>
 							<SearchInput
@@ -228,9 +226,7 @@ export function Search() {
 								onChange={(e) => submit.submit(e.currentTarget.form, {})}
 								name={store.names.q}
 							/>
-							<Ariakit.ComboboxCancel
-								render={<ButtonIcon className="" />}
-							/>
+							<Ariakit.ComboboxCancel render={<ButtonIcon className="" />} />
 						</div>
 						<div className="border-b border-outline-variant sm:last:hidden"></div>
 

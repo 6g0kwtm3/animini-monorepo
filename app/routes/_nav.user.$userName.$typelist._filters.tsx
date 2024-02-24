@@ -256,7 +256,7 @@ function Filter() {
 									>
 										<List.Item render={<label />}>
 											<Checkbox name="status" value={value}></Checkbox>
-											<div className="col-start-2 col-span-2">
+											<div className="col-span-2 col-start-2">
 												<List.Item.Title>{label}</List.Item.Title>
 											</div>
 										</List.Item>
@@ -277,7 +277,7 @@ function Filter() {
 									>
 										<List.Item render={<label />}>
 											<Checkbox name="format" value={value}></Checkbox>
-											<div className="col-start-2 col-span-2">
+											<div className="col-span-2 col-start-2">
 												<List.Item.Title>{label}</List.Item.Title>
 											</div>
 										</List.Item>

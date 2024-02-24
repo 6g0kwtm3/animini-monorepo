@@ -85,8 +85,8 @@ export function MediaListHeader(props: { children: ReactNode }) {
 
 	return (
 		<Card variant="elevated">
-			<div className="grid items-center [grid-auto-columns:minmax(0,1fr)] grid-flow-col">
-			{props.children}
+			<div className="grid grid-flow-col items-center [grid-auto-columns:minmax(0,1fr)]">
+				{props.children}
 			</div>
 		</Card>
 	)

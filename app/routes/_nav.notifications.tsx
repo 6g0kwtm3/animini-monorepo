@@ -86,7 +86,6 @@ export default function Page() {
 										<List.Item
 											render={
 												<Link
-												
 													to={route_media({
 														id: notification.media?.id
 													})}
@@ -112,7 +111,8 @@ export default function Page() {
 												</List.Item.Title>
 												<List.Item.Subtitle
 													title={
-														notification.media?.title?.userPreferred ?? undefined
+														notification.media?.title?.userPreferred ??
+														undefined
 													}
 												>
 													{notification.media?.title?.userPreferred}

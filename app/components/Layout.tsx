@@ -20,11 +20,11 @@ const createLayout = tv(
 			navigation: {
 				left: {
 					root: "[grid:'top-app-bar_top-app-bar'auto'tabs_tabs'auto'navigation_body'1fr/auto_1fr]",
-					body: "pe-4 sm:pe-6 ps-0 sm:ps-0"
+					body: "pe-4 ps-0 sm:pe-6 sm:ps-0"
 				},
 				bottom: {
 					root: " [grid:'top-app-bar'auto'tabs'auto'body'1fr'navigation'auto/1fr]",
-					body: "sm:pe-6 sm:ps-6 pe-4 ps-4"
+					body: "pe-4 ps-4 sm:pe-6 sm:ps-6"
 				}
 			}
 		},
