@@ -1,9 +1,9 @@
 import colors from "~/../colors.json"
-import { LayoutPane } from "~/components/Layout"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
 
 export default function Page() {
 	return (
-		<>
+		<LayoutBody>
 			<LayoutPane>
 				<div className="theme-[#d6ae6b]">
 					<Palette></Palette>
@@ -17,7 +17,7 @@ export default function Page() {
 			<LayoutPane>
 				<Palette></Palette>
 			</LayoutPane>
-		</>
+		</LayoutBody>
 	)
 }
 

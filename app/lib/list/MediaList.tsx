@@ -12,6 +12,7 @@ import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { serverOnly$ } from "vite-env-only"
+import { Card } from "~/components/Card"
 import { graphql } from "~/lib/graphql"
 
 const MediaList_group = serverOnly$(
@@ -83,9 +84,22 @@ export function MediaListHeader(props: { children: ReactNode }) {
 	const params = useParams()
 
 	return (
-		<h2 className="mx-4 flex flex-wrap justify-between text-balance text-display-md">
-			<div>{params["selected"]}</div>
-			<div>{props.children}</div>
-		</h2>
+		<Card variant="elevated">
+			<div className="grid items-center [grid-auto-columns:minmax(0,1fr)] grid-flow-col">
+			{props.children}
+			</div>
+		</Card>
+	)
+}
+
+export function MediaListHeaderItem(props: {
+	children: ReactNode
+	subtitle: ReactNode
+}) {
+	return (
+		<div className="flex flex-col text-center">
+			<div className="text-headline-lg">{props.children}</div>
+			<div className="text-body-lg">{props.subtitle}</div>
+		</div>
 	)
 }

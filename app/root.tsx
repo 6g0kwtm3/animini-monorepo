@@ -87,7 +87,12 @@ export function Layout({ children }: { children: ReactNode }) {
 export default function App() {
 	return (
 		<SnackbarQueue>
-			<AppLayout>
+			<AppLayout
+				navigation={{
+					initial: "bottom",
+					sm: "left"
+				}}
+			>
 				<Outlet />
 			</AppLayout>
 		</SnackbarQueue>

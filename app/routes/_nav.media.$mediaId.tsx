@@ -1,21 +1,14 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
-import {
-	Link,
-	json,
-	useLocation,
-	useOutlet,
-	useOutletContext,
-	useParams
-} from "@remix-run/react"
+import { Link, json, useLocation, useOutlet, useParams } from "@remix-run/react"
 
 import type { Variants } from "framer-motion"
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 
 import { useTooltipStore } from "@ariakit/react"
-import { Effect, pipe } from "effect"
+import { Effect, Option, pipe } from "effect"
 import { cloneElement } from "react"
 import { Card } from "~/components/Card"
-import { LayoutPane as PaneFlexible } from "~/components/Layout"
+import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
 	Menu,
 	MenuDivider,
@@ -32,7 +25,7 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { Remix } from "~/lib/Remix/index.server"
-import { fab } from "~/lib/button"
+import { button, fab } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
 import {
 	ClientArgs,
@@ -48,7 +41,6 @@ import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
-import { button } from "~/lib/button"
 
 const variants = {
 	enter: (direction: number) => {
@@ -101,6 +93,12 @@ export const loader = (async (args) => {
 			)
 		),
 
+		Effect.flatMap((data) =>
+			Option.all({
+				Media: Option.fromNullable(data?.Media)
+			})
+		),
+
 		Effect.map((data) =>
 			json(data, {
 				headers: {
@@ -124,39 +122,26 @@ export default function Page() {
 
 	return (
 		<>
-			<div
+			<LayoutBody
 				style={{
-					"--theme": data?.Media?.coverImage?.color ?? ""
+					"--theme": data.Media.coverImage?.color ?? ""
 				}}
-				className={`contents${data?.Media?.coverImage?.color ? ` theme-[--theme]` : ""}`}
+				className={`${data.Media.coverImage?.color ? ` theme-[--theme]` : ""}`}
 			>
 				<PaneFlexible className="relative">
-					<motion.div
-						variants={variants}
-						{...(!useReducedMotion() && {
-							initial: "enter",
-							animate: "center",
-							exit: "exit"
-						})}
-						transition={{
-							y: { type: "spring", stiffness: 300, damping: 30 },
-							opacity: { duration: 0.2 }
-						}}
-						custom={useOutletContext()}
-						className="flex gap-2"
-					>
+					<>
 						<Card
 							variant="filled"
 							render={
-								<motion.div layoutId={`media-container-${data?.Media.id}`} />
+								<motion.div layoutId={`media-container-${data.Media.id}`} />
 							}
 							className="grid flex-1 gap-4 rounded-[2.5rem]"
 						>
 							<motion.img
-								src={data?.Media?.coverImage?.extraLarge ?? ""}
-								layoutId={`media-cover-${data?.Media.id}`}
+								src={data.Media.coverImage?.extraLarge ?? ""}
+								layoutId={`media-cover-${data.Media.id}`}
 								style={{
-									"--bg": `url(${data?.Media?.coverImage?.medium})`
+									"--bg": `url(${data.Media.coverImage?.medium})`
 								}}
 								loading="lazy"
 								className="rounded-xl bg-[image:--bg]"
@@ -184,7 +169,7 @@ export default function Page() {
               <div className="border-outline-variant border-r min-h-full"></div> */}
 							<Card variant="elevated" className="force:rounded-xl force:p-16">
 								<h1 className="text-balance text-display-lg">
-									{data?.Media?.title?.userPreferred}
+									{data.Media.title?.userPreferred}
 								</h1>
 								<Menu>
 									<MenuTrigger
@@ -238,12 +223,12 @@ export default function Page() {
 								<div
 									className="text-title-lg"
 									dangerouslySetInnerHTML={{
-										__html: data?.Media?.description || ""
+										__html: data.Media.description || ""
 									}}
 								></div>
 							</Card>
 						</Card>
-					</motion.div>
+					</>
 
 					<Edit />
 
@@ -255,7 +240,7 @@ export default function Page() {
 						</AnimatePresence>
 					)}
 				</PaneFlexible>
-			</div>
+			</LayoutBody>
 		</>
 	)
 }

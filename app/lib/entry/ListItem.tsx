@@ -73,7 +73,7 @@ export function MediaListItem(props: {
 				<div className="col-start-1 h-14 w-14">
 					<motion.img
 						src={entry.media.coverImage?.extraLarge || ""}
-						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
+						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
 						style={{
 							"--bg": `url(${entry.media.coverImage?.medium})`
 						}}
@@ -81,7 +81,6 @@ export function MediaListItem(props: {
 						loading="lazy"
 						alt=""
 					/>
-					<div className="i hidden p-1 i-12 group-hover:block">more_horiz</div>
 				</div>
 				<Link
 					to={route_media({ id: entry.media.id })}

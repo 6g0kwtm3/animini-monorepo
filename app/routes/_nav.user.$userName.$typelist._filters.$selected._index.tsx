@@ -14,6 +14,7 @@ import {
 	AwaitLibrary,
 	MediaList,
 	MediaListHeader,
+	MediaListHeaderItem,
 	MediaListHeaderToWatch,
 	MediaListRoot
 } from "~/lib/list/MediaList"
@@ -210,41 +211,54 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<div className="-mx-4">
-			<div className={`pt-4`}>
-				<MediaListRoot>
-					<MediaListHeader>
-						<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-							<Await resolve={data.SelectedList}>
-								{(selectedList) => (
-									<MediaListHeaderToWatch
-										entries={selectedList.entries}
-									></MediaListHeaderToWatch>
-								)}
-							</Await>
-						</Suspense>
-					</MediaListHeader>
-					<List>
-						<Suspense
-							fallback={ReadonlyArray.range(1, 7).map((i) => (
-								<ListItemLoader key={i} />
-							))}
-						>
-							<Await resolve={data.SelectedList}>
-								{(selectedList) => (
-									<Suspense
-										fallback={<MediaList entries={selectedList.entries} />}
-									>
-										<AwaitLibrary resolve={data.Library}>
-											<MediaList entries={selectedList.entries} />
-										</AwaitLibrary>
-									</Suspense>
-								)}
-							</Await>
-						</Suspense>
-					</List>
-				</MediaListRoot>
-			</div>
+		<div className="flex flex-col sm:gap-4">
+			<MediaListHeader>
+				<MediaListHeaderItem subtitle="to watch">
+					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
+						<Await resolve={data.SelectedList}>
+							{(selectedList) => (
+								<MediaListHeaderToWatch
+									entries={selectedList.entries}
+								></MediaListHeaderToWatch>
+							)}
+						</Await>
+					</Suspense>
+				</MediaListHeaderItem>
+				<MediaListHeaderItem subtitle="entries">
+					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
+						<Await resolve={data.SelectedList}>
+							{(selectedList) => selectedList.entries.length}
+						</Await>
+					</Suspense>
+				</MediaListHeaderItem>
+			</MediaListHeader>
+			<Card variant="elevated" className="max-sm:contents">
+				<div className="-m-4">
+					<div className={``}>
+						<MediaListRoot>
+							<List>
+								<Suspense
+									fallback={ReadonlyArray.range(1, 7).map((i) => (
+										<ListItemLoader key={i} />
+									))}
+								>
+									<Await resolve={data.SelectedList}>
+										{(selectedList) => (
+											<Suspense
+												fallback={<MediaList entries={selectedList.entries} />}
+											>
+												<AwaitLibrary resolve={data.Library}>
+													<MediaList entries={selectedList.entries} />
+												</AwaitLibrary>
+											</Suspense>
+										)}
+									</Await>
+								</Suspense>
+							</List>
+						</MediaListRoot>
+					</div>
+				</div>
+			</Card>
 		</div>
 	)
 }

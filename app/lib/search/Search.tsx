@@ -187,7 +187,7 @@ export function Search() {
 				>
 					<NavigationItemIcon>travel_explore</NavigationItemIcon>
 
-					<div className="max-w-full break-words">Search</div>
+					<div className="max-w-full break-words">Explore</div>
 				</TooltipPlainTrigger>
 				<TooltipPlainContainer>
 					<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
@@ -216,13 +216,12 @@ export function Search() {
 						resetValueOnHide={true}
 						open
 					>
-						<div className="flex items-center">
+						<div className="flex items-center px-4">
 							<Ariakit.DialogDismiss
-								render={<ButtonIcon className="-me-2 ms-2 h-10" />}
+								render={<ButtonIcon className="" />}
 							>
 								arrow_back
 							</Ariakit.DialogDismiss>
-
 							<SearchInput
 								ref={ref}
 								placeholder="Search anime or manga"
@@ -230,7 +229,7 @@ export function Search() {
 								name={store.names.q}
 							/>
 							<Ariakit.ComboboxCancel
-								render={<ButtonIcon className="-ms-2 me-2 h-10" />}
+								render={<ButtonIcon className="" />}
 							/>
 						</div>
 						<div className="border-b border-outline-variant sm:last:hidden"></div>

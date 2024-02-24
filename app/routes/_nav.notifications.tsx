@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
 import { Link, json } from "@remix-run/react"
 import { Effect, Predicate, pipe } from "effect"
-import { LayoutPane } from "~/components/Layout"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
 import { Remix } from "~/lib/Remix/index.server"
@@ -71,64 +71,67 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<LayoutPane>
-			<List lines={{ initial: "three", sm: "two" }}>
-				{data?.Page?.notifications
-					?.filter(Predicate.isNotNull)
-					.map((notification) => {
-						if (notification.__typename === "AiringNotification") {
-							return (
-								<li
-									key={notification.id}
-									className="col-span-full grid grid-cols-subgrid"
-								>
-									<List.Item
-										render={
-											<Link
-												to={route_media({
-													id: notification.media?.id
-												})}
-											/>
-										}
+		<LayoutBody>
+			<LayoutPane>
+				<List lines={{ initial: "three", sm: "two" }}>
+					{data?.Page?.notifications
+						?.filter(Predicate.isNotNull)
+						.map((notification) => {
+							if (notification.__typename === "AiringNotification") {
+								return (
+									<li
+										key={notification.id}
+										className="col-span-full grid grid-cols-subgrid"
 									>
-										<div className="col-start-1 h-14 w-14">
-											<img
-												src={notification.media?.coverImage?.extraLarge || ""}
-												className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
-												style={{
-													"--bg": `url(${notification.media?.coverImage?.medium})`
-												}}
-												loading="lazy"
-												alt=""
-											/>
-										</div>
-										<div className="col-start-2 grid grid-cols-subgrid">
-											<List.Item.Title>
-												{m.episode_aired({ episode: notification.episode })}
-												{/* Episode {notification.episode} of{" "}
-												{notification.media?.title?.userPreferred} aired. */}
-											</List.Item.Title>
-											<List.Item.Subtitle
-												title={
-													notification.media?.title?.userPreferred ?? undefined
-												}
-											>
-												{notification.media?.title?.userPreferred}
-											</List.Item.Subtitle>
-										</div>
-										{notification.createdAt && (
-											<List.Item.TrailingSupportingText>
-												{format(notification.createdAt - Date.now() / 1000)}
-											</List.Item.TrailingSupportingText>
-										)}
-									</List.Item>
-								</li>
-							)
-						}
-						return null
-					})}
-			</List>
-		</LayoutPane>
+										<List.Item
+											render={
+												<Link
+												
+													to={route_media({
+														id: notification.media?.id
+													})}
+												/>
+											}
+										>
+											<div className="col-start-1 h-14 w-14">
+												<img
+													src={notification.media?.coverImage?.extraLarge || ""}
+													className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
+													style={{
+														"--bg": `url(${notification.media?.coverImage?.medium})`
+													}}
+													loading="lazy"
+													alt=""
+												/>
+											</div>
+											<div className="col-start-2 grid grid-cols-subgrid">
+												<List.Item.Title>
+													{m.episode_aired({ episode: notification.episode })}
+													{/* Episode {notification.episode} of{" "}
+													{notification.media?.title?.userPreferred} aired. */}
+												</List.Item.Title>
+												<List.Item.Subtitle
+													title={
+														notification.media?.title?.userPreferred ?? undefined
+													}
+												>
+													{notification.media?.title?.userPreferred}
+												</List.Item.Subtitle>
+											</div>
+											{notification.createdAt && (
+												<List.Item.TrailingSupportingText>
+													{format(notification.createdAt - Date.now() / 1000)}
+												</List.Item.TrailingSupportingText>
+											)}
+										</List.Item>
+									</li>
+								)
+							}
+							return null
+						})}
+				</List>
+			</LayoutPane>
+		</LayoutBody>
 	)
 }
 

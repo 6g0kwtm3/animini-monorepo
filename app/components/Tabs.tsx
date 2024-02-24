@@ -25,7 +25,7 @@ const tabs = tv({
 			secondary: {}
 		},
 		grow: {
-			true: { root: "grid grid-flow-col [grid-auto-columns:1fr]" },
+			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
 			false: { root: "flex overflow-x-auto" }
 		}
 	},

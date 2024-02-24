@@ -161,9 +161,8 @@ export default function Nav() {
 				</NavigationItem>
 				<Search></Search>
 			</Navigation>
-			<LayoutBody className="sm:ps-0">
-				<Outlet></Outlet>
-			</LayoutBody>
+
+			<Outlet></Outlet>
 		</>
 	)
 }
