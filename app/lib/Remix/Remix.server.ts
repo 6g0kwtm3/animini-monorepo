@@ -1,12 +1,4 @@
-import {
-	Cause,
-	Data,
-	Effect,
-	Exit,
-	Option,
-	ReadonlyRecord,
-	pipe
-} from "effect"
+import { Cause, Data, Effect, Exit, Option, ReadonlyRecord, pipe } from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql.server"
 import { Token } from "../viewer"
 
