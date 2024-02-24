@@ -1,6 +1,8 @@
-import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Link, json } from "@remix-run/react"
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare"
+import { Form, Link, json, redirect } from "@remix-run/react"
+import cookie from "cookie"
 import { Effect, Predicate, pipe } from "effect"
+import { Button } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
@@ -67,12 +69,41 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
+export const action = (async (args) => {
+	const formData = await args.request.formData()
+
+	return redirect(".", {
+		headers: {
+			"Set-Cookie": cookie.serialize(
+				"notifications-read",
+				JSON.stringify(Number(formData.get("createdAt"))),
+				{
+					sameSite: "lax",
+					maxAge: 365 * 24 * 60 * 60, // 1 year
+					path: "/"
+				}
+			)
+		}
+	})
+}) satisfies ActionFunction
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
+				<Form method="post">
+					<Button type="submit">Mark all read</Button>
+					<input
+						type="hidden"
+						value={
+							data?.Page?.notifications
+								?.map((notification) => notification?.createdAt)
+								.find(Predicate.isNumber) ?? Date.now() / 1000
+						}
+						name="createdAt"
+					/>
+				</Form>
 				<List lines={{ initial: "three", sm: "two" }}>
 					{data?.Page?.notifications
 						?.filter(Predicate.isNotNull)

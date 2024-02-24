@@ -252,8 +252,9 @@ export function Search() {
 						) : data ? (
 							<Suspense fallback="">
 								<Await resolve={data.trending} errorElement="">
-									{(trending) =>
-										ReadonlyArray.isNonEmptyArray(trending?.media) && (
+									{(data) =>
+										data.trending?.media &&
+										ReadonlyArray.isNonEmptyArray(data.trending?.media) && (
 											<Ariakit.ComboboxList className={body({})}>
 												<Ariakit.ComboboxGroup
 													className={listRoot({ className: "-mx-6" })}
@@ -267,7 +268,7 @@ export function Search() {
 															Trending
 														</div>
 													</Ariakit.ComboboxGroupLabel>
-													{trending?.media
+													{data.trending?.media
 														.filter(Predicate.isNotNull)
 														.map((media) => (
 															<SearchItem

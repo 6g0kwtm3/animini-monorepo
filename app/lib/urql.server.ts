@@ -93,7 +93,7 @@ export function operation<T, V>(
 		)
 
 		if (!response.ok) {
-			return yield* _(new Remix.ResponseError({ response: response.clone() }))
+			return yield* _(new Remix.ResponseError({ response: response }))
 		}
 
 		timeout = Math.max(

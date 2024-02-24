@@ -1,10 +1,10 @@
 import type { LoaderFunction } from "@remix-run/cloudflare"
-import { Outlet, useLocation } from "@remix-run/react"
+import { Await, Outlet, useLocation } from "@remix-run/react"
 
-import { Effect, pipe } from "effect"
+import { Effect, Option, Predicate, pipe } from "effect"
 
 import { Remix } from "~/lib/Remix/index.server"
-import { useRawRouteLoaderData } from "~/lib/data"
+import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import {
 	ClientArgs,
 	EffectUrql,
@@ -21,8 +21,9 @@ import {
 } from "~/components/Navigation"
 import { graphql } from "~/lib/graphql"
 
+import { Schema } from "@effect/schema"
 import { defer } from "@remix-run/cloudflare"
-import { LayoutBody } from "~/components/Layout"
+import { Suspense } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search } from "~/lib/search/Search"
 
@@ -38,6 +39,62 @@ export const loader = (async (args) => {
 						client.query(
 							graphql(`
 								query NavQuery {
+									notifications: Page(perPage: 20) {
+										nodes: notifications {
+											__typename
+											... on ActivityLikeNotification {
+												createdAt
+											}
+											... on ActivityMentionNotification {
+												createdAt
+											}
+											... on ActivityMessageNotification {
+												createdAt
+											}
+											... on ActivityReplyLikeNotification {
+												createdAt
+											}
+											... on ActivityReplyNotification {
+												createdAt
+											}
+											... on ActivityReplySubscribedNotification {
+												createdAt
+											}
+											... on AiringNotification {
+												createdAt
+											}
+											... on FollowingNotification {
+												createdAt
+											}
+											... on MediaDataChangeNotification {
+												createdAt
+											}
+											... on MediaDeletionNotification {
+												createdAt
+											}
+											... on MediaMergeNotification {
+												createdAt
+											}
+											... on RelatedMediaAdditionNotification {
+												createdAt
+											}
+											... on ThreadCommentLikeNotification {
+												createdAt
+											}
+											... on ThreadCommentMentionNotification {
+												createdAt
+											}
+											... on ThreadCommentReplyNotification {
+												createdAt
+											}
+											... on ThreadCommentSubscribedNotification {
+												createdAt
+											}
+											... on ThreadLikeNotification {
+												createdAt
+											}
+										}
+									}
 									trending: Page(perPage: 10) {
 										media(sort: [TRENDING_DESC]) {
 											id
@@ -48,9 +105,33 @@ export const loader = (async (args) => {
 							`),
 							{}
 						)
-					),
-					Effect.map((data) => data?.trending ?? null)
+					)
 				),
+				Effect.flatMap((data) =>
+					Effect.gen(function* (_) {
+						const read = Option.getOrElse(
+							yield* _(Remix.Cookie("notifications-read", Schema.number)),
+							() => 0
+						)
+
+						const notifications =
+							data?.notifications?.nodes?.findIndex(
+								(notification) =>
+									notification &&
+									Predicate.isNumber(notification?.createdAt) &&
+									notification.createdAt <= read
+							) ?? 0
+
+						return {
+							trending: data?.trending,
+							notifications:
+								notifications < 0
+									? data?.notifications?.nodes?.length
+									: notifications
+						}
+					})
+				),
+
 				Effect.provide(LoaderLive),
 				Effect.provideService(LoaderArgs, args),
 				Remix.runLoader
@@ -64,20 +145,9 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
-// export const clientLoader = (async (args) => {
-// 	return pipe(
-// 		_loader,
-//
-
-// 		Effect.provide(ClientLoaderLive),
-// 		Effect.provideService(LoaderArgs, args),
-
-// 		Remix.runLoader
-// 	)
-// }) satisfies LoaderFunction
-
 export default function Nav() {
-	const data = useRawRouteLoaderData<typeof rootLoader>("root")
+	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
+	const data = useRawLoaderData<typeof loader>()
 
 	const { pathname } = useLocation()
 
@@ -117,16 +187,19 @@ export default function Nav() {
 					<NavigationItemIcon>feed</NavigationItemIcon>
 					<div className="max-w-full break-words">Feed</div>
 				</NavigationItem>
-				{data?.Viewer ? (
+				{rootData?.Viewer ? (
 					<>
-						<NavigationItem to={route_user({ userName: data.Viewer.name })} end>
+						<NavigationItem
+							to={route_user({ userName: rootData.Viewer.name })}
+							end
+						>
 							<NavigationItemIcon>person</NavigationItemIcon>
 							<div className="max-w-full break-words">Profile</div>
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
 							to={route_user_list({
-								userName: data.Viewer.name,
+								userName: rootData.Viewer.name,
 								typelist: "animelist"
 							})}
 						>
@@ -135,7 +208,7 @@ export default function Nav() {
 						</NavigationItem>
 						<NavigationItem
 							to={route_user_list({
-								userName: data.Viewer.name,
+								userName: rootData.Viewer.name,
 								typelist: "mangalist"
 							})}
 							className="max-sm:hidden"
@@ -157,7 +230,17 @@ export default function Nav() {
 				<NavigationItem to="/notifications">
 					<NavigationItemIcon>notifications</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
-					<NavigationItemLargeBadge>777</NavigationItemLargeBadge>
+					<Suspense>
+						<Await resolve={data.trending}>
+							{(data) =>
+								(data.notifications ?? 0) > 0 && (
+									<NavigationItemLargeBadge>
+										{data.notifications}
+									</NavigationItemLargeBadge>
+								)
+							}
+						</Await>
+					</Suspense>
 				</NavigationItem>
 				<Search></Search>
 			</Navigation>

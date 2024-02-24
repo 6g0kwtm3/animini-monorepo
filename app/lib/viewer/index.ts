@@ -5,7 +5,7 @@ const Viewer = Schema.struct({
 	id: Schema.number
 })
 
-const Token = Schema.struct({
+export const Token = Schema.struct({
 	token: Schema.Trim,
 	viewer: Viewer
 })

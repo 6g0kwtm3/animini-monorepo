@@ -225,7 +225,7 @@ export default function Page() {
 					</Suspense>
 				</MediaListHeaderItem>
 				<MediaListHeaderItem subtitle="entries">
-					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
+					<Suspense fallback={<Skeleton>80</Skeleton>}>
 						<Await resolve={data.SelectedList}>
 							{(selectedList) => selectedList.entries.length}
 						</Await>

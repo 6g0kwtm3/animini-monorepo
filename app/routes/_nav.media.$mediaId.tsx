@@ -129,10 +129,10 @@ export default function Page() {
 				className={`${data.Media.coverImage?.color ? ` theme-[--theme]` : ""}`}
 			>
 				<PaneFlexible className="relative">
-					<>
+					<div className="">
 						<Card
 							variant="filled"
-							className="grid flex-1 gap-4 rounded-[2.5rem]"
+							className="grid flex-1 gap-4 force:rounded-[2.75rem]"
 						>
 							<motion.img
 								src={data.Media.coverImage?.extraLarge ?? ""}
@@ -164,68 +164,78 @@ export default function Page() {
               />
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
-							<Card variant="elevated" className="force:rounded-xl force:p-16">
-								<h1 className="text-balance text-display-lg">
-									{data.Media.title?.userPreferred}
-								</h1>
-								<Menu>
-									<MenuTrigger
-										className={button({
-											className: "cursor-default"
-										})}
-									>
-										Format
-									</MenuTrigger>
+							<div className="overflow-hidden rounded-xl">
+								<Card variant="elevated" className="">
+									<div className="sm:p-12">
+										<h1 className="text-balance text-display-lg">
+											{data.Media.title?.userPreferred}
+										</h1>
+										<Menu>
+											<MenuTrigger
+												className={button({
+													className: "cursor-default"
+												})}
+											>
+												Format
+											</MenuTrigger>
 
-									<MenuList className="top-auto">
-										<li>
-											<MenuItem render={<a href=""></a>}>
-												<MenuItemLeadingIcon>visibility</MenuItemLeadingIcon>
-												Item 1
-											</MenuItem>
-										</li>
-										<MenuItem>
-											<MenuItemLeadingIcon>content_copy</MenuItemLeadingIcon>
-											Item 2
-											<MenuItemTrailingText>
-												<span className="i">keyboard_command_key</span>+Shift+X
-											</MenuItemTrailingText>
-										</MenuItem>
-										<MenuItem>
-											-<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
-											Item 3<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
-										</MenuItem>
-										<MenuDivider></MenuDivider>
-										<li>
-											<Menu className="group">
-												<MenuItem render={<MenuTrigger />}>
-													<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
-													Item 4
-													<MenuItemTrailingIcon className="group-open:rotate-180">
-														chevron_right
-													</MenuItemTrailingIcon>
-												</MenuItem>
-												<MenuList className="-top-2 left-full">
-													<MenuItem>
+											<MenuList className="top-auto">
+												<li>
+													<MenuItem render={<a href=""></a>}>
 														<MenuItemLeadingIcon>
 															visibility
 														</MenuItemLeadingIcon>
 														Item 1
 													</MenuItem>
-												</MenuList>
-											</Menu>
-										</li>
-									</MenuList>
-								</Menu>
-								<div
-									className="text-title-lg"
-									dangerouslySetInnerHTML={{
-										__html: data.Media.description || ""
-									}}
-								></div>
-							</Card>
+												</li>
+												<MenuItem>
+													<MenuItemLeadingIcon>
+														content_copy
+													</MenuItemLeadingIcon>
+													Item 2
+													<MenuItemTrailingText>
+														<span className="i">keyboard_command_key</span>
+														+Shift+X
+													</MenuItemTrailingText>
+												</MenuItem>
+												<MenuItem>
+													-<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
+													Item 3
+													<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
+												</MenuItem>
+												<MenuDivider></MenuDivider>
+												<li>
+													<Menu className="group">
+														<MenuItem render={<MenuTrigger />}>
+															<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
+															Item 4
+															<MenuItemTrailingIcon className="group-open:rotate-180">
+																chevron_right
+															</MenuItemTrailingIcon>
+														</MenuItem>
+														<MenuList className="-top-2 left-full">
+															<MenuItem>
+																<MenuItemLeadingIcon>
+																	visibility
+																</MenuItemLeadingIcon>
+																Item 1
+															</MenuItem>
+														</MenuList>
+													</Menu>
+												</li>
+											</MenuList>
+										</Menu>
+										<div
+											className="text-title-lg"
+											dangerouslySetInnerHTML={{
+												__html: data.Media.description || ""
+											}}
+										></div>
+									</div>
+								</Card>
+							</div>
 						</Card>
-					</>
+					</div>
 
 					<Edit />
 

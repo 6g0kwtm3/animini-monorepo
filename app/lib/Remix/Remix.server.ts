@@ -1,6 +1,14 @@
-import { Cause, Data, Effect, Exit, Option, Predicate, pipe } from "effect"
+import {
+	Cause,
+	Data,
+	Effect,
+	Exit,
+	Option,
+	ReadonlyRecord,
+	pipe
+} from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql.server"
-import { JsonToToken } from "../viewer"
+import { Token } from "../viewer"
 
 import { Schema } from "@effect/schema"
 import type { StructFields } from "@effect/schema/Schema"
@@ -9,6 +17,22 @@ import { NoSuchElementException } from "effect/Cause"
 
 import cookie from "cookie"
 import { dev } from "../dev"
+
+export const Cookie = <I, A>(
+	name: string,
+	schema: Schema.Schema<never, I, A>
+) =>
+	Effect.gen(function* (_) {
+		const { request } = yield* _(LoaderArgs)
+
+		const cookies = cookie.parse(request.headers.get("Cookie") ?? "")
+
+		return pipe(
+			Option.fromNullable(cookies),
+			Option.flatMap(ReadonlyRecord.get(name)),
+			Option.flatMap(Schema.decodeOption(Schema.parseJson(schema)))
+		) satisfies Option.Option<A>
+	})
 
 export function params<Fields extends StructFields>(fields: Fields) {
 	return Effect.gen(function* (_) {
@@ -71,18 +95,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 }
 
 export const Viewer = Effect.gen(function* (_) {
-	const { request } = yield* _(LoaderArgs)
+	const token = yield* _(Cookie("anilist-token", Token))
 
-	const { "anilist-token": token } = cookie.parse(
-		request.headers.get("Cookie") ?? ""
-	)
-
-	if (!Predicate.isString(token)) {
-		return Option.none()
-	}
-
-	return Option.map(
-		Schema.decodeOption(JsonToToken)(token),
-		(token) => token.viewer
-	)
+	return Option.map(token, (token) => token.viewer)
 })
