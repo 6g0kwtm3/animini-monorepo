@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 
 export const btnIcon = tv({
-	base: "i h-10 w-10 relative select-none rounded-full bg-center p-2 text-on-surface-variant hover:state-hover focused:state-focus pressed:state-pressed",
+	base: "i relative h-10 w-10 select-none rounded-full bg-center p-2 text-on-surface-variant hover:state-hover focused:state-focus pressed:state-pressed",
 	variants: {
 		variant: {
 			standard: ""

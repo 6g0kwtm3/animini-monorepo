@@ -126,7 +126,11 @@ export const Icon = forwardRef<
 		PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
 >(function ButtonIcon({ children, variant, className, ...props }, ref) {
 	return (
-		<BaseButton ref={ref} {...props} className={btnIcon({ variant, className })}>
+		<BaseButton
+			ref={ref}
+			{...props}
+			className={btnIcon({ variant, className })}
+		>
 			{children}
 			<TouchTarget></TouchTarget>
 		</BaseButton>

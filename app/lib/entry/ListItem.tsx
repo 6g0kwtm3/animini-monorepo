@@ -1,9 +1,4 @@
-import {
-	Form,
-	Link,
-	useParams,
-	useRouteLoaderData
-} from "@remix-run/react"
+import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
