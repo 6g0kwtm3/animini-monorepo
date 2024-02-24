@@ -67,9 +67,7 @@ export function MediaListItem(props: {
 
 	return (
 		entry.media && (
-			<List.Item
- 
-			>
+			<List.Item>
 				<div className="col-start-1 h-14 w-14">
 					<motion.img
 						src={entry.media.coverImage?.extraLarge || ""}
