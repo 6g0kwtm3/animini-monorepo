@@ -6,7 +6,7 @@ import { createElement } from "~/lib/createElement"
 const tv = createTV({ twMerge: false })
 
 const layout = tv({
-	base: "grid h-[100dvh] [grid:'body'1fr'navigation'auto/1fr] sm:[grid:'navigation_body'1fr/auto_1fr]"
+	base: "grid h-[100dvh] [grid:'top-app-bar'auto'tabs'auto'body'1fr'navigation'auto/1fr] sm:[grid:'top-app-bar_top-app-bar'auto'tabs_tabs'auto'navigation_body'1fr/auto_1fr]"
 })
 
 export function Layout(props: ComponentPropsWithoutRef<"div">) {

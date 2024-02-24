@@ -2,10 +2,10 @@ import * as Ariakit from "@ariakit/react"
 import {
 	Await,
 	Link,
-	NavLink,
 	useFetcher,
 	useLocation,
 	useNavigate,
+	useNavigation,
 	useRouteLoaderData,
 	useSearchParams
 } from "@remix-run/react"
@@ -31,6 +31,7 @@ import { serverOnly$ } from "vite-env-only"
 import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import type { loader as navLoader } from "~/routes/_nav"
 import { route_media } from "../route"
+import { HashNavLink } from "./HashNavLink"
 
 const tv = createTV({ twMerge: false })
 
@@ -136,24 +137,6 @@ const SearchInput = forwardRef<
 	)
 })
 
-const HashNavLink = forwardRef<
-	HTMLAnchorElement,
-	ComponentPropsWithoutRef<typeof NavLink>
->(function HashNavLink({ children, ...props }, ref) {
-	const { hash } = useLocation()
-	return (
-		<NavLink ref={ref} {...props}>
-			{Predicate.isFunction(children)
-				? (renderProps) =>
-						children({
-							...renderProps,
-							isActive: props.to === hash
-						})
-				: children}
-		</NavLink>
-	)
-})
-
 export function Search() {
 	const [searchParams] = useSearchParams()
 
@@ -165,7 +148,13 @@ export function Search() {
 
 	let ref = useRef<ElementRef<"input">>(null)
 
+	const navigation = useNavigation()
+
 	let location = useLocation()
+
+	if (navigation.state === "loading") {
+		location = navigation.location
+	}
 	let navigate = useNavigate()
 
 	const show = location.hash === "#search"
@@ -192,12 +181,11 @@ export function Search() {
 				<TooltipPlainTrigger
 					render={
 						<NavigationItem
-							to="#search"
-							render={<HashNavLink />}
+							render={<HashNavLink to="#search" />}
 						></NavigationItem>
 					}
 				>
-					<NavigationItemIcon>search</NavigationItemIcon>
+					<NavigationItemIcon>travel_explore</NavigationItemIcon>
 
 					<div className="max-w-full break-words">Search</div>
 				</TooltipPlainTrigger>

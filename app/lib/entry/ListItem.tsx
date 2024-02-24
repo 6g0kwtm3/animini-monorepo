@@ -1,4 +1,9 @@
-import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
+import {
+	Form,
+	Link,
+	useParams,
+	useRouteLoaderData
+} from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -22,6 +27,7 @@ import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
+import { motion } from "framer-motion"
 import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
 import List from "~/components/List"
@@ -66,14 +72,17 @@ export function MediaListItem(props: {
 
 	return (
 		entry.media && (
-			<List.Item>
+			<List.Item
+				render={<motion.li layoutId={`media-container-${entry.media.id}`} />}
+			>
 				<div className="col-start-1 h-14 w-14">
-					<img
+					<motion.img
 						src={entry.media.coverImage?.extraLarge || ""}
 						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover group-hover:hidden"
 						style={{
 							"--bg": `url(${entry.media.coverImage?.medium})`
 						}}
+						layoutId={`media-cover-${entry.media.id}`}
 						loading="lazy"
 						alt=""
 					/>

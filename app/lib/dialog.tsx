@@ -5,7 +5,7 @@ const tv = createTV({ twMerge: false })
 export const createDialog = tv(
 	{
 		slots: {
-			root: "fixed flex overflow-hidden bg-surface-container-high elevation-3",
+			root: "z-50 fixed flex overflow-hidden bg-surface-container-high elevation-3",
 			content: "flex w-full flex-col",
 			backdrop: "",
 			headline: "text-on-surface",
@@ -17,7 +17,7 @@ export const createDialog = tv(
 				basic: {
 					root: "inset-[3.5rem] m-auto h-fit max-h-[calc(100%-7rem)] w-fit min-w-[17.5rem] max-w-[35rem] rounded-xl py-6",
 					content: "gap-6",
-					backdrop: "bg-scrim/40",
+					backdrop: "bg-scrim/40 opacity-0 transition-[opacity] data-[enter]:opacity-100",
 					headline:
 						"-mb-2 h-auto px-6 text-center text-headline-sm first:text-start",
 					body: "pt-0",
