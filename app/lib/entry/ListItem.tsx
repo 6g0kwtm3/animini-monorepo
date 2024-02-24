@@ -68,7 +68,7 @@ export function MediaListItem(props: {
 	return (
 		entry.media && (
 			<List.Item
-				render={<motion.li layoutId={`media-container-${entry.media.id}`} />}
+ 
 			>
 				<div className="col-start-1 h-14 w-14">
 					<motion.img

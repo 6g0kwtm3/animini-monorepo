@@ -132,9 +132,6 @@ export default function Page() {
 					<>
 						<Card
 							variant="filled"
-							render={
-								<motion.div layoutId={`media-container-${data.Media.id}`} />
-							}
 							className="grid flex-1 gap-4 rounded-[2.5rem]"
 						>
 							<motion.img

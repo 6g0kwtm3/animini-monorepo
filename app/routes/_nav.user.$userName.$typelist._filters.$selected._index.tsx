@@ -211,7 +211,7 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<div className="flex flex-col sm:gap-4">
+		<div className="flex flex-col sm:gap-4 gap-2">
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle="to watch">
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
@@ -233,7 +233,7 @@ export default function Page() {
 				</MediaListHeaderItem>
 			</MediaListHeader>
 			<Card variant="elevated" className="max-sm:contents">
-				<div className="-m-4">
+				<div className="sm:-my-4 -mx-4">
 					<div className={``}>
 						<MediaListRoot>
 							<List>

@@ -44,11 +44,11 @@ const card = tv({
 export function Card({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"div"> &
+}: ComponentPropsWithoutRef<"section"> &
 	VariantProps<typeof card> & {
 		render?: ReactElement
 	}) {
-	return createElement("div", {
+	return createElement("section", {
 		...props,
 		className: card({ variant: variant, className: props.className })
 	})
