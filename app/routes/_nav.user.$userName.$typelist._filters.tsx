@@ -120,9 +120,9 @@ export default function Filters() {
 					<Icon>more_horiz</Icon>
 				</div>
 
-				<div className="sm:hidden contents">
-						<ListTabs></ListTabs>
-					</div>
+				<div className="contents sm:hidden">
+					<ListTabs></ListTabs>
+				</div>
 			</AppBar>
 
 			<LayoutBody>

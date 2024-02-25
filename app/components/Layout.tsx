@@ -16,7 +16,7 @@ const createLayout = tv(
 	{
 		slots: {
 			root: "",
-			body: "grid grid-flow-col [grid-auto-columns:auto] gap-6 pe-4 sm:pe-6"
+			body: "grid grid-flow-col gap-6 pe-4 [grid-auto-columns:auto] sm:pe-6"
 		},
 		variants: {
 			navigation: {

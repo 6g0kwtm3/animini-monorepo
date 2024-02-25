@@ -36,7 +36,7 @@ const createNavigation = tv(
 					largeBadge: "absolute left-1/2"
 				},
 				rail: {
-					root: "flex h-full w-20 shrink-0 flex-col gap-3 bg-surface elevation-0 top-[--app-bar-height]",
+					root: "top-[--app-bar-height] flex h-full w-20 shrink-0 flex-col gap-3 bg-surface elevation-0",
 					label:
 						"grow-0 flex-col items-center gap-1 px-2 py-0 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
 					activeIndicator: "h-8 w-14 rounded-lg",
@@ -44,7 +44,7 @@ const createNavigation = tv(
 					largeBadge: "absolute left-1/2"
 				},
 				drawer: {
-					root: "flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-transparent p-3 elevation-0 top-[--app-bar-height]",
+					root: "top-[--app-bar-height] flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-transparent p-3 elevation-0",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator: "inset-0 -z-10 h-full rounded-xl force:w-full",
 					icon: "h-6 w-6 !ifill-none group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
