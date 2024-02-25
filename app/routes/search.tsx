@@ -22,6 +22,7 @@ export const loader = (async (args) => {
 						query SearchQuery(
 							$q: String
 							$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
+							$coverExtraLarge: Boolean = false
 						) {
 							page: Page(perPage: 10) {
 								media(search: $q, sort: $sort) {

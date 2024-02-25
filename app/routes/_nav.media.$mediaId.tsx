@@ -41,6 +41,7 @@ import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
+import { MediaCover } from "~/lib/entry/MediaListCover"
 
 const variants = {
 	enter: (direction: number) => {
@@ -70,14 +71,13 @@ export const loader = (async (args) => {
 			Effect.flatMap(({ client, args: { params } }) =>
 				client.query(
 					graphql(`
-						query MediaQuery($id: Int!) {
+						query MediaQuery($id: Int!, $coverExtraLarge: Boolean = true) {
 							Media(id: $id) {
 								id
 								coverImage {
-									extraLarge
-									medium
 									color
 								}
+								...MediaCover_media
 								bannerImage
 								title {
 									userPreferred
@@ -134,16 +134,7 @@ export default function Page() {
 							variant="filled"
 							className="grid flex-1 gap-4 force:rounded-[2.75rem]"
 						>
-							<motion.img
-								src={data.Media.coverImage?.extraLarge ?? ""}
-								layoutId={`media-cover-${data.Media.id}`}
-								style={{
-									"--bg": `url(${data.Media.coverImage?.medium})`
-								}}
-								loading="lazy"
-								className="rounded-xl bg-[image:--bg]"
-								alt=""
-							/>
+							<MediaCover media={data.Media}></MediaCover>
 
 							<div className="flex flex-wrap gap-2">
 								<Button variant="filled">Favourite</Button>

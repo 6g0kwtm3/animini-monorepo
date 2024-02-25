@@ -22,14 +22,22 @@ import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
-import { motion } from "framer-motion"
 import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
-import List from "~/components/List"
+import {
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
+	ListItemTrailingSupportingText
+} from "~/components/List"
 import { MediaType } from "~/gql/graphql"
 import type { loader as rootLoader } from "~/root"
 import { route_media } from "../route"
+import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
+
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -43,15 +51,11 @@ const MediaListItem_entry = serverOnly$(
 				title {
 					userPreferred
 				}
-				coverImage {
-					extraLarge
-					medium
-				}
+				...MediaCover_media
 			}
 		}
 	`)
 )
-
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
 >({})
@@ -68,55 +72,51 @@ export function MediaListItem(props: {
 
 	return (
 		entry.media && (
-			<List.Item>
-				<div className="col-start-1 h-14 w-14">
-					<motion.img
-						src={entry.media.coverImage?.extraLarge || ""}
-						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
-						style={{
-							"--bg": `url(${entry.media.coverImage?.medium})`
-						}}
-						layoutId={`media-cover-${entry.media.id}`}
-						loading="lazy"
-						alt=""
-					/>
-				</div>
-				<Link
-					to={route_media({ id: entry.media.id })}
-					className="col-start-2 grid grid-cols-subgrid"
+			<li className="col-span-full grid grid-cols-subgrid">
+				<ListItem
+					render={<Link to={route_media({ id: entry.media.id })}></Link>}
 				>
-					<List.Item.Title>
-						{libraryHasNextEpisode && (
-							<span className="i i-inline text-primary">priority_high</span>
-							// <span className="i i-inline text-primary">video_library</span>
-						)}
-						{entry.media.title?.userPreferred}
-					</List.Item.Title>
-					<List.Item.Subtitle className="flex flex-wrap gap-1">
-						<div>
-							<span className="i i-inline">grade</span>
-							{entry.score}
-						</div>
-						&middot;
-						<div>
-							<span className="i i-inline">timer</span>
-							{toWatch(entry) > 0 ? formatWatch(toWatch(entry)) : "Nothing"} to
-							watch
-						</div>
-					</List.Item.Subtitle>
-				</Link>
-
-				<List.Item.TrailingSupportingText>
-					<Progress entry={entry}></Progress>
-				</List.Item.TrailingSupportingText>
-			</List.Item>
+					<ListItemImg>
+						<MediaCover
+							media={entry.media}
+							layoutId={`media-cover-${data.id}`}
+						></MediaCover>
+					</ListItemImg>
+					<ListItemContent>
+						<ListItemContentTitle>
+							{libraryHasNextEpisode && (
+								<span className="i i-inline text-primary">priority_high</span>
+								// <span className="i i-inline text-primary">video_library</span>
+							)}
+							{entry.media.title?.userPreferred}
+						</ListItemContentTitle>
+						<ListItemContentSubtitle className="flex flex-wrap gap-1">
+							<div>
+								<span className="i i-inline">grade</span>
+								{entry.score}
+							</div>
+							&middot;
+							<div>
+								<span className="i i-inline">timer</span>
+								{toWatch(entry) > 0
+									? formatWatch(toWatch(entry))
+									: "Nothing"}{" "}
+								to watch
+							</div>
+						</ListItemContentSubtitle>
+					</ListItemContent>
+					<ListItemTrailingSupportingText>
+						<Progress entry={entry}></Progress>
+					</ListItemTrailingSupportingText>
+				</ListItem>
+			</li>
 		)
 	)
 }
 
 export function ListItemLoader(props: {}) {
 	return (
-		<List.Item>
+		<ListItem>
 			<div className="col-start-1 h-14 w-14">
 				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent"></div>
 			</div>
@@ -143,7 +143,7 @@ export function ListItemLoader(props: {}) {
 			<div className="col-start-3 text-label-sm text-on-surface-variant">
 				<Skeleton>1/12</Skeleton>
 			</div>
-		</List.Item>
+		</ListItem>
 	)
 }
 

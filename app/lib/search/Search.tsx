@@ -32,6 +32,13 @@ import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import type { loader as navLoader } from "~/routes/_nav"
 import { route_media } from "../route"
 import { HashNavLink } from "./HashNavLink"
+import {
+	ListItemAvatar,
+	ListItemContent,
+	ListItemContentTitle,
+	ListItemTrailingSupportingText
+} from "~/components/List"
+import { MediaCover } from "../entry/MediaListCover"
 
 const tv = createTV({ twMerge: false })
 
@@ -302,10 +309,7 @@ const SearchItem_media = serverOnly$(
 		fragment SearchItem_media on Media {
 			id
 			type
-			coverImage {
-				medium
-				extraLarge
-			}
+			...MediaCover_media
 			title {
 				userPreferred
 			}
@@ -330,32 +334,20 @@ function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 				/>
 			}
 		>
-			{media.coverImage?.extraLarge ? (
-				<div className="col-start-1 flex h-10 w-10">
-					<img
-						src={media.coverImage.extraLarge}
-						alt=""
-						className="h-10 w-10 rounded-full bg-[image:--bg] bg-cover object-cover"
-						style={{
-							"--bg": `url(${media.coverImage.medium})`
-						}}
-						loading="lazy"
-					/>
-				</div>
-			) : (
-				<div className="col-start-1 flex h-10 w-10 items-center justify-center rounded-full bg-error">
-					<div className="i text-on-error">error</div>
-				</div>
-			)}
+			<ListItemAvatar>
+				<MediaCover media={media}></MediaCover>
+			</ListItemAvatar>
 
-			<div className="col-start-2 grid grid-cols-subgrid">
-				<div className={itemTitle()}>{media.title?.userPreferred}</div>
-			</div>
+			<ListItemContent>
+				<ListItemContentTitle>
+					{media.title?.userPreferred}
+				</ListItemContentTitle>
+			</ListItemContent>
 
 			{media.type && (
-				<div className={trailingSupportingText()}>
+				<ListItemTrailingSupportingText>
 					{media.type.toLowerCase()}
-				</div>
+				</ListItemTrailingSupportingText>
 			)}
 		</Ariakit.ComboboxItem>
 	)

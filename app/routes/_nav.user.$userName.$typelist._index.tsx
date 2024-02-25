@@ -11,7 +11,6 @@ import {
 } from "effect"
 
 import { Card } from "~/components/Card"
-import List from "~/components/List"
 import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
@@ -56,7 +55,11 @@ export const loader = (async (args) => {
 			const MediaListCollection = yield* _(
 				client.query(
 					graphql(`
-						query UserListQuery($userName: String!, $type: MediaType!) {
+						query UserListQuery(
+							$userName: String!
+							$type: MediaType!
+							$coverExtraLarge: Boolean = false
+						) {
 							MediaListCollection(
 								userName: $userName
 								type: $type

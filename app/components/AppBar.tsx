@@ -3,14 +3,13 @@ import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { createElement } from "~/lib/createElement"
-import { SetAppBarHeight } from "./Layout"
 
 const tv = createTV({ twMerge: false })
 
 const appBar = tv(
 	{
 		slots: {
-			root: "transform-gpu bg-surface transition-transform elevation-0",
+			root: "grid bg-surface elevation-0",
 			title: "text-title-lg text-on-surface first:ms-2"
 		},
 		variants: {
@@ -21,7 +20,7 @@ const appBar = tv(
 			},
 			hide: {
 				true: {
-					root: "data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0"
+					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0"
 				},
 				false: { root: "" }
 			},
@@ -63,13 +62,6 @@ export function AppBar({
 
 	const ref = useRef<ElementRef<"aside">>()
 
-	const setAppBarHeight = useContext(SetAppBarHeight)
-
-	useEffect(() => {
-		setAppBarHeight(ref.current?.clientHeight ?? 0)
-		return () => setAppBarHeight(0)
-	}, [setAppBarHeight])
-
 	const styles = appBar({
 		variant,
 		elevate,
@@ -94,6 +86,9 @@ export function AppBar({
 				ref,
 				"data-hidden": hidden,
 				"data-elevated": scrolled !== 0,
+				style: {
+					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px"
+				},
 				className: styles.root({ className: props.className })
 			})}
 		</AppBarContext.Provider>

@@ -8,6 +8,9 @@ export const createList = tv(
 			root: "grid grid-cols-[auto_1fr_auto] gap-x-4 py-2 [grid-auto-rows:1fr]",
 			subheader: "",
 			item: "group col-span-full grid grid-cols-subgrid px-4 outline-none hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
+			itemAvatar: "h-10 w-10 overflow-hidden *:h-full *:w-full",
+			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
+			itemContent: "grid first:col-span-2 last:col-span-2 first:last:col-span-3",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
 			trailingSupportingText: "text-end text-label-sm text-on-surface-variant"

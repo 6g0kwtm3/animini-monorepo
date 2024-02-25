@@ -42,28 +42,18 @@ const createLayout = tv(
 
 const LayoutContext = createContext(createLayout())
 
-export const SetAppBarHeight = createContext((height: number) => {})
-
 export function Layout({
 	navigation,
 	...props
 }: ComponentPropsWithoutRef<"div"> & VariantProps<typeof createLayout>) {
 	const styles = createLayout({ navigation })
-	const [appBarHeight, setAppBarHeight] = useState(0)
 
 	return (
-		<SetAppBarHeight.Provider value={setAppBarHeight}>
-			<LayoutContext.Provider value={styles}>
-				<div
-					className={styles.root({ className: props.className })}
-					style={{
-						"--app-bar-height": appBarHeight + "px"
-					}}
-				>
-					{props.children}
-				</div>
-			</LayoutContext.Provider>
-		</SetAppBarHeight.Provider>
+		<LayoutContext.Provider value={styles}>
+			<div className={styles.root({ className: props.className })}>
+				{props.children}
+			</div>
+		</LayoutContext.Provider>
 	)
 }
 

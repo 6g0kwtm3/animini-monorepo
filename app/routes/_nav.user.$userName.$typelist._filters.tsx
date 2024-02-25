@@ -7,7 +7,6 @@ import {
 	Link,
 	Outlet,
 	json,
-	useLoaderData,
 	useLocation,
 	useNavigate,
 	useNavigation,
@@ -30,7 +29,12 @@ import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Card } from "~/components/Card"
 import { Checkbox } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import List from "~/components/List"
+import {
+	List,
+	ListItem,
+	ListItemContent,
+	ListItemContentTitle
+} from "~/components/List"
 import { Sheet } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
 import { useRawLoaderData } from "~/lib/data"
@@ -111,23 +115,9 @@ export default function Filters() {
 
 	return (
 		<>
-			<AppBar hide>
-				<div className="flex items-center gap-2 p-2">
-					<AppBarTitle>Anime list</AppBarTitle>
-					<div className="flex-1"></div>
-					<Icon>search</Icon>
-					<Filter />
-					<Icon>more_horiz</Icon>
-				</div>
-
-				<div className="contents sm:hidden">
-					<ListTabs></ListTabs>
-				</div>
-			</AppBar>
-
 			<LayoutBody>
 				<LayoutPane variant="fixed" className="max-md:hidden">
-					<Card variant="elevated">
+					<Card variant="elevated" className="max-h-full overflow-y-auto">
 						<Form
 							replace
 							action={[pathname, hash].filter(Boolean).join("")}
@@ -152,7 +142,6 @@ export default function Filters() {
 									</ul>
 								</Group>
 							</CheckboxProvider>
-
 							<CheckboxProvider defaultValue={searchParams.getAll("format")}>
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Format</GroupLabel>
@@ -171,7 +160,6 @@ export default function Filters() {
 									</ul>
 								</Group>
 							</CheckboxProvider>
-
 							<ButtonText type="submit">Filter</ButtonText>
 							<ButtonText type="reset">Reset</ButtonText>
 						</Form>
@@ -179,11 +167,28 @@ export default function Filters() {
 				</LayoutPane>
 
 				<LayoutPane>
-					<div className="hidden sm:contents">
-						<ListTabs></ListTabs>
-					</div>
+					<Card variant="elevated" className="max-sm:contents">
+						<div className="flex flex-col gap-4 ">
+							<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
+								<AppBar
+									hide
+									className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low sm:elevation-1"
+								>
+									<div className="flex items-center gap-2 p-2">
+										<AppBarTitle>Anime list</AppBarTitle>
+										<div className="flex-1"></div>
+										<Icon>search</Icon>
+										<Filter />
+										<Icon>more_horiz</Icon>
+									</div>
 
-					<Outlet></Outlet>
+									<ListTabs></ListTabs>
+								</AppBar>
+							</div>
+
+							<Outlet></Outlet>
+						</div>
+					</Card>
 				</LayoutPane>
 			</LayoutBody>
 		</>
@@ -259,12 +264,12 @@ function Filter() {
 					onChange={(e) => submit(e.currentTarget, {})}
 				>
 					<List lines="one" render={<Group />}>
-						<List.Item
+						<ListItem
 							render={<GroupLabel></GroupLabel>}
 							className="text-body-md text-on-surface-variant force:hover:state-none"
 						>
 							<h2 className="col-span-full ">Status</h2>
-						</List.Item>
+						</ListItem>
 
 						<CheckboxProvider defaultValue={searchParams.getAll("status")}>
 							{Object.entries(
@@ -273,19 +278,19 @@ function Filter() {
 									: MANGA_STATUS_OPTIONS
 							).map(([value, label]) => {
 								return (
-									<List.Item render={<label />} key={value}>
+									<ListItem render={<label />} key={value}>
 										<Checkbox name="status" value={value}></Checkbox>
 										<div className="col-span-2 col-start-2">
-											<List.Item.Title>{label}</List.Item.Title>
+											<ListItemContentTitle>{label}</ListItemContentTitle>
 										</div>
-									</List.Item>
+									</ListItem>
 								)
 							})}
 						</CheckboxProvider>
 
-						<List.Item className="text-body-md text-on-surface-variant force:hover:state-none">
+						<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
 							<h2 className="col-span-full ">Format</h2>
-						</List.Item>
+						</ListItem>
 						<CheckboxProvider defaultValue={searchParams.getAll("format")}>
 							{Object.entries(
 								params.typelist === "animelist"
@@ -293,12 +298,12 @@ function Filter() {
 									: MANGA_FORMAT_OPTIONS
 							).map(([value, label]) => {
 								return (
-									<List.Item render={<label />} key={value}>
+									<ListItem render={<label />} key={value}>
 										<Checkbox name="format" value={value}></Checkbox>
-										<div className="col-span-2 col-start-2">
-											<List.Item.Title>{label}</List.Item.Title>
-										</div>
-									</List.Item>
+										<ListItemContent className="">
+											<ListItemContentTitle>{label}</ListItemContentTitle>
+										</ListItemContent>
+									</ListItem>
 								)
 							})}
 						</CheckboxProvider>

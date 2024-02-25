@@ -40,7 +40,6 @@ import {
 
 import { Suspense } from "react"
 import { Card } from "~/components/Card"
-import List from "~/components/List"
 import { Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
@@ -48,6 +47,7 @@ import { getLibrary } from "~/lib/electron/library.server"
 import { ListItemLoader } from "~/lib/entry/ListItem"
 import { toWatch } from "~/lib/entry/toWatch"
 import { m } from "~/lib/paraglide"
+import { List } from "~/components/List"
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>
@@ -73,6 +73,7 @@ function TypelistQuery() {
 		query UserListSelectedFiltersIndexQuery(
 			$userName: String!
 			$type: MediaType!
+			$coverExtraLarge: Boolean = false
 		) {
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
@@ -211,7 +212,7 @@ export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<div className="flex flex-col gap-2 sm:gap-4">
+		<>
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
@@ -232,7 +233,8 @@ export default function Page() {
 					</Suspense>
 				</MediaListHeaderItem>
 			</MediaListHeader>
-			<Card variant="elevated" className="max-sm:contents">
+
+			<>
 				<div className="-mx-4 sm:-my-4">
 					<div className={``}>
 						<MediaListRoot>
@@ -258,8 +260,8 @@ export default function Page() {
 						</MediaListRoot>
 					</div>
 				</div>
-			</Card>
-		</div>
+			</>
+		</>
 	)
 }
 

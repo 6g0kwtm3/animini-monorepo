@@ -38,7 +38,7 @@ export const loader = (async (args) => {
 					Effect.flatMap(({ client }) =>
 						client.query(
 							graphql(`
-								query NavQuery {
+								query NavQuery(				$coverExtraLarge: Boolean = false) {
 									notifications: Page {
 										nodes: notifications {
 											__typename
