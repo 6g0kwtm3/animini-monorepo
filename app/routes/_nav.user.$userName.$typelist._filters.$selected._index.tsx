@@ -40,6 +40,7 @@ import {
 
 import { Suspense } from "react"
 import { Card } from "~/components/Card"
+import { List } from "~/components/List"
 import { Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
@@ -47,7 +48,6 @@ import { getLibrary } from "~/lib/electron/library.server"
 import { ListItemLoader } from "~/lib/entry/ListItem"
 import { toWatch } from "~/lib/entry/toWatch"
 import { m } from "~/lib/paraglide"
-import { List } from "~/components/List"
 
 function TypelistQueryVariables(
 	params: Readonly<Params<string>>
@@ -247,10 +247,10 @@ export default function Page() {
 									<Await resolve={data.SelectedList}>
 										{(selectedList) => (
 											<Suspense
-												fallback={<MediaList entries={selectedList.entries} />}
+												fallback={<MediaList group={selectedList} />}
 											>
 												<AwaitLibrary resolve={data.Library}>
-													<MediaList entries={selectedList.entries} />
+													<MediaList group={selectedList} />
 												</AwaitLibrary>
 											</Suspense>
 										)}

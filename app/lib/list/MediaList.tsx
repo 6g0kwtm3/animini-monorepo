@@ -1,7 +1,11 @@
 import { Await, useParams } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
-import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
+import {
+	useFragment as readFragment,
+	useFragment,
+	type FragmentType
+} from "~/lib/graphql"
 
 // import {} from 'glob'
 
@@ -9,10 +13,10 @@ import { Library, MediaListItem } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 import type { AnitomyResult } from "anitomy"
+import { Predicate } from "effect"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { serverOnly$ } from "vite-env-only"
-import { Card } from "~/components/Card"
 import { graphql } from "~/lib/graphql"
 
 const MediaList_group = serverOnly$(
@@ -26,12 +30,18 @@ const MediaList_group = serverOnly$(
 	`)
 )
 
-export function MediaList(props) {
+export function MediaList(props: {
+	group: FragmentType<typeof MediaList_group>
+}) {
+	const group = useFragment<typeof MediaList_group>(props.group)
+
 	return (
 		<>
-			{props.entries.map((entry) => (
-				<MediaListItem key={entry.id} entry={entry}></MediaListItem>
-			))}
+			{group.entries
+				?.filter(Predicate.isNotNull)
+				.map((entry) => (
+					<MediaListItem key={entry.id} entry={entry}></MediaListItem>
+				))}
 		</>
 	)
 }

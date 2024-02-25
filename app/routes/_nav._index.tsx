@@ -11,8 +11,15 @@ import { Fragment, Suspense, createElement } from "react"
 
 import marked from "marked"
 import { Card } from "~/components/Card"
-import { LayoutPane } from "~/components/Layout"
-import List from "~/components/List"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
+import {
+	List,
+	ListItem,
+	ListItemContent,
+	ListItemImg,
+	ListItemContentSubtitle as ListItemSubtitle,
+	ListItemContentTitle as ListItemTitle
+} from "~/components/List"
 import { graphql } from "~/gql"
 import { client_operation } from "~/lib/client"
 
@@ -28,6 +35,7 @@ import { useRawLoaderData } from "~/lib/data"
 
 import { Parser } from "htmlparser2"
 import sanitizeHtml_ from "sanitize-html"
+import { MediaCover } from "~/lib/entry/MediaListCover"
 
 function MediaLink({ mediaId, ...props }) {
 	const data = useRawLoaderData<typeof loader>()
@@ -49,33 +57,19 @@ function MediaLink({ mediaId, ...props }) {
 										render={<span />}
 									>
 										<List className="force:p-0" render={<span />}>
-											<List.Item className="" render={<span />}>
-												{media.coverImage?.extraLarge ? (
-													<span className="col-start-1 flex h-10 w-10">
-														<img
-															src={media.coverImage.extraLarge}
-															alt=""
-															className="h-10 w-10 rounded-full bg-[image:--bg] bg-cover object-cover"
-															style={{
-																"--bg": `url(${media.coverImage.medium})`
-															}}
-															loading="lazy"
-														/>
-													</span>
-												) : (
-													<span className="col-start-1 flex h-10 w-10 items-center justify-center rounded-full bg-error">
-														<span className="i text-on-error">error</span>
-													</span>
-												)}
-												<span className="col-start-2 grid grid-cols-subgrid">
-													<List.Item.Title render={<span />}>
+											<ListItem className="" render={<span />}>
+												<ListItemImg>
+													<MediaCover media={media}></MediaCover>
+												</ListItemImg>
+												<ListItemContent>
+													<ListItemTitle render={<span />}>
 														{media.title?.userPreferred}
-													</List.Item.Title>
-													<List.Item.Subtitle render={<span />}>
+													</ListItemTitle>
+													<ListItemSubtitle render={<span />}>
 														{media.type}
-													</List.Item.Subtitle>
-												</span>
-											</List.Item>
+													</ListItemSubtitle>
+												</ListItemContent>
+											</ListItem>
 										</List>
 									</Card>
 								</>
@@ -151,7 +145,7 @@ export const headers = (({ loaderHeaders }) => {
 
 const indexMediaQuery = serverOnly$(
 	graphql(`
-		query IndexMediaQuery($ids: [Int]) {
+		query IndexMediaQuery($ids: [Int], $coverExtraLarge: Boolean = false) {
 			Page {
 				media(id_in: $ids) {
 					id
@@ -159,10 +153,9 @@ const indexMediaQuery = serverOnly$(
 						userPreferred
 					}
 					type
+					...MediaCover_media
 					coverImage {
 						color
-						extraLarge
-						medium
 					}
 				}
 			}
@@ -195,7 +188,7 @@ export default function Index() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<>
+		<LayoutBody>
 			<LayoutPane className="">
 				<ul className="flex flex-col gap-2">
 					{data.page?.activities
@@ -214,7 +207,7 @@ export default function Index() {
 												className="-mx-4 -my-4"
 												render={<address />}
 											>
-												<List.Item className="hover:state-none">
+												<ListItem className="hover:state-none">
 													<div className="col-start-1 h-10 w-10">
 														<img
 															alt=""
@@ -226,16 +219,14 @@ export default function Index() {
 															}}
 														/>
 													</div>
-													<div className="col-start-2">
-														<List.Item.Title>
-															{activity.user?.name}
-														</List.Item.Title>
-														<List.Item.Subtitle>
+													<ListItemContent>
+														<ListItemTitle>{activity.user?.name}</ListItemTitle>
+														<ListItemSubtitle>
 															{activity.createdAt}
-														</List.Item.Subtitle>
-													</div>
-													{/* <List.Item.TrailingSupportingText></List.Item.TrailingSupportingText> */}
-												</List.Item>
+														</ListItemSubtitle>
+													</ListItemContent>
+													{/* <ListItemTrailingSupportingText></ListItemTrailingSupportingText> */}
+												</ListItem>
 											</List>
 											{activity.text && <Markdown>{activity.text}</Markdown>}
 										</Card>
@@ -246,8 +237,8 @@ export default function Index() {
 						})}
 				</ul>
 			</LayoutPane>
-			<LayoutPane variant="flexible" className="max-md:hidden"></LayoutPane>
-		</>
+	 
+		</LayoutBody>
 	)
 }
 

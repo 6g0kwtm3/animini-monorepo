@@ -26,6 +26,7 @@ import {
 
 import { LayoutBody } from "~/components/Layout"
 import { button } from "~/lib/button"
+import { List } from "~/components/List"
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>

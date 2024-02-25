@@ -79,7 +79,7 @@ export function MediaListItem(props: {
 					<ListItemImg>
 						<MediaCover
 							media={entry.media}
-							layoutId={`media-cover-${data.id}`}
+							layoutId={`media-cover-${entry.media.id}`}
 						></MediaCover>
 					</ListItemImg>
 					<ListItemContent>
