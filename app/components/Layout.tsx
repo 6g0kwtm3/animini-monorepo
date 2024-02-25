@@ -1,8 +1,10 @@
+import { useScroll } from "framer-motion"
 import {
 	createContext,
 	type ComponentPropsWithoutRef,
 	type ReactElement,
-	useContext
+	useContext,
+	useState
 } from "react"
 import { createTV, type VariantProps } from "tailwind-variants"
 
@@ -13,39 +15,55 @@ const tv = createTV({ twMerge: false })
 const createLayout = tv(
 	{
 		slots: {
-			root: "grid h-[100dvh]",
-			body: "flex max-h-full gap-6 overflow-y-auto [grid-area:body]"
+			root: "",
+			body: "grid grid-flow-col [grid-auto-columns:auto] gap-6 pe-4 sm:pe-6"
 		},
 		variants: {
 			navigation: {
-				left: {
-					root: "[grid:'top-app-bar_top-app-bar'auto'tabs_tabs'auto'navigation_body'1fr/auto_1fr]",
-					body: "pe-4 ps-0 sm:pe-6 sm:ps-0"
+				none: { body: "pb-0 ps-4 sm:ps-6" },
+				bar: {
+					root: "",
+					body: "pb-20 ps-4 sm:ps-6"
 				},
-				bottom: {
-					root: " [grid:'top-app-bar'auto'tabs'auto'body'1fr'navigation'auto/1fr]",
-					body: "pe-4 ps-4 sm:pe-6 sm:ps-6"
+				rail: {
+					root: "",
+					body: "pb-0 ps-20 sm:ps-20"
+				},
+				drawer: {
+					root: "",
+					body: "pb-0 ps-[22.5rem] sm:ps-[22.5rem]"
 				}
 			}
 		},
-		defaultVariants: { navigation: "bottom" }
+		defaultVariants: { navigation: "none" }
 	},
-	{ responsiveVariants: ["sm"] }
+	{ responsiveVariants: ["sm", "lg"] }
 )
 
 const LayoutContext = createContext(createLayout())
+
+export const SetAppBarHeight = createContext((height: number) => {})
 
 export function Layout({
 	navigation,
 	...props
 }: ComponentPropsWithoutRef<"div"> & VariantProps<typeof createLayout>) {
 	const styles = createLayout({ navigation })
+	const [appBarHeight, setAppBarHeight] = useState(0)
+
 	return (
-		<LayoutContext.Provider value={styles}>
-			<div className={styles.root({ className: props.className })}>
-				{props.children}
-			</div>
-		</LayoutContext.Provider>
+		<SetAppBarHeight.Provider value={setAppBarHeight}>
+			<LayoutContext.Provider value={styles}>
+				<div
+					className={styles.root({ className: props.className })}
+					style={{
+						"--app-bar-height": appBarHeight + "px"
+					}}
+				>
+					{props.children}
+				</div>
+			</LayoutContext.Provider>
+		</SetAppBarHeight.Provider>
 	)
 }
 
@@ -57,11 +75,11 @@ export function LayoutBody(props: ComponentPropsWithoutRef<"main">) {
 }
 
 const pane = tv({
-	base: "flex flex-col",
+	base: "grid content-start",
 	variants: {
 		variant: {
 			fixed: "w-[22.5rem]",
-			flexible: "flex-1"
+			flexible: ""
 		}
 	},
 	defaultVariants: { variant: "flexible" }

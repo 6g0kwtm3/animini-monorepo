@@ -21,6 +21,7 @@ import {
 	operation
 } from "~/lib/urql.server"
 import { JsonToToken } from "~/lib/viewer"
+import { route_user_list } from "~/lib/route"
 
 // import {  request} from "@effect/platform/HttpClient";
 // request.jsonBody()
@@ -66,7 +67,11 @@ export const action = (async (args) => {
 			)
 
 			return redirect(
-				searchParams.get("redirect") ?? `/${data.Viewer.name}/animelist/`,
+				searchParams.get("redirect") ??
+					route_user_list({
+						typelist: "animelist",
+						userName: data.Viewer.name
+					}),
 				{
 					headers: {
 						"Set-Cookie": cookie.serialize(`anilist-token`, encoded, {
@@ -83,26 +88,6 @@ export const action = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies ActionFunction
-
-// export const clientAction = (async ({ request }) => {
-// 	const formData = await request.formData()
-
-// 	const token = formData.get("token")
-
-// 	if (typeof token !== "string") {
-// 		return {}
-// 	}
-
-// 	return redirect("/Hoodboi/animelist/?selected=Watching", {
-// 		headers: {
-// 			"Set-Cookie": cookie.serialize(`anilist-token`, token, {
-// 				sameSite: "lax",
-// 				maxAge: 604_800,
-// 				path: "/",
-// 			}),
-// 		},
-// 	})
-// }) satisfies ClientActionFunction
 
 export default function Login() {
 	const fetcher = useFetcher()

@@ -138,7 +138,7 @@ export const loader = (async (args) => {
 			Predicate.isNotNull(data?.Viewer)
 				? json(data, {
 						headers: {
-							"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+							"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 						}
 					})
 				: redirect("..")
@@ -481,6 +481,7 @@ const Progress_media = serverOnly$(
 		fragment Progress_media on Media {
 			id
 			episodes
+			chapters
 		}
 	`)
 )
@@ -498,9 +499,9 @@ function Progress({
 			<TextFieldOutlined.Label name={props.name}>
 				Episode Progress
 			</TextFieldOutlined.Label>
-			{data && Predicate.isNumber(data.episodes) ? (
+			{data && Predicate.isNumber(data.episodes ?? data.chapters) ? (
 				<TextFieldOutlined.Suffix className="pointer-events-none">
-					/{data.episodes}
+					/{data.episodes ?? data.chapters}
 				</TextFieldOutlined.Suffix>
 			) : null}
 		</TextFieldOutlined>

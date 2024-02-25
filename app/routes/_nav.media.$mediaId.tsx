@@ -102,7 +102,7 @@ export const loader = (async (args) => {
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+					"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 				}
 			})
 		),
@@ -128,8 +128,8 @@ export default function Page() {
 				}}
 				className={`${data.Media.coverImage?.color ? ` theme-[--theme]` : ""}`}
 			>
-				<PaneFlexible className="relative">
-					<div className="">
+				<PaneFlexible className="">
+					<div>
 						<Card
 							variant="filled"
 							className="grid flex-1 gap-4 force:rounded-[2.75rem]"
@@ -165,7 +165,7 @@ export default function Page() {
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
 							<div className="overflow-hidden rounded-xl">
-								<Card variant="elevated" className="">
+								<Card variant="elevated">
 									<div className="sm:p-12">
 										<h1 className="text-balance text-display-lg">
 											{data.Media.title?.userPreferred}

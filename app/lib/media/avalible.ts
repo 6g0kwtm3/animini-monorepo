@@ -1,7 +1,7 @@
 import { Predicate } from "effect"
 import { MediaStatus } from "~/gql/graphql"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment as readFragment, graphql } from "~/lib/graphql"
+import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
 import { serverOnly$ } from "vite-env-only"
 
@@ -10,6 +10,7 @@ const Avalible_media = serverOnly$(
 		fragment Avalible_media on Media {
 			status
 			episodes
+			chapters
 			nextAiringEpisode {
 				id
 				episode
@@ -27,16 +28,16 @@ export function avalible(data: FragmentType<typeof Avalible_media> | null) {
 	}
 
 	if (
-		media.status === MediaStatus.Releasing ||
-		media.status === MediaStatus.Finished ||
-		media.status === MediaStatus.Cancelled
+		media?.status === MediaStatus.Releasing ||
+		media?.status === MediaStatus.Finished ||
+		media?.status === MediaStatus.Cancelled
 	) {
-		return Predicate.isNumber(media.nextAiringEpisode?.episode)
-			? media.nextAiringEpisode.episode - 1
-			: media.episodes
+		return Predicate.isNumber(media?.nextAiringEpisode?.episode)
+			? media?.nextAiringEpisode?.episode - 1
+			: media?.episodes ?? media?.chapters
 	}
 
-	if (media.status === MediaStatus.Hiatus) {
+	if (media?.status === MediaStatus.Hiatus) {
 		return null
 	}
 

@@ -17,7 +17,7 @@ const tv = createTV({
 
 const tabs = tv({
 	slots: {
-		root: "border-b border-surface-variant [grid-area:tabs]"
+		root: "border-b border-surface-variant"
 	},
 	variants: {
 		variant: {

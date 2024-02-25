@@ -26,6 +26,7 @@ import { motion } from "framer-motion"
 import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
 import List from "~/components/List"
+import { MediaType } from "~/gql/graphql"
 import type { loader as rootLoader } from "~/root"
 import { route_media } from "../route"
 import { formatWatch, toWatch } from "./toWatch"
@@ -105,9 +106,9 @@ export function MediaListItem(props: {
 					</List.Item.Subtitle>
 				</Link>
 
-				<div className="col-start-3 text-label-sm text-on-surface-variant">
+				<List.Item.TrailingSupportingText>
 					<Progress entry={entry}></Progress>
-				</div>
+				</List.Item.TrailingSupportingText>
 			</List.Item>
 		)
 	)
@@ -150,11 +151,14 @@ const Progress_entry = serverOnly$(
 	graphql(`
 		fragment Progress_entry on MediaList {
 			id
+
 			progress
 			media {
 				...Avalible_media
+				type
 				id
 				episodes
+				chapters
 			}
 		}
 	`)
@@ -168,14 +172,14 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 
 	return (
 		<TooltipRich placement="top">
-			<TooltipRichTrigger className="relative">
+			<TooltipRichTrigger>
 				{entry.progress}
 				{Predicate.isNumber(avalible) ? (
 					<>
 						/
 						<span
 							className={
-								avalible != entry.media?.episodes
+								avalible !== (entry.media?.episodes ?? entry.media?.chapters)
 									? "underline decoration-dotted"
 									: ""
 							}
@@ -189,20 +193,32 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 			</TooltipRichTrigger>
 			<TooltipRichContainer>
 				<TooltipRichSupportingText>
-					{avalible !== entry.media?.episodes ? (
+					{entry.media?.type === MediaType.Anime ? (
+						avalible !== entry.media?.episodes ? (
+							<>
+								{m.avalible_episodes({ avalible: avalible ?? "unknown" })}
+								<br />
+								{m.total_episodes({
+									total: entry.media?.episodes ?? "unknown"
+								})}
+							</>
+						) : (
+							m.all_avalible()
+						)
+					) : avalible !== entry.media?.chapters ? (
 						<>
-							{m.avalible_episodes({ avalible: avalible ?? "unknown" })}
+							{m.avalible_chapters({ avalible: avalible ?? "unknown" })}
 							<br />
-							{m.total_episodes({
-								total: entry.media?.episodes ?? "unknown"
+							{m.total_chapters({
+								total: entry.media?.chapters ?? "unknown"
 							})}
 						</>
 					) : (
-						<>{m.all_avalible()}</>
+						m.all_chapters_avalible()
 					)}
 				</TooltipRichSupportingText>
 				{Predicate.isString(data?.Viewer?.name) &&
-					data.Viewer.name === params["userName"] && (
+					data?.Viewer?.name === params["userName"] && (
 						<TooltipRichActions>
 							<Form method="post">
 								<input type="hidden" name="mediaId" value={entry.media?.id} />

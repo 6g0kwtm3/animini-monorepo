@@ -1,8 +1,10 @@
+import { Schema } from "@effect/schema"
 import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare"
 import { Form, Link, json, redirect } from "@remix-run/react"
 import cookie from "cookie"
-import { Effect, Predicate, pipe } from "effect"
+import { Effect, Option, Predicate, pipe } from "effect"
 import { Button } from "~/components/Button"
+import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import List from "~/components/List"
 import { graphql } from "~/gql"
@@ -18,7 +20,7 @@ export const loader = (async (args) => {
 		Effect.gen(function* (_) {
 			const client = yield* _(EffectUrql)
 
-			return yield* _(
+			const data = yield* _(
 				client.query(
 					graphql(`
 						query NotificationsQuery {
@@ -55,11 +57,15 @@ export const loader = (async (args) => {
 					{}
 				)
 			)
+
+			const read = yield* _(Remix.Cookie("notifications-read", Schema.number))
+
+			return { ...data, read: Option.getOrElse(read, () => 0) }
 		}),
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+					"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 				}
 			})
 		),
@@ -97,70 +103,83 @@ export default function Page() {
 					<input
 						type="hidden"
 						value={
-							data?.Page?.notifications
+							data.Page?.notifications
 								?.map((notification) => notification?.createdAt)
 								.find(Predicate.isNumber) ?? Date.now() / 1000
 						}
 						name="createdAt"
 					/>
 				</Form>
-				<List lines={{ initial: "three", sm: "two" }}>
-					{data?.Page?.notifications
-						?.filter(Predicate.isNotNull)
-						.map((notification) => {
-							if (notification.__typename === "AiringNotification") {
-								return (
-									<li
-										key={notification.id}
-										className="col-span-full grid grid-cols-subgrid"
-									>
-										<List.Item
-											render={
-												<Link
-													to={route_media({
-														id: notification.media?.id
-													})}
-												/>
-											}
-										>
-											<div className="col-start-1 h-14 w-14">
-												<img
-													src={notification.media?.coverImage?.extraLarge || ""}
-													className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
-													style={{
-														"--bg": `url(${notification.media?.coverImage?.medium})`
-													}}
-													loading="lazy"
-													alt=""
-												/>
-											</div>
-											<div className="col-start-2 grid grid-cols-subgrid">
-												<List.Item.Title>
-													{m.episode_aired({ episode: notification.episode })}
-													{/* Episode {notification.episode} of{" "}
-													{notification.media?.title?.userPreferred} aired. */}
-												</List.Item.Title>
-												<List.Item.Subtitle
-													title={
-														notification.media?.title?.userPreferred ??
-														undefined
+				<Card variant="elevated" className="max-sm:contents">
+					<div className="-mx-4 sm:-my-4">
+						<List lines={{ initial: "three", sm: "two" }}>
+							{data.Page?.notifications
+								?.filter(Predicate.isNotNull)
+								.map((notification) => {
+									if (notification.__typename === "AiringNotification") {
+										return (
+											<li
+												key={notification.id}
+												className="col-span-full grid grid-cols-subgrid"
+											>
+												<List.Item
+													render={
+														<Link
+															to={route_media({
+																id: notification.media?.id
+															})}
+														/>
 													}
 												>
-													{notification.media?.title?.userPreferred}
-												</List.Item.Subtitle>
-											</div>
-											{notification.createdAt && (
-												<List.Item.TrailingSupportingText>
-													{format(notification.createdAt - Date.now() / 1000)}
-												</List.Item.TrailingSupportingText>
-											)}
-										</List.Item>
-									</li>
-								)
-							}
-							return null
-						})}
-				</List>
+													<div className="col-start-1 h-14 w-14">
+														<img
+															src={
+																notification.media?.coverImage?.extraLarge || ""
+															}
+															className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
+															style={{
+																"--bg": `url(${notification.media?.coverImage?.medium})`
+															}}
+															loading="lazy"
+															alt=""
+														/>
+													</div>
+													<div className="col-start-2 grid grid-cols-subgrid">
+														<List.Item.Title>
+															{(notification.createdAt ?? 0) > data.read && (
+																<span className="text-tertiary">
+																	<span className="i i-inline">warning</span>
+																</span>
+															)}{" "}
+															{m.episode_aired({
+																episode: notification.episode
+															})}
+														</List.Item.Title>
+														<List.Item.Subtitle
+															title={
+																notification.media?.title?.userPreferred ??
+																undefined
+															}
+														>
+															{notification.media?.title?.userPreferred}
+														</List.Item.Subtitle>
+													</div>
+													{notification.createdAt && (
+														<List.Item.TrailingSupportingText>
+															{format(
+																notification.createdAt - Date.now() / 1000
+															)}
+														</List.Item.TrailingSupportingText>
+													)}
+												</List.Item>
+											</li>
+										)
+									}
+									return null
+								})}
+						</List>
+					</div>
+				</Card>
 			</LayoutPane>
 		</LayoutBody>
 	)
@@ -170,7 +189,7 @@ function format(seconds: number) {
 	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
 
 	if (Math.abs(seconds) < 60) {
-		return rtf.format(seconds, "seconds")
+		return rtf.format(Math.trunc(seconds), "seconds")
 	}
 
 	if (Math.abs(seconds) < 60 * 60) {

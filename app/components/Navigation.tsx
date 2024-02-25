@@ -14,7 +14,7 @@ const tv = createTV({ twMerge: false })
 const createNavigation = tv(
 	{
 		slots: {
-			root: "[grid-area:navigation]",
+			root: "fixed bottom-0 start-0",
 			label: `group relative flex text-center`,
 			activeIndicator: "absolute bg-secondary-container",
 			icon: "i",
@@ -22,16 +22,21 @@ const createNavigation = tv(
 				"flex h-4 min-w-4 items-center justify-center rounded-sm bg-error px-1 text-label-sm text-on-error"
 		},
 		variants: {
+			align: {
+				center: {},
+				start: {},
+				end: {}
+			},
 			variant: {
 				bar: {
-					root: "grid h-20 grid-flow-col gap-2 bg-surface-container elevation-2 [grid-auto-columns:minmax(0,1fr)]",
+					root: "end-0 grid h-20 grid-flow-col gap-2 bg-surface-container elevation-2 [grid-auto-columns:minmax(0,1fr)]",
 					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
 					activeIndicator: "h-8 w-16 rounded-lg",
 					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:ifill group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2"
 				},
 				rail: {
-					root: "flex h-full w-20 shrink-0 flex-col justify-center gap-3 bg-surface elevation-0",
+					root: "flex h-full w-20 shrink-0 flex-col gap-3 bg-surface elevation-0 top-[--app-bar-height]",
 					label:
 						"grow-0 flex-col items-center gap-1 px-2 py-0 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface",
 					activeIndicator: "h-8 w-14 rounded-lg",
@@ -39,7 +44,7 @@ const createNavigation = tv(
 					largeBadge: "absolute left-1/2"
 				},
 				drawer: {
-					root: "flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-transparent p-3 elevation-0",
+					root: "flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-transparent p-3 elevation-0 top-[--app-bar-height]",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator: "inset-0 -z-10 h-full rounded-xl force:w-full",
 					icon: "h-6 w-6 !ifill-none group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
@@ -48,8 +53,32 @@ const createNavigation = tv(
 			}
 		},
 		defaultVariants: {
-			variant: "bar"
-		}
+			variant: "bar",
+			align: "end"
+		},
+		compoundVariants: [
+			{
+				align: "start",
+				variant: "rail",
+				className: {
+					root: "justify-start"
+				}
+			},
+			{
+				align: "center",
+				variant: "rail",
+				className: {
+					root: "justify-center"
+				}
+			},
+			{
+				align: "end",
+				variant: "rail",
+				className: {
+					root: "justify-end"
+				}
+			}
+		]
 	},
 	{
 		responsiveVariants: ["sm", "lg"]
@@ -83,22 +112,6 @@ export const NavigationItem = forwardRef<
 			</>
 		)
 	})
-
-	return (
-		<NavLink
-			ref={ref}
-			{...props}
-			className={label({ className: props.className })}
-		>
-			{({ isActive }) => (
-				<>
-					{isActive && <NavigationActiveIndicator></NavigationActiveIndicator>}
-					{children}
-					<TouchTarget></TouchTarget>
-				</>
-			)}
-		</NavLink>
-	)
 })
 
 const NavigationContext = createContext<string | undefined>(undefined)

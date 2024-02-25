@@ -145,9 +145,9 @@ async function indexLoader(args: LoaderFunctionArgs) {
 	)
 }
 
-export const headers: HeadersFunction = () => {
-	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
-}
+export const headers = (({ loaderHeaders }) => {
+	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+}) satisfies HeadersFunction
 
 const indexMediaQuery = serverOnly$(
 	graphql(`

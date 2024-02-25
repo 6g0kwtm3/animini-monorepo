@@ -45,7 +45,11 @@ export async function client_operation<T, V>(
 	})
 
 	if (!response.ok) {
-		throw response
+		console.error(response)
+		throw new Response(null, {
+			status: response.status,
+			statusText: response.statusText
+		})
 	}
 
 	const { data, errors } = Schema.decodeSync(

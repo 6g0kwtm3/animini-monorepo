@@ -41,21 +41,18 @@ export const links: LinksFunction = () => {
 export const loader = (async (args) => {
 	return pipe(
 		pipe(
-			Effect.Do,
-			Effect.bind("args", () => ClientArgs),
-			Effect.bind("client", () => EffectUrql),
-			Effect.flatMap(({ client, args }) => Viewer),
-			Effect.map(Option.getOrNull),
-			Effect.map((viewer) =>
-				json(
-					{ Viewer: viewer },
+			Effect.gen(function* (_) {
+				const { request } = yield* _(LoaderArgs)
+				const viewer = Option.getOrNull(yield* _(Viewer))
+				return json(
+					{ Viewer: viewer, language: request.headers.get("accept-language") },
 					{
 						headers: {
-							"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+							"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 						}
 					}
 				)
-			)
+			})
 		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -67,7 +64,7 @@ export function Layout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			lang="en"
-			className="overflow-x-hidden bg-background text-on-background theme-[#6751a4]"
+			className="bg-background text-on-background theme-[#6751a4] supports-[(color:AccentColor)]:theme-[AccentColor]"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -75,7 +72,7 @@ export function Layout({ children }: { children: ReactNode }) {
 				<Meta />
 				<Links />
 			</head>
-			<body className="">
+			<body>
 				{children}
 				<ScrollRestoration />
 				<Scripts />
@@ -89,8 +86,9 @@ export default function App() {
 		<SnackbarQueue>
 			<AppLayout
 				navigation={{
-					initial: "bottom",
-					sm: "left"
+					initial: "bar",
+					sm: "rail",
+					lg: "drawer"
 				}}
 			>
 				<Outlet />

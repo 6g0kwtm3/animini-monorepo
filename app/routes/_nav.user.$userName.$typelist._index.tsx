@@ -25,6 +25,7 @@ import {
 	LoaderLive
 } from "~/lib/urql.server"
 
+import { LayoutBody } from "~/components/Layout"
 import { button } from "~/lib/button"
 
 function FiltersQueryVariables(
@@ -124,7 +125,7 @@ export const loader = (async (args) => {
 				},
 				{
 					headers: {
-						"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+						"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 					}
 				}
 			)
@@ -136,47 +137,50 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
-export const headers: HeadersFunction = () => {
-	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
-}
+export const headers = (({ loaderHeaders }) => {
+	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+}) satisfies HeadersFunction
+
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
-		<div className="flex flex-col gap-4">
-			<h1 className="text-balance text-headline-lg">
-				{data.MediaListCollection.user?.name}
-			</h1>
+		<LayoutBody>
+			<div className="flex flex-col gap-4">
+				<h1 className="text-balance text-headline-lg">
+					{data.MediaListCollection.user?.name}
+				</h1>
 
-			<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-				{data.MediaListCollection.lists.map((list) => {
-					return (
-						list.name && (
-							<li key={list.name}>
-								<Card variant="outlined" render={<article />}>
-									<h2 className="text-balance">{list.name}</h2>
-									<List className="-mx-4">
-										{list.entries?.map((entry) => {
-											return (
-												<MediaListItem
-													entry={entry}
-													key={entry.id}
-												></MediaListItem>
-											)
-										})}
-									</List>
-									<Link
-										to={list.name}
-										className={button({ className: "w-full" })}
-									>
-										more
-									</Link>
-								</Card>
-							</li>
+				<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+					{data.MediaListCollection.lists.map((list) => {
+						return (
+							list.name && (
+								<li key={list.name}>
+									<Card variant="outlined" render={<article />}>
+										<h2 className="text-balance">{list.name}</h2>
+										<List className="-mx-4">
+											{list.entries?.map((entry) => {
+												return (
+													<MediaListItem
+														entry={entry}
+														key={entry.id}
+													></MediaListItem>
+												)
+											})}
+										</List>
+										<Link
+											to={list.name}
+											className={button({ className: "w-full" })}
+										>
+											more
+										</Link>
+									</Card>
+								</li>
+							)
 						)
-					)
-				})}
-			</ul>
-		</div>
+					})}
+				</ul>
+			</div>
+		</LayoutBody>
 	)
 }

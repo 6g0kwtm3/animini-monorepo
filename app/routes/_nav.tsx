@@ -39,7 +39,7 @@ export const loader = (async (args) => {
 						client.query(
 							graphql(`
 								query NavQuery {
-									notifications: Page(perPage: 20) {
+									notifications: Page {
 										nodes: notifications {
 											__typename
 											... on ActivityLikeNotification {
@@ -139,7 +139,7 @@ export const loader = (async (args) => {
 		},
 		{
 			headers: {
-				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+				"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 			}
 		}
 	)

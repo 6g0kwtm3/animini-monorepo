@@ -4,6 +4,9 @@
 	"avalible_episodes": "Avalible episodes: {avalible}",
 	"total_episodes": "Total episodes: {total}",
 	"all_avalible": "All episodes are avalible",
+	"avalible_chapters": "Avalible chapters: {avalible}",
+	"total_chapters": "Total chapters: {total}",
+	"all_chapters_avalible": "All chapters are avalible",
 	"edit": "Edit",
 	"media_status_finished": "Finished",
 	"media_status_releasing": "Releasing",
@@ -16,5 +19,11 @@
 	"media_format_ova": "OVA",
 	"media_format_ona": "ONA",
 	"media_format_music": "Music",
-	"episode_aired": "Episode {episode} aired."
+	"episode_aired": "Episode {episode} aired.",
+	"media_format_novel": "Light Novel",
+	"media_format_manga": "Manga",
+	"media_format_one_shot": "One Shot",
+	"media_status_hiatus": "Hiatus",
+	"to_watch": "to watch",
+	"total_entries": "entries"
 }

@@ -7,9 +7,11 @@ import {
 	Link,
 	Outlet,
 	json,
+	useLoaderData,
 	useLocation,
 	useNavigate,
 	useNavigation,
+	useParams,
 	useSearchParams,
 	useSubmit
 } from "@remix-run/react"
@@ -91,7 +93,7 @@ export const loader = (async (args) => {
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+					"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 				}
 			})
 		),
@@ -109,32 +111,19 @@ export default function Filters() {
 
 	return (
 		<>
-			<AppBar>
-				<AppBarTitle>Anime list</AppBarTitle>
-				<div className="flex-1"></div>
-				<Icon>search</Icon>
-				<Filter />
-				<Icon>more_horiz</Icon>
-			</AppBar>
+			<AppBar hide>
+				<div className="flex items-center gap-2 p-2">
+					<AppBarTitle>Anime list</AppBarTitle>
+					<div className="flex-1"></div>
+					<Icon>search</Icon>
+					<Filter />
+					<Icon>more_horiz</Icon>
+				</div>
 
-			<Tabs>
-				{data?.MediaListCollection?.lists
-					?.filter(Predicate.isNotNull)
-					.sort(
-						Order.reverse(
-							Order.mapInput(Order.string, (list) => list.name ?? "")
-						)
-					)
-					?.map((list) => {
-						return (
-							list.name && (
-								<TabsTab key={list.name} to={list.name}>
-									{list.name}
-								</TabsTab>
-							)
-						)
-					})}
-			</Tabs>
+				<div className="sm:hidden contents">
+						<ListTabs></ListTabs>
+					</div>
+			</AppBar>
 
 			<LayoutBody>
 				<LayoutPane variant="fixed" className="max-md:hidden">
@@ -149,15 +138,17 @@ export default function Filters() {
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Status</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
-										{Object.entries(STATUS_OPTIONS).map(([value, label]) => {
-											return (
-												<li key={value}>
-													<ChipFilter name="status" value={value}>
-														{label}
-													</ChipFilter>
-												</li>
-											)
-										})}
+										{Object.entries(ANIME_STATUS_OPTIONS).map(
+											([value, label]) => {
+												return (
+													<li key={value}>
+														<ChipFilter name="status" value={value}>
+															{label}
+														</ChipFilter>
+													</li>
+												)
+											}
+										)}
 									</ul>
 								</Group>
 							</CheckboxProvider>
@@ -166,15 +157,17 @@ export default function Filters() {
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Format</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
-										{Object.entries(FORMAT_OPTIONS).map(([value, label]) => {
-											return (
-												<li key={value}>
-													<ChipFilter name="format" value={value}>
-														{label}
-													</ChipFilter>
-												</li>
-											)
-										})}
+										{Object.entries(ANIME_FORMAT_OPTIONS).map(
+											([value, label]) => {
+												return (
+													<li key={value}>
+														<ChipFilter name="format" value={value}>
+															{label}
+														</ChipFilter>
+													</li>
+												)
+											}
+										)}
 									</ul>
 								</Group>
 							</CheckboxProvider>
@@ -186,10 +179,36 @@ export default function Filters() {
 				</LayoutPane>
 
 				<LayoutPane>
+					<div className="hidden sm:contents">
+						<ListTabs></ListTabs>
+					</div>
+
 					<Outlet></Outlet>
 				</LayoutPane>
 			</LayoutBody>
 		</>
+	)
+}
+
+function ListTabs() {
+	const data = useRawLoaderData<typeof loader>()
+	return (
+		<Tabs>
+			{data?.MediaListCollection?.lists
+				?.filter(Predicate.isNotNull)
+				.sort(
+					Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
+				)
+				?.map((list) => {
+					return (
+						list.name && (
+							<TabsTab key={list.name} to={list.name}>
+								{list.name}
+							</TabsTab>
+						)
+					)
+				})}
+		</Tabs>
 	)
 }
 
@@ -209,6 +228,8 @@ function Filter() {
 
 	const submit = useSubmit()
 
+	const params = useParams<"typelist">()
+
 	return (
 		<>
 			<Icon className="md:hidden" render={<Link to="#filter" />}>
@@ -223,7 +244,6 @@ function Filter() {
 						search
 					})
 				}
-				className=""
 			>
 				<Tabs
 					grow
@@ -237,102 +257,74 @@ function Filter() {
 					replace
 					action={[pathname, hash].filter(Boolean).join("")}
 					onChange={(e) => submit(e.currentTarget, {})}
-					className=""
 				>
 					<List lines="one" render={<Group />}>
 						<List.Item
 							render={<GroupLabel></GroupLabel>}
-							className="col-span-full text-body-md text-on-surface-variant force:hover:state-none"
+							className="text-body-md text-on-surface-variant force:hover:state-none"
 						>
-							Status
+							<h2 className="col-span-full ">Status</h2>
 						</List.Item>
 
 						<CheckboxProvider defaultValue={searchParams.getAll("status")}>
-							{Object.entries(STATUS_OPTIONS).map(([value, label]) => {
+							{Object.entries(
+								params.typelist === "animelist"
+									? ANIME_STATUS_OPTIONS
+									: MANGA_STATUS_OPTIONS
+							).map(([value, label]) => {
 								return (
-									<li
-										key={value}
-										className="col-span-full grid grid-cols-subgrid"
-									>
-										<List.Item render={<label />}>
-											<Checkbox name="status" value={value}></Checkbox>
-											<div className="col-span-2 col-start-2">
-												<List.Item.Title>{label}</List.Item.Title>
-											</div>
-										</List.Item>
-									</li>
+									<List.Item render={<label />} key={value}>
+										<Checkbox name="status" value={value}></Checkbox>
+										<div className="col-span-2 col-start-2">
+											<List.Item.Title>{label}</List.Item.Title>
+										</div>
+									</List.Item>
 								)
 							})}
 						</CheckboxProvider>
 
-						<List.Item className="col-span-full text-body-md text-on-surface-variant force:hover:state-none">
-							Format
+						<List.Item className="text-body-md text-on-surface-variant force:hover:state-none">
+							<h2 className="col-span-full ">Format</h2>
 						</List.Item>
 						<CheckboxProvider defaultValue={searchParams.getAll("format")}>
-							{Object.entries(FORMAT_OPTIONS).map(([value, label]) => {
+							{Object.entries(
+								params.typelist === "animelist"
+									? ANIME_FORMAT_OPTIONS
+									: MANGA_FORMAT_OPTIONS
+							).map(([value, label]) => {
 								return (
-									<li
-										key={value}
-										className="col-span-full grid grid-cols-subgrid"
-									>
-										<List.Item render={<label />}>
-											<Checkbox name="format" value={value}></Checkbox>
-											<div className="col-span-2 col-start-2">
-												<List.Item.Title>{label}</List.Item.Title>
-											</div>
-										</List.Item>
-									</li>
+									<List.Item render={<label />} key={value}>
+										<Checkbox name="format" value={value}></Checkbox>
+										<div className="col-span-2 col-start-2">
+											<List.Item.Title>{label}</List.Item.Title>
+										</div>
+									</List.Item>
 								)
 							})}
 						</CheckboxProvider>
 					</List>
-					{/* <CheckboxProvider defaultValue={searchParams.getAll("status")}>
-						<Group className="col-span-2" render={<fieldset />}>
-							<GroupLabel render={<legend />}>Status</GroupLabel>
-							<ul className="flex flex-wrap gap-2">
-								{Object.entries(STATUS_OPTIONS).map(([value, label]) => {
-									return (
-										<li key={value}>
-											<ChipFilter name="status" value={value}>
-												{label}
-											</ChipFilter>
-										</li>
-									)
-								})}
-							</ul>
-						</Group>
-					</CheckboxProvider>
-
-					<CheckboxProvider defaultValue={searchParams.getAll("format")}>
-						<Group className="col-span-2" render={<fieldset />}>
-							<GroupLabel render={<legend />}>Format</GroupLabel>
-							<ul className="flex flex-wrap gap-2">
-								{Object.entries(FORMAT_OPTIONS).map(([value, label]) => {
-									return (
-										<li key={value}>
-											<ChipFilter name="format" value={value}>
-												{label}
-											</ChipFilter>
-										</li>
-									)
-								})}
-							</ul>
-						</Group>
-					</CheckboxProvider> */}
 				</Form>
 			</Sheet>
 		</>
 	)
 }
 
-const STATUS_OPTIONS = {
+const ANIME_STATUS_OPTIONS = {
 	[MediaStatus.Finished]: m.media_status_finished(),
 	[MediaStatus.Releasing]: m.media_status_releasing(),
 	[MediaStatus.NotYetReleased]: m.media_status_not_yet_released(),
 	[MediaStatus.Cancelled]: m.media_status_cancelled()
 }
 
-const FORMAT_OPTIONS = {
+const MANGA_STATUS_OPTIONS = {
+	[MediaStatus.Finished]: m.media_status_finished(),
+	[MediaStatus.Releasing]: m.media_status_releasing(),
+	[MediaStatus.Hiatus]: m.media_status_hiatus(),
+	[MediaStatus.NotYetReleased]: m.media_status_not_yet_released(),
+	[MediaStatus.Cancelled]: m.media_status_cancelled()
+}
+
+const ANIME_FORMAT_OPTIONS = {
 	[MediaFormat.Tv]: m.media_format_tv(),
 	[MediaFormat.TvShort]: m.media_format_tv_short(),
 	[MediaFormat.Movie]: m.media_format_movie(),
@@ -340,4 +332,10 @@ const FORMAT_OPTIONS = {
 	[MediaFormat.Ova]: m.media_format_ova(),
 	[MediaFormat.Ona]: m.media_format_ona(),
 	[MediaFormat.Music]: m.media_format_music()
+}
+
+const MANGA_FORMAT_OPTIONS = {
+	[MediaFormat.Manga]: m.media_format_manga(),
+	[MediaFormat.Novel]: m.media_format_novel(),
+	[MediaFormat.OneShot]: m.media_format_one_shot()
 }

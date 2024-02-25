@@ -93,7 +93,15 @@ export function operation<T, V>(
 		)
 
 		if (!response.ok) {
-			return yield* _(new Remix.ResponseError({ response: response }))
+			console.error(response)
+			return yield* _(
+				new Remix.ResponseError({
+					response: new Response(null, {
+						status: response.status,
+						statusText: response.statusText
+					})
+				})
+			)
 		}
 
 		timeout = Math.max(

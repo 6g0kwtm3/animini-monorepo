@@ -180,11 +180,15 @@ export const loader = (async (args) => {
 		},
 		{
 			headers: {
-				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+				"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
 			}
 		}
 	)
 }) satisfies LoaderFunction
+
+export const headers = (({ loaderHeaders }) => {
+	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+}) satisfies HeadersFunction
 
 const STATUS_OPTIONS = {
 	[MediaStatus.Finished]: m.media_status_finished(),
@@ -203,17 +207,13 @@ const FORMAT_OPTIONS = {
 	[MediaFormat.Music]: m.media_format_music()
 }
 
-export const headers: HeadersFunction = () => {
-	return { "Cache-Control": "max-age=5, stale-while-revalidate=55, private" }
-}
-
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
 		<div className="flex flex-col gap-2 sm:gap-4">
 			<MediaListHeader>
-				<MediaListHeaderItem subtitle="to watch">
+				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
 						<Await resolve={data.SelectedList}>
 							{(selectedList) => (
@@ -224,7 +224,7 @@ export default function Page() {
 						</Await>
 					</Suspense>
 				</MediaListHeaderItem>
-				<MediaListHeaderItem subtitle="entries">
+				<MediaListHeaderItem subtitle={m.total_entries()}>
 					<Suspense fallback={<Skeleton>80</Skeleton>}>
 						<Await resolve={data.SelectedList}>
 							{(selectedList) => selectedList.entries.length}
