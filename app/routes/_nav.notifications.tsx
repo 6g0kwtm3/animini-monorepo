@@ -133,7 +133,7 @@ export default function Notifications() {
 			<LayoutPane>
 				{someNotRead && (
 					<Form method="post">
-						<div className="fixed bottom-24 sm:bottom-4 end-4">
+						<div className="fixed bottom-24 end-4 sm:bottom-4">
 							<div className="relative">
 								<TooltipPlain store={store}>
 									<TooltipPlainTrigger
