@@ -246,9 +246,7 @@ export default function Page() {
 								>
 									<Await resolve={data.SelectedList}>
 										{(selectedList) => (
-											<Suspense
-												fallback={<MediaList group={selectedList} />}
-											>
+											<Suspense fallback={<MediaList group={selectedList} />}>
 												<AwaitLibrary resolve={data.Library}>
 													<MediaList group={selectedList} />
 												</AwaitLibrary>

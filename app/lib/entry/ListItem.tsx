@@ -38,7 +38,6 @@ import { route_media } from "../route"
 import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
 
-
 const MediaListItem_entry = serverOnly$(
 	graphql(`
 		fragment ListItem_entry on MediaList {
