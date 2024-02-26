@@ -9,7 +9,8 @@ export function createElement(
 	if (isValidElement<any>(render)) {
 		return cloneElement(render, {
 			...rest,
-			...render.props
+			...render.props,
+			className: [rest.className, render.props.className].filter(Boolean).join(" ")
 		})
 	}
 	return <Type {...rest} />

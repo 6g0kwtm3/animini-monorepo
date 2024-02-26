@@ -28,17 +28,19 @@ import { graphql, useFragment } from "~/lib/graphql"
 import { createList } from "../list"
 
 import { serverOnly$ } from "vite-env-only"
-import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
-import type { loader as navLoader } from "~/routes/_nav"
-import { route_media } from "../route"
-import { HashNavLink } from "./HashNavLink"
 import {
 	ListItemAvatar,
 	ListItemContent,
 	ListItemContentTitle,
 	ListItemTrailingSupportingText
 } from "~/components/List"
+import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
+import type { loader as navLoader } from "~/routes/_nav"
+import MaterialSymbolsArrowBack from '~icons/material-symbols/arrow-back'
+import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { MediaCover } from "../entry/MediaListCover"
+import { route_media } from "../route"
+import { HashNavLink } from "./HashNavLink"
 
 const tv = createTV({ twMerge: false })
 
@@ -138,12 +140,9 @@ const SearchInput = forwardRef<
 	)
 
 	return (
-		<>
-			<Ariakit.FormControl name={name} render={select} />
-		</>
+		<Ariakit.FormControl name={name} render={select} />
 	)
 })
-
 export function Search() {
 	const [searchParams] = useSearchParams()
 
@@ -189,10 +188,13 @@ export function Search() {
 					render={
 						<NavigationItem
 							render={<HashNavLink to="#search" />}
-						></NavigationItem>
+						 />
 					}
 				>
-					<NavigationItemIcon>travel_explore</NavigationItemIcon>
+					<NavigationItemIcon>
+						<MaterialSymbolsTravelExplore />
+						<MaterialSymbolsTravelExplore />
+					</NavigationItemIcon>
 
 					<div className="max-w-full break-words">Explore</div>
 				</TooltipPlainTrigger>
@@ -214,7 +216,7 @@ export function Search() {
 			>
 				<Ariakit.Form
 					store={store}
-					render={<submit.Form action="/search"></submit.Form>}
+					render={<submit.Form action="/search" />}
 					className={"flex w-full flex-col"}
 				>
 					<Ariakit.ComboboxProvider
@@ -225,7 +227,7 @@ export function Search() {
 					>
 						<div className="flex items-center px-4">
 							<Ariakit.DialogDismiss render={<ButtonIcon />}>
-								arrow_back
+							<MaterialSymbolsArrowBack />
 							</Ariakit.DialogDismiss>
 							<SearchInput
 								ref={ref}
@@ -235,7 +237,7 @@ export function Search() {
 							/>
 							<Ariakit.ComboboxCancel render={<ButtonIcon />} />
 						</div>
-						<div className="border-b border-outline-variant sm:last:hidden"></div>
+						<div className="border-b border-outline-variant sm:last:hidden" />
 
 						{ReadonlyArray.isNonEmptyArray(media) ? (
 							<Ariakit.ComboboxList className={body({})}>
@@ -252,7 +254,7 @@ export function Search() {
 										</div>
 									</Ariakit.ComboboxGroupLabel>
 									{media.map((media) => (
-										<SearchItem media={media} key={media.id}></SearchItem>
+										<SearchItem media={media} key={media.id} />
 									))}
 								</Ariakit.ComboboxGroup>
 							</Ariakit.ComboboxList>
@@ -261,7 +263,7 @@ export function Search() {
 								<Await resolve={data.trending} errorElement="">
 									{(data) =>
 										data.trending?.media &&
-										ReadonlyArray.isNonEmptyArray(data.trending?.media) && (
+										ReadonlyArray.isNonEmptyArray(data.trending.media) && (
 											<Ariakit.ComboboxList className={body({})}>
 												<Ariakit.ComboboxGroup
 													className={listRoot({ className: "-mx-6" })}
@@ -275,13 +277,13 @@ export function Search() {
 															Trending
 														</div>
 													</Ariakit.ComboboxGroupLabel>
-													{data.trending?.media
+													{data.trending.media
 														.filter(Predicate.isNotNull)
 														.map((media) => (
 															<SearchItem
 																media={media}
 																key={media.id}
-															></SearchItem>
+															 />
 														))}
 												</Ariakit.ComboboxGroup>
 											</Ariakit.ComboboxList>
@@ -335,7 +337,7 @@ function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
 			}
 		>
 			<ListItemAvatar>
-				<MediaCover media={media}></MediaCover>
+				<MediaCover media={media} />
 			</ListItemAvatar>
 
 			<ListItemContent>

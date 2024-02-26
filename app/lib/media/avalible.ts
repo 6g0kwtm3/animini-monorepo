@@ -8,7 +8,7 @@ import { serverOnly$ } from "vite-env-only"
 const Avalible_media = serverOnly$(
 	graphql(`
 		fragment Avalible_media on Media {
-			status
+			status(version: 2)
 			episodes
 			chapters
 			nextAiringEpisode {

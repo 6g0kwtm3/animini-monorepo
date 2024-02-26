@@ -25,6 +25,8 @@
 	"media_format_one_shot": "One Shot",
 	"media_status_hiatus": "Hiatus",
 	"to_watch": "to watch",
+	"time_to_watch": "{time} to watch",
+	"nothing_to_watch": "Nothing to watch",
 	"total_entries": "entries",
 	"recently_added": "Recently added to the site."
 }

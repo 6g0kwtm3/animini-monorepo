@@ -27,6 +27,21 @@ import { Suspense } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search } from "~/lib/search/Search"
 
+import MaterialSymbolsNotifications from "~icons/material-symbols/notifications"
+import MaterialSymbolsNotificationsOutline from "~icons/material-symbols/notifications-outline"
+import MaterialSymbolsPerson from "~icons/material-symbols/person"
+
+import MaterialSymbolsPersonOutline from "~icons/material-symbols/person-outline"
+
+import MaterialSymbolsFeed from "~icons/material-symbols/feed"
+import MaterialSymbolsFeedOutline from "~icons/material-symbols/feed-outline"
+import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
+import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-outline"
+
+import { Viewer } from "~/lib/Remix/Remix.server"
+import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
+import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
+
 export const loader = (async (args) => {
 	return defer(
 		{
@@ -109,6 +124,12 @@ export const loader = (async (args) => {
 				),
 				Effect.flatMap((data) =>
 					Effect.gen(function* (_) {
+						const { id } = yield* _(Viewer, Effect.flatten)
+						const storedRead = Option.getOrElse(
+							yield* _(Remix.CloudflareKV.store("notifications-read").get(id)),
+							() => 0
+						)
+
 						const read = Option.getOrElse(
 							yield* _(Remix.Cookie("notifications-read", Schema.number)),
 							() => 0
@@ -118,8 +139,8 @@ export const loader = (async (args) => {
 							data?.notifications?.nodes?.findIndex(
 								(notification) =>
 									notification &&
-									Predicate.isNumber(notification?.createdAt) &&
-									notification.createdAt <= read
+									Predicate.isNumber(notification.createdAt) &&
+									notification.createdAt <= Math.max(storedRead, read)
 							) ?? 0
 
 						return {
@@ -184,7 +205,10 @@ export default function Nav() {
 				}}
 			>
 				<NavigationItem to="/">
-					<NavigationItemIcon>feed</NavigationItemIcon>
+					<NavigationItemIcon>
+						<MaterialSymbolsFeedOutline />
+						<MaterialSymbolsFeed />
+					</NavigationItemIcon>
 					<div className="max-w-full break-words">Feed</div>
 				</NavigationItem>
 				{rootData?.Viewer ? (
@@ -193,7 +217,10 @@ export default function Nav() {
 							to={route_user({ userName: rootData.Viewer.name })}
 							end
 						>
-							<NavigationItemIcon>person</NavigationItemIcon>
+							<NavigationItemIcon>
+								<MaterialSymbolsPersonOutline />
+								<MaterialSymbolsPerson />
+							</NavigationItemIcon>
 							<div className="max-w-full break-words">Profile</div>
 						</NavigationItem>
 						<NavigationItem
@@ -203,7 +230,10 @@ export default function Nav() {
 								typelist: "animelist"
 							})}
 						>
-							<NavigationItemIcon>play_arrow</NavigationItemIcon>
+							<NavigationItemIcon>
+								<MaterialSymbolsPlayArrowOutline />
+								<MaterialSymbolsPlayArrow />
+							</NavigationItemIcon>
 							<div className="max-w-full break-words">Anime List</div>
 						</NavigationItem>
 						<NavigationItem
@@ -213,7 +243,10 @@ export default function Nav() {
 							})}
 							className="max-sm:hidden"
 						>
-							<NavigationItemIcon>menu_book</NavigationItemIcon>
+							<NavigationItemIcon>
+								<MaterialSymbolsMenuBookOutline />
+								<MaterialSymbolsMenuBook />
+							</NavigationItemIcon>
 							<div className="max-w-full break-words">Manga List</div>
 						</NavigationItem>
 					</>
@@ -223,12 +256,18 @@ export default function Nav() {
 							redirect: pathname
 						})}
 					>
-						<NavigationItemIcon>person</NavigationItemIcon>
+						<NavigationItemIcon>
+							<MaterialSymbolsPersonOutline />
+							<MaterialSymbolsPerson />
+						</NavigationItemIcon>
 						<div className="max-w-full break-words">Login</div>
 					</NavigationItem>
 				)}
 				<NavigationItem to="/notifications">
-					<NavigationItemIcon>notifications</NavigationItemIcon>
+					<NavigationItemIcon>
+						<MaterialSymbolsNotificationsOutline />
+						<MaterialSymbolsNotifications />
+					</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
 					<Suspense>
 						<Await resolve={data.trending}>
@@ -242,10 +281,10 @@ export default function Nav() {
 						</Await>
 					</Suspense>
 				</NavigationItem>
-				<Search></Search>
+				<Search />
 			</Navigation>
 
-			<Outlet></Outlet>
+			<Outlet />
 		</>
 	)
 }

@@ -34,6 +34,7 @@
 		"htmlparser2": "^9.1.0",
 		"isbot": "^4.1.0",
 		"marked": "^0.3.19",
+		"miniflare": "^3.20231030.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"remix-utils": "^7.5.0",
@@ -41,16 +42,19 @@
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.1.18"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20230914.0",
+		"@cloudflare/workers-types": "^4.20230518.0",
 		"@graphql-codegen/cli": "^5.0.2",
 		"@graphql-eslint/eslint-plugin": "^3.20.1",
 		"@graphql-tools/relay-operation-optimizer": "^7.0.0",
 		"@graphql-typed-document-node/core": "^3.2.0",
+		"@iconify-json/material-symbols": "^1.1.73",
 		"@inlang/paraglide-js": "^1.2.3",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.12",
 		"@parcel/watcher": "^2.4.0",
 		"@remix-run/dev": "^2.7.2",
 		"@remix-run/eslint-config": "^2.7.2",
+		"@svgr/core": "^8.1.0",
+		"@svgr/plugin-jsx": "^8.1.0",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/cookie": "^0.6.0",
 		"@types/dompurify": "^3.0.5",
@@ -65,15 +69,17 @@
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"knip": "^4.5.0",
 		"million": "^3.0.2",
+		"node-fetch": "^3.3.2",
 		"prettier": "^3.2.5",
 		"prettier-plugin-tailwindcss": "^0.5.11",
 		"remix-development-tools": "^3.7.4",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5.1.6",
+		"unplugin-icons": "^0.18.5",
 		"vite": "^5.1.4",
 		"vite-env-only": "^2.2.0",
 		"vite-tsconfig-paths": "^4.2.1",
-		"wrangler": "^3.28.2"
+		"wrangler": "^3.24.2"
 	},
 	"engines": {
 		"node": ">=18.0.0"

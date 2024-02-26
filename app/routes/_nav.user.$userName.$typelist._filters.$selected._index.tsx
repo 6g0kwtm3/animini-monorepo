@@ -8,7 +8,12 @@ import {
 } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
-import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+import {
+	MediaFormat,
+	MediaListStatus,
+	MediaStatus,
+	MediaType
+} from "~/gql/graphql"
 import { graphql } from "~/lib/graphql"
 import {
 	AwaitLibrary,
@@ -84,7 +89,7 @@ function TypelistQuery() {
 						id
 						media {
 							id
-							status
+							status(version: 2)
 							format
 						}
 					}
@@ -130,13 +135,9 @@ export const loader = (async (args) => {
 					)
 				}),
 				Effect.map(({ SelectedList: selectedList, args: { searchParams } }) => {
-					const status = searchParams
-						.getAll("status")
-						.flatMap((status) => (status in STATUS_OPTIONS ? [status] : []))
+					const status = searchParams.getAll("status")
 
-					const format = searchParams
-						.getAll("format")
-						.flatMap((format) => (format in FORMAT_OPTIONS ? [format] : []))
+					const format = searchParams.getAll("format")
 
 					let entries = pipe(
 						selectedList.entries?.filter(Predicate.isNotNull) ?? [],
@@ -191,23 +192,6 @@ export const headers = (({ loaderHeaders }) => {
 	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
 }) satisfies HeadersFunction
 
-const STATUS_OPTIONS = {
-	[MediaStatus.Finished]: m.media_status_finished(),
-	[MediaStatus.Releasing]: m.media_status_releasing(),
-	[MediaStatus.NotYetReleased]: m.media_status_not_yet_released(),
-	[MediaStatus.Cancelled]: m.media_status_cancelled()
-}
-
-const FORMAT_OPTIONS = {
-	[MediaFormat.Tv]: m.media_format_tv(),
-	[MediaFormat.TvShort]: m.media_format_tv_short(),
-	[MediaFormat.Movie]: m.media_format_movie(),
-	[MediaFormat.Special]: m.media_format_special(),
-	[MediaFormat.Ova]: m.media_format_ova(),
-	[MediaFormat.Ona]: m.media_format_ona(),
-	[MediaFormat.Music]: m.media_format_music()
-}
-
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
 
@@ -218,9 +202,7 @@ export default function Page() {
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
 						<Await resolve={data.SelectedList}>
 							{(selectedList) => (
-								<MediaListHeaderToWatch
-									entries={selectedList.entries}
-								></MediaListHeaderToWatch>
+								<MediaListHeaderToWatch entries={selectedList.entries} />
 							)}
 						</Await>
 					</Suspense>
@@ -234,31 +216,29 @@ export default function Page() {
 				</MediaListHeaderItem>
 			</MediaListHeader>
 
-			<>
-				<div className="-mx-4 sm:-my-4">
-					<div className={``}>
-						<MediaListRoot>
-							<List>
-								<Suspense
-									fallback={ReadonlyArray.range(1, 7).map((i) => (
-										<ListItemLoader key={i} />
-									))}
-								>
-									<Await resolve={data.SelectedList}>
-										{(selectedList) => (
-											<Suspense fallback={<MediaList group={selectedList} />}>
-												<AwaitLibrary resolve={data.Library}>
-													<MediaList group={selectedList} />
-												</AwaitLibrary>
-											</Suspense>
-										)}
-									</Await>
-								</Suspense>
-							</List>
-						</MediaListRoot>
-					</div>
+			<div className="-mx-4 sm:-my-4">
+				<div className={``}>
+					<MediaListRoot>
+						<List>
+							<Suspense
+								fallback={ReadonlyArray.range(1, 7).map((i) => (
+									<ListItemLoader key={i} />
+								))}
+							>
+								<Await resolve={data.SelectedList}>
+									{(selectedList) => (
+										<Suspense fallback={<MediaList group={selectedList} />}>
+											<AwaitLibrary resolve={data.Library}>
+												<MediaList group={selectedList} />
+											</AwaitLibrary>
+										</Suspense>
+									)}
+								</Await>
+							</Suspense>
+						</List>
+					</MediaListRoot>
 				</div>
-			</>
+			</div>
 		</>
 	)
 }

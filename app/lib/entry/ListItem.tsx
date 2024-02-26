@@ -22,6 +22,7 @@ import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
+import type { ReactElement, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
 import {
@@ -34,9 +35,14 @@ import {
 } from "~/components/List"
 import { MediaType } from "~/gql/graphql"
 import type { loader as rootLoader } from "~/root"
+import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 import { route_media } from "../route"
 import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
+
+import MaterialSymbolsAdd from "~icons/material-symbols/add"
+import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
+import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -58,7 +64,6 @@ const MediaListItem_entry = serverOnly$(
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
 >({})
-
 export function MediaListItem(props: {
 	entry: FragmentType<typeof MediaListItem_entry>
 }) {
@@ -71,78 +76,91 @@ export function MediaListItem(props: {
 
 	return (
 		entry.media && (
-			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={<Link to={route_media({ id: entry.media.id })}></Link>}
-				>
-					<ListItemImg>
-						<MediaCover
-							media={entry.media}
-							layoutId={`media-cover-${entry.media.id}`}
-						></MediaCover>
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{libraryHasNextEpisode && (
-								<span className="i i-inline text-primary">priority_high</span>
-								// <span className="i i-inline text-primary">video_library</span>
-							)}
-							{entry.media.title?.userPreferred}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle className="flex flex-wrap gap-1">
-							<div>
-								<span className="i i-inline">grade</span>
-								{entry.score}
-							</div>
-							&middot;
-							<div>
-								<span className="i i-inline">timer</span>
-								{toWatch(entry) > 0
-									? formatWatch(toWatch(entry))
-									: "Nothing"}{" "}
-								to watch
-							</div>
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					<ListItemTrailingSupportingText>
-						<Progress entry={entry}></Progress>
-					</ListItemTrailingSupportingText>
-				</ListItem>
-			</li>
+			<MediaListItemSkeleton
+				render={<Link to={route_media({ id: entry.media.id })} />}
+				img={
+					<MediaCover
+						media={entry.media}
+						layoutId={`media-cover-${entry.media.id}`}
+					/>
+				}
+				title={
+					<>
+						{libraryHasNextEpisode && (
+							<MaterialSymbolsPriorityHigh className="i-inline inline text-primary" />
+
+							// <span className="i-inline text-primary">video_library</span>
+						)}
+						{entry.media.title?.userPreferred}
+					</>
+				}
+				subtitle={
+					<>
+						<div>
+							<MaterialSymbolsStarOutline className="i-inline inline" />{" "}
+							{entry.score}
+						</div>
+						&middot;
+						<div>
+							<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
+							{toWatch(entry) > 0
+								? m.time_to_watch({ time: formatWatch(toWatch(entry)) })
+								: m.nothing_to_watch()}
+						</div>
+					</>
+				}
+				trailing={<Progress entry={entry} />}
+			></MediaListItemSkeleton>
 		)
+	)
+}
+
+export function MediaListItemSkeleton(props: {
+	render?: ReactElement
+	img: ReactNode
+	title: ReactNode
+	subtitle: ReactNode
+	trailing: ReactNode
+}) {
+	return (
+		<li className="col-span-full grid grid-cols-subgrid">
+			<ListItem render={props.render ?? <div />}>
+				<ListItemImg>{props.img}</ListItemImg>
+				<ListItemContent>
+					<ListItemContentTitle>{props.title}</ListItemContentTitle>
+					<ListItemContentSubtitle className="flex flex-wrap gap-1">
+						{props.subtitle}
+					</ListItemContentSubtitle>
+				</ListItemContent>
+				<ListItemTrailingSupportingText>
+					{props.trailing}
+				</ListItemTrailingSupportingText>
+			</ListItem>
+		</li>
 	)
 }
 
 export function ListItemLoader(props: {}) {
 	return (
-		<ListItem>
-			<div className="col-start-1 h-14 w-14">
-				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent"></div>
-			</div>
-			<div className="col-start-2 grid grid-cols-subgrid">
-				<span className="truncate text-body-lg">
-					<Skeleton>Mahou Shoujo ni Akogarete</Skeleton>
-				</span>
-				<div className="flex flex-wrap gap-1 text-body-md text-on-surface-variant">
+		<MediaListItemSkeleton
+			img={
+				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent" />
+			}
+			title={<Skeleton>Mahou Shoujo ni Akogarete</Skeleton>}
+			subtitle={
+				<Skeleton>
 					<div>
-						<Skeleton>
-							<span className="i i-inline">grade</span>7
-						</Skeleton>
+						<MaterialSymbolsStarOutline className="i-inline inline" />{" "}7
 					</div>
 					&middot;
 					<div>
-						<Skeleton>
-							<span className="i i-inline">timer</span>
-							24min to watch
-						</Skeleton>
+						<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
+						{m.time_to_watch({ time: "24min" })}
 					</div>
-				</div>
-			</div>
-
-			<div className="col-start-3 text-label-sm text-on-surface-variant">
-				<Skeleton>1/12</Skeleton>
-			</div>
-		</ListItem>
+				</Skeleton>
+			}
+			trailing={<Skeleton>1/12</Skeleton>}
+		/>
 	)
 }
 
@@ -193,12 +211,12 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 			<TooltipRichContainer>
 				<TooltipRichSupportingText>
 					{entry.media?.type === MediaType.Anime ? (
-						avalible !== entry.media?.episodes ? (
+						avalible !== entry.media.episodes ? (
 							<>
 								{m.avalible_episodes({ avalible: avalible ?? "unknown" })}
 								<br />
 								{m.total_episodes({
-									total: entry.media?.episodes ?? "unknown"
+									total: entry.media.episodes ?? "unknown"
 								})}
 							</>
 						) : (
@@ -227,7 +245,9 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 									value={(entry.progress ?? 0) + 1}
 								/>
 								<ButtonText type="submit">
-									<ButtonTextIcon>add</ButtonTextIcon>
+									<ButtonTextIcon>
+										<MaterialSymbolsAdd />
+									</ButtonTextIcon>
 									{m.increment_progress()}
 								</ButtonText>
 							</Form>

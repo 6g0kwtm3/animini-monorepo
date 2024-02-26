@@ -184,9 +184,9 @@ export default withTV({
 					}),
 					"@media (prefers-color-scheme: dark)": {
 						":root": Object.assign({
-							"color-scheme": "dark"
+							"color-scheme": "light dark"
 						}),
-						"::backdrop": Object.assign({ "color-scheme": "dark" })
+						"::backdrop": Object.assign({ "color-scheme": "light dark" })
 					}
 				})
 
@@ -285,38 +285,21 @@ export default withTV({
 				{
 					i: (value) => {
 						return {
-							"font-size": value,
-							"--opsz": String(value).endsWith("rem")
-								? (Number(value.replace("rem", "")) * 16).toString()
-								: String(value).endsWith("px")
-									? Number(value.replace("rem", "")).toString()
-									: ""
+							"font-size": value
 						}
 					}
 				},
 				{
-					values: Object.fromEntries(
-						Object.entries(theme("spacing") || {}).filter(
-							([key]) => 5 <= Number(key) && Number(key) <= 12
-						)
+					values: Object.assign(
+						Object.fromEntries(
+							Object.entries(theme("spacing") || {}).filter(
+								([key]) => 5 <= Number(key) && Number(key) <= 12
+							)
+						),
+						{
+							DEFAULT: "1.5rem"
+						}
 					)
-				}
-			)
-
-			matchUtilities(
-				{
-					ifill: (value) => {
-						return {
-							"--fill": value
-						}
-					}
-				},
-				{
-					values: {
-						none: "0",
-						DEFAULT: "1"
-					},
-					type: ["number"]
 				}
 			)
 
@@ -367,41 +350,8 @@ export default withTV({
 			)
 
 			addComponents({
-				".i": {
-					"font-family": "'Material Symbols Outlined'",
-					"font-weight": "normal",
-					"font-style": "normal",
-					"line-height": "1",
-					"letter-spacing": "normal",
-					"text-transform": "none",
-					display: "inline-block",
-					"white-space": "nowrap",
-					"word-wrap": "normal",
-					direction: "ltr",
-					"font-feature-settings": "'liga'",
-					"-webkit-font-smoothing": "antialiased",
-					"font-size": "1.5rem",
-					"--grad": "0",
-					"--fill": "0",
-					"--opsz": "24",
-					"font-variation-settings": `
-          'FILL' var(--fill),
-          'wght' 400,
-          'GRAD' var(--grad),
-          'opsz' var(--opsz)`
-				},
-				"@media (prefers-color-scheme: dark)": {
-					".i": {
-						"--grad": "-25"
-					}
-				}
-			})
-			addComponents({
 				".i-inline": {
-					"font-size": "inherit",
-					"vertical-align": "-11.5%",
-					"line-height": "inherit",
-					"font-weight": "inherit"
+					"vertical-align": "-11.5%"
 				}
 			})
 		})

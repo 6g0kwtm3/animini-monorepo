@@ -22,6 +22,7 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
+import { Viewer } from "~/lib/Remix/Remix.server"
 import { Remix } from "~/lib/Remix/index.server"
 import { fab } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
@@ -32,6 +33,8 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { sourceLanguageTag } from "~/paraglide/runtime"
+
+import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
 export const loader = (async (args) => {
 	return pipe(
@@ -48,10 +51,21 @@ export const loader = (async (args) => {
 					{}
 				)
 			)
+			const { id } = yield* _(Viewer, Effect.flatten)
+
+			const storedRead = yield* _(
+				Remix.CloudflareKV.store("notifications-read").get(id)
+			)
 
 			const read = yield* _(Remix.Cookie("notifications-read", Schema.number))
 
-			return { Query: data, read: Option.getOrElse(read, () => 0) }
+			return {
+				Query: data,
+				read: Math.max(
+					Option.getOrElse(storedRead, () => 0),
+					Option.getOrElse(read, () => 0)
+				)
+			}
 		}),
 		Effect.map((data) =>
 			json(data, {
@@ -67,21 +81,33 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const action = (async (args) => {
-	const formData = await args.request.formData()
+	return pipe(
+		Effect.gen(function* (_) {
+			const formData = yield* _(Remix.formData)
+			const { id } = yield* _(yield* _(Viewer))
 
-	return redirect(".", {
-		headers: {
-			"Set-Cookie": cookie.serialize(
-				"notifications-read",
-				JSON.stringify(Number(formData.get("createdAt"))),
-				{
-					sameSite: "lax",
-					maxAge: 365 * 24 * 60 * 60, // 1 year
-					path: "/"
+			const read = Number(formData.get("createdAt"))
+
+			yield* _(Remix.CloudflareKV.store("notifications-read").put(id, read))
+
+			return redirect(".", {
+				headers: {
+					"Set-Cookie": cookie.serialize(
+						"notifications-read",
+						JSON.stringify(read),
+						{
+							sameSite: "lax",
+							maxAge: 365 * 24 * 60 * 60, // 1 year
+							path: "/"
+						}
+					)
 				}
-			)
-		}
-	})
+			})
+		}),
+		Effect.provide(LoaderLive),
+		Effect.provideService(LoaderArgs, args),
+		Effect.runPromise
+	)
 }) satisfies ActionFunction
 
 const Notifications_query = serverOnly$(
@@ -112,7 +138,7 @@ const Notifications_query = serverOnly$(
 		}
 	`)
 )
-
+import MaterialSymbolsDone from '~icons/material-symbols/done';
 export default function Notifications() {
 	const data = useRawLoaderData<typeof loader>()
 	const query = useFragment<typeof Notifications_query>(data.Query)
@@ -139,10 +165,10 @@ export default function Notifications() {
 									<TooltipPlainTrigger
 										render={
 											<button type="submit" className={fab({ className: "" })}>
-												done
+												<MaterialSymbolsDone />	
 											</button>
 										}
-									></TooltipPlainTrigger>
+									/>
 									<TooltipPlainContainer>
 										Mark all as read
 									</TooltipPlainContainer>
@@ -168,7 +194,7 @@ export default function Notifications() {
 											<Airing
 												key={notification.id}
 												notification={notification}
-											></Airing>
+											/>
 										)
 									}
 									if (
@@ -179,7 +205,7 @@ export default function Notifications() {
 											<RelatedMediaAddition
 												key={notification.id}
 												notification={notification}
-											></RelatedMediaAddition>
+											/>
 										)
 									}
 									if (notification.__typename === "ActivityLikeNotification") {
@@ -187,7 +213,7 @@ export default function Notifications() {
 											<ActivityLike
 												key={notification.id}
 												notification={notification}
-											></ActivityLike>
+											/>
 										)
 									}
 									return null
@@ -232,29 +258,27 @@ function Airing(props: {
 					render={
 						<Link
 							to={route_media({
-								id: notification.media?.id
+								id: notification.media.id
 							})}
 						/>
 					}
 				>
 					<ListItemImg>
-						<MediaCover media={notification.media}></MediaCover>
+						<MediaCover media={notification.media} />
 					</ListItemImg>
 					<ListItemContent>
 						<ListItemContentTitle>
 							{(notification.createdAt ?? 0) > data.read && (
-								<span className="text-tertiary">
-									<span className="i i-inline">warning</span>
-								</span>
+								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 							)}{" "}
 							{m.episode_aired({
 								episode: notification.episode
 							})}
 						</ListItemContentTitle>
 						<ListItemContentSubtitle
-							title={notification.media?.title?.userPreferred ?? undefined}
+							title={notification.media.title?.userPreferred ?? undefined}
 						>
-							{notification.media?.title?.userPreferred}
+							{notification.media.title?.userPreferred}
 						</ListItemContentSubtitle>
 					</ListItemContent>
 					{notification.createdAt && (
@@ -325,27 +349,25 @@ function RelatedMediaAddition(props: {
 					render={
 						<Link
 							to={route_media({
-								id: notification.media?.id
+								id: notification.media.id
 							})}
 						/>
 					}
 				>
 					<ListItemImg>
-						<MediaCover media={notification.media}></MediaCover>
+						<MediaCover media={notification.media} />
 					</ListItemImg>
 					<ListItemContent>
 						<ListItemContentTitle>
 							{(notification.createdAt ?? 0) > data.read && (
-								<span className="text-tertiary">
-									<span className="i i-inline">warning</span>
-								</span>
+								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 							)}{" "}
 							{m.recently_added()}
 						</ListItemContentTitle>
 						<ListItemContentSubtitle
-							title={notification.media?.title?.userPreferred ?? undefined}
+							title={notification.media.title?.userPreferred ?? undefined}
 						>
-							{notification.media?.title?.userPreferred}
+							{notification.media.title?.userPreferred}
 						</ListItemContentSubtitle>
 					</ListItemContent>
 					{notification.createdAt && (
@@ -391,10 +413,10 @@ function ActivityLike(props: {
 			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
 				<ListItemImg>
 					<img
-						src={notification.user?.avatar?.large || ""}
+						src={notification.user.avatar?.large || ""}
 						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
 						style={{
-							"--bg": `url(${notification.user?.avatar?.medium})`
+							"--bg": `url(${notification.user.avatar?.medium})`
 						}}
 						loading="lazy"
 						alt=""
@@ -403,14 +425,12 @@ function ActivityLike(props: {
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0) > data.read && (
-							<span className="text-tertiary">
-								<span className="i i-inline">warning</span>
-							</span>
+							<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 						)}{" "}
 						{notification.context}
 					</ListItemContentTitle>
-					<ListItemContentSubtitle title={notification.user?.name ?? undefined}>
-						{notification.user?.name}
+					<ListItemContentSubtitle title={notification.user.name ?? undefined}>
+						{notification.user.name}
 					</ListItemContentSubtitle>
 				</ListItemContent>
 				{notification.createdAt && (
