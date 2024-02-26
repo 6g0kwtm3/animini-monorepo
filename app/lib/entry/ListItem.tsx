@@ -150,7 +150,7 @@ export function ListItemLoader(props: {}) {
 			subtitle={
 				<Skeleton>
 					<div>
-						<MaterialSymbolsStarOutline className="i-inline inline" />{" "}7
+						<MaterialSymbolsStarOutline className="i-inline inline" /> 7
 					</div>
 					&middot;
 					<div>

@@ -183,7 +183,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 				"peer-disabled:text-on-surface/[.38]",
 				"group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
 				"text-on-surface-variant",
-				"i me-3 i-6",
+				"me-3 i i-6",
 				props.className
 			)}
 		/>

@@ -23,7 +23,9 @@ export function TooltipRichTrigger({
 	ComponentPropsWithoutRef<typeof Ariakit.HovercardAnchor>
 >) {
 	return (
-		<Ariakit.HovercardAnchor render={<div />} {...props}>{children}</Ariakit.HovercardAnchor>
+		<Ariakit.HovercardAnchor render={<div />} {...props}>
+			{children}
+		</Ariakit.HovercardAnchor>
 	)
 }
 

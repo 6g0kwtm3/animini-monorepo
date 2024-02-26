@@ -36,7 +36,7 @@ import {
 } from "~/components/List"
 import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import type { loader as navLoader } from "~/routes/_nav"
-import MaterialSymbolsArrowBack from '~icons/material-symbols/arrow-back'
+import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { MediaCover } from "../entry/MediaListCover"
 import { route_media } from "../route"
@@ -139,9 +139,7 @@ const SearchInput = forwardRef<
 		/>
 	)
 
-	return (
-		<Ariakit.FormControl name={name} render={select} />
-	)
+	return <Ariakit.FormControl name={name} render={select} />
 })
 export function Search() {
 	const [searchParams] = useSearchParams()
@@ -185,11 +183,7 @@ export function Search() {
 		<>
 			<TooltipPlain>
 				<TooltipPlainTrigger
-					render={
-						<NavigationItem
-							render={<HashNavLink to="#search" />}
-						 />
-					}
+					render={<NavigationItem render={<HashNavLink to="#search" />} />}
 				>
 					<NavigationItemIcon>
 						<MaterialSymbolsTravelExplore />
@@ -227,7 +221,7 @@ export function Search() {
 					>
 						<div className="flex items-center px-4">
 							<Ariakit.DialogDismiss render={<ButtonIcon />}>
-							<MaterialSymbolsArrowBack />
+								<MaterialSymbolsArrowBack />
 							</Ariakit.DialogDismiss>
 							<SearchInput
 								ref={ref}
@@ -280,10 +274,7 @@ export function Search() {
 													{data.trending.media
 														.filter(Predicate.isNotNull)
 														.map((media) => (
-															<SearchItem
-																media={media}
-																key={media.id}
-															 />
+															<SearchItem media={media} key={media.id} />
 														))}
 												</Ariakit.ComboboxGroup>
 											</Ariakit.ComboboxList>

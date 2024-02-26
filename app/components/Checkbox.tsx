@@ -12,13 +12,13 @@ export function Checkbox(
 			<Ariakit.VisuallyHidden>
 				<Ariakit.Checkbox {...props} />
 			</Ariakit.VisuallyHidden>
-			<div className="i hidden text-primary group-has-[:checked]:block">
+			<div className="hidden text-primary i group-has-[:checked]:block">
 				<MaterialSymbolsCheckBox></MaterialSymbolsCheckBox>
 			</div>
-			<div className="i hidden group-has-[input:not(:checked)]:block">
+			<div className="hidden i group-has-[input:not(:checked)]:block">
 				<MaterialSymbolsCheckBoxOutlineBlank></MaterialSymbolsCheckBoxOutlineBlank>
 			</div>
-			<div className="i hidden group-has-[:indeterminate]:block">
+			<div className="hidden i group-has-[:indeterminate]:block">
 				<MaterialSymbolsIndeterminateCheckBox></MaterialSymbolsIndeterminateCheckBox>
 			</div>
 			<TouchTarget></TouchTarget>

@@ -138,7 +138,7 @@ const Notifications_query = serverOnly$(
 		}
 	`)
 )
-import MaterialSymbolsDone from '~icons/material-symbols/done';
+import MaterialSymbolsDone from "~icons/material-symbols/done"
 export default function Notifications() {
 	const data = useRawLoaderData<typeof loader>()
 	const query = useFragment<typeof Notifications_query>(data.Query)
@@ -165,7 +165,7 @@ export default function Notifications() {
 									<TooltipPlainTrigger
 										render={
 											<button type="submit" className={fab({ className: "" })}>
-												<MaterialSymbolsDone />	
+												<MaterialSymbolsDone />
 											</button>
 										}
 									/>

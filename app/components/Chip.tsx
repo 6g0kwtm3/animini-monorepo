@@ -19,7 +19,7 @@ export function ChipFilter({
 
 export function ChipFilterIcon() {
 	return (
-		<div className="i -ms-2 w-0 opacity-0 transition-all ease-out peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
+		<div className="-ms-2 w-0 opacity-0 transition-all ease-out i peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
 			check
 		</div>
 	)
