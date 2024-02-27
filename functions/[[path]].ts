@@ -7,7 +7,5 @@ import * as build from "../build/server"
 
 export const onRequest = createPagesFunctionHandler({
 	// @ts-ignore
-	build,
-	// @ts-ignore
-	getLoadContext: (context) => ({ env: context.env })
+	build
 })

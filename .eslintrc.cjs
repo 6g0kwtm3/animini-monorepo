@@ -53,10 +53,10 @@ module.exports = {
 	],
 	rules: {
 		"@typescript-eslint/method-signature-style": ["error", "property"],
-		"react/self-closing-comp": "warn",
+		"react/self-closing-comp": "error",
 		"react/jsx-no-useless-fragment": "warn",
 		"react-refresh/only-export-components": [
-			"warn",
+			"error",
 			{
 				allowConstantExport: true,
 				allowExportNames: [

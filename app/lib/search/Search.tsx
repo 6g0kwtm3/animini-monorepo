@@ -254,7 +254,7 @@ export function Search() {
 							</Ariakit.ComboboxList>
 						) : data ? (
 							<Suspense fallback="">
-								<Await resolve={data.trending} errorElement="">
+								<Await resolve={data.trending} errorElement={<></>}>
 									{(data) =>
 										data.trending?.media &&
 										ReadonlyArray.isNonEmptyArray(data.trending.media) && (
