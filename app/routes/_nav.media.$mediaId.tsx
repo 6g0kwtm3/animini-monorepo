@@ -134,7 +134,10 @@ export default function Page() {
 						variant="filled"
 						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
 					>
-						<MediaCover media={data.Media} className="rounded-xl" />
+						<MediaCover
+							media={data.Media}
+							className="rounded-xl [view-transition-name:media-cover]"
+						/>
 
 						<div className="flex flex-wrap gap-2">
 							<Button variant="filled">Favourite</Button>

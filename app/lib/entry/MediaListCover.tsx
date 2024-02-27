@@ -1,8 +1,9 @@
-import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef } from "react"
+import { createTV } from "tailwind-variants"
+import { serverOnly$ } from "vite-env-only"
+import { createElement } from "../createElement"
 import type { FragmentType } from "../graphql"
 import { graphql, useFragment } from "../graphql"
-import { serverOnly$ } from "vite-env-only"
 
 const MediaCover_media = serverOnly$(
 	graphql(`
@@ -17,29 +18,35 @@ const MediaCover_media = serverOnly$(
 	`)
 )
 
+const tv = createTV({ twMerge: false })
+
+const cover = tv({
+	base: "bg-cover object-center bg-center object-cover [.transitioning_&]:[view-transition-name:media-cover]"
+})
+
 export function MediaCover({
 	media,
 	...props
-}: ComponentPropsWithoutRef<typeof motion.img> & {
+}: ComponentPropsWithoutRef<"img"> & {
 	media: FragmentType<typeof MediaCover_media>
 }) {
 	const data = useFragment<typeof MediaCover_media>(media)
 
-	return (
-		<motion.img
-			src={
-				data.coverImage?.extraLarge ??
-				data.coverImage?.large ??
-				data.coverImage?.medium ??
-				""
-			}
-			className="bg-cover object-cover"
-			style={{
-				backgroundImage: `url(${data.coverImage?.medium})`
-			}}
-			loading="lazy"
-			alt=""
-			{...props}
-		/>
-	)
+	return createElement("img", {
+		src:
+			data.coverImage?.extraLarge ??
+			data.coverImage?.large ??
+			data.coverImage?.medium ??
+			"",
+		loading: "lazy",
+		alt: "",
+		...props,
+		style: {
+			backgroundImage: `url(${data.coverImage?.medium})`,
+			...props.style,
+		},
+		className: cover({
+			className: props.className
+		})
+	})
 }
