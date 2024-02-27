@@ -23,7 +23,7 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 21.1.0
+          node-version: 21.6.2
           cache: "pnpm"
 
       - name: Install dependencies 📦
@@ -41,7 +41,7 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 21.1.0
+          node-version: 21.6.2
           cache: "pnpm"
 
       - name: Install dependencies 📦
@@ -63,7 +63,7 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 21.1.0
+          node-version: 21.6.2
           cache: "pnpm"
 
       - name: Get installed Playwright version
@@ -75,7 +75,7 @@ jobs:
         id: playwright-cache
         with:
           path: |
-            $env:USERPROFILE\AppData\Local\ms-playwright
+            ~\AppData\Local\ms-playwright
           key: playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install dependencies 📦
@@ -109,7 +109,7 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 21.1.0
+          node-version: 21.6.2
           cache: "pnpm"
 
       - name: Install dependencies 📦
