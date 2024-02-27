@@ -15,5 +15,5 @@ export function SelectOption(
 ) {
 	const Option = useContext(SelectContext)
 
-	return <Option {...props}></Option>
+	return <Option {...props} />
 }

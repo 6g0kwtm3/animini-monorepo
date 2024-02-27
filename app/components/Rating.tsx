@@ -26,15 +26,15 @@ export const point5Icons = Array.from({ length: 5 }, (_, index) => (
 			key={index}
 			className="hover:text-yellow-400 peer-checked:text-yellow-400 absolute left-0 top-0 flex text-transparent group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100"
 		>
-			{Array.from({ length: 5 - index }, (_, index_) => (
-				<StarIcon className="h-6 w-6 hover:scale-110" key={index_}></StarIcon>
+			{Array.from({ length: 5 - index }, (_, i) => (
+				<StarIcon className="h-6 w-6 hover:scale-110" key={i} />
 			))}
 		</div>
 
 		<StarIcon
 			key={`bg-${index}`}
 			className="text-gray-300 dark:text-gray-500 h-6 w-6"
-		></StarIcon>
+		 />
 	</>
 ))
 

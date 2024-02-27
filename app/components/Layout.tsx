@@ -60,7 +60,7 @@ export function Layout({
 export function LayoutBody(props: ComponentPropsWithoutRef<"main">) {
 	const { body } = useContext(LayoutContext)
 	return (
-		<main {...props} className={body({ className: props.className })}></main>
+		<main {...props} className={body({ className: props.className })} />
 	)
 }
 

@@ -37,7 +37,7 @@ export function SelectFactory({
 						value={value}
 						onChange={(e) => form.setValue(props.name, e.currentTarget.value)}
 						className={input({ className: "appearance-none" })}
-					></select>
+					 />
 				}
 			/>
 			<TextFieldOutlined.Label name={props.name}>
@@ -53,7 +53,7 @@ export function SelectFactory({
 		<ClientOnly fallback={fallback}>
 			{() => (
 				<Suspense fallback={fallback}>
-					<LazySelectFactory {...props} label={label}></LazySelectFactory>
+					<LazySelectFactory {...props} label={label} />
 				</Suspense>
 			)}
 		</ClientOnly>
@@ -71,14 +71,14 @@ export function Select({
 		<select
 			{...props}
 			className={input({ className: "appearance-none" })}
-		></select>
+		 />
 	)
 
 	return (
 		<ClientOnly fallback={fallback}>
 			{() => (
 				<Suspense fallback={fallback}>
-					<LazySelect {...props}></LazySelect>
+					<LazySelect {...props} />
 				</Suspense>
 			)}
 		</ClientOnly>

@@ -117,7 +117,7 @@ const ButtonContext = createContext(createButton())
 
 export function ButtonIcon(props: ComponentPropsWithoutRef<"div">) {
 	const { icon } = useContext(ButtonContext)
-	return <div {...props} className={icon({ className: props.className })}></div>
+	return <div {...props} className={icon({ className: props.className })} />
 }
 
 export const Icon = forwardRef<
@@ -132,7 +132,7 @@ export const Icon = forwardRef<
 			className={btnIcon({ variant, className })}
 		>
 			{children}
-			<TouchTarget></TouchTarget>
+			<TouchTarget />
 		</BaseButton>
 	)
 })

@@ -156,7 +156,7 @@ export function Snackbar({
 				data-timeout={timeout}
 				ref={ref}
 				className="mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs bg-inverse-surface p-4 text-body-md text-inverse-on-surface elevation-3 [&:popover-open]:flex"
-			></div>
+			 />
 		</SnackbarContext.Provider>
 	)
 }
@@ -184,6 +184,6 @@ export function SnackbarAction(props: ComponentPropsWithoutRef<"button">) {
 						invoketarget
 					})}
 			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary first:ms-auto hover:state-hover focus:state-focus"
-		></BaseButton>
+		 />
 	)
 }

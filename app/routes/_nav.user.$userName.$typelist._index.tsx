@@ -168,7 +168,7 @@ export default function Page() {
 													<MediaListItem
 														entry={entry}
 														key={entry.id}
-													></MediaListItem>
+													 />
 												)
 											})}
 										</List>

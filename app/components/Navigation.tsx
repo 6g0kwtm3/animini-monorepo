@@ -106,9 +106,9 @@ export const NavigationItem = forwardRef<
 			Extract<NavLinkProps["children"], (...args: any) => any>
 		>[0]) => (
 			<>
-				{isActive && <NavigationActiveIndicator></NavigationActiveIndicator>}
+				{isActive && <NavigationActiveIndicator />}
 				{children}
-				<TouchTarget></TouchTarget>
+				<TouchTarget />
 			</>
 		)
 	})
@@ -121,14 +121,14 @@ function NavigationActiveIndicator() {
 	const layoutId = useContext(NavigationContext)
 
 	return (
-		<motion.div layoutId={layoutId} className={activeIndicator()}></motion.div>
+		<motion.div layoutId={layoutId} className={activeIndicator()} />
 	)
 }
 
 export function NavigationItemIcon(props: ComponentPropsWithoutRef<"div">) {
 	const { icon } = useContext(Context)
 
-	return <div {...props} className={icon()}></div>
+	return <div {...props} className={icon()} />
 }
 
 export function Navigation({
@@ -143,7 +143,7 @@ export function Navigation({
 				<nav
 					{...props}
 					className={styles.root({ className: props.className })}
-				></nav>
+				 />
 			</Context.Provider>
 		</NavigationContext.Provider>
 	)
@@ -154,5 +154,5 @@ export function NavigationItemLargeBadge(
 ) {
 	const { largeBadge } = useContext(Context)
 
-	return <div {...props} className={largeBadge()}></div>
+	return <div {...props} className={largeBadge()} />
 }
