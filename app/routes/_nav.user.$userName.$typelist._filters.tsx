@@ -322,7 +322,7 @@ function Filter() {
 								return (
 									<ListItem render={<label />} key={value}>
 										<Checkbox name="format" value={value} />
-										<ListItemContent >
+										<ListItemContent>
 											<ListItemContentTitle>{label}</ListItemContentTitle>
 										</ListItemContent>
 									</ListItem>

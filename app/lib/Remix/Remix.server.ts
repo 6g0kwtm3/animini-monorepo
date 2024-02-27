@@ -129,7 +129,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 			}
 		)
 	}
- 
+
 	throw new Response(null, {
 		status: 500
 	})
