@@ -2,9 +2,13 @@ name: Test
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
+      - dev
   pull_request:
-    branches: ["master"]
+    branches:
+      - master
+      - dev
 
 permissions:
   contents: read
@@ -45,6 +49,36 @@ jobs:
 
       - name: Typecheck
         run: pnpm run typecheck
+
+  test-ct:
+    runs-on: ubuntu-latest
+
+    name: Typecheck
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 21.1.0
+          cache: "pnpm"
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package.json').devDependencies['@playwright/experimental-ct-react'])")" >> $GITHUB_ENV
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install dependencies 📦
+        run: pnpm i --frozen-lockfile
+
+      - name: Test components
+        run: pnpm run test-ct
 
   format:
     runs-on: ubuntu-latest
