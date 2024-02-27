@@ -56,11 +56,11 @@ export function AppBar({
 	elevate,
 	hide,
 	...props
-}: ComponentPropsWithoutRef<"aside"> & VariantProps<typeof appBar>) {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>) {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 
-	const ref = useRef<ElementRef<"aside">>()
+	const ref = useRef<ElementRef<"nav">>()
 
 	const styles = appBar({
 		variant,
@@ -81,7 +81,7 @@ export function AppBar({
 
 	return (
 		<AppBarContext.Provider value={styles}>
-			{createElement("aside", {
+			{createElement("nav", {
 				...props,
 				ref,
 				"data-hidden": hidden,

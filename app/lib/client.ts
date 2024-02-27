@@ -45,7 +45,7 @@ export async function client_operation<T, V>(
 	})
 
 	if (!response.ok) {
-		console.error(response)
+		console.error({ response, body: await response.text() })
 		throw new Response(null, {
 			status: response.status,
 			statusText: response.statusText

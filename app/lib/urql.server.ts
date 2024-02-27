@@ -93,7 +93,10 @@ export function operation<T, V>(
 		)
 
 		if (!response.ok) {
-			console.error(response)
+			console.error({
+				response,
+				body: yield* _(Effect.promise(() => response.text()))
+			})
 			return yield* _(
 				new Remix.ResponseError({
 					response: new Response(null, {

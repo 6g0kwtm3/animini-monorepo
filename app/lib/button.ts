@@ -17,7 +17,7 @@ export const btnIcon = tv({
 export const createButton = tv({
 	slots: {
 		root: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus",
-		icon: "h-[1.125rem] w-[1.125rem] i i-[1.125rem]"
+		icon: "h-[1.125rem] w-[1.125rem] i-[1.125rem]"
 	},
 	variants: {
 		variant: {
