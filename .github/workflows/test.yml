@@ -77,6 +77,10 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm i --frozen-lockfile
 
+      - name: Install Playwright
+        run: pnpx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
       - name: Test components
         run: pnpm run test-ct
 
