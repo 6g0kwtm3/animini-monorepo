@@ -71,7 +71,10 @@ export function MediaListItem(props: {
 			<ListItem
 				render={
 					entry?.media ? (
-						<NavLink unstable_viewTransition to={route_media({ id: entry.media.id })} />
+						<NavLink
+							unstable_viewTransition
+							to={route_media({ id: entry.media.id })}
+						/>
 					) : (
 						<div />
 					)
@@ -79,11 +82,7 @@ export function MediaListItem(props: {
 			>
 				<ListItemImg>
 					<Skeleton full>
-						{entry?.media ? (
-							<MediaCover
-								media={entry.media}
-							/>
-						) : null}
+						{entry?.media ? <MediaCover media={entry.media} /> : null}
 					</Skeleton>
 				</ListItemImg>
 				<ListItemContent>
