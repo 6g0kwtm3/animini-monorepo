@@ -164,12 +164,7 @@ export default function Page() {
 										<h2 className="text-balance">{list.name}</h2>
 										<List className="-mx-4">
 											{list.entries?.map((entry) => {
-												return (
-													<MediaListItem
-														entry={entry}
-														key={entry.id}
-													></MediaListItem>
-												)
+												return <MediaListItem entry={entry} key={entry.id} />
 											})}
 										</List>
 										<Link

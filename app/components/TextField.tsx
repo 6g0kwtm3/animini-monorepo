@@ -34,7 +34,7 @@ export function TextFieldOutlinedSupporting(
 				"order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38] group-error:text-error",
 				props.className
 			)}
-		></Ariakit.FormError>
+		/>
 	)
 }
 
@@ -72,15 +72,13 @@ export const TextFieldOutlinedInput = forwardRef<
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
 	return (
-		<>
-			<Ariakit.FormInput
-				ref={ref}
-				type="text"
-				{...props}
-				placeholder=" "
-				className={input({ className: props.className })}
-			/>
-		</>
+		<Ariakit.FormInput
+			ref={ref}
+			type="text"
+			{...props}
+			placeholder=" "
+			className={input({ className: props.className })}
+		/>
 	)
 })
 
@@ -92,7 +90,7 @@ export function TextFieldOutlinedFactory({
 }) {
 	return (
 		<TextFieldOutlined>
-			<TextFieldOutlinedInput {...props}></TextFieldOutlinedInput>
+			<TextFieldOutlinedInput {...props} />
 			<OutlinedLabel name={props.name}>{label}</OutlinedLabel>
 			{/* <TextFieldOutlinedSupporting
 				name={props.name}
@@ -111,7 +109,7 @@ export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
 				"group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-on-surface-variant after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:border-primary after:transition-transform focus-within:after:scale-x-100 hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container",
 				props.className
 			)}
-		></label>
+		/>
 
 		/* <p
       className={classes(
@@ -198,7 +196,7 @@ function Suffix(props: ComponentPropsWithoutRef<"span">) {
 				"suffix -ms-4 flex items-center py-4 pe-4 text-body-lg text-on-surface-variant",
 				props.className
 			)}
-		></span>
+		/>
 	)
 }
 
@@ -207,7 +205,7 @@ function Prefix(props: ComponentPropsWithoutRef<"span">) {
 		<span
 			{...props}
 			className="-me-5 flex items-center text-body-lg text-on-surface-variant"
-		></span>
+		/>
 	)
 }
 
@@ -229,7 +227,7 @@ TextFieldFilled.Suffix = function Suffix(
 				"-ms-4 flex items-center pb-2 pe-4 pt-6 text-body-lg text-on-surface-variant",
 				props.className
 			)}
-		></span>
+		/>
 	)
 }
 TextFieldFilled.LeadingIcon = LeadingIcon

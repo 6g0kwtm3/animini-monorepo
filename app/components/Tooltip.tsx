@@ -9,12 +9,7 @@ import {
 export function TooltipRich(
 	props: ComponentPropsWithoutRef<typeof Ariakit.HovercardProvider>
 ) {
-	return (
-		<Ariakit.HovercardProvider
-			placement="bottom"
-			{...props}
-		></Ariakit.HovercardProvider>
-	)
+	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
 export function TooltipRichTrigger({
 	children,
@@ -37,7 +32,7 @@ export function TooltipRichContainer(
 			gutter={8}
 			{...props}
 			className="rounded-md bg-surface-container px-4 pb-2 pt-3 elevation-2"
-		></Ariakit.Hovercard>
+		/>
 	)
 }
 
@@ -48,7 +43,7 @@ export function TooltipRichSubhead(
 		<Ariakit.HovercardHeading
 			{...props}
 			className="mb-2 text-title-sm text-on-surface-variant"
-		></Ariakit.HovercardHeading>
+		/>
 	)
 }
 
@@ -59,23 +54,18 @@ export function TooltipRichSupportingText(
 		<Ariakit.HovercardDescription
 			{...props}
 			className="text-body-md text-on-surface-variant"
-		></Ariakit.HovercardDescription>
+		/>
 	)
 }
 
 export function TooltipRichActions(props: ComponentPropsWithoutRef<"div">) {
-	return <div {...props} className="mt-3 flex flex-wrap gap-2"></div>
+	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
 
 export function TooltipPlain(
 	props: ComponentPropsWithoutRef<typeof Ariakit.TooltipProvider>
 ) {
-	return (
-		<Ariakit.TooltipProvider
-			hideTimeout={250}
-			{...props}
-		></Ariakit.TooltipProvider>
-	)
+	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
 export const TooltipPlainTrigger = forwardRef<
 	HTMLDivElement,
@@ -117,7 +107,7 @@ export function TooltipPlainContainer(
 							exit={{ opacity: 0, y }}
 						/>
 					}
-				></Ariakit.Tooltip>
+				/>
 			)}
 		</AnimatePresence>
 	)
@@ -125,6 +115,6 @@ export function TooltipPlainContainer(
 
 export function TouchTarget() {
 	return (
-		<span className="absolute left-1/2 top-1/2 h-[max(100%,3rem)] w-[max(100%,3rem)]  -translate-x-1/2 -translate-y-1/2"></span>
+		<span className="absolute left-1/2 top-1/2 h-[max(100%,3rem)] w-[max(100%,3rem)]  -translate-x-1/2 -translate-y-1/2" />
 	)
 }

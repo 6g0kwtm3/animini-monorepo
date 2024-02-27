@@ -59,9 +59,7 @@ export function Layout({
 
 export function LayoutBody(props: ComponentPropsWithoutRef<"main">) {
 	const { body } = useContext(LayoutContext)
-	return (
-		<main {...props} className={body({ className: props.className })}></main>
-	)
+	return <main {...props} className={body({ className: props.className })} />
 }
 
 const pane = tv({

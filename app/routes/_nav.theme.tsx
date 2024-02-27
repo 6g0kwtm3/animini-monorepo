@@ -7,16 +7,16 @@ export default function Page() {
 			<LayoutPane>
 				<div className="grid grid-cols-2 gap-8">
 					<div className="theme-[AccentColor]">
-						<Palette></Palette>
+						<Palette />
 					</div>
 					<div className="theme-[#6751a4] ">
-						<Palette></Palette>
+						<Palette />
 					</div>
 					<div className="theme-[#d6ae6b]">
-						<Palette></Palette>
+						<Palette />
 					</div>
 					<div className="theme-content-[#d6ae6b]">
-						<Palette></Palette>
+						<Palette />
 					</div>
 				</div>
 			</LayoutPane>

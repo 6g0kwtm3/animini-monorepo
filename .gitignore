@@ -12,3 +12,7 @@ $houdini
 .vercel
 .wrangler
 worker-configuration.d.ts
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -7,9 +7,9 @@ import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
+import type { TypedResponse } from "@remix-run/cloudflare"
 import cookie from "cookie"
 import { dev } from "../dev"
-import { TypedResponse, json } from "@remix-run/cloudflare"
 
 export const Cookie = <I, A>(
 	name: string,

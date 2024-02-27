@@ -21,7 +21,7 @@ export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 }
 
 export function MenuTrigger(props: ComponentPropsWithoutRef<"summary">) {
-	return <summary {...props} aria-haspopup="listbox"></summary>
+	return <summary {...props} aria-haspopup="listbox" />
 }
 
 export function Menu(props: ComponentPropsWithoutRef<"details">) {
@@ -49,7 +49,7 @@ export function Menu(props: ComponentPropsWithoutRef<"details">) {
 			ref={ref}
 			role="list"
 			className={classes("relative marker:hidden", props.className)}
-		></details>
+		/>
 	)
 }
 
@@ -70,27 +70,25 @@ export function MenuItem({
 }
 
 export function MenuItemIcon(props: ComponentPropsWithoutRef<"div">) {
-	return <div {...props} className="h-6 w-6 text-on-surface-variant"></div>
+	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
 
 export function MenuItemLeadingIcon(props: ComponentPropsWithoutRef<"div">) {
-	return <div {...props} className="h-6 w-6 text-on-surface-variant"></div>
+	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
 
 export function MenuItemTrailingIcon(props: ComponentPropsWithoutRef<"div">) {
-	return (
-		<div {...props} className="ms-auto h-6 w-6 text-on-surface-variant"></div>
-	)
+	return <div {...props} className="ms-auto h-6 w-6 text-on-surface-variant" />
 }
 
 export function MenuItemTrailingText(props: ComponentPropsWithoutRef<"div">) {
-	return <div {...props} className="ms-auto text-on-surface-variant"></div>
+	return <div {...props} className="ms-auto text-on-surface-variant" />
 }
 
 export function MenuDivider(props: ComponentPropsWithoutRef<"li">) {
 	return (
 		<li {...props} className="contents">
-			<div className="my-2 w-full border-b border-outline-variant"></div>
+			<div className="my-2 w-full border-b border-outline-variant" />
 		</li>
 	)
 }

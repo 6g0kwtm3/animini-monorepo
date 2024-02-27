@@ -16,7 +16,8 @@
 		"knip": "knip",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "prettier . -w",
-		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide"
+		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
+		"test-ct": "playwright test -c playwright-ct.config.ts"
 	},
 	"dependencies": {
 		"@ariakit/react": "^0.4.1",
@@ -51,6 +52,7 @@
 		"@inlang/paraglide-js": "^1.2.3",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.12",
 		"@parcel/watcher": "^2.4.0",
+		"@playwright/experimental-ct-react": "^1.41.2",
 		"@remix-run/dev": "^2.7.2",
 		"@remix-run/eslint-config": "^2.7.2",
 		"@svgr/core": "^8.1.0",
@@ -59,6 +61,7 @@
 		"@types/cookie": "^0.6.0",
 		"@types/dompurify": "^3.0.5",
 		"@types/jsdom": "^21.1.6",
+		"@types/node": "^20.11.20",
 		"@types/react": "^18.2.20",
 		"@types/react-dom": "^18.2.7",
 		"autoprefixer": "^10.4.17",

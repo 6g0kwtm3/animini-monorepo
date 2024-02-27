@@ -35,6 +35,7 @@ import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+import MaterialSymbolsDone from "~icons/material-symbols/done"
 
 export const loader = (async (args) => {
 	return pipe(
@@ -138,7 +139,6 @@ const Notifications_query = serverOnly$(
 		}
 	`)
 )
-import MaterialSymbolsDone from "~icons/material-symbols/done"
 export default function Notifications() {
 	const data = useRawLoaderData<typeof loader>()
 	const query = useFragment<typeof Notifications_query>(data.Query)

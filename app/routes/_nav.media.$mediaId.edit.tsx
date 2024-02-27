@@ -372,18 +372,15 @@ export default function Page() {
 							<div className="grid gap-2">
 								<input type="hidden" name="mediaId" value={data?.Media?.id} />
 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
-									<Status name={store.names.status}></Status>
-									<Score name={store.names.score}></Score>
+									<Status name={store.names.status} />
+									<Score name={store.names.score} />
 
-									<Progress
-										name={store.names.progress}
-										media={data?.Media}
-									></Progress>
+									<Progress name={store.names.progress} media={data?.Media} />
 									<StartDate name={store.names.startedAt} />
 									<FinishDate name={store.names.completedAt} />
-									<Repeat name={store.names.repeat}></Repeat>
+									<Repeat name={store.names.repeat} />
 								</div>
-								<Notes name={store.names.notes}></Notes>
+								<Notes name={store.names.notes} />
 
 								<AdvancedScores advancedScoring={listOptions}>
 									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
@@ -395,7 +392,7 @@ export default function Page() {
 													key={label}
 													label={label}
 													name={name}
-												></AdvancedScore>
+												/>
 											) : null
 										}
 									)}
@@ -404,7 +401,7 @@ export default function Page() {
 								<CustomLists
 									name={store.names.customLists}
 									listOptions={listOptions}
-								></CustomLists>
+								/>
 
 								{/* <Snackbar open={touched}>
 																			Careful - you have unsaved changes!

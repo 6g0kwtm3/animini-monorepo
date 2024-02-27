@@ -16,7 +16,7 @@ export default function LazySelectFactory({
 	return (
 		<Ariakit.SelectProvider>
 			<TextFieldOutlined>
-				<LazySelect {...props}></LazySelect>
+				<LazySelect {...props} />
 				<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
 				<TextFieldOutlined.Label name={props.name}>
 					{label}
