@@ -71,7 +71,7 @@ jobs:
         id: playwright-cache
         with:
           path: |
-            %USERPROFILE%\AppData\Local\ms-playwright
+            $env:USERPROFILE\AppData\Local\ms-playwright
           key: playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install dependencies 📦
