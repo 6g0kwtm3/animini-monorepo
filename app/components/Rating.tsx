@@ -34,7 +34,7 @@ export const point5Icons = Array.from({ length: 5 }, (_, index) => (
 		<StarIcon
 			key={`bg-${index}`}
 			className="text-gray-300 dark:text-gray-500 h-6 w-6"
-		 />
+		/>
 	</>
 ))
 

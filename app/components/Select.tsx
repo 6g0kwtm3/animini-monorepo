@@ -37,7 +37,7 @@ export function SelectFactory({
 						value={value}
 						onChange={(e) => form.setValue(props.name, e.currentTarget.value)}
 						className={input({ className: "appearance-none" })}
-					 />
+					/>
 				}
 			/>
 			<TextFieldOutlined.Label name={props.name}>
@@ -68,10 +68,7 @@ export function Select({
 		name: string
 	}) {
 	const fallback = (
-		<select
-			{...props}
-			className={input({ className: "appearance-none" })}
-		 />
+		<select {...props} className={input({ className: "appearance-none" })} />
 	)
 
 	return (

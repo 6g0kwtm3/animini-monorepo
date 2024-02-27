@@ -9,12 +9,7 @@ import {
 export function TooltipRich(
 	props: ComponentPropsWithoutRef<typeof Ariakit.HovercardProvider>
 ) {
-	return (
-		<Ariakit.HovercardProvider
-			placement="bottom"
-			{...props}
-		 />
-	)
+	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
 export function TooltipRichTrigger({
 	children,
@@ -37,7 +32,7 @@ export function TooltipRichContainer(
 			gutter={8}
 			{...props}
 			className="rounded-md bg-surface-container px-4 pb-2 pt-3 elevation-2"
-		 />
+		/>
 	)
 }
 
@@ -48,7 +43,7 @@ export function TooltipRichSubhead(
 		<Ariakit.HovercardHeading
 			{...props}
 			className="mb-2 text-title-sm text-on-surface-variant"
-		 />
+		/>
 	)
 }
 
@@ -59,7 +54,7 @@ export function TooltipRichSupportingText(
 		<Ariakit.HovercardDescription
 			{...props}
 			className="text-body-md text-on-surface-variant"
-		 />
+		/>
 	)
 }
 
@@ -70,12 +65,7 @@ export function TooltipRichActions(props: ComponentPropsWithoutRef<"div">) {
 export function TooltipPlain(
 	props: ComponentPropsWithoutRef<typeof Ariakit.TooltipProvider>
 ) {
-	return (
-		<Ariakit.TooltipProvider
-			hideTimeout={250}
-			{...props}
-		 />
-	)
+	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
 export const TooltipPlainTrigger = forwardRef<
 	HTMLDivElement,
@@ -117,7 +107,7 @@ export function TooltipPlainContainer(
 							exit={{ opacity: 0, y }}
 						/>
 					}
-				 />
+				/>
 			)}
 		</AnimatePresence>
 	)

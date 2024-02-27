@@ -44,7 +44,7 @@ export function Tabs({
 				className={styles.root({
 					className: props.className
 				})}
-			 />
+			/>
 		</TabsContext.Provider>
 	)
 }
@@ -64,7 +64,7 @@ export function TabsTab({
 					<motion.div
 						{...(Predicate.isString(layoutId) ? { layoutId } : {})}
 						className="absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem] bg-primary"
-					 />
+					/>
 				)}
 			</div>
 		)) satisfies ComponentPropsWithoutRef<typeof NavLink>["children"]

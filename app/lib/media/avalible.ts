@@ -32,7 +32,8 @@ export function avalible(data: FragmentType<typeof Avalible_media> | null) {
 		media.status === MediaStatus.Finished ||
 		media.status === MediaStatus.Cancelled
 	) {
-		return media.nextAiringEpisode && Predicate.isNumber(media.nextAiringEpisode.episode)
+		return media.nextAiringEpisode &&
+			Predicate.isNumber(media.nextAiringEpisode.episode)
 			? media.nextAiringEpisode.episode - 1
 			: media.episodes ?? media.chapters
 	}

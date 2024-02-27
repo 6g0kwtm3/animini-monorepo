@@ -120,9 +120,7 @@ function NavigationActiveIndicator() {
 	const { activeIndicator } = useContext(Context)
 	const layoutId = useContext(NavigationContext)
 
-	return (
-		<motion.div layoutId={layoutId} className={activeIndicator()} />
-	)
+	return <motion.div layoutId={layoutId} className={activeIndicator()} />
 }
 
 export function NavigationItemIcon(props: ComponentPropsWithoutRef<"div">) {
@@ -143,7 +141,7 @@ export function Navigation({
 				<nav
 					{...props}
 					className={styles.root({ className: props.className })}
-				 />
+				/>
 			</Context.Provider>
 		</NavigationContext.Provider>
 	)

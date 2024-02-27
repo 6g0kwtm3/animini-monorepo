@@ -49,7 +49,7 @@ export function Menu(props: ComponentPropsWithoutRef<"details">) {
 			ref={ref}
 			role="list"
 			className={classes("relative marker:hidden", props.className)}
-		 />
+		/>
 	)
 }
 
@@ -78,9 +78,7 @@ export function MenuItemLeadingIcon(props: ComponentPropsWithoutRef<"div">) {
 }
 
 export function MenuItemTrailingIcon(props: ComponentPropsWithoutRef<"div">) {
-	return (
-		<div {...props} className="ms-auto h-6 w-6 text-on-surface-variant" />
-	)
+	return <div {...props} className="ms-auto h-6 w-6 text-on-surface-variant" />
 }
 
 export function MenuItemTrailingText(props: ComponentPropsWithoutRef<"div">) {

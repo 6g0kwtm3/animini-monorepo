@@ -375,10 +375,7 @@ export default function Page() {
 									<Status name={store.names.status} />
 									<Score name={store.names.score} />
 
-									<Progress
-										name={store.names.progress}
-										media={data?.Media}
-									 />
+									<Progress name={store.names.progress} media={data?.Media} />
 									<StartDate name={store.names.startedAt} />
 									<FinishDate name={store.names.completedAt} />
 									<Repeat name={store.names.repeat} />
@@ -395,7 +392,7 @@ export default function Page() {
 													key={label}
 													label={label}
 													name={name}
-												 />
+												/>
 											) : null
 										}
 									)}
@@ -404,7 +401,7 @@ export default function Page() {
 								<CustomLists
 									name={store.names.customLists}
 									listOptions={listOptions}
-								 />
+								/>
 
 								{/* <Snackbar open={touched}>
 																			Careful - you have unsaved changes!

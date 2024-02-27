@@ -10,7 +10,5 @@ export function DialogIcon(props: ComponentPropsWithoutRef<"div">) {
 }
 
 export function DialogFullscreenIcon(props: ComponentPropsWithoutRef<"div">) {
-	return (
-		<div {...props} className={classes("h-6 w-6 i-6", props.className)} />
-	)
+	return <div {...props} className={classes("h-6 w-6 i-6", props.className)} />
 }

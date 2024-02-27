@@ -34,7 +34,7 @@ export function TextFieldOutlinedSupporting(
 				"order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38] group-error:text-error",
 				props.className
 			)}
-		 />
+		/>
 	)
 }
 
@@ -73,12 +73,12 @@ export const TextFieldOutlinedInput = forwardRef<
 	const { input } = createTextField({ variant: "outlined" })
 	return (
 		<Ariakit.FormInput
-				ref={ref}
-				type="text"
-				{...props}
-				placeholder=" "
-				className={input({ className: props.className })}
-			/>
+			ref={ref}
+			type="text"
+			{...props}
+			placeholder=" "
+			className={input({ className: props.className })}
+		/>
 	)
 })
 
@@ -109,7 +109,7 @@ export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
 				"group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-on-surface-variant after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:border-primary after:transition-transform focus-within:after:scale-x-100 hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container",
 				props.className
 			)}
-		 />
+		/>
 
 		/* <p
       className={classes(
@@ -196,7 +196,7 @@ function Suffix(props: ComponentPropsWithoutRef<"span">) {
 				"suffix -ms-4 flex items-center py-4 pe-4 text-body-lg text-on-surface-variant",
 				props.className
 			)}
-		 />
+		/>
 	)
 }
 
@@ -205,7 +205,7 @@ function Prefix(props: ComponentPropsWithoutRef<"span">) {
 		<span
 			{...props}
 			className="-me-5 flex items-center text-body-lg text-on-surface-variant"
-		 />
+		/>
 	)
 }
 
@@ -227,7 +227,7 @@ TextFieldFilled.Suffix = function Suffix(
 				"-ms-4 flex items-center pb-2 pe-4 pt-6 text-body-lg text-on-surface-variant",
 				props.className
 			)}
-		 />
+		/>
 	)
 }
 TextFieldFilled.LeadingIcon = LeadingIcon

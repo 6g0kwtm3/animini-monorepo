@@ -95,7 +95,7 @@ export function ListItemTrailingSupportingText(
 		<span
 			{...props}
 			className={trailingSupportingText({ className: props.className })}
-		 />
+		/>
 	)
 }
 
