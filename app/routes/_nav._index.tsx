@@ -1,7 +1,7 @@
 import type {
-    HeadersFunction,
-    LoaderFunction,
-    LoaderFunctionArgs
+	HeadersFunction,
+	LoaderFunction,
+	LoaderFunctionArgs
 } from "@remix-run/cloudflare"
 import { Await, Link, defer } from "@remix-run/react"
 
@@ -13,12 +13,12 @@ import marked from "marked"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-    List,
-    ListItem,
-    ListItemContent,
-    ListItemImg,
-    ListItemContentSubtitle as ListItemSubtitle,
-    ListItemContentTitle as ListItemTitle
+	List,
+	ListItem,
+	ListItemContent,
+	ListItemImg,
+	ListItemContentSubtitle as ListItemSubtitle,
+	ListItemContentTitle as ListItemTitle
 } from "~/components/List"
 import { graphql } from "~/gql"
 import { client_operation } from "~/lib/client"
@@ -49,28 +49,28 @@ function MediaLink({ mediaId, ...props }) {
 						return (
 							media && (
 								<Card
-										className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-[--theme]` : ""}`}
-										style={{
-											"--theme": media.coverImage?.color ?? ""
-										}}
-										render={<span />}
-									>
-										<List className="force:p-0" render={<span />}>
-											<ListItem  render={<span />}>
-												<ListItemImg>
-													<MediaCover media={media} />
-												</ListItemImg>
-												<ListItemContent>
-													<ListItemTitle render={<span />}>
-														{media.title?.userPreferred}
-													</ListItemTitle>
-													<ListItemSubtitle render={<span />}>
-														{media.type}
-													</ListItemSubtitle>
-												</ListItemContent>
-											</ListItem>
-										</List>
-									</Card>
+									className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-[--theme]` : ""}`}
+									style={{
+										"--theme": media.coverImage?.color ?? ""
+									}}
+									render={<span />}
+								>
+									<List className="force:p-0" render={<span />}>
+										<ListItem render={<span />}>
+											<ListItemImg>
+												<MediaCover media={media} />
+											</ListItemImg>
+											<ListItemContent>
+												<ListItemTitle render={<span />}>
+													{media.title?.userPreferred}
+												</ListItemTitle>
+												<ListItemSubtitle render={<span />}>
+													{media.type}
+												</ListItemSubtitle>
+											</ListItemContent>
+										</ListItem>
+									</List>
+								</Card>
 							)
 						)
 					}}
@@ -187,7 +187,7 @@ export default function Index() {
 
 	return (
 		<LayoutBody>
-			<LayoutPane >
+			<LayoutPane>
 				<ul className="flex flex-col gap-2">
 					{data.page?.activities
 						?.filter(Predicate.isNotNull)
@@ -245,7 +245,7 @@ const options = {
 			return <div {...props} className="text-center [&_*]:mx-auto" />
 		},
 		p(props) {
-			return <div {...props}  />
+			return <div {...props} />
 		},
 		a(props) {
 			if (!props["href"]?.trim()) {

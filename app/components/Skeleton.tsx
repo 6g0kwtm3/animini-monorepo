@@ -1,20 +1,21 @@
 import {
 	createContext,
+	useContext,
 	type ComponentPropsWithoutRef,
-	type ReactElement,
-	useContext
-} from "react"
-import { VariantProps, createTV } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
+	type ReactElement
+} from "react";
+import type { VariantProps } from "tailwind-variants";
+import { createTV } from "tailwind-variants";
+import { createElement } from "~/lib/createElement";
 
 const tv = createTV({ twMerge: false })
 
 const skeleton = tv({
-	base: "w-full animate-pulse select-none overflow-hidden rounded-xs bg-surface-container-highest text-transparent",
+	base: "animate-pulse select-none overflow-hidden rounded-xs bg-surface-container-highest text-transparent",
 	variants: {
 		full: {
-			true: "block h-full",
-			false: "block h-[1ic] my-[calc((1lh-1ic)/2)]"
+			true: "block w-full h-full",
+			false: "my-[calc((1lh-1ic)/2)] block h-[1ic] w-full max-w-[65ch]"
 		}
 	},
 	defaultVariants: {

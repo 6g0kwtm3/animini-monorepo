@@ -1,4 +1,4 @@
-import { Form, Link, useParams, useRouteLoaderData } from "@remix-run/react"
+import { Form, NavLink, useParams, useRouteLoaderData } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -33,7 +33,6 @@ import {
 	ListItemImg,
 	ListItemTrailingSupportingText
 } from "~/components/List"
-import type { ListItem_EntryFragment } from "~/gql/graphql"
 import { MediaType } from "~/gql/graphql"
 import type { loader as rootLoader } from "~/root"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
@@ -48,15 +47,11 @@ import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 const MediaListItem_entry = serverOnly$(
 	graphql(`
 		fragment ListItem_entry on MediaList {
-			...ToWatch_entry
 			...Progress_entry
-			score
-			progress
+			...MediaListItemTitle_entry
+			...MediaListItemSubtitle_entry
 			media {
 				id
-				title {
-					userPreferred
-				}
 				...MediaCover_media
 			}
 		}
@@ -76,7 +71,7 @@ export function MediaListItem(props: {
 			<ListItem
 				render={
 					entry?.media ? (
-						<Link to={route_media({ id: entry.media.id })} />
+						<NavLink unstable_viewTransition to={route_media({ id: entry.media.id })} />
 					) : (
 						<div />
 					)
@@ -87,7 +82,6 @@ export function MediaListItem(props: {
 						{entry?.media ? (
 							<MediaCover
 								media={entry.media}
-								layoutId={`media-cover-${entry.media.id}`}
 							/>
 						) : null}
 					</Skeleton>
@@ -97,7 +91,7 @@ export function MediaListItem(props: {
 						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
 					</ListItemContentTitle>
 					<ListItemContentSubtitle className="flex flex-wrap gap-1">
-						<Skeleton className="force:w-1/2">
+						<Skeleton className="force:max-w-[21.666666666666668ch]">
 							{entry && <MediaListItemSubtitle entry={entry} />}
 						</Skeleton>
 					</ListItemContentSubtitle>
@@ -110,10 +104,24 @@ export function MediaListItem(props: {
 	)
 }
 
+const MediaListItemTitle_entry = serverOnly$(
+	graphql(`
+		fragment MediaListItemTitle_entry on MediaList {
+			id
+			progress
+			media {
+				title {
+					userPreferred
+				}
+			}
+		}
+	`)
+)
+
 function MediaListItemTitle(props: {
-	entry: ListItem_EntryFragment
+	entry: FragmentType<typeof MediaListItemTitle_entry>
 }): ReactNode {
-	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
+	const entry = readFragment<typeof MediaListItemTitle_entry>(props.entry)
 	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
 
 	const libraryHasNextEpisode = library?.some(
@@ -132,10 +140,20 @@ function MediaListItemTitle(props: {
 	)
 }
 
+const MediaListItemSubtitle_entry = serverOnly$(
+	graphql(`
+		fragment MediaListItemSubtitle_entry on MediaList {
+			id
+			score
+			...ToWatch_entry
+		}
+	`)
+)
+
 function MediaListItemSubtitle(props: {
-	entry: ListItem_EntryFragment
+	entry: FragmentType<typeof MediaListItemSubtitle_entry>
 }): ReactNode {
-	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
+	const entry = readFragment<typeof MediaListItemSubtitle_entry>(props.entry)
 
 	return (
 		<>

@@ -5,12 +5,7 @@ import { Effect, Option, Predicate, pipe } from "effect"
 
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
-} from "~/lib/urql.server"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
 import {
@@ -46,15 +41,18 @@ export const loader = (async (args) => {
 	return defer(
 		{
 			trending: pipe(
-				pipe(
-					Effect.Do,
-					Effect.bind("args", () => ClientArgs),
-					Effect.bind("client", () => EffectUrql),
-					Effect.flatMap(({ client }) =>
+				Effect.gen(function* (_) {
+					const client = yield* _(EffectUrql)
+					const viewer = yield* _(Viewer)
+
+					const data = yield* _(
 						client.query(
 							graphql(`
-								query NavQuery($coverExtraLarge: Boolean = false) {
-									notifications: Page {
+								query NavQuery(
+									$coverExtraLarge: Boolean = false
+									$isToken: Boolean = false
+								) {
+									notifications: Page @include(if: $isToken) {
 										nodes: notifications {
 											__typename
 											... on ActivityLikeNotification {
@@ -118,41 +116,42 @@ export const loader = (async (args) => {
 									}
 								}
 							`),
-							{}
+							{ isToken: Option.isSome(viewer) }
 						)
 					)
-				),
-				Effect.flatMap((data) =>
-					Effect.gen(function* (_) {
-						const { id } = yield* _(Viewer, Effect.flatten)
-						const storedRead = Option.getOrElse(
-							yield* _(Remix.CloudflareKV.store("notifications-read").get(id)),
-							() => 0
-						)
 
-						const read = Option.getOrElse(
-							yield* _(Remix.Cookie("notifications-read", Schema.number)),
-							() => 0
-						)
+					const storedRead = Option.getOrElse(
+						Option.isSome(viewer)
+							? yield* _(
+									Remix.CloudflareKV.store("notifications-read").get(
+										viewer.value.id
+									)
+								)
+							: Option.none(),
+						() => 0
+					)
 
-						const notifications =
-							data?.notifications?.nodes?.findIndex(
-								(notification) =>
-									notification &&
-									Predicate.isNumber(notification.createdAt) &&
-									notification.createdAt <= Math.max(storedRead, read)
-							) ?? 0
+					const read = Option.getOrElse(
+						yield* _(Remix.Cookie("notifications-read", Schema.number)),
+						() => 0
+					)
 
-						return {
-							trending: data?.trending,
-							notifications:
-								notifications < 0
-									? data?.notifications?.nodes?.length
-									: notifications
-						}
-					})
-				),
+					const notifications =
+						data?.notifications?.nodes?.findIndex(
+							(notification) =>
+								notification &&
+								Predicate.isNumber(notification.createdAt) &&
+								notification.createdAt <= Math.max(storedRead, read)
+						) ?? 0
 
+					return {
+						trending: data?.trending,
+						notifications:
+							notifications < 0
+								? data?.notifications?.nodes?.length
+								: notifications
+					}
+				}),
 				Effect.provide(LoaderLive),
 				Effect.provideService(LoaderArgs, args),
 				Remix.runLoader
@@ -270,7 +269,7 @@ export default function Nav() {
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
 					<Suspense>
-						<Await resolve={data.trending}>
+						<Await resolve={data.trending} errorElement={<></>}>
 							{(data) =>
 								(data.notifications ?? 0) > 0 && (
 									<NavigationItemLargeBadge>

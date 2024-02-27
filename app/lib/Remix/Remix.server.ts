@@ -9,6 +9,7 @@ import { NoSuchElementException } from "effect/Cause"
 
 import cookie from "cookie"
 import { dev } from "../dev"
+import { TypedResponse, json } from "@remix-run/cloudflare"
 
 export const Cookie = <I, A>(
 	name: string,
@@ -70,7 +71,7 @@ function createCloudflareKV<
 
 const CloudflareEnv = Effect.gen(function* (_) {
 	const { context } = yield* _(LoaderArgs)
-	return Option.fromNullable(context?.cloudflare?.env)
+	return Option.fromNullable(context?.cloudflare.env)
 })
 
 export function params<Fields extends StructFields>(fields: Fields) {
@@ -85,8 +86,8 @@ export const formData = Effect.gen(function* (_) {
 	return yield* _(Effect.promise(() => request.formData()))
 })
 
-export class ResponseError extends Data.TaggedError("ResponseError")<{
-	response: Response
+export class ResponseError<T> extends Data.TaggedError("ResponseError")<{
+	response: TypedResponse<T>
 }> {}
 
 export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
@@ -129,7 +130,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 			}
 		)
 	}
- 
+
 	throw new Response(null, {
 		status: 500
 	})
