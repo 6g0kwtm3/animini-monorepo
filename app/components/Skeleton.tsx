@@ -14,7 +14,7 @@ const skeleton = tv({
 	variants: {
 		full: {
 			true: "block h-full",
-			false: "block h-[1ic] my-[calc((1lh-1ic)/2)]"
+			false: "my-[calc((1lh-1ic)/2)] block h-[1ic]"
 		}
 	},
 	defaultVariants: {

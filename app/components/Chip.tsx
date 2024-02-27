@@ -1,6 +1,6 @@
-import * as Ariakit from "@ariakit/react";
-import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
-import MaterialSymbolsCheck from '~icons/material-symbols/check';
+import * as Ariakit from "@ariakit/react"
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
+import MaterialSymbolsCheck from "~icons/material-symbols/check"
 
 export function ChipFilter({
 	children,
