@@ -70,7 +70,7 @@ function createCloudflareKV<
 
 const CloudflareEnv = Effect.gen(function* (_) {
 	const { context } = yield* _(LoaderArgs)
-	return Option.fromNullable(context?.cloudflare.env)
+	return Option.fromNullable(context?.cloudflare?.env)
 })
 
 export function params<Fields extends StructFields>(fields: Fields) {
@@ -129,7 +129,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
 			}
 		)
 	}
-
+ 
 	throw new Response(null, {
 		status: 500
 	})

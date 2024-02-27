@@ -8,20 +8,13 @@ import {
 } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
-import {
-	MediaFormat,
-	MediaListStatus,
-	MediaStatus,
-	MediaType
-} from "~/gql/graphql"
+import { MediaStatus, MediaType } from "~/gql/graphql"
 import { graphql } from "~/lib/graphql"
 import {
 	AwaitLibrary,
-	MediaList,
 	MediaListHeader,
 	MediaListHeaderItem,
-	MediaListHeaderToWatch,
-	MediaListRoot
+	MediaListHeaderToWatch
 } from "~/lib/list/MediaList"
 import {
 	ClientArgs,
@@ -46,11 +39,11 @@ import {
 import { Suspense } from "react"
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
-import { Skeleton } from "~/components/Skeleton"
+import { Loading, Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { getLibrary } from "~/lib/electron/library.server"
-import { ListItemLoader } from "~/lib/entry/ListItem"
+import { MediaListItem } from "~/lib/entry/ListItem"
 import { toWatch } from "~/lib/entry/toWatch"
 import { m } from "~/lib/paraglide"
 
@@ -83,8 +76,8 @@ function TypelistQuery() {
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
 					name
-					...MediaList_group
 					entries {
+						...ListItem_entry
 						...ToWatch_entry
 						id
 						media {
@@ -218,31 +211,40 @@ export default function Page() {
 
 			<div className="-mx-4 sm:-my-4">
 				<div className={``}>
-					<MediaListRoot>
-						<List>
-							<Suspense
-								fallback={ReadonlyArray.range(1, 7).map((i) => (
-									<ListItemLoader key={i} />
-								))}
-							>
-								<Await resolve={data.SelectedList}>
-									{(selectedList) => (
-										<Suspense fallback={<MediaList group={selectedList} />}>
+					<List>
+						<Suspense
+							fallback={
+								<Loading>
+									{ReadonlyArray.range(1, 7).map((i) => (
+										<MediaListItem key={i} entry={null} />
+									))}
+								</Loading>
+							}
+						>
+							<Await resolve={data.SelectedList}>
+								{(selectedList) => {
+									const mediaList = selectedList.entries
+										.filter(Predicate.isNotNull)
+										.map((entry) => (
+											<MediaListItem key={entry.id} entry={entry} />
+										))
+
+									return (
+										<Suspense fallback={mediaList}>
 											<AwaitLibrary resolve={data.Library}>
-												<MediaList group={selectedList} />
+												{mediaList}
 											</AwaitLibrary>
 										</Suspense>
-									)}
-								</Await>
-							</Suspense>
-						</List>
-					</MediaListRoot>
+									)
+								}}
+							</Await>
+						</Suspense>
+					</List>
 				</div>
 			</div>
 		</>
 	)
 }
-
 export function ErrorBoundary() {
 	const error = useRouteError()
 

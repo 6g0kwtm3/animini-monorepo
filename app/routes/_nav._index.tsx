@@ -1,7 +1,7 @@
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	LoaderFunctionArgs
+    HeadersFunction,
+    LoaderFunction,
+    LoaderFunctionArgs
 } from "@remix-run/cloudflare"
 import { Await, Link, defer } from "@remix-run/react"
 
@@ -13,12 +13,12 @@ import marked from "marked"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemImg,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemImg,
+    ListItemContentSubtitle as ListItemSubtitle,
+    ListItemContentTitle as ListItemTitle
 } from "~/components/List"
 import { graphql } from "~/gql"
 import { client_operation } from "~/lib/client"
@@ -48,8 +48,7 @@ function MediaLink({ mediaId, ...props }) {
 						const media = data[mediaId]
 						return (
 							media && (
-								<>
-									<Card
+								<Card
 										className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-[--theme]` : ""}`}
 										style={{
 											"--theme": media.coverImage?.color ?? ""
@@ -57,9 +56,9 @@ function MediaLink({ mediaId, ...props }) {
 										render={<span />}
 									>
 										<List className="force:p-0" render={<span />}>
-											<ListItem className="" render={<span />}>
+											<ListItem  render={<span />}>
 												<ListItemImg>
-													<MediaCover media={media}></MediaCover>
+													<MediaCover media={media} />
 												</ListItemImg>
 												<ListItemContent>
 													<ListItemTitle render={<span />}>
@@ -72,7 +71,6 @@ function MediaLink({ mediaId, ...props }) {
 											</ListItem>
 										</List>
 									</Card>
-								</>
 							)
 						)
 					}}
@@ -189,7 +187,7 @@ export default function Index() {
 
 	return (
 		<LayoutBody>
-			<LayoutPane className="">
+			<LayoutPane >
 				<ul className="flex flex-col gap-2">
 					{data.page?.activities
 						?.filter(Predicate.isNotNull)
@@ -244,10 +242,10 @@ export default function Index() {
 const options = {
 	replace: {
 		center(props) {
-			return <div {...props} className="text-center [&_*]:mx-auto"></div>
+			return <div {...props} className="text-center [&_*]:mx-auto" />
 		},
 		p(props) {
-			return <div {...props} className=""></div>
+			return <div {...props}  />
 		},
 		a(props) {
 			if (!props["href"]?.trim()) {
@@ -255,7 +253,7 @@ const options = {
 			}
 
 			if (props["className"] === "media-link" && props["data-id"]) {
-				return <MediaLink mediaId={props["data-id"]}></MediaLink>
+				return <MediaLink mediaId={props["data-id"]} />
 			}
 
 			if (props["className"] === "user-link" && props["data-user-name"]) {

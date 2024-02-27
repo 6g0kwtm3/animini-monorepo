@@ -11,7 +11,6 @@ import {
 	useNavigate,
 	useNavigation,
 	useParams,
-	useSearchParams,
 	useSubmit
 } from "@remix-run/react"
 
@@ -118,7 +117,7 @@ function useOptimisticLocation() {
 	let location = useLocation()
 	const navigation = useNavigation()
 
-	if (navigation.state === "loading") {
+	if (navigation.location?.pathname === location.pathname) {
 		location = navigation.location
 	}
 	return location
@@ -323,7 +322,7 @@ function Filter() {
 								return (
 									<ListItem render={<label />} key={value}>
 										<Checkbox name="format" value={value} />
-										<ListItemContent className="">
+										<ListItemContent >
 											<ListItemContentTitle>{label}</ListItemContentTitle>
 										</ListItemContent>
 									</ListItem>

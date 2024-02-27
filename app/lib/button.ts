@@ -49,7 +49,7 @@ const { root: button } = createButton()
 export { button }
 
 export const fab = tv({
-	base: "shadow elevation-3 i hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed data-[active]:state-pressed data-[focus-visible]:state-focus",
+	base: "shadow block elevation-3 i hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed data-[active]:state-pressed data-[focus-visible]:state-focus",
 	variants: {
 		size: {
 			default: "h-14 w-14 rounded-[1rem] p-4",

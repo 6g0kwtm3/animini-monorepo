@@ -22,7 +22,7 @@ import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
-import type { ReactElement, ReactNode } from "react"
+import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
 import {
@@ -33,6 +33,7 @@ import {
 	ListItemImg,
 	ListItemTrailingSupportingText
 } from "~/components/List"
+import type { ListItem_EntryFragment } from "~/gql/graphql"
 import { MediaType } from "~/gql/graphql"
 import type { loader as rootLoader } from "~/root"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
@@ -64,9 +65,54 @@ const MediaListItem_entry = serverOnly$(
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
 >({})
+
 export function MediaListItem(props: {
-	entry: FragmentType<typeof MediaListItem_entry>
+	entry: FragmentType<typeof MediaListItem_entry> | null
 }) {
+	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
+
+	return (
+		<li className="col-span-full grid grid-cols-subgrid">
+			<ListItem
+				render={
+					entry?.media ? (
+						<Link to={route_media({ id: entry.media.id })} />
+					) : (
+						<div />
+					)
+				}
+			>
+				<ListItemImg>
+					<Skeleton full>
+						{entry?.media ? (
+							<MediaCover
+								media={entry.media}
+								layoutId={`media-cover-${entry.media.id}`}
+							/>
+						) : null}
+					</Skeleton>
+				</ListItemImg>
+				<ListItemContent>
+					<ListItemContentTitle>
+						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
+					</ListItemContentTitle>
+					<ListItemContentSubtitle className="flex flex-wrap gap-1">
+						<Skeleton className="force:w-1/2">
+							{entry && <MediaListItemSubtitle entry={entry} />}
+						</Skeleton>
+					</ListItemContentSubtitle>
+				</ListItemContent>
+				<ListItemTrailingSupportingText>
+					<Skeleton>{entry && <Progress entry={entry} />}</Skeleton>
+				</ListItemTrailingSupportingText>
+			</ListItem>
+		</li>
+	)
+}
+
+function MediaListItemTitle(props: {
+	entry: ListItem_EntryFragment
+}): ReactNode {
 	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
 	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
 
@@ -75,92 +121,35 @@ export function MediaListItem(props: {
 	)
 
 	return (
-		entry.media && (
-			<MediaListItemSkeleton
-				render={<Link to={route_media({ id: entry.media.id })} />}
-				img={
-					<MediaCover
-						media={entry.media}
-						layoutId={`media-cover-${entry.media.id}`}
-					/>
-				}
-				title={
-					<>
-						{libraryHasNextEpisode && (
-							<MaterialSymbolsPriorityHigh className="i-inline inline text-primary" />
+		<>
+			{libraryHasNextEpisode && (
+				<MaterialSymbolsPriorityHigh className="i-inline inline text-primary" />
 
-							// <span className="i-inline text-primary">video_library</span>
-						)}
-						{entry.media.title?.userPreferred}
-					</>
-				}
-				subtitle={
-					<>
-						<div>
-							<MaterialSymbolsStarOutline className="i-inline inline" />{" "}
-							{entry.score}
-						</div>
-						&middot;
-						<div>
-							<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
-							{toWatch(entry) > 0
-								? m.time_to_watch({ time: formatWatch(toWatch(entry)) })
-								: m.nothing_to_watch()}
-						</div>
-					</>
-				}
-				trailing={<Progress entry={entry} />}
-			></MediaListItemSkeleton>
-		)
+				// <span className="i-inline text-primary">video_library</span>
+			)}
+			{entry.media?.title?.userPreferred}
+		</>
 	)
 }
 
-export function MediaListItemSkeleton(props: {
-	render?: ReactElement
-	img: ReactNode
-	title: ReactNode
-	subtitle: ReactNode
-	trailing: ReactNode
-}) {
-	return (
-		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem render={props.render ?? <div />}>
-				<ListItemImg>{props.img}</ListItemImg>
-				<ListItemContent>
-					<ListItemContentTitle>{props.title}</ListItemContentTitle>
-					<ListItemContentSubtitle className="flex flex-wrap gap-1">
-						{props.subtitle}
-					</ListItemContentSubtitle>
-				</ListItemContent>
-				<ListItemTrailingSupportingText>
-					{props.trailing}
-				</ListItemTrailingSupportingText>
-			</ListItem>
-		</li>
-	)
-}
+function MediaListItemSubtitle(props: {
+	entry: ListItem_EntryFragment
+}): ReactNode {
+	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
 
-export function ListItemLoader(props: {}) {
 	return (
-		<MediaListItemSkeleton
-			img={
-				<div className="h-14 w-14 animate-pulse bg-surface-container-highest text-transparent" />
-			}
-			title={<Skeleton>Mahou Shoujo ni Akogarete</Skeleton>}
-			subtitle={
-				<Skeleton>
-					<div>
-						<MaterialSymbolsStarOutline className="i-inline inline" /> 7
-					</div>
-					&middot;
-					<div>
-						<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
-						{m.time_to_watch({ time: "24min" })}
-					</div>
-				</Skeleton>
-			}
-			trailing={<Skeleton>1/12</Skeleton>}
-		/>
+		<>
+			<div>
+				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
+			</div>
+			&middot;
+			<div>
+				<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
+				{toWatch(entry) > 0
+					? m.time_to_watch({ time: formatWatch(toWatch(entry)) })
+					: m.nothing_to_watch()}
+			</div>
+		</>
 	)
 }
 

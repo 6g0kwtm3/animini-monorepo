@@ -3,48 +3,19 @@ import { Await, useParams } from "@remix-run/react"
 
 import {
 	useFragment as readFragment,
-	useFragment,
 	type FragmentType
 } from "~/lib/graphql"
 
 // import {} from 'glob'
 
-import { Library, MediaListItem } from "~/lib/entry/ListItem"
+import { Library } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 import type { AnitomyResult } from "anitomy"
-import { Predicate } from "effect"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { serverOnly$ } from "vite-env-only"
 import { graphql } from "~/lib/graphql"
-
-const MediaList_group = serverOnly$(
-	graphql(`
-		fragment MediaList_group on MediaListGroup {
-			entries {
-				id
-				...ListItem_entry
-			}
-		}
-	`)
-)
-
-export function MediaList(props: {
-	group: FragmentType<typeof MediaList_group>
-}) {
-	const group = useFragment<typeof MediaList_group>(props.group)
-
-	return (
-		<>
-			{group.entries
-				?.filter(Predicate.isNotNull)
-				.map((entry) => (
-					<MediaListItem key={entry.id} entry={entry}></MediaListItem>
-				))}
-		</>
-	)
-}
 
 export function AwaitLibrary({
 	children,
@@ -86,19 +57,15 @@ export function MediaListHeaderToWatch(props: {
 	)
 }
 
-export function MediaListRoot(props: { children: ReactNode }) {
-	return <div className={""}>{props.children}</div>
-}
+ 
 
 export function MediaListHeader(props: { children: ReactNode }) {
 	const params = useParams()
 
 	return (
-		<>
-			<div className="grid grid-flow-col items-center [grid-auto-columns:minmax(0,1fr)]">
+		<div className="grid grid-flow-col items-center [grid-auto-columns:minmax(0,1fr)]">
 				{props.children}
 			</div>
-		</>
 	)
 }
 

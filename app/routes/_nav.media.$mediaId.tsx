@@ -39,9 +39,10 @@ import { Button } from "~/components/Button"
 
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
+import { MediaCover } from "~/lib/entry/MediaListCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
-import { MediaCover } from "~/lib/entry/MediaListCover"
+import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 
 const variants = {
 	enter: (direction: number) => {
@@ -121,32 +122,31 @@ export default function Page() {
 	const { pathname } = useLocation()
 
 	return (
-		<>
-			<LayoutBody
-				style={{
-					"--theme": data.Media.coverImage?.color ?? ""
-				}}
-				className={`${data.Media.coverImage?.color ? ` theme-[--theme]` : ""}`}
-			>
-				<PaneFlexible className="">
-					<div>
-						<Card
-							variant="filled"
-							className="grid flex-1 gap-4 force:rounded-[2.75rem]"
-						>
-							<MediaCover media={data.Media}></MediaCover>
+		<LayoutBody
+			style={{
+				"--theme": data.Media.coverImage?.color ?? ""
+			}}
+			className={`${data.Media.coverImage?.color ? ` theme-[--theme]` : ""}`}
+		>
+			<PaneFlexible >
+				<div>
+					<Card
+						variant="filled"
+						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
+					>
+						<MediaCover media={data.Media} className="rounded-xl"/>
 
-							<div className="flex flex-wrap gap-2">
-								<Button variant="filled">Favourite</Button>
-								<Button variant="outlined">Favourite</Button>
-								<Button>Favourite</Button>
-								<Button variant="elevated">Favourite</Button>
-								<Button variant="tonal" type="button" invoketarget="edit">
-									Edit
-								</Button>
-							</div>
+						<div className="flex flex-wrap gap-2">
+							<Button variant="filled">Favourite</Button>
+							<Button variant="outlined">Favourite</Button>
+							<Button>Favourite</Button>
+							<Button variant="elevated">Favourite</Button>
+							<Button variant="tonal" type="button" invoketarget="edit">
+								Edit
+							</Button>
+						</div>
 
-							{/* <div className="grid gap-4 flex-1">
+						{/* <div className="grid gap-4 flex-1">
               <img
                 src={data?.Media?.bannerImage ?? ""}
                 loading="lazy"
@@ -155,91 +155,85 @@ export default function Page() {
               />
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
-							<div className="overflow-hidden rounded-xl">
-								<Card variant="elevated">
-									<div className="sm:p-12">
-										<h1 className="text-balance text-display-lg">
-											{data.Media.title?.userPreferred}
-										</h1>
-										<Menu>
-											<MenuTrigger
-												className={button({
-													className: "cursor-default"
-												})}
-											>
-												Format
-											</MenuTrigger>
+						<div className="overflow-hidden rounded-xl">
+							<Card variant="elevated">
+								<div className="sm:p-12">
+									<h1 className="text-balance text-display-lg">
+										{data.Media.title?.userPreferred}
+									</h1>
+									<Menu>
+										<MenuTrigger
+											className={button({
+												className: "cursor-default"
+											})}
+										>
+											Format
+										</MenuTrigger>
 
-											<MenuList className="top-auto">
-												<li>
-													<MenuItem render={<a href=""></a>}>
-														<MenuItemLeadingIcon>
-															visibility
-														</MenuItemLeadingIcon>
-														Item 1
+										<MenuList className="top-auto">
+											<li>
+												<MenuItem render={<a href="" />}>
+													<MenuItemLeadingIcon>visibility</MenuItemLeadingIcon>
+													Item 1
+												</MenuItem>
+											</li>
+											<MenuItem>
+												<MenuItemLeadingIcon>content_copy</MenuItemLeadingIcon>
+												Item 2
+												<MenuItemTrailingText>
+													<span className="i">keyboard_command_key</span>
+													+Shift+X
+												</MenuItemTrailingText>
+											</MenuItem>
+											<MenuItem>
+												-<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
+												Item 3<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
+											</MenuItem>
+											<MenuDivider />
+											<li>
+												<Menu className="group">
+													<MenuItem render={<MenuTrigger />}>
+														<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
+														Item 4
+														<MenuItemTrailingIcon className="group-open:rotate-180">
+															chevron_right
+														</MenuItemTrailingIcon>
 													</MenuItem>
-												</li>
-												<MenuItem>
-													<MenuItemLeadingIcon>
-														content_copy
-													</MenuItemLeadingIcon>
-													Item 2
-													<MenuItemTrailingText>
-														<span className="i">keyboard_command_key</span>
-														+Shift+X
-													</MenuItemTrailingText>
-												</MenuItem>
-												<MenuItem>
-													-<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
-													Item 3
-													<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
-												</MenuItem>
-												<MenuDivider></MenuDivider>
-												<li>
-													<Menu className="group">
-														<MenuItem render={<MenuTrigger />}>
-															<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
-															Item 4
-															<MenuItemTrailingIcon className="group-open:rotate-180">
-																chevron_right
-															</MenuItemTrailingIcon>
+													<MenuList className="-top-2 left-full">
+														<MenuItem>
+															<MenuItemLeadingIcon>
+																visibility
+															</MenuItemLeadingIcon>
+															Item 1
 														</MenuItem>
-														<MenuList className="-top-2 left-full">
-															<MenuItem>
-																<MenuItemLeadingIcon>
-																	visibility
-																</MenuItemLeadingIcon>
-																Item 1
-															</MenuItem>
-														</MenuList>
-													</Menu>
-												</li>
-											</MenuList>
-										</Menu>
-										<div
-											className="text-title-lg"
-											dangerouslySetInnerHTML={{
-												__html: data.Media.description || ""
-											}}
-										></div>
-									</div>
-								</Card>
-							</div>
-						</Card>
-					</div>
+													</MenuList>
+												</Menu>
+											</li>
+										</MenuList>
+									</Menu>
+									<div
+										className="text-title-lg"
+										dangerouslySetInnerHTML={{
+											__html: data.Media.description || ""
+										}}
+									/>
+								</div>
+							</Card>
+						</div>
+					</Card>
+				</div>
 
-					<Edit />
+				<Edit />
 
-					{outlet && (
-						<AnimatePresence mode="wait">
-							{cloneElement(outlet, {
-								key: pathname
-							})}
-						</AnimatePresence>
-					)}
-				</PaneFlexible>
-			</LayoutBody>
-		</>
+				{outlet && (
+					<AnimatePresence mode="wait">
+						{cloneElement(outlet, {
+							key: pathname
+						})}
+					</AnimatePresence>
+				)}
+			</PaneFlexible>
+		</LayoutBody>
 	)
 }
 
@@ -278,10 +272,10 @@ function Edit() {
 								className={fab({})}
 								onClick={() => store.setOpen(false)}
 							>
-								edit
+								<MaterialSymbolsEditOutline />
 							</Link>
 						}
-					></TooltipPlainTrigger>
+					/>
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
 				</TooltipPlain>
 			</div>

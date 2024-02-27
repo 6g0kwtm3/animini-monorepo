@@ -1,5 +1,6 @@
-import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef, PropsWithChildren } from "react"
+import * as Ariakit from "@ariakit/react";
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
+import MaterialSymbolsCheck from '~icons/material-symbols/check';
 
 export function ChipFilter({
 	children,
@@ -8,10 +9,10 @@ export function ChipFilter({
 	return (
 		<label className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:elevation-1 hover:[&:not(\#)]:state-hover has-[[data-focus-visible]]:[&:not(\#)]:state-focus">
 			<Ariakit.VisuallyHidden className="peer">
-				<Ariakit.Checkbox {...props}></Ariakit.Checkbox>
+				<Ariakit.Checkbox {...props} />
 			</Ariakit.VisuallyHidden>
 
-			<ChipFilterIcon></ChipFilterIcon>
+			<ChipFilterIcon />
 			{children}
 		</label>
 	)
@@ -19,8 +20,8 @@ export function ChipFilter({
 
 export function ChipFilterIcon() {
 	return (
-		<div className="-ms-2 w-0 opacity-0 transition-all ease-out i peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
-			check
+		<div className="-ms-2 w-0 opacity-0 transition-all ease-out i-[1.125rem] peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
+			<MaterialSymbolsCheck />
 		</div>
 	)
 }
