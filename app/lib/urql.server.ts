@@ -20,7 +20,7 @@ const API_URL = "https://graphql.anilist.co"
 
 export type JSONValue = string | number | boolean | JSONObject | JSONArray
 
-interface JSONObject {
+export interface JSONObject {
 	[x: string]: JSONValue
 }
 

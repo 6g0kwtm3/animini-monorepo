@@ -45,7 +45,7 @@ export const loader = (async (args) => {
 					const client = yield* _(EffectUrql)
 					const viewer = yield* _(Viewer)
 
-					const data = yield* _(
+					const { notifications, ...data } = yield* _(
 						client.query(
 							graphql(`
 								query NavQuery(
@@ -108,12 +108,7 @@ export const loader = (async (args) => {
 											}
 										}
 									}
-									trending: Page(perPage: 10) {
-										media(sort: [TRENDING_DESC]) {
-											id
-											...SearchItem_media
-										}
-									}
+									...Search_query
 								}
 							`),
 							{ isToken: Option.isSome(viewer) }
@@ -136,8 +131,8 @@ export const loader = (async (args) => {
 						() => 0
 					)
 
-					const notifications =
-						data?.notifications?.nodes?.findIndex(
+					const readNotifications =
+						notifications?.nodes?.findIndex(
 							(notification) =>
 								notification &&
 								Predicate.isNumber(notification.createdAt) &&
@@ -145,11 +140,11 @@ export const loader = (async (args) => {
 						) ?? 0
 
 					return {
-						trending: data?.trending,
+						...data,
 						notifications:
-							notifications < 0
-								? data?.notifications?.nodes?.length
-								: notifications
+							readNotifications < 0
+								? notifications?.nodes?.length
+								: readNotifications
 					}
 				}),
 				Effect.provide(LoaderLive),

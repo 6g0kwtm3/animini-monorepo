@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/experimental-ct-react"
 import icons from "unplugin-icons/vite"
+import envOnly from "vite-env-only"
 import tsconfigPaths from "vite-tsconfig-paths"
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -30,6 +30,7 @@ export default defineConfig({
 		ctPort: 3100,
 		ctViteConfig: {
 			plugins: [
+				envOnly(),
 				tsconfigPaths(),
 				icons({
 					compiler: "jsx",
@@ -49,10 +50,10 @@ export default defineConfig({
 			name: "chromium",
 			use: { ...devices["Desktop Chrome"] }
 		},
-		{
-			name: "firefox",
-			use: { ...devices["Desktop Firefox"] }
-		},
+		// {
+		// 	name: "firefox",
+		// 	use: { ...devices["Desktop Firefox"] }
+		// },
 		{
 			name: "webkit",
 			use: { ...devices["Desktop Safari"] }

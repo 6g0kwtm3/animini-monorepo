@@ -1,4 +1,4 @@
-import colors from "~/../colors.json"
+import type { ReactNode } from "react"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 
 export default function Page() {
@@ -24,24 +24,28 @@ export default function Page() {
 	)
 }
 
-const K_1 = 0.173
-const K_2 = 0.004
-const K_3 = (1.0 + K_1) / (1.0 + K_2)
-
-function toeInv(x: number): number {
-	return (x ** 2 + K_1 * x) / (K_3 * (x + K_2))
-}
-
-function ColorItem() {
+function ColorItem({
+	color,
+	children,
+	text
+}: {
+	color: string
+	text?: string
+	children?: ReactNode
+}) {
 	return (
 		<li
 			className="p-4"
 			style={{
 				backgroundColor: `var(--${color})`,
-				color: `var(--on-${color})`
+				color: text ? `var(--${text})` : `var(--on-${color})`
 			}}
 		>
-			{color.substring(0, 1).toUpperCase() + color.substring(1)}
+			{children ??
+				color.substring(0, 1).toUpperCase() +
+					color
+						.replaceAll(/-[a-z]/g, (s) => s.substring(1).toUpperCase())
+						.substring(1)}
 		</li>
 	)
 }
@@ -54,25 +58,11 @@ function Palette() {
 					<li key={color}>
 						<h1>{color.substring(0, 1).toUpperCase() + color.substring(1)}</h1>
 						<ul className="grid grid-cols-4">
-							<li
-								className="p-4"
-								style={{
-									backgroundColor: `var(--${color})`,
-									color: `var(--on-${color})`
-								}}
-							>
-								{color.substring(0, 1).toUpperCase() + color.substring(1)}
-							</li>
-							<li
-								className="p-4"
-								style={{
-									backgroundColor: `var(--${color}-container)`,
-									color: `var(--on-${color}-container)`
-								}}
-							>
+							<ColorItem color={color} />
+							<ColorItem color={`${color}-container`}>
 								{color.substring(0, 1).toUpperCase() + color.substring(1)}{" "}
 								Container
-							</li>
+							</ColorItem>
 						</ul>
 					</li>
 				)
@@ -81,65 +71,17 @@ function Palette() {
 			<li>
 				<h1>Neutral</h1>
 				<ul className="grid grid-cols-4">
-					<li
-						className="p-4"
-						style={{
-							backgroundColor: `var(--background)`,
-							color: `var(--on-background)`
-						}}
-					>
-						Background
-					</li>
-					<li
-						className="p-4"
-						style={{
-							backgroundColor: `var(--surface-container)`,
-							color: `var(--on-surface-container)`
-						}}
-					>
-						Surface
-					</li>
-					<li
-						className="p-4"
-						style={{
-							backgroundColor: `var(--surface-variant)`,
-							color: `var(--on-surface-variant)`
-						}}
-					>
-						Surface Variant
-					</li>
-					<li
-						className="p-4"
-						style={{
-							backgroundColor: `var(--outline)`,
-							color: `var(--on-outline)`
-						}}
-					>
-						Outline
-					</li>
+					<ColorItem color="surface-container">Surface</ColorItem>
+					<ColorItem color="surface-variant" />
+					<ColorItem color="outline" />
 				</ul>
 			</li>
 
 			<li>
 				<h1>Inverse</h1>
 				<ul className="grid grid-cols-4">
-					<li
-						className="p-4"
-						style={{
-							backgroundColor: `var(--inverse-surface)`,
-							color: `var(--inverse-on-surface)`
-						}}
-					>
-						Inverse Surface
-					</li>
-					<li
-						className="p-4"
-						style={{
-							backgroundColor: `var(--inverse-primary)`
-						}}
-					>
-						Inverse Primary
-					</li>
+					<ColorItem color="inverse-surface" text="inverse-on-surface" />
+					<ColorItem color="inverse-primary" />
 				</ul>
 			</li>
 		</ul>

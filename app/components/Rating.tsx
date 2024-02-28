@@ -38,7 +38,7 @@ export const point5Icons = Array.from({ length: 5 }, (_, index) => (
 	</>
 ))
 
-const Rating = (props: {
+export const Rating = (props: {
 	defaultValue: number
 	children: ReactNode[]
 	name: string
@@ -67,4 +67,4 @@ const Rating = (props: {
 	)
 }
 
-export default memo(Rating)
+ 

@@ -48,7 +48,7 @@ module.exports = {
 		},
 		{
 			files: ["*.graphql"],
-			extends: "plugin:@graphql-eslint/operations-recommended"
+			extends: "plugin:@graphql-eslint/operations-all"
 		}
 	],
 	rules: {

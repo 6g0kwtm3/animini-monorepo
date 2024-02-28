@@ -25,6 +25,12 @@ for (const [variant, text] of ReadonlyRecord.toEntries(variants)) {
 			await expect(component).toHaveScreenshot()
 		})
 
+		test("when hovered should match screenshot", async ({ mount, page }) => {
+			const component = await mount(<Button variant={variant}>{text}</Button>)
+			await component.hover()
+			await expect(component).toHaveScreenshot()
+		})
+
 		test("when clicked should match screenshot", async ({ mount, page }) => {
 			const component = await mount(<Button variant={variant}>{text}</Button>)
 			await component.click()
@@ -36,6 +42,7 @@ for (const [variant, text] of ReadonlyRecord.toEntries(variants)) {
 			await component.focus()
 			await expect(component).toHaveScreenshot()
 		})
+
 		test.describe("responsive design", () => {
 			test.use({
 				colorScheme: "dark"

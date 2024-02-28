@@ -1,7 +1,7 @@
 import type { NavLinkProps } from "@remix-run/react"
 import { NavLink } from "@remix-run/react"
 import { motion } from "framer-motion"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
@@ -92,6 +92,7 @@ export const NavigationItem = forwardRef<
 	ComponentPropsWithoutRef<typeof NavLink> & {
 		children?: ReactNode
 		className?: string
+		render?: ReactElement
 	}
 >(function NavigationItem({ children, ...props }, ref) {
 	const { label } = useContext(Context)

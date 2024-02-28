@@ -431,7 +431,8 @@ function parse2(html: string, options): ReactNode {
 
 	return stack[0]?.node
 }
-const d = Date.now()
+
+
 
 function sanitizeHtml(t: string) {
 	const out: string = sanitizeHtml_(t, {

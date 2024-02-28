@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactElement } from "react"
-import { createContext, useContext } from "react"
+import { createContext, forwardRef, useContext } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createElement } from "~/lib/createElement"
@@ -9,17 +9,19 @@ type ListVariantProps = VariantProps<typeof createList>
 
 const ListContext = createContext(createList())
 
-export function ListItem(
-	props: ComponentPropsWithoutRef<"li"> & {
+export const ListItem = forwardRef<
+	HTMLLIElement,
+	ComponentPropsWithoutRef<"li"> & {
 		render?: ReactElement
 	}
-) {
+>(function ListItem(props, ref) {
 	const { item } = useContext(ListContext)
 	return createElement("li", {
 		...props,
+		ref,
 		className: item({ className: props.className })
 	})
-}
+})
 
 export function ListItemContentTitle(
 	props: ComponentPropsWithoutRef<"div"> & {
@@ -86,6 +88,19 @@ export function ListItemAvatar(
 	})
 }
 
+export function ListItemIcon(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemIcon } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemIcon({ className: props.className })
+	})
+}
+
 export function ListItemTrailingSupportingText(
 	props: ComponentPropsWithoutRef<"span">
 ) {
@@ -99,21 +114,22 @@ export function ListItemTrailingSupportingText(
 	)
 }
 
-export function List({
-	lines,
-	...props
-}: ComponentPropsWithoutRef<"ul"> &
-	ListVariantProps & {
-		render?: ReactElement
-	}) {
+export const List = forwardRef<
+	HTMLUListElement,
+	ComponentPropsWithoutRef<"ul"> &
+		ListVariantProps & {
+			render?: ReactElement
+		}
+>(function List({ lines, ...props }, ref) {
 	const styles = createList({ lines })
 
 	return (
 		<ListContext.Provider value={styles}>
 			{createElement("ul", {
 				...props,
+				ref,
 				className: styles.root({ className: props.className })
 			})}
 		</ListContext.Provider>
 	)
-}
+})

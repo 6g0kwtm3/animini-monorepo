@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { createElement } from "~/lib/createElement"
 import { classes } from "./classes"
 
-const Slot = "li"
+ 
 
 export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 	return (

@@ -1,7 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 import {
 	Await,
-	Link,
 	useFetcher,
 	useLocation,
 	useNavigate,
@@ -10,143 +9,33 @@ import {
 	useSearchParams
 } from "@remix-run/react"
 
-import type { ComponentPropsWithoutRef, ElementRef, FocusEvent } from "react"
-import { Suspense, forwardRef, useEffect, useRef } from "react"
-import { Icon as ButtonIcon } from "~/components/Button"
+import type { ElementRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import type { loader as searchLoader } from "~/routes/search"
-import { createDialog } from "../dialog"
 
 import { Predicate, ReadonlyArray } from "effect"
-import { createTV } from "tailwind-variants"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
-import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment } from "~/lib/graphql"
-import { createList } from "../list"
 
-import { serverOnly$ } from "vite-env-only"
-import {
-	ListItemAvatar,
-	ListItemContent,
-	ListItemContentTitle,
-	ListItemTrailingSupportingText
-} from "~/components/List"
+import { List, ListItem } from "~/components/List"
 import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
+import {
+	SearchView,
+	SearchViewBody,
+	SearchViewBodyGroup,
+	SearchViewInput
+} from "~/components/SearchView"
 import type { loader as navLoader } from "~/routes/_nav"
-import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
-import { MediaCover } from "../entry/MediaListCover"
-import { route_media } from "../route"
 import { HashNavLink } from "./HashNavLink"
+import { SearchItem } from "./SearchItem"
+import { SearchTrending } from "./SearchTrending"
 
-const tv = createTV({ twMerge: false })
-
-const { backdrop, body } = createDialog({})
-
-const createSearchView = tv(
-	{
-		slots: {
-			root: "fixed mt-0 flex overflow-hidden bg-surface-container-high elevation-3",
-			input:
-				"w-full bg-transparent p-4 text-body-lg text-on-surface outline-none placeholder:text-body-lg placeholder:text-on-surface-variant [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4"
-		},
-		variants: {
-			variant: {
-				fullscreen: {
-					input: "h-[4.5rem]",
-					root: `inset-0`
-				},
-				docked: {
-					input: "h-14",
-					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0"
-				}
-			}
-		},
-		defaultVariants: { variant: "docked" }
-	},
-	{ responsiveVariants: ["sm"] }
-)
-
-const { input: search, root } = createSearchView({
-	variant: { initial: "fullscreen", sm: "docked" }
-})
-
-export interface SelectProps extends Ariakit.ComboboxProps {
-	value?: string
-	setValue?: (value: string) => void
-	defaultValue?: string
-	onBlur?: React.FocusEventHandler<HTMLElement>
-}
-
-const Select = forwardRef<HTMLInputElement, SelectProps>(function Select(
-	this: Function,
-	{ children, value, setValue, defaultValue, ...props },
-	ref
-) {
-	const store = Ariakit.useComboboxContext()
-
-	if (!store)
-		throw new Error(`${this.name} must be wrapped in ComboboxProvider`)
-
-	// const storeValue = store.useState("value")
-
-	// useEffect(() => {
-	// 	if (storeValue !== value) {
-	// 		setValue?.(storeValue)
-	// 		store.setValue(value)
-	// 	}
-	// }, [setValue, store, storeValue, value])
-
-	const onBlur = (event: FocusEvent<HTMLElement>) => {
-		const { popoverElement } = store.getState()
-		if (popoverElement?.contains(event.relatedTarget)) return
-		props.onBlur?.(event)
-	}
-
-	return (
-		<Ariakit.Combobox
-			autoSelect
-			ref={ref}
-			{...props}
-			store={store}
-			onBlur={onBlur}
-			className={search({ className: props.className })}
-		/>
-	)
-})
-
-const SearchInput = forwardRef<
-	HTMLInputElement,
-	ComponentPropsWithoutRef<typeof Select> & {
-		name: string
-	}
->(function SearchInput(this: Function, { name, ...props }, ref) {
-	const form = Ariakit.useFormContext()
-	if (!form) throw new Error(`${this.name} must be used within a Form`)
-
-	const value = form.useValue(name)
-
-	const select = (
-		<Select
-			placeholder="Search"
-			ref={ref}
-			value={value}
-			setValue={(value) => form.setValue(name, value)}
-			{...props}
-		/>
-	)
-
-	return <Ariakit.FormControl name={name} render={select} />
-})
 export function Search() {
 	const [searchParams] = useSearchParams()
-
-	const store = Ariakit.useFormStore({
-		defaultValues: { q: searchParams.get("q") ?? "" }
-	})
 
 	const submit = useFetcher<typeof searchLoader>()
 
@@ -183,7 +72,7 @@ export function Search() {
 		<>
 			<TooltipPlain>
 				<TooltipPlainTrigger
-					render={<NavigationItem render={<HashNavLink to="#search" />} />}
+					render={<NavigationItem render={<HashNavLink />} to="#search" />}
 				>
 					<NavigationItemIcon>
 						<MaterialSymbolsTravelExplore />
@@ -197,51 +86,50 @@ export function Search() {
 				</TooltipPlainContainer>
 			</TooltipPlain>
 
-			<Ariakit.Dialog
+			<SearchView
+				aria-label="Search anime or manga"
 				open={show}
-				onClose={() => {
-					navigate({ pathname: location.pathname, search: location.search })
+				onClose={(state) => {
+					// console.log({ state })
+					navigate({
+						pathname: location.pathname,
+						search: location.search
+					})
 				}}
-				className={root({
-					className: ``
-				})}
 				initialFocus={ref}
-				backdrop={<div className={backdrop()} />}
+				variant={{
+					initial: "fullscreen",
+					sm: "docked"
+				}}
+				defaultValue={searchParams.get("q") ?? ""}
 			>
-				<Ariakit.Form
-					store={store}
-					render={<submit.Form action="/search" />}
+				<submit.Form
+					role="search"
+					action="/search"
 					className={"flex w-full flex-col"}
 				>
-					<Ariakit.ComboboxProvider
-						focusLoop={false}
-						includesBaseElement={false}
-						resetValueOnHide={true}
-						open
-					>
-						<div className="flex items-center px-4">
-							<Ariakit.DialogDismiss render={<ButtonIcon />}>
-								<MaterialSymbolsArrowBack />
-							</Ariakit.DialogDismiss>
-							<SearchInput
-								ref={ref}
-								placeholder="Search anime or manga"
-								onChange={(e) => submit.submit(e.currentTarget.form, {})}
-								name={store.names.q}
-							/>
-							<Ariakit.ComboboxCancel render={<ButtonIcon />} />
-						</div>
-						<div className="border-b border-outline-variant sm:last:hidden" />
+					<>
+						<SearchViewInput
+							ref={ref}
+							placeholder="Search anime or manga"
+							onChange={(e) => submit.submit(e.currentTarget.form, {})}
+							name="q"
+						/>
 
 						{ReadonlyArray.isNonEmptyArray(media) ? (
-							<Ariakit.ComboboxList className={body({})}>
-								<Ariakit.ComboboxGroup
-									className={listRoot({ className: "-mx-6" })}
+							<SearchViewBody>
+								<SearchViewBodyGroup
+									render={
+										<List
+											lines={"one"}
+											className="force:py-0"
+											render={<div />}
+										/>
+									}
 								>
 									<Ariakit.ComboboxGroupLabel
-										className={item({
-											className: "-mt-2 force:hover:state-none"
-										})}
+										render={<ListItem render={<div />} />}
+										className="force:hover:state-none"
 									>
 										<div className="col-span-full text-body-md text-on-surface-variant">
 											Results
@@ -250,98 +138,18 @@ export function Search() {
 									{media.map((media) => (
 										<SearchItem media={media} key={media.id} />
 									))}
-								</Ariakit.ComboboxGroup>
-							</Ariakit.ComboboxList>
+								</SearchViewBodyGroup>
+							</SearchViewBody>
 						) : data ? (
 							<Suspense fallback="">
 								<Await resolve={data.trending} errorElement={<></>}>
-									{(data) =>
-										data.trending?.media &&
-										ReadonlyArray.isNonEmptyArray(data.trending.media) && (
-											<Ariakit.ComboboxList className={body({})}>
-												<Ariakit.ComboboxGroup
-													className={listRoot({ className: "-mx-6" })}
-												>
-													<Ariakit.ComboboxGroupLabel
-														className={item({
-															className: "-mt-2 force:hover:state-none"
-														})}
-													>
-														<div className="col-span-full text-body-md text-on-surface-variant">
-															Trending
-														</div>
-													</Ariakit.ComboboxGroupLabel>
-													{data.trending.media
-														.filter(Predicate.isNotNull)
-														.map((media) => (
-															<SearchItem media={media} key={media.id} />
-														))}
-												</Ariakit.ComboboxGroup>
-											</Ariakit.ComboboxList>
-										)
-									}
+									{(data) => <SearchTrending query={data} />}
 								</Await>
 							</Suspense>
 						) : null}
-					</Ariakit.ComboboxProvider>
-				</Ariakit.Form>
-			</Ariakit.Dialog>
+					</>
+				</submit.Form>
+			</SearchView>
 		</>
-	)
-}
-const {
-	item,
-	root: listRoot,
-	trailingSupportingText,
-
-	itemTitle
-} = createList({ lines: "one" })
-
-const SearchItem_media = serverOnly$(
-	graphql(`
-		fragment SearchItem_media on Media {
-			id
-			type
-			...MediaCover_media
-			title {
-				userPreferred
-			}
-		}
-	`)
-)
-
-function SearchItem(props: { media: FragmentType<typeof SearchItem_media> }) {
-	const media = useFragment<typeof SearchItem_media>(props.media)
-
-	return (
-		<Ariakit.ComboboxItem
-			key={media.id}
-			className={item({})}
-			hideOnClick
-			focusOnHover
-			blurOnHoverEnd={false}
-			render={
-				<Link
-					to={route_media({ id: media.id })}
-					title={media.title?.userPreferred ?? undefined}
-				/>
-			}
-		>
-			<ListItemAvatar>
-				<MediaCover media={media} />
-			</ListItemAvatar>
-
-			<ListItemContent>
-				<ListItemContentTitle>
-					{media.title?.userPreferred}
-				</ListItemContentTitle>
-			</ListItemContent>
-
-			{media.type && (
-				<ListItemTrailingSupportingText>
-					{media.type.toLowerCase()}
-				</ListItemTrailingSupportingText>
-			)}
-		</Ariakit.ComboboxItem>
 	)
 }

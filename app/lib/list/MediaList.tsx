@@ -1,4 +1,4 @@
-import { Await, useParams } from "@remix-run/react"
+import { Await } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
 import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
@@ -55,7 +55,6 @@ export function MediaListHeaderToWatch(props: {
 }
 
 export function MediaListHeader(props: { children: ReactNode }) {
-	const params = useParams()
 
 	return (
 		<div className="grid grid-flow-col items-center [grid-auto-columns:minmax(0,1fr)]">

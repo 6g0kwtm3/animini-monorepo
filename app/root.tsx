@@ -7,8 +7,6 @@ import {
 	json
 } from "@remix-run/react"
 import {
-	ClientArgs,
-	EffectUrql,
 	LoaderArgs,
 	LoaderLive
 } from "./lib/urql.server"

@@ -1,10 +1,8 @@
-import { useScroll } from "framer-motion"
 import {
 	createContext,
-	type ComponentPropsWithoutRef,
-	type ReactElement,
 	useContext,
-	useState
+	type ComponentPropsWithoutRef,
+	type ReactElement
 } from "react"
 import { createTV, type VariantProps } from "tailwind-variants"
 

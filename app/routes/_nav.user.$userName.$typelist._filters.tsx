@@ -18,7 +18,6 @@ import { Button as ButtonText, Icon } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
-import { createButton } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
 import type { InferVariables } from "~/lib/urql.server"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -42,7 +41,7 @@ import { HashNavLink } from "~/lib/search/HashNavLink"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
-const { root: button } = createButton()
+ 
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>
