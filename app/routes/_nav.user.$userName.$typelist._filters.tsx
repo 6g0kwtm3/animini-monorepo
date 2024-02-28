@@ -41,7 +41,6 @@ import { HashNavLink } from "~/lib/search/HashNavLink"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
- 
 
 function FiltersQueryVariables(
 	params: Readonly<Params<string>>

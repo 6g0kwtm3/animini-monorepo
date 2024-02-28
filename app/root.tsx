@@ -6,10 +6,7 @@ import {
 	ScrollRestoration,
 	json
 } from "@remix-run/react"
-import {
-	LoaderArgs,
-	LoaderLive
-} from "./lib/urql.server"
+import { LoaderArgs, LoaderLive } from "./lib/urql.server"
 
 import { SnackbarQueue } from "./components/Snackbar"
 

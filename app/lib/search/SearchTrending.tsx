@@ -31,13 +31,11 @@ export function SearchTrending(props: {
 		data.trending?.media &&
 		ReadonlyArray.isNonEmptyArray(data.trending.media) && (
 			<SearchViewBody>
-				<SearchViewBodyGroup 			render={
-				<List
-					lines={"one"}
-					className="force:py-0"
-					render={ <div />}
-				/>
-			}>
+				<SearchViewBodyGroup
+					render={
+						<List lines={"one"} className="force:py-0" render={<div />} />
+					}
+				>
 					<Ariakit.ComboboxGroupLabel
 						render={<ListItem render={<div />} />}
 						className="force:hover:state-none"

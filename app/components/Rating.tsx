@@ -66,5 +66,3 @@ export const Rating = (props: {
 		</div>
 	)
 }
-
- 

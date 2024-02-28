@@ -8,7 +8,7 @@ export const createList = tv(
 			root: "grid grid-cols-[auto_1fr_auto] gap-x-4 py-2 [grid-auto-rows:1fr]",
 			subheader: "",
 			item: "group col-span-full grid grid-cols-subgrid px-4 outline-none hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
-			itemAvatar: "h-10 w-10 rounded-full overflow-hidden *:h-full *:w-full",
+			itemAvatar: "h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full",
 			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
 			itemContent:

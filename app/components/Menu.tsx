@@ -4,8 +4,6 @@ import { useEffect, useRef } from "react"
 import { createElement } from "~/lib/createElement"
 import { classes } from "./classes"
 
- 
-
 export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 	return (
 		<ul
