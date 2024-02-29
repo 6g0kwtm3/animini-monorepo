@@ -145,7 +145,7 @@ export default function Notifications() {
 
 	const store = useTooltipStore()
 
-	const lastCreatedAt = query.Page?.notifications
+	const lastCreatedAt = query?.Page?.notifications
 		?.map(
 			(notification) =>
 				notification && "createdAt" in notification && notification.createdAt
@@ -186,7 +186,7 @@ export default function Notifications() {
 				<Card variant="elevated" className="max-sm:contents">
 					<div className="-mx-4 sm:-my-4">
 						<List lines={{ initial: "three", sm: "two" }}>
-							{query.Page?.notifications
+							{query?.Page?.notifications
 								?.filter(Predicate.isNotNull)
 								.map((notification) => {
 									if (notification.__typename === "AiringNotification") {
@@ -429,7 +429,7 @@ function ActivityLike(props: {
 						)}{" "}
 						{notification.context}
 					</ListItemContentTitle>
-					<ListItemContentSubtitle title={notification.user.name ?? undefined}>
+					<ListItemContentSubtitle title={notification.user.name}>
 						{notification.user.name}
 					</ListItemContentSubtitle>
 				</ListItemContent>
