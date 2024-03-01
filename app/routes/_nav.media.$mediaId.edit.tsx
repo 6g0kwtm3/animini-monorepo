@@ -1,15 +1,15 @@
 import {
-	json,
-	redirect,
-	type ActionFunction,
-	type LoaderFunction
-} from "@vercel/remix"
-import {
 	Link,
 	useActionData,
 	useNavigate,
 	useNavigation
 } from "@remix-run/react"
+import {
+	json,
+	redirect,
+	type ActionFunction,
+	type LoaderFunction
+} from "@vercel/remix"
 import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 import {
 	Button as ButtonText,
@@ -51,7 +51,9 @@ import { useRawLoaderData } from "~/lib/data"
 import { serverOnly$ } from "vite-env-only"
 
 export const action = (async ({ request, params }): Promise<Submission<{}>> => {
-	const formData = await request.formData()
+	await request.formData()
+
+	Save
 
 	return null
 }) satisfies ActionFunction
@@ -246,7 +248,7 @@ export default function Page() {
 
 	const navigation = useNavigation()
 
-	const actionData = useActionData<typeof action>()
+	useActionData<typeof action>()
 
 	const busy = navigation.state === "submitting"
 
@@ -519,11 +521,6 @@ function Repeat(
 			label="Total Rewatches"
 		/>
 	)
-}
-
-type StringLike = {
-	toString: () => string
-	valueOf: () => string
 }
 
 function Notes(

@@ -1,7 +1,12 @@
-import { Link, json, useLocation, useOutlet, useParams } from "@remix-run/react"
+import {
+	Link,
+	json,
+	useLocation,
+	useOutlet,
+	useParams
+} from "@remix-run/react"
 import type { LoaderFunction } from "@vercel/remix"
 
-import type { Variants } from "framer-motion"
 import { AnimatePresence, motion } from "framer-motion"
 
 import { useTooltipStore } from "@ariakit/react"
@@ -43,25 +48,6 @@ import { MediaCover } from "~/lib/entry/MediaListCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
-
-const variants = {
-	enter: (direction: number) => {
-		return {
-			y: direction > 0 ? 1000 : -1000,
-			opacity: 0
-		}
-	},
-	center: {
-		y: 0,
-		opacity: 1
-	},
-	exit: (direction: number) => {
-		return {
-			y: direction < 0 ? 1000 : -1000,
-			opacity: 0
-		}
-	}
-} satisfies Variants
 
 export const loader = (async (args) => {
 	return pipe(
@@ -266,9 +252,9 @@ function Edit() {
 							<Link
 								to={
 									root?.Viewer
-										? route_media_edit({ id: mediaId })
+										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
-												redirect: route_media_edit({ id: mediaId })
+												redirect: route_media_edit({ id: Number(mediaId) })
 											})
 								}
 								preventScrollReset={true}

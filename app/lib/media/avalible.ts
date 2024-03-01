@@ -42,6 +42,7 @@ export function avalible(data: FragmentType<typeof Avalible_media> | null) {
 		return null
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (media.status === MediaStatus.NotYetReleased) {
 		return 0
 	}

@@ -233,7 +233,7 @@ function ListTabs() {
 	)
 }
 function Filter() {
-	let { pathname, search } = useLocation()
+	let { pathname } = useLocation()
 	const { hash } = useOptimisticLocation()
 	const navigate = useNavigate()
 	const searchParams = useOptimisticSearchParams()
@@ -252,7 +252,7 @@ function Filter() {
 					<Link
 						to={{
 							hash: "#filter",
-							search,
+							search: `?${searchParams}`,
 							pathname
 						}}
 					/>
@@ -266,7 +266,7 @@ function Filter() {
 				onClose={() =>
 					navigate({
 						pathname,
-						search
+						search: `?${searchParams}`
 					})
 				}
 			>

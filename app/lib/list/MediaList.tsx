@@ -56,7 +56,7 @@ export function MediaListHeaderToWatch(props: {
 
 export function MediaListHeader(props: { children: ReactNode }) {
 	return (
-		<div className="grid grid-flow-col items-center [grid-auto-columns:minmax(0,1fr)]">
+		<div className="grid gap-4 grid-flow-col items-center [grid-auto-columns:minmax(0,1fr)]">
 			{props.children}
 		</div>
 	)
