@@ -10,12 +10,13 @@
 		"start": "http-serve ./build/server/index.js",
 		"dev:electron": "nodemon .",
 		"start:electron": "electron .",
-		"check": "tsc",
+		"check": "pnpm run paraglide && tsc",
 		"codegen": "graphql-codegen-esm --config codegen.ts",
 		"knip": "knip",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "prettier . -w",
-		"prepare": "pnpm run codegen && paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
+		"prepare": "pnpm run codegen",
+		"paraglide": "paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
 		"test-ct": "playwright test -c playwright-ct.config.ts"
 	},
 	"dependencies": {
