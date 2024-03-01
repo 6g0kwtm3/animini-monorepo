@@ -1,10 +1,4 @@
-import {
-	Link,
-	json,
-	useLocation,
-	useOutlet,
-	useParams
-} from "@remix-run/react"
+import { Link, json, useLocation, useOutlet, useParams } from "@remix-run/react"
 import type { LoaderFunction } from "@vercel/remix"
 
 import { AnimatePresence, motion } from "framer-motion"
