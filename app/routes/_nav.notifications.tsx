@@ -8,18 +8,18 @@ import { serverOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-    List,
-    ListItem,
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
-    ListItemTrailingSupportingText
+	List,
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
+	ListItemTrailingSupportingText
 } from "~/components/List"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
 import { Viewer } from "~/lib/Remix/Remix.server"
