@@ -1,6 +1,5 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import type { Params } from "@remix-run/react"
 import {
 	Form,
 	Link,
@@ -14,18 +13,12 @@ import {
 } from "@remix-run/react"
 import type { LoaderFunction } from "@vercel/remix"
 
-import { Button as ButtonText, Icon } from "~/components/Button"
-import { ChipFilter } from "~/components/Chip"
-import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
-import { Remix } from "~/lib/Remix/index.server"
-import { graphql } from "~/lib/graphql"
-import type { InferVariables } from "~/lib/urql.server"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
-
 import { Effect, Order, Predicate, pipe } from "effect"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
+import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox } from "~/components/Checkbox"
+import { ChipFilter } from "~/components/Chip"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
 	List,
@@ -35,30 +28,16 @@ import {
 } from "~/components/List"
 import { Sheet } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
+import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
+import { graphql } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import { HashNavLink } from "~/lib/search/HashNavLink"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
-
-function FiltersQueryVariables(
-	params: Readonly<Params<string>>
-): InferVariables<typeof FiltersQuery> {
-	const type = {
-		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga
-	}[String(params["typelist"])]
-
-	if (!type) {
-		throw new Error(`Invalid list type`)
-	}
-
-	return {
-		userName: params["userName"]!,
-		type
-	}
-}
 
 export const loader = (async (args) => {
 	return pipe(
@@ -66,7 +45,7 @@ export const loader = (async (args) => {
 			const params = yield* _(
 				Remix.params({
 					userName: Schema.string,
-					typelist: Schema.string
+					typelist: Schema.literal("animelist", "mangalist")
 				})
 			)
 
@@ -86,7 +65,13 @@ export const loader = (async (args) => {
 							}
 						}
 					`),
-					FiltersQueryVariables(params)
+					{
+						userName: params.userName,
+						type: {
+							animelist: MediaType.Anime,
+							mangalist: MediaType.Manga
+						}[params["typelist"]]
+					}
 				)
 			)
 

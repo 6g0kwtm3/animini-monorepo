@@ -45,7 +45,7 @@ export const loader = (async (args) => {
 					const client = yield* _(EffectUrql)
 					const viewer = yield* _(Viewer)
 
-					const { notifications, ...data } = yield* _(
+					const { notifications, ...data } =( yield* _(
 						client.query(
 							graphql(`
 								query NavQuery(
@@ -113,7 +113,7 @@ export const loader = (async (args) => {
 							`),
 							{ isToken: Option.isSome(viewer) }
 						)
-					)
+					))??{}
 
 					const storedRead = Option.getOrElse(
 						Option.isSome(viewer)

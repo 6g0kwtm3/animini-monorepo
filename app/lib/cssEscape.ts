@@ -5,7 +5,7 @@ export const cssEscape = function (value: string) {
 	var string = String(value)
 	var length = string.length
 	var index = -1
-	var codeUnit
+	var codeUnit: number
 	var result = ""
 	var firstCodeUnit = string.codePointAt(0)
 
@@ -19,7 +19,7 @@ export const cssEscape = function (value: string) {
 	}
 
 	while (++index < length) {
-		codeUnit = string.codePointAt(index)
+		codeUnit = string.codePointAt(index)!
 		// Note: there’s no need to special-case astral symbols, surrogate
 		// pairs, or lone surrogates.
 

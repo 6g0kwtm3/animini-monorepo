@@ -1,28 +1,30 @@
-import type { Params } from "@remix-run/react"
 import {
 	Await,
-	defer,
+
 	isRouteErrorResponse,
 	useRouteError
-} from "@remix-run/react"
-import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+} from "@remix-run/react";
+
+import type { HeadersFunction, LoaderFunction } from "@vercel/remix";
+import { defer } from "@vercel/remix";
+
+
 // import type { FragmentType } from "~/lib/graphql"
 
-import { MediaStatus, MediaType } from "~/gql/graphql"
-import { graphql } from "~/lib/graphql"
+import { MediaStatus, MediaType } from "~/gql/graphql";
+import { graphql } from "~/lib/graphql";
 import {
 	AwaitLibrary,
 	MediaListHeader,
 	MediaListHeaderItem,
 	MediaListHeaderToWatch
-} from "~/lib/list/MediaList"
+} from "~/lib/list/MediaList";
 import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
-	LoaderLive,
-	type InferVariables
-} from "~/lib/urql.server"
+	LoaderLive
+} from "~/lib/urql.server";
 
 import {
 	Effect,
@@ -30,41 +32,22 @@ import {
 	Order,
 	Predicate,
 	ReadonlyArray,
-	ReadonlyRecord,
 	pipe
-} from "effect"
+} from "effect";
 
 // import {} from 'glob'
 
-import { Suspense } from "react"
-import { Card } from "~/components/Card"
-import { List } from "~/components/List"
-import { Loading, Skeleton } from "~/components/Skeleton"
-import { Remix } from "~/lib/Remix/index.server"
-import { useRawLoaderData } from "~/lib/data"
-import { getLibrary } from "~/lib/electron/library.server"
-import { MediaListItem } from "~/lib/entry/ListItem"
-import { toWatch } from "~/lib/entry/toWatch"
-import { m } from "~/lib/paraglide"
-
-function TypelistQueryVariables(
-	params: Readonly<Params<string>>
-): Option.Option<InferVariables<ReturnType<typeof TypelistQuery>>> {
-	const map = {
-		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga
-	}
-
-	const type = pipe(
-		Option.fromNullable(params["typelist"]),
-		Option.flatMap((key) => ReadonlyRecord.get(map, key))
-	)
-
-	return Option.all({
-		userName: Option.fromNullable(params["userName"]),
-		type: type
-	})
-}
+import { Schema } from "@effect/schema";
+import { Suspense } from "react";
+import { Card } from "~/components/Card";
+import { List } from "~/components/List";
+import { Loading, Skeleton } from "~/components/Skeleton";
+import { Remix } from "~/lib/Remix/index.server";
+import { useRawLoaderData } from "~/lib/data";
+import { getLibrary } from "~/lib/electron/library.server";
+import { MediaListItem } from "~/lib/entry/ListItem";
+import { toWatch } from "~/lib/entry/toWatch";
+import { m } from "~/lib/paraglide";
 
 function TypelistQuery() {
 	return graphql(`
@@ -77,6 +60,7 @@ function TypelistQuery() {
 				lists {
 					name
 					entries {
+						...MediaListHeaderToWatch_entries
 						...ListItem_entry
 						...ToWatch_entry
 						id
@@ -101,35 +85,45 @@ export const loader = (async (args) => {
 				Effect.succeed(
 					ReadonlyArray.groupBy(
 						Object.values(getLibrary()),
-						({ title }) => title
+						({ title }) => title ?? ""
 					)
 				),
 				Effect.provide(LoaderLive),
 				Effect.provideService(LoaderArgs, args),
-
 				Remix.runLoader
 			),
 			SelectedList: pipe(
-				Effect.Do,
-				Effect.bind("args", () => ClientArgs),
-				Effect.bind("client", () => EffectUrql),
-				Effect.bind("variables", () => TypelistQueryVariables(args.params)),
-				Effect.bind("selected", ({ args }) => {
-					return Option.fromNullable(args.params["selected"])
-				}),
-				Effect.bind("data", ({ client, args, variables }) => {
-					return client.query(TypelistQuery(), variables)
-				}),
-				Effect.bind("SelectedList", ({ data, selected }) => {
-					return Option.fromNullable(
-						data?.MediaListCollection?.lists?.find(
-							(list) => list?.name === selected
+				Effect.gen(function* (_) {
+					const client = yield* _(EffectUrql)
+					const { searchParams } = yield* _(ClientArgs)
+
+					const params = yield* _(
+						Remix.params({
+							selected: Schema.string,
+							userName: Schema.string,
+							typelist: Schema.literal("animelist", "mangalist")
+						})
+					)
+
+					const data = yield* _(
+						client.query(TypelistQuery(), {
+							userName: params.userName,
+							type: {
+								animelist: MediaType.Anime,
+								mangalist: MediaType.Manga
+							}[params.typelist]
+						})
+					)
+
+					const selectedList = yield* _(
+						Option.fromNullable(
+							data?.MediaListCollection?.lists?.find(
+								(list) => list?.name === params.selected
+							)
 						)
 					)
-				}),
-				Effect.map(({ SelectedList: selectedList, args: { searchParams } }) => {
-					const status = searchParams.getAll("status")
 
+					const status = searchParams.getAll("status")
 					const format = searchParams.getAll("format")
 
 					let entries = pipe(
@@ -169,7 +163,6 @@ export const loader = (async (args) => {
 				// ),
 				Effect.provide(LoaderLive),
 				Effect.provideService(LoaderArgs, args),
-
 				Remix.runLoader
 			)
 		},
@@ -182,7 +175,10 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const headers = (({ loaderHeaders }) => {
-	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
 }) satisfies HeadersFunction
 
 export default function Page() {

@@ -51,7 +51,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 
 	useEffect(() => {
 		for (const element of queue.current) {
-			element.showPopover()
+			element.showPopover?.()
 
 			const timeout = Number(element.dataset["timeout"])
 
@@ -60,7 +60,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 			}
 
 			const timeoutId = setTimeout(() => {
-				element.hidePopover()
+				element.hidePopover?.()
 			}, timeout)
 
 			return () => {
@@ -91,9 +91,9 @@ export function Snackbar({
 
 	useEffect(() => {
 		if (open) {
-			ref.current?.showPopover()
+			ref.current?.showPopover?.()
 		} else {
-			ref.current?.hidePopover()
+			ref.current?.hidePopover?.()
 		}
 	}, [open])
 
@@ -107,7 +107,7 @@ export function Snackbar({
 				(event.action === "show" || event.action === "auto") &&
 				!this.matches(":popover-open")
 			) {
-				this.showPopover()
+				this.showPopover?.()
 				return
 			}
 
@@ -115,7 +115,7 @@ export function Snackbar({
 				(event.action === "hide" || event.action === "auto") &&
 				this.matches(":popover-open")
 			) {
-				this.hidePopover()
+				this.hidePopover?.()
 			}
 		}
 		current.addEventListener("invoke", onInvoke)

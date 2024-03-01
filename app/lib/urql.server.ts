@@ -29,7 +29,7 @@ interface JSONArray extends Array<JSONValue> {}
 export type InferVariables<T> =
 	T extends TypedDocumentNode<any, infer V> ? V : never
 
-type Result<Data> = Effect.Effect<never, Remix.ResponseError, Data | null>
+type Result<Data> = Effect.Effect<never, Remix.ResponseError<null>, Data | null>
 
 type Args<Data, Variables> = [
 	query: TypedDocumentNode<Data, Variables> | string,
@@ -141,15 +141,16 @@ export const UrqlLive = Layer.effect(
 	Effect.map(Effect.serviceOption(LoaderArgs), (args) => {
 		const request = Option.getOrNull(args)?.request
 
-		let { "anilist-token": token } = cookie.parse(
+		const cookies = cookie.parse(
 			(!IS_SERVER ? globalThis.document.cookie : null) ??
 				request?.headers.get("Cookie") ??
 				""
 		)
 
-		token = pipe(
-			token,
-			Schema.decodeOption(JsonToToken),
+		const token = pipe(
+			cookies["anilist-token"],
+			Option.fromNullable,
+			Option.flatMap(Schema.decodeOption(JsonToToken)),
 			Option.map(({ token }) => token),
 			Option.getOrUndefined
 		)
@@ -188,3 +189,33 @@ export const ArgsAdapterLive = Layer.effect(
 )
 
 export const LoaderLive = Layer.merge(ArgsAdapterLive, UrqlLive)
+
+type Letter =
+	| "A"
+	| "B"
+	| "C"
+	| "D"
+	| "E"
+	| "F"
+	| "G"
+	| "H"
+	| "I"
+	| "J"
+	| "K"
+	| "L"
+	| "M"
+	| "N"
+	| "O"
+	| "P"
+	| "Q"
+	| "R"
+	| "S"
+	| "T"
+	| "U"
+	| "V"
+	| "W"
+	| "X"
+	| "Y"
+	| "Z"
+
+export type CountryCode = `${Letter}${Letter}`

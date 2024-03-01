@@ -3,6 +3,7 @@ import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
 import { Form, Link, useLocation } from "@remix-run/react"
+import { Predicate } from "effect"
 import { Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { graphql } from "~/gql"
@@ -44,7 +45,10 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const headers = (({ loaderHeaders }) => {
-	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
 }) satisfies HeadersFunction
 
 function params() {

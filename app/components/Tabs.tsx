@@ -3,7 +3,7 @@ import { NavLink } from "@remix-run/react"
 import { Predicate } from "effect"
 import { motion } from "framer-motion"
 
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactElement } from "react"
 import { createContext, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -52,7 +52,9 @@ export function Tabs({
 export function TabsTab({
 	children,
 	...props
-}: ComponentPropsWithoutRef<typeof Link>) {
+}: Partial<ComponentPropsWithoutRef<typeof Link>> & {
+	render?: ReactElement
+}) {
 	const layoutId = useContext(TabsContext)
 	return createElement(NavLink, {
 		...props,

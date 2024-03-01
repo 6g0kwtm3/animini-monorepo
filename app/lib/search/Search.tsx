@@ -72,7 +72,7 @@ export function Search() {
 		<>
 			<TooltipPlain>
 				<TooltipPlainTrigger
-					render={<NavigationItem render={<HashNavLink />} to="#search" />}
+					render={<NavigationItem render={<HashNavLink to="#search" />} />}
 				>
 					<NavigationItemIcon>
 						<MaterialSymbolsTravelExplore />

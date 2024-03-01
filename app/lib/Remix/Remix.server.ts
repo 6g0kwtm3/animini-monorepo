@@ -87,7 +87,7 @@ const CloudflareEnv = Effect.succeed(
 export function params<Fields extends StructFields>(fields: Fields) {
 	return Effect.gen(function* (_) {
 		const { params } = yield* _(LoaderArgs)
-		return yield* _(Schema.decodeUnknownEither(Schema.struct(fields))(params))
+		return yield* _(Schema.decodeUnknown(Schema.struct(fields))(params))
 	})
 }
 

@@ -94,7 +94,7 @@ export default FormSelect
 
 const { item } = createMenu({})
 
-function LazySelectOption(
+export function LazySelectOption(
 	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>
 ) {
 	return (

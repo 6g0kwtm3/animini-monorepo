@@ -1,9 +1,10 @@
-import { Await, Link, defer } from "@remix-run/react"
+import { Await, Link } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
 	LoaderFunctionArgs
 } from "@vercel/remix"
+import { defer } from "@vercel/remix"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
@@ -37,7 +38,12 @@ import { Parser } from "htmlparser2"
 import sanitizeHtml_ from "sanitize-html"
 import { MediaCover } from "~/lib/entry/MediaListCover"
 
-function MediaLink({ mediaId, ...props }) {
+function MediaLink({
+	mediaId,
+	...props
+}: Omit<ComponentPropsWithoutRef<typeof Link>, "to"> & {
+	mediaId: number
+}) {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
@@ -138,7 +144,10 @@ async function indexLoader(args: LoaderFunctionArgs) {
 }
 
 export const headers = (({ loaderHeaders }) => {
-	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
 }) satisfies HeadersFunction
 
 const indexMediaQuery = serverOnly$(
@@ -239,6 +248,14 @@ export default function Index() {
 	)
 }
 
+interface Options {
+	replace: Partial<{
+		[K in keyof JSX.IntrinsicElements]: (
+			props: ComponentPropsWithoutRef<K>
+		) => ReactNode
+	}>
+}
+
 const options = {
 	replace: {
 		center(props) {
@@ -252,12 +269,16 @@ const options = {
 				return <span className="text-primary">{props.children}</span>
 			}
 
+			// @ts-ignore
 			if (props["className"] === "media-link" && props["data-id"]) {
+				// @ts-ignore
 				return <MediaLink mediaId={props["data-id"]} />
 			}
 
+			// @ts-ignore
 			if (props["className"] === "user-link" && props["data-user-name"]) {
 				return (
+					// @ts-ignore
 					<Link to={route_user({ userName: props["data-user-name"] })}>
 						{props.children}
 					</Link>
@@ -271,13 +292,7 @@ const options = {
 			)
 		}
 	}
-} satisfies {
-	replace: {
-		[K in keyof JSX.IntrinsicElements]: (
-			props: ComponentPropsWithoutRef<K>
-		) => ReactNode
-	}
-}
+} satisfies Options
 
 // const options: HTMLReactParserOptions = {
 // 	replace(domNode) {
@@ -351,13 +366,7 @@ interface HtmlNode {
 }
 
 class HtmlTag implements HtmlNode {
-	constructor(
-		private _name: Parameters<typeof createElement>[0],
-		private _attributes?: {
-			[s: string]: string
-		},
-		private options
-	) {}
+	constructor(private _name: React.FC<{ children: ReactNode }>) {}
 
 	private _children: HtmlNode[] = []
 
@@ -373,29 +382,8 @@ class HtmlTag implements HtmlNode {
 		)
 	}
 
-	get attributes() {
-		const {
-			class: className,
-			allowfullscreen: allowFullScreen,
-			frameborder: frameBorder,
-			..._attributes
-		} = this._attributes ?? {}
-		return {
-			..._attributes,
-			...(className ? { className } : {}),
-			...(allowFullScreen ? { allowFullScreen } : {}),
-			...(frameBorder ? { frameBorder } : {})
-		}
-	}
-
 	get node() {
-		if (Predicate.isString(this._name) && this._name in this.options?.replace)
-			return this.options.replace[this._name]({
-				...this.attributes,
-				children: this.children
-			})
-
-		return createElement(this._name, this.attributes, this.children)
+		return createElement(this._name, undefined, this.children)
 	}
 
 	appendNode(node: HtmlNode) {
@@ -403,18 +391,39 @@ class HtmlTag implements HtmlNode {
 	}
 }
 
-function parse2(html: string, options): ReactNode {
+function getAttributes(attributes: any) {
+	const {
+		class: className,
+		allowfullscreen: allowFullScreen,
+		frameborder: frameBorder,
+		..._attributes
+	} = attributes ?? {}
+
+	return {
+		..._attributes,
+		...(className ? { className } : {}),
+		...(allowFullScreen ? { allowFullScreen } : {}),
+		...(frameBorder ? { frameBorder } : {})
+	}
+}
+
+function parse2(html: string, options: any): ReactNode {
 	const stack = [new HtmlTag(Fragment)]
 
-	const log = {
-		html,
-		logs: []
-	}
-
 	const parser = new Parser({
-		onopentag(name, attributes) {
-			log.logs.push(["open", name])
-			const node = new HtmlTag(name, attributes, options)
+		onopentag(Name, attributes) {
+			const node = new HtmlTag((props) => {
+				const fullProps = {
+					...getAttributes(attributes),
+					...props
+				}
+
+				if (Name in options.replace) {
+					return options.replace[Name](fullProps)
+				}
+
+				return <Name {...fullProps} />
+			})
 			stack.at(-1)?.appendNode(node)
 			stack.push(node)
 		},
@@ -422,7 +431,6 @@ function parse2(html: string, options): ReactNode {
 			stack.at(-1)?.appendNode({ node: text })
 		},
 		onclosetag(name) {
-			log.logs.push(["close", name])
 			stack.pop()
 		}
 	})
@@ -515,10 +523,15 @@ function markdownHtml(t: string) {
 		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
 		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
 		(t = sanitizeHtml(
-			marked(t, {
-				renderer: d,
-				lexer: u
-			})
+			marked(
+				t,
+				{
+					renderer: d,
+					// @ts-ignore
+					lexer: u
+				},
+				() => {}
+			)
 		)),
 		(t = t.replace(
 			/\+{3}([^]*?)\+{3}/gm,

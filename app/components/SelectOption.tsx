@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, useContext } from "react"
-import type LazySelectOption from "./LazySelectOption"
+import type { LazySelectOption } from "./LazySelect"
 
 export const SelectContext = createContext<
 	(

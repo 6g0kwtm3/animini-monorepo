@@ -1,4 +1,3 @@
-import type { Params } from "@remix-run/react"
 import { Link, json } from "@remix-run/react"
 import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
 import {
@@ -16,42 +15,32 @@ import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaListItem } from "~/lib/entry/ListItem"
 import { graphql } from "~/lib/graphql"
-import type { InferVariables } from "~/lib/urql.server"
 import {
-	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive
 } from "~/lib/urql.server"
 
+import { Schema } from "@effect/schema"
 import { LayoutBody } from "~/components/Layout"
 import { List } from "~/components/List"
 import { button } from "~/lib/button"
 
-function FiltersQueryVariables(
-	params: Readonly<Params<string>>
-): InferVariables<typeof ListsQuery> {
-	const type = {
-		animelist: MediaType.Anime,
-		mangalist: MediaType.Manga
-	}[String(params["typelist"])]
-
-	if (!type) {
-		throw new Error(`Invalid list type`)
-	}
-
-	return {
-		userName: params["userName"]!,
-		type
-	}
-}
-
 export const loader = (async (args) => {
 	return pipe(
 		Effect.gen(function* (_) {
-			const args = yield* _(ClientArgs)
 			const client = yield* _(EffectUrql)
-			const variables = FiltersQueryVariables(args.params)
+			const params = yield* _(
+				Remix.params({
+					userName: Schema.string,
+					typelist: Schema.literal("animelist", "mangalist")
+				})
+			)
+
+			const mediaType = {
+				animelist: MediaType.Anime,
+				mangalist: MediaType.Manga
+			}[params.typelist]
 
 			const MediaListCollection = yield* _(
 				client.query(
@@ -88,13 +77,16 @@ export const loader = (async (args) => {
 							}
 						}
 					`),
-					variables
+					{
+						userName: params.userName,
+						type: mediaType
+					}
 				),
 				Effect.flatMap((data) => Effect.fromNullable(data?.MediaListCollection))
 			)
 
 			const listOptions =
-				variables.type === MediaType.Anime
+				mediaType === MediaType.Anime
 					? MediaListCollection.user?.mediaListOptions?.animeList
 					: MediaListCollection.user?.mediaListOptions?.mangaList
 
@@ -142,7 +134,10 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export const headers = (({ loaderHeaders }) => {
-	return { "Cache-Control": loaderHeaders.get("Cache-Control") }
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
 }) satisfies HeadersFunction
 
 export default function Page() {

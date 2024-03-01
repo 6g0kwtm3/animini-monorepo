@@ -61,7 +61,7 @@ export const loader = (async (args) => {
 			const read = yield* _(Remix.Cookie("notifications-read", Schema.number))
 
 			return {
-				Query: data,
+				query: data,
 				read: Math.max(
 					Option.getOrElse(storedRead, () => 0),
 					Option.getOrElse(read, () => 0)
@@ -141,7 +141,7 @@ const Notifications_query = serverOnly$(
 )
 export default function Notifications() {
 	const data = useRawLoaderData<typeof loader>()
-	const query = useFragment<typeof Notifications_query>(data.Query)
+	const query = useFragment<typeof Notifications_query>(data.query)
 
 	const store = useTooltipStore()
 

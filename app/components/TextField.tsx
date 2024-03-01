@@ -149,9 +149,10 @@ export function TextFieldFilledLabel(
 		<Ariakit.FormLabel
 			{...props}
 			className={classes(
-				"group-hover:on-surface pointer-events-none absolute text-body-sm text-on-surface-variant text-on-surface/[.38] transition-all group-focus-within:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
-				props.leading ? "left-12" : "left-4",
-				!props.disabled && "group-focus-within:peer-placeholder-shown:top-2",
+				"group-hover:on-surface pointer-events-none absolute text-body-sm text-on-surface-variant text-on-surface/[.38] transition-all group-focus-within:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-has-[:disabled]:peer-placeholder-shown:top-4 group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
+				// props.leading ? "left-12" :
+				"left-4",
+				"group-focus-within:peer-placeholder-shown:top-2",
 				"top-2",
 				props.className
 			)}

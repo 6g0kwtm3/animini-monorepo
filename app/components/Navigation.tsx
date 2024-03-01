@@ -89,7 +89,7 @@ const Context = createContext(createNavigation())
 
 export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
-	ComponentPropsWithoutRef<typeof NavLink> & {
+	Partial<ComponentPropsWithoutRef<typeof NavLink>> & {
 		children?: ReactNode
 		className?: string
 		render?: ReactElement

@@ -10,9 +10,15 @@ const config: CodegenConfig = {
 			field: true,
 			inputValue: false
 		},
+		futureProofUnions: true,
+		futureProofEnums: true,
 		defaultScalarType: "unknown",
 		dedupeFragments: true,
-		scalars: { Json: "~/lib/urql.server#JSONValue" }
+		scalars: {
+			Json: "~/lib/urql.server#JSONValue",
+			CountryCode: "~/lib/urql.server#CountryCode",
+			FuzzyDateInt: "number"
+		}
 	},
 	generates: {
 		"app/gql/": {

@@ -30,8 +30,11 @@ export default defineConfig({
 		ctPort: 3100,
 		ctViteConfig: {
 			plugins: [
+				// @ts-ignore
 				envOnly(),
+				// @ts-ignore
 				tsconfigPaths(),
+				// @ts-ignore
 				icons({
 					compiler: "jsx",
 					jsx: "react",
