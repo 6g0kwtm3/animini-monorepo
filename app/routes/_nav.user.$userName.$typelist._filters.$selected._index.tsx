@@ -1,53 +1,40 @@
-import {
-	Await,
+import { Await, isRouteErrorResponse, useRouteError } from "@remix-run/react"
 
-	isRouteErrorResponse,
-	useRouteError
-} from "@remix-run/react";
-
-import type { HeadersFunction, LoaderFunction } from "@vercel/remix";
-import { defer } from "@vercel/remix";
-
+import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+import { defer } from "@vercel/remix"
 
 // import type { FragmentType } from "~/lib/graphql"
 
-import { MediaStatus, MediaType } from "~/gql/graphql";
-import { graphql } from "~/lib/graphql";
+import { MediaStatus, MediaType } from "~/gql/graphql"
+import { graphql } from "~/lib/graphql"
 import {
 	AwaitLibrary,
 	MediaListHeader,
 	MediaListHeaderItem,
 	MediaListHeaderToWatch
-} from "~/lib/list/MediaList";
+} from "~/lib/list/MediaList"
 import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive
-} from "~/lib/urql.server";
+} from "~/lib/urql.server"
 
-import {
-	Effect,
-	Option,
-	Order,
-	Predicate,
-	ReadonlyArray,
-	pipe
-} from "effect";
+import { Effect, Option, Order, Predicate, ReadonlyArray, pipe } from "effect"
 
 // import {} from 'glob'
 
-import { Schema } from "@effect/schema";
-import { Suspense } from "react";
-import { Card } from "~/components/Card";
-import { List } from "~/components/List";
-import { Loading, Skeleton } from "~/components/Skeleton";
-import { Remix } from "~/lib/Remix/index.server";
-import { useRawLoaderData } from "~/lib/data";
-import { getLibrary } from "~/lib/electron/library.server";
-import { MediaListItem } from "~/lib/entry/ListItem";
-import { toWatch } from "~/lib/entry/toWatch";
-import { m } from "~/lib/paraglide";
+import { Schema } from "@effect/schema"
+import { Suspense } from "react"
+import { Card } from "~/components/Card"
+import { List } from "~/components/List"
+import { Loading, Skeleton } from "~/components/Skeleton"
+import { Remix } from "~/lib/Remix/index.server"
+import { useRawLoaderData } from "~/lib/data"
+import { getLibrary } from "~/lib/electron/library.server"
+import { MediaListItem } from "~/lib/entry/ListItem"
+import { toWatch } from "~/lib/entry/toWatch"
+import { m } from "~/lib/paraglide"
 
 function TypelistQuery() {
 	return graphql(`
