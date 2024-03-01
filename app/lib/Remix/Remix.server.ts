@@ -7,7 +7,7 @@ import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
-import type { TypedResponse } from "@remix-run/cloudflare"
+import type { TypedResponse } from "@vercel/remix"
 import cookie from "cookie"
 import { dev } from "../dev"
 

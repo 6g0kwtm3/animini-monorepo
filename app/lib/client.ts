@@ -4,7 +4,7 @@ import { Option, Predicate, pipe } from "effect"
 import { print } from "graphql"
 import { JsonToToken } from "./viewer"
 
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
+import type { LoaderFunctionArgs } from "@vercel/remix"
 import * as cookie from "cookie"
 import { IS_SERVER } from "./isClient"
 

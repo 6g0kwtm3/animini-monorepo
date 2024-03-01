@@ -1,18 +1,18 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import type { LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import {
-	Form,
-	Link,
-	Outlet,
-	json,
-	useLocation,
-	useNavigate,
-	useNavigation,
-	useParams,
-	useSubmit
+    Form,
+    Link,
+    Outlet,
+    json,
+    useLocation,
+    useNavigate,
+    useNavigation,
+    useParams,
+    useSubmit
 } from "@remix-run/react"
+import type { LoaderFunction } from "@vercel/remix"
 
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"
@@ -28,10 +28,10 @@ import { Card } from "~/components/Card"
 import { Checkbox } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemContentTitle
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemContentTitle
 } from "~/components/List"
 import { Sheet } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"

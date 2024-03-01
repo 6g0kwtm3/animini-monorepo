@@ -1,4 +1,4 @@
-/// <reference types="@remix-run/cloudflare" />
+/// <reference types="@vercel/remix" />
 /// <reference types="vite/client" />
 
 declare module "react" {
@@ -7,4 +7,5 @@ declare module "react" {
 	}
 }
 
-export {}
+export { }
+
