@@ -1,5 +1,5 @@
-import type { LoaderFunction } from "@remix-run/cloudflare"
 import { Await, Outlet, useLocation } from "@remix-run/react"
+import type { LoaderFunction } from "@vercel/remix"
 
 import { Effect, Option, Predicate, pipe } from "effect"
 
@@ -17,7 +17,7 @@ import {
 import { graphql } from "~/lib/graphql"
 
 import { Schema } from "@effect/schema"
-import { defer } from "@remix-run/cloudflare"
+import { defer } from "@vercel/remix"
 import { Suspense } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search } from "~/lib/search/Search"

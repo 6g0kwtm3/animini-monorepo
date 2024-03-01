@@ -7,7 +7,7 @@ import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
-import type { TypedResponse } from "@remix-run/cloudflare"
+import type { TypedResponse } from "@vercel/remix"
 import cookie from "cookie"
 import { dev } from "../dev"
 
@@ -41,10 +41,12 @@ function createCloudflareKV<
 			return {
 				get(id: string | number) {
 					return Effect.gen(function* (_) {
-						const { MY_KV } = yield* _(CloudflareEnv, Effect.flatten)
+						const env = Option.getOrNull(yield* _(CloudflareEnv))
 
 						const value = Option.fromNullable(
-							yield* _(Effect.promise(() => MY_KV.get(`${key}-${id}`)))
+							yield* _(
+								Effect.promise(async () => await env?.MY_KV.get(`${key}-${id}`))
+							)
 						)
 
 						return Option.flatMap(
@@ -55,13 +57,17 @@ function createCloudflareKV<
 				},
 				put(id: string | number, value: Schema.Schema.From<O[K]>) {
 					return Effect.gen(function* (_) {
-						const { MY_KV } = yield* _(CloudflareEnv, Effect.flatten)
+						const env = Option.getOrNull(yield* _(CloudflareEnv))
 
 						const encoded: string = yield* _(
 							Schema.encode(Schema.parseJson(schema))(value)
 						)
 
-						yield* _(Effect.promise(() => MY_KV.put(`${key}-${id}`, encoded)))
+						yield* _(
+							Effect.promise(
+								async () => await env?.MY_KV.put(`${key}-${id}`, encoded)
+							)
+						)
 					})
 				}
 			}
@@ -69,10 +75,14 @@ function createCloudflareKV<
 	}
 }
 
-const CloudflareEnv = Effect.gen(function* (_) {
-	const { context } = yield* _(LoaderArgs)
-	return Option.fromNullable(context?.cloudflare.env)
-})
+const CloudflareEnv = Effect.succeed(
+	Option.fromNullable<null | {
+		MY_KV: {
+			put: (key: string, value: string) => Promise<void>
+			get: (key: string) => Promise<string>
+		}
+	}>(null)
+)
 
 export function params<Fields extends StructFields>(fields: Fields) {
 	return Effect.gen(function* (_) {

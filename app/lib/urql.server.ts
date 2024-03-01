@@ -1,7 +1,7 @@
 import cookie from "cookie"
 
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
+import type { LoaderFunctionArgs } from "@vercel/remix"
 
 import { Context, Effect, Layer, Option, Predicate, pipe } from "effect"
 

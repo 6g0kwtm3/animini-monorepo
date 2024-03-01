@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/cloudflare"
+import type { LoaderFunction } from "@vercel/remix"
 import { json, type ClientLoaderFunctionArgs } from "@remix-run/react"
 import { Effect, pipe } from "effect"
 import { graphql } from "~/lib/graphql"

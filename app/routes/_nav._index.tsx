@@ -1,9 +1,9 @@
+import { Await, Link, defer } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
 	LoaderFunctionArgs
-} from "@remix-run/cloudflare"
-import { Await, Link, defer } from "@remix-run/react"
+} from "@vercel/remix"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"

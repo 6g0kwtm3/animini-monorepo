@@ -3,7 +3,7 @@ import {
 	redirect,
 	type ActionFunction,
 	type LoaderFunction
-} from "@remix-run/cloudflare"
+} from "@vercel/remix"
 import {
 	Link,
 	useActionData,

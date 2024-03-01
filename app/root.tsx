@@ -10,7 +10,7 @@ import { LoaderArgs, LoaderLive } from "./lib/urql.server"
 
 import { SnackbarQueue } from "./components/Snackbar"
 
-import type { LinksFunction, LoaderFunction } from "@remix-run/cloudflare"
+import type { LinksFunction, LoaderFunction } from "@vercel/remix"
 
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"

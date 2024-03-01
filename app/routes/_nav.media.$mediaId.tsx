@@ -1,5 +1,5 @@
-import type { LoaderFunction } from "@remix-run/cloudflare"
 import { Link, json, useLocation, useOutlet, useParams } from "@remix-run/react"
+import type { LoaderFunction } from "@vercel/remix"
 
 import type { Variants } from "framer-motion"
 import { AnimatePresence, motion } from "framer-motion"

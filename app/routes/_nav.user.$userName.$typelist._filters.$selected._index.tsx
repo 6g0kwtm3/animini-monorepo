@@ -1,4 +1,3 @@
-import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import {
 	Await,
@@ -6,6 +5,7 @@ import {
 	isRouteErrorResponse,
 	useRouteError
 } from "@remix-run/react"
+import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
 // import type { FragmentType } from "~/lib/graphql"
 
 import { MediaStatus, MediaType } from "~/gql/graphql"

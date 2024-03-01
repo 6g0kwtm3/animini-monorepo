@@ -1,6 +1,5 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import type { LoaderFunction } from "@remix-run/cloudflare"
 import type { Params } from "@remix-run/react"
 import {
 	Form,
@@ -13,6 +12,7 @@ import {
 	useParams,
 	useSubmit
 } from "@remix-run/react"
+import type { LoaderFunction } from "@vercel/remix"
 
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { ChipFilter } from "~/components/Chip"

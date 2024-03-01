@@ -1,6 +1,6 @@
 import { Schema } from "@effect/schema"
-import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
+import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+import { json } from "@vercel/remix"
 
 import { Form, Link, useLocation } from "@remix-run/react"
 import { Button as ButtonText } from "~/components/Button"
