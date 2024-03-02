@@ -47,6 +47,8 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm i --frozen-lockfile
 
+      - run: pnpm run paraglide
+
       - name: Typecheck
         run: pnpm run check
 
