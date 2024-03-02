@@ -15,11 +15,7 @@ import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaListItem } from "~/lib/entry/ListItem"
 import { graphql } from "~/lib/graphql"
-import {
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
-} from "~/lib/urql.server"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 import { Schema } from "@effect/schema"
 import { LayoutBody } from "~/components/Layout"
