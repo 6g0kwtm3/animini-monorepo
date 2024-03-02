@@ -1,99 +1,83 @@
-import type { OptionRenderPropArg } from '@headlessui/react'
-import { Listbox } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
-import { createContext, FC, memo, ReactNode, useCallback, useContext, useState } from 'react'
+import * as Ariakit from "@ariakit/react"
+import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
+import { createTextField } from "~/lib/textField"
+import { TextFieldOutlined } from "./TextField"
 
-import * as TextField from './TextField'
-import Menu from './Menu'
+// const onClient = Promise.resolve(null)
+import { Suspense } from "react"
+import { ClientOnly } from "remix-utils/client-only"
 
-const SelectContext = createContext<{ value?: string } | null>(null)
+const { input } = createTextField({})
 
-function Button(props: Parameters<typeof Listbox.Button>[0]) {
-	const ctx = useContext(SelectContext)
+const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
 
-	return <Listbox.Button value={ctx?.value} {...props}></Listbox.Button>
-}
+const LazySelect = lazy(() => import("./LazySelect"))
 
-interface ButtonRenderPropArg {
-	open: boolean
-	disabled: boolean
-}
+export function SelectFactory({
+	label,
 
-const Outlined = (props: { name: string; children?: ReactNode; defaultValue?: string }) => {
-	const [value, setValue] = useState(props.defaultValue)
+	...props
+}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
+	ComponentPropsWithoutRef<"select"> & {
+		children: ReactNode
+		label: ReactNode
+		name: string
+	}) {
+	const form = Ariakit.useFormContext()
+	if (!form) throw new Error("FormSelect must be used within a Form")
+	const value = form.useValue(props.name)
 
-	return (
-		<Listbox value={value} onChange={setValue} name={props.name}>
-			<Listbox.Button>
-				{({ open }: ButtonRenderPropArg) => (
-					<TextField.Outlined
+	const fallback = (
+		<TextFieldOutlined>
+			<Ariakit.FormControl
+				name={props.name}
+				render={
+					<select
 						{...props}
 						value={value}
-						readOnly
-						trailing={
-							<TextField.Outlined.TrailingIcon>
-								{open ? <ChevronUpIcon></ChevronUpIcon> : <ChevronDownIcon></ChevronDownIcon>}
-							</TextField.Outlined.TrailingIcon>
-						}
-						className={open ? 'cursor-pointer border-primary' : 'cursor-pointer'}
-					>
-						State
-					</TextField.Outlined>
-				)}
-			</Listbox.Button>
-			<Listbox.Options as="div" className={'focus:outline-none'}>
-				<Menu>{props.children}</Menu>
-			</Listbox.Options>
-		</Listbox>
+						onChange={(e) => form.setValue(props.name, e.currentTarget.value)}
+						className={input({ className: "appearance-none" })}
+					/>
+				}
+			/>
+			<TextFieldOutlined.Label name={props.name}>
+				{label}
+			</TextFieldOutlined.Label>
+			<TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">
+				expand_more
+			</TextFieldOutlined.TrailingIcon>
+		</TextFieldOutlined>
 	)
-}
 
-Outlined.displayName = 'Select.Outlined'
-
-export const Option: FC<{ value: string; children: string }> = (props) => {
 	return (
-		<Listbox.Option
-			value={props.value}
-			//  className={useCallback(({ active, selected }) => '',[])}
-		>
-			{useCallback(
-				({ active, selected }: OptionRenderPropArg) => (
-					<Menu.Item className={active ? '[--state-opacity:.12] hover:![--state-opacity:.12]' : ''}>
-						<Menu.Item.Icon>{selected && <CheckIcon></CheckIcon>}</Menu.Item.Icon>
-						{props.children}
-					</Menu.Item>
-				),
-				[props.children]
+		<ClientOnly fallback={fallback}>
+			{() => (
+				<Suspense fallback={fallback}>
+					<LazySelectFactory {...props} label={label} />
+				</Suspense>
 			)}
-		</Listbox.Option>
+		</ClientOnly>
 	)
 }
-Option.displayName = 'Option'
 
-// function EnumTextField(props) {
-//   return (
-//     <TextField
+export function Select({
+	...props
+}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
+	ComponentPropsWithoutRef<"select"> & {
+		children: ReactNode
+		name: string
+	}) {
+	const fallback = (
+		<select {...props} className={input({ className: "appearance-none" })} />
+	)
 
-//       {...props}
-//       value={Object.entries(State).find(([, value]) => value === props.value)?.[0]}
-//     ></TextField>
-//   )
-// }
-
-// Simple.args = {
-//   name: 'score',
-//   defaultValue: State.Florida,
-//   children: (
-//     <>
-//       <Select.Button
-//         as={EnumTextField}
-//         readOnly
-//         className={useCallaback(({ open }) => (open ? 'border-primary' : ''),[])}
-//       >
-
-//       </Select.Button>
-
-export default Object.assign(memo(Outlined), {
-	Option,
-	Button
-})
+	return (
+		<ClientOnly fallback={fallback}>
+			{() => (
+				<Suspense fallback={fallback}>
+					<LazySelect {...props} />
+				</Suspense>
+			)}
+		</ClientOnly>
+	)
+}

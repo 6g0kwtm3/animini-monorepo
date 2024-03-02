@@ -1,105 +1,135 @@
-import { ComponentPropsWithoutRef, ElementType } from 'react'
-import {} from 'react-dom'
-import { classes } from '~/lib/styled'
+import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import { createContext, forwardRef, useContext } from "react"
 
-type ItemProps<E extends ElementType> = ComponentPropsWithoutRef<E> & {
-	as: E
-	lines?: 'one' | 'two' | 'three'
+import type { VariantProps } from "tailwind-variants"
+import { createElement } from "~/lib/createElement"
+import { createList } from "~/lib/list"
+
+type ListVariantProps = VariantProps<typeof createList>
+
+const ListContext = createContext(createList())
+
+export const ListItem = forwardRef<
+	HTMLLIElement,
+	ComponentPropsWithoutRef<"li"> & {
+		render?: ReactElement
+	}
+>(function ListItem(props, ref) {
+	const { item } = useContext(ListContext)
+	return createElement("li", {
+		...props,
+		ref,
+		className: item({ className: props.className })
+	})
+})
+
+export function ListItemContentTitle(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemTitle } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemTitle({ className: props.className })
+	})
 }
 
-function Item<E extends ElementType = 'span'>({ as: Component, lines, ...props }: ItemProps<E>) {
-	Component ??= 'span'
+export function ListItemContent(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemContent } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemContent({ className: props.className })
+	})
+}
+
+export function ListItemContentSubtitle(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemSubtitle } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemSubtitle({ className: props.className })
+	})
+}
+
+export function ListItemImg(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemImg } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemImg({ className: props.className })
+	})
+}
+
+export function ListItemAvatar(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemAvatar } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemAvatar({ className: props.className })
+	})
+}
+
+export function ListItemIcon(
+	props: ComponentPropsWithoutRef<"div"> & {
+		render?: ReactElement
+	}
+) {
+	const { itemIcon } = useContext(ListContext)
+
+	return createElement("div", {
+		...props,
+		className: itemIcon({ className: props.className })
+	})
+}
+
+export function ListItemTrailingSupportingText(
+	props: ComponentPropsWithoutRef<"span">
+) {
+	const { trailingSupportingText } = useContext(ListContext)
 
 	return (
-		<Component
+		<span
 			{...props}
-			className={classes(
-				lines === 'two'
-					? 'items-center h-[4.5rem] py-2'
-					: lines === 'three'
-					? 'h-[5.5rem] py-3'
-					: 'items-center h-14 py-2',
-				'flex gap-4 pl-4 pr-6',
-
-				props.className
-			)}
+			className={trailingSupportingText({ className: props.className })}
 		/>
 	)
 }
 
-Item.Content = function Content(props: ComponentPropsWithoutRef<'div'>) {
-	return <div {...props} className={classes('flex-1', props.className)}></div>
-}
+export const List = forwardRef<
+	HTMLUListElement,
+	ComponentPropsWithoutRef<"ul"> &
+		ListVariantProps & {
+			render?: ReactElement
+		}
+>(function List({ lines, ...props }, ref) {
+	const styles = createList({ lines })
 
-Item.Headline = function Headline(props: ComponentPropsWithoutRef<'div'>) {
-	return <div {...props} className={classes('text-body-lg text-on-surface', props.className)}></div>
-}
-Item.SupportingText = function SupportingText(props: ComponentPropsWithoutRef<'div'>) {
 	return (
-		<div
-			{...props}
-			className={classes('text-body-md text-on-surface-variant line-clamp-2', props.className)}
-		></div>
+		<ListContext.Provider value={styles}>
+			{createElement("ul", {
+				...props,
+				ref,
+				className: styles.root({ className: props.className })
+			})}
+		</ListContext.Provider>
 	)
-}
-Item.TrailingSupportingText = function TrailingSupportingText(
-	props: ComponentPropsWithoutRef<'span'>
-) {
-	return (
-		<span
-			{...props}
-			className={classes('text-label-sm text-on-surface-variant', props.className)}
-		></span>
-	)
-}
-Item.LeadingIcon = function LeadingIcon(props: ComponentPropsWithoutRef<'div'>) {
-	return (
-		<div
-			{...props}
-			className={classes('text-on-surface-variant w-[1.125rem] h-[1.125rem]', props.className)}
-		></div>
-	)
-}
-Item.TrailingIcon = function TrailingIcon(props: ComponentPropsWithoutRef<'div'>) {
-	return (
-		<div {...props} className={classes('text-on-surface-variant w-6 h-6', props.className)}></div>
-	)
-}
-Item.Divider = function Divider(props: ComponentPropsWithoutRef<'hr'>) {
-	return <hr {...props} className={classes('border border-surface-variant', props.className)}></hr>
-}
-Item.LeadingAvatar = function LeadingAvatar(props: ComponentPropsWithoutRef<'div'>) {
-	return (
-		<div
-			{...props}
-			className={classes(
-				'shrink-0 text-title-md text-on-primary-container w-10 h-10',
-				props.className
-			)}
-		></div>
-	)
-}
-Item.Img = function Img(props: ComponentPropsWithoutRef<'img'>) {
-	return <img {...props} className={classes('shrink-0 w-14 h-14', props.className)}></img>
-}
-Item.LeadingVideo = function LeadingVideo(props: ComponentPropsWithoutRef<'video'>) {
-	return (
-		<video {...props} className={classes('shrink-0 w-[7.125rem] h-16', props.className)}></video>
-	)
-}
-Item.Overline = function Overline(props: ComponentPropsWithoutRef<'div'>) {
-	return (
-		<div
-			{...props}
-			className={classes('text-label-sm text-on-surface-variant', props.className)}
-		></div>
-	)
-}
-
-function List(props: ComponentPropsWithoutRef<'div'>) {
-	return <div {...props} className={classes('py-2', props.className)}></div>
-}
-
-List.Item = Item
-
-export default List
+})

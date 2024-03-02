@@ -1,63 +1,92 @@
-import { Listbox } from '@headlessui/react'
-import { memo } from 'react'
-import { classes } from '~/lib/styled'
+import type { ComponentPropsWithoutRef, ElementRef, ReactElement } from "react"
+import { useEffect, useRef } from "react"
 
-{
-	/* <FormControl>
-<InputLabel id="status">Status</InputLabel>
-<Mui.Select
-  name="status"
-  labelId="status"
-  label="Status"
-  defaultValue={entry?.status ?? undefined}
->
-  {Object.entries(MediaListStatus).map(([key, value]) => (
-    <Mui.MenuItem value={value} key={key}>
-      {key}
-    </Mui.MenuItem>
-  ))}
-</Mui.Select>
-</FormControl> */
-}
+import { createElement } from "~/lib/createElement"
+import { classes } from "./classes"
 
-Listbox
-Listbox.Button
-
-export const Menu = (props) => {
+export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 	return (
-		<div className="relative">
-			<ul
-				className={classes(
-					'min-w-28 absolute top-0 rounded-xs bg-surface text-label-lg text-on-surface elevation-2 max-w-[280px] w-full py-2',
-					props.className
-				)}
-			>
-				{props.children}
-			</ul>
-		</div>
-	)
-}
-
-Menu.displayName = 'Menu'
-
-export const Item = (props) => {
-	return (
-		<div
+		<ul
+			{...props}
 			className={classes(
-				'flex items-center gap-3 bg-gradient-to-r from-on-surface/[var(--state-opacity)] to-on-surface/[var(--state-opacity)] h-12 px-3 hover:[--state-opacity:.08]',
+				"absolute min-w-[7rem] max-w-[17.5rem] rounded-xs bg-surface-container py-2 text-label-lg text-on-surface elevation-2",
 				props.className
 			)}
 		>
 			{props.children}
-		</div>
+		</ul>
 	)
 }
 
-Item.displayName = 'Item'
-Item.Icon = (props) => {
-	return <div {...props} className="text-on-surface-variant w-6 h-6"></div>
+export function MenuTrigger(props: ComponentPropsWithoutRef<"summary">) {
+	return <summary {...props} aria-haspopup="listbox" />
 }
 
-export default Object.assign(memo(Menu), {
-	Item
-})
+export function Menu(props: ComponentPropsWithoutRef<"details">) {
+	const ref = useRef<ElementRef<"details">>(null)
+
+	useEffect(() => {
+		const listener = (event: MouseEvent): void => {
+			if (
+				!(event.target instanceof Node) ||
+				ref.current!.contains(event.target)
+			) {
+				return
+			}
+			ref.current!.open = false
+		}
+
+		document.body.addEventListener("click", listener)
+
+		return () => document.body.removeEventListener("click", listener)
+	}, [])
+
+	return (
+		<details
+			{...props}
+			ref={ref}
+			role="list"
+			className={classes("relative marker:hidden", props.className)}
+		/>
+	)
+}
+
+MenuList.displayName = "Menu"
+
+export function MenuItem({
+	...props
+}: ComponentPropsWithoutRef<"div"> & {
+	render?: ReactElement
+}) {
+	return createElement("li", {
+		...props,
+		className: classes(
+			"group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface elevation-2 hover:state-hover focus:state-focus",
+			props.className
+		)
+	})
+}
+
+export function MenuItemIcon(props: ComponentPropsWithoutRef<"div">) {
+	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
+}
+
+export function MenuItemLeadingIcon(props: ComponentPropsWithoutRef<"div">) {
+	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
+}
+
+export function MenuItemTrailingIcon(props: ComponentPropsWithoutRef<"div">) {
+	return <div {...props} className="ms-auto h-6 w-6 text-on-surface-variant" />
+}
+
+export function MenuItemTrailingText(props: ComponentPropsWithoutRef<"div">) {
+	return <div {...props} className="ms-auto text-on-surface-variant" />
+}
+
+export function MenuDivider(props: ComponentPropsWithoutRef<"li">) {
+	return (
+		<li {...props} className="contents">
+			<div className="my-2 w-full border-b border-outline-variant" />
+		</li>
+	)
+}
