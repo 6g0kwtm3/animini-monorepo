@@ -8,7 +8,7 @@ const tv = createTV({ twMerge: false })
 
 const sheet = tv({
 	slots: {
-		root: "fixed bottom-0 left-0 top-[4.5rem] mx-auto my-0 mt-auto flex h-fit max-h-[calc(100%-4.5rem)] w-full max-w-[40rem] translate-y-[100vh] transform-gpu overflow-hidden rounded-t-xl bg-surface-container-low transition-transform ease-out elevation-1 data-[enter]:translate-y-0 min-[640px]:left-14 min-[640px]:right-14 min-[640px]:top-14 min-[640px]:w-[calc(100%-7rem)]",
+		root: "fixed bottom-0 left-0 top-[4.5rem] mx-auto my-0 mt-auto flex h-fit max-h-[calc(100%-4.5rem)] w-full max-w-[40rem] translate-y-[100vh] transform-gpu overflow-hidden rounded-t-xl bg-surface-container-low transition-transform ease-out data-[enter]:translate-y-0 min-[640px]:left-14 min-[640px]:right-14 min-[640px]:top-14 min-[640px]:w-[calc(100%-7rem)]",
 		backdrop:
 			"bg-scrim/40 opacity-0 transition-[opacity] data-[enter]:opacity-100",
 		container:

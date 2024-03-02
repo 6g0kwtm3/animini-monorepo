@@ -9,7 +9,7 @@ export function MenuList(props: ComponentPropsWithoutRef<"ul">) {
 		<ul
 			{...props}
 			className={classes(
-				"absolute min-w-[7rem] max-w-[17.5rem] rounded-xs bg-surface-container py-2 text-label-lg text-on-surface elevation-2",
+				"absolute min-w-[7rem] max-w-[17.5rem] rounded-xs bg-surface-container py-2 text-label-lg text-on-surface",
 				props.className
 			)}
 		>

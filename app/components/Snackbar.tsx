@@ -13,7 +13,7 @@ import {
 	useRef,
 	useState
 } from "react"
-import { BaseButton, type InvokeEvent } from "./Button"
+import { BaseButton } from "./Button"
 
 type OnBeforeToggle = (this: HTMLElement, event: ToggleEvent) => void
 
@@ -155,7 +155,7 @@ export function Snackbar({
 				popover="manual"
 				data-timeout={timeout}
 				ref={ref}
-				className="mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs bg-inverse-surface p-4 text-body-md text-inverse-on-surface elevation-3 [&:popover-open]:flex"
+				className="mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs bg-inverse-surface shadow p-4 text-body-md text-inverse-on-surface [&:popover-open]:flex"
 			/>
 		</SnackbarContext.Provider>
 	)

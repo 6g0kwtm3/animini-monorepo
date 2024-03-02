@@ -11,7 +11,7 @@ const tv = createTV({ twMerge: false })
 const createSearchView = tv(
 	{
 		slots: {
-			root: "fixed mt-0 flex overflow-hidden bg-surface-container-high elevation-3",
+			root: "fixed mt-0 flex overflow-hidden bg-surface-container-high",
 			input:
 				"w-full bg-transparent p-4 text-body-lg text-on-surface outline-none placeholder:text-body-lg placeholder:text-on-surface-variant [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4",
 			backdrop:

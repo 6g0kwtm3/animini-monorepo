@@ -9,13 +9,13 @@ const tv = createTV({ twMerge: false })
 const appBar = tv(
 	{
 		slots: {
-			root: "grid bg-surface elevation-0",
+			root: "grid bg-surface",
 			title: "text-title-lg text-on-surface first:ms-2"
 		},
 		variants: {
 			position: { fixed: { root: "sticky top-0" }, static: { root: "static" } },
 			elevate: {
-				true: { root: "data-[elevated='true']:elevation-2" },
+				true: { root: "data-[elevated='true']:bg-surface-container" },
 				false: {}
 			},
 			hide: {

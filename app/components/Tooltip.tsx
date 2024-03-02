@@ -31,7 +31,7 @@ export function TooltipRichContainer(
 		<Ariakit.Hovercard
 			gutter={8}
 			{...props}
-			className="rounded-md bg-surface-container px-4 pb-2 pt-3 elevation-2"
+			className="rounded-md bg-surface-container px-4 pb-2 pt-3"
 		/>
 	)
 }

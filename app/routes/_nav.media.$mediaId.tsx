@@ -106,7 +106,7 @@ export default function Page() {
 			style={{
 				"--theme": data.Media.coverImage?.color ?? ""
 			}}
-			className={`${data.Media.coverImage?.color ? ` theme-[--theme]` : ""}`}
+			className={`${data.Media.coverImage?.color ? ` theme-light palette-[--theme] dark:theme-dark` : ""}`}
 		>
 			<PaneFlexible>
 				<div>
