@@ -2354,7 +2354,7 @@ enum LikeableType {
 Likeable union type
 """
 union LikeableUnion =
-	  ActivityReply
+	| ActivityReply
 	| ListActivity
 	| MessageActivity
 	| TextActivity
@@ -2823,7 +2823,7 @@ type Media {
 	): MediaTrendConnection
 
 	"""
-	The type of the media; anime or manga
+	The type of the media anime or manga
 	"""
 	type: MediaType
 
@@ -3820,7 +3820,8 @@ enum MediaSource {
 A media's statistics
 """
 type MediaStats {
-	airingProgression: [AiringProgression] @deprecated(reason: "Replaced by MediaTrends")
+	airingProgression: [AiringProgression]
+		@deprecated(reason: "Replaced by MediaTrends")
 	scoreDistribution: [ScoreDistribution]
 	statusDistribution: [StatusDistribution]
 }
@@ -5215,7 +5216,7 @@ enum NotificationType {
 Notification union type
 """
 union NotificationUnion =
-	  ActivityLikeNotification
+	| ActivityLikeNotification
 	| ActivityMentionNotification
 	| ActivityMessageNotification
 	| ActivityReplyLikeNotification
@@ -9596,7 +9597,8 @@ type User {
 	"""
 	If the user is a moderator or data moderator
 	"""
-	moderatorStatus: String @deprecated(reason: "Deprecated. Replaced with moderatorRoles field.")
+	moderatorStatus: String
+		@deprecated(reason: "Deprecated. Replaced with moderatorRoles field.")
 
 	"""
 	The name of the user
@@ -9626,7 +9628,8 @@ type User {
 	"""
 	The user's statistics
 	"""
-	stats: UserStats @deprecated(reason: "Deprecated. Replaced with statistics field.")
+	stats: UserStats
+		@deprecated(reason: "Deprecated. Replaced with statistics field.")
 
 	"""
 	The number of unread notifications the user has
@@ -9883,7 +9886,10 @@ type UserStatistics {
 	lengths(limit: Int, sort: [UserStatisticsSort]): [UserLengthStatistic]
 	meanScore: Float!
 	minutesWatched: Int!
-	releaseYears(limit: Int, sort: [UserStatisticsSort]): [UserReleaseYearStatistic]
+	releaseYears(
+		limit: Int
+		sort: [UserStatisticsSort]
+	): [UserReleaseYearStatistic]
 	scores(limit: Int, sort: [UserStatisticsSort]): [UserScoreStatistic]
 	staff(limit: Int, sort: [UserStatisticsSort]): [UserStaffStatistic]
 	standardDeviation: Float!

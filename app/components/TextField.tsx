@@ -1,304 +1,235 @@
-import { Slot } from '@radix-ui/react-slot'
-import { ComponentPropsWithoutRef, createContext, ReactNode, useContext, useState } from 'react'
-import { classes } from '~/lib/styled'
-const TextFieldContext = createContext<InputProps | null>(null)
+import * as Ariakit from "@ariakit/react"
+import {
+	forwardRef,
+	type ComponentPropsWithoutRef,
+	type ReactNode
+} from "react"
+import { createTextField } from "~/lib/textField"
+import { classes } from "./classes"
 
-interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'className'> {
-	supporting?: ReactNode
-	leading?: ReactNode
-	trailing?: ReactNode
-	error?: boolean
-	className:
-		| ComponentPropsWithoutRef<'input'>['className']
-		| {
-				label?: ComponentPropsWithoutRef<'div'>['className']
-				input?: ComponentPropsWithoutRef<'input'>['className']
-		  }
-}
-
-// & {
-//   Suffix: typeof Suffix
-//   Prefix: typeof Prefix
-//   Icon: typeof Icon
-//   Input: typeof Input
-//   Label: typeof Label
-// }
-
-export function Outlined({
+export function TextFieldOutlined({
 	children,
-	supporting,
-	error,
-	trailing,
-	leading,
-	defaultValue,
+
 	...props
-}: InputProps) {
-	const [internalValue, setValue] = useState(defaultValue)
-	const value = props.value ?? internalValue
-
+}: ComponentPropsWithoutRef<"label">) {
 	return (
-		<div>
-			<label className="group relative flex items-center">
-				<TextFieldContext.Provider
-					value={{
-						...props,
-						error,
-						leading,
-						value
-					}}
-				>
-					{leading}
-					<input
-						{...props}
-						value={value}
-						placeholder=" "
-						onChange={(e) => {
-							setValue?.(e.currentTarget.value)
-							props?.onChange?.(e)
-						}}
-						className={classes(
-							props.disabled
-								? 'text-on-surface/[.38]'
-								: error
-								? 'text-on-surface caret-error'
-								: 'text-on-surface caret-primary',
-							'peer flex flex-1 appearance-none items-center bg-transparent text-body-lg placeholder-transparent outline-none min-w-0 min-h-[3.5rem] px-4 [text-align:inherit] focus:ring-0 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden',
-							typeof props.className === 'string' ? props.className : props.className?.input
-						)}
-					/>
-					<Label
-						className={classes(
-							// leading ? 'group-focus-within:peer-placeholder-shown:left-4 left-4 peer-placeholder-shown:left-12' : 'left-4',
-
-							// !props.disabled && 'group-focus-within:peer-placeholder-shown:-top-2',
-							// '-top-2'
-
-							leading ? 'peer-placeholder-shown:left-12' : '',
-							!props.disabled &&
-								'group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4',
-							'-top-2 left-4'
-						)}
-					>
-						{children}
-					</Label>
-					<fieldset
-						className={classes(
-							props.disabled
-								? 'border-outline/[.12]'
-								: error
-								? 'border-error group-focus-within:border-error group-hover:border-on-error-container group-hover:group-focus-within:border-error'
-								: 'border-outline group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary',
-							'border-1 absolute -top-[10px] left-0 right-0 bottom-0 rounded-xs border px-3 group-focus-within:border-2'
-						)}
-					>
-						<legend
-							className={classes(
-								!props.disabled && 'group-focus-within:max-w-none',
-								value ? 'max-w-none' : 'max-w-0',
-								'overflow-hidden whitespace-nowrap opacity-0 transition-all'
-							)}
-						>
-							<span className="text-label-sm px-1">{children}</span>
-						</legend>
-					</fieldset>
-					{trailing}
-				</TextFieldContext.Provider>
-			</label>
-
-			<p
-				className={classes(
-					props.disabled
-						? 'text-on-surface/[.38]'
-						: error
-						? 'text-error'
-						: 'text-on-surface-variant',
-
-					'gap-4 text-body-sm px-4 pt-1'
-				)}
-			>
-				{supporting}
-			</p>
-		</div>
+		<label
+			{...props}
+			className={classes("group mt-[.35rem] block", props.className)}
+		>
+			<div className="relative flex items-center justify-between">
+				{children}
+			</div>
+		</label>
 	)
 }
 
-export function Filled({
-	children,
-	supporting,
-	error,
-	trailing,
-	leading,
-	defaultValue,
-	...props
-}: InputProps) {
-	const [internalValue, setValue] = useState(defaultValue)
-	const value = props.value ?? internalValue
-
+export function TextFieldOutlinedSupporting(
+	props: ComponentPropsWithoutRef<typeof Ariakit.FormError>
+) {
 	return (
-		<div className="">
-			<label
-				className={classes(
-					props.disabled
-						? 'before:border-on-surface/[.38]'
-						: error
-						? 'before:border-error after:border-error focus-within:after:scale-x-100 hover:before:border-on-error-container'
-						: 'before:border-on-surface-variant after:border-primary focus-within:after:scale-x-100 hover:before:border-on-surface',
-					!props.disabled && 'hover:state-hover',
-					'group relative flex items-center overflow-hidden rounded-t-xs bg-surface-variant surface state-on-surface-variant before:absolute before:left-0 before:bottom-0 before:border-b before:w-full after:absolute after:left-0 after:bottom-0 after:scale-x-0 after:border-b-2 after:transition-transform after:w-full focus-within:hover:state-none',
-					props.className
-				)}
-			>
-				<TextFieldContext.Provider
-					value={{
-						...props,
-						error,
-						leading,
-						value
-					}}
-				>
-					{leading}
-					<input
-						{...props}
-						value={value}
-						placeholder=" "
-						onChange={(e) => {
-							setValue?.(e.currentTarget.value)
-							props?.onChange?.(e)
-						}}
-						className={classes(
-							props.disabled
-								? 'text-on-surface/[.38]'
-								: error
-								? 'text-on-surface caret-error'
-								: 'text-on-surface caret-primary',
-							'peer flex flex-1 appearance-none items-center bg-transparent text-body-lg placeholder-transparent outline-none min-w-0 min-h-[3.5rem] px-4 pt-6 pb-2 [text-align:inherit] focus:ring-0 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden',
-							props.className
-						)}
-					/>
-					<Label
-						className={classes(
-							leading ? 'left-12' : 'left-4',
-							!props.disabled && 'group-focus-within:peer-placeholder-shown:top-2',
-							'top-2'
-						)}
-					>
-						{children}
-					</Label>
-					{trailing}
-				</TextFieldContext.Provider>
-			</label>
-
-			<p
-				className={classes(
-					props.disabled
-						? 'text-on-surface/[.38]'
-						: error
-						? 'text-error'
-						: 'text-on-surface-variant',
-
-					'gap-4 text-body-sm px-4 pt-1'
-				)}
-			>
-				{supporting}
-			</p>
-		</div>
+		<Ariakit.FormError
+			{...props}
+			className={classes(
+				"order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38] group-error:text-error",
+				props.className
+			)}
+		/>
 	)
 }
 
-function Label(props) {
-	const input = useContext(TextFieldContext) ?? {}
-	const Component = props.asChild ? Slot : 'div'
-
+function OutlinedLabel({
+	children,
+	...props
+}: ComponentPropsWithoutRef<typeof Ariakit.FormLabel>) {
 	return (
 		<>
-			<Component
+			<Ariakit.FormLabel
 				{...props}
-				className={classes(
-					input.disabled
-						? 'text-on-surface/[.38]'
-						: input.error
-						? 'text-error group-hover:text-on-error-container group-hover:group-focus-within:text-error'
-						: 'group-hover:on-surface text-on-surface-variant group-focus-within:text-primary',
+				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg  group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
+			>
+				{children}
+			</Ariakit.FormLabel>
 
-					!input.disabled && 'group-focus-within:peer-placeholder-shown:text-body-sm',
-
-					'pointer-events-none absolute text-body-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg',
-					props.className
-				)}
-			></Component>
+			<fieldset className="pointer-events-none absolute -top-[0.71875rem] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
+				<legend
+					className={
+						"overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-focus-within:group-has-[:placeholder-shown]:max-w-none"
+					}
+				>
+					<span className="px-1 text-body-sm group-has-[:required]:after:content-['*']">
+						{children}
+					</span>
+				</legend>
+			</fieldset>
 		</>
 	)
 }
 
-function LeadingIcon(props) {
-	const input = useContext(TextFieldContext) ?? {}
-
+export const TextFieldOutlinedInput = forwardRef<
+	HTMLInputElement,
+	ComponentPropsWithoutRef<typeof Ariakit.FormInput>
+>(function TextFieldOutlinedInput(props, ref) {
+	const { input } = createTextField({ variant: "outlined" })
 	return (
-		<div
+		<Ariakit.FormInput
+			ref={ref}
+			type="text"
+			{...props}
+			placeholder=" "
+			className={input({ className: props.className })}
+		/>
+	)
+})
+
+export function TextFieldOutlinedFactory({
+	label,
+	...props
+}: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
+	label: ReactNode
+}) {
+	return (
+		<TextFieldOutlined>
+			<TextFieldOutlinedInput {...props} />
+			<OutlinedLabel name={props.name}>{label}</OutlinedLabel>
+			{/* <TextFieldOutlinedSupporting
+				name={props.name}
+			></TextFieldOutlinedSupporting> */}
+		</TextFieldOutlined>
+	)
+}
+
+TextFieldOutlined.Label = OutlinedLabel
+
+export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
+	return (
+		<label
 			{...props}
 			className={classes(
-				input.disabled ? 'text-on-surface/[.38]' : 'text-on-surface-variant',
-				'w-5 h-5 ml-3'
+				"group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-on-surface-variant after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:border-primary after:transition-transform focus-within:after:scale-x-100 hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container",
+				props.className
+			)}
+		/>
+
+		/* <p
+      className={classes(
+        props.disabled
+          ? "text-on-surface/[.38]"
+          : error
+          ? "text-error"
+          : "text-on-surface-variant",
+
+        "gap-4 text-body-sm px-4 pt-1"
+      )}
+    >
+      {supporting}
+    </p> */
+	)
+}
+
+export function TextFieldFilledInput(
+	props: ComponentPropsWithoutRef<typeof Ariakit.FormInput>
+) {
+	return (
+		<Ariakit.FormInput
+			{...props}
+			placeholder=" "
+			className={classes(
+				"peer flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pb-2 pt-6 text-body-lg text-on-surface placeholder-transparent caret-primary outline-none focus:ring-0 disabled:text-on-surface/[.38] group-error:caret-error",
+				props.className
 			)}
 		/>
 	)
 }
 
-function TrailingIcon(props) {
-	const input = useContext(TextFieldContext) ?? {}
+export function TextFieldFilledLabel(
+	props: ComponentPropsWithoutRef<typeof Ariakit.FormLabel>
+) {
+	return (
+		<Ariakit.FormLabel
+			{...props}
+			className={classes(
+				"group-hover:on-surface pointer-events-none absolute text-body-sm text-on-surface-variant text-on-surface/[.38] transition-all group-focus-within:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-has-[:disabled]:peer-placeholder-shown:top-4 group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
+				// props.leading ? "left-12" :
+				"left-4",
+				"group-focus-within:peer-placeholder-shown:top-2",
+				"top-2",
+				props.className
+			)}
+		>
+			{props.children}
+		</Ariakit.FormLabel>
+	)
+}
 
+function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
 	return (
 		<div
 			{...props}
 			className={classes(
-				input.disabled
-					? 'text-on-surface/[.38]'
-					: input.error
-					? 'text-error group-hover:text-on-error-container group-hover:group-focus-within:text-error'
-					: 'text-on-surface-variant',
-				'w-6 h-6 mr-3'
+				"ms-3 h-5 w-5 text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38]",
+				props.className
 			)}
 		/>
 	)
 }
 
-function Suffix(props: ComponentPropsWithoutRef<'span'>) {
+function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 	return (
-		<span
+		<div
 			{...props}
-			className="flex items-center text-body-lg text-on-surface-variant -ml-5"
-		></span>
+			className={classes(
+				"peer-disabled:text-on-surface/[.38]",
+				"group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
+				"text-on-surface-variant",
+				"me-3 i i-6",
+				props.className
+			)}
+		/>
 	)
 }
 
-function Prefix(props: ComponentPropsWithoutRef<'span'>) {
+function Suffix(props: ComponentPropsWithoutRef<"span">) {
 	return (
 		<span
 			{...props}
-			className="flex items-center text-body-lg text-on-surface-variant -mr-5"
-		></span>
+			className={classes(
+				"suffix -ms-4 flex items-center py-4 pe-4 text-body-lg text-on-surface-variant",
+				props.className
+			)}
+		/>
 	)
 }
 
-Outlined.Prefix = Prefix
-Outlined.TrailingIcon = TrailingIcon
-Outlined.Suffix = Suffix
-Outlined.LeadingIcon = LeadingIcon
-Outlined.displayName = 'TextField.Outlined'
+function Prefix(props: ComponentPropsWithoutRef<"span">) {
+	return (
+		<span
+			{...props}
+			className="-me-5 flex items-center text-body-lg text-on-surface-variant"
+		/>
+	)
+}
 
-Filled.Prefix = Prefix
-Filled.TrailingIcon = TrailingIcon
-Filled.Suffix = Suffix
-Filled.LeadingIcon = LeadingIcon
-Filled.displayName = 'TextField.Filled'
+TextFieldOutlined.Prefix = Prefix
+TextFieldOutlined.TrailingIcon = TrailingIcon
+TextFieldOutlined.Suffix = Suffix
+TextFieldOutlined.LeadingIcon = LeadingIcon
+TextFieldOutlined.displayName = "TextField.Outlined"
 
-export default Outlined
-
-// name="score"
-// inputProps={{
-//   type: 'numerical',
-//   min: 0,
-//   max: 100
-// }}
-// defaultValue={entry?.score ?? undefined}
-// label="Score"
+TextFieldFilled.Prefix = Prefix
+TextFieldFilled.TrailingIcon = TrailingIcon
+TextFieldFilled.Suffix = function Suffix(
+	props: ComponentPropsWithoutRef<"span">
+) {
+	return (
+		<span
+			{...props}
+			className={classes(
+				"-ms-4 flex items-center pb-2 pe-4 pt-6 text-body-lg text-on-surface-variant",
+				props.className
+			)}
+		/>
+	)
+}
+TextFieldFilled.LeadingIcon = LeadingIcon
+TextFieldFilled.displayName = "TextField.Filled"

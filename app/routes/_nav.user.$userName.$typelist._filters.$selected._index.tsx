@@ -1,0 +1,262 @@
+import { Await, isRouteErrorResponse, useRouteError } from "@remix-run/react"
+
+import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+import { defer } from "@vercel/remix"
+
+// import type { FragmentType } from "~/lib/graphql"
+
+import { MediaStatus, MediaType } from "~/gql/graphql"
+import { graphql } from "~/lib/graphql"
+import {
+	AwaitLibrary,
+	MediaListHeader,
+	MediaListHeaderItem,
+	MediaListHeaderToWatch
+} from "~/lib/list/MediaList"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
+} from "~/lib/urql.server"
+
+import { Effect, Option, Order, Predicate, ReadonlyArray, pipe } from "effect"
+
+// import {} from 'glob'
+
+import { Schema } from "@effect/schema"
+import { Suspense } from "react"
+import { Card } from "~/components/Card"
+import { List } from "~/components/List"
+import { Loading, Skeleton } from "~/components/Skeleton"
+import { Remix } from "~/lib/Remix/index.server"
+import { useRawLoaderData } from "~/lib/data"
+import { getLibrary } from "~/lib/electron/library.server"
+import { MediaListItem } from "~/lib/entry/ListItem"
+import { toWatch } from "~/lib/entry/toWatch"
+import { m } from "~/lib/paraglide"
+
+function TypelistQuery() {
+	return graphql(`
+		query UserListSelectedFiltersIndexQuery(
+			$userName: String!
+			$type: MediaType!
+			$coverExtraLarge: Boolean = false
+		) {
+			MediaListCollection(userName: $userName, type: $type) {
+				lists {
+					name
+					entries {
+						...MediaListHeaderToWatch_entries
+						...ListItem_entry
+						...ToWatch_entry
+						id
+						media {
+							id
+							status(version: 2)
+							format
+						}
+					}
+				}
+			}
+		}
+	`)
+}
+
+export const loader = (async (args) => {
+	// make()
+
+	return defer(
+		{
+			Library: pipe(
+				Effect.succeed(
+					ReadonlyArray.groupBy(
+						Object.values(getLibrary()),
+						({ title }) => title ?? ""
+					)
+				),
+				Effect.provide(LoaderLive),
+				Effect.provideService(LoaderArgs, args),
+				Remix.runLoader
+			),
+			SelectedList: pipe(
+				Effect.gen(function* (_) {
+					const client = yield* _(EffectUrql)
+					const { searchParams } = yield* _(ClientArgs)
+
+					const params = yield* _(
+						Remix.params({
+							selected: Schema.string,
+							userName: Schema.string,
+							typelist: Schema.literal("animelist", "mangalist")
+						})
+					)
+
+					const data = yield* _(
+						client.query(TypelistQuery(), {
+							userName: params.userName,
+							type: {
+								animelist: MediaType.Anime,
+								mangalist: MediaType.Manga
+							}[params.typelist]
+						})
+					)
+
+					const selectedList = yield* _(
+						Option.fromNullable(
+							data?.MediaListCollection?.lists?.find(
+								(list) => list?.name === params.selected
+							)
+						)
+					)
+
+					const status = searchParams.getAll("status")
+					const format = searchParams.getAll("format")
+
+					let entries = pipe(
+						selectedList.entries?.filter(Predicate.isNotNull) ?? [],
+						ReadonlyArray.sortBy(
+							// Order.mapInput(Order.number, (entry) => behind(entry)),
+							Order.mapInput(
+								Order.number,
+								(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
+							),
+							Order.mapInput(Order.number, (entry) => {
+								return [
+									MediaStatus.Releasing,
+									MediaStatus.NotYetReleased
+								].indexOf(entry.media?.status ?? MediaStatus.Cancelled)
+							})
+						)
+					)
+
+					if (status.length) {
+						entries = entries.filter((entry) =>
+							status.includes(entry.media?.status ?? "")
+						)
+					}
+
+					if (format.length) {
+						entries = entries.filter((entry) =>
+							format.includes(entry.media?.format ?? "")
+						)
+					}
+
+					return { ...selectedList, entries }
+				}),
+
+				// Effect.catchTag("NoSuchElementException", () =>
+				// 	Effect.succeed(new Response('"List not Found"', { status: 404 })),
+				// ),
+				Effect.provide(LoaderLive),
+				Effect.provideService(LoaderArgs, args),
+				Remix.runLoader
+			)
+		},
+		{
+			headers: {
+				"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+			}
+		}
+	)
+}) satisfies LoaderFunction
+
+export const headers = (({ loaderHeaders }) => {
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
+}) satisfies HeadersFunction
+
+export default function Page() {
+	const data = useRawLoaderData<typeof loader>()
+
+	return (
+		<>
+			<MediaListHeader>
+				<MediaListHeaderItem subtitle={m.to_watch()}>
+					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
+						<Await resolve={data.SelectedList}>
+							{(selectedList) => (
+								<MediaListHeaderToWatch entries={selectedList.entries} />
+							)}
+						</Await>
+					</Suspense>
+				</MediaListHeaderItem>
+				<MediaListHeaderItem subtitle={m.total_entries()}>
+					<Suspense fallback={<Skeleton>80</Skeleton>}>
+						<Await resolve={data.SelectedList}>
+							{(selectedList) => selectedList.entries.length}
+						</Await>
+					</Suspense>
+				</MediaListHeaderItem>
+			</MediaListHeader>
+
+			<div className="-mx-4 sm:-my-4">
+				<div className={``}>
+					<List>
+						<Suspense
+							fallback={
+								<Loading>
+									{ReadonlyArray.range(1, 7).map((i) => (
+										<MediaListItem key={i} entry={null} />
+									))}
+								</Loading>
+							}
+						>
+							<Await resolve={data.SelectedList}>
+								{(selectedList) => {
+									const mediaList = selectedList.entries
+										.filter(Predicate.isNotNull)
+										.map((entry) => (
+											<MediaListItem key={entry.id} entry={entry} />
+										))
+
+									return (
+										<Suspense fallback={mediaList}>
+											<AwaitLibrary resolve={data.Library}>
+												{mediaList}
+											</AwaitLibrary>
+										</Suspense>
+									)
+								}}
+							</Await>
+						</Suspense>
+					</List>
+				</div>
+			</div>
+		</>
+	)
+}
+export function ErrorBoundary() {
+	const error = useRouteError()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<div>
+				<h1>Oops</h1>
+				<p>Status: {error.status}</p>
+				<p>{error.data}</p>
+			</div>
+		)
+	}
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<Card
+			variant="elevated"
+			className="m-4 bg-error-container text-on-error-container"
+		>
+			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
+			<p className="text-headline-sm">Something went wrong.</p>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+		</Card>
+	)
+}
