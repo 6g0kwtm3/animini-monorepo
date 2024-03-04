@@ -6,6 +6,7 @@ import { withTV } from "tailwind-variants/transformer"
 import { Predicate } from "effect"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
+import { Predicate } from "effect"
 
 const K_1 = 0.173
 const K_2 = 0.004

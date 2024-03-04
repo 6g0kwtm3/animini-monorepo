@@ -26,7 +26,7 @@ export const createButton = tv({
 				icon: "-mx-2"
 			},
 			elevated: {
-				root: "hover:bg-surface-container gap-4 bg-surface-container-low px-6 text-primary shadow aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:bg-surface-container-low",
+				root: "gap-4 bg-surface-container-low px-6 text-primary shadow hover:bg-surface-container aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:bg-surface-container-low",
 				icon: "-mx-2"
 			},
 			filled: {

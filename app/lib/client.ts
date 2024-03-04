@@ -1,30 +1,29 @@
 import { Schema } from "@effect/schema"
-import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
-import { Option, Predicate, pipe } from "effect"
-import { print } from "graphql"
+import { Option, pipe } from "effect"
 import { JsonToToken } from "./viewer"
 
 import type { LoaderFunctionArgs } from "@vercel/remix"
 import * as cookie from "cookie"
+import type { TypedDocumentString } from "~/gql/graphql"
 import { IS_SERVER } from "./isClient"
 
 const API_URL = "https://graphql.anilist.co"
 
 export function client_get_client(args: LoaderFunctionArgs) {
 	return {
-		operation<T, V>(document: string | TypedDocumentNode<T, V>, variables: V) {
+		operation<T, V>(document: TypedDocumentString<T, V>, variables: V) {
 			return client_operation(document, variables, args)
 		}
 	}
 }
 
 export async function client_operation<T, V>(
-	document: string | TypedDocumentNode<T, V>,
+	document: TypedDocumentString<T, V>,
 	variables: V,
 	args: LoaderFunctionArgs
 ) {
 	const body = Schema.encodeSync(Schema.parseJson(Schema.any))({
-		query: Predicate.isString(document) ? document : print(document),
+		query: document.toString(),
 		variables: variables
 	})
 
