@@ -18,14 +18,14 @@ const config: CodegenConfig = {
 			Json: "~/lib/urql.server#JSONValue",
 			CountryCode: "~/lib/urql.server#CountryCode",
 			FuzzyDateInt: "number"
-		}
+		},
+		useTypeImports: true,
+		documentMode: 'string'
 	},
 	generates: {
 		"app/gql/": {
 			preset: "client",
-			config: {
-				useTypeImports: true
-			}
+			config: {}
 		}
 	}
 }

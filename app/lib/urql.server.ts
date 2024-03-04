@@ -3,17 +3,16 @@ import cookie from "cookie"
 import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@vercel/remix"
 
-import { Context, Effect, Layer, Option, Predicate, pipe } from "effect"
+import { Context, Effect, Layer, Option, pipe } from "effect"
 
 import { IS_SERVER } from "./isClient"
 
-import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
-import { print } from "graphql"
 
 import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "./viewer"
 
+import type { TypedDocumentString } from "~/gql/graphql"
 import { Remix } from "./Remix/index.server"
 
 const API_URL = "https://graphql.anilist.co"
@@ -26,13 +25,10 @@ export interface JSONObject {
 
 interface JSONArray extends Array<JSONValue> {}
 
-export type InferVariables<T> =
-	T extends TypedDocumentNode<any, infer V> ? V : never
-
 type Result<Data> = Effect.Effect<never, Remix.ResponseError<null>, Data | null>
 
 type Args<Data, Variables> = [
-	query: TypedDocumentNode<Data, Variables> | string,
+	query: TypedDocumentString<Data, Variables>,
 	variables: Variables
 ]
 
@@ -58,7 +54,7 @@ export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 }) {}
 
 export function operation<T, V>(
-	document: string | TypedDocumentNode<T, V>,
+	document: TypedDocumentString<T, V>,
 	variables: V,
 	options?: {
 		headers?: Headers
@@ -67,7 +63,7 @@ export function operation<T, V>(
 	return Effect.gen(function* (_) {
 		const body = yield* _(
 			Schema.encode(Schema.parseJson(Schema.any))({
-				query: Predicate.isString(document) ? document : print(document),
+				query: document.toString(),
 				variables: variables
 			}),
 			Effect.orDie
