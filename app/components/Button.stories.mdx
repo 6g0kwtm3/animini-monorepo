@@ -1,0 +1,311 @@
+import { Story } from "@ladle/react"
+import { Button, ButtonIcon } from "./Button"
+import { Card } from "./Card"
+import { Meta } from "@ladle/react"
+import MaterialSymbolsAdd from "~icons/material-symbols/add"
+
+<Meta title="Button/Common Buttons/Readme" />
+
+# Overview
+
+- Can contain an optional leading icon
+- Five types: elevated, filled, filled tonal, outlined, and text
+- Keep labels concise and in sentence-case
+- Containers have fully rounded corners and are wide enough to fit label text
+
+# Specs
+
+## Elevated Button
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="Elevated">
+		<Button variant="elevated">Elevated button</Button>
+	</Story>
+	<Story name="ElevatedIcon">
+		<Button variant="elevated">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Elevated button
+		</Button>
+	</Story>
+</Card>
+
+### Elevated button states
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="ElevatedEnabled">
+		<Button variant="elevated">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Enabled
+		</Button>
+	</Story>
+	<Story name="ElevatedDisabled">
+		<Button variant="elevated" aria-disabled>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Disabled
+		</Button>
+	</Story>
+	<Story name="ElevatedFocused">
+		<Button variant="elevated" data-focus-visible>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Focused
+		</Button>
+	</Story>
+	<Story name="ElevatedPressed">
+		<Button variant="elevated" data-active>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Pressed
+		</Button>
+	</Story>
+</Card>
+
+## Filled Button
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="Filled">
+		<Button variant="filled">Filled button</Button>
+	</Story>
+	<Story name="FilledIcon">
+		<Button variant="filled">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Filled button
+		</Button>
+	</Story>
+</Card>
+
+### Filled button states
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="FilledEnabled">
+		<Button variant="filled">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Enabled
+		</Button>
+	</Story>
+	<Story name="FilledDisabled">
+		<Button variant="filled" aria-disabled>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Disabled
+		</Button>
+	</Story>
+	<Story name="FilledFocused">
+		<Button variant="filled" data-focus-visible>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Focused
+		</Button>
+	</Story>
+	<Story name="FilledPressed">
+		<Button variant="filled" data-active>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Pressed
+		</Button>
+	</Story>
+</Card>
+
+## Tonal Button
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="Tonal">
+		<Button variant="tonal">Tonal button</Button>
+	</Story>
+	<Story name="TonalIcon">
+		<Button variant="tonal">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Tonal button
+		</Button>
+	</Story>
+</Card>
+
+### Tonal button states
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="TonalEnabled">
+		<Button variant="tonal">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Enabled
+		</Button>
+	</Story>
+	<Story name="TonalDisabled">
+		<Button variant="tonal" aria-disabled>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Disabled
+		</Button>
+	</Story>
+	<Story name="TonalFocused">
+		<Button variant="tonal" data-focus-visible>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Focused
+		</Button>
+	</Story>
+	<Story name="TonalPressed">
+		<Button variant="tonal" data-active>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Pressed
+		</Button>
+	</Story>
+</Card>
+
+## Outlined Button
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="Outlined">
+		<Button variant="outlined">Outlined button</Button>
+	</Story>
+	<Story name="OutlinedIcon">
+		<Button variant="outlined">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Outlined button
+		</Button>
+	</Story>
+</Card>
+
+### Outlined button states
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="OutlinedEnabled">
+		<Button variant="outlined">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Enabled
+		</Button>
+	</Story>
+	<Story name="OutlinedDisabled">
+		<Button variant="outlined" aria-disabled>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Disabled
+		</Button>
+	</Story>
+	<Story name="OutlinedFocused">
+		<Button variant="outlined" data-focus-visible>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Focused
+		</Button>
+	</Story>
+	<Story name="OutlinedPressed">
+		<Button variant="outlined" data-active>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Pressed
+		</Button>
+	</Story>
+</Card>
+
+## Text Button
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="Text">
+		<Button variant="text">Text button</Button>
+	</Story>
+	<Story name="TextIcon">
+		<Button variant="text">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Text button
+		</Button>
+	</Story>
+</Card>
+
+### Text button states
+
+<Card
+	variant="outlined"
+	className="not-prose my-8 grid grid-flow-col justify-items-center gap-2 [grid-auto-columns:1fr] force:py-8"
+>
+	<Story name="TextEnabled">
+		<Button variant="text">
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Enabled
+		</Button>
+	</Story>
+	<Story name="TextDisabled">
+		<Button variant="text" aria-disabled>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Disabled
+		</Button>
+	</Story>
+	<Story name="TextFocused">
+		<Button variant="text" data-focus-visible>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Focused
+		</Button>
+	</Story>
+	<Story name="TextPressed">
+		<Button variant="text" data-active>
+			<ButtonIcon>
+				<MaterialSymbolsAdd />
+			</ButtonIcon>
+			Pressed
+		</Button>
+	</Story>
+</Card>

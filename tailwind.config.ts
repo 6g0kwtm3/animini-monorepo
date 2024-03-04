@@ -3,9 +3,9 @@ import type { Config } from "tailwindcss"
 //@ts-ignore
 import { withTV } from "tailwind-variants/transformer"
 //@ts-ignore
+import { Predicate } from "effect"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
-import { Predicate } from "effect"
 
 const K_1 = 0.173
 const K_2 = 0.004
@@ -16,7 +16,7 @@ function toeInv(x: number): number {
 }
 
 export default withTV({
-	content: ["app/**/*.{ts,tsx}"],
+	content: ["app/**/*.{ts,tsx,mdx}", ".ladle/components.tsx"],
 
 	theme: {
 		screens: {
@@ -165,6 +165,7 @@ export default withTV({
 	},
 	plugins: [
 		require("@tailwindcss/typography"),
+		require("@tailwindcss/container-queries"),
 
 		plugin(
 			({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
@@ -239,10 +240,18 @@ export default withTV({
 				":merge(.group):has([aria-invalid='true']) &"
 			])
 			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
+			addVariant("has-focused", [
+				"&:has([data-focus-visible])",
+				"&:has(:focus-visible)"
+			])
 			addVariant("pressed", ["&[data-active]", "&:active"])
 			addVariant("group-focused", [
 				":merge(.group)[data-focus-visible] &",
 				":merge(.group):focus-visible &"
+			])
+			addVariant("group-has-focused", [
+				":merge(.group):has([data-focus-visible]) &",
+				":merge(.group):has(:focus-visible) &"
 			])
 			addVariant("group-pressed", [
 				":merge(.group)[data-active] &",

@@ -1,13 +1,13 @@
 import * as Ariakit from "@ariakit/react"
 import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
-import { createTextField } from "~/lib/textField"
+import { createTextFieldInput } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
 import { Suspense } from "react"
 import { ClientOnly } from "remix-utils/client-only"
 
-const { input } = createTextField({})
+const { input } = createTextFieldInput({})
 
 const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
 
@@ -43,7 +43,7 @@ export function SelectFactory({
 			<TextFieldOutlined.Label name={props.name}>
 				{label}
 			</TextFieldOutlined.Label>
-			<TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">
+			<TextFieldOutlined.TrailingIcon className="pointer-events-none absolute end-0">
 				expand_more
 			</TextFieldOutlined.TrailingIcon>
 		</TextFieldOutlined>

@@ -1,0 +1,62 @@
+import { Story } from "@ladle/react"
+
+import { Card } from "./Card"
+import { Button } from "./Button"
+import { Meta } from "@ladle/react"
+import MaterialSymbolsAdd from "~icons/material-symbols/add"
+
+<Meta title="Card" />
+
+<Card variant="outlined" className="grid force:py-8 justify-items-center [grid-auto-columns:1fr] grid-flow-col gap-2 not-prose my-8">
+
+<Story name="Elevated">
+	<Card
+		variant="elevated"
+		render={<article />}
+		className="grid min-w-[min(100%,45ch)] gap-2"
+	>
+		<h1 className=" text-headline-md text-on-surface">
+			{" "}
+			Play <br /> relaxing songs{" "}
+		</h1>
+		<p className="text-body-l text-on-surface">From your recent favorites</p>
+		<footer className="flex justify-end">
+			<Button variant="filled">Get started</Button>
+		</footer>
+	</Card>
+</Story>
+
+</Card>
+
+<Card variant="outlined" className="grid force:py-8 justify-items-center [grid-auto-columns:1fr] grid-flow-col gap-2 not-prose my-8">
+ 
+<Story name="Filled">
+<Card variant='filled' render={<article />} className="grid gap-2 min-w-[min(100%,45ch)]">
+  <h1 className="text-headline-md text-on-surface ">Play<br/> relaxing songs</h1>
+  <p className="text-body-l text-on-surface">From your recent favorites</p>
+  <footer className="flex justify-end"><Button variant="outlined">Get started</Button></footer>    
+</Card>
+</Story>
+
+</Card>
+
+<Card variant="outlined" className="grid force:py-8 justify-items-center [grid-auto-columns:1fr] grid-flow-col gap-2 not-prose my-8">
+
+<Story name="Outlined">
+	<Card
+		variant="outlined"
+		render={<article />}
+		className="grid min-w-[min(100%,45ch)] gap-2"
+	>
+		<h1 className=" text-headline-md text-on-surface">
+			{" "}
+			Play <br /> relaxing songs{" "}
+		</h1>
+		<p className="text-body-l text-on-surface">From your recent favorites</p>
+		<footer className="flex justify-end">
+			<Button variant="tonal">Get started</Button>
+		</footer>
+	</Card>
+</Story>
+
+</Card>

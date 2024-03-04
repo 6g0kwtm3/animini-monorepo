@@ -4,9 +4,9 @@ import type { ComponentPropsWithoutRef, FocusEvent } from "react"
 import { forwardRef, useRef } from "react"
 
 import { createMenu } from "~/lib/menu"
-import { createTextField } from "~/lib/textField"
+import { createTextFieldInput } from "~/lib/textField"
 import { SelectContext } from "./SelectOption"
-const { input } = createTextField({})
+const { input } = createTextFieldInput({})
 const { root } = createMenu()
 
 export interface SelectProps extends Ariakit.SelectProps {

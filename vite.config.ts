@@ -8,6 +8,8 @@ import { defineConfig } from "vite"
 import envOnly from "vite-env-only"
 import tsconfigPaths from "vite-tsconfig-paths"
 
+const isLadle = process.argv[1]?.includes("ladle")
+
 export default defineConfig({
 	plugins: [
 		paraglide({
@@ -16,14 +18,15 @@ export default defineConfig({
 		}),
 		envOnly(),
 		remixDevTools(),
-		remix({
-			future: {
-				v3_fetcherPersist: true,
-				v3_relativeSplatPath: true,
-				v3_throwAbortReason: true
-			},
-			presets: [vercelPreset()]
-		}),
+		!isLadle &&
+			remix({
+				future: {
+					v3_fetcherPersist: true,
+					v3_relativeSplatPath: true,
+					v3_throwAbortReason: true
+				},
+				presets: [vercelPreset()]
+			}),
 		tsconfigPaths(),
 		million.vite({ auto: true, log: false }),
 		icons({
