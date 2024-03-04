@@ -20,7 +20,7 @@ const config: CodegenConfig = {
 			FuzzyDateInt: "number"
 		},
 		useTypeImports: true,
-		documentMode: 'string'
+		documentMode: "string"
 	},
 	generates: {
 		"app/gql/": {
