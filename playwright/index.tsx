@@ -10,7 +10,7 @@ export type Hooks = {} & JSONObject
 
 beforeMount<Hooks>(async ({ App, hooksConfig }) => {
 	return (
-		<div className="theme-[#6751a4] bg-surface">
+		<div className="palette-[#6751a4] theme-light dark:theme-dark bg-surface">
 			<App />
 		</div>
 	)
