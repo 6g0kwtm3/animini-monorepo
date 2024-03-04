@@ -1,5 +1,4 @@
 import { Schema } from "@effect/schema"
-import type { TypedDocumentNode } from "@graphql-typed-document-node/core"
 import { Option, pipe } from "effect"
 import { JsonToToken } from "./viewer"
 
