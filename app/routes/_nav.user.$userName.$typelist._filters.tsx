@@ -171,7 +171,7 @@ export default function Filters() {
 						<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
 							<AppBar
 								hide
-								className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low sm:elevation-1"
+								className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
 							>
 								<div className="flex items-center gap-2 p-2">
 									<AppBarTitle>Anime list</AppBarTitle>
@@ -257,7 +257,7 @@ function Filter() {
 			>
 				<Tabs
 					grow
-					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low elevation-1"
+					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
 				>
 					<TabsTab render={<HashNavLink to="#filter" />}>Filter</TabsTab>
 					<TabsTab render={<HashNavLink to="#sort" />}>Sort</TabsTab>

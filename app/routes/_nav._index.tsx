@@ -55,7 +55,7 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-[--theme]` : ""}`}
+									className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-light palette-[--theme] dark:theme-dark` : ""}`}
 									style={{
 										"--theme": media.coverImage?.color ?? ""
 									}}

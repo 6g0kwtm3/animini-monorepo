@@ -25,6 +25,16 @@ export const links: LinksFunction = () => {
 		{
 			rel: "stylesheet",
 			href: tailwind
+		},
+		{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+		{
+			rel: "preconnect",
+			href: "https://fonts.gstatic.com",
+			crossOrigin: "anonymous"
+		},
+		{
+			rel: "stylesheet",
+			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"
 		}
 	]
 }
@@ -55,7 +65,7 @@ export function Layout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			lang="en"
-			className="bg-background text-on-background theme-[#6751a4] supports-[(color:AccentColor)]:theme-[AccentColor]"
+			className="theme-light bg-background font-['Noto_Sans',sans-serif] text-on-background palette-[#6751a4] dark:theme-dark supports-[(color:AccentColor)]:palette-[AccentColor]"
 		>
 			<head>
 				<meta charSet="utf-8" />
