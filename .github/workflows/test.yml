@@ -14,24 +14,6 @@ permissions:
   contents: read
 
 jobs:
-  eslint:
-    runs-on: ubuntu-latest
-
-    name: Lint
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 21.6.2
-          cache: "pnpm"
-
-      - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
-
-      - name: Lint
-        run: pnpm run lint
-
   typecheck:
     runs-on: ubuntu-latest
 
@@ -100,7 +82,7 @@ jobs:
 
   format:
     runs-on: ubuntu-latest
-    name: Format
+    name: Lint & Format
     permissions:
       contents: write
 
@@ -117,6 +99,9 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm i --frozen-lockfile
 
+      - name: Lint
+        run: pnpm run lint --fix
+        
       - name: Format
         run: pnpm run format
 
