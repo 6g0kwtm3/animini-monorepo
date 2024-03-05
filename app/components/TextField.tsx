@@ -20,34 +20,35 @@ const Context = createContext(createTextFieldInput())
 
 const { root, text } = createTextField()
 
-export function TextFieldText(props: ComponentPropsWithoutRef<"p">) {
+export function FieldSupport(props: ComponentPropsWithoutRef<"p">) {
 	return <p {...props} className={text({ className: props.className })} />
 }
 
-function TextFieldContainer(props: ComponentPropsWithoutRef<"div">) {
+function FieldContainer(props: ComponentPropsWithoutRef<"div">) {
 	const { container } = useContext(Context)
 	return (
 		<div {...props} className={container({ className: props.className })} />
 	)
 }
 
-export function TextField(props: ComponentPropsWithoutRef<"label">) {
+export function Field(props: ComponentPropsWithoutRef<"div">) {
 	return <div {...props} className={root({ className: props.className })} />
 }
 
 const LabelContext = createContext<string | undefined>(undefined)
 
-export function TextFieldInput({
-	children,
+export function FieldText({
 	leading,
 	trailing,
 	variant,
+	label,
 	...props
 }: ComponentPropsWithoutRef<"input"> &
 	VariantProps<typeof createTextFieldInput> & {
 		render?: ReactElement
 		leading?: ReactNode
 		trailing?: ReactNode
+		label?: ReactNode
 	}) {
 	const styles = createTextFieldInput({ variant })
 	const { input } = styles
@@ -58,15 +59,15 @@ export function TextFieldInput({
 	return (
 		<LabelContext.Provider value={props.id}>
 			<Context.Provider value={styles}>
-				<TextFieldContainer className="">
+				<FieldContainer className="">
 					{Predicate.isString(leading) ? (
-						<Suffix>{leading}</Suffix>
+						<FieldTextSuffix>{leading}</FieldTextSuffix>
 					) : leading !== undefined ? (
 						leading
 					) : props.type === "date" || props.type === "datetime-local" ? (
-						<TextFieldIcon>
+						<FieldTextIcon>
 							<MaterialSymbolsCalendarToday />
-						</TextFieldIcon>
+						</FieldTextIcon>
 					) : null}
 					<div className="group/suffix peer relative flex flex-1 items-center">
 						{createElement("input", {
@@ -75,16 +76,20 @@ export function TextFieldInput({
 							placeholder: props.placeholder || " ",
 							className: input({ className: props.className })
 						})}
-						{children}
+						{Predicate.isString(label) ? (
+							<FieldTextLabel>{label}</FieldTextLabel>
+						) : (
+							label
+						)}
 						{Predicate.isString(trailing) ? (
-							<Suffix>{trailing}</Suffix>
+							<FieldTextSuffix>{trailing}</FieldTextSuffix>
 						) : trailing !== undefined ? (
 							trailing
 						) : (
 							<>
-								<TextFieldIcon className="hidden group-error:block">
+								<FieldTextIcon className="hidden group-error:block">
 									<MaterialSymbolsError />
-								</TextFieldIcon>
+								</FieldTextIcon>
 								{(!props.type || props.type === "search") && (
 									<Icon
 										className="cursor-default group-has-[:placeholder-shown]:hidden group-error:hidden group-has-focused:block group-has-focused:group-error:hidden"
@@ -102,29 +107,29 @@ export function TextFieldInput({
 							</>
 						)}
 					</div>
-					<TextFieldOutline>
+					<FieldOutline>
 						<Context.Provider
 							value={{
 								...styles,
 								label: () => "contents"
 							}}
 						>
-							{children}
+							{label}
 						</Context.Provider>
-					</TextFieldOutline>
-				</TextFieldContainer>
+					</FieldOutline>
+				</FieldContainer>
 			</Context.Provider>
 		</LabelContext.Provider>
 	)
 }
 
-function Suffix(props: ComponentPropsWithoutRef<"span">) {
+export function FieldTextSuffix(props: ComponentPropsWithoutRef<"span">) {
 	const { suffix } = useContext(Context)
 
 	return <span {...props} className={suffix({ className: props.className })} />
 }
 
-export function TextFieldInputLabel({
+export function FieldTextLabel({
 	...props
 }: ComponentPropsWithoutRef<"label">) {
 	const { label } = useContext(Context)
@@ -133,12 +138,12 @@ export function TextFieldInputLabel({
 
 	return (
 		<label {...props} className={label({ className: props.className })}>
-				{props.children}
-			</label>
+			{props.children}
+		</label>
 	)
 }
 
-function TextFieldOutline(props: ComponentPropsWithoutRef<"fieldset">) {
+function FieldOutline(props: ComponentPropsWithoutRef<"fieldset">) {
 	const { outline } = useContext(Context)
 
 	return (
@@ -156,7 +161,7 @@ function TextFieldOutline(props: ComponentPropsWithoutRef<"fieldset">) {
 	)
 }
 
-export function TextFieldIcon(
+export function FieldTextIcon(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}

@@ -1,10 +1,9 @@
 import { Card } from "./Card"
 import {
-	TextField,
-	TextFieldIcon,
-	TextFieldInput,
-	TextFieldInputLabel,
-	TextFieldText
+	Field,
+	FieldSupport,
+	FieldText,
+	FieldTextIcon
 } from "./TextField"
 
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
@@ -15,32 +14,28 @@ import type { ComponentPropsWithoutRef } from "react"
 import MaterialSymbolsKeyboardVoice from "~icons/material-symbols/keyboard-voice"
 import { Prose } from "./Prose"
 
-type Props = ComponentPropsWithoutRef<typeof TextFieldInput> & {
+type Props = ComponentPropsWithoutRef<typeof FieldText> & {
 	variant?: "outlined" | "filled"
 }
 
 const withSupportingText: StoryDecorator<Props> = (Story) => {
 	return (
-		<TextField>
+		<Field>
 			<Story />
-			<TextFieldText>{"Supporting text"}</TextFieldText>
-		</TextField>
+			<FieldSupport>{"Supporting text"}</FieldSupport>
+		</Field>
 	)
 }
 
-const Template: Story<Props> = ({ children, ...args }) => (
-	<TextFieldInput {...args}>
-		<TextFieldInputLabel children={children} />
-	</TextFieldInput>
-)
+const Template: Story<Props> = (args) => <FieldText {...args} />
 
 export const Filled = Template.bind({})
 Filled.args = {
-	children: "Label text",
+	label: "Label text",
 	leading: (
-		<TextFieldIcon>
+		<FieldTextIcon>
 			<MaterialSymbolsSearch />
-		</TextFieldIcon>
+		</FieldTextIcon>
 	)
 }
 
@@ -183,7 +178,7 @@ export const FilledImage = Template.bind({})
 export const SuffixAmount = Template.bind({})
 SuffixAmount.args = {
 	variant: "outlined",
-	children: "Amount",
+	label: "Amount",
 	trailing: "/100"
 }
 export const SuffixAmountPopulated = Template.bind({})
@@ -195,7 +190,7 @@ SuffixAmountPopulated.args = {
 export const SuffixEmail = Template.bind({})
 SuffixEmail.args = {
 	variant: "outlined",
-	children: "Email",
+	label: "Email",
 	trailing: "@gmail.com"
 }
 export const SuffixEmailPopulated = Template.bind({})
@@ -208,7 +203,7 @@ export const PrefixPrice = Template.bind({})
 PrefixPrice.args = {
 	variant: "outlined",
 	trailing: null,
-	children: "Price",
+	label: "Price",
 	leading: "€"
 }
 export const PrefixPricePopulated = Template.bind({})
@@ -382,12 +377,12 @@ export const Readme = () => (
 				{...Outlined.args}
 				trailing={
 					<>
-						<TextFieldIcon>
+						<FieldTextIcon>
 							<MaterialSymbolsKeyboardVoice />
-						</TextFieldIcon>
-						<TextFieldIcon>
+						</FieldTextIcon>
+						<FieldTextIcon>
 							<MaterialSymbolsSearch />
-						</TextFieldIcon>
+						</FieldTextIcon>
 					</>
 				}
 			/>
