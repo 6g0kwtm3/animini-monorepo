@@ -1,4 +1,9 @@
-import { Await, isRouteErrorResponse, useRouteError } from "@remix-run/react"
+import {
+	Await,
+	Outlet,
+	isRouteErrorResponse,
+	useRouteError
+} from "@remix-run/react"
 
 import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
 import { defer } from "@vercel/remix"
@@ -6,12 +11,13 @@ import { defer } from "@vercel/remix"
 // import type { FragmentType } from "~/lib/graphql"
 
 import { MediaStatus, MediaType } from "~/gql/graphql"
-import { graphql } from "~/lib/graphql"
+import { graphql, makeFragmentData } from "~/lib/graphql"
 import {
 	AwaitLibrary,
 	MediaListHeader,
 	MediaListHeaderItem,
-	MediaListHeaderToWatch
+	MediaListHeaderToWatch,
+	MediaListHeaderToWatch_entries
 } from "~/lib/list/MediaList"
 import {
 	ClientArgs,
@@ -32,7 +38,11 @@ import { Loading, Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { getLibrary } from "~/lib/electron/library.server"
-import { MediaListItem } from "~/lib/entry/ListItem"
+import {
+	MediaListItem,
+	type ListItem_EntryFragment
+} from "~/lib/entry/ListItem"
+import type { ToWatch_entry } from "~/lib/entry/toWatch"
 import { toWatch } from "~/lib/entry/toWatch"
 import { m } from "~/lib/paraglide"
 
@@ -42,7 +52,10 @@ function TypelistQuery() {
 			$userName: String!
 			$type: MediaType!
 			$coverExtraLarge: Boolean = false
+			$isEntryId: Boolean!
+			$entryId: Int
 		) {
+			...Entry_query
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
 					name
@@ -79,7 +92,7 @@ export const loader = (async (args) => {
 				Effect.provideService(LoaderArgs, args),
 				Remix.runLoader
 			),
-			SelectedList: pipe(
+			query: pipe(
 				Effect.gen(function* (_) {
 					const client = yield* _(EffectUrql)
 					const { searchParams } = yield* _(ClientArgs)
@@ -88,23 +101,27 @@ export const loader = (async (args) => {
 						Remix.params({
 							selected: Schema.string,
 							userName: Schema.string,
-							typelist: Schema.literal("animelist", "mangalist")
+							typelist: Schema.literal("animelist", "mangalist"),
+							entryId: Schema.optional(Schema.NumberFromString)
 						})
 					)
 
-					const data = yield* _(
-						client.query(TypelistQuery(), {
-							userName: params.userName,
-							type: {
-								animelist: MediaType.Anime,
-								mangalist: MediaType.Manga
-							}[params.typelist]
-						})
-					)
+					const { MediaListCollection, ...data } =
+						(yield* _(
+							client.query(TypelistQuery(), {
+								userName: params.userName,
+								entryId: params.entryId,
+								isEntryId: Predicate.isNumber(params.entryId),
+								type: {
+									animelist: MediaType.Anime,
+									mangalist: MediaType.Manga
+								}[params.typelist]
+							})
+						)) ?? {}
 
 					const selectedList = yield* _(
 						Option.fromNullable(
-							data?.MediaListCollection?.lists?.find(
+							MediaListCollection?.lists?.find(
 								(list) => list?.name === params.selected
 							)
 						)
@@ -119,7 +136,9 @@ export const loader = (async (args) => {
 							// Order.mapInput(Order.number, (entry) => behind(entry)),
 							Order.mapInput(
 								Order.number,
-								(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
+								(entry) =>
+									toWatch(makeFragmentData<ToWatch_entry>(entry)) ||
+									Number.POSITIVE_INFINITY
 							),
 							Order.mapInput(Order.number, (entry) => {
 								return [
@@ -142,7 +161,13 @@ export const loader = (async (args) => {
 						)
 					}
 
-					return { ...selectedList, entries }
+					return {
+						...data,
+						selectedList: {
+							...selectedList,
+							entries
+						}
+					}
 				}),
 
 				// Effect.catchTag("NoSuchElementException", () =>
@@ -176,17 +201,21 @@ export default function Page() {
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-						<Await resolve={data.SelectedList}>
-							{(selectedList) => (
-								<MediaListHeaderToWatch entries={selectedList.entries} />
+						<Await resolve={data.query}>
+							{({ selectedList }) => (
+								<MediaListHeaderToWatch
+									entries={makeFragmentData<MediaListHeaderToWatch_entries>(
+										selectedList.entries
+									)}
+								/>
 							)}
 						</Await>
 					</Suspense>
 				</MediaListHeaderItem>
 				<MediaListHeaderItem subtitle={m.total_entries()}>
 					<Suspense fallback={<Skeleton>80</Skeleton>}>
-						<Await resolve={data.SelectedList}>
-							{(selectedList) => selectedList.entries.length}
+						<Await resolve={data.query}>
+							{({ selectedList }) => selectedList.entries.length}
 						</Await>
 					</Suspense>
 				</MediaListHeaderItem>
@@ -204,12 +233,15 @@ export default function Page() {
 								</Loading>
 							}
 						>
-							<Await resolve={data.SelectedList}>
-								{(selectedList) => {
+							<Await resolve={data.query}>
+								{({ selectedList }) => {
 									const mediaList = selectedList.entries
 										.filter(Predicate.isNotNull)
 										.map((entry) => (
-											<MediaListItem key={entry.id} entry={entry} />
+											<MediaListItem
+												key={entry.id}
+												entry={makeFragmentData<ListItem_EntryFragment>(entry)}
+											/>
 										))
 
 									return (
@@ -225,6 +257,7 @@ export default function Page() {
 					</List>
 				</div>
 			</div>
+			<Outlet />
 		</>
 	)
 }

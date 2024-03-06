@@ -25,7 +25,7 @@ import {
 } from "~/components/Tooltip"
 import { Remix } from "~/lib/Remix/index.server"
 import { button, fab } from "~/lib/button"
-import { graphql } from "~/lib/graphql"
+import { graphql, makeFragmentData } from "~/lib/graphql"
 import {
 	ClientArgs,
 	EffectUrql,
@@ -38,7 +38,7 @@ import { Button } from "~/components/Button"
 
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
-import { MediaCover } from "~/lib/entry/MediaListCover"
+import { MediaCover, MediaCover_media } from "~/lib/entry/MediaListCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
@@ -52,6 +52,7 @@ export const loader = (async (args) => {
 			Effect.flatMap(({ client, args: { params } }) =>
 				client.query(
 					graphql(`
+
 						query MediaQuery($id: Int!, $coverExtraLarge: Boolean = true) {
 							Media(id: $id) {
 								id
@@ -115,7 +116,7 @@ export default function Page() {
 						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
 					>
 						<MediaCover
-							media={data.Media}
+							media={makeFragmentData<MediaCover_media>(data.Media)}
 							className="rounded-xl [view-transition-name:media-cover]"
 						/>
 

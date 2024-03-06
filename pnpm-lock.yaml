@@ -142,6 +142,9 @@ devDependencies:
   eslint-plugin-react-refresh:
     specifier: ^0.4.5
     version: 0.4.5(eslint@8.38.0)
+  graphql:
+    specifier: ^16.8.1
+    version: 16.8.1
   knip:
     specifier: ^4.5.0
     version: 4.5.0(@types/node@20.11.20)(typescript@5.1.6)

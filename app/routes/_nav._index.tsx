@@ -36,7 +36,8 @@ import { useRawLoaderData } from "~/lib/data"
 
 import { Parser } from "htmlparser2"
 import sanitizeHtml_ from "sanitize-html"
-import { MediaCover } from "~/lib/entry/MediaListCover"
+import { MediaCover, MediaCover_media } from "~/lib/entry/MediaListCover"
+import { makeFragmentData } from "~/lib/graphql"
 
 function MediaLink({
 	mediaId,
@@ -64,7 +65,7 @@ function MediaLink({
 									<List className="force:p-0" render={<span />}>
 										<ListItem render={<span />}>
 											<ListItemImg>
-												<MediaCover media={media} />
+												<MediaCover media={makeFragmentData<MediaCover_media>(media)} />
 											</ListItemImg>
 											<ListItemContent>
 												<ListItemTitle render={<span />}>
