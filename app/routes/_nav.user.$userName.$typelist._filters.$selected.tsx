@@ -55,7 +55,6 @@ function TypelistQuery() {
 			$isEntryId: Boolean!
 			$entryId: Int
 		) {
-			...Entry_query
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
 					name
