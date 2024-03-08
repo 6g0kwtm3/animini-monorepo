@@ -71,7 +71,7 @@
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"graphql": "^16.8.1",
 		"knip": "^4.5.0",
-		"million": "^3.0.3",
+		"million": "^3.0.5",
 		"prettier": "^3.2.5",
 		"prettier-plugin-tailwindcss": "^0.5.11",
 		"remix-development-tools": "^3.7.4",
