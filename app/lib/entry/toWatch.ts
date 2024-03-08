@@ -17,7 +17,7 @@ const ToWatch_entry = serverOnly$(
 	`)
 )
 
-export type ToWatch_entry= typeof ToWatch_entry
+export type ToWatch_entry = typeof ToWatch_entry
 
 export function toWatch(data: FragmentType<typeof ToWatch_entry>) {
 	const entry = readFragment<typeof ToWatch_entry>(data)

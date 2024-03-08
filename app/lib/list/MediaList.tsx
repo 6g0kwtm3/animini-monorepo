@@ -39,7 +39,8 @@ const MediaListHeaderToWatch_entries = serverOnly$(
 	`)
 )
 
-export type MediaListHeaderToWatch_entries =typeof MediaListHeaderToWatch_entries
+export type MediaListHeaderToWatch_entries =
+	typeof MediaListHeaderToWatch_entries
 
 export function MediaListHeaderToWatch(props: {
 	entries: FragmentType<typeof MediaListHeaderToWatch_entries>[]

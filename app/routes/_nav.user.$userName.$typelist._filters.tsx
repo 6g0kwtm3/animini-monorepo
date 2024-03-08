@@ -269,76 +269,75 @@ function Filter() {
 					onChange={(e) => submit(e.currentTarget, {})}
 				>
 					<List lines="one" render={<Group />}>
-							{hash === "#filter" && (
-								<>
-									
-						<ListItem
-							render={<GroupLabel />}
-							className="text-body-md text-on-surface-variant force:hover:state-none"
-						>
-							<h2 className="col-span-full ">Status</h2>
-						</ListItem>
-						<CheckboxProvider value={searchParams.getAll("status")}>
-							{Object.entries(
-								params.typelist === "animelist"
-									? ANIME_STATUS_OPTIONS
-									: MANGA_STATUS_OPTIONS
-							).map(([value, label]) => {
-								return (
-									<ListItem render={<label />} key={value}>
-										<Checkbox name="status" value={value} />
-										<div className="col-span-2 col-start-2">
-											<ListItemContentTitle>{label}</ListItemContentTitle>
-										</div>
-									</ListItem>
-								)
-							})}
-						</CheckboxProvider>
-						<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-							<h2 className="col-span-full ">Format</h2>
-						</ListItem>
-						<CheckboxProvider value={searchParams.getAll("format")}>
-							{Object.entries(
-								params.typelist === "animelist"
-									? ANIME_FORMAT_OPTIONS
-									: MANGA_FORMAT_OPTIONS
-							).map(([value, label]) => {
-								return (
-									<ListItem render={<label />} key={value}>
-										<Checkbox name="format" value={value} />
-										<ListItemContent>
-											<ListItemContentTitle>{label}</ListItemContentTitle>
-										</ListItemContent>
-									</ListItem>
-								)
-							})}
-						</CheckboxProvider>
-								</>
-							)}
+						{hash === "#filter" && (
+							<>
+								<ListItem
+									render={<GroupLabel />}
+									className="text-body-md text-on-surface-variant force:hover:state-none"
+								>
+									<h2 className="col-span-full ">Status</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("status")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_STATUS_OPTIONS
+											: MANGA_STATUS_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Checkbox name="status" value={value} />
+												<div className="col-span-2 col-start-2">
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</div>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+									<h2 className="col-span-full ">Format</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("format")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_FORMAT_OPTIONS
+											: MANGA_FORMAT_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Checkbox name="format" value={value} />
+												<ListItemContent>
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</ListItemContent>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+							</>
+						)}
 
-							{hash === "#sort" && (
-								<>
-									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-										<h2 className="col-span-full ">Sort</h2>
-									</ListItem>
-									<CheckboxProvider value={searchParams.getAll("sort")}>
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_SORT_OPTIONS
-												: MANGA_SORT_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<ListItem render={<label />} key={value}>
-													<Radio name="sort" value={value} />
-													<ListItemContent>
-														<ListItemContentTitle>{label}</ListItemContentTitle>
-													</ListItemContent>
-												</ListItem>
-											)
-										})}
-									</CheckboxProvider>
-								</>
-							)}
+						{hash === "#sort" && (
+							<>
+								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+									<h2 className="col-span-full ">Sort</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("sort")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_SORT_OPTIONS
+											: MANGA_SORT_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Radio name="sort" value={value} />
+												<ListItemContent>
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</ListItemContent>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+							</>
+						)}
 					</List>
 				</Form>
 			</Sheet>

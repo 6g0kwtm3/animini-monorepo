@@ -5,9 +5,9 @@ import MaterialSymbolsCheckBoxOutlineBlank from "~icons/material-symbols/check-b
 import MaterialSymbolsIndeterminateCheckBox from "~icons/material-symbols/indeterminate-check-box"
 import { TouchTarget } from "./Tooltip"
 
-import MaterialSymbolsRadioButtonCheckedOutline from '~icons/material-symbols/radio-button-checked-outline'
+import MaterialSymbolsRadioButtonCheckedOutline from "~icons/material-symbols/radio-button-checked-outline"
 
-import MaterialSymbolsCircleOutline from '~icons/material-symbols/circle-outline'
+import MaterialSymbolsCircleOutline from "~icons/material-symbols/circle-outline"
 export function Checkbox(
 	props: ComponentPropsWithoutRef<typeof Ariakit.Checkbox>
 ) {
@@ -29,9 +29,7 @@ export function Checkbox(
 		</label>
 	)
 }
-export function Radio(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Radio>
-) {
+export function Radio(props: ComponentPropsWithoutRef<typeof Ariakit.Radio>) {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>
@@ -43,7 +41,7 @@ export function Radio(
 			<div className="hidden i group-has-[input:not(:checked)]:block">
 				<MaterialSymbolsCircleOutline />
 			</div>
- 
+
 			<TouchTarget />
 		</label>
 	)

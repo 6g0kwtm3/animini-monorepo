@@ -139,14 +139,21 @@ export function Search() {
 										</div>
 									</Ariakit.ComboboxGroupLabel>
 									{media.map((media) => (
-										<SearchItem media={makeFragmentData<SearchItem_media>(media)} key={media.id} />
+										<SearchItem
+											media={makeFragmentData<SearchItem_media>(media)}
+											key={media.id}
+										/>
 									))}
 								</SearchViewBodyGroup>
 							</SearchViewBody>
 						) : data ? (
 							<Suspense fallback="">
 								<Await resolve={data.trending} errorElement={<></>}>
-									{(data) => <SearchTrending query={makeFragmentData<SearchTrending_query>(data)} />}
+									{(data) => (
+										<SearchTrending
+											query={makeFragmentData<SearchTrending_query>(data)}
+										/>
+									)}
 								</Await>
 							</Suspense>
 						) : null}

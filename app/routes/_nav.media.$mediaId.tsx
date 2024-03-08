@@ -38,7 +38,8 @@ import { Button } from "~/components/Button"
 
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
-import { MediaCover, MediaCover_media } from "~/lib/entry/MediaListCover"
+import type { MediaCover_media } from "~/lib/entry/MediaListCover"
+import { MediaCover } from "~/lib/entry/MediaListCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
@@ -52,7 +53,6 @@ export const loader = (async (args) => {
 			Effect.flatMap(({ client, args: { params } }) =>
 				client.query(
 					graphql(`
-
 						query MediaQuery($id: Int!, $coverExtraLarge: Boolean = true) {
 							Media(id: $id) {
 								id

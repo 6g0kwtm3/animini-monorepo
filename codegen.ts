@@ -47,7 +47,7 @@ const config: CodegenConfig = {
 
 						const docs = optimizeDocuments(
 							buildASTSchema(schema),
-							documents.flatMap(({ document }) => (document ? [document] : [])),
+							documents.flatMap(({ document }) => (document ? [document] : []))
 							// {
 							//   includeFragments: true,
 							// },
