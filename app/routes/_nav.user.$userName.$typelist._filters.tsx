@@ -17,7 +17,7 @@ import { Effect, Order, Predicate, pipe } from "effect"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
-import { Checkbox } from "~/components/Checkbox"
+import { Checkbox, Radio } from "~/components/Checkbox"
 import { ChipFilter } from "~/components/Chip"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
@@ -28,7 +28,7 @@ import {
 } from "~/components/List"
 import { Sheet } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
-import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+import { MediaFormat, MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { graphql } from "~/lib/graphql"
@@ -269,13 +269,15 @@ function Filter() {
 					onChange={(e) => submit(e.currentTarget, {})}
 				>
 					<List lines="one" render={<Group />}>
+							{hash === "#filter" && (
+								<>
+									
 						<ListItem
 							render={<GroupLabel />}
 							className="text-body-md text-on-surface-variant force:hover:state-none"
 						>
 							<h2 className="col-span-full ">Status</h2>
 						</ListItem>
-
 						<CheckboxProvider value={searchParams.getAll("status")}>
 							{Object.entries(
 								params.typelist === "animelist"
@@ -292,7 +294,6 @@ function Filter() {
 								)
 							})}
 						</CheckboxProvider>
-
 						<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
 							<h2 className="col-span-full ">Format</h2>
 						</ListItem>
@@ -312,13 +313,38 @@ function Filter() {
 								)
 							})}
 						</CheckboxProvider>
+								</>
+							)}
+
+							{hash === "#sort" && (
+								<>
+									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+										<h2 className="col-span-full ">Sort</h2>
+									</ListItem>
+									<CheckboxProvider value={searchParams.getAll("sort")}>
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_SORT_OPTIONS
+												: MANGA_SORT_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<ListItem render={<label />} key={value}>
+													<Radio name="sort" value={value} />
+													<ListItemContent>
+														<ListItemContentTitle>{label}</ListItemContentTitle>
+													</ListItemContent>
+												</ListItem>
+											)
+										})}
+									</CheckboxProvider>
+								</>
+							)}
 					</List>
 				</Form>
 			</Sheet>
 		</>
 	)
 }
-
 const ANIME_STATUS_OPTIONS = {
 	[MediaStatus.Finished]: m.media_status_finished(),
 	[MediaStatus.Releasing]: m.media_status_releasing(),
@@ -343,6 +369,13 @@ const ANIME_FORMAT_OPTIONS = {
 	[MediaFormat.Ona]: m.media_format_ona(),
 	[MediaFormat.Music]: m.media_format_music()
 }
+
+const ANIME_SORT_OPTIONS = {
+	[MediaSort.TitleEnglish]: m.media_sort_title(),
+	[MediaSort.ScoreDesc]: m.media_sort_score(),
+	[MediaSort.UpdatedAtDesc]: m.media_sort_last_updated()
+}
+const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
 
 const MANGA_FORMAT_OPTIONS = {
 	[MediaFormat.Manga]: m.media_format_manga(),

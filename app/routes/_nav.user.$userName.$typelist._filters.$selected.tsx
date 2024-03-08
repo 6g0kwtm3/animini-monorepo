@@ -10,14 +10,14 @@ import { defer } from "@vercel/remix"
 
 // import type { FragmentType } from "~/lib/graphql"
 
-import { MediaStatus, MediaType } from "~/gql/graphql"
+import { MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import { graphql, makeFragmentData } from "~/lib/graphql"
+import type { MediaListHeaderToWatch_entries } from "~/lib/list/MediaList"
 import {
 	AwaitLibrary,
 	MediaListHeader,
 	MediaListHeaderItem,
-	MediaListHeaderToWatch,
-	MediaListHeaderToWatch_entries
+	MediaListHeaderToWatch
 } from "~/lib/list/MediaList"
 import {
 	ClientArgs,
@@ -64,6 +64,8 @@ function TypelistQuery() {
 						...ListItem_entry
 						...ToWatch_entry
 						id
+						updatedAt
+						score
 						media {
 							id
 							status(version: 2)
@@ -129,23 +131,57 @@ export const loader = (async (args) => {
 
 					const status = searchParams.getAll("status")
 					const format = searchParams.getAll("format")
+					const sorts = searchParams.getAll("sort")
 
-					let entries = pipe(
-						selectedList.entries?.filter(Predicate.isNotNull) ?? [],
+					let entries = selectedList.entries?.filter(Predicate.isNotNull) ?? []
+
+					const order: Order.Order<(typeof entries)[number]>[] = []
+
+					for (const sort of sorts) {
+						if (sort === MediaSort.ScoreDesc) {
+							order.push(
+								Order.reverse(
+									Order.mapInput(Order.number, (entry) => entry.score ?? 0)
+								)
+							)
+						}
+						if (sort === MediaSort.TitleEnglish) {
+							order.push(
+								Order.mapInput(
+									Order.string,
+									(entry) => entry.media?.title?.userPreferred ?? ""
+								)
+							)
+						}
+						if (sort === MediaSort.UpdatedAtDesc) {
+							order.push(
+								Order.reverse(
+									Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0)
+								)
+							)
+						}
+					}
+
+					order.push(
+						Order.mapInput(
+							Order.number,
+							(entry) =>
+								toWatch(makeFragmentData<ToWatch_entry>(entry)) ||
+								Number.POSITIVE_INFINITY
+						),
+						Order.mapInput(Order.number, (entry) => {
+							return [
+								MediaStatus.Releasing,
+								MediaStatus.NotYetReleased
+							].indexOf(entry.media?.status ?? MediaStatus.Cancelled)
+						})
+					)
+
+					entries = pipe(
+						entries,
 						ReadonlyArray.sortBy(
 							// Order.mapInput(Order.number, (entry) => behind(entry)),
-							Order.mapInput(
-								Order.number,
-								(entry) =>
-									toWatch(makeFragmentData<ToWatch_entry>(entry)) ||
-									Number.POSITIVE_INFINITY
-							),
-							Order.mapInput(Order.number, (entry) => {
-								return [
-									MediaStatus.Releasing,
-									MediaStatus.NotYetReleased
-								].indexOf(entry.media?.status ?? MediaStatus.Cancelled)
-							})
+							...order
 						)
 					)
 
