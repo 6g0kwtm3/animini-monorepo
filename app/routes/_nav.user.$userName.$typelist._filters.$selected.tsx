@@ -130,6 +130,7 @@ export const loader = (async (args) => {
 
 					const status = searchParams.getAll("status")
 					const format = searchParams.getAll("format")
+					const progresses = searchParams.getAll("progress")
 					const sorts = searchParams.getAll("sort")
 
 					let entries = selectedList.entries?.filter(Predicate.isNotNull) ?? []
@@ -194,6 +195,15 @@ export const loader = (async (args) => {
 						entries = entries.filter((entry) =>
 							format.includes(entry.media?.format ?? "")
 						)
+					}
+
+					for (const progress of progresses) {
+						if (progress === "UNSEEN") {
+							entries = entries.filter((entry) => toWatch(entry) > 0)
+						}
+						if (progress === "STARTED") {
+							entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
+						}
 					}
 
 					return {

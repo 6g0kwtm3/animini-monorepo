@@ -109,7 +109,8 @@ function useOptimisticLocation() {
 export default function Filters() {
 	const submit = useSubmit()
 
-	const { pathname, hash } = useLocation()
+	const { pathname } = useLocation()
+	const { hash } = useOptimisticLocation()
 
 	const searchParams = useOptimisticSearchParams()
 
@@ -229,9 +230,7 @@ function Filter() {
 		<>
 			<Icon
 				className={`md:hidden${
-					searchParams.get("status") ?? searchParams.get("format")
-						? " text-tertiary"
-						: ""
+					searchParams.size > 0 ? " text-tertiary" : ""
 				}`}
 				render={
 					<Link
@@ -259,8 +258,12 @@ function Filter() {
 					grow
 					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
 				>
-					<TabsTab render={<HashNavLink to="#filter" />}>Filter</TabsTab>
-					<TabsTab render={<HashNavLink to="#sort" />}>Sort</TabsTab>
+					<TabsTab render={<HashNavLink to={`?${searchParams}#filter`} />}>
+						Filter
+					</TabsTab>
+					<TabsTab render={<HashNavLink to={`?${searchParams}#sort`} />}>
+						Sort
+					</TabsTab>
 				</Tabs>
 
 				<Form
@@ -312,6 +315,25 @@ function Filter() {
 										)
 									})}
 								</CheckboxProvider>
+									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+										<h2 className="col-span-full ">Progress</h2>
+									</ListItem>
+									<CheckboxProvider value={searchParams.getAll("progress")}>
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_PROGRESS_OPTIONS
+												: MANGA_PROGRESS_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<ListItem render={<label />} key={value}>
+													<Checkbox name="progress" value={value} />
+													<ListItemContent>
+														<ListItemContentTitle>{label}</ListItemContentTitle>
+													</ListItemContent>
+												</ListItem>
+											)
+										})}
+									</CheckboxProvider>
 							</>
 						)}
 
@@ -367,6 +389,16 @@ const ANIME_FORMAT_OPTIONS = {
 	[MediaFormat.Ova]: m.media_format_ova(),
 	[MediaFormat.Ona]: m.media_format_ona(),
 	[MediaFormat.Music]: m.media_format_music()
+}
+
+const ANIME_PROGRESS_OPTIONS = {
+	UNSEEN: "Unseen",
+	STARTED: "Started"
+}
+
+const MANGA_PROGRESS_OPTIONS = {
+	UNSEEN: "Unread",
+	STARTED: "Started"
 }
 
 const ANIME_SORT_OPTIONS = {
