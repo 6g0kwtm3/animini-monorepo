@@ -229,9 +229,7 @@ function Filter() {
 	return (
 		<>
 			<Icon
-				className={`md:hidden${
-					searchParams.size > 0 ? " text-tertiary" : ""
-				}`}
+				className={`md:hidden${searchParams.size > 0 ? " text-tertiary" : ""}`}
 				render={
 					<Link
 						to={{
@@ -315,25 +313,25 @@ function Filter() {
 										)
 									})}
 								</CheckboxProvider>
-									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-										<h2 className="col-span-full ">Progress</h2>
-									</ListItem>
-									<CheckboxProvider value={searchParams.getAll("progress")}>
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_PROGRESS_OPTIONS
-												: MANGA_PROGRESS_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<ListItem render={<label />} key={value}>
-													<Checkbox name="progress" value={value} />
-													<ListItemContent>
-														<ListItemContentTitle>{label}</ListItemContentTitle>
-													</ListItemContent>
-												</ListItem>
-											)
-										})}
-									</CheckboxProvider>
+								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+									<h2 className="col-span-full ">Progress</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("progress")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_PROGRESS_OPTIONS
+											: MANGA_PROGRESS_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Checkbox name="progress" value={value} />
+												<ListItemContent>
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</ListItemContent>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
 							</>
 						)}
 
