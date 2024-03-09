@@ -388,7 +388,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 									type="hidden"
 									name="isFollowing"
 									value={
-										follow.data?.ToggleFollow?.isFollowing ??
+										follow.data?.ToggleFollow.isFollowing ??
 										follow.formData?.get("isFollowing") ??
 										fetcher.data?.User?.isFollowing
 											? ""
@@ -398,7 +398,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 								/>
 
 								<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
-									{follow.data?.ToggleFollow?.isFollowing ??
+									{follow.data?.ToggleFollow.isFollowing ??
 									follow.formData?.get("isFollowing") ??
 									fetcher.data?.User?.isFollowing
 										? m.unfollow_button()

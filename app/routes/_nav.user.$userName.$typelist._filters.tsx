@@ -109,7 +109,6 @@ function useOptimisticLocation() {
 export default function Filters() {
 	const submit = useSubmit()
 
-
 	const { hash } = useOptimisticLocation()
 
 	const searchParams = useOptimisticSearchParams()
@@ -266,7 +265,7 @@ function Filter() {
 
 				<Form
 					replace
-						action={hash}
+					action={hash}
 					onChange={(e) => submit(e.currentTarget, {})}
 				>
 					<List lines="one" render={<Group />}>
