@@ -4,7 +4,9 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	json
+	isRouteErrorResponse,
+	json,
+	useRouteError
 } from "@remix-run/react"
 import { LoaderArgs, LoaderLive } from "./lib/urql.server"
 
@@ -17,8 +19,11 @@ import { Remix } from "./lib/Remix/index.server"
 import tailwind from "./tailwind.css?url"
 
 import type { ReactNode } from "react"
+import { Card } from "./components/Card"
 import { Layout as AppLayout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
+import { useLocale } from "./lib/useLocale"
+import { setLanguageTag } from "./paraglide/runtime"
 
 export const links: LinksFunction = () => {
 	return [
@@ -46,7 +51,11 @@ export const loader = (async (args) => {
 				const { request } = yield* _(LoaderArgs)
 				const viewer = Option.getOrNull(yield* _(Viewer))
 				return json(
-					{ Viewer: viewer, language: request.headers.get("accept-language") },
+					{
+						Viewer: viewer,
+						// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+						language: request.headers.get("accept-language")
+					},
 					{
 						headers: {
 							"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
@@ -62,21 +71,39 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 export function Layout({ children }: { children: ReactNode }) {
+	const { locale, dir } = useLocale()
+	// const { nonce } = useRawLoaderData<typeof loader>()
+
+	setLanguageTag(locale)
+
 	return (
 		<html
-			lang="en"
+			lang={locale}
+			dir={dir}
 			className="theme-light bg-background font-['Noto_Sans',sans-serif] text-on-background palette-[#6751a4] dark:theme-dark supports-[(color:AccentColor)]:palette-[AccentColor]"
 		>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				{/* <meta
+					httpEquiv="Content-Security-Policy"
+					content={`script-src 'strict-dynamic' 'nonce-${nonce}' 'unsafe-inline' http: https:;
+ object-src 'none';
+ base-uri 'none';
+ require-trusted-types-for 'script';
+ report-uri https://csp.example.com;`}
+				/> */}
 				<Meta />
 				<Links />
 			</head>
 			<body>
 				{children}
-				<ScrollRestoration />
-				<Scripts />
+				<ScrollRestoration
+				//  nonce={nonce}
+				  />
+				<Scripts 
+				// nonce={nonce}
+				 />
 			</body>
 		</html>
 	)
@@ -95,5 +122,38 @@ export default function App() {
 				<Outlet />
 			</AppLayout>
 		</SnackbarQueue>
+	)
+}
+
+export function ErrorBoundary() {
+	const error = useRouteError()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<div>
+				<h1>Oops</h1>
+				<p>Status: {error.status}</p>
+				<p>{error.data}</p>
+			</div>
+		)
+	}
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<Card
+			variant="elevated"
+			className="m-4 force:bg-error-container force:text-on-error-container"
+		>
+			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
+			<p className="text-headline-sm">Something went wrong.</p>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+		</Card>
 	)
 }

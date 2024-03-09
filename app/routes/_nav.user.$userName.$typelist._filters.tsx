@@ -109,7 +109,7 @@ function useOptimisticLocation() {
 export default function Filters() {
 	const submit = useSubmit()
 
-	const { pathname } = useLocation()
+
 	const { hash } = useOptimisticLocation()
 
 	const searchParams = useOptimisticSearchParams()
@@ -120,7 +120,7 @@ export default function Filters() {
 				<Card variant="elevated" className="max-h-full overflow-y-auto">
 					<Form
 						replace
-						action={[pathname, hash].filter(Boolean).join("")}
+						action={hash}
 						onChange={(e) => submit(e.currentTarget)}
 						className="grid grid-cols-2 gap-2"
 					>
@@ -268,7 +268,7 @@ function Filter() {
 
 				<Form
 					replace
-					action={[pathname, hash].filter(Boolean).join("")}
+						action={hash}
 					onChange={(e) => submit(e.currentTarget, {})}
 				>
 					<List lines="one" render={<Group />}>

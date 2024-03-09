@@ -31,5 +31,9 @@
 	"recently_added": "Recently added to the site.",
 	"media_sort_title": "Title",
 	"media_sort_score": "Score",
-	"media_sort_last_updated": "Last Updated"
+	"media_sort_last_updated": "Last Updated",
+	"unfollow": "You are not following {name} anymore",
+	"follow": "You are following {name} now",
+	"unfollow_button": "Unfollow",
+	"follow_button": "Follow"
 }

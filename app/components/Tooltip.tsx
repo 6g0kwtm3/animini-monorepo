@@ -5,33 +5,41 @@ import {
 	type ComponentPropsWithoutRef,
 	type PropsWithChildren
 } from "react"
+import { createTV } from "tailwind-variants"
 
 export function TooltipRich(
 	props: ComponentPropsWithoutRef<typeof Ariakit.HovercardProvider>
 ) {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
-export function TooltipRichTrigger({
-	children,
-	...props
-}: PropsWithChildren<
-	ComponentPropsWithoutRef<typeof Ariakit.HovercardAnchor>
->) {
-	return (
-		<Ariakit.HovercardAnchor render={<div />} {...props}>
-			{children}
-		</Ariakit.HovercardAnchor>
-	)
+export function TooltipRichTrigger(
+	props: PropsWithChildren<
+		ComponentPropsWithoutRef<typeof Ariakit.HovercardAnchor>
+	>
+) {
+	return <Ariakit.HovercardAnchor render={<div />} {...props} />
 }
+
+const tv = createTV({ twMerge: false })
+
+const tooltip = tv({
+	slots: { container: "" },
+	variants: {
+		variant: {
+			rich: { container: "rounded-md bg-surface-container px-4 pb-2 pt-3" }
+		}
+	}
+})
 
 export function TooltipRichContainer(
 	props: ComponentPropsWithoutRef<typeof Ariakit.Hovercard>
 ) {
+	const { container } = tooltip({ variant: "rich" })
 	return (
 		<Ariakit.Hovercard
 			gutter={8}
 			{...props}
-			className="rounded-md bg-surface-container px-4 pb-2 pt-3"
+			className={container({ className: props.className })}
 		/>
 	)
 }
