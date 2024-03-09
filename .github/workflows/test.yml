@@ -69,6 +69,8 @@ jobs:
 
       - name: Test components
         run: pnpm run test --project=${{ matrix.project }}
+        env:
+          ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
 
       - name: Upload test results
         if: always()
