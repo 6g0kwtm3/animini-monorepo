@@ -100,7 +100,7 @@ export const loader = (async (args) => {
 						Remix.params({
 							selected: Schema.string,
 							userName: Schema.string,
-							typelist: Schema.literal("animelist", "mangalist"),
+							typelist: Schema.literal("animelist", "mangalist")
 						})
 					)
 
@@ -108,7 +108,6 @@ export const loader = (async (args) => {
 						(yield* _(
 							client.query(UserListSelectedFiltersIndexQuery(), {
 								userName: params.userName,
-								entryId: params.entryId,
 								type: {
 									animelist: MediaType.Anime,
 									mangalist: MediaType.Manga
