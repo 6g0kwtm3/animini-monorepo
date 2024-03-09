@@ -100,7 +100,7 @@ export const loader = (async (args) => {
 						Remix.params({
 							selected: Schema.string,
 							userName: Schema.string,
-							typelist: Schema.literal("animelist", "mangalist"),
+							typelist: Schema.literal("animelist", "mangalist")
 						})
 					)
 
