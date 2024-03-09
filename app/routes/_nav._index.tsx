@@ -2,7 +2,8 @@ import { Await, Link, useFetcher } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
-	LoaderFunctionArgs
+	LoaderFunctionArgs,
+	MetaFunction
 } from "@vercel/remix"
 import { defer } from "@vercel/remix"
 
@@ -681,3 +682,7 @@ function markdownHtml(t: string) {
 		t
 	)
 }
+
+export const meta = (() => {
+	return [{ title: "Feed" }]
+}) satisfies MetaFunction

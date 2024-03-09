@@ -1,5 +1,5 @@
 import { useFetcher } from "@remix-run/react"
-import type { ActionFunction } from "@vercel/remix"
+import type { ActionFunction, MetaFunction } from "@vercel/remix"
 import { redirect } from "@vercel/remix"
 import {
 	TextFieldOutlined as Outlined,
@@ -23,8 +23,9 @@ import {
 } from "~/lib/urql.server"
 import { JsonToToken } from "~/lib/viewer"
 
-// import {  request} from "@effect/platform/HttpClient";
-// request.jsonBody()
+export const meta = (() => {
+	return [{ title: "Login" }]
+}) satisfies MetaFunction
 
 const ANILIST_CLIENT_ID = 3455
 
