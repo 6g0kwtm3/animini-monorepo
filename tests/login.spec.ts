@@ -1,9 +1,7 @@
-import { test } from "@playwright/test";
-import { FeedPage } from "./IndexPage";
+import { test } from "@playwright/test"
+import { FeedPage } from "./IndexPage"
 
-
-test.use({ storageState: 'playwright/.auth/user.json' });
-
+test.use({ storageState: "playwright/.auth/user.json" })
 
 test("login", async ({ page }) => {
 	await page.goto("/")

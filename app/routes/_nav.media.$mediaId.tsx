@@ -96,8 +96,7 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
-
-export const meta = (({data}) => {
+export const meta = (({ data }) => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
 }) satisfies MetaFunction<typeof loader>
 

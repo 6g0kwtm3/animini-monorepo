@@ -15,7 +15,6 @@ export class LoginPage {
 		this.login = this.main.getByRole("button", { name: "Login" })
 	}
 
-
 	static async new(page: Page) {
 		await expect(page).toHaveTitle("Login")
 		return new LoginPage(page)
