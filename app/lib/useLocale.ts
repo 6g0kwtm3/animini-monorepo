@@ -80,5 +80,5 @@ export function useLocale() {
 		}
 	}
 
-	return { locale: "en", dir: "rtl" } as const
+	return { locale: "en", dir: "ltr" } as const
 }

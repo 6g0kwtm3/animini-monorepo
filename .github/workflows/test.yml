@@ -33,13 +33,13 @@ jobs:
         run: pnpm run check
 
   test-ct:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        project: [chromium, webkit]
+        project: [mobile-chrome, mobile-webkit]
 
-    name: Test components
+    name: Test E2E
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -57,7 +57,7 @@ jobs:
         id: playwright-cache
         with:
           path: |
-            ~\AppData\Local\ms-playwright
+            ~/.cache/ms-playwright
           key: playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install dependencies 📦
@@ -68,7 +68,7 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Test components
-        run: pnpm run test-ct --project=${{ matrix.project }}
+        run: pnpm run test --project=${{ matrix.project }}
 
       - name: Upload test results
         if: always()

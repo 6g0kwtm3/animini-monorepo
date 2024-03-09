@@ -199,7 +199,9 @@ export const loader = (async (args) => {
 
 					for (const progress of progresses) {
 						if (progress === "UNSEEN") {
-							entries = entries.filter((entry) => toWatch(entry) > 0)
+							entries = entries.filter(
+								(entry) => toWatch(makeFragmentData<ToWatch_entry>(entry)) > 0
+							)
 						}
 						if (progress === "STARTED") {
 							entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
