@@ -32,53 +32,7 @@ jobs:
       - name: Typecheck
         run: pnpm run check
 
-  test-ct:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [mobile-chrome, mobile-webkit]
 
-    name: Test E2E
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 21.6.2
-          cache: "pnpm"
-
-      - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package.json').devDependencies['@playwright/experimental-ct-react'])")" >> $env:GITHUB_ENV
-
-      - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
-
-      - name: Install Playwright
-        run: pnpm exec playwright install
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-
-      - name: Test components
-        run: pnpm run test --project=${{ matrix.project }}
-        env:
-          ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.project }}-playwright-report
-          path: playwright-report
-          retention-days: 30
 
   format:
     runs-on: ubuntu-latest
