@@ -32,8 +32,6 @@ jobs:
       - name: Typecheck
         run: pnpm run check
 
-
-
   format:
     runs-on: ubuntu-latest
     name: Lint & Format
