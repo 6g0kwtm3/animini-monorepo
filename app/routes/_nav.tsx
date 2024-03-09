@@ -45,76 +45,75 @@ export const loader = (async (args) => {
 					const client = yield* _(EffectUrql)
 					const viewer = yield* _(Viewer)
 
-					const { notifications, ...data } =
-						(yield* _(
-							client.query(
-								graphql(`
-									query NavQuery(
-										$coverExtraLarge: Boolean = false
-										$isToken: Boolean = false
-									) {
-										notifications: Page @include(if: $isToken) {
-											nodes: notifications {
-												__typename
-												... on ActivityLikeNotification {
-													createdAt
-												}
-												... on ActivityMentionNotification {
-													createdAt
-												}
-												... on ActivityMessageNotification {
-													createdAt
-												}
-												... on ActivityReplyLikeNotification {
-													createdAt
-												}
-												... on ActivityReplyNotification {
-													createdAt
-												}
-												... on ActivityReplySubscribedNotification {
-													createdAt
-												}
-												... on AiringNotification {
-													createdAt
-												}
-												... on FollowingNotification {
-													createdAt
-												}
-												... on MediaDataChangeNotification {
-													createdAt
-												}
-												... on MediaDeletionNotification {
-													createdAt
-												}
-												... on MediaMergeNotification {
-													createdAt
-												}
-												... on RelatedMediaAdditionNotification {
-													createdAt
-												}
-												... on ThreadCommentLikeNotification {
-													createdAt
-												}
-												... on ThreadCommentMentionNotification {
-													createdAt
-												}
-												... on ThreadCommentReplyNotification {
-													createdAt
-												}
-												... on ThreadCommentSubscribedNotification {
-													createdAt
-												}
-												... on ThreadLikeNotification {
-													createdAt
-												}
+					const { notifications, ...data } = (yield* _(
+						client.query(
+							graphql(`
+								query NavQuery(
+									$coverExtraLarge: Boolean = false
+									$isToken: Boolean = false
+								) {
+									notifications: Page @include(if: $isToken) {
+										nodes: notifications {
+											__typename
+											... on ActivityLikeNotification {
+												createdAt
+											}
+											... on ActivityMentionNotification {
+												createdAt
+											}
+											... on ActivityMessageNotification {
+												createdAt
+											}
+											... on ActivityReplyLikeNotification {
+												createdAt
+											}
+											... on ActivityReplyNotification {
+												createdAt
+											}
+											... on ActivityReplySubscribedNotification {
+												createdAt
+											}
+											... on AiringNotification {
+												createdAt
+											}
+											... on FollowingNotification {
+												createdAt
+											}
+											... on MediaDataChangeNotification {
+												createdAt
+											}
+											... on MediaDeletionNotification {
+												createdAt
+											}
+											... on MediaMergeNotification {
+												createdAt
+											}
+											... on RelatedMediaAdditionNotification {
+												createdAt
+											}
+											... on ThreadCommentLikeNotification {
+												createdAt
+											}
+											... on ThreadCommentMentionNotification {
+												createdAt
+											}
+											... on ThreadCommentReplyNotification {
+												createdAt
+											}
+											... on ThreadCommentSubscribedNotification {
+												createdAt
+											}
+											... on ThreadLikeNotification {
+												createdAt
 											}
 										}
-										...Search_query
 									}
-								`),
-								{ isToken: Option.isSome(viewer) }
-							)
-						)) ?? {}
+									...Search_query
+								}
+							`),
+							{ isToken: Option.isSome(viewer) }
+						)
+					)) ?? { trending: null }
 
 					const storedRead = Option.getOrElse(
 						Option.isSome(viewer)

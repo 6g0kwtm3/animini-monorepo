@@ -1,4 +1,4 @@
-import { Form, NavLink, useParams, useRouteLoaderData } from "@remix-run/react"
+import { Form, NavLink, useParams } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -43,6 +43,7 @@ import { formatWatch, toWatch } from "./toWatch"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
+import { useRawRouteLoaderData } from "../data"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -57,6 +58,9 @@ const MediaListItem_entry = serverOnly$(
 		}
 	`)
 )
+
+export type ListItem_EntryFragment = typeof MediaListItem_entry
+
 export const Library = createContext<
 	Record<string, NonEmptyArray<AnitomyResult>>
 >({})
@@ -190,7 +194,7 @@ const Progress_entry = serverOnly$(
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 	const entry = readFragment<typeof Progress_entry>(props.entry)
 	const avalible = getAvalible(entry.media)
-	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const data = useRawRouteLoaderData<typeof rootLoader>("root")
 	const params = useParams()
 
 	return (

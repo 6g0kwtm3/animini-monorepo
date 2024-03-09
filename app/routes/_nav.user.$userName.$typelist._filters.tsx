@@ -17,7 +17,7 @@ import { Effect, Order, Predicate, pipe } from "effect"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
-import { Checkbox } from "~/components/Checkbox"
+import { Checkbox, Radio } from "~/components/Checkbox"
 import { ChipFilter } from "~/components/Chip"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
@@ -28,7 +28,7 @@ import {
 } from "~/components/List"
 import { Sheet } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
-import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+import { MediaFormat, MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import { graphql } from "~/lib/graphql"
@@ -109,7 +109,7 @@ function useOptimisticLocation() {
 export default function Filters() {
 	const submit = useSubmit()
 
-	const { pathname, hash } = useLocation()
+	const { hash } = useOptimisticLocation()
 
 	const searchParams = useOptimisticSearchParams()
 
@@ -119,7 +119,7 @@ export default function Filters() {
 				<Card variant="elevated" className="max-h-full overflow-y-auto">
 					<Form
 						replace
-						action={[pathname, hash].filter(Boolean).join("")}
+						action={hash}
 						onChange={(e) => submit(e.currentTarget)}
 						className="grid grid-cols-2 gap-2"
 					>
@@ -171,7 +171,7 @@ export default function Filters() {
 						<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
 							<AppBar
 								hide
-								className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low sm:elevation-1"
+								className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
 							>
 								<div className="flex items-center gap-2 p-2">
 									<AppBarTitle>Anime list</AppBarTitle>
@@ -228,11 +228,7 @@ function Filter() {
 	return (
 		<>
 			<Icon
-				className={`md:hidden${
-					searchParams.get("status") ?? searchParams.get("format")
-						? " text-tertiary"
-						: ""
-				}`}
+				className={`md:hidden${searchParams.size > 0 ? " text-tertiary" : ""}`}
 				render={
 					<Link
 						to={{
@@ -257,68 +253,116 @@ function Filter() {
 			>
 				<Tabs
 					grow
-					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low elevation-1"
+					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
 				>
-					<TabsTab render={<HashNavLink to="#filter" />}>Filter</TabsTab>
-					<TabsTab render={<HashNavLink to="#sort" />}>Sort</TabsTab>
+					<TabsTab render={<HashNavLink to={`?${searchParams}#filter`} />}>
+						Filter
+					</TabsTab>
+					<TabsTab render={<HashNavLink to={`?${searchParams}#sort`} />}>
+						Sort
+					</TabsTab>
 				</Tabs>
 
 				<Form
 					replace
-					action={[pathname, hash].filter(Boolean).join("")}
+					action={hash}
 					onChange={(e) => submit(e.currentTarget, {})}
 				>
 					<List lines="one" render={<Group />}>
-						<ListItem
-							render={<GroupLabel />}
-							className="text-body-md text-on-surface-variant force:hover:state-none"
-						>
-							<h2 className="col-span-full ">Status</h2>
-						</ListItem>
+						{hash === "#filter" && (
+							<>
+								<ListItem
+									render={<GroupLabel />}
+									className="text-body-md text-on-surface-variant force:hover:state-none"
+								>
+									<h2 className="col-span-full ">Status</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("status")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_STATUS_OPTIONS
+											: MANGA_STATUS_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Checkbox name="status" value={value} />
+												<div className="col-span-2 col-start-2">
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</div>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+									<h2 className="col-span-full ">Format</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("format")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_FORMAT_OPTIONS
+											: MANGA_FORMAT_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Checkbox name="format" value={value} />
+												<ListItemContent>
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</ListItemContent>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+									<h2 className="col-span-full ">Progress</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("progress")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_PROGRESS_OPTIONS
+											: MANGA_PROGRESS_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Checkbox name="progress" value={value} />
+												<ListItemContent>
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</ListItemContent>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+							</>
+						)}
 
-						<CheckboxProvider value={searchParams.getAll("status")}>
-							{Object.entries(
-								params.typelist === "animelist"
-									? ANIME_STATUS_OPTIONS
-									: MANGA_STATUS_OPTIONS
-							).map(([value, label]) => {
-								return (
-									<ListItem render={<label />} key={value}>
-										<Checkbox name="status" value={value} />
-										<div className="col-span-2 col-start-2">
-											<ListItemContentTitle>{label}</ListItemContentTitle>
-										</div>
-									</ListItem>
-								)
-							})}
-						</CheckboxProvider>
-
-						<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-							<h2 className="col-span-full ">Format</h2>
-						</ListItem>
-						<CheckboxProvider value={searchParams.getAll("format")}>
-							{Object.entries(
-								params.typelist === "animelist"
-									? ANIME_FORMAT_OPTIONS
-									: MANGA_FORMAT_OPTIONS
-							).map(([value, label]) => {
-								return (
-									<ListItem render={<label />} key={value}>
-										<Checkbox name="format" value={value} />
-										<ListItemContent>
-											<ListItemContentTitle>{label}</ListItemContentTitle>
-										</ListItemContent>
-									</ListItem>
-								)
-							})}
-						</CheckboxProvider>
+						{hash === "#sort" && (
+							<>
+								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+									<h2 className="col-span-full ">Sort</h2>
+								</ListItem>
+								<CheckboxProvider value={searchParams.getAll("sort")}>
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_SORT_OPTIONS
+											: MANGA_SORT_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<ListItem render={<label />} key={value}>
+												<Radio name="sort" value={value} />
+												<ListItemContent>
+													<ListItemContentTitle>{label}</ListItemContentTitle>
+												</ListItemContent>
+											</ListItem>
+										)
+									})}
+								</CheckboxProvider>
+							</>
+						)}
 					</List>
 				</Form>
 			</Sheet>
 		</>
 	)
 }
-
 const ANIME_STATUS_OPTIONS = {
 	[MediaStatus.Finished]: m.media_status_finished(),
 	[MediaStatus.Releasing]: m.media_status_releasing(),
@@ -343,6 +387,23 @@ const ANIME_FORMAT_OPTIONS = {
 	[MediaFormat.Ona]: m.media_format_ona(),
 	[MediaFormat.Music]: m.media_format_music()
 }
+
+const ANIME_PROGRESS_OPTIONS = {
+	UNSEEN: "Unseen",
+	STARTED: "Started"
+}
+
+const MANGA_PROGRESS_OPTIONS = {
+	UNSEEN: "Unread",
+	STARTED: "Started"
+}
+
+const ANIME_SORT_OPTIONS = {
+	[MediaSort.TitleEnglish]: m.media_sort_title(),
+	[MediaSort.ScoreDesc]: m.media_sort_score(),
+	[MediaSort.UpdatedAtDesc]: m.media_sort_last_updated()
+}
+const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
 
 const MANGA_FORMAT_OPTIONS = {
 	[MediaFormat.Manga]: m.media_format_manga(),

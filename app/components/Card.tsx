@@ -10,10 +10,11 @@ const card = tv({
 	variants: {
 		variant: {
 			outlined:
-				"border border-outline-variant bg-surface elevation-0 disabled:border-outline/[.12]",
+				"border border-outline-variant bg-surface disabled:border-outline/[.12]",
 			filled:
-				"bg-surface-container-highest elevation-0  disabled:bg-surface-variant/[.38]",
-			elevated: "bg-surface-container-low elevation-1 disabled:bg-surface/[.38]"
+				"bg-surface-container-highest disabled:bg-surface-container-highest/[.38]",
+			elevated:
+				"bg-surface-container-low shadow disabled:bg-surface-container-low/[.38]"
 		},
 		interactive: {
 			true: "hover:state-hover focused:state-focus pressed:state-pressed",
@@ -25,17 +26,17 @@ const card = tv({
 			variant: "outlined",
 			interactive: true,
 			className:
-				"hover:elevation-1 focused:border-on-surface focused:elevation-0 pressed:border-outline-variant  pressed:elevation-0"
+				"hover:bg-surface-container-low focused:border-on-surface pressed:border-outline-variant"
 		},
 		{
 			variant: "filled",
 			interactive: true,
-			className: "hover:elevation-1 focused:elevation-0 pressed:elevation-0"
+			className: "hover:bg-surface-container-low"
 		},
 		{
 			variant: "elevated",
 			interactive: true,
-			className: "hover:elevation-2 focused:elevation-1 pressed:elevation-1"
+			className: "hover:bg-surface-container"
 		}
 	],
 	defaultVariants: { variant: "outlined", interactive: false }

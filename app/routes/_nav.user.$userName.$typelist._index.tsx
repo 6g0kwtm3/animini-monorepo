@@ -13,8 +13,11 @@ import { Card } from "~/components/Card"
 import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
-import { MediaListItem } from "~/lib/entry/ListItem"
-import { graphql } from "~/lib/graphql"
+import {
+	MediaListItem,
+	type ListItem_EntryFragment
+} from "~/lib/entry/ListItem"
+import { graphql, makeFragmentData } from "~/lib/graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 import { Schema } from "@effect/schema"
@@ -155,7 +158,14 @@ export default function Page() {
 										<h2 className="text-balance">{list.name}</h2>
 										<List className="-mx-4">
 											{list.entries?.map((entry) => {
-												return <MediaListItem entry={entry} key={entry.id} />
+												return (
+													<MediaListItem
+														entry={makeFragmentData<ListItem_EntryFragment>(
+															entry
+														)}
+														key={entry.id}
+													/>
+												)
 											})}
 										</List>
 										<Link

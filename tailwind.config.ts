@@ -5,6 +5,7 @@ import { withTV } from "tailwind-variants/transformer"
 //@ts-ignore
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
+import { Predicate } from "effect"
 
 const K_1 = 0.173
 const K_2 = 0.004
@@ -41,14 +42,6 @@ export default withTV({
 			focus: "12%",
 			pressed: "12%",
 			dragged: "16%"
-		},
-		elevation: {
-			"0": 0,
-			"1": "5%",
-			"2": "8%",
-			"3": "11%",
-			"4": "12%",
-			"5": "14%"
 		},
 		fontSize: {
 			"display-lg": [
@@ -190,41 +183,22 @@ export default withTV({
 					}
 				})
 
-				const surfaceTint = theme("colors.surface-tint", "transparent").replace(
-					"<alpha-value>",
-					"var(--mdi-elevation-opacity)"
-				)
-
-				const backgroundImage = `linear-gradient(${surfaceTint}, ${surfaceTint}), linear-gradient(var(--mdi-state-color), var(--mdi-state-color))`
-
-				addBase({
-					"*,::before,::after": {
-						"--mdi-state-opacity": "0",
-						"--mdi-elevation-opacity": "0",
-						"--mdi-state-color": "transparent"
-					}
-				})
-
 				matchUtilities(
 					{
-						elevation: (opacity) => ({
-							"--mdi-elevation-opacity": opacity,
-							backgroundImage
-						})
-					},
-					{
-						values: theme("elevation") || {},
-						type: ["percentage"]
-					}
-				)
+						state: (opacity: string | number) => {
+							const stateColor = `color-mix(in oklab, currentColor, transparent ${
+								100 -
+								Number(
+									Predicate.isString(opacity)
+										? opacity.replace("%", "")
+										: Number(opacity) * 100
+								)
+							}%)`
 
-				matchUtilities(
-					{
-						state: (opacity) => ({
-							// "--mdi-state-opacity": opacity,
-							"--mdi-state-color": `color-mix(in oklab, currentColor, transparent ${100 - parseInt(opacity.replace("%", ""))}%)`,
-							backgroundImage
-						})
+							return {
+								backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`
+							}
+						}
 					},
 					{
 						values: theme("state") || {},
@@ -319,28 +293,24 @@ export default withTV({
 
 			matchUtilities(
 				{
-					"theme-content": (value) => {
+					"palette-content": (value) => {
 						return {
 							"--theme-primary": `oklch(from ${value} l c h)`,
 							"--theme-secondary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 3) h)`,
 							"--theme-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 2) calc(h + 60))`,
 							"--theme-neutral": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
 							"--theme-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
-							"--theme-error": `oklch(${toeInv(50 / 100)} 0.28 25)`,
-							...themeColors(colors.light),
-							"@media (prefers-color-scheme: dark)": themeColors(colors.dark)
+							"--theme-error": `oklch(${toeInv(50 / 100)} 0.08333333333333334 25)`
 						}
 					},
-					theme: (value) => {
+					palette: (value) => {
 						return {
 							"--theme-primary": `oklch(from ${value} ${toeInv(50 / 100)} max(c, 0.16) h)`,
 							"--theme-secondary": `oklch(from ${value} ${toeInv(50 / 100)} 0.05333333333333334 h)`,
 							"--theme-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} 0.08 calc(h + 60))`,
 							"--theme-neutral": `oklch(from ${value} ${toeInv(50 / 100)} 0.013333333333333334 h)`,
 							"--theme-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} 0.02666666666666667 h)`,
-							"--theme-error": `oklch(${toeInv(50 / 100)} 0.28 25)`,
-							...themeColors(colors.light),
-							"@media (prefers-color-scheme: dark)": themeColors(colors.dark)
+							"--theme-error": `oklch(${toeInv(50 / 100)} 0.08333333333333334 25)`
 						}
 					}
 				},
@@ -348,6 +318,11 @@ export default withTV({
 					type: ["color", "any"]
 				}
 			)
+
+			addComponents({
+				".theme-dark": themeColors(colors.dark),
+				".theme-light": themeColors(colors.light)
+			})
 
 			addComponents({
 				".i-inline": {

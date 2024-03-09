@@ -28,7 +28,7 @@ import { fab } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaListCover"
 import type { FragmentType } from "~/lib/graphql"
-import { useFragment } from "~/lib/graphql"
+import { makeFragmentData, useFragment } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -139,9 +139,12 @@ const Notifications_query = serverOnly$(
 		}
 	`)
 )
+
 export default function Notifications() {
 	const data = useRawLoaderData<typeof loader>()
-	const query = useFragment<typeof Notifications_query>(data.query)
+	const query = useFragment<typeof Notifications_query>(
+		makeFragmentData<typeof Notifications_query>(data.query)
+	)
 
 	const store = useTooltipStore()
 

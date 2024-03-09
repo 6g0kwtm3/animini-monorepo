@@ -25,7 +25,7 @@ interface InvokeEventInit extends EventInit {
 	relatedTarget: HTMLElement
 }
 
-export class InvokeEvent extends Event {
+class InvokeEvent_ extends Event {
 	readonly relatedTarget: HTMLElement
 	readonly action: string
 
@@ -38,6 +38,8 @@ export class InvokeEvent extends Event {
 }
 
 declare global {
+	type InvokeEvent = InvokeEvent_
+
 	interface GlobalEventHandlersEventMap {
 		invoke: InvokeEvent
 	}
@@ -87,7 +89,7 @@ export const BaseButton = forwardRef<
 		if (typeof props.invoketarget === "string" && props.type !== "submit") {
 			event.preventDefault()
 			document.querySelector(`#${props.invoketarget}`)?.dispatchEvent(
-				new InvokeEvent({
+				new InvokeEvent_({
 					relatedTarget: event.currentTarget,
 					...(typeof props.invokeaction === "string"
 						? { action: props.invokeaction }

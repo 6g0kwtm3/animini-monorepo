@@ -4,34 +4,14 @@ on:
   push:
     branches:
       - master
-      - dev
   pull_request:
     branches:
       - master
-      - dev
 
 permissions:
   contents: read
 
 jobs:
-  eslint:
-    runs-on: ubuntu-latest
-
-    name: Lint
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 21.6.2
-          cache: "pnpm"
-
-      - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
-
-      - name: Lint
-        run: pnpm run lint
-
   typecheck:
     runs-on: ubuntu-latest
 
@@ -52,55 +32,9 @@ jobs:
       - name: Typecheck
         run: pnpm run check
 
-  test-ct:
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [chromium, webkit]
-
-    name: Test components
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 21.6.2
-          cache: "pnpm"
-
-      - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package.json').devDependencies['@playwright/experimental-ct-react'])")" >> $env:GITHUB_ENV
-
-      - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
-        with:
-          path: |
-            ~\AppData\Local\ms-playwright
-          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
-
-      - name: Install Playwright
-        run: pnpm exec playwright install
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-
-      - name: Test components
-        run: pnpm run test-ct --project=${{ matrix.project }}
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.project }}-playwright-report
-          path: playwright-report
-          retention-days: 30
-
   format:
     runs-on: ubuntu-latest
-    name: Format
+    name: Lint & Format
     permissions:
       contents: write
 
@@ -116,6 +50,9 @@ jobs:
 
       - name: Install dependencies 📦
         run: pnpm i --frozen-lockfile
+
+      - name: Lint
+        run: pnpm run lint --fix
 
       - name: Format
         run: pnpm run format

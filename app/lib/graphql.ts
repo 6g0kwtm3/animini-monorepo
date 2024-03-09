@@ -3,6 +3,7 @@ import type {
 	ResultOf
 } from "@graphql-typed-document-node/core"
 import type { FragmentType as FragmentType_ } from "~/gql"
+
 export { graphql } from "~/gql"
 
 export type FragmentType<
@@ -12,31 +13,29 @@ export type FragmentType<
 // return non-nullable if `fragmentType` is non-nullable
 export function useFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
->(fragmentType: FragmentType_<NonNullable<F>>): ResultOf<F>
+>(fragmentType: FragmentType<F>): ResultOf<F>
 // return nullable if `fragmentType` is nullable
 export function useFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
-	fragmentType: FragmentType_<NonNullable<F>> | null | undefined
+	fragmentType: FragmentType<F> | null | undefined
 ): ResultOf<F> | null | undefined
 
 // return array of non-nullable if `fragmentType` is array of non-nullable
 export function useFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
->(
-	fragmentType: ReadonlyArray<FragmentType_<NonNullable<F>>>
-): ReadonlyArray<ResultOf<F>>
+>(fragmentType: ReadonlyArray<FragmentType<F>>): ReadonlyArray<ResultOf<F>>
 // return array of nullable if `fragmentType` is array of nullable
 export function useFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
-	fragmentType: ReadonlyArray<FragmentType_<NonNullable<F>>> | null | undefined
+	fragmentType: ReadonlyArray<FragmentType<F>> | null | undefined
 ): ReadonlyArray<ResultOf<F>> | null | undefined
 export function useFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
 	fragmentType:
-		| ReadonlyArray<FragmentType_<NonNullable<F>> | null | undefined>
+		| ReadonlyArray<FragmentType<F> | null | undefined>
 		| null
 		| undefined
 ): ReadonlyArray<ResultOf<F> | null | undefined> | null | undefined
@@ -45,9 +44,9 @@ export function useFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
 	fragmentType:
-		| FragmentType_<NonNullable<F>>
-		| ReadonlyArray<FragmentType_<NonNullable<F>>>
-		| ReadonlyArray<FragmentType_<NonNullable<F>> | null | undefined>
+		| FragmentType<F>
+		| ReadonlyArray<FragmentType<F>>
+		| ReadonlyArray<FragmentType<F> | null | undefined>
 		| null
 		| undefined
 ):
@@ -61,6 +60,17 @@ export function useFragment<
 
 export function makeFragmentData<
 	F extends DocumentTypeDecoration<any, any> | undefined
->(data: ResultOf<F>): FragmentType_<NonNullable<F>> {
-	return data as FragmentType_<NonNullable<F>>
+>(data: ResultOf<F>): FragmentType<F>
+export function makeFragmentData<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(data: ResultOf<F> | null): FragmentType<F> | null
+export function makeFragmentData<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(data: ResultOf<F>[]): FragmentType<F>[]
+export function makeFragmentData<
+	F extends DocumentTypeDecoration<any, any> | undefined
+>(
+	data: ResultOf<F>[] | ResultOf<F> | null
+): FragmentType<F>[] | FragmentType<F> | null {
+	return data as any
 }

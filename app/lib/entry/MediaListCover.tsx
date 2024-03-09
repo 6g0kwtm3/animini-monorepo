@@ -18,6 +18,8 @@ const MediaCover_media = serverOnly$(
 	`)
 )
 
+export type MediaCover_media = typeof MediaCover_media
+
 const tv = createTV({ twMerge: false })
 
 const cover = tv({
