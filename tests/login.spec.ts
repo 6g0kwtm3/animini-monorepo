@@ -1,10 +1,13 @@
-import { test } from "@playwright/test"
+import { test } from "@playwright/test";
+import { FeedPage } from "./IndexPage";
+
+
+test.use({ storageState: 'playwright/.auth/user.json' });
+
 
 test("login", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
-	await page.getByRole("link", { name: "Login" }).click()
-	await page.getByPlaceholder(" ").fill(process.env.ANILIST_TEST_TOKEN!)
-	await page.getByRole("button", { name: "Login" }).click()
-	await page.getByRole("link", { name: "Profile" }).click()
+	let indexPage = await FeedPage.new(page)
+	await indexPage.nav.profile.click()
 })

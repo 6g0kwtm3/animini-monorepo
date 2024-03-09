@@ -1,5 +1,5 @@
 import { Link, json, useLocation, useOutlet, useParams } from "@remix-run/react"
-import type { LoaderFunction } from "@vercel/remix"
+import type { LoaderFunction, MetaFunction } from "@vercel/remix"
 
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -95,6 +95,11 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+
+
+export const meta = (({data}) => {
+	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
+}) satisfies MetaFunction<typeof loader>
 
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
