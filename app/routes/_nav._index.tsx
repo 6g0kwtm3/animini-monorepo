@@ -1,4 +1,4 @@
-import { Await, Link } from "@remix-run/react"
+import { Await, Link, useFetcher } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
@@ -8,7 +8,7 @@ import { defer } from "@vercel/remix"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { Fragment, Suspense, createElement } from "react"
+import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
 
 import marked from "marked"
 import { Card } from "~/components/Card"
@@ -16,6 +16,7 @@ import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
 	List,
 	ListItem,
+	ListItemAvatar,
 	ListItemContent,
 	ListItemImg,
 	ListItemContentSubtitle as ListItemSubtitle,
@@ -32,11 +33,31 @@ import { route_media, route_user } from "~/lib/route"
 import { serverOnly$ } from "vite-env-only"
 // import {RouterProvider} from 'react-router-dom'
 import type { VariablesOf } from "@graphql-typed-document-node/core"
-import { useRawLoaderData } from "~/lib/data"
+import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import { Parser } from "htmlparser2"
-import sanitizeHtml_ from "sanitize-html"
+import type { MediaCover_media } from "~/lib/entry/MediaListCover"
 import { MediaCover } from "~/lib/entry/MediaListCover"
+import { makeFragmentData } from "~/lib/graphql"
+
+import { JSDOM } from "jsdom"
+
+import createDOMPurify from "dompurify"
+import {
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichTrigger
+} from "~/components/Tooltip"
+
+import * as Ariakit from "@ariakit/react"
+import { Button } from "~/components/Button"
+import { Loading, Skeleton } from "~/components/Skeleton"
+import type { loader as rootLoader } from "~/root"
+import type { loader as userInfoLoader } from "./user.$userName.info"
+
+import { m } from "~/lib/paraglide"
+import type { action as userFollowAction } from "./user.$userId.follow"
 
 function MediaLink({
 	mediaId,
@@ -55,7 +76,7 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-[--theme]` : ""}`}
+									className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-light palette-[--theme] dark:theme-dark` : ""}`}
 									style={{
 										"--theme": media.coverImage?.color ?? ""
 									}}
@@ -64,7 +85,9 @@ function MediaLink({
 									<List className="force:p-0" render={<span />}>
 										<ListItem render={<span />}>
 											<ListItemImg>
-												<MediaCover media={media} />
+												<MediaCover
+													media={makeFragmentData<MediaCover_media>(media)}
+												/>
 											</ListItemImg>
 											<ListItemContent>
 												<ListItemTitle render={<span />}>
@@ -243,6 +266,10 @@ export default function Index() {
 							return null
 						})}
 				</ul>
+				{/* <div className="flex justify-center gap-4">
+					<Button>Previous page</Button>
+					<Button>Next page</Button>
+				</div> */}
 			</LayoutPane>
 		</LayoutBody>
 	)
@@ -259,7 +286,7 @@ interface Options {
 const options = {
 	replace: {
 		center(props) {
-			return <div {...props} className="text-center [&_*]:mx-auto" />
+			return <center {...props} />
 		},
 		p(props) {
 			return <div {...props} />
@@ -276,12 +303,12 @@ const options = {
 			}
 
 			// @ts-ignore
-			if (props["className"] === "user-link" && props["data-user-name"]) {
+			if (props["data-user-name"]) {
 				return (
 					// @ts-ignore
-					<Link to={route_user({ userName: props["data-user-name"] })}>
+					<UserLink userName={props["data-user-name"]}>
 						{props.children}
-					</Link>
+					</UserLink>
 				)
 			}
 
@@ -293,6 +320,100 @@ const options = {
 		}
 	}
 } satisfies Options
+
+function UserLink(props: { userName: string; children: ReactNode }) {
+	const fetcher = useFetcher<typeof userInfoLoader>()
+	const follow = useFetcher<typeof userFollowAction>()
+
+	const store = Ariakit.useHovercardStore()
+
+	const open = store.useState("open")
+
+	useEffect(() => {
+		if (open && fetcher.state === "idle" && !fetcher.data) {
+			fetcher.load(`/user/${props.userName}/info`)
+		}
+	}, [open, fetcher, props.userName])
+
+	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
+
+	return (
+		<TooltipRich placement="top" store={store}>
+			<TooltipRichTrigger
+				render={
+					<Link to={route_user({ userName: props.userName })}>
+						{props.children}
+					</Link>
+				}
+			/>
+			<TooltipRichContainer className="not-prose text-start">
+				<Loading value={fetcher.data === undefined}>
+					<div className="-mx-4 -my-2">
+						<List lines={"two"} className="">
+							<ListItem className="force:hover:state-none">
+								<ListItemAvatar>
+									<Skeleton full>
+										<img
+											src={fetcher.data?.User?.avatar?.large ?? ""}
+											className="bg-[image:--bg] bg-cover bg-center object-cover object-center"
+											style={{
+												"--bg": `url(${fetcher.data?.User?.avatar?.medium ?? ""})`
+											}}
+											loading="lazy"
+											alt=""
+										/>
+									</Skeleton>
+								</ListItemAvatar>
+								<ListItemContent>
+									<ListItemTitle>{props.userName}</ListItemTitle>
+									<ListItemSubtitle>
+										<Skeleton>
+											{fetcher.data?.User?.isFollower
+												? "Follower"
+												: "Not follower"}
+										</Skeleton>
+									</ListItemSubtitle>
+								</ListItemContent>
+							</ListItem>
+						</List>
+					</div>
+
+					<TooltipRichActions>
+						{rootData?.Viewer?.name !== props.userName && (
+							<follow.Form
+								method="post"
+								action={`/user/${fetcher.data?.User?.id}/follow`}
+							>
+								<input
+									type="hidden"
+									name="isFollowing"
+									value={
+										follow.data?.ToggleFollow.isFollowing ??
+										follow.formData?.get("isFollowing") ??
+										fetcher.data?.User?.isFollowing
+											? ""
+											: "true"
+									}
+									id=""
+								/>
+
+								<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
+									{follow.data?.ToggleFollow.isFollowing ??
+									follow.formData?.get("isFollowing") ??
+									fetcher.data?.User?.isFollowing
+										? m.unfollow_button()
+										: m.follow_button()}
+								</Button>
+							</follow.Form>
+						)}
+					</TooltipRichActions>
+					{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
+				<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
+				</Loading>
+			</TooltipRichContainer>
+		</TooltipRich>
+	)
+}
 
 // const options: HTMLReactParserOptions = {
 // 	replace(domNode) {
@@ -356,7 +477,10 @@ function Markdown(props: { children: string }) {
 	return (
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
 			{/* {(markdownHtml(props.children))} */}
-			{parse2(markdownHtml(props.children), options)}
+			{useMemo(
+				() => parse2(markdownHtml(props.children), options),
+				[props.children]
+			)}
 		</div>
 	)
 }
@@ -441,8 +565,19 @@ function parse2(html: string, options: any): ReactNode {
 }
 
 function sanitizeHtml(t: string) {
-	const out: string = sanitizeHtml_(t, {
-		allowedTags: [
+	const DOMPurify = createDOMPurify(
+		serverOnly$(new JSDOM("").window) ?? globalThis.window
+	)
+
+	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
+		if (node.tagName === "a") {
+			node.setAttribute("target", "_blank")
+			node.setAttribute("rel", "noopener noreferrer")
+		}
+	})
+
+	const out: string = DOMPurify.sanitize(t, {
+		ALLOWED_TAGS: [
 			"a",
 			"b",
 			"blockquote",
@@ -470,13 +605,8 @@ function sanitizeHtml(t: string) {
 			"strong",
 			"ul"
 		],
-		allowedAttributes: {
-			"*": ["align", "height", "href", "src", "target", "width", "rel"]
-		}
+		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"]
 	})
-	// const domPurify = createDOMPurify(
-	// 	serverOnly$(new JSDOM("").window) ?? globalThis.window
-	// )
 
 	return out
 }
@@ -523,20 +653,13 @@ function markdownHtml(t: string) {
 		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
 		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
 		(t = sanitizeHtml(
-			marked(
-				t,
-				{
-					renderer: d,
-					// @ts-ignore
-					lexer: u
-				},
-				() => {}
-			)
+			// @ts-ignore
+			marked(t, {
+				renderer: d,
+				lexer: u
+			})
 		)),
-		(t = t.replace(
-			/\+{3}([^]*?)\+{3}/gm,
-			"<div class='text-center [&_*]:mx-auto'>$1</div>"
-		)),
+		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
 		(t = t.replace(
 			/<div rel="spoiler">([\s\S]*?)<\/div>/gm,
 			"<details><summary>Show spoiler</summary>$1</details>"
@@ -550,7 +673,7 @@ function markdownHtml(t: string) {
 			"<video muted loop controls><source src='h$1' type='video/webm'>Your browser does not support the video tag.</video>"
 		)),
 		(t = t.replace(
-			/(?:<a href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+).*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
+			/(?:<a.*?href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+).*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
 			(group, _, mediaId) => {
 				return `<a class="media-link" href="${route_media({ id: mediaId })}" data-id="${mediaId}">Loading...</a>`
 			}

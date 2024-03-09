@@ -5,7 +5,6 @@ import {
 	useLocation,
 	useNavigate,
 	useNavigation,
-	useRouteLoaderData,
 	useSearchParams
 } from "@remix-run/react"
 
@@ -30,8 +29,12 @@ import {
 } from "~/components/SearchView"
 import type { loader as navLoader } from "~/routes/_nav"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
+import { useRawRouteLoaderData } from "../data"
+import { makeFragmentData } from "../graphql"
 import { HashNavLink } from "./HashNavLink"
+import type { SearchItem_media } from "./SearchItem"
 import { SearchItem } from "./SearchItem"
+import type { SearchTrending_query } from "./SearchTrending"
 import { SearchTrending } from "./SearchTrending"
 
 export function Search() {
@@ -66,7 +69,7 @@ export function Search() {
 
 	const media = submit.data?.page?.media?.filter(Predicate.isNotNull) ?? []
 
-	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
+	const data = useRawRouteLoaderData<typeof navLoader>("routes/_nav")
 
 	return (
 		<>
@@ -136,14 +139,21 @@ export function Search() {
 										</div>
 									</Ariakit.ComboboxGroupLabel>
 									{media.map((media) => (
-										<SearchItem media={media} key={media.id} />
+										<SearchItem
+											media={makeFragmentData<SearchItem_media>(media)}
+											key={media.id}
+										/>
 									))}
 								</SearchViewBodyGroup>
 							</SearchViewBody>
 						) : data ? (
 							<Suspense fallback="">
 								<Await resolve={data.trending} errorElement={<></>}>
-									{(data) => <SearchTrending query={data} />}
+									{(data) => (
+										<SearchTrending
+											query={makeFragmentData<SearchTrending_query>(data)}
+										/>
+									)}
 								</Await>
 							</Suspense>
 						) : null}

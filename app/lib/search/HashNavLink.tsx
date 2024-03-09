@@ -17,12 +17,14 @@ export const HashNavLink = forwardRef<
 	}
 >(function HashNavLink({ children, ...props }, ref) {
 	const { hash } = useLocation()
-	const isActive = props.to === hash
+	const isActive = Predicate.isString(props.to) && props.to.endsWith(hash)
 	const path = useResolvedPath(props.to, { relative: props.relative })
 	const isTransitioning = unstable_useViewTransitionState(path)
 	const navigation = useNavigation()
 	const isPending =
-		navigation.state === "loading" && navigation.location.hash === props.to
+		navigation.state === "loading" &&
+		Predicate.isString(props.to) &&
+		props.to.endsWith(navigation.location.hash)
 
 	return (
 		<Link ref={ref} {...props} aria-current={isActive ? "page" : undefined}>

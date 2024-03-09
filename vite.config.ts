@@ -25,7 +25,7 @@ export default defineConfig({
 			presets: [vercelPreset()]
 		}),
 		tsconfigPaths(),
-		million.vite({ auto: true, log: false }),
+		million.vite({ auto: true, rsc: true, log: false }),
 		icons({
 			compiler: "jsx",
 			jsx: "react",
