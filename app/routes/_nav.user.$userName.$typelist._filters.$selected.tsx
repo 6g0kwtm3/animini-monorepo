@@ -55,6 +55,7 @@ function TypelistQuery() {
 			$isEntryId: Boolean!
 			$entryId: Int
 		) {
+			...Entry_query
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
 					name
@@ -330,7 +331,7 @@ export function ErrorBoundary() {
 	return (
 		<Card
 			variant="elevated"
-			className="m-4 bg-error-container text-on-error-container"
+			className="m-4"
 		>
 			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
 			<p className="text-headline-sm">Something went wrong.</p>

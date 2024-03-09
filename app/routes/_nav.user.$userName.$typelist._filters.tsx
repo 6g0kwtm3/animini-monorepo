@@ -26,7 +26,7 @@ import {
 	ListItemContent,
 	ListItemContentTitle
 } from "~/components/List"
-import { Sheet } from "~/components/Sheet"
+import { Sheet, SheetBody, SheetHandle } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
 import { MediaFormat, MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
@@ -109,92 +109,91 @@ function useOptimisticLocation() {
 export default function Filters() {
 	const submit = useSubmit()
 
-
 	const { hash } = useOptimisticLocation()
 
 	const searchParams = useOptimisticSearchParams()
 
 	return (
-		<LayoutBody>
-			<LayoutPane variant="fixed" className="max-md:hidden">
-				<Card variant="elevated" className="max-h-full overflow-y-auto">
-					<Form
-						replace
-						action={hash}
-						onChange={(e) => submit(e.currentTarget)}
-						className="grid grid-cols-2 gap-2"
-					>
-						<CheckboxProvider value={searchParams.getAll("status")}>
-							<Group className="col-span-2" render={<fieldset />}>
-								<GroupLabel render={<legend />}>Status</GroupLabel>
-								<ul className="flex flex-wrap gap-2">
-									{Object.entries(ANIME_STATUS_OPTIONS).map(
-										([value, label]) => {
-											return (
-												<li key={value}>
-													<ChipFilter name="status" value={value}>
-														{label}
-													</ChipFilter>
-												</li>
-											)
-										}
-									)}
-								</ul>
-							</Group>
-						</CheckboxProvider>
-						<CheckboxProvider value={searchParams.getAll("format")}>
-							<Group className="col-span-2" render={<fieldset />}>
-								<GroupLabel render={<legend />}>Format</GroupLabel>
-								<ul className="flex flex-wrap gap-2">
-									{Object.entries(ANIME_FORMAT_OPTIONS).map(
-										([value, label]) => {
-											return (
-												<li key={value}>
-													<ChipFilter name="format" value={value}>
-														{label}
-													</ChipFilter>
-												</li>
-											)
-										}
-									)}
-								</ul>
-							</Group>
-						</CheckboxProvider>
-						<ButtonText type="submit">Filter</ButtonText>
-						<ButtonText type="reset">Reset</ButtonText>
-					</Form>
-				</Card>
-			</LayoutPane>
-
-			<LayoutPane>
-				<Card variant="elevated" className="max-sm:contents">
-					<div className="flex flex-col gap-4 ">
-						<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
-							<AppBar
-								hide
-								className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
-							>
-								<div className="flex items-center gap-2 p-2">
-									<AppBarTitle>Anime list</AppBarTitle>
-									<div className="flex-1" />
-									<Icon>
-										<MaterialSymbolsSearch />
-									</Icon>
-									<Filter />
-									<Icon>
-										<MaterialSymbolsMoreHoriz />
-									</Icon>
-								</div>
-
-								<ListTabs />
-							</AppBar>
+		<>
+			<LayoutBody>
+				<LayoutPane variant="fixed" className="max-md:hidden">
+					<Card variant="elevated" className="max-h-full overflow-y-auto">
+						<Form
+							replace
+							action={hash}
+							onChange={(e) => submit(e.currentTarget)}
+							className="grid grid-cols-2 gap-2"
+						>
+							<CheckboxProvider value={searchParams.getAll("status")}>
+								<Group className="col-span-2" render={<fieldset />}>
+									<GroupLabel render={<legend />}>Status</GroupLabel>
+									<ul className="flex flex-wrap gap-2">
+										{Object.entries(ANIME_STATUS_OPTIONS).map(
+											([value, label]) => {
+												return (
+													<li key={value}>
+														<ChipFilter name="status" value={value}>
+															{label}
+														</ChipFilter>
+													</li>
+												)
+											}
+										)}
+									</ul>
+								</Group>
+							</CheckboxProvider>
+							<CheckboxProvider value={searchParams.getAll("format")}>
+								<Group className="col-span-2" render={<fieldset />}>
+									<GroupLabel render={<legend />}>Format</GroupLabel>
+									<ul className="flex flex-wrap gap-2">
+										{Object.entries(ANIME_FORMAT_OPTIONS).map(
+											([value, label]) => {
+												return (
+													<li key={value}>
+														<ChipFilter name="format" value={value}>
+															{label}
+														</ChipFilter>
+													</li>
+												)
+											}
+										)}
+									</ul>
+								</Group>
+							</CheckboxProvider>
+							<ButtonText type="submit">Filter</ButtonText>
+							<ButtonText type="reset">Reset</ButtonText>
+						</Form>
+					</Card>
+				</LayoutPane>
+				<LayoutPane>
+					<Card variant="elevated" className="max-sm:contents">
+						<div className="flex flex-col gap-4 ">
+							<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
+								<AppBar
+									hide
+									className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
+								>
+									<div className="flex items-center gap-2 p-2">
+										<AppBarTitle>Anime list</AppBarTitle>
+										<div className="flex-1" />
+										<Icon>
+											<MaterialSymbolsSearch />
+										</Icon>
+										<FilterButton />
+										<Icon>
+											<MaterialSymbolsMoreHoriz />
+										</Icon>
+									</div>
+									<ListTabs />
+								</AppBar>
+							</div>
+							<Outlet />
 						</div>
-
-						<Outlet />
-					</div>
-				</Card>
-			</LayoutPane>
-		</LayoutBody>
+					</Card>
+				</LayoutPane>
+			</LayoutBody>
+			<Filter />
+		</>
 	)
 }
 function ListTabs() {
@@ -219,33 +218,15 @@ function ListTabs() {
 	)
 }
 function Filter() {
-	let { pathname } = useLocation()
 	const { hash } = useOptimisticLocation()
 	const navigate = useNavigate()
+	let { pathname } = useLocation()
 	const searchParams = useOptimisticSearchParams()
 	const submit = useSubmit()
 	const params = useParams<"typelist">()
 
 	return (
-		<>
-			<Icon
-				className={`md:hidden${
-					searchParams.size > 0 ? " text-tertiary" : ""
-				}`}
-				render={
-					<Link
-						to={{
-							hash: "#filter",
-							search: `?${searchParams}`,
-							pathname
-						}}
-					/>
-				}
-			>
-				<MaterialSymbolsFilterList />
-			</Icon>
-
-			<Sheet
+		<Sheet
 				open={hash === "#filter" || hash === "#sort"}
 				onClose={() =>
 					navigate({
@@ -254,6 +235,7 @@ function Filter() {
 					})
 				}
 			>
+				<SheetHandle />
 				<Tabs
 					grow
 					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
@@ -266,55 +248,56 @@ function Filter() {
 					</TabsTab>
 				</Tabs>
 
-				<Form
-					replace
+				<SheetBody>
+					<Form
+						replace
 						action={hash}
-					onChange={(e) => submit(e.currentTarget, {})}
-				>
-					<List lines="one" render={<Group />}>
-						{hash === "#filter" && (
-							<>
-								<ListItem
-									render={<GroupLabel />}
-									className="text-body-md text-on-surface-variant force:hover:state-none"
-								>
-									<h2 className="col-span-full ">Status</h2>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("status")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_STATUS_OPTIONS
-											: MANGA_STATUS_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Checkbox name="status" value={value} />
-												<div className="col-span-2 col-start-2">
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</div>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
-								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<h2 className="col-span-full ">Format</h2>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("format")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_FORMAT_OPTIONS
-											: MANGA_FORMAT_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Checkbox name="format" value={value} />
-												<ListItemContent>
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</ListItemContent>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
+						onChange={(e) => submit(e.currentTarget, {})}
+					>
+						<List lines="one" render={<Group />}>
+							{hash === "#filter" && (
+								<>
+									<ListItem
+										render={<GroupLabel />}
+										className="text-body-md text-on-surface-variant force:hover:state-none"
+									>
+										<h2 className="col-span-full ">Status</h2>
+									</ListItem>
+									<CheckboxProvider value={searchParams.getAll("status")}>
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_STATUS_OPTIONS
+												: MANGA_STATUS_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<ListItem render={<label />} key={value}>
+													<Checkbox name="status" value={value} />
+													<div className="col-span-2 col-start-2">
+														<ListItemContentTitle>{label}</ListItemContentTitle>
+													</div>
+												</ListItem>
+											)
+										})}
+									</CheckboxProvider>
+									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+										<h2 className="col-span-full ">Format</h2>
+									</ListItem>
+									<CheckboxProvider value={searchParams.getAll("format")}>
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_FORMAT_OPTIONS
+												: MANGA_FORMAT_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<ListItem render={<label />} key={value}>
+													<Checkbox name="format" value={value} />
+													<ListItemContent>
+														<ListItemContentTitle>{label}</ListItemContentTitle>
+													</ListItemContent>
+												</ListItem>
+											)
+										})}
+									</CheckboxProvider>
 									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
 										<h2 className="col-span-full ">Progress</h2>
 									</ListItem>
@@ -334,36 +317,36 @@ function Filter() {
 											)
 										})}
 									</CheckboxProvider>
-							</>
-						)}
+								</>
+							)}
 
-						{hash === "#sort" && (
-							<>
-								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<h2 className="col-span-full ">Sort</h2>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("sort")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_SORT_OPTIONS
-											: MANGA_SORT_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Radio name="sort" value={value} />
-												<ListItemContent>
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</ListItemContent>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
-							</>
-						)}
-					</List>
-				</Form>
+							{hash === "#sort" && (
+								<>
+									<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+										<h2 className="col-span-full ">Sort</h2>
+									</ListItem>
+									<CheckboxProvider value={searchParams.getAll("sort")}>
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_SORT_OPTIONS
+												: MANGA_SORT_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<ListItem render={<label />} key={value}>
+													<Radio name="sort" value={value} />
+													<ListItemContent>
+														<ListItemContentTitle>{label}</ListItemContentTitle>
+													</ListItemContent>
+												</ListItem>
+											)
+										})}
+									</CheckboxProvider>
+								</>
+							)}
+						</List>
+					</Form>
+				</SheetBody>
 			</Sheet>
-		</>
 	)
 }
 const ANIME_STATUS_OPTIONS = {
@@ -412,4 +395,25 @@ const MANGA_FORMAT_OPTIONS = {
 	[MediaFormat.Manga]: m.media_format_manga(),
 	[MediaFormat.Novel]: m.media_format_novel(),
 	[MediaFormat.OneShot]: m.media_format_one_shot()
+}
+
+function FilterButton() {
+	let { pathname } = useLocation()
+	const searchParams = useOptimisticSearchParams()
+	return (
+		<Icon
+			className={`md:hidden${searchParams.size > 0 ? " text-tertiary" : ""}`}
+			render={
+				<Link
+					to={{
+						hash: "#filter",
+						search: `?${searchParams}`,
+						pathname
+					}}
+				/>
+			}
+		>
+			<MaterialSymbolsFilterList />
+		</Icon>
+	)
 }

@@ -1,20 +1,10 @@
-import { Form, NavLink, useParams } from "@remix-run/react"
+import { NavLink, useFetcher, useNavigation, useParams } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import { Predicate } from "effect"
-import {
-	Button as ButtonText,
-	ButtonIcon as ButtonTextIcon
-} from "~/components/Button"
-import {
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichSupportingText,
-	TooltipRichTrigger
-} from "~/components/Tooltip"
+import { Button, ButtonIcon, Icon } from "~/components/Button"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
@@ -30,10 +20,8 @@ import {
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
-	ListItemImg,
-	ListItemTrailingSupportingText
+	ListItemImg
 } from "~/components/List"
-import { MediaType } from "~/gql/graphql"
 import type { loader as rootLoader } from "~/root"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 import { route_media } from "../route"
@@ -41,13 +29,17 @@ import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
 
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
+import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { useRawRouteLoaderData } from "../data"
 
+import * as Ariakit from "@ariakit/react"
+
 const MediaListItem_entry = serverOnly$(
 	graphql(`
 		fragment ListItem_entry on MediaList {
+			...ProgressButton_entry
 			...Progress_entry
 			...MediaListItemTitle_entry
 			...MediaListItemSubtitle_entry
@@ -70,43 +62,58 @@ export function MediaListItem(props: {
 }) {
 	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
 
-	return (
-		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem
-				render={
-					entry?.media ? (
-						<NavLink
-							unstable_viewTransition
-							to={route_media({ id: entry.media.id })}
-						/>
-					) : (
-						<div />
-					)
-				}
-			>
-				<ListItemImg>
-					<Skeleton full>
-						{entry?.media ? <MediaCover media={entry.media} /> : null}
+	let children = (
+		<>
+			<ListItemImg>
+				<Skeleton full>
+					{entry?.media ? <MediaCover media={entry.media} /> : null}
+				</Skeleton>
+			</ListItemImg>
+			<ListItemContent>
+				<ListItemContentTitle>
+					<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
+				</ListItemContentTitle>
+				<ListItemContentSubtitle className="flex flex-wrap gap-1">
+					<Skeleton className="force:max-w-[21.666666666666668ch]">
+						{entry && <MediaListItemSubtitle entry={entry} />}
 					</Skeleton>
-				</ListItemImg>
-				<ListItemContent>
-					<ListItemContentTitle>
-						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
-					</ListItemContentTitle>
-					<ListItemContentSubtitle className="flex flex-wrap gap-1">
-						<Skeleton className="force:max-w-[21.666666666666668ch]">
-							{entry && <MediaListItemSubtitle entry={entry} />}
-						</Skeleton>
-					</ListItemContentSubtitle>
-				</ListItemContent>
-				<ListItemTrailingSupportingText>
-					<Skeleton>{entry && <Progress entry={entry} />}</Skeleton>
-				</ListItemTrailingSupportingText>
-			</ListItem>
-		</li>
+				</ListItemContentSubtitle>
+			</ListItemContent>
+		</>
+	)
+
+	const Wrapper = entry?.media ? (
+		<NavLink
+			className={"col-span-2 grid grid-flow-col grid-cols-subgrid"}
+			unstable_viewTransition
+			to={route_media({ id: entry.media.id })}
+		>
+			{children}
+		</NavLink>
+	) : (
+		<div className={"col-span-2 grid grid-flow-col grid-cols-subgrid"}>
+			{children}
+		</div>
+	)
+
+	return (
+		<ListItem>
+			{Wrapper}
+
+			<div className="flex justify-end gap-2">
+				{entry && (
+					<ProgressButton entry={entry}>
+						<Progress entry={entry} />
+					</ProgressButton>
+				)}
+
+				<Icon>
+					<MaterialSymbolsMoreHoriz />
+				</Icon>
+			</div>
+		</ListItem>
 	)
 }
-
 const MediaListItemTitle_entry = serverOnly$(
 	graphql(`
 		fragment MediaListItemTitle_entry on MediaList {
@@ -174,15 +181,64 @@ function MediaListItemSubtitle(props: {
 	)
 }
 
+const ProgressButton_entry = serverOnly$(
+	graphql(`
+		fragment ProgressButton_entry on MediaList {
+			id
+			progress
+			media {
+				id
+			}
+		}
+	`)
+)
+
+function ProgressButton(props: {
+	entry: FragmentType<typeof ProgressButton_entry>
+	children?: ReactNode
+}) {
+	const entry = readFragment<typeof ProgressButton_entry>(props.entry)
+
+	const data = useRawRouteLoaderData<typeof rootLoader>("root")
+	const params = useParams()
+
+	const fetcher = useFetcher()
+
+	const progress =
+		Number(fetcher.formData?.get("progress")) || entry.progress || 0
+
+	if (
+		data?.Viewer?.name === undefined ||
+		data.Viewer.name !== params["userName"] ||
+		entry.media?.id === undefined
+	) {
+		return props.children
+	}
+
+	return (
+		<fetcher.Form method="post" action="/entry/progress/increment">
+			<input type="hidden" name="mediaId" value={entry.media.id} />
+			<input type="hidden" name="progress" value={progress + 1} />
+			<Button type="submit" className="max-sm:hidden md:hidden lg:inline-flex">
+				{props.children}
+				<ButtonIcon>
+					<MaterialSymbolsAdd />
+				</ButtonIcon>
+				<Ariakit.VisuallyHidden>
+					{m.increment_progress()}
+				</Ariakit.VisuallyHidden>
+			</Button>
+		</fetcher.Form>
+	)
+}
+
 const Progress_entry = serverOnly$(
 	graphql(`
 		fragment Progress_entry on MediaList {
 			id
-
 			progress
 			media {
 				...Avalible_media
-				type
 				id
 				episodes
 				chapters
@@ -194,76 +250,29 @@ const Progress_entry = serverOnly$(
 function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 	const entry = readFragment<typeof Progress_entry>(props.entry)
 	const avalible = getAvalible(entry.media)
-	const data = useRawRouteLoaderData<typeof rootLoader>("root")
-	const params = useParams()
+
+	const navigation = useNavigation()
+
+	const progress =
+		Number(navigation.formData?.get("progress")) || entry.progress || 0
 
 	return (
-		<TooltipRich placement="top">
-			<TooltipRichTrigger>
-				{entry.progress}
-				{Predicate.isNumber(avalible) ? (
-					<>
-						/
-						<span
-							className={
-								avalible !== (entry.media?.episodes ?? entry.media?.chapters)
-									? "underline decoration-dotted"
-									: ""
-							}
-						>
-							{avalible}
-						</span>
-					</>
-				) : (
-					""
-				)}
-			</TooltipRichTrigger>
-			<TooltipRichContainer>
-				<TooltipRichSupportingText>
-					{entry.media?.type === MediaType.Anime ? (
-						avalible !== entry.media.episodes ? (
-							<>
-								{m.avalible_episodes({ avalible: avalible ?? "unknown" })}
-								<br />
-								{m.total_episodes({
-									total: entry.media.episodes ?? "unknown"
-								})}
-							</>
-						) : (
-							m.all_avalible()
-						)
-					) : avalible !== entry.media?.chapters ? (
-						<>
-							{m.avalible_chapters({ avalible: avalible ?? "unknown" })}
-							<br />
-							{m.total_chapters({
-								total: entry.media?.chapters ?? "unknown"
-							})}
-						</>
-					) : (
-						m.all_chapters_avalible()
-					)}
-				</TooltipRichSupportingText>
-				{Predicate.isString(data?.Viewer?.name) &&
-					data?.Viewer?.name === params["userName"] && (
-						<TooltipRichActions>
-							<Form method="post">
-								<input type="hidden" name="mediaId" value={entry.media?.id} />
-								<input
-									type="hidden"
-									name="progress"
-									value={(entry.progress ?? 0) + 1}
-								/>
-								<ButtonText type="submit">
-									<ButtonTextIcon>
-										<MaterialSymbolsAdd />
-									</ButtonTextIcon>
-									{m.increment_progress()}
-								</ButtonText>
-							</Form>
-						</TooltipRichActions>
-					)}
-			</TooltipRichContainer>
-		</TooltipRich>
+		<span>
+			{progress}
+			{Predicate.isNumber(avalible) && (
+				<>
+					/
+					<span
+						className={
+							avalible !== (entry.media?.episodes ?? entry.media?.chapters)
+								? "underline decoration-dotted"
+								: ""
+						}
+					>
+						{avalible}
+					</span>
+				</>
+			)}
+		</span>
 	)
 }

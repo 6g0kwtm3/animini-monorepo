@@ -167,7 +167,19 @@ export const UrqlLive = Layer.effect(
 				)
 			},
 			mutation: (...args) => {
-				throw new Error("Not implemented")
+				return pipe(
+					operation(
+						args[0],
+						args[1],
+						token
+							? {
+									headers: new Headers({
+										Authorization: `Bearer ${token.trim()}`
+									})
+								}
+							: undefined
+					)
+				)
 			}
 		})
 	})
