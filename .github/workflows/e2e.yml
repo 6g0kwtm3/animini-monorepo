@@ -38,10 +38,10 @@ jobs:
         run: pnpm i --frozen-lockfile
 
       - name: Install Playwright
-        run: pnpm exec playwright install
+        run: pnpm exec playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
-      - name: Test components
+      - name: Test E2E
         run: pnpm run test --project=${{ matrix.project }}
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
