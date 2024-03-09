@@ -46,14 +46,12 @@ import type { ToWatch_entry } from "~/lib/entry/toWatch"
 import { toWatch } from "~/lib/entry/toWatch"
 import { m } from "~/lib/paraglide"
 
-function TypelistQuery() {
+function UserListSelectedFiltersIndexQuery() {
 	return graphql(`
 		query UserListSelectedFiltersIndexQuery(
 			$userName: String!
 			$type: MediaType!
 			$coverExtraLarge: Boolean = false
-			$isEntryId: Boolean!
-			$entryId: Int
 		) {
 			MediaListCollection(userName: $userName, type: $type) {
 				lists {
@@ -103,16 +101,14 @@ export const loader = (async (args) => {
 							selected: Schema.string,
 							userName: Schema.string,
 							typelist: Schema.literal("animelist", "mangalist"),
-							entryId: Schema.optional(Schema.NumberFromString)
 						})
 					)
 
 					const { MediaListCollection, ...data } =
 						(yield* _(
-							client.query(TypelistQuery(), {
+							client.query(UserListSelectedFiltersIndexQuery(), {
 								userName: params.userName,
 								entryId: params.entryId,
-								isEntryId: Predicate.isNumber(params.entryId),
 								type: {
 									animelist: MediaType.Anime,
 									mangalist: MediaType.Manga
