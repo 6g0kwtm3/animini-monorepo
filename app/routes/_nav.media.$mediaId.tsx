@@ -43,6 +43,7 @@ import { MediaCover } from "~/lib/entry/MediaListCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
+import { Ariakit } from "~/lib/ariakit"
 
 export const loader = (async (args) => {
 	return pipe(
@@ -146,9 +147,9 @@ export default function Page(): JSX.Element {
 						<div className="overflow-hidden rounded-xl">
 							<Card variant="elevated">
 								<div className="sm:p-12">
-									<h1 className="text-balance text-display-lg">
+									<Ariakit.Heading className="text-balance text-display-lg">
 										{data.Media.title?.userPreferred}
-									</h1>
+									</Ariakit.Heading>
 									<Menu>
 										<MenuTrigger
 											className={button({

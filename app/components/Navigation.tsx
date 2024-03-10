@@ -124,7 +124,9 @@ function NavigationActiveIndicator() {
 	return <motion.div layoutId={layoutId} className={activeIndicator()} />
 }
 
-export function NavigationItemIcon(props: ComponentPropsWithoutRef<"div">) :JSX.Element{
+export function NavigationItemIcon(
+	props: ComponentPropsWithoutRef<"div">
+): JSX.Element {
 	const { icon } = useContext(Context)
 
 	return <div {...props} className={icon()} />

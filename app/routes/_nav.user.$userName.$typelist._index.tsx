@@ -1,16 +1,16 @@
 import { Link, json } from "@remix-run/react"
 import type {
-    HeadersFunction,
-    LoaderFunction,
-    MetaFunction
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction
 } from "@vercel/remix"
 import {
-    Effect,
-    Order,
-    Predicate,
-    ReadonlyArray,
-    ReadonlyRecord,
-    pipe
+	Effect,
+	Order,
+	Predicate,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
 } from "effect"
 
 import { Card } from "~/components/Card"
@@ -18,8 +18,8 @@ import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import {
-    MediaListItem,
-    type ListItem_EntryFragment
+	MediaListItem,
+	type ListItem_EntryFragment
 } from "~/lib/entry/ListItem"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -28,6 +28,7 @@ import { Schema } from "@effect/schema"
 import { LayoutBody } from "~/components/Layout"
 import { List } from "~/components/List"
 import { button } from "~/lib/button"
+import { Ariakit } from "~/lib/ariakit"
 
 export const loader = (async (args) => {
 	return pipe(
@@ -160,41 +161,45 @@ export default function Page(): JSX.Element {
 	return (
 		<LayoutBody>
 			<div className="flex flex-col gap-4">
-				<h1 className="text-balance text-headline-lg">
+				<Ariakit.Heading className="text-balance text-headline-lg">
 					{data.MediaListCollection.user?.name}
-				</h1>
+				</Ariakit.Heading>
 
-				<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-					{data.MediaListCollection.lists.map((list) => {
-						return (
-							list.name && (
-								<li key={list.name}>
-									<Card variant="outlined" render={<article />}>
-										<h2 className="text-balance">{list.name}</h2>
-										<List className="-mx-4">
-											{list.entries?.map((entry) => {
-												return (
-													<MediaListItem
-														entry={makeFragmentData<ListItem_EntryFragment>(
-															entry
-														)}
-														key={entry.id}
-													/>
-												)
-											})}
-										</List>
-										<Link
-											to={list.name}
-											className={button({ className: "w-full" })}
-										>
-											more
-										</Link>
-									</Card>
-								</li>
+				<Ariakit.HeadingLevel>
+					<ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+						{data.MediaListCollection.lists.map((list) => {
+							return (
+								list.name && (
+									<li key={list.name}>
+										<Card variant="outlined" render={<article />}>
+											<Ariakit.Heading className="text-balance">
+												{list.name}
+											</Ariakit.Heading>
+											<List className="-mx-4">
+												{list.entries?.map((entry) => {
+													return (
+														<MediaListItem
+															entry={makeFragmentData<ListItem_EntryFragment>(
+																entry
+															)}
+															key={entry.id}
+														/>
+													)
+												})}
+											</List>
+											<Link
+												to={list.name}
+												className={button({ className: "w-full" })}
+											>
+												more
+											</Link>
+										</Card>
+									</li>
+								)
 							)
-						)
-					})}
-				</ul>
+						})}
+					</ul>
+				</Ariakit.HeadingLevel>
 			</div>
 		</LayoutBody>
 	)

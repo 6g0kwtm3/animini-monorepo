@@ -2,6 +2,7 @@ import type { ComponentPropsWithoutRef, ElementRef } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
+import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 
 const tv = createTV({ twMerge: false })
@@ -56,7 +57,7 @@ export function AppBar({
 	elevate,
 	hide,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>):JSX.Element {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): JSX.Element {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 
@@ -94,9 +95,11 @@ export function AppBar({
 		</AppBarContext.Provider>
 	)
 }
-export function AppBarTitle(props: ComponentPropsWithoutRef<"h1">):JSX.Element {
+export function AppBarTitle(
+	props: ComponentPropsWithoutRef<typeof Ariakit.Heading>
+): JSX.Element {
 	const styles = useContext(AppBarContext)
-	return createElement("h1", {
+	return createElement(Ariakit.Heading, {
 		...props,
 		className: styles.title({ className: props.className })
 	})

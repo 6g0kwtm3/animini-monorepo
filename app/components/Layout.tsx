@@ -43,7 +43,8 @@ const LayoutContext = createContext(createLayout())
 export function Layout({
 	navigation,
 	...props
-}: ComponentPropsWithoutRef<"div"> & VariantProps<typeof createLayout>):JSX.Element {
+}: ComponentPropsWithoutRef<"div"> &
+	VariantProps<typeof createLayout>): JSX.Element {
 	const styles = createLayout({ navigation })
 
 	return (
@@ -55,7 +56,9 @@ export function Layout({
 	)
 }
 
-export function LayoutBody(props: ComponentPropsWithoutRef<"main">):JSX.Element {
+export function LayoutBody(
+	props: ComponentPropsWithoutRef<"main">
+): JSX.Element {
 	const { body } = useContext(LayoutContext)
 	return <main {...props} className={body({ className: props.className })} />
 }
@@ -77,7 +80,7 @@ export function LayoutPane({
 }: ComponentPropsWithoutRef<"div"> &
 	VariantProps<typeof pane> & {
 		render?: ReactElement
-	}):JSX.Element {
+	}): JSX.Element {
 	return createElement("section", {
 		...props,
 		className: pane({ className: props.className, variant })

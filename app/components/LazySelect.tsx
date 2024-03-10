@@ -96,7 +96,7 @@ const { item } = createMenu({})
 
 export function LazySelectOption(
 	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>
-):JSX.Element {
+): JSX.Element {
 	return (
 		<Ariakit.SelectItem
 			{...props}

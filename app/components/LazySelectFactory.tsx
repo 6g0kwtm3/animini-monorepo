@@ -12,7 +12,7 @@ export default function LazySelectFactory({
 	children: ReactNode
 	label: ReactNode
 	name: string
-}):JSX.Element {
+}): JSX.Element {
 	return (
 		<Ariakit.SelectProvider>
 			<TextFieldOutlined>

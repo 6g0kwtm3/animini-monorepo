@@ -3,9 +3,9 @@ import type { Config } from "tailwindcss"
 //@ts-ignore
 import { withTV } from "tailwind-variants/transformer"
 //@ts-ignore
+import { Predicate } from "effect"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
-import { Predicate } from "effect"
 
 const K_1 = 0.173
 const K_2 = 0.004
@@ -174,13 +174,7 @@ export default withTV({
 					}),
 					"::backdrop": Object.assign({
 						fontSize: "16px"
-					}),
-					"@media (prefers-color-scheme: dark)": {
-						":root": Object.assign({
-							"color-scheme": "light dark"
-						}),
-						"::backdrop": Object.assign({ "color-scheme": "light dark" })
-					}
+					})
 				})
 
 				matchUtilities(
@@ -286,31 +280,21 @@ export default withTV({
 
 						return [
 							`--${key}`,
-							`oklch(from var(--theme-${token}) ${toeInv(Number(tone) / 100)} c h)`
+							`oklch(from var(--palette-${token}) ${toeInv(Number(tone) / 100)} c h)`
 						]
 					})
 				)
 
 			matchUtilities(
 				{
-					"palette-content": (value) => {
-						return {
-							"--theme-primary": `oklch(from ${value} l c h)`,
-							"--theme-secondary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 3) h)`,
-							"--theme-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} calc(c / 2) calc(h + 60))`,
-							"--theme-neutral": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 12), 0.013333333333333334) h)`,
-							"--theme-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} min(calc(c / 6), 0.02666666666666667) h)`,
-							"--theme-error": `oklch(${toeInv(50 / 100)} 0.08333333333333334 25)`
-						}
-					},
 					palette: (value) => {
 						return {
-							"--theme-primary": `oklch(from ${value} ${toeInv(50 / 100)} max(c, 0.16) h)`,
-							"--theme-secondary": `oklch(from ${value} ${toeInv(50 / 100)} 0.05333333333333334 h)`,
-							"--theme-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} 0.08 calc(h + 60))`,
-							"--theme-neutral": `oklch(from ${value} ${toeInv(50 / 100)} 0.013333333333333334 h)`,
-							"--theme-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} 0.02666666666666667 h)`,
-							"--theme-error": `oklch(${toeInv(50 / 100)} 0.08333333333333334 25)`
+							"--palette-primary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(36)} h)`,
+							"--palette-secondary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(16)} h)`,
+							"--palette-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(24)} calc(h + 60))`,
+							"--palette-neutral": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(6)} h)`,
+							"--palette-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(8)} h)`,
+							"--palette-error": `oklch(${toeInv(50 / 100)} ${chroma(84)} 25)`
 						}
 					}
 				},
@@ -332,3 +316,7 @@ export default withTV({
 		})
 	]
 } satisfies Config)
+
+function chroma(chroma: number) {
+	return (chroma / 120) * 0.4
+}

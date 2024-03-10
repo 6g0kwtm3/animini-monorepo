@@ -30,6 +30,7 @@ import { Sheet } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
 import { MediaFormat, MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
+import { Ariakit } from "~/lib/ariakit"
 import { useRawLoaderData } from "~/lib/data"
 import { graphql } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
@@ -189,7 +190,9 @@ export default function Filters(): JSX.Element {
 							</AppBar>
 						</div>
 
-						<Outlet />
+						<Ariakit.HeadingLevel>
+							<Outlet />
+						</Ariakit.HeadingLevel>
 					</div>
 				</Card>
 			</LayoutPane>
@@ -242,6 +245,7 @@ function Filter() {
 				<MaterialSymbolsFilterList />
 			</Icon>
 
+			
 			<Sheet
 				open={hash === "#filter" || hash === "#sort"}
 				onClose={() =>
@@ -275,7 +279,9 @@ function Filter() {
 									render={<GroupLabel />}
 									className="text-body-md text-on-surface-variant force:hover:state-none"
 								>
-									<h2 className="col-span-full ">Status</h2>
+									<Ariakit.Heading className="col-span-full ">
+										Status
+									</Ariakit.Heading>
 								</ListItem>
 								<CheckboxProvider value={searchParams.getAll("status")}>
 									{Object.entries(
@@ -294,7 +300,9 @@ function Filter() {
 									})}
 								</CheckboxProvider>
 								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<h2 className="col-span-full ">Format</h2>
+									<Ariakit.Heading className="col-span-full ">
+										Format
+									</Ariakit.Heading>
 								</ListItem>
 								<CheckboxProvider value={searchParams.getAll("format")}>
 									{Object.entries(
@@ -313,7 +321,9 @@ function Filter() {
 									})}
 								</CheckboxProvider>
 								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<h2 className="col-span-full ">Progress</h2>
+									<Ariakit.Heading className="col-span-full ">
+										Progress
+									</Ariakit.Heading>
 								</ListItem>
 								<CheckboxProvider value={searchParams.getAll("progress")}>
 									{Object.entries(
@@ -337,7 +347,9 @@ function Filter() {
 						{hash === "#sort" && (
 							<>
 								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<h2 className="col-span-full ">Sort</h2>
+									<Ariakit.Heading className="col-span-full ">
+										Sort
+									</Ariakit.Heading>
 								</ListItem>
 								<CheckboxProvider value={searchParams.getAll("sort")}>
 									{Object.entries(

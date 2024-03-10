@@ -45,6 +45,7 @@ import {
 import type { ToWatch_entry } from "~/lib/entry/toWatch"
 import { toWatch } from "~/lib/entry/toWatch"
 import { m } from "~/lib/paraglide"
+import { Ariakit } from "~/lib/ariakit"
 
 function UserListSelectedFiltersIndexQuery() {
 	return graphql(`
@@ -310,7 +311,7 @@ export function ErrorBoundary(): JSX.Element {
 	if (isRouteErrorResponse(error)) {
 		return (
 			<div>
-				<h1>Oops</h1>
+				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
 			</div>
@@ -329,7 +330,7 @@ export function ErrorBoundary(): JSX.Element {
 			variant="elevated"
 			className="m-4 bg-error-container text-on-error-container"
 		>
-			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
+			<Ariakit.Heading className="text-balance text-headline-md">Uh oh ...</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
 		</Card>

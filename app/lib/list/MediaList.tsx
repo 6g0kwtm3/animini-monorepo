@@ -44,7 +44,7 @@ export type MediaListHeaderToWatch_entries =
 
 export function MediaListHeaderToWatch(props: {
 	entries: FragmentType<typeof MediaListHeaderToWatch_entries>[]
-}):string {
+}): string {
 	let entries = readFragment<typeof MediaListHeaderToWatch_entries>(
 		props.entries
 	)
@@ -57,7 +57,7 @@ export function MediaListHeaderToWatch(props: {
 	)
 }
 
-export function MediaListHeader(props: { children: ReactNode }) :JSX.Element{
+export function MediaListHeader(props: { children: ReactNode }): JSX.Element {
 	return (
 		<div className="grid grid-flow-col items-center gap-4 [grid-auto-columns:minmax(0,1fr)]">
 			{props.children}

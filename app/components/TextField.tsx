@@ -1,8 +1,8 @@
 import * as Ariakit from "@ariakit/react"
 import {
-    forwardRef,
-    type ComponentPropsWithoutRef,
-    type ReactNode
+	forwardRef,
+	type ComponentPropsWithoutRef,
+	type ReactNode
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -101,7 +101,9 @@ export function TextFieldOutlinedFactory({
 
 TextFieldOutlined.Label = OutlinedLabel
 
-export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) :JSX.Element{
+export function TextFieldFilled(
+	props: ComponentPropsWithoutRef<"label">
+): JSX.Element {
 	return (
 		<label
 			{...props}

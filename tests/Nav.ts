@@ -10,7 +10,7 @@ export class Nav {
 	explore: Locator
 	notifications: Locator
 
-	public async gotoLogin() {
+	public async gotoLogin(): Promise<LoginPage> {
 		await this.login.click()
 		return LoginPage.new(this.page)
 	}

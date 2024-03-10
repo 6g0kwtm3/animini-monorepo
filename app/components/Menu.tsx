@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { createElement } from "~/lib/createElement"
 import { classes } from "./classes"
 
-export function MenuList(props: ComponentPropsWithoutRef<"ul">) :JSX.Element{
+export function MenuList(props: ComponentPropsWithoutRef<"ul">): JSX.Element {
 	return (
 		<ul
 			{...props}
@@ -18,11 +18,13 @@ export function MenuList(props: ComponentPropsWithoutRef<"ul">) :JSX.Element{
 	)
 }
 
-export function MenuTrigger(props: ComponentPropsWithoutRef<"summary">) :JSX.Element{
+export function MenuTrigger(
+	props: ComponentPropsWithoutRef<"summary">
+): JSX.Element {
 	return <summary {...props} aria-haspopup="listbox" />
 }
 
-export function Menu(props: ComponentPropsWithoutRef<"details">) :JSX.Element{
+export function Menu(props: ComponentPropsWithoutRef<"details">): JSX.Element {
 	const ref = useRef<ElementRef<"details">>(null)
 
 	useEffect(() => {
@@ -67,23 +69,33 @@ export function MenuItem({
 	})
 }
 
-export function MenuItemIcon(props: ComponentPropsWithoutRef<"div">) :JSX.Element{
+export function MenuItemIcon(
+	props: ComponentPropsWithoutRef<"div">
+): JSX.Element {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
 
-export function MenuItemLeadingIcon(props: ComponentPropsWithoutRef<"div">) :JSX.Element{
+export function MenuItemLeadingIcon(
+	props: ComponentPropsWithoutRef<"div">
+): JSX.Element {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
 
-export function MenuItemTrailingIcon(props: ComponentPropsWithoutRef<"div">) :JSX.Element{
+export function MenuItemTrailingIcon(
+	props: ComponentPropsWithoutRef<"div">
+): JSX.Element {
 	return <div {...props} className="ms-auto h-6 w-6 text-on-surface-variant" />
 }
 
-export function MenuItemTrailingText(props: ComponentPropsWithoutRef<"div">) :JSX.Element{
+export function MenuItemTrailingText(
+	props: ComponentPropsWithoutRef<"div">
+): JSX.Element {
 	return <div {...props} className="ms-auto text-on-surface-variant" />
 }
 
-export function MenuDivider(props: ComponentPropsWithoutRef<"li">) :JSX.Element{
+export function MenuDivider(
+	props: ComponentPropsWithoutRef<"li">
+): JSX.Element {
 	return (
 		<li {...props} className="contents">
 			<div className="my-2 w-full border-b border-outline-variant" />

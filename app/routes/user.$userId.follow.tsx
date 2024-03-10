@@ -2,6 +2,7 @@ import { Schema } from "@effect/schema"
 import type { ActionFunction } from "@remix-run/node"
 import { useActionData } from "@remix-run/react"
 import { graphql } from "~/gql"
+import { Ariakit } from "~/lib/ariakit"
 import { client_operation } from "~/lib/client"
 import { m } from "~/lib/paraglide"
 
@@ -45,13 +46,13 @@ export default function Page(): JSX.Element {
 	return (
 		<main>
 			{data ? (
-				<h1>
+				<Ariakit.Heading>
 					{data.ToggleFollow.isFollowing
 						? m.follow({ name: data.ToggleFollow.name })
 						: m.unfollow({ name: data.ToggleFollow.name })}
-				</h1>
+				</Ariakit.Heading>
 			) : (
-				<h1>Oops</h1>
+				<Ariakit.Heading>Oops</Ariakit.Heading>
 			)}
 		</main>
 	)

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
+import { Ariakit } from "~/lib/ariakit"
 
 export default function Page(): JSX.Element {
 	return (
@@ -56,7 +57,7 @@ function Palette() {
 			{["primary", "secondary", "tertiary", "error"].map((color) => {
 				return (
 					<li key={color}>
-						<h1>{color.substring(0, 1).toUpperCase() + color.substring(1)}</h1>
+						<Ariakit.Heading>{color.substring(0, 1).toUpperCase() + color.substring(1)}</Ariakit.Heading>
 						<ul className="grid grid-cols-4">
 							<ColorItem color={color} />
 							<ColorItem color={`${color}-container`}>
@@ -69,7 +70,7 @@ function Palette() {
 			})}
 
 			<li>
-				<h1>Neutral</h1>
+				<Ariakit.Heading>Neutral</Ariakit.Heading>
 				<ul className="grid grid-cols-4">
 					<ColorItem color="surface-container">Surface</ColorItem>
 					<ColorItem color="surface-variant" />
@@ -78,7 +79,7 @@ function Palette() {
 			</li>
 
 			<li>
-				<h1>Inverse</h1>
+				<Ariakit.Heading>Inverse</Ariakit.Heading>
 				<ul className="grid grid-cols-4">
 					<ColorItem color="inverse-surface" text="inverse-on-surface" />
 					<ColorItem color="inverse-primary" />

@@ -6,6 +6,7 @@ import type { LoaderFunctionArgs } from "@vercel/remix"
 import * as cookie from "cookie"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { IS_SERVER } from "./isClient"
+import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 
 const API_URL = "https://graphql.anilist.co"
 
@@ -22,10 +23,14 @@ export function client_get_client(args: LoaderFunctionArgs): {
 	}
 }
 
+export type AnyLoaderFunctionArgs =
+	| LoaderFunctionArgs
+	| ClientLoaderFunctionArgs
+
 export async function client_operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
-	args: LoaderFunctionArgs
+	args: AnyLoaderFunctionArgs
 ): Promise<NonNullable<T> | null> {
 	const body = Schema.encodeSync(Schema.parseJson(Schema.any))({
 		query: document.toString(),

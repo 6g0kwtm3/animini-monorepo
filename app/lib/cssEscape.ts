@@ -1,4 +1,4 @@
-export const cssEscape = function (value: string):string {
+export const cssEscape = function (value: string): string {
 	if (arguments.length === 0) {
 		throw new TypeError("`CSS.escape` requires an argument.")
 	}

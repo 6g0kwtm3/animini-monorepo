@@ -1,20 +1,8 @@
-import type { Page } from "@playwright/test";
-import { expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
 import { FeedPage } from "./IndexPage";
-import { Nav } from "./Nav";
+import { TypelistPage } from "./TypelistPage";
 
 test.use({ storageState: "playwright/.auth/user.json" })
-
-class TypelistPage {
-	nav: Nav
-	private constructor(private page: Page) {
-		this.nav = new Nav(page)
-	}
-	static async new(page: Page) {
-		await expect(page).toHaveTitle(/(anime|manga) list/)
-		return new TypelistPage(page)
-	}
-}
 
 test("anime list", async ({ page }) => {
 	await page.goto("/")
