@@ -1,7 +1,11 @@
 import { useTooltipStore } from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import { Form, Link, json, redirect } from "@remix-run/react"
-import type { ActionFunction, LoaderFunction } from "@vercel/remix"
+import type {
+	ActionFunction,
+	LoaderFunction,
+	MetaFunction
+} from "@vercel/remix"
 import cookie from "cookie"
 import { Effect, Option, Predicate, pipe } from "effect"
 import { serverOnly$ } from "vite-env-only"
@@ -402,6 +406,14 @@ const ActivityLike_notification = serverOnly$(
 		}
 	`)
 )
+
+export const meta = (() => {
+	return [
+		{
+			title: `Notifications`
+		}
+	]
+}) satisfies MetaFunction<typeof loader>
 
 function ActivityLike(props: {
 	notification: FragmentType<typeof ActivityLike_notification>

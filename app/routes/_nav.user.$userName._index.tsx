@@ -1,5 +1,9 @@
 import { Schema } from "@effect/schema"
-import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+import type {
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction
+} from "@vercel/remix"
 import { json } from "@vercel/remix"
 
 import { Form, Link, useLocation } from "@remix-run/react"
@@ -50,6 +54,14 @@ export const headers = (({ loaderHeaders }) => {
 		? { "Cache-Control": cacheControl }
 		: new Headers()
 }) satisfies HeadersFunction
+
+export const meta = (({ params }) => {
+	return [
+		{
+			title: `${params.userName}'s profile`
+		}
+	]
+}) satisfies MetaFunction<typeof loader>
 
 function params() {
 	return Schema.struct({

@@ -1,5 +1,9 @@
 import { Link, json } from "@remix-run/react"
-import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+import type {
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction
+} from "@vercel/remix"
 import {
 	Effect,
 	Order,
@@ -138,6 +142,17 @@ export const headers = (({ loaderHeaders }) => {
 		? { "Cache-Control": cacheControl }
 		: new Headers()
 }) satisfies HeadersFunction
+
+export const meta = (({ params }) => {
+	return [
+		{
+			title:
+				params.typelist === "animelist"
+					? `${params.userName}'s anime list`
+					: `${params.userName}'s manga list`
+		}
+	]
+}) satisfies MetaFunction<typeof loader>
 
 export default function Page() {
 	const data = useRawLoaderData<typeof loader>()
