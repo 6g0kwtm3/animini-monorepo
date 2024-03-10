@@ -15,7 +15,10 @@ import {
 } from "react"
 import { BaseButton } from "./Button"
 
-type OnBeforeToggle = (this: HTMLElement, event: ToggleEvent) => void
+type OnBeforeToggle = (
+	this: HTMLElement,
+	event: HTMLElementEventMap["beforetoggle"]
+) => void
 
 const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 	console.warn("Snackbar is outside of SnackbarQueue")
@@ -28,7 +31,11 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 		function (event) {
 			const state = queue.current.at(0) === this ? "open" : "closed"
 
-			if (state === "closed" && event.newState === "open") {
+			if (
+				state === "closed" &&
+				"newState" in event &&
+				event.newState === "open"
+			) {
 				event.preventDefault()
 
 				queue.current = queue.current.includes(this)
@@ -37,7 +44,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 				return
 			}
 
-			if (event.newState === "closed") {
+			if ("newState" in event && event.newState === "closed") {
 				queue.current = queue.current.includes(this)
 					? queue.current.filter((f) => f !== this)
 					: queue.current

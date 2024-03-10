@@ -43,21 +43,6 @@ declare global {
 	interface GlobalEventHandlersEventMap {
 		invoke: InvokeEvent
 	}
-
-	interface HTMLElement {
-		showPopover?: () => void
-		hidePopover?: () => void
-	}
-
-	interface ToggleEvent extends Event {
-		newState: "open" | "closed"
-	}
-}
-
-declare global {
-	interface GlobalEventHandlersEventMap {
-		beforetoggle: ToggleEvent
-	}
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
