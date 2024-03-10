@@ -8,7 +8,7 @@ export class FeedPage {
 		this.nav = new Nav(page)
 	}
 
-	static async new(page: Page) {
+	static async new(page: Page): Promise<FeedPage> {
 		await expect(page).toHaveTitle("Feed")
 		return new this(page)
 	}

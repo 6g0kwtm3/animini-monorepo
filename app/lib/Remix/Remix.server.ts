@@ -7,14 +7,19 @@ import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
-import type { TypedResponse } from "@vercel/remix"
+import type { LoaderFunctionArgs, TypedResponse } from "@vercel/remix"
 import cookie from "cookie"
 import { dev } from "../dev"
+import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 
 export const Cookie = <I, A>(
 	name: string,
 	schema: Schema.Schema<never, I, A>
-) =>
+): Effect.Effect<
+	LoaderFunctionArgs | ClientLoaderFunctionArgs,
+	never,
+	Option.Option<A>
+> =>
 	Effect.gen(function* (_) {
 		const { request } = yield* _(LoaderArgs)
 
@@ -100,7 +105,9 @@ export class ResponseError<T> extends Data.TaggedError("ResponseError")<{
 	response: TypedResponse<T>
 }> {}
 
-export async function runLoader<E, A>(effect: Effect.Effect<never, E, A>) {
+export async function runLoader<E, A>(
+	effect: Effect.Effect<never, E, A>
+): Promise<A> {
 	const exit = await pipe(effect, Effect.runPromiseExit)
 
 	if (Exit.isSuccess(exit)) {

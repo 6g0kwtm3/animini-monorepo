@@ -160,7 +160,7 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
-export default function Nav() {
+export default function Nav(): JSX.Element {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
 	const data = useRawLoaderData<typeof loader>()
 

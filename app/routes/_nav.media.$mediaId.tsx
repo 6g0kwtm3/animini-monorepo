@@ -9,28 +9,28 @@ import { cloneElement } from "react"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-	Menu,
-	MenuDivider,
-	MenuItem,
-	MenuItemLeadingIcon,
-	MenuItemTrailingIcon,
-	MenuItemTrailingText,
-	MenuList,
-	MenuTrigger
+    Menu,
+    MenuDivider,
+    MenuItem,
+    MenuItemLeadingIcon,
+    MenuItemTrailingIcon,
+    MenuItemTrailingText,
+    MenuList,
+    MenuTrigger
 } from "~/components/Menu"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { Remix } from "~/lib/Remix/index.server"
 import { button, fab } from "~/lib/button"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
+    ClientArgs,
+    EffectUrql,
+    LoaderArgs,
+    LoaderLive
 } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
@@ -100,7 +100,7 @@ export const meta = (({ data }) => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
 }) satisfies MetaFunction<typeof loader>
 
-export default function Page() {
+export default function Page(): JSX.Element {
 	const data = useRawLoaderData<typeof loader>()
 
 	const outlet = useOutlet()

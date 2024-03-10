@@ -39,7 +39,7 @@ export const action = (async (args) => {
 	}
 }) satisfies ActionFunction
 
-export default function Page() {
+export default function Page(): JSX.Element {
 	const data = useActionData<typeof action>()
 
 	return (

@@ -56,7 +56,7 @@ export function AppBar({
 	elevate,
 	hide,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>) {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>):JSX.Element {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 
@@ -94,7 +94,7 @@ export function AppBar({
 		</AppBarContext.Provider>
 	)
 }
-export function AppBarTitle(props: ComponentPropsWithoutRef<"h1">) {
+export function AppBarTitle(props: ComponentPropsWithoutRef<"h1">):JSX.Element {
 	const styles = useContext(AppBarContext)
 	return createElement("h1", {
 		...props,

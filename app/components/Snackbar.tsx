@@ -24,7 +24,7 @@ const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 	console.warn("Snackbar is outside of SnackbarQueue")
 })
 
-export function SnackbarQueue(props: PropsWithChildren<{}>) {
+export function SnackbarQueue(props: PropsWithChildren<{}>): JSX.Element {
 	const queue = useRef<HTMLElement[]>([])
 
 	const add = useCallback<OnBeforeToggle>(
@@ -92,7 +92,7 @@ export function Snackbar({
 }: ComponentPropsWithoutRef<"div"> & {
 	timeout?: number
 	open: boolean
-}) {
+}): JSX.Element {
 	const ref = useRef<ElementRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
@@ -168,7 +168,9 @@ export function Snackbar({
 	)
 }
 
-export function SnackbarAction(props: ComponentPropsWithoutRef<"button">) {
+export function SnackbarAction(
+	props: ComponentPropsWithoutRef<"button">
+): JSX.Element {
 	const invoketarget = useContext(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)

@@ -58,7 +58,7 @@ export function operation<T, V>(
 	options?: {
 		headers?: Headers
 	}
-) {
+): Effect.Effect<never, Remix.ResponseError<any>, NonNullable<T> | null> {
 	return Effect.gen(function* (_) {
 		const body = yield* _(
 			Schema.encode(Schema.parseJson(Schema.any))({

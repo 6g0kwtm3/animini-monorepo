@@ -241,7 +241,7 @@
 // 		label="Score"
 // 	/>
 // )
-// export default function Page() {
+// export default function Page(): JSX.Element {
 // 	const data = useRawLoaderData<typeof loader>()
 
 // 	const navigation = useNavigation()

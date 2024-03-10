@@ -235,7 +235,7 @@ export const headers = (({ loaderHeaders }) => {
 		: new Headers()
 }) satisfies HeadersFunction
 
-export default function Page() {
+export default function Page(): JSX.Element {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
@@ -303,7 +303,7 @@ export default function Page() {
 		</>
 	)
 }
-export function ErrorBoundary() {
+export function ErrorBoundary(): JSX.Element {
 	const error = useRouteError()
 
 	// when true, this is what used to go to `CatchBoundary`

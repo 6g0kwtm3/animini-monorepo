@@ -50,4 +50,4 @@ if (electron && !Predicate.isString(electron)) {
 	})
 }
 
-export const getLibrary = () => library
+export const getLibrary = (): Record<string, AnitomyResult> => library

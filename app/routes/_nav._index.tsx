@@ -215,7 +215,7 @@ export const loader = ((args) => {
 // 	return indexLoader(args)
 // }) satisfies LoaderFunction
 
-export default function Index() {
+export default function Index(): JSX.Element {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (

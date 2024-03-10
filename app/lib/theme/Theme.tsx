@@ -50,7 +50,7 @@ export const ThemeProvider = ({
 	...props
 }: ComponentPropsWithoutRef<"div"> & {
 	theme: Theme | undefined | null
-}) => {
+}): JSX.Element => {
 	const rawId = useId()
 
 	const id = `#${cssEscape(rawId)}`

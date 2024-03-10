@@ -31,7 +31,7 @@ export function MediaCover({
 	...props
 }: ComponentPropsWithoutRef<"img"> & {
 	media: FragmentType<typeof MediaCover_media>
-}) {
+}): JSX.Element {
 	const data = useFragment<typeof MediaCover_media>(media)
 
 	return createElement("img", {

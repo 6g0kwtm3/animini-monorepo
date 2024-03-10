@@ -4,7 +4,7 @@ import { cloneElement, isValidElement } from "react"
 export function createElement(
 	Type: ElementType,
 	props: ComponentPropsWithoutRef<ElementType>
-) {
+):JSX.Element {
 	const { render, ...rest } = props
 	if (isValidElement<any>(render)) {
 		return cloneElement(render, {

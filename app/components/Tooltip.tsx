@@ -1,9 +1,9 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
 import {
-	forwardRef,
-	type ComponentPropsWithoutRef,
-	type PropsWithChildren
+    forwardRef,
+    type ComponentPropsWithoutRef,
+    type PropsWithChildren
 } from "react"
 import { createTV } from "tailwind-variants"
 
@@ -66,7 +66,7 @@ export function TooltipRichSupportingText(
 	)
 }
 
-export function TooltipRichActions(props: ComponentPropsWithoutRef<"div">) {
+export function TooltipRichActions(props: ComponentPropsWithoutRef<"div">) :JSX.Element{
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
 

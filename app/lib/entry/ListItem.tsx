@@ -67,7 +67,7 @@ export const Library = createContext<
 
 export function MediaListItem(props: {
 	entry: FragmentType<typeof MediaListItem_entry> | null
-}) {
+}): JSX.Element {
 	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
 
 	return (

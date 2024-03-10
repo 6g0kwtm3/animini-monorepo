@@ -144,7 +144,7 @@ const Notifications_query = serverOnly$(
 	`)
 )
 
-export default function Notifications() {
+export default function Notifications(): JSX.Element {
 	const data = useRawLoaderData<typeof loader>()
 	const query = useFragment<typeof Notifications_query>(
 		makeFragmentData<typeof Notifications_query>(data.query)

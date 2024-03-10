@@ -67,7 +67,10 @@ const rtlLngs = [
 	"ckb"
 ]
 
-export function useLocale() {
+export function useLocale(): {
+	readonly locale: "en" | "ja"
+	readonly dir: "rtl" | "ltr"
+} {
 	const acceptLanguage =
 		useRawRouteLoaderData<typeof rootLoader>("root")?.language
 

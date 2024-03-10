@@ -1,14 +1,15 @@
-import type { LoaderFunction } from "@vercel/remix"
-import { json, type ClientLoaderFunctionArgs } from "@remix-run/react"
-import { Effect, pipe } from "effect"
-import { graphql } from "~/lib/graphql"
-import { Remix } from "~/lib/Remix/index.server"
+import type { LoaderFunction, SerializeFrom } from "@vercel/remix";
+
+import { json, type ClientLoaderFunctionArgs } from "@remix-run/react";
+import { Effect, pipe } from "effect";
+import { graphql } from "~/lib/graphql";
+import { Remix } from "~/lib/Remix/index.server";
 import {
 	ClientArgs,
 	EffectUrql,
 	LoaderArgs,
 	LoaderLive
-} from "~/lib/urql.server"
+} from "~/lib/urql.server";
 
 export const loader = (async (args) => {
 	return await pipe(
@@ -53,13 +54,16 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 let timeout: NodeJS.Timeout
-export async function clientLoader(args: ClientLoaderFunctionArgs) {
+
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
 	clearTimeout(timeout)
 
-	return new Promise(
+	return new Promise<SerializeFrom<typeof loader>>(
 		(resolve, reject) =>
 			(timeout = setTimeout(() => {
-				args.serverLoader().then(resolve, reject)
+				args.serverLoader<typeof loader>().then(resolve, reject)
 			}, 300))
 	)
 }

@@ -90,7 +90,7 @@ export const action = (async (args) => {
 	)
 }) satisfies ActionFunction
 
-export default function Login() {
+export default function Login(): JSX.Element {
 	const fetcher = useFetcher()
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 

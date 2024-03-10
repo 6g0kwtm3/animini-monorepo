@@ -35,7 +35,7 @@ const tabs = tv({
 export function Tabs({
 	grow,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof tabs>) {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof tabs>): JSX.Element {
 	const styles = tabs({ grow })
 	return (
 		<TabsContext.Provider value={useId()}>
@@ -54,7 +54,7 @@ export function TabsTab({
 	...props
 }: Partial<ComponentPropsWithoutRef<typeof Link>> & {
 	render?: ReactElement
-}) {
+}): JSX.Element {
 	const layoutId = useContext(TabsContext)
 	return createElement(NavLink, {
 		...props,

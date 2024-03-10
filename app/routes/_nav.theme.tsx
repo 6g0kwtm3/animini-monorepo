@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 
-export default function Page() {
+export default function Page(): JSX.Element {
 	return (
 		<LayoutBody>
 			<LayoutPane>

@@ -5,7 +5,7 @@ export class SearchPage {
 	search: Locator
 	active: Locator
 	options: Locator
-	static new(page: Page) {
+	static new(page: Page): SearchPage {
 		return new SearchPage(page)
 	}
 

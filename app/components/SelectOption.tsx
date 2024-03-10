@@ -12,7 +12,7 @@ export const SelectContext = createContext<
 export function SelectOption(
 	props: ComponentPropsWithoutRef<"option"> &
 		ComponentPropsWithoutRef<typeof LazySelectOption>
-) {
+): JSX.Element {
 	const Option = useContext(SelectContext)
 
 	return <Option {...props} />

@@ -48,7 +48,7 @@ export function Card({
 }: ComponentPropsWithoutRef<"section"> &
 	VariantProps<typeof card> & {
 		render?: ReactElement
-	}) {
+	}):JSX.Element {
 	return createElement("section", {
 		...props,
 		className: card({ variant: variant, className: props.className })

@@ -1,6 +1,6 @@
-import { json } from "@vercel/remix"
+import { json, type LoaderFunction } from "@vercel/remix"
 
-export const loader = async () => {
+export const loader = (async () => {
 	return json(
 		{
 			short_name: "PWA",
@@ -73,4 +73,4 @@ export const loader = async () => {
 			}
 		}
 	)
-}
+})satisfies LoaderFunction

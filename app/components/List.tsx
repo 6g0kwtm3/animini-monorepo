@@ -27,7 +27,7 @@ export function ListItemContentTitle(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-) {
+): JSX.Element {
 	const { itemTitle } = useContext(ListContext)
 
 	return createElement("div", {
@@ -40,7 +40,7 @@ export function ListItemContent(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-) {
+): JSX.Element {
 	const { itemContent } = useContext(ListContext)
 
 	return createElement("div", {
@@ -53,7 +53,7 @@ export function ListItemContentSubtitle(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-) {
+): JSX.Element {
 	const { itemSubtitle } = useContext(ListContext)
 
 	return createElement("div", {
@@ -66,7 +66,7 @@ export function ListItemImg(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-) {
+): JSX.Element {
 	const { itemImg } = useContext(ListContext)
 
 	return createElement("div", {
@@ -79,7 +79,7 @@ export function ListItemAvatar(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-) {
+): JSX.Element {
 	const { itemAvatar } = useContext(ListContext)
 
 	return createElement("div", {
@@ -92,7 +92,7 @@ export function ListItemIcon(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-) {
+): JSX.Element {
 	const { itemIcon } = useContext(ListContext)
 
 	return createElement("div", {
@@ -103,7 +103,7 @@ export function ListItemIcon(
 
 export function ListItemTrailingSupportingText(
 	props: ComponentPropsWithoutRef<"span">
-) {
+): JSX.Element {
 	const { trailingSupportingText } = useContext(ListContext)
 
 	return (
@@ -120,7 +120,7 @@ export const List = forwardRef<
 		ListVariantProps & {
 			render?: ReactElement
 		}
->(function List({ lines, ...props }, ref) {
+>(function List({ lines, ...props }, ref): JSX.Element {
 	const styles = createList({ lines })
 
 	return (

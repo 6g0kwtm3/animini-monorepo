@@ -14,7 +14,7 @@ export default function handleRequest(
 	responseHeaders: Headers,
 	remixContext: EntryContext,
 	loadContext: AppLoadContext
-) {
+): Promise<unknown> {
 	return isBotRequest(request.headers.get("user-agent"))
 		? handleBotRequest(
 				request,

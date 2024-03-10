@@ -111,7 +111,9 @@ export const BaseButton = forwardRef<
 
 const ButtonContext = createContext(createButton())
 
-export function ButtonIcon(props: ComponentPropsWithoutRef<"div">) {
+export function ButtonIcon(
+	props: ComponentPropsWithoutRef<"div">
+): JSX.Element {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }

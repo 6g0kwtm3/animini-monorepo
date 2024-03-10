@@ -106,7 +106,7 @@ function useOptimisticLocation() {
 	return location
 }
 
-export default function Filters() {
+export default function Filters(): JSX.Element {
 	const submit = useSubmit()
 
 	const { hash } = useOptimisticLocation()

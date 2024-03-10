@@ -1,16 +1,16 @@
 import { Link, json } from "@remix-run/react"
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction
+    HeadersFunction,
+    LoaderFunction,
+    MetaFunction
 } from "@vercel/remix"
 import {
-	Effect,
-	Order,
-	Predicate,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
+    Effect,
+    Order,
+    Predicate,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 import { Card } from "~/components/Card"
@@ -18,8 +18,8 @@ import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import {
-	MediaListItem,
-	type ListItem_EntryFragment
+    MediaListItem,
+    type ListItem_EntryFragment
 } from "~/lib/entry/ListItem"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -154,7 +154,7 @@ export const meta = (({ params }) => {
 	]
 }) satisfies MetaFunction<typeof loader>
 
-export default function Page() {
+export default function Page(): JSX.Element {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (

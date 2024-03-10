@@ -20,7 +20,9 @@ const Avalible_media = serverOnly$(
 	`)
 )
 
-export function avalible(data: FragmentType<typeof Avalible_media> | null) {
+export function avalible(
+	data: FragmentType<typeof Avalible_media> | null
+): number | null {
 	const media = readFragment<typeof Avalible_media>(data)
 
 	if (media?.status == null) {

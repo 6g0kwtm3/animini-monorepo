@@ -37,7 +37,7 @@ export const Rating = (props: {
 	defaultValue: number
 	children: ReactNode[]
 	name: string
-}) => {
+}): JSX.Element => {
 	return (
 		<div className="flex">
 			<div className="group relative flex">

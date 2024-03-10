@@ -19,12 +19,12 @@ const ToWatch_entry = serverOnly$(
 
 export type ToWatch_entry = typeof ToWatch_entry
 
-export function toWatch(data: FragmentType<typeof ToWatch_entry>) {
+export function toWatch(data: FragmentType<typeof ToWatch_entry>): number {
 	const entry = readFragment<typeof ToWatch_entry>(data)
 	return behind(entry) * ((entry.media?.duration ?? 25) - 3)
 }
 
-export function formatWatch(minutes: number) {
+export function formatWatch(minutes: number): string {
 	if (!Number.isFinite(minutes)) {
 		return ""
 	}

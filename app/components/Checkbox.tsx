@@ -10,7 +10,7 @@ import MaterialSymbolsRadioButtonCheckedOutline from "~icons/material-symbols/ra
 import MaterialSymbolsCircleOutline from "~icons/material-symbols/circle-outline"
 export function Checkbox(
 	props: ComponentPropsWithoutRef<typeof Ariakit.Checkbox>
-) {
+):JSX.Element {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>
@@ -29,7 +29,7 @@ export function Checkbox(
 		</label>
 	)
 }
-export function Radio(props: ComponentPropsWithoutRef<typeof Ariakit.Radio>) {
+export function Radio(props: ComponentPropsWithoutRef<typeof Ariakit.Radio>):JSX.Element {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>

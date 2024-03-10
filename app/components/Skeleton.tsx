@@ -27,7 +27,7 @@ const LoadingContext = createContext(false)
 
 export function Loading(
 	props: Partial<ComponentPropsWithoutRef<typeof LoadingContext.Provider>>
-) {
+): JSX.Element {
 	return <LoadingContext.Provider value={true} {...props} />
 }
 
@@ -37,7 +37,7 @@ export function Skeleton({
 }: ComponentPropsWithoutRef<"div"> &
 	VariantProps<typeof skeleton> & {
 		render?: ReactElement
-	}) {
+	}): JSX.Element {
 	const loading = useContext(LoadingContext)
 
 	if (loading)
@@ -46,5 +46,5 @@ export function Skeleton({
 			className: skeleton({ className: props.className, full })
 		})
 
-	return props.children
+	return <>{props.children}</>
 }

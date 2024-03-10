@@ -38,7 +38,7 @@ export function Sheet({
 	children,
 	...props
 }: VariantProps<typeof sheet> &
-	ComponentPropsWithoutRef<typeof Ariakit.Dialog>) {
+	ComponentPropsWithoutRef<typeof Ariakit.Dialog>): JSX.Element {
 	const styles = sheet({ modal, variant })
 
 	return (

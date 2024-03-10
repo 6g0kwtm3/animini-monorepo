@@ -9,7 +9,12 @@ import { IS_SERVER } from "./isClient"
 
 const API_URL = "https://graphql.anilist.co"
 
-export function client_get_client(args: LoaderFunctionArgs) {
+export function client_get_client(args: LoaderFunctionArgs): {
+	operation: <T, V>(
+		document: TypedDocumentString<T, V>,
+		variables: V
+	) => Promise<NonNullable<T> | null>
+} {
 	return {
 		operation<T, V>(document: TypedDocumentString<T, V>, variables: V) {
 			return client_operation(document, variables, args)
@@ -21,7 +26,7 @@ export async function client_operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
 	args: LoaderFunctionArgs
-) {
+): Promise<NonNullable<T> | null> {
 	const body = Schema.encodeSync(Schema.parseJson(Schema.any))({
 		query: document.toString(),
 		variables: variables
@@ -65,7 +70,7 @@ export async function client_operation<T, V>(
 	return (data as T) ?? null
 }
 
-export function client_get_headers(request: Request) {
+export function client_get_headers(request: Request): Headers | undefined {
 	let cookies = cookie.parse(
 		(!IS_SERVER ? globalThis.document.cookie : null) ??
 			request.headers.get("Cookie") ??

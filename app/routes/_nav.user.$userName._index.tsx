@@ -1,8 +1,8 @@
 import { Schema } from "@effect/schema"
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction
+    HeadersFunction,
+    LoaderFunction,
+    MetaFunction
 } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
@@ -69,7 +69,7 @@ function params() {
 	})
 }
 
-export default function Page() {
+export default function Page(): JSX.Element {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
 	const data = useRawLoaderData<typeof loader>()
 

@@ -15,7 +15,7 @@ const Behind_entry = serverOnly$(
 	`)
 )
 
-export function behind(data: FragmentType<typeof Behind_entry>) {
+export function behind(data: FragmentType<typeof Behind_entry>): number {
 	const entry = readFragment<typeof Behind_entry>(data)
 
 	return (
