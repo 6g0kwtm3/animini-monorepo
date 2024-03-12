@@ -71,7 +71,7 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
-export function Layout({ children }: { children: ReactNode }): JSX.Element {
+export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const { locale, dir } = useLocale()
 	// const { nonce } = useRawLoaderData<typeof loader>()
 
@@ -110,7 +110,7 @@ export function Layout({ children }: { children: ReactNode }): JSX.Element {
 	)
 }
 
-export default function App(): JSX.Element {
+export default function App(): ReactNode {
 	return (
 		<SnackbarQueue>
 			<AppLayout
@@ -126,7 +126,7 @@ export default function App(): JSX.Element {
 	)
 }
 
-export function ErrorBoundary(): JSX.Element {
+export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
 
 	// when true, this is what used to go to `CatchBoundary`

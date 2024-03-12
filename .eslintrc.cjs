@@ -43,7 +43,8 @@ module.exports = {
 					"action",
 					"clientAction",
 					"clientLoader",
-					"config"
+					"config",
+					"shouldRevalidate"
 				]
 			}
 		]

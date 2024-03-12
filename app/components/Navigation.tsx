@@ -126,16 +126,16 @@ function NavigationActiveIndicator() {
 
 export function NavigationItemIcon(
 	props: ComponentPropsWithoutRef<"div">
-): JSX.Element {
+): ReactNode {
 	const { icon } = useContext(Context)
 
 	return <div {...props} className={icon()} />
 }
-
 export function Navigation({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof createNavigation>) {
+}: ComponentPropsWithoutRef<"nav"> &
+	VariantProps<typeof createNavigation>): ReactNode {
 	const styles = createNavigation({ variant })
 
 	return (
@@ -152,7 +152,7 @@ export function Navigation({
 
 export function NavigationItemLargeBadge(
 	props: ComponentPropsWithoutRef<"div">
-) {
+): ReactNode {
 	const { largeBadge } = useContext(Context)
 
 	return <div {...props} className={largeBadge()} />

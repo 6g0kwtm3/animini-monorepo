@@ -1,10 +1,11 @@
 import * as Ariakit from "@ariakit/react"
-import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
+
 import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
-import { Suspense } from "react"
+import { Suspense, lazy } from "react"
 import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = createTextField({})
@@ -12,7 +13,6 @@ const { input } = createTextField({})
 const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
 
 const LazySelect = lazy(() => import("./LazySelect"))
-
 export function SelectFactory({
 	label,
 
@@ -22,7 +22,7 @@ export function SelectFactory({
 		children: ReactNode
 		label: ReactNode
 		name: string
-	}): JSX.Element {
+	}): ReactNode {
 	const form = Ariakit.useFormContext()
 	if (!form) throw new Error("FormSelect must be used within a Form")
 	const value = form.useValue(props.name)
@@ -59,14 +59,13 @@ export function SelectFactory({
 		</ClientOnly>
 	)
 }
-
 export function Select({
 	...props
 }: ComponentPropsWithoutRef<typeof Ariakit.Select> &
 	ComponentPropsWithoutRef<"select"> & {
 		children: ReactNode
 		name: string
-	}): JSX.Element {
+	}): ReactNode {
 	const fallback = (
 		<select {...props} className={input({ className: "appearance-none" })} />
 	)

@@ -1,6 +1,7 @@
 import { Schema } from "@effect/schema"
 import type { ActionFunction } from "@remix-run/node"
 import { useActionData } from "@remix-run/react"
+import type { ReactNode } from "react"
 import { graphql } from "~/gql"
 import { Ariakit } from "~/lib/ariakit"
 import { client_operation } from "~/lib/client"
@@ -40,7 +41,7 @@ export const action = (async (args) => {
 	}
 }) satisfies ActionFunction
 
-export default function Page(): JSX.Element {
+export default function Page(): ReactNode {
 	const data = useActionData<typeof action>()
 
 	return (

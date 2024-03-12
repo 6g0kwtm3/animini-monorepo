@@ -6,6 +6,7 @@ import { SearchViewBody, SearchViewBodyGroup } from "~/components/SearchView"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment } from "~/lib/graphql"
 import { SearchItem } from "./SearchItem"
+import type { ReactNode } from "react"
 
 const SearchTrending_query = serverOnly$(
 	graphql(`
@@ -24,7 +25,7 @@ export type SearchTrending_query = typeof SearchTrending_query
 
 export function SearchTrending(props: {
 	query: FragmentType<SearchTrending_query>
-}) {
+}): ReactNode {
 	const data = useFragment<SearchTrending_query>(props.query)
 
 	return (

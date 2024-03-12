@@ -10,7 +10,9 @@ import * as Ariakit from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import cookie from "cookie"
 import { Effect, pipe } from "effect"
+import type { ReactNode } from "react"
 import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Remix } from "~/lib/Remix/index.server"
 import { button } from "~/lib/button"
 import { graphql } from "~/lib/graphql"
@@ -89,8 +91,7 @@ export const action = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies ActionFunction
-
-export default function Login(): JSX.Element {
+export default function Login(): ReactNode {
 	const fetcher = useFetcher()
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
@@ -101,44 +102,46 @@ export default function Login(): JSX.Element {
 	})
 
 	return (
-		<main>
-			<Ariakit.Form store={store} method="post" className="grid gap-2">
-				<Outlined>
-					<TextFieldOutlinedInput
-						name={store.names.token}
-						required
-						render={<textarea />}
-					/>
-					<Outlined.Label name={store.names.token}>Token</Outlined.Label>
-				</Outlined>
+		<LayoutBody>
+			<LayoutPane>
+				<Ariakit.Form store={store} method="post" className="grid gap-2">
+					<Outlined>
+						<TextFieldOutlinedInput
+							name={store.names.token}
+							required
+							render={<textarea />}
+						/>
+						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
+					</Outlined>
 
-				<footer className="flex justify-end gap-2">
-					<a
-						target="_blank"
-						href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
-							{
-								client_id: String(ANILIST_CLIENT_ID),
-								response_type: "token"
-							}
-						)}`}
-						rel="noreferrer"
-						className={button({})}
-					>
-						<ButtonTextIcon>
-							<img
-								loading="lazy"
-								src="https://anilist.co/img/icons/icon.svg"
-								alt=""
-							/>
-						</ButtonTextIcon>
-						<span>Get token</span>
-					</a>
+					<footer className="flex justify-end gap-2">
+						<a
+							target="_blank"
+							href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
+								{
+									client_id: String(ANILIST_CLIENT_ID),
+									response_type: "token"
+								}
+							)}`}
+							rel="noreferrer"
+							className={button({})}
+						>
+							<ButtonTextIcon>
+								<img
+									loading="lazy"
+									src="https://anilist.co/img/icons/icon.svg"
+									alt=""
+								/>
+							</ButtonTextIcon>
+							<span>Get token</span>
+						</a>
 
-					<Ariakit.FormSubmit className={button({ variant: "filled" })}>
-						Login
-					</Ariakit.FormSubmit>
-				</footer>
-			</Ariakit.Form>
-		</main>
+						<Ariakit.FormSubmit className={button({ variant: "filled" })}>
+							Login
+						</Ariakit.FormSubmit>
+					</footer>
+				</Ariakit.Form>
+			</LayoutPane>
+		</LayoutBody>
 	)
 }

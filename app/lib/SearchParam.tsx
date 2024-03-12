@@ -1,6 +1,7 @@
 import { useSearchParams } from "@remix-run/react"
 
-export function SearchParam(props: { name: string }): JSX.Element {
+import type { ReactNode } from "react"
+export function SearchParam(props: { name: string }): ReactNode {
 	const [searchParams] = useSearchParams()
 
 	return (

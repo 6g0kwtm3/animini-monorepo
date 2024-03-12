@@ -8,11 +8,10 @@ export const SelectContext = createContext<
 			ComponentPropsWithoutRef<typeof LazySelectOption>
 	) => ReactNode
 >((props) => <option {...props}>{props.value}</option>)
-
 export function SelectOption(
 	props: ComponentPropsWithoutRef<"option"> &
 		ComponentPropsWithoutRef<typeof LazySelectOption>
-): JSX.Element {
+): ReactNode {
 	const Option = useContext(SelectContext)
 
 	return <Option {...props} />

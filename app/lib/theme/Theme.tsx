@@ -1,6 +1,6 @@
 import type { Theme } from "@material/material-color-utilities"
 import { hexFromArgb } from "@material/material-color-utilities"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { useId } from "react"
 import colors from "../../../colors.json"
 import { createElement } from "../createElement"
@@ -50,7 +50,7 @@ export const ThemeProvider = ({
 	...props
 }: ComponentPropsWithoutRef<"div"> & {
 	theme: Theme | undefined | null
-}): JSX.Element => {
+}): ReactNode => {
 	const rawId = useId()
 
 	const id = `#${cssEscape(rawId)}`

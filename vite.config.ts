@@ -7,6 +7,8 @@ import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import envOnly from "vite-env-only"
 import tsconfigPaths from "vite-tsconfig-paths"
+import { installGlobals } from "@remix-run/node"
+installGlobals()
 
 export default defineConfig({
 	plugins: [

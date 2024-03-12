@@ -14,6 +14,7 @@ import {
 import type { LoaderFunction } from "@vercel/remix"
 
 import { Effect, Order, Predicate, pipe } from "effect"
+import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
@@ -106,8 +107,7 @@ function useOptimisticLocation() {
 	}
 	return location
 }
-
-export default function Filters(): JSX.Element {
+export default function Filters(): ReactNode {
 	const submit = useSubmit()
 
 	const { hash } = useOptimisticLocation()

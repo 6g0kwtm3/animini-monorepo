@@ -215,7 +215,7 @@ export const loader = ((args) => {
 // 	return indexLoader(args)
 // }) satisfies LoaderFunction
 
-export default function Index(): JSX.Element {
+export default function Index(): ReactNode {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (
@@ -323,8 +323,12 @@ const options = {
 } satisfies Options
 
 function UserLink(props: { userName: string; children: ReactNode }) {
-	const fetcher = useFetcher<typeof userInfoLoader>()
-	const follow = useFetcher<typeof userFollowAction>()
+	const fetcher = useFetcher<typeof userInfoLoader>({
+		key: `${props.userName}-info`
+	})
+	const follow = useFetcher<typeof userFollowAction>({
+		key: `${props.userName}-follow`
+	})
 
 	const store = Ariakit.useHovercardStore()
 

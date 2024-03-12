@@ -1,11 +1,12 @@
 import * as Ariakit from "@ariakit/react"
 
-import type { ComponentPropsWithoutRef, FocusEvent } from "react"
+import type { ComponentPropsWithoutRef, FocusEvent, ReactNode } from "react"
 import { forwardRef, useRef } from "react"
 
 import { createMenu } from "~/lib/menu"
 import { createTextField } from "~/lib/textField"
 import { SelectContext } from "./SelectOption"
+
 const { input } = createTextField({})
 const { root } = createMenu()
 
@@ -93,10 +94,9 @@ const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
 export default FormSelect
 
 const { item } = createMenu({})
-
 export function LazySelectOption(
 	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>
-): JSX.Element {
+): ReactNode {
 	return (
 		<Ariakit.SelectItem
 			{...props}

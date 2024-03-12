@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementRef } from "react"
+import type { ComponentPropsWithoutRef, ElementRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -51,13 +51,12 @@ const appBar = tv(
 )
 
 const AppBarContext = createContext(appBar())
-
 export function AppBar({
 	variant,
 	elevate,
 	hide,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): JSX.Element {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 
@@ -97,7 +96,7 @@ export function AppBar({
 }
 export function AppBarTitle(
 	props: ComponentPropsWithoutRef<typeof Ariakit.Heading>
-): JSX.Element {
+): ReactNode {
 	const styles = useContext(AppBarContext)
 	return createElement(Ariakit.Heading, {
 		...props,

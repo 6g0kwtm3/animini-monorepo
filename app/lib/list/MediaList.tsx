@@ -20,7 +20,7 @@ export function AwaitLibrary({
 }: ComponentPropsWithoutRef<typeof Await> & {
 	children: ReactNode
 	resolve: Promise<Record<string, NonEmptyArray<AnitomyResult>>>
-}): JSX.Element {
+}): ReactNode {
 	return (
 		<Await {...props}>
 			{(library) => (
@@ -41,7 +41,6 @@ const MediaListHeaderToWatch_entries = serverOnly$(
 
 export type MediaListHeaderToWatch_entries =
 	typeof MediaListHeaderToWatch_entries
-
 export function MediaListHeaderToWatch(props: {
 	entries: FragmentType<typeof MediaListHeaderToWatch_entries>[]
 }): string {
@@ -56,19 +55,17 @@ export function MediaListHeaderToWatch(props: {
 			.reduce((a, b) => a + b, 0)
 	)
 }
-
-export function MediaListHeader(props: { children: ReactNode }): JSX.Element {
+export function MediaListHeader(props: { children: ReactNode }): ReactNode {
 	return (
 		<div className="grid grid-flow-col items-center gap-4 [grid-auto-columns:minmax(0,1fr)]">
 			{props.children}
 		</div>
 	)
 }
-
 export function MediaListHeaderItem(props: {
 	children: ReactNode
 	subtitle: ReactNode
-}): JSX.Element {
+}): ReactNode {
 	return (
 		<div className="flex flex-col text-center">
 			<div className="text-headline-lg">{props.children}</div>

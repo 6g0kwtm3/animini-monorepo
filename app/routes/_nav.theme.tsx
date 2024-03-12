@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Ariakit } from "~/lib/ariakit"
 
-export default function Page(): JSX.Element {
+export default function Page(): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
@@ -57,7 +57,9 @@ function Palette() {
 			{["primary", "secondary", "tertiary", "error"].map((color) => {
 				return (
 					<li key={color}>
-						<Ariakit.Heading>{color.substring(0, 1).toUpperCase() + color.substring(1)}</Ariakit.Heading>
+						<Ariakit.Heading>
+							{color.substring(0, 1).toUpperCase() + color.substring(1)}
+						</Ariakit.Heading>
 						<ul className="grid grid-cols-4">
 							<ColorItem color={color} />
 							<ColorItem color={`${color}-container`}>

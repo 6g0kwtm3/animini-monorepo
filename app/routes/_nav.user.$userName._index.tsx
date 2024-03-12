@@ -8,6 +8,7 @@ import { json } from "@vercel/remix"
 
 import { Form, Link, useLocation } from "@remix-run/react"
 import { Predicate } from "effect"
+import type { ReactNode } from "react"
 import { Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { graphql } from "~/gql"
@@ -68,8 +69,7 @@ function params() {
 		userName: Schema.string
 	})
 }
-
-export default function Page(): JSX.Element {
+export default function Page(): ReactNode {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
 	const data = useRawLoaderData<typeof loader>()
 

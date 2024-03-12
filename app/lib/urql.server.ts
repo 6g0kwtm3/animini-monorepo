@@ -5,12 +5,11 @@ import type { LoaderFunctionArgs } from "@vercel/remix"
 
 import { Context, Effect, Layer, Option, pipe } from "effect"
 
-import { IS_SERVER } from "./isClient"
-
 import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "./viewer"
 
+import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { Remix } from "./Remix/index.server"
 
@@ -51,7 +50,6 @@ export const ClientArgs = Context.Tag<Arguments>("client/Args")
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.number
 }) {}
-
 export function operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
@@ -137,7 +135,7 @@ export const UrqlLive = Layer.effect(
 		const request = Option.getOrNull(args)?.request
 
 		const cookies = cookie.parse(
-			(!IS_SERVER ? globalThis.document.cookie : null) ??
+			clientOnly$(globalThis.document.cookie) ??
 				request?.headers.get("Cookie") ??
 				""
 		)

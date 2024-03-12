@@ -31,6 +31,7 @@ import { Effect, Option, Order, Predicate, ReadonlyArray, pipe } from "effect"
 // import {} from 'glob'
 
 import { Schema } from "@effect/schema"
+import type { ReactNode } from "react"
 import { Suspense } from "react"
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
@@ -304,7 +305,7 @@ export default function Page(): JSX.Element {
 		</>
 	)
 }
-export function ErrorBoundary(): JSX.Element {
+export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
 
 	// when true, this is what used to go to `CatchBoundary`
@@ -330,7 +331,9 @@ export function ErrorBoundary(): JSX.Element {
 			variant="elevated"
 			className="m-4 bg-error-container text-on-error-container"
 		>
-			<Ariakit.Heading className="text-balance text-headline-md">Uh oh ...</Ariakit.Heading>
+			<Ariakit.Heading className="text-balance text-headline-md">
+				Uh oh ...
+			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
 		</Card>

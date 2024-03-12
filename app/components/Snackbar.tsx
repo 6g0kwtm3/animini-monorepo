@@ -2,7 +2,8 @@ import { Predicate } from "effect"
 import type {
 	ComponentPropsWithoutRef,
 	ElementRef,
-	PropsWithChildren
+	PropsWithChildren,
+	ReactNode
 } from "react"
 import {
 	createContext,
@@ -23,8 +24,7 @@ type OnBeforeToggle = (
 const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 	console.warn("Snackbar is outside of SnackbarQueue")
 })
-
-export function SnackbarQueue(props: PropsWithChildren<{}>): JSX.Element {
+export function SnackbarQueue(props: PropsWithChildren<{}>): ReactNode {
 	const queue = useRef<HTMLElement[]>([])
 
 	const add = useCallback<OnBeforeToggle>(
@@ -167,10 +167,9 @@ export function Snackbar({
 		</SnackbarContext.Provider>
 	)
 }
-
 export function SnackbarAction(
 	props: ComponentPropsWithoutRef<"button">
-): JSX.Element {
+): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createTV } from "tailwind-variants"
 import { serverOnly$ } from "vite-env-only"
 import { createElement } from "../createElement"
@@ -25,13 +25,12 @@ const tv = createTV({ twMerge: false })
 const cover = tv({
 	base: "bg-cover bg-center object-cover object-center [.transitioning_&]:[view-transition-name:media-cover]"
 })
-
 export function MediaCover({
 	media,
 	...props
 }: ComponentPropsWithoutRef<"img"> & {
 	media: FragmentType<typeof MediaCover_media>
-}): JSX.Element {
+}): ReactNode {
 	const data = useFragment<typeof MediaCover_media>(media)
 
 	return createElement("img", {

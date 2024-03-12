@@ -38,6 +38,7 @@ import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
+import type { ReactNode } from "react"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
@@ -143,8 +144,7 @@ const Notifications_query = serverOnly$(
 		}
 	`)
 )
-
-export default function Notifications(): JSX.Element {
+export default function Notifications(): ReactNode {
 	const data = useRawLoaderData<typeof loader>()
 	const query = useFragment<typeof Notifications_query>(
 		makeFragmentData<typeof Notifications_query>(data.query)

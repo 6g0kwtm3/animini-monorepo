@@ -38,6 +38,7 @@ import { Button } from "~/components/Button"
 
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
+import type { ReactNode } from "react"
 import type { MediaCover_media } from "~/lib/entry/MediaListCover"
 import { MediaCover } from "~/lib/entry/MediaListCover"
 import { m } from "~/lib/paraglide"
@@ -100,8 +101,7 @@ export const loader = (async (args) => {
 export const meta = (({ data }) => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
 }) satisfies MetaFunction<typeof loader>
-
-export default function Page(): JSX.Element {
+export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof loader>()
 
 	const outlet = useOutlet()

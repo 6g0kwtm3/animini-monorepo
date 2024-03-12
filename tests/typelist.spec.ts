@@ -1,6 +1,6 @@
-import { test } from "@playwright/test";
-import { FeedPage } from "./IndexPage";
-import { TypelistPage } from "./TypelistPage";
+import { test } from "@playwright/test"
+import { FeedPage } from "./IndexPage"
+import { TypelistPage } from "./TypelistPage"
 
 test.use({ storageState: "playwright/.auth/user.json" })
 

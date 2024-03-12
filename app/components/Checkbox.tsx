@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import MaterialSymbolsCheckBox from "~icons/material-symbols/check-box"
 import MaterialSymbolsCheckBoxOutlineBlank from "~icons/material-symbols/check-box-outline-blank"
 import MaterialSymbolsIndeterminateCheckBox from "~icons/material-symbols/indeterminate-check-box"
@@ -8,9 +8,10 @@ import { TouchTarget } from "./Tooltip"
 import MaterialSymbolsRadioButtonCheckedOutline from "~icons/material-symbols/radio-button-checked-outline"
 
 import MaterialSymbolsCircleOutline from "~icons/material-symbols/circle-outline"
+
 export function Checkbox(
 	props: ComponentPropsWithoutRef<typeof Ariakit.Checkbox>
-): JSX.Element {
+): ReactNode {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>
@@ -31,7 +32,7 @@ export function Checkbox(
 }
 export function Radio(
 	props: ComponentPropsWithoutRef<typeof Ariakit.Radio>
-): JSX.Element {
+): ReactNode {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>

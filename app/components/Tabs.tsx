@@ -3,7 +3,7 @@ import { NavLink } from "@remix-run/react"
 import { Predicate } from "effect"
 import { motion } from "framer-motion"
 
-import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -31,11 +31,10 @@ const tabs = tv({
 	},
 	defaultVariants: { primary: true, grow: false }
 })
-
 export function Tabs({
 	grow,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof tabs>): JSX.Element {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof tabs>): ReactNode {
 	const styles = tabs({ grow })
 	return (
 		<TabsContext.Provider value={useId()}>
@@ -48,13 +47,12 @@ export function Tabs({
 		</TabsContext.Provider>
 	)
 }
-
 export function TabsTab({
 	children,
 	...props
 }: Partial<ComponentPropsWithoutRef<typeof Link>> & {
 	render?: ReactElement
-}): JSX.Element {
+}): ReactNode {
 	const layoutId = useContext(TabsContext)
 	return createElement(NavLink, {
 		...props,

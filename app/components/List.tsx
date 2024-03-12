@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
 import type { VariantProps } from "tailwind-variants"
@@ -22,12 +22,11 @@ export const ListItem = forwardRef<
 		className: item({ className: props.className })
 	})
 })
-
 export function ListItemContentTitle(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-): JSX.Element {
+): ReactNode {
 	const { itemTitle } = useContext(ListContext)
 
 	return createElement("div", {
@@ -35,12 +34,11 @@ export function ListItemContentTitle(
 		className: itemTitle({ className: props.className })
 	})
 }
-
 export function ListItemContent(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-): JSX.Element {
+): ReactNode {
 	const { itemContent } = useContext(ListContext)
 
 	return createElement("div", {
@@ -48,12 +46,11 @@ export function ListItemContent(
 		className: itemContent({ className: props.className })
 	})
 }
-
 export function ListItemContentSubtitle(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-): JSX.Element {
+): ReactNode {
 	const { itemSubtitle } = useContext(ListContext)
 
 	return createElement("div", {
@@ -61,12 +58,11 @@ export function ListItemContentSubtitle(
 		className: itemSubtitle({ className: props.className })
 	})
 }
-
 export function ListItemImg(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-): JSX.Element {
+): ReactNode {
 	const { itemImg } = useContext(ListContext)
 
 	return createElement("div", {
@@ -74,12 +70,11 @@ export function ListItemImg(
 		className: itemImg({ className: props.className })
 	})
 }
-
 export function ListItemAvatar(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-): JSX.Element {
+): ReactNode {
 	const { itemAvatar } = useContext(ListContext)
 
 	return createElement("div", {
@@ -87,12 +82,11 @@ export function ListItemAvatar(
 		className: itemAvatar({ className: props.className })
 	})
 }
-
 export function ListItemIcon(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement
 	}
-): JSX.Element {
+): ReactNode {
 	const { itemIcon } = useContext(ListContext)
 
 	return createElement("div", {
@@ -100,10 +94,9 @@ export function ListItemIcon(
 		className: itemIcon({ className: props.className })
 	})
 }
-
 export function ListItemTrailingSupportingText(
 	props: ComponentPropsWithoutRef<"span">
-): JSX.Element {
+): ReactNode {
 	const { trailingSupportingText } = useContext(ListContext)
 
 	return (
@@ -120,7 +113,7 @@ export const List = forwardRef<
 		ListVariantProps & {
 			render?: ReactElement
 		}
->(function List({ lines, ...props }, ref): JSX.Element {
+>(function List({ lines, ...props }, ref): ReactNode {
 	const styles = createList({ lines })
 
 	return (

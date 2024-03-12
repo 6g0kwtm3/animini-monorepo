@@ -25,6 +25,7 @@ import { graphql, makeFragmentData } from "~/lib/graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 import { Schema } from "@effect/schema"
+import type { ReactNode } from "react"
 import { LayoutBody } from "~/components/Layout"
 import { List } from "~/components/List"
 import { button } from "~/lib/button"
@@ -154,8 +155,7 @@ export const meta = (({ params }) => {
 		}
 	]
 }) satisfies MetaFunction<typeof loader>
-
-export default function Page(): JSX.Element {
+export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof loader>()
 
 	return (

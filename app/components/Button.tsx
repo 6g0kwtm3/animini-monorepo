@@ -2,6 +2,7 @@ import type {
 	ComponentPropsWithoutRef,
 	FC,
 	PropsWithChildren,
+	ReactNode,
 	SyntheticEvent
 } from "react"
 import { createContext, forwardRef, useContext } from "react"
@@ -110,10 +111,7 @@ export const BaseButton = forwardRef<
 })
 
 const ButtonContext = createContext(createButton())
-
-export function ButtonIcon(
-	props: ComponentPropsWithoutRef<"div">
-): JSX.Element {
+export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }

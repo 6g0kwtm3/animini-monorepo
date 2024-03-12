@@ -1,10 +1,10 @@
-import type { ComponentPropsWithoutRef, ElementType } from "react"
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react"
 import { cloneElement, isValidElement } from "react"
 
 export function createElement(
 	Type: ElementType,
 	props: ComponentPropsWithoutRef<ElementType>
-): JSX.Element {
+): ReactNode {
 	const { render, ...rest } = props
 	if (isValidElement<any>(render)) {
 		return cloneElement(render, {
