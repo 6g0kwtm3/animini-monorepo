@@ -1,10 +1,14 @@
 import { Schema } from "@effect/schema"
 import type { LoaderFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
+import type { ClientLoaderFunction } from "@remix-run/react"
+import { clientOnly$ } from "vite-env-only"
 import { graphql } from "~/gql"
-import { client_operation } from "~/lib/client"
+import { LoaderCache } from "~/lib/cache.client"
+import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
+import { getCacheControl } from "~/lib/getCacheControl"
 
-export const loader = (async (args) => {
+async function infoLoader(args: AnyLoaderFunctionArgs) {
 	const params = Schema.decodeUnknownSync(
 		Schema.struct({
 			userName: Schema.string
@@ -32,7 +36,25 @@ export const loader = (async (args) => {
 
 	return json(data, {
 		headers: {
-			"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+			"Cache-Control": getCacheControl(cacheControl)
 		}
 	})
+}
+
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+const cache = clientOnly$(
+	new LoaderCache({
+		...cacheControl,
+		lookup: infoLoader
+	})
+)
+export const clientLoader: ClientLoaderFunction = async (args) => await cache?.get(args)
+
+export const loader = (async (args) => {
+	return infoLoader(args)
 }) satisfies LoaderFunction

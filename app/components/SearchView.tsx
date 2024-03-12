@@ -66,15 +66,14 @@ export const SearchView = forwardRef<
 		<SearchViewContext.Provider value={styles}>
 			<Ariakit.Dialog
 				ref={ref}
-				unmountOnHide
 				backdrop={<div className={styles.backdrop()} />}
 				{...props}
 				className={styles.root({ className: props.className })}
 			>
 				<Ariakit.ComboboxProvider
-					focusLoop={false}
+					focusLoop={true}
 					open={props.open}
-					includesBaseElement={false}
+					includesBaseElement={true}
 				>
 					{props.children}
 				</Ariakit.ComboboxProvider>
@@ -99,7 +98,7 @@ export const SearchViewInput = forwardRef<
 				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
 					ref={ref}
-					autoSelect="always"
+					autoSelect={"always"}
 					{...props}
 					className={input({ className: props.className })}
 				/>

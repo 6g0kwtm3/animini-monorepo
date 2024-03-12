@@ -57,12 +57,11 @@ export function useFragment<
 	| undefined {
 	return fragmentType as any
 }
-
 export function makeFragmentData<
-	F extends DocumentTypeDecoration<any, any> | undefined
+F extends DocumentTypeDecoration<any, any> | undefined
 >(data: ResultOf<F>): FragmentType<F>
 export function makeFragmentData<
-	F extends DocumentTypeDecoration<any, any> | undefined
+F extends DocumentTypeDecoration<any, any> | undefined
 >(data: ResultOf<F> | null): FragmentType<F> | null
 export function makeFragmentData<
 	F extends DocumentTypeDecoration<any, any> | undefined

@@ -1,16 +1,16 @@
-import { Link, json } from "@remix-run/react"
+import { Link, json, type ClientLoaderFunction } from "@remix-run/react"
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction
+    HeadersFunction,
+    LoaderFunction,
+    MetaFunction
 } from "@vercel/remix"
 import {
-	Effect,
-	Order,
-	Predicate,
-	ReadonlyArray,
-	ReadonlyRecord,
-	pipe
+    Effect,
+    Order,
+    Predicate,
+    ReadonlyArray,
+    ReadonlyRecord,
+    pipe
 } from "effect"
 
 import { Card } from "~/components/Card"
@@ -18,18 +18,21 @@ import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData } from "~/lib/data"
 import {
-	MediaListItem,
-	type ListItem_EntryFragment
+    MediaListItem,
+    type ListItem_EntryFragment
 } from "~/lib/entry/ListItem"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 import { Schema } from "@effect/schema"
 import type { ReactNode } from "react"
+import { clientOnly$ } from "vite-env-only"
 import { LayoutBody } from "~/components/Layout"
 import { List } from "~/components/List"
-import { button } from "~/lib/button"
 import { Ariakit } from "~/lib/ariakit"
+import { button } from "~/lib/button"
+import { LoaderCache } from "~/lib/cache.client"
+import { getCacheControl } from "~/lib/getCacheControl"
 
 export const loader = (async (args) => {
 	return pipe(
@@ -126,7 +129,7 @@ export const loader = (async (args) => {
 				},
 				{
 					headers: {
-						"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+						"Cache-Control": getCacheControl(cacheControl)
 					}
 				}
 			)
@@ -137,7 +140,19 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
-
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+const cache = clientOnly$(
+	new LoaderCache({
+		...cacheControl,
+		lookup: (args) => args.serverLoader()
+	})
+)
+export const clientLoader: ClientLoaderFunction = async (args) => await cache?.get(args)
+clientLoader.hydrate = true
 export const headers = (({ loaderHeaders }) => {
 	const cacheControl = loaderHeaders.get("Cache-Control")
 	return Predicate.isString(cacheControl)

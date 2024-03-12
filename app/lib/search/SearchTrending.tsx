@@ -2,10 +2,15 @@ import * as Ariakit from "@ariakit/react"
 import { Predicate, ReadonlyArray } from "effect"
 import { serverOnly$ } from "vite-env-only"
 import { List, ListItem } from "~/components/List"
-import { SearchViewBody, SearchViewBodyGroup } from "~/components/SearchView"
+import {
+	SearchViewBody,
+	SearchViewBodyGroup,
+	SearchViewItem
+} from "~/components/SearchView"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment } from "~/lib/graphql"
 import { SearchItem } from "./SearchItem"
+
 import type { ReactNode } from "react"
 
 const SearchTrending_query = serverOnly$(
@@ -46,7 +51,10 @@ export function SearchTrending(props: {
 						</div>
 					</Ariakit.ComboboxGroupLabel>
 					{data.trending.media.filter(Predicate.isNotNull).map((media) => (
-						<SearchItem media={media} key={media.id} />
+						<SearchViewItem
+							key={media.id}
+							render={<SearchItem media={media} />}
+						/>
 					))}
 				</SearchViewBodyGroup>
 			</SearchViewBody>

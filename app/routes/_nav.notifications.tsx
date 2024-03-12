@@ -1,6 +1,12 @@
 import { useTooltipStore } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import { Form, Link, json, redirect } from "@remix-run/react"
+import {
+	Form,
+	Link,
+	json,
+	redirect,
+	type ClientLoaderFunction
+} from "@remix-run/react"
 import type {
 	ActionFunction,
 	LoaderFunction,
@@ -8,7 +14,7 @@ import type {
 } from "@vercel/remix"
 import cookie from "cookie"
 import { Effect, Option, Predicate, pipe } from "effect"
-import { serverOnly$ } from "vite-env-only"
+import { clientOnly$, serverOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
@@ -29,8 +35,10 @@ import { graphql } from "~/gql"
 import { Viewer } from "~/lib/Remix/Remix.server"
 import { Remix } from "~/lib/Remix/index.server"
 import { fab } from "~/lib/button"
+import { client, createGetInitialData } from "~/lib/cache.client"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaListCover"
+import { getCacheControl } from "~/lib/getCacheControl"
 import type { FragmentType } from "~/lib/graphql"
 import { makeFragmentData, useFragment } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
@@ -41,6 +49,20 @@ import { sourceLanguageTag } from "~/paraglide/runtime"
 import type { ReactNode } from "react"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+
+
+
+let getInitialData = clientOnly$(createGetInitialData())
+export const clientLoader: ClientLoaderFunction = async (args) => {
+	console.log(args.request.url)
+	return await client.fetchQuery({
+		queryKey: ["_nav.notifications"],
+		queryFn: () => args.serverLoader(),
+		staleTime: cacheControl.maxAge * 1000,
+		initialData: await getInitialData?.(args)
+	})
+}
+clientLoader.hydrate = true
 
 export const loader = (async (args) => {
 	return pipe(
@@ -76,7 +98,7 @@ export const loader = (async (args) => {
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+					"Cache-Control": getCacheControl(cacheControl)
 				}
 			})
 		),
@@ -85,6 +107,13 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+ 
 
 export const action = (async (args) => {
 	return pipe(

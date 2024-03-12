@@ -1,4 +1,11 @@
-import { Link, json, useLocation, useOutlet, useParams } from "@remix-run/react"
+import {
+	Link,
+	json,
+	useLocation,
+	useOutlet,
+	useParams,
+	type ClientLoaderFunction
+} from "@remix-run/react"
 import type { LoaderFunction, MetaFunction } from "@vercel/remix"
 
 import { AnimatePresence, motion } from "framer-motion"
@@ -9,28 +16,28 @@ import { cloneElement } from "react"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-    Menu,
-    MenuDivider,
-    MenuItem,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuTrigger
+	Menu,
+	MenuDivider,
+	MenuItem,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuTrigger
 } from "~/components/Menu"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { Remix } from "~/lib/Remix/index.server"
 import { button, fab } from "~/lib/button"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import {
-    ClientArgs,
-    EffectUrql,
-    LoaderArgs,
-    LoaderLive
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive
 } from "~/lib/urql.server"
 import type { loader as rootLoader } from "~/root"
 
@@ -39,12 +46,15 @@ import { Button } from "~/components/Button"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
+import { clientOnly$ } from "vite-env-only"
+import { Ariakit } from "~/lib/ariakit"
+import { client, createGetInitialData } from "~/lib/cache.client"
 import type { MediaCover_media } from "~/lib/entry/MediaListCover"
 import { MediaCover } from "~/lib/entry/MediaListCover"
+import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
-import { Ariakit } from "~/lib/ariakit"
 
 export const loader = (async (args) => {
 	return pipe(
@@ -86,7 +96,7 @@ export const loader = (async (args) => {
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+					"Cache-Control": getCacheControl(cacheControl)
 				}
 			})
 		),
@@ -97,6 +107,23 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+let getInitialData = clientOnly$(createGetInitialData())
+export const clientLoader: ClientLoaderFunction = async (args) => {
+	return await client.fetchQuery({
+		queryKey: ["_nav._media.$mediaId", args.params.mediaId],
+		queryFn: () => args.serverLoader(),
+		staleTime: cacheControl.maxAge * 1000,
+		initialData: await getInitialData?.(args)
+	})
+}
+clientLoader.hydrate = true
 
 export const meta = (({ data }) => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]

@@ -1,8 +1,12 @@
-import { Await, Link, useFetcher } from "@remix-run/react"
+import {
+	Await,
+	Link,
+	useFetcher,
+	type ClientLoaderFunction
+} from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
-	LoaderFunctionArgs,
 	MetaFunction
 } from "@vercel/remix"
 import { defer } from "@vercel/remix"
@@ -24,14 +28,14 @@ import {
 	ListItemContentTitle as ListItemTitle
 } from "~/components/List"
 import { graphql } from "~/gql"
-import { client_operation } from "~/lib/client"
+import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
 
 import { route_media, route_user } from "~/lib/route"
 
 // import * as R from '@remix-run/router'
 // console.log(R)
 
-import { serverOnly$ } from "vite-env-only"
+import { clientOnly$, serverOnly$ } from "vite-env-only"
 // import {RouterProvider} from 'react-router-dom'
 import type { VariablesOf } from "@graphql-typed-document-node/core"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
@@ -57,6 +61,8 @@ import { Loading, Skeleton } from "~/components/Skeleton"
 import type { loader as rootLoader } from "~/root"
 import type { loader as userInfoLoader } from "./user.$userName.info"
 
+import { client, createGetInitialData } from "~/lib/cache.client"
+import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "./user.$userId.follow"
 
@@ -116,7 +122,7 @@ function matchMediaId(s: string) {
 		.filter(isFinite)
 }
 
-async function indexLoader(args: LoaderFunctionArgs) {
+async function indexLoader(args: AnyLoaderFunctionArgs) {
 	const data = await client_operation(
 		graphql(`
 			query IndexQuery {
@@ -161,10 +167,16 @@ async function indexLoader(args: LoaderFunctionArgs) {
 		},
 		{
 			headers: {
-				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
+				"Cache-Control": getCacheControl(cacheControl)
 			}
 		}
 	)
+}
+
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
 }
 
 export const headers = (({ loaderHeaders }) => {
@@ -173,6 +185,17 @@ export const headers = (({ loaderHeaders }) => {
 		? { "Cache-Control": cacheControl }
 		: new Headers()
 }) satisfies HeadersFunction
+
+let getInitialData = clientOnly$(createGetInitialData())
+export const clientLoader: ClientLoaderFunction = async (args) => {
+	return await client.fetchQuery({
+		queryKey: ["_nav._index"],
+		queryFn: () => indexLoader(args),
+		staleTime: cacheControl.maxAge * 1000,
+		initialData: await getInitialData?.(args)
+	})
+}
+clientLoader.hydrate = true
 
 const indexMediaQuery = serverOnly$(
 	graphql(`
@@ -196,7 +219,7 @@ const indexMediaQuery = serverOnly$(
 
 async function getMedia(
 	variables: VariablesOf<typeof indexMediaQuery>,
-	args: LoaderFunctionArgs
+	args: AnyLoaderFunctionArgs
 ) {
 	const data = await client_operation(indexMediaQuery!, variables, args)
 
@@ -210,10 +233,6 @@ async function getMedia(
 export const loader = ((args) => {
 	return indexLoader(args)
 }) satisfies LoaderFunction
-
-// export const clientLoader = ((args) => {
-// 	return indexLoader(args)
-// }) satisfies LoaderFunction
 
 export default function Index(): ReactNode {
 	const data = useRawLoaderData<typeof loader>()
@@ -384,33 +403,34 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 					</div>
 
 					<TooltipRichActions>
-						{rootData?.Viewer?.name !== props.userName && (
-							<follow.Form
-								method="post"
-								action={`/user/${fetcher.data?.User?.id}/follow`}
-							>
-								<input
-									type="hidden"
-									name="isFollowing"
-									value={
-										follow.data?.ToggleFollow.isFollowing ??
-										follow.formData?.get("isFollowing") ??
-										fetcher.data?.User?.isFollowing
-											? ""
-											: "true"
-									}
-									id=""
-								/>
+						{rootData?.Viewer?.name &&
+							rootData.Viewer.name !== props.userName && (
+								<follow.Form
+									method="post"
+									action={`/user/${fetcher.data?.User?.id}/follow`}
+								>
+									<input
+										type="hidden"
+										name="isFollowing"
+										value={
+											follow.formData?.get("isFollowing") ??
+											follow.data?.ToggleFollow.isFollowing ??
+											fetcher.data?.User?.isFollowing
+												? ""
+												: "true"
+										}
+										id=""
+									/>
 
-								<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
-									{follow.data?.ToggleFollow.isFollowing ??
-									follow.formData?.get("isFollowing") ??
-									fetcher.data?.User?.isFollowing
-										? m.unfollow_button()
-										: m.follow_button()}
-								</Button>
-							</follow.Form>
-						)}
+									<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
+										{follow.formData?.get("isFollowing") ??
+										follow.data?.ToggleFollow.isFollowing ??
+										fetcher.data?.User?.isFollowing
+											? m.unfollow_button()
+											: m.follow_button()}
+									</Button>
+								</follow.Form>
+							)}
 					</TooltipRichActions>
 					{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 				<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}

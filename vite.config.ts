@@ -2,7 +2,7 @@ import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import { vitePlugin as remix } from "@remix-run/dev"
 import { vercelPreset } from "@vercel/remix/vite"
 import * as million from "million/compiler"
-import { remixDevTools } from "remix-development-tools/vite"
+import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import envOnly from "vite-env-only"
@@ -27,7 +27,7 @@ export default defineConfig({
 			presets: [vercelPreset()]
 		}),
 		tsconfigPaths(),
-		million.vite({ auto: true, rsc: true, log: false }),
+		// million.vite({ auto: true, rsc: true, log: false }),
 		icons({
 			compiler: "jsx",
 			jsx: "react",
@@ -39,5 +39,15 @@ export default defineConfig({
 	],
 	server: {
 		port: 3000
+	},
+	define: {
+		__BUSTER__:
+			`${Date.now()}` || process.env.NODE_ENV === "production"
+				? `${Date.now()}`
+				: "`${Date.now()}`"
 	}
 })
+
+declare global {
+	const __BUSTER__: string
+}

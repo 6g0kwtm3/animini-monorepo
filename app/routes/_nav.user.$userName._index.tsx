@@ -1,21 +1,33 @@
 import { Schema } from "@effect/schema"
 import type {
-    HeadersFunction,
-    LoaderFunction,
-    MetaFunction
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction
 } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
-import { Form, Link, useLocation } from "@remix-run/react"
+import {
+	Form,
+	Link,
+	useFetcher,
+	useLocation,
+	type ClientLoaderFunction
+} from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ReactNode } from "react"
-import { Button as ButtonText } from "~/components/Button"
+import { clientOnly$ } from "vite-env-only"
+import { Button, Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { graphql } from "~/gql"
 import { button } from "~/lib/button"
+import { LoaderCache } from "~/lib/cache.client"
 import { client_operation } from "~/lib/client"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
+import { getCacheControl } from "~/lib/getCacheControl"
 import type { loader as rootLoader } from "~/root"
+
+import { m } from "~/lib/paraglide"
+import type { action as userFollowAction } from "./user.$userId.follow"
 
 export const loader = (async (args) => {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
@@ -26,6 +38,7 @@ export const loader = (async (args) => {
 				User(name: $userName) {
 					id
 					name
+					isFollowing
 				}
 			}
 		`),
@@ -43,11 +56,26 @@ export const loader = (async (args) => {
 		{ user: data.User },
 		{
 			headers: {
-				"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+				"Cache-Control": getCacheControl(cacheControl)
 			}
 		}
 	)
 }) satisfies LoaderFunction
+
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+const cache = clientOnly$(
+	new LoaderCache({
+		...cacheControl,
+		lookup: (args) => args.serverLoader()
+	})
+)
+export const clientLoader: ClientLoaderFunction = async (args) =>
+	await cache?.get(args)
+clientLoader.hydrate = true
 
 export const headers = (({ loaderHeaders }) => {
 	const cacheControl = loaderHeaders.get("Cache-Control")
@@ -69,11 +97,16 @@ function params() {
 		userName: Schema.string
 	})
 }
+
 export default function Page(): ReactNode {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
 	const data = useRawLoaderData<typeof loader>()
 
 	const { pathname } = useLocation()
+
+	const follow = useFetcher<typeof userFollowAction>({
+		key: `${data.user.name}-follow`
+	})
 
 	return (
 		<LayoutBody>
@@ -86,6 +119,31 @@ export default function Page(): ReactNode {
 						Manga List
 					</Link>
 				</nav>
+
+				{rootData?.Viewer?.name && rootData.Viewer.name !== data.user.name && (
+					<follow.Form method="post" action={`/user/${data.user.id}/follow`}>
+						<input
+							type="hidden"
+							name="isFollowing"
+							value={
+								follow.formData?.get("isFollowing") ??
+								follow.data?.ToggleFollow.isFollowing ??
+								data.user.isFollowing
+									? ""
+									: "true"
+							}
+							id=""
+						/>
+
+						<Button type="submit" aria-disabled={!data.user.id}>
+							{follow.formData?.get("isFollowing") ??
+							follow.data?.ToggleFollow.isFollowing ??
+							data.user.isFollowing
+								? m.unfollow_button()
+								: m.follow_button()}
+						</Button>
+					</follow.Form>
+				)}
 
 				{rootData?.Viewer?.name === data.user.name && (
 					<Form

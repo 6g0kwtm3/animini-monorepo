@@ -6,7 +6,9 @@ import {
 	ScrollRestoration,
 	isRouteErrorResponse,
 	json,
-	useRouteError
+	useRevalidator,
+	useRouteError,
+	type ClientLoaderFunction
 } from "@remix-run/react"
 import { LoaderArgs, LoaderLive } from "./lib/urql.server"
 
@@ -16,15 +18,20 @@ import type { LinksFunction, LoaderFunction } from "@vercel/remix"
 
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
-import tailwind from "./tailwind.css?url"
 
-import type { ReactNode } from "react"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { useEffect, type ReactNode } from "react"
+import { ClientOnly } from "remix-utils/client-only"
+import { clientOnly$ } from "vite-env-only"
 import { Card } from "./components/Card"
-import { Layout as AppLayout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 import { Ariakit } from "./lib/ariakit"
+import { client, createGetInitialData } from "./lib/cache.client"
+import { getCacheControl } from "./lib/getCacheControl"
 import { useLocale } from "./lib/useLocale"
 import { setLanguageTag } from "./paraglide/runtime"
+import tailwind from "./tailwind.css?url"
 
 export const links: LinksFunction = () => {
 	return [
@@ -45,6 +52,23 @@ export const links: LinksFunction = () => {
 	]
 }
 
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+let getInitialData = clientOnly$(createGetInitialData())
+export const clientLoader: ClientLoaderFunction = async (args) => {
+	return await client.fetchQuery({
+		queryKey: ["root"],
+		queryFn: () => args.serverLoader(),
+		staleTime: cacheControl.maxAge * 1000,
+		initialData: await getInitialData?.(args)
+	})
+}
+clientLoader.hydrate = true
+
 export const loader = (async (args) => {
 	return pipe(
 		pipe(
@@ -59,7 +83,7 @@ export const loader = (async (args) => {
 					},
 					{
 						headers: {
-							"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+							"Cache-Control": getCacheControl(cacheControl)
 						}
 					}
 				)
@@ -73,7 +97,7 @@ export const loader = (async (args) => {
 
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const { locale, dir } = useLocale()
-	// const { nonce } = useRawLoaderData<typeof loader>()
+	// const { nonce } = useRawLoaderData()
 
 	setLanguageTag(locale)
 
@@ -113,15 +137,12 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 export default function App(): ReactNode {
 	return (
 		<SnackbarQueue>
-			<AppLayout
-				navigation={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer"
-				}}
-			>
+			<QueryClientProvider client={client}>
 				<Outlet />
-			</AppLayout>
+				<ClientOnly>
+					{() => <ReactQueryDevtools initialIsOpen={false} />}
+				</ClientOnly>
+			</QueryClientProvider>
 		</SnackbarQueue>
 	)
 }
