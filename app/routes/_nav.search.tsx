@@ -1,81 +1,70 @@
 import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
+import { json } from "@vercel/remix"
 
-import { json, type ClientLoaderFunctionArgs } from "@remix-run/react"
-import { Effect, Predicate, pipe } from "effect"
+import { type ClientLoaderFunctionArgs } from "@remix-run/react"
+import { Predicate } from "effect"
 import type { ReactNode } from "react"
-import { Layout, LayoutBody, LayoutPane } from "~/components/Layout"
+import { clientOnly$ } from "vite-env-only"
+import { Card } from "~/components/Card"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
-import { Remix } from "~/lib/Remix/index.server"
+import { client, createGetInitialData, persister } from "~/lib/cache.client"
+import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import { SearchItem, type SearchItem_media } from "~/lib/search/SearchItem"
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
-} from "~/lib/urql.server"
-import { Card } from "~/components/Card"
+
+async function searchLoader(args: AnyLoaderFunctionArgs) {
+	const client = client_get_client(args)
+	const { searchParams } = new URL(args.request.url)
+
+	const data = await client.operation(
+		graphql(`
+			query SearchQuery(
+				$q: String
+				$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
+				$coverExtraLarge: Boolean = false
+			) {
+				page: Page(perPage: 10) {
+					media(search: $q, sort: $sort) {
+						id
+						...SearchItem_media
+					}
+				}
+			}
+		`),
+		{
+			q: searchParams.get("q")
+		}
+	)
+	return data
+}
 
 export const loader = (async (args) => {
-	return await pipe(
-		Effect.gen(function* (_) {
-			const client = yield* _(EffectUrql)
-			const { searchParams } = yield* _(ClientArgs)
-
-			const data = yield* _(
-				client.query(
-					graphql(`
-						query SearchQuery(
-							$q: String
-							$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
-							$coverExtraLarge: Boolean = false
-						) {
-							page: Page(perPage: 10) {
-								media(search: $q, sort: $sort) {
-									id
-									...SearchItem_media
-								}
-							}
-						}
-					`),
-					{
-						q: searchParams.get("q")
-					}
-				)
-			)
-
-			return json(data, {
-				headers: {
-					"Cache-Control": `max-age=${24 * 60 * 60}, s-maxage=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, public`
-				}
-			})
-		}),
-
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-
-		Remix.runLoader
-	)
+	return json(await searchLoader(args), {
+		headers: {
+			"Cache-Control": `max-age=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, private`
+		}
+	})
 }) satisfies LoaderFunction
 
-let timeout: NodeJS.Timeout
-
+const isInitialRequest = clientOnly$(createGetInitialData())
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	clearTimeout(timeout)
-
-	return new Promise<SerializeFrom<typeof loader>>(
-		(resolve, reject) =>
-			(timeout = setTimeout(() => {
-				args.serverLoader<typeof loader>().then(resolve, reject)
-			}, 300))
-	)
+	return client.ensureQueryData({
+		revalidateIfStale: true,
+		staleTime: 60 * 60 * 1000, //1 hour
+		queryKey: ["_nav.search", new URL(args.request.url).searchParams.get("q")],
+		queryFn: () => searchLoader(args),
+		persister,
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+	})
 }
+clientLoader.hydrate = true
 
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody>

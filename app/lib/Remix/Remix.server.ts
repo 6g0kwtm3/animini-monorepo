@@ -7,10 +7,10 @@ import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
+import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 import type { LoaderFunctionArgs, TypedResponse } from "@vercel/remix"
 import cookie from "cookie"
 import { dev } from "../dev"
-import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 
 export const Cookie = <I, A>(
 	name: string,

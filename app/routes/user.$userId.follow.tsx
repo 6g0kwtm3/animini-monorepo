@@ -1,13 +1,25 @@
 import { Schema } from "@effect/schema"
 import type { ActionFunction } from "@remix-run/node"
-import { useActionData } from "@remix-run/react"
+import { useActionData, type ClientActionFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
 import { graphql } from "~/gql"
 import { Ariakit } from "~/lib/ariakit"
-import { client_operation } from "~/lib/client"
+import { client } from "~/lib/cache.client"
+
+import { client_operation, type AnyActionFunctionArgs } from "~/lib/client"
 import { m } from "~/lib/paraglide"
 
 export const action = (async (args) => {
+	return await follow(args)
+}) satisfies ActionFunction
+
+export const clientAction = (async (args) => {
+	const data = await follow(args)
+	client.invalidateQueries()
+	return data
+}) satisfies ClientActionFunction
+
+async function follow(args: AnyActionFunctionArgs) {
 	const params = Schema.decodeUnknownSync(
 		Schema.struct({
 			userId: Schema.NumberFromString
@@ -39,7 +51,7 @@ export const action = (async (args) => {
 			name: data.ToggleFollow.name
 		}
 	}
-}) satisfies ActionFunction
+}
 
 export default function Page(): ReactNode {
 	const data = useActionData<typeof action>()

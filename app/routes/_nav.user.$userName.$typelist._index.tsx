@@ -1,41 +1,42 @@
-import { Link, json, type ClientLoaderFunction } from "@remix-run/react"
+import { Link, type ClientLoaderFunctionArgs } from "@remix-run/react"
 import type {
-    HeadersFunction,
-    LoaderFunction,
-    MetaFunction
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
+import { json } from "@vercel/remix"
+import { useRawLoaderData } from "~/lib/data"
+
 import {
-    Effect,
-    Order,
-    Predicate,
-    ReadonlyArray,
-    ReadonlyRecord,
-    pipe
+	Effect,
+	Order,
+	Predicate,
+	ReadonlyArray,
+	ReadonlyRecord,
+	pipe
 } from "effect"
 
 import { Card } from "~/components/Card"
 import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
-import { useRawLoaderData } from "~/lib/data"
 import {
-    MediaListItem,
-    type ListItem_EntryFragment
+	MediaListItem,
+	type ListItem_EntryFragment
 } from "~/lib/entry/ListItem"
 import { graphql, makeFragmentData } from "~/lib/graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
 import { Schema } from "@effect/schema"
 import type { ReactNode } from "react"
-import { clientOnly$ } from "vite-env-only"
 import { LayoutBody } from "~/components/Layout"
 import { List } from "~/components/List"
 import { Ariakit } from "~/lib/ariakit"
 import { button } from "~/lib/button"
-import { LoaderCache } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
 
 export const loader = (async (args) => {
-	return pipe(
+	return await pipe(
 		Effect.gen(function* (_) {
 			const client = yield* _(EffectUrql)
 			const params = yield* _(
@@ -145,14 +146,14 @@ const cacheControl = {
 	staleWhileRevalidate: 45,
 	private: true
 }
-const cache = clientOnly$(
-	new LoaderCache({
-		...cacheControl,
-		lookup: (args) => args.serverLoader()
-	})
-)
-export const clientLoader: ClientLoaderFunction = async (args) => await cache?.get(args)
+
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await args.serverLoader<typeof loader>()
+}
 clientLoader.hydrate = true
+
 export const headers = (({ loaderHeaders }) => {
 	const cacheControl = loaderHeaders.get("Cache-Control")
 	return Predicate.isString(cacheControl)
@@ -171,7 +172,7 @@ export const meta = (({ params }) => {
 	]
 }) satisfies MetaFunction<typeof loader>
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody>
@@ -203,6 +204,7 @@ export default function Page(): ReactNode {
 												})}
 											</List>
 											<Link
+												prefetch="intent"
 												to={list.name}
 												className={button({ className: "w-full" })}
 											>

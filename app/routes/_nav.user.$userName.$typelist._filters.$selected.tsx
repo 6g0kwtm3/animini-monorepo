@@ -4,13 +4,17 @@ import {
 	isRouteErrorResponse,
 	useRouteError,
 	useSearchParams,
-	type ClientLoaderFunction,
 	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
-import type { HeadersFunction, LoaderFunction } from "@vercel/remix"
+import type {
+	HeadersFunction,
+	LoaderFunction,
+	SerializeFrom
+} from "@vercel/remix"
 import { defer } from "@vercel/remix"
+import { useRawLoaderData } from "~/lib/data"
 
 // import type { FragmentType } from "~/lib/graphql"
 
@@ -42,9 +46,7 @@ import { List } from "~/components/List"
 import { Loading, Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { Ariakit } from "~/lib/ariakit"
-import { client, createGetInitialData } from "~/lib/cache.client"
 import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
-import { useRawLoaderData } from "~/lib/data"
 import { getLibrary } from "~/lib/electron/library.server"
 import {
 	MediaListItem,
@@ -53,7 +55,8 @@ import {
 import { toWatch } from "~/lib/entry/toWatch"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
-import { queryOptions } from "@tanstack/react-query"
+import { createGetInitialData, client } from "~/lib/cache.client"
+import { AnimatePresence } from "framer-motion"
 
 function UserListSelectedFiltersIndexQuery() {
 	return graphql(`
@@ -74,9 +77,12 @@ function UserListSelectedFiltersIndexQuery() {
 	`)
 }
 
-export const loader = ((args) => {
-	const r = options(args)
-	return r.queryFn(r)
+export const loader = (async (args) => {
+	return defer(await selectedLoader(args), {
+		headers: {
+			"Cache-Control": getCacheControl(cacheControl)
+		}
+	})
 }) satisfies LoaderFunction
 
 const cacheControl = {
@@ -92,22 +98,20 @@ export const headers = (({ loaderHeaders }) => {
 		: new Headers()
 }) satisfies HeadersFunction
 
-async function fetchSelectedList(args: {
-	request: Pick<Request, "headers" | "signal">
-	params: Schema.Schema.To<typeof Params>
-}) {
+async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
+	const params = Schema.decodeUnknownSync(Params)(args.params)
 	const client = await client_get_client(args)
 
 	const data = await client.operation(UserListSelectedFiltersIndexQuery(), {
-		userName: args.params.userName,
+		userName: params.userName,
 		type: {
 			animelist: MediaType.Anime,
 			mangalist: MediaType.Manga
-		}[args.params.typelist]
+		}[params.typelist]
 	})
 
 	const selectedList = data?.MediaListCollection?.lists?.find(
-		(list) => list?.name === args.params.selected
+		(list) => list?.name === params.selected
 	)
 
 	if (!selectedList) {
@@ -118,6 +122,7 @@ async function fetchSelectedList(args: {
 
 	return {
 		...data,
+		MediaListCollection: undefined,
 		selectedList
 	}
 }
@@ -258,58 +263,47 @@ const Params = Schema.struct({
 	typelist: Schema.literal("animelist", "mangalist")
 })
 
-function queryFn(args: {
-	request: Pick<Request, "headers" | "signal">
-	params: Schema.Schema.To<typeof Params>
-}) {
-	return defer(
-		{
-			Library:
-				serverOnly$(
-					pipe(
-						Effect.succeed(
-							ReadonlyArray.groupBy(
-								Object.values(getLibrary()),
-								({ title }) => title ?? ""
-							)
-						),
-						Effect.provide(LoaderLive),
-						Effect.provideService(LoaderArgs, args),
-						Remix.runLoader
-					)
-				) ?? Promise.resolve({}),
-			query: fetchSelectedList(args)
-		},
-		{
-			headers: {
-				"Cache-Control": getCacheControl(cacheControl)
-			}
-		}
-	)
+function selectedLoader(args: AnyLoaderFunctionArgs) {
+	return {
+		Library:
+			serverOnly$(
+				pipe(
+					Effect.succeed(
+						ReadonlyArray.groupBy(
+							Object.values(getLibrary()),
+							({ title }) => title ?? ""
+						)
+					),
+					Effect.provide(LoaderLive),
+					Effect.provideService(LoaderArgs, args),
+					Remix.runLoader
+				)
+			) ?? Promise.resolve({}),
+		query: fetchSelectedList(args)
+	}
 }
 
-function options(args: AnyLoaderFunctionArgs) {
-	return queryOptions({
-		staleTime: cacheControl.maxAge * 1000,
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
 		queryKey: [
-			"_nav.user.$userName.$typelist._filters.$selected",
-			Schema.decodeUnknownSync(Params)(args.params)
-		] as const,
-		queryFn: ({ queryKey: [, params] }) => queryFn({ ...args, params })
-	})
-}
-
-let getInitialData = clientOnly$(createGetInitialData())
-export const clientLoader: ClientLoaderFunction = async (args) => {
-	return await client.fetchQuery({
-		...options(args),
-		initialData: await getInitialData<any>?.(args)
+			"_nav._user",
+			args.params.userName,
+			args.params.typelist,
+			"_filters",
+			args.params.selected
+		],
+		queryFn: () => selectedLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true
 
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 	const [search] = useSearchParams()
 
 	return (

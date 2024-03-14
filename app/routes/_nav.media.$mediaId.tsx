@@ -1,17 +1,16 @@
 import {
 	Link,
-	json,
 	useLocation,
 	useOutlet,
 	useParams,
-	type ClientLoaderFunction
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import type { LoaderFunction, MetaFunction } from "@vercel/remix"
+import type { LoaderFunction, MetaFunction, SerializeFrom } from "@vercel/remix"
+import { json } from "@vercel/remix"
 
 import { AnimatePresence, motion } from "framer-motion"
 
 import { useTooltipStore } from "@ariakit/react"
-import { Effect, Option, pipe } from "effect"
 import { cloneElement } from "react"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
@@ -30,25 +29,18 @@ import {
 	TooltipPlainContainer,
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
-import { Remix } from "~/lib/Remix/index.server"
 import { button, fab } from "~/lib/button"
 import { graphql, makeFragmentData } from "~/lib/graphql"
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive
-} from "~/lib/urql.server"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 
 import { Button } from "~/components/Button"
-
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
 import { clientOnly$ } from "vite-env-only"
 import { Ariakit } from "~/lib/ariakit"
-import { client, createGetInitialData } from "~/lib/cache.client"
+import { client, createGetInitialData, persister } from "~/lib/cache.client"
+import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
 import type { MediaCover_media } from "~/lib/entry/MediaListCover"
 import { MediaCover } from "~/lib/entry/MediaListCover"
 import { getCacheControl } from "~/lib/getCacheControl"
@@ -57,55 +49,11 @@ import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 
 export const loader = (async (args) => {
-	return pipe(
-		pipe(
-			Effect.Do,
-			Effect.bind("args", () => ClientArgs),
-			Effect.bind("client", () => EffectUrql),
-			Effect.flatMap(({ client, args: { params } }) =>
-				client.query(
-					graphql(`
-						query MediaQuery($id: Int!, $coverExtraLarge: Boolean = true) {
-							Media(id: $id) {
-								id
-								coverImage {
-									color
-								}
-								...MediaCover_media
-								bannerImage
-								title {
-									userPreferred
-								}
-								description
-							}
-						}
-					`),
-					{
-						id: Number(params["mediaId"])
-					}
-				)
-			)
-		),
-
-		Effect.flatMap((data) =>
-			Option.all({
-				Media: Option.fromNullable(data?.Media)
-			})
-		),
-
-		Effect.map((data) =>
-			json(data, {
-				headers: {
-					"Cache-Control": getCacheControl(cacheControl)
-				}
-			})
-		),
-
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-
-		Remix.runLoader
-	)
+	return json(await mediaLoader(args), {
+		headers: {
+			"Cache-Control": getCacheControl(cacheControl)
+		}
+	})
 }) satisfies LoaderFunction
 
 const cacheControl = {
@@ -114,13 +62,16 @@ const cacheControl = {
 	private: true
 }
 
-let getInitialData = clientOnly$(createGetInitialData())
-export const clientLoader: ClientLoaderFunction = async (args) => {
-	return await client.fetchQuery({
-		queryKey: ["_nav._media.$mediaId", args.params.mediaId],
-		queryFn: () => args.serverLoader(),
-		staleTime: cacheControl.maxAge * 1000,
-		initialData: await getInitialData?.(args)
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
+		persister,
+		queryKey: ["_nav._media", args.params.mediaId],
+		queryFn: () => mediaLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true
@@ -128,8 +79,45 @@ clientLoader.hydrate = true
 export const meta = (({ data }) => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
 }) satisfies MetaFunction<typeof loader>
+
+async function mediaLoader(args: AnyLoaderFunctionArgs) {
+	const client = client_get_client(args)
+
+	const data = await client.operation(
+		graphql(`
+			query MediaQuery($id: Int!, $coverExtraLarge: Boolean = true) {
+				Media(id: $id) {
+					id
+					coverImage {
+						color
+					}
+					...MediaCover_media
+					bannerImage
+					title {
+						userPreferred
+					}
+					description
+				}
+			}
+		`),
+		{
+			id: Number(args.params["mediaId"])
+		}
+	)
+
+	if (!data?.Media) {
+		throw new Response("Media not found", {
+			status: 404
+		})
+	}
+
+	return {
+		Media: data.Media
+	}
+}
+
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	const outlet = useOutlet()
 	const { pathname } = useLocation()
@@ -277,6 +265,7 @@ function Edit() {
 					<TooltipPlainTrigger
 						render={
 							<Link
+								prefetch="intent"
 								to={
 									root?.Viewer
 										? route_media_edit({ id: Number(mediaId) })

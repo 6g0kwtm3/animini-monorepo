@@ -2,12 +2,13 @@ import {
 	Await,
 	Link,
 	useFetcher,
-	type ClientLoaderFunction
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
-	MetaFunction
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
 import { defer } from "@vercel/remix"
 
@@ -58,8 +59,8 @@ import {
 import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
 import { Loading, Skeleton } from "~/components/Skeleton"
-import type { loader as rootLoader } from "~/root"
-import type { loader as userInfoLoader } from "./user.$userName.info"
+import type { clientLoader as rootLoader } from "~/root"
+import type { clientLoader as userInfoLoader } from "./user.$userName.info"
 
 import { client, createGetInitialData } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
@@ -72,10 +73,10 @@ function MediaLink({
 }: Omit<ComponentPropsWithoutRef<typeof Link>, "to"> & {
 	mediaId: number
 }) {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
-		<Link to={route_media({ id: mediaId })} {...props}>
+		<Link prefetch="intent" to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
 				<Await errorElement={"Error..."} resolve={data.media}>
 					{(data) => {
@@ -122,7 +123,40 @@ function matchMediaId(s: string) {
 		.filter(isFinite)
 }
 
-async function indexLoader(args: AnyLoaderFunctionArgs) {
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+export const headers = (({ loaderHeaders }) => {
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
+}) satisfies HeadersFunction
+
+const indexMediaQuery = serverOnly$(
+	graphql(`
+		query IndexMediaQuery($ids: [Int], $coverExtraLarge: Boolean = false) {
+			Page {
+				media(id_in: $ids) {
+					id
+					title {
+						userPreferred
+					}
+					type
+					...MediaCover_media
+					coverImage {
+						color
+					}
+				}
+			}
+		}
+	`)
+)
+
+async function getPage(args: AnyLoaderFunctionArgs) {
 	const data = await client_operation(
 		graphql(`
 			query IndexQuery {
@@ -149,73 +183,8 @@ async function indexLoader(args: AnyLoaderFunctionArgs) {
 		{},
 		args
 	)
-
-	const ids =
-		data?.Page?.activities?.flatMap((activity) => {
-			if (activity?.__typename === "TextActivity") {
-				return activity.text ? matchMediaId(activity.text) : []
-			}
-			return []
-		}) ?? []
-
-	return defer(
-		{
-			page: data?.Page,
-			media: ReadonlyArray.isNonEmptyArray(ids)
-				? getMedia({ ids: ids }, args)
-				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
-		},
-		{
-			headers: {
-				"Cache-Control": getCacheControl(cacheControl)
-			}
-		}
-	)
+	return data?.Page
 }
-
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
-
-export const headers = (({ loaderHeaders }) => {
-	const cacheControl = loaderHeaders.get("Cache-Control")
-	return Predicate.isString(cacheControl)
-		? { "Cache-Control": cacheControl }
-		: new Headers()
-}) satisfies HeadersFunction
-
-let getInitialData = clientOnly$(createGetInitialData())
-export const clientLoader: ClientLoaderFunction = async (args) => {
-	return await client.fetchQuery({
-		queryKey: ["_nav._index"],
-		queryFn: () => indexLoader(args),
-		staleTime: cacheControl.maxAge * 1000,
-		initialData: await getInitialData?.(args)
-	})
-}
-clientLoader.hydrate = true
-
-const indexMediaQuery = serverOnly$(
-	graphql(`
-		query IndexMediaQuery($ids: [Int], $coverExtraLarge: Boolean = false) {
-			Page {
-				media(id_in: $ids) {
-					id
-					title {
-						userPreferred
-					}
-					type
-					...MediaCover_media
-					coverImage {
-						color
-					}
-				}
-			}
-		}
-	`)
-)
 
 async function getMedia(
 	variables: VariablesOf<typeof indexMediaQuery>,
@@ -230,12 +199,48 @@ async function getMedia(
 	)
 }
 
-export const loader = ((args) => {
-	return indexLoader(args)
+async function indexLoader(args: AnyLoaderFunctionArgs) {
+	const page = await getPage(args)
+
+	const ids =
+		page?.activities?.flatMap((activity) => {
+			if (activity?.__typename === "TextActivity") {
+				return activity.text ? matchMediaId(activity.text) : []
+			}
+			return []
+		}) ?? []
+
+	return {
+		page,
+		media: ReadonlyArray.isNonEmptyArray(ids)
+			? getMedia({ ids: ids }, args)
+			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
+	}
+}
+
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
+		queryKey: ["_nav._index"],
+		queryFn: () => indexLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+	})
+}
+clientLoader.hydrate = true
+
+export const loader = (async (args) => {
+	return defer(await indexLoader(args), {
+		headers: {
+			"Cache-Control": getCacheControl(cacheControl)
+		}
+	})
 }) satisfies LoaderFunction
 
 export default function Index(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody>
@@ -365,7 +370,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 		<TooltipRich placement="top" store={store}>
 			<TooltipRichTrigger
 				render={
-					<Link to={route_user({ userName: props.userName })}>
+					<Link prefetch="intent" to={route_user({ userName: props.userName })}>
 						{props.children}
 					</Link>
 				}
@@ -478,7 +483,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 // 			domNode.name === "a"
 // 		) {
 // 			return (
-// 				<Link to={route_user({ userName: domNode.attribs["data-user-name"] })}>
+// 				<Link prefetch="intent" to={route_user({ userName: domNode.attribs["data-user-name"] })}>
 // 					{domToReact(domNode.children, options)}
 // 				</Link>
 // 			)
@@ -590,9 +595,7 @@ function parse2(html: string, options: any): ReactNode {
 }
 
 function sanitizeHtml(t: string) {
-	const DOMPurify = createDOMPurify(
-		serverOnly$(new JSDOM("").window) ?? globalThis.window
-	)
+	const DOMPurify = createDOMPurify(serverOnly$(new JSDOM("").window) ?? window)
 
 	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
 		if (node.tagName === "a") {

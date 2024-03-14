@@ -34,7 +34,7 @@ import {
 	ListItemTrailingSupportingText
 } from "~/components/List"
 import { MediaType } from "~/gql/graphql"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 import { route_media } from "../route"
 import { MediaCover } from "./MediaListCover"
@@ -77,6 +77,7 @@ export function MediaListItem(props: {
 					entry?.media ? (
 						<NavLink
 							unstable_viewTransition
+							prefetch="intent"
 							to={route_media({ id: entry.media.id })}
 						/>
 					) : (

@@ -2,14 +2,19 @@ import { Schema } from "@effect/schema"
 import { Option, pipe } from "effect"
 import { JsonToToken } from "./viewer"
 
-import type { ClientLoaderFunctionArgs } from "@remix-run/react"
-import type { LoaderFunctionArgs } from "@vercel/remix"
+import type {
+	ClientActionFunctionArgs,
+	ClientLoaderFunctionArgs
+} from "@remix-run/react"
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@vercel/remix"
 import * as cookie from "cookie"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 
 const API_URL = "https://graphql.anilist.co"
-export function client_get_client(args: { request: Pick<Request, "headers" | "signal"> }): {
+export function client_get_client(args: {
+	request: Pick<Request, "headers" | "signal">
+}): {
 	operation: <T, V>(
 		document: TypedDocumentString<T, V>,
 		variables: V
@@ -25,6 +30,10 @@ export function client_get_client(args: { request: Pick<Request, "headers" | "si
 export type AnyLoaderFunctionArgs =
 	| LoaderFunctionArgs
 	| ClientLoaderFunctionArgs
+
+export type AnyActionFunctionArgs =
+	| ActionFunctionArgs
+	| ClientActionFunctionArgs
 
 export async function client_operation<T, V>(
 	document: TypedDocumentString<T, V>,
@@ -79,9 +88,7 @@ export function client_get_headers(
 	console.log(request.headers.get("cookie"))
 
 	let cookies = cookie.parse(
-		clientOnly$(globalThis.document.cookie) ??
-			request.headers.get("Cookie") ??
-			""
+		clientOnly$(document.cookie) ?? request.headers.get("Cookie") ?? ""
 	)
 
 	let headers = pipe(
@@ -107,9 +114,7 @@ export class Cookie {
 
 export function decodeCookie(request: Request): Headers | undefined {
 	let cookies = cookie.parse(
-		clientOnly$(globalThis.document.cookie) ??
-			request.headers.get("Cookie") ??
-			""
+		clientOnly$(document.cookie) ?? request.headers.get("Cookie") ?? ""
 	)
 
 	let headers = pipe(

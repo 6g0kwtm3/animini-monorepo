@@ -1,5 +1,5 @@
 import { isAvailableLanguageTag } from "~/paraglide/runtime"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 import { useRawRouteLoaderData } from "./data"
 
 const rtlLngs = [

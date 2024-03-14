@@ -4,20 +4,19 @@ import {
 	Form,
 	Link,
 	Outlet,
-	json,
 	useLocation,
 	useNavigate,
 	useNavigation,
 	useParams,
 	useSubmit,
-	type ClientLoaderFunction,
+	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
-import type { LoaderFunction } from "@vercel/remix"
+import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
+import { json } from "@vercel/remix"
 
 import { Order, Predicate } from "effect"
 import type { ReactNode } from "react"
-import { clientOnly$ } from "vite-env-only"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
@@ -34,10 +33,10 @@ import { Sheet, SheetBody } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
 import { MediaFormat, MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import { Ariakit } from "~/lib/ariakit"
-import { client, createGetInitialData } from "~/lib/cache.client"
 import { client_get_client } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import { getCacheControl } from "~/lib/getCacheControl"
+
 import { graphql } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import { HashNavLink } from "~/lib/search/HashNavLink"
@@ -92,20 +91,14 @@ const cacheControl = {
 	private: true
 }
 
-
-let getInitialData = clientOnly$(createGetInitialData())
-export const clientLoader: ClientLoaderFunction = async (args) => {
-	console.log(args.request.url)
-	return await client.fetchQuery({
-		queryKey: ["_nav._user.$userName.$typelist._filters", args.params.userName, args.params.typelist],
-		queryFn: () => args.serverLoader(),
-		staleTime: cacheControl.maxAge * 1000,
-		initialData: await getInitialData?.(args)
-	})
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await args.serverLoader<typeof loader>()
 }
 clientLoader.hydrate = true
 
-function UserListSelectedFiltersQuery(){
+function UserListSelectedFiltersQuery() {
 	return graphql(`
 		query UserListSelectedFiltersQuery($userName: String!, $type: MediaType!) {
 			MediaListCollection(userName: $userName, type: $type) {
@@ -135,8 +128,6 @@ function useOptimisticLocation() {
 
 export default function Filters(): ReactNode {
 	const submit = useSubmit()
-
-	const { hash } = useOptimisticLocation()
 
 	const searchParams = useOptimisticSearchParams()
 
@@ -225,24 +216,27 @@ export default function Filters(): ReactNode {
 		</>
 	)
 }
+
 function ListTabs() {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
+
+	const lists = data?.MediaListCollection?.lists
+		?.filter(Predicate.isNotNull)
+		.sort(
+			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
+		)
+
 	return (
 		<Tabs>
-			{data?.MediaListCollection?.lists
-				?.filter(Predicate.isNotNull)
-				.sort(
-					Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
-				)
-				?.map((list) => {
-					return (
-						list.name && (
-							<TabsTab key={list.name} to={list.name} prefetch="intent">
-								{list.name}
-							</TabsTab>
-						)
+			{lists?.map((list, i) => {
+				return (
+					list.name && (
+						<TabsTab key={list.name} to={list.name} prefetch="intent">
+							{list.name}
+						</TabsTab>
 					)
-				})}
+				)
+			})}
 		</Tabs>
 	)
 }
@@ -262,6 +256,7 @@ function FilterButton() {
 			className={`md:hidden${searchParams.size > 0 ? " text-tertiary" : ""}`}
 			render={
 				<Link
+					prefetch="intent"
 					to={{
 						search: `?${filterParams}`,
 						pathname
@@ -276,7 +271,7 @@ function FilterButton() {
 
 function Filter() {
 	let { pathname } = useLocation()
-	const { hash } = useOptimisticLocation()
+
 	const navigate = useNavigate()
 	const searchParams = useOptimisticSearchParams()
 	const submit = useSubmit()
@@ -312,10 +307,16 @@ function Filter() {
 					grow
 					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
 				>
-					<TabsTab render={<HashNavLink to={`?${filterParams}`} />}>
+					<TabsTab
+						render={<HashNavLink prefetch="intent" to={`?${filterParams}`} />}
+					>
 						Filter
 					</TabsTab>
-					<TabsTab render={<HashNavLink to={`?${sortParams}`} />}>Sort</TabsTab>
+					<TabsTab
+						render={<HashNavLink prefetch="intent" to={`?${sortParams}`} />}
+					>
+						Sort
+					</TabsTab>
 				</Tabs>
 
 				<SheetBody>
@@ -427,19 +428,6 @@ export type ReadonlyURLSearchParams = Omit<
 	URLSearchParams,
 	"set" | "append" | "delete" | "sort"
 >
-
-function deleteSearchParam(
-	params: ReadonlyURLSearchParams,
-	name: string
-): URLSearchParams {
-	const result = new URLSearchParams()
-	for (const [key, value] of params.entries()) {
-		if (name !== key) {
-			result.append(key, value)
-		}
-	}
-	return result
-}
 
 const ANIME_STATUS_OPTIONS = {
 	[MediaStatus.Finished]: m.media_status_finished(),

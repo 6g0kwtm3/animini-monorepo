@@ -11,15 +11,16 @@ const ListContext = createContext(createList())
 
 export const ListItem = forwardRef<
 	HTMLLIElement,
-	ComponentPropsWithoutRef<"li"> & {
-		render?: ReactElement
-	}
->(function ListItem(props, ref) {
+	ComponentPropsWithoutRef<"li"> &
+		ListVariantProps & {
+			render?: ReactElement
+		}
+>(function ListItem({ lines, ...props }, ref) {
 	const { item } = useContext(ListContext)
 	return createElement("li", {
 		...props,
 		ref,
-		className: item({ className: props.className })
+		className: item({ className: props.className, lines })
 	})
 })
 export function ListItemContentTitle(

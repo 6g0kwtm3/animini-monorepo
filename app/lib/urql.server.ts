@@ -135,9 +135,7 @@ export const UrqlLive = Layer.effect(
 		const request = Option.getOrNull(args)?.request
 
 		const cookies = cookie.parse(
-			clientOnly$(globalThis.document.cookie) ??
-				request?.headers.get("Cookie") ??
-				""
+			clientOnly$(document.cookie) ?? request?.headers.get("Cookie") ?? ""
 		)
 
 		const token = pipe(

@@ -2,16 +2,16 @@ import {
 	Await,
 	Outlet,
 	useLocation,
-	type ClientLoaderFunction
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import type { LoaderFunction } from "@vercel/remix"
+import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
 
 import { Effect, Option, Predicate, pipe } from "effect"
 
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
@@ -38,22 +38,16 @@ import MaterialSymbolsFeedOutline from "~icons/material-symbols/feed-outline"
 import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
 import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-outline"
 
-import { clientOnly$ } from "vite-env-only"
 import { Layout } from "~/components/Layout"
 import { Viewer } from "~/lib/Remix/Remix.server"
-import { LoaderCache, client, createGetInitialData } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 
-let getInitialData = clientOnly$(createGetInitialData())
-export const clientLoader: ClientLoaderFunction = async (args) => {
-	return await client.fetchQuery({
-		queryKey: ["_nav"],
-		queryFn: () => args.serverLoader(),
-		staleTime: cacheControl.maxAge * 1000,
-		initialData: await getInitialData?.(args)
-	})
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return args.serverLoader<typeof loader>()
 }
 clientLoader.hydrate = true
 
@@ -188,7 +182,7 @@ const cacheControl = {
 
 export default function Nav(): ReactNode {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	const { pathname } = useLocation()
 
@@ -208,7 +202,7 @@ export default function Nav(): ReactNode {
 				) : (
 					<>
 						<Link
-							to={route_login(({
+							prefetch="intent" to={route_login(({
 								redirect: pathname
 							}))}
 							className={button()}
@@ -230,7 +224,7 @@ export default function Nav(): ReactNode {
 					lg: "drawer"
 				}}
 			>
-				<NavigationItem to="/">
+				<NavigationItem prefetch="intent" to="/">
 					<NavigationItemIcon>
 						<MaterialSymbolsFeedOutline />
 						<MaterialSymbolsFeed />
@@ -239,7 +233,10 @@ export default function Nav(): ReactNode {
 				</NavigationItem>
 				{rootData?.Viewer ? (
 					<>
-						<NavigationItem to={route_user({ userName: rootData.Viewer.name })}>
+						<NavigationItem
+							prefetch="intent"
+							to={route_user({ userName: rootData.Viewer.name })}
+						>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
@@ -248,6 +245,7 @@ export default function Nav(): ReactNode {
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
+							prefetch="intent"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "animelist"
@@ -260,6 +258,7 @@ export default function Nav(): ReactNode {
 							<div className="max-w-full break-words">Anime List</div>
 						</NavigationItem>
 						<NavigationItem
+							prefetch="intent"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "mangalist"
@@ -275,6 +274,7 @@ export default function Nav(): ReactNode {
 					</>
 				) : (
 					<NavigationItem
+						prefetch="intent"
 						to={route_login({
 							redirect: pathname
 						})}
@@ -286,7 +286,7 @@ export default function Nav(): ReactNode {
 						<div className="max-w-full break-words">Login</div>
 					</NavigationItem>
 				)}
-				<NavigationItem to="/notifications">
+				<NavigationItem prefetch="intent" to="/notifications">
 					<NavigationItemIcon>
 						<MaterialSymbolsNotificationsOutline />
 						<MaterialSymbolsNotifications />

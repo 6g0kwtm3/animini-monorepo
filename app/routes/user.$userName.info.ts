@@ -1,13 +1,13 @@
 import { Schema } from "@effect/schema"
-import type { LoaderFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
-import type { ClientLoaderFunction } from "@remix-run/react"
+import type { LoaderFunction, SerializeFrom } from "@remix-run/node"
+import {} from "@remix-run/node"
+import type { ClientLoaderFunctionArgs } from "@remix-run/react"
+import { json } from "@vercel/remix"
 import { clientOnly$ } from "vite-env-only"
 import { graphql } from "~/gql"
-import { LoaderCache } from "~/lib/cache.client"
+import { client, createGetInitialData, persister } from "~/lib/cache.client"
 import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
 import { getCacheControl } from "~/lib/getCacheControl"
-
 async function infoLoader(args: AnyLoaderFunctionArgs) {
 	const params = Schema.decodeUnknownSync(
 		Schema.struct({
@@ -33,12 +33,7 @@ async function infoLoader(args: AnyLoaderFunctionArgs) {
 		{ userName: params.userName },
 		args
 	)
-
-	return json(data, {
-		headers: {
-			"Cache-Control": getCacheControl(cacheControl)
-		}
-	})
+	return data
 }
 
 const cacheControl = {
@@ -47,14 +42,24 @@ const cacheControl = {
 	private: true
 }
 
-const cache = clientOnly$(
-	new LoaderCache({
-		...cacheControl,
-		lookup: infoLoader
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
+		persister,
+		queryKey: ["_nav", args.params.userName, "info"],
+		queryFn: () => infoLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
 	})
-)
-export const clientLoader: ClientLoaderFunction = async (args) => await cache?.get(args)
+}
+clientLoader.hydrate = true
 
 export const loader = (async (args) => {
-	return infoLoader(args)
+	return json(await infoLoader(args), {
+		headers: {
+			"Cache-Control": getCacheControl(cacheControl)
+		}
+	})
 }) satisfies LoaderFunction

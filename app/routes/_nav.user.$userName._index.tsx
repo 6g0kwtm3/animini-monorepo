@@ -2,7 +2,8 @@ import { Schema } from "@effect/schema"
 import type {
 	HeadersFunction,
 	LoaderFunction,
-	MetaFunction
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
@@ -11,25 +12,68 @@ import {
 	Link,
 	useFetcher,
 	useLocation,
-	type ClientLoaderFunction
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ReactNode } from "react"
-import { clientOnly$ } from "vite-env-only"
 import { Button, Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { graphql } from "~/gql"
 import { button } from "~/lib/button"
-import { LoaderCache } from "~/lib/cache.client"
-import { client_operation } from "~/lib/client"
+import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import { getCacheControl } from "~/lib/getCacheControl"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 
 import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "./user.$userId.follow"
+import { clientOnly$ } from "vite-env-only"
+import { createGetInitialData, client, persister } from "~/lib/cache.client"
 
 export const loader = (async (args) => {
+	return json(await userLoader(args), {
+		headers: {
+			"Cache-Control": getCacheControl(cacheControl)
+		}
+	})
+}) satisfies LoaderFunction
+
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
+		persister,
+		queryKey: ["_nav.user", args.params.userName, "_index"],
+		queryFn: () => userLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+	})
+}
+clientLoader.hydrate = true
+
+export const headers = (({ loaderHeaders }) => {
+	const cacheControl = loaderHeaders.get("Cache-Control")
+	return Predicate.isString(cacheControl)
+		? { "Cache-Control": cacheControl }
+		: new Headers()
+}) satisfies HeadersFunction
+
+export const meta = (({ params }) => {
+	return [
+		{
+			title: `${params.userName}'s profile`
+		}
+	]
+}) satisfies MetaFunction<typeof loader>
+
+async function userLoader(args: AnyLoaderFunctionArgs) {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
 	const data = await client_operation(
@@ -52,45 +96,8 @@ export const loader = (async (args) => {
 		})
 	}
 
-	return json(
-		{ user: data.User },
-		{
-			headers: {
-				"Cache-Control": getCacheControl(cacheControl)
-			}
-		}
-	)
-}) satisfies LoaderFunction
-
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
+	return { user: data.User }
 }
-const cache = clientOnly$(
-	new LoaderCache({
-		...cacheControl,
-		lookup: (args) => args.serverLoader()
-	})
-)
-export const clientLoader: ClientLoaderFunction = async (args) =>
-	await cache?.get(args)
-clientLoader.hydrate = true
-
-export const headers = (({ loaderHeaders }) => {
-	const cacheControl = loaderHeaders.get("Cache-Control")
-	return Predicate.isString(cacheControl)
-		? { "Cache-Control": cacheControl }
-		: new Headers()
-}) satisfies HeadersFunction
-
-export const meta = (({ params }) => {
-	return [
-		{
-			title: `${params.userName}'s profile`
-		}
-	]
-}) satisfies MetaFunction<typeof loader>
 
 function params() {
 	return Schema.struct({
@@ -100,7 +107,7 @@ function params() {
 
 export default function Page(): ReactNode {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	const { pathname } = useLocation()
 
@@ -112,10 +119,10 @@ export default function Page(): ReactNode {
 		<LayoutBody>
 			<LayoutPane>
 				<nav>
-					<Link to="animelist" className={button()}>
+					<Link prefetch="intent" to="animelist" className={button()}>
 						Anime List
 					</Link>
-					<Link to="mangalist" className={button()}>
+					<Link prefetch="intent" to="mangalist" className={button()}>
 						Manga List
 					</Link>
 				</nav>

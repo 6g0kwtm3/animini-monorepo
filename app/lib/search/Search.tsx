@@ -10,7 +10,7 @@ import {
 
 import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
-import type { loader as searchLoader } from "~/routes/_nav.search"
+import type { clientLoader as searchLoader } from "~/routes/_nav.search"
 
 import { Predicate, ReadonlyArray } from "effect"
 import {
@@ -28,7 +28,7 @@ import {
 	SearchViewInput,
 	SearchViewItem
 } from "~/components/SearchView"
-import type { loader as navLoader } from "~/routes/_nav"
+import type { clientLoader as navLoader } from "~/routes/_nav"
 import { copySearchParams } from "~/routes/copySearchParams"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { useRawRouteLoaderData } from "../data"
@@ -160,6 +160,7 @@ export function SearchButton(): ReactNode {
 			<TooltipPlainTrigger
 				render={
 					<NavigationItem
+						prefetch="intent"
 						to={{
 							search: `?q=`
 						}}
