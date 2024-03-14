@@ -16,17 +16,17 @@ export const HashNavLink = forwardRef<
 		children?: ComponentPropsWithoutRef<typeof NavLink>["children"]
 	}
 >(function HashNavLink({ children, ...props }, ref) {
-	const { hash, pathname } = useLocation()
+	const { search, pathname } = useLocation()
 
 	const path = useResolvedPath(props.to, { relative: props.relative })
-	const isActive = path.hash === hash && path.pathname === pathname
+	const isActive = path.search === search && path.pathname === pathname
 
 	const isTransitioning = unstable_useViewTransitionState(path)
 	const navigation = useNavigation()
 	const isPending =
 		navigation.state === "loading" &&
-		path.hash === navigation.location.hash &&
-		path.pathname === navigation.location.pathname
+		path.search === navigation.location.search &&
+		navigation.location.pathname.startsWith(path.pathname)
 
 	return (
 		<Link ref={ref} {...props} aria-current={isActive ? "page" : undefined}>

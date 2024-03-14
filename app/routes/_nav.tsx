@@ -1,12 +1,17 @@
-import { Await, Outlet, useLocation } from "@remix-run/react"
-import type { LoaderFunction } from "@vercel/remix"
+import {
+	Await,
+	Outlet,
+	useLocation,
+	type ClientLoaderFunctionArgs
+} from "@remix-run/react"
+import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
 
 import { Effect, Option, Predicate, pipe } from "effect"
 
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
@@ -18,9 +23,9 @@ import { graphql } from "~/lib/graphql"
 
 import { Schema } from "@effect/schema"
 import { defer } from "@vercel/remix"
-import { Suspense } from "react"
+import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
-import { Search } from "~/lib/search/Search"
+import { Search, SearchButton } from "~/lib/search/Search"
 
 import MaterialSymbolsNotifications from "~icons/material-symbols/notifications"
 import MaterialSymbolsNotificationsOutline from "~icons/material-symbols/notifications-outline"
@@ -33,9 +38,18 @@ import MaterialSymbolsFeedOutline from "~icons/material-symbols/feed-outline"
 import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
 import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-outline"
 
+import { Layout } from "~/components/Layout"
 import { Viewer } from "~/lib/Remix/Remix.server"
+import { getCacheControl } from "~/lib/getCacheControl"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
+
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return args.serverLoader<typeof loader>()
+}
+clientLoader.hydrate = true
 
 export const loader = (async (args) => {
 	return defer(
@@ -154,20 +168,32 @@ export const loader = (async (args) => {
 		},
 		{
 			headers: {
-				"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+				"Cache-Control": getCacheControl(cacheControl)
 			}
 		}
 	)
 }) satisfies LoaderFunction
 
-export default function Nav(): JSX.Element {
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+export default function Nav(): ReactNode {
 	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	const { pathname } = useLocation()
 
 	return (
-		<>
+		<Layout
+			navigation={{
+				initial: "bar",
+				sm: "rail",
+				lg: "drawer"
+			}}
+		>
 			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
 				{data?.Viewer ? (
 					<>
@@ -176,7 +202,7 @@ export default function Nav(): JSX.Element {
 				) : (
 					<>
 						<Link
-							to={route_login(({
+							prefetch="intent" to={route_login(({
 								redirect: pathname
 							}))}
 							className={button()}
@@ -198,7 +224,7 @@ export default function Nav(): JSX.Element {
 					lg: "drawer"
 				}}
 			>
-				<NavigationItem to="/">
+				<NavigationItem prefetch="intent" to="/">
 					<NavigationItemIcon>
 						<MaterialSymbolsFeedOutline />
 						<MaterialSymbolsFeed />
@@ -208,8 +234,8 @@ export default function Nav(): JSX.Element {
 				{rootData?.Viewer ? (
 					<>
 						<NavigationItem
+							prefetch="intent"
 							to={route_user({ userName: rootData.Viewer.name })}
-							end
 						>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
@@ -219,6 +245,7 @@ export default function Nav(): JSX.Element {
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
+							prefetch="intent"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "animelist"
@@ -231,6 +258,7 @@ export default function Nav(): JSX.Element {
 							<div className="max-w-full break-words">Anime List</div>
 						</NavigationItem>
 						<NavigationItem
+							prefetch="intent"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "mangalist"
@@ -246,6 +274,7 @@ export default function Nav(): JSX.Element {
 					</>
 				) : (
 					<NavigationItem
+						prefetch="intent"
 						to={route_login({
 							redirect: pathname
 						})}
@@ -257,7 +286,7 @@ export default function Nav(): JSX.Element {
 						<div className="max-w-full break-words">Login</div>
 					</NavigationItem>
 				)}
-				<NavigationItem to="/notifications">
+				<NavigationItem prefetch="intent" to="/notifications">
 					<NavigationItemIcon>
 						<MaterialSymbolsNotificationsOutline />
 						<MaterialSymbolsNotifications />
@@ -275,10 +304,11 @@ export default function Nav(): JSX.Element {
 						</Await>
 					</Suspense>
 				</NavigationItem>
-				<Search />
+				<SearchButton />
 			</Navigation>
 
 			<Outlet />
-		</>
+			<Search />
+		</Layout>
 	)
 }

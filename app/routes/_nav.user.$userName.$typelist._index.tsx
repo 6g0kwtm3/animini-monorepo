@@ -1,9 +1,13 @@
-import { Link, json } from "@remix-run/react"
+import { Link, type ClientLoaderFunctionArgs } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
-	MetaFunction
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
+import { json } from "@vercel/remix"
+import { useRawLoaderData } from "~/lib/data"
+
 import {
 	Effect,
 	Order,
@@ -16,7 +20,6 @@ import {
 import { Card } from "~/components/Card"
 import { MediaType } from "~/gql/graphql"
 import { Remix } from "~/lib/Remix/index.server"
-import { useRawLoaderData } from "~/lib/data"
 import {
 	MediaListItem,
 	type ListItem_EntryFragment
@@ -28,11 +31,12 @@ import { Schema } from "@effect/schema"
 import type { ReactNode } from "react"
 import { LayoutBody } from "~/components/Layout"
 import { List } from "~/components/List"
-import { button } from "~/lib/button"
 import { Ariakit } from "~/lib/ariakit"
+import { button } from "~/lib/button"
+import { getCacheControl } from "~/lib/getCacheControl"
 
 export const loader = (async (args) => {
-	return pipe(
+	return await pipe(
 		Effect.gen(function* (_) {
 			const client = yield* _(EffectUrql)
 			const params = yield* _(
@@ -126,7 +130,7 @@ export const loader = (async (args) => {
 				},
 				{
 					headers: {
-						"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+						"Cache-Control": getCacheControl(cacheControl)
 					}
 				}
 			)
@@ -137,6 +141,18 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await args.serverLoader<typeof loader>()
+}
+clientLoader.hydrate = true
 
 export const headers = (({ loaderHeaders }) => {
 	const cacheControl = loaderHeaders.get("Cache-Control")
@@ -156,7 +172,7 @@ export const meta = (({ params }) => {
 	]
 }) satisfies MetaFunction<typeof loader>
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody>
@@ -188,6 +204,7 @@ export default function Page(): ReactNode {
 												})}
 											</List>
 											<Link
+												prefetch="intent"
 												to={list.name}
 												className={button({ className: "w-full" })}
 											>

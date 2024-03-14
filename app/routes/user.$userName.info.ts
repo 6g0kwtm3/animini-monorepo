@@ -1,10 +1,14 @@
 import { Schema } from "@effect/schema"
-import type { LoaderFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { LoaderFunction, SerializeFrom } from "@remix-run/node"
+import {} from "@remix-run/node"
+import type { ClientLoaderFunctionArgs } from "@remix-run/react"
+import { json } from "@vercel/remix"
+import { clientOnly$ } from "vite-env-only"
 import { graphql } from "~/gql"
-import { client_operation } from "~/lib/client"
-
-export const loader = (async (args) => {
+import { client, createGetInitialData, persister } from "~/lib/cache.client"
+import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
+import { getCacheControl } from "~/lib/getCacheControl"
+async function infoLoader(args: AnyLoaderFunctionArgs) {
 	const params = Schema.decodeUnknownSync(
 		Schema.struct({
 			userName: Schema.string
@@ -29,10 +33,33 @@ export const loader = (async (args) => {
 		{ userName: params.userName },
 		args
 	)
+	return data
+}
 
-	return json(data, {
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
+		persister,
+		queryKey: ["_nav", args.params.userName, "info"],
+		queryFn: () => infoLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+	})
+}
+clientLoader.hydrate = true
+
+export const loader = (async (args) => {
+	return json(await infoLoader(args), {
 		headers: {
-			"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+			"Cache-Control": getCacheControl(cacheControl)
 		}
 	})
 }) satisfies LoaderFunction

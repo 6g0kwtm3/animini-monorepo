@@ -1,11 +1,18 @@
 import { useTooltipStore } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import { Form, Link, json, redirect } from "@remix-run/react"
+import {
+	Form,
+	Link,
+	redirect,
+	type ClientLoaderFunctionArgs
+} from "@remix-run/react"
 import type {
 	ActionFunction,
 	LoaderFunction,
-	MetaFunction
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
+import { json } from "@vercel/remix"
 import cookie from "cookie"
 import { Effect, Option, Predicate, pipe } from "effect"
 import { serverOnly$ } from "vite-env-only"
@@ -31,6 +38,7 @@ import { Remix } from "~/lib/Remix/index.server"
 import { fab } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaListCover"
+import { getCacheControl } from "~/lib/getCacheControl"
 import type { FragmentType } from "~/lib/graphql"
 import { makeFragmentData, useFragment } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
@@ -39,11 +47,19 @@ import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
+import { Ariakit } from "~/lib/ariakit"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await args.serverLoader<typeof loader>()
+}
+clientLoader.hydrate = true
+
 export const loader = (async (args) => {
-	return pipe(
+	return await pipe(
 		Effect.gen(function* (_) {
 			const client = yield* _(EffectUrql)
 
@@ -76,7 +92,7 @@ export const loader = (async (args) => {
 		Effect.map((data) =>
 			json(data, {
 				headers: {
-					"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+					"Cache-Control": getCacheControl(cacheControl)
 				}
 			})
 		),
@@ -86,8 +102,14 @@ export const loader = (async (args) => {
 	)
 }) satisfies LoaderFunction
 
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
 export const action = (async (args) => {
-	return pipe(
+	return await pipe(
 		Effect.gen(function* (_) {
 			const formData = yield* _(Remix.formData)
 			const { id } = yield* _(yield* _(Viewer))
@@ -145,7 +167,7 @@ const Notifications_query = serverOnly$(
 	`)
 )
 export default function Notifications(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 	const query = useFragment<typeof Notifications_query>(
 		makeFragmentData<typeof Notifications_query>(data.query)
 	)
@@ -191,6 +213,10 @@ export default function Notifications(): ReactNode {
 					</Form>
 				)}
 				<Card variant="elevated" className="max-sm:contents">
+					{!query?.Page?.notifications?.length && (
+						<Ariakit.Heading>No Notifications</Ariakit.Heading>
+					)}
+
 					<div className="-mx-4 sm:-my-4">
 						<List lines={{ initial: "three", sm: "two" }}>
 							{query?.Page?.notifications
@@ -256,7 +282,7 @@ function Airing(props: {
 	const notification = useFragment<typeof Airing_notification>(
 		props.notification
 	)
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		notification.media && (
@@ -264,6 +290,7 @@ function Airing(props: {
 				<ListItem
 					render={
 						<Link
+							prefetch="intent"
 							to={route_media({
 								id: notification.media.id
 							})}
@@ -347,7 +374,7 @@ function RelatedMediaAddition(props: {
 	const notification = useFragment<typeof RelatedMediaAddition_notification>(
 		props.notification
 	)
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		notification.media && (
@@ -355,6 +382,7 @@ function RelatedMediaAddition(props: {
 				<ListItem
 					render={
 						<Link
+							prefetch="intent"
 							to={route_media({
 								id: notification.media.id
 							})}
@@ -421,11 +449,15 @@ function ActivityLike(props: {
 	const notification = useFragment<typeof ActivityLike_notification>(
 		props.notification
 	)
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		notification.user && (
-			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
+			<ListItem
+				render={
+					<Link prefetch="intent" to={`/activity/${notification.activityId}`} />
+				}
+			>
 				<ListItemImg>
 					<img
 						src={notification.user.avatar?.large || ""}

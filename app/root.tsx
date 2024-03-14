@@ -5,26 +5,35 @@ import {
 	Scripts,
 	ScrollRestoration,
 	isRouteErrorResponse,
-	json,
-	useRouteError
+	useRouteError,
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import { LoaderArgs, LoaderLive } from "./lib/urql.server"
-
+import { json } from "@vercel/remix"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import type { LinksFunction, LoaderFunction } from "@vercel/remix"
+import type {
+	LinksFunction,
+	LoaderFunction,
+	SerializeFrom
+} from "@vercel/remix"
 
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
-import tailwind from "./tailwind.css?url"
 
-import type { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Layout as AppLayout } from "./components/Layout"
 import { Viewer } from "./lib/Remix/Remix.server"
 import { Ariakit } from "./lib/ariakit"
+
+import { QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { ClientOnly } from "remix-utils/client-only"
+import { client } from "./lib/cache.client"
+import { getCacheControl } from "./lib/getCacheControl"
 import { useLocale } from "./lib/useLocale"
 import { setLanguageTag } from "./paraglide/runtime"
+import tailwind from "./tailwind.css?url"
 
 export const links: LinksFunction = () => {
 	return [
@@ -45,8 +54,21 @@ export const links: LinksFunction = () => {
 	]
 }
 
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
+}
+
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return args.serverLoader<typeof loader>()
+}
+clientLoader.hydrate = true
+
 export const loader = (async (args) => {
-	return pipe(
+	return await pipe(
 		pipe(
 			Effect.gen(function* (_) {
 				const { request } = yield* _(LoaderArgs)
@@ -59,7 +81,7 @@ export const loader = (async (args) => {
 					},
 					{
 						headers: {
-							"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
+							"Cache-Control": getCacheControl(cacheControl)
 						}
 					}
 				)
@@ -73,7 +95,7 @@ export const loader = (async (args) => {
 
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const { locale, dir } = useLocale()
-	// const { nonce } = useRawLoaderData<typeof loader>()
+	// const { nonce } = useRawLoaderData()
 
 	setLanguageTag(locale)
 
@@ -99,6 +121,13 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			</head>
 			<body>
 				<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
+				<ClientOnly>
+					{() => (
+						<QueryClientProvider client={client}>
+							<ReactQueryDevtools initialIsOpen={false} />
+						</QueryClientProvider>
+					)}
+				</ClientOnly>
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
@@ -113,15 +142,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 export default function App(): ReactNode {
 	return (
 		<SnackbarQueue>
-			<AppLayout
-				navigation={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer"
-				}}
-			>
-				<Outlet />
-			</AppLayout>
+			<Outlet />
 		</SnackbarQueue>
 	)
 }

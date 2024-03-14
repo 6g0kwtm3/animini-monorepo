@@ -73,4 +73,4 @@ export const loader = (async () => {
 			}
 		}
 	)
-})satisfies LoaderFunction
+}) satisfies LoaderFunction

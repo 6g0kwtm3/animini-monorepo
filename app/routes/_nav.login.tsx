@@ -32,7 +32,7 @@ export const meta = (() => {
 const ANILIST_CLIENT_ID = 3455
 
 export const action = (async (args) => {
-	return pipe(
+	return await pipe(
 		Effect.gen(function* (_) {
 			const formData = yield* _(Remix.formData)
 			const { searchParams } = yield* _(ClientArgs)

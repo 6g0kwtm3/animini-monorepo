@@ -19,6 +19,32 @@ export default withTV({
 	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
+		transitionTimingFunction: {
+			emphasized: "cubic-bezier(0.2, 0.0, 0, 1.0)",
+			"emphasized-decelerate": "cubic-bezier(0.05, 0.7, 0.1, 1.0)",
+			"emphasized-accelerate": "cubic-bezier(0.3, 0.0, 0.8, 0.15)",
+			standard: "cubic-bezier(0.2, 0.0, 0, 1.0)",
+			"standard-decelerate": "cubic-bezier(0, 0, 0, 1)",
+			"standard-accelerate": "cubic-bezier(0.3, 0.0, 1, 1)"
+		},
+		transitionDuration: {
+			"sm-1": "50ms",
+			"sm-2": "100ms",
+			"sm-3": "150ms",
+			"sm-4": "200ms",
+			"md-1": "250ms",
+			"md-2": "300ms",
+			"md-3": "350ms",
+			"md-4": "400ms",
+			"lg-1": "450ms",
+			"lg-2": "500ms",
+			"lg-3": "550ms",
+			"lg-4": "600ms",
+			"xl-1": "700ms",
+			"xl-2": "700ms",
+			"xl-3": "800ms",
+			"xl-4": "1000ms"
+		},
 		screens: {
 			sm: "600px",
 			md: "840px",
@@ -156,7 +182,10 @@ export default withTV({
 		colors: Object.assign(
 			Object.fromEntries(
 				Object.entries(colors.dark).map(([key, value]) => {
-					return [`${key}`, `oklch(from var(--${key}) l c h / <alpha-value>)`]
+					return [
+						`${key}`,
+						`oklch(from var(--m3-${key}) l c h / <alpha-value>)`
+					]
 				})
 			),
 			{ transparent: "transparent" }
@@ -279,8 +308,8 @@ export default withTV({
 							.split("_")
 
 						return [
-							`--${key}`,
-							`oklch(from var(--palette-${token}) ${toeInv(Number(tone) / 100)} c h)`
+							`--m3-${key}`,
+							`oklch(from var(--m3-palette-${token}) ${toeInv(Number(tone) / 100)} c h)`
 						]
 					})
 				)
@@ -289,12 +318,12 @@ export default withTV({
 				{
 					palette: (value) => {
 						return {
-							"--palette-primary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(36)} h)`,
-							"--palette-secondary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(16)} h)`,
-							"--palette-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(24)} calc(h + 60))`,
-							"--palette-neutral": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(6)} h)`,
-							"--palette-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(8)} h)`,
-							"--palette-error": `oklch(${toeInv(50 / 100)} ${chroma(84)} 25)`
+							"--m3-palette-primary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(36)} h)`,
+							"--m3-palette-secondary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(16)} h)`,
+							"--m3-palette-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(24)} calc(h + 60))`,
+							"--m3-palette-neutral": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(6)} h)`,
+							"--m3-palette-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(8)} h)`,
+							"--m3-palette-error": `oklch(${toeInv(50 / 100)} ${chroma(84)} 25)`
 						}
 					}
 				},

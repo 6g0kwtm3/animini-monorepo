@@ -65,7 +65,7 @@
 // 	)
 
 // export const loader = (async (args) => {
-// 	return pipe(
+// 	return await pipe(
 // 		Effect.gen(function* (_) {
 // 			const { mediaId } = yield* _(
 // 				Remix.params({ mediaId: S.NumberFromString })
@@ -242,7 +242,7 @@
 // 	/>
 // )
 // export default function Page(): ReactNode {
-// 	const data = useRawLoaderData<typeof loader>()
+// 	const data = useRawLoaderData<typeof loader >()
 
 // 	const navigation = useNavigation()
 
@@ -354,7 +354,7 @@
 // 								<Ariakit.DialogDismiss
 // 									render={
 // 										<Link
-// 											to=".."
+// 											prefetch="intent" to=".."
 // 											onClick={(e) => (e.preventDefault(), navigate(-1))}
 // 										/>
 // 									}

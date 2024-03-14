@@ -1,9 +1,14 @@
-import { Await, Link, useFetcher } from "@remix-run/react"
+import {
+	Await,
+	Link,
+	useFetcher,
+	type ClientLoaderFunctionArgs
+} from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
-	LoaderFunctionArgs,
-	MetaFunction
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
 import { defer } from "@vercel/remix"
 
@@ -24,14 +29,14 @@ import {
 	ListItemContentTitle as ListItemTitle
 } from "~/components/List"
 import { graphql } from "~/gql"
-import { client_operation } from "~/lib/client"
+import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
 
 import { route_media, route_user } from "~/lib/route"
 
 // import * as R from '@remix-run/router'
 // console.log(R)
 
-import { serverOnly$ } from "vite-env-only"
+import { clientOnly$, serverOnly$ } from "vite-env-only"
 // import {RouterProvider} from 'react-router-dom'
 import type { VariablesOf } from "@graphql-typed-document-node/core"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
@@ -54,9 +59,11 @@ import {
 import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
 import { Loading, Skeleton } from "~/components/Skeleton"
-import type { loader as rootLoader } from "~/root"
-import type { loader as userInfoLoader } from "./user.$userName.info"
+import type { clientLoader as rootLoader } from "~/root"
+import type { clientLoader as userInfoLoader } from "./user.$userName.info"
 
+import { client, createGetInitialData } from "~/lib/cache.client"
+import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "./user.$userId.follow"
 
@@ -66,10 +73,10 @@ function MediaLink({
 }: Omit<ComponentPropsWithoutRef<typeof Link>, "to"> & {
 	mediaId: number
 }) {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
-		<Link to={route_media({ id: mediaId })} {...props}>
+		<Link prefetch="intent" to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
 				<Await errorElement={"Error..."} resolve={data.media}>
 					{(data) => {
@@ -116,55 +123,10 @@ function matchMediaId(s: string) {
 		.filter(isFinite)
 }
 
-async function indexLoader(args: LoaderFunctionArgs) {
-	const data = await client_operation(
-		graphql(`
-			query IndexQuery {
-				Page {
-					activities(sort: [ID_DESC], type_in: [TEXT]) {
-						__typename
-						... on TextActivity {
-							id
-							createdAt
-							text
-							user {
-								id
-								name
-								avatar {
-									large
-									medium
-								}
-							}
-						}
-					}
-				}
-			}
-		`),
-		{},
-		args
-	)
-
-	const ids =
-		data?.Page?.activities?.flatMap((activity) => {
-			if (activity?.__typename === "TextActivity") {
-				return activity.text ? matchMediaId(activity.text) : []
-			}
-			return []
-		}) ?? []
-
-	return defer(
-		{
-			page: data?.Page,
-			media: ReadonlyArray.isNonEmptyArray(ids)
-				? getMedia({ ids: ids }, args)
-				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
-		},
-		{
-			headers: {
-				"Cache-Control": "max-age=5, stale-while-revalidate=55, private"
-			}
-		}
-	)
+const cacheControl = {
+	maxAge: 15,
+	staleWhileRevalidate: 45,
+	private: true
 }
 
 export const headers = (({ loaderHeaders }) => {
@@ -194,9 +156,39 @@ const indexMediaQuery = serverOnly$(
 	`)
 )
 
+async function getPage(args: AnyLoaderFunctionArgs) {
+	const data = await client_operation(
+		graphql(`
+			query IndexQuery {
+				Page {
+					activities(sort: [ID_DESC], type_in: [TEXT]) {
+						__typename
+						... on TextActivity {
+							id
+							createdAt
+							text
+							user {
+								id
+								name
+								avatar {
+									large
+									medium
+								}
+							}
+						}
+					}
+				}
+			}
+		`),
+		{},
+		args
+	)
+	return data?.Page
+}
+
 async function getMedia(
 	variables: VariablesOf<typeof indexMediaQuery>,
-	args: LoaderFunctionArgs
+	args: AnyLoaderFunctionArgs
 ) {
 	const data = await client_operation(indexMediaQuery!, variables, args)
 
@@ -207,16 +199,48 @@ async function getMedia(
 	)
 }
 
-export const loader = ((args) => {
-	return indexLoader(args)
+async function indexLoader(args: AnyLoaderFunctionArgs) {
+	const page = await getPage(args)
+
+	const ids =
+		page?.activities?.flatMap((activity) => {
+			if (activity?.__typename === "TextActivity") {
+				return activity.text ? matchMediaId(activity.text) : []
+			}
+			return []
+		}) ?? []
+
+	return {
+		page,
+		media: ReadonlyArray.isNonEmptyArray(ids)
+			? getMedia({ ids: ids }, args)
+			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
+	}
+}
+
+const isInitialRequest = clientOnly$(createGetInitialData())
+export async function clientLoader(
+	args: ClientLoaderFunctionArgs
+): Promise<SerializeFrom<typeof loader>> {
+	return await client.ensureQueryData({
+		revalidateIfStale: true,
+		queryKey: ["_nav._index"],
+		queryFn: () => indexLoader(args),
+		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+	})
+}
+clientLoader.hydrate = true
+
+export const loader = (async (args) => {
+	return defer(await indexLoader(args), {
+		headers: {
+			"Cache-Control": getCacheControl(cacheControl)
+		}
+	})
 }) satisfies LoaderFunction
 
-// export const clientLoader = ((args) => {
-// 	return indexLoader(args)
-// }) satisfies LoaderFunction
-
 export default function Index(): ReactNode {
-	const data = useRawLoaderData<typeof loader>()
+	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody>
@@ -346,7 +370,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 		<TooltipRich placement="top" store={store}>
 			<TooltipRichTrigger
 				render={
-					<Link to={route_user({ userName: props.userName })}>
+					<Link prefetch="intent" to={route_user({ userName: props.userName })}>
 						{props.children}
 					</Link>
 				}
@@ -384,33 +408,34 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 					</div>
 
 					<TooltipRichActions>
-						{rootData?.Viewer?.name !== props.userName && (
-							<follow.Form
-								method="post"
-								action={`/user/${fetcher.data?.User?.id}/follow`}
-							>
-								<input
-									type="hidden"
-									name="isFollowing"
-									value={
-										follow.data?.ToggleFollow.isFollowing ??
-										follow.formData?.get("isFollowing") ??
-										fetcher.data?.User?.isFollowing
-											? ""
-											: "true"
-									}
-									id=""
-								/>
+						{rootData?.Viewer?.name &&
+							rootData.Viewer.name !== props.userName && (
+								<follow.Form
+									method="post"
+									action={`/user/${fetcher.data?.User?.id}/follow`}
+								>
+									<input
+										type="hidden"
+										name="isFollowing"
+										value={
+											follow.formData?.get("isFollowing") ??
+											follow.data?.ToggleFollow.isFollowing ??
+											fetcher.data?.User?.isFollowing
+												? ""
+												: "true"
+										}
+										id=""
+									/>
 
-								<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
-									{follow.data?.ToggleFollow.isFollowing ??
-									follow.formData?.get("isFollowing") ??
-									fetcher.data?.User?.isFollowing
-										? m.unfollow_button()
-										: m.follow_button()}
-								</Button>
-							</follow.Form>
-						)}
+									<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
+										{follow.formData?.get("isFollowing") ??
+										follow.data?.ToggleFollow.isFollowing ??
+										fetcher.data?.User?.isFollowing
+											? m.unfollow_button()
+											: m.follow_button()}
+									</Button>
+								</follow.Form>
+							)}
 					</TooltipRichActions>
 					{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 				<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
@@ -458,7 +483,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 // 			domNode.name === "a"
 // 		) {
 // 			return (
-// 				<Link to={route_user({ userName: domNode.attribs["data-user-name"] })}>
+// 				<Link prefetch="intent" to={route_user({ userName: domNode.attribs["data-user-name"] })}>
 // 					{domToReact(domNode.children, options)}
 // 				</Link>
 // 			)
@@ -570,9 +595,7 @@ function parse2(html: string, options: any): ReactNode {
 }
 
 function sanitizeHtml(t: string) {
-	const DOMPurify = createDOMPurify(
-		serverOnly$(new JSDOM("").window) ?? globalThis.window
-	)
+	const DOMPurify = createDOMPurify(serverOnly$(new JSDOM("").window) ?? window)
 
 	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
 		if (node.tagName === "a") {

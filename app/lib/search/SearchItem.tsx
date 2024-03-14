@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react"
+import { forwardRef } from "react"
 import { serverOnly$ } from "vite-env-only"
 import {
 	ListItem,
@@ -7,7 +8,6 @@ import {
 	ListItemContentTitle,
 	ListItemTrailingSupportingText
 } from "~/components/List"
-import { SearchViewItem } from "~/components/SearchView"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment } from "~/lib/graphql"
 import { MediaCover } from "../entry/MediaListCover"
@@ -27,40 +27,37 @@ const SearchItem_media = serverOnly$(
 )
 
 export type SearchItem_media = typeof SearchItem_media
-
-export function SearchItem(props: {
-	media: FragmentType<typeof SearchItem_media>
-}) {
-	const media = useFragment<typeof SearchItem_media>(props.media)
+export const SearchItem = forwardRef<
+	HTMLLIElement,
+	{ media: FragmentType<typeof SearchItem_media> }
+>(function SearchItem({ media, ...props }, ref) {
+	const data = useFragment<typeof SearchItem_media>(media)
 
 	return (
-		<SearchViewItem
+		<ListItem
+			{...props}
+			ref={ref}
 			render={
-				<ListItem
-					render={
-						<Link
-							to={route_media({ id: media.id })}
-							title={media.title?.userPreferred ?? undefined}
-						/>
-					}
+				<Link
+					prefetch="intent"
+					to={route_media({ id: data.id })}
+					title={data.title?.userPreferred ?? undefined}
 				/>
 			}
 		>
 			<ListItemAvatar>
-				<MediaCover media={media} />
+				<MediaCover media={data} />
 			</ListItemAvatar>
 
 			<ListItemContent>
-				<ListItemContentTitle>
-					{media.title?.userPreferred}
-				</ListItemContentTitle>
+				<ListItemContentTitle>{data.title?.userPreferred}</ListItemContentTitle>
 			</ListItemContent>
 
-			{media.type && (
+			{data.type && (
 				<ListItemTrailingSupportingText>
-					{media.type.toLowerCase()}
+					{data.type.toLowerCase()}
 				</ListItemTrailingSupportingText>
 			)}
-		</SearchViewItem>
+		</ListItem>
 	)
-}
+})
