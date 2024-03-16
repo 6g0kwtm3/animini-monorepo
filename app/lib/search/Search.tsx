@@ -61,7 +61,7 @@ export function Search(): ReactNode {
 
 	let ref = useRef<ElementRef<"input">>(null)
 
-	let location = useOptimisticLocation()
+	
 
 	const show = searchParams.get("sheet") === "search"
 	searchParams.delete("sheet")

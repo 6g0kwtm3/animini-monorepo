@@ -15,7 +15,7 @@ export function useRawRouteLoaderData<T>(
 	return useRouteLoaderData(...args) as SerializeFrom_<T> | undefined
 }
 
-type SerializeFrom<T> = T extends (...args: any[]) => infer Output
+export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>
 	: Jsonify<Awaited<T>>
 

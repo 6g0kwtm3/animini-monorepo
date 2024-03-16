@@ -123,7 +123,7 @@ const NavigationContext = createContext<string | undefined>(undefined)
 
 function NavigationActiveIndicator() {
 	const { activeIndicator } = useContext(Context)
-	const layoutId = useContext(NavigationContext)
+
 
 	return <div className={activeIndicator()} />
 }
