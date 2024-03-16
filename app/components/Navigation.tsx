@@ -124,7 +124,6 @@ const NavigationContext = createContext<string | undefined>(undefined)
 function NavigationActiveIndicator() {
 	const { activeIndicator } = useContext(Context)
 
-
 	return <div className={activeIndicator()} />
 }
 

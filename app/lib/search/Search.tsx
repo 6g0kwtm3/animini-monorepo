@@ -61,8 +61,6 @@ export function Search(): ReactNode {
 
 	let ref = useRef<ElementRef<"input">>(null)
 
-	
-
 	const show = searchParams.get("sheet") === "search"
 	searchParams.delete("sheet")
 
