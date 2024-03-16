@@ -3,13 +3,12 @@ import {
 	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
 	vitePlugin as remix
 } from "@remix-run/dev"
-import { installGlobals } from "@remix-run/node"
+
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import envOnly from "vite-env-only"
 import tsconfigPaths from "vite-tsconfig-paths"
-installGlobals()
 
 export default defineConfig({
 	plugins: [

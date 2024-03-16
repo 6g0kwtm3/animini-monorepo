@@ -46,8 +46,6 @@ import type { MediaCover_media } from "~/lib/entry/MediaListCover"
 import { MediaCover } from "~/lib/entry/MediaListCover"
 import { makeFragmentData } from "~/lib/graphql"
 
-import { JSDOM } from "jsdom"
-
 import createDOMPurify from "dompurify"
 import {
 	TooltipRich,
@@ -66,6 +64,7 @@ import { client, createGetInitialData } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "./user.$userId.follow"
+import { ClientOnly } from "remix-utils/client-only"
 
 function MediaLink({
 	mediaId,
@@ -283,7 +282,11 @@ export default function Index(): ReactNode {
 													{/* <ListItemTrailingSupportingText></ListItemTrailingSupportingText> */}
 												</ListItem>
 											</List>
-											{activity.text && <Markdown>{activity.text}</Markdown>}
+											<ClientOnly>
+												{() =>
+													activity.text && <Markdown>{activity.text}</Markdown>
+												}
+											</ClientOnly>
 										</Card>
 									</li>
 								)
@@ -595,7 +598,7 @@ function parse2(html: string, options: any): ReactNode {
 }
 
 function sanitizeHtml(t: string) {
-	const DOMPurify = createDOMPurify(serverOnly$(new JSDOM("").window) ?? window)
+	const DOMPurify = createDOMPurify(window)
 
 	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
 		if (node.tagName === "a") {

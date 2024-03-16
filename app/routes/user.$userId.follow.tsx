@@ -1,5 +1,5 @@
 import { Schema } from "@effect/schema"
-import type { ActionFunction } from "@remix-run/node"
+import type { ActionFunction } from "@remix-run/cloudflare"
 import { useActionData, type ClientActionFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
 import { graphql } from "~/gql"

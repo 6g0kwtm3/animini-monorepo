@@ -1,7 +1,7 @@
 import { Schema } from "@effect/schema"
+import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
-import type { LoaderFunction, SerializeFrom } from "@remix-run/node"
-import {} from "@remix-run/node"
+
 import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 import { clientOnly$ } from "vite-env-only"
 import { graphql } from "~/gql"
