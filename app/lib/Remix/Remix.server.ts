@@ -9,6 +9,7 @@ import { NoSuchElementException } from "effect/Cause"
 
 import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 import type { LoaderFunctionArgs, TypedResponse } from "@vercel/remix"
+import { json } from "@vercel/remix"
 import cookie from "cookie"
 import { dev } from "../dev"
 
@@ -116,13 +117,13 @@ export async function runLoader<E, A>(
 	const { cause } = exit
 
 	if (dev) {
-		throw new Response(Cause.pretty(cause), {
+		throw json(Cause.pretty(cause), {
 			status: 500
 		})
 	}
 
 	if (!Cause.isFailType(cause)) {
-		throw new Response(null, {
+		throw json(null, {
 			status: 500
 		})
 	}
@@ -130,7 +131,7 @@ export async function runLoader<E, A>(
 	const { error } = cause
 
 	if (error instanceof NoSuchElementException) {
-		throw new Response("Not found", {
+		throw json("Not found", {
 			status: 404
 		})
 	}
@@ -140,7 +141,7 @@ export async function runLoader<E, A>(
 	}
 
 	if (error instanceof Timeout) {
-		throw new Response(
+		throw json(
 			`Request timeout. Try again in ${error.reset - Date.now()}s`,
 			{
 				status: 504
@@ -148,7 +149,7 @@ export async function runLoader<E, A>(
 		)
 	}
 
-	throw new Response(null, {
+	throw json(null, {
 		status: 500
 	})
 }

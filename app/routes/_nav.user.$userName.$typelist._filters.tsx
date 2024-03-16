@@ -8,6 +8,7 @@ import {
 	useNavigate,
 	useNavigation,
 	useParams,
+	useSearchParams,
 	useSubmit,
 	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
@@ -76,7 +77,7 @@ export const loader = (async (args) => {
 		type: {
 			animelist: MediaType.Anime,
 			mangalist: MediaType.Manga
-		}[params["typelist"]]
+		}[params.typelist]
 	})
 
 	return json(data, {
@@ -130,6 +131,7 @@ export default function Filters(): ReactNode {
 	const submit = useSubmit()
 
 	const searchParams = useOptimisticSearchParams()
+	const { pathname } = useLocation()
 
 	return (
 		<>
@@ -137,6 +139,7 @@ export default function Filters(): ReactNode {
 				<LayoutPane variant="fixed" className="max-md:hidden">
 					<Card variant="elevated" className="max-h-full overflow-y-auto">
 						<Form
+							action={pathname}
 							replace
 							onChange={(e) => submit(e.currentTarget)}
 							className="grid grid-cols-2 gap-2"
@@ -226,12 +229,18 @@ function ListTabs() {
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
 		)
 
+	const [searchParams] = useSearchParams()
+
 	return (
 		<Tabs>
 			{lists?.map((list, i) => {
 				return (
 					list.name && (
-						<TabsTab key={list.name} to={list.name} prefetch="intent">
+						<TabsTab
+							key={list.name}
+							to={`${list.name}?${searchParams}`}
+							prefetch="intent"
+						>
 							{list.name}
 						</TabsTab>
 					)

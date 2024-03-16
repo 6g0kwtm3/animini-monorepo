@@ -246,7 +246,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 					)}
 				</TooltipRichSupportingText>
 				{Predicate.isString(data?.Viewer?.name) &&
-					data.Viewer.name === params["userName"] && (
+					data.Viewer.name === params.userName && (
 						<TooltipRichActions>
 							<Form method="post">
 								<input type="hidden" name="mediaId" value={entry.media?.id} />

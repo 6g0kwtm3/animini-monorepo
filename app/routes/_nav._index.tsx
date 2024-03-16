@@ -160,7 +160,7 @@ async function getPage(args: AnyLoaderFunctionArgs) {
 	const data = await client_operation(
 		graphql(`
 			query IndexQuery {
-				Page {
+				Page(perPage: 10) {
 					activities(sort: [ID_DESC], type_in: [TEXT]) {
 						__typename
 						... on TextActivity {
@@ -317,12 +317,12 @@ const options = {
 			return <div {...props} />
 		},
 		a(props) {
-			if (!props["href"]?.trim()) {
+			if (!props.href?.trim()) {
 				return <span className="text-primary">{props.children}</span>
 			}
 
 			// @ts-ignore
-			if (props["className"] === "media-link" && props["data-id"]) {
+			if (props.className === "media-link" && props["data-id"]) {
 				// @ts-ignore
 				return <MediaLink mediaId={props["data-id"]} />
 			}

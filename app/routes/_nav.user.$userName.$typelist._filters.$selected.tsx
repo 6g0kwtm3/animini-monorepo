@@ -13,7 +13,7 @@ import type {
 	LoaderFunction,
 	SerializeFrom
 } from "@vercel/remix"
-import { defer } from "@vercel/remix"
+import { defer, json } from "@vercel/remix"
 import { useRawLoaderData } from "~/lib/data"
 
 // import type { FragmentType } from "~/lib/graphql"
@@ -46,6 +46,7 @@ import { List } from "~/components/List"
 import { Loading, Skeleton } from "~/components/Skeleton"
 import { Remix } from "~/lib/Remix/index.server"
 import { Ariakit } from "~/lib/ariakit"
+import { client, createGetInitialData } from "~/lib/cache.client"
 import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
 import { getLibrary } from "~/lib/electron/library.server"
 import {
@@ -55,8 +56,7 @@ import {
 import { toWatch } from "~/lib/entry/toWatch"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
-import { createGetInitialData, client } from "~/lib/cache.client"
-import { AnimatePresence } from "framer-motion"
+
 
 function UserListSelectedFiltersIndexQuery() {
 	return graphql(`
@@ -97,7 +97,6 @@ export const headers = (({ loaderHeaders }) => {
 		? { "Cache-Control": cacheControl }
 		: new Headers()
 }) satisfies HeadersFunction
-
 async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 	const client = await client_get_client(args)
@@ -115,7 +114,7 @@ async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 	)
 
 	if (!selectedList) {
-		throw new Response("List not found", {
+		throw json("List not found", {
 			status: 404
 		})
 	}

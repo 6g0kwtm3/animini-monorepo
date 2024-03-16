@@ -7,6 +7,7 @@ import type {
 	ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@vercel/remix"
+import { json } from "@vercel/remix"
 import * as cookie from "cookie"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
@@ -63,7 +64,7 @@ export async function client_operation<T, V>(
 
 	if (!response.ok) {
 		console.error({ response, body: await response.text() })
-		throw new Response(null, {
+		throw json(null, {
 			status: response.status,
 			statusText: response.statusText
 		})
@@ -82,6 +83,7 @@ export async function client_operation<T, V>(
 
 	return (data as T) ?? null
 }
+
 export function client_get_headers(
 	request: Pick<Request, "headers">
 ): Headers | undefined {

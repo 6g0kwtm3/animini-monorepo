@@ -1,18 +1,18 @@
 import { Schema } from "@effect/schema"
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
+    HeadersFunction,
+    LoaderFunction,
+    MetaFunction,
+    SerializeFrom
 } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
 import {
-	Form,
-	Link,
-	useFetcher,
-	useLocation,
-	type ClientLoaderFunctionArgs
+    Form,
+    Link,
+    useFetcher,
+    useLocation,
+    type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ReactNode } from "react"
@@ -25,10 +25,10 @@ import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
 import { getCacheControl } from "~/lib/getCacheControl"
 import type { clientLoader as rootLoader } from "~/root"
 
+import { clientOnly$ } from "vite-env-only"
+import { client, createGetInitialData, persister } from "~/lib/cache.client"
 import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "./user.$userId.follow"
-import { clientOnly$ } from "vite-env-only"
-import { createGetInitialData, client, persister } from "~/lib/cache.client"
 
 export const loader = (async (args) => {
 	return json(await userLoader(args), {
@@ -91,7 +91,7 @@ async function userLoader(args: AnyLoaderFunctionArgs) {
 	)
 
 	if (!data?.User) {
-		throw new Response("User not found", {
+		throw json("User not found", {
 			status: 404
 		})
 	}

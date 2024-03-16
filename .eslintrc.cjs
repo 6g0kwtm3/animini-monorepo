@@ -13,7 +13,9 @@ module.exports = {
 				project: true
 			},
 			rules: {
-				"@typescript-eslint/no-unnecessary-condition": "error"
+				"@typescript-eslint/no-unnecessary-condition": "error",
+				"@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
+				"@typescript-eslint/dot-notation": "error",
 			}
 		},
 		{

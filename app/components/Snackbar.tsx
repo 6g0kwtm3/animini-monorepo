@@ -60,7 +60,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>): ReactNode {
 		for (const element of queue.current) {
 			element.showPopover()
 
-			const timeout = Number(element.dataset["timeout"])
+			const timeout = Number(element.dataset.timeout)
 
 			if (!Number.isFinite(timeout)) {
 				return

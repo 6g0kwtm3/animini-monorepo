@@ -9,6 +9,7 @@ import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "./viewer"
 
+import { json } from "@vercel/remix"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { Remix } from "./Remix/index.server"
@@ -92,7 +93,7 @@ export function operation<T, V>(
 			})
 			return yield* _(
 				new Remix.ResponseError({
-					response: new Response(null, {
+					response: json(null, {
 						status: response.status,
 						statusText: response.statusText
 					})
@@ -126,7 +127,6 @@ export function operation<T, V>(
 		return (data as T) ?? null
 	})
 }
-
 let timeout = 0
 
 export const UrqlLive = Layer.effect(
