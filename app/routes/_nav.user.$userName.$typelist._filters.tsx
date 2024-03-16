@@ -16,7 +16,7 @@ import {
 import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
-import { Order, Predicate } from "effect"
+import { Order } from "effect"
 import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
@@ -224,7 +224,7 @@ function ListTabs() {
 	const data = useRawLoaderData<typeof clientLoader>()
 
 	const lists = data?.MediaListCollection?.lists
-		?.filter(Predicate.isNotNull)
+		?.filter((el) => el != null)
 		.sort(
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
 		)

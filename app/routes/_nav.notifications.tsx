@@ -220,7 +220,7 @@ export default function Notifications(): ReactNode {
 					<div className="-mx-4 sm:-my-4">
 						<List lines={{ initial: "three", sm: "two" }}>
 							{query?.Page?.notifications
-								?.filter(Predicate.isNotNull)
+								?.filter((el) => el != null)
 								.map((notification) => {
 									if (notification.__typename === "AiringNotification") {
 										return (

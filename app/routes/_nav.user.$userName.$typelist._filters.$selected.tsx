@@ -4,11 +4,13 @@ import {
 	isRouteErrorResponse,
 	useRouteError,
 	useSearchParams,
+	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
 import type {
+	ActionFunction,
 	HeadersFunction,
 	LoaderFunction,
 	SerializeFrom
@@ -53,10 +55,10 @@ import {
 	MediaListItem,
 	type ListItem_EntryFragment
 } from "~/lib/entry/ListItem"
+import { increment } from "~/lib/entry/progress/increment"
 import { toWatch } from "~/lib/entry/toWatch"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
-
 
 function UserListSelectedFiltersIndexQuery() {
 	return graphql(`
@@ -90,6 +92,16 @@ const cacheControl = {
 	staleWhileRevalidate: 45,
 	private: true
 }
+
+export const action = (async (args) => {
+	return await increment(args)
+}) satisfies ActionFunction
+
+export const clientAction = (async (args) => {
+	const result = await increment(args)
+	client.invalidateQueries()
+	return result
+}) satisfies ClientActionFunction
 
 export const headers = (({ loaderHeaders }) => {
 	const cacheControl = loaderHeaders.get("Cache-Control")
@@ -315,7 +327,7 @@ export default function Page(): ReactNode {
 								<MediaListHeaderToWatch
 									entries={filterEntries(
 										makeFragmentData<typeof FilterEntries_entries>(
-											selectedList.entries?.filter(Predicate.isNotNull) ?? []
+											selectedList.entries?.filter((el) => el != null) ?? []
 										),
 										search
 									)}
@@ -330,7 +342,7 @@ export default function Page(): ReactNode {
 							{({ selectedList }) =>
 								filterEntries(
 									makeFragmentData<typeof FilterEntries_entries>(
-										selectedList.entries?.filter(Predicate.isNotNull) ?? []
+										selectedList.entries?.filter((el) => el != null) ?? []
 									),
 									search
 								).length
@@ -357,13 +369,13 @@ export default function Page(): ReactNode {
 									const mediaList = sortEntries(
 										filterEntries(
 											makeFragmentData<typeof FilterEntries_entries>(
-												selectedList.entries?.filter(Predicate.isNotNull) ?? []
+												selectedList.entries?.filter((el) => el != null) ?? []
 											),
 											search
 										),
 										search
 									)
-										.filter(Predicate.isNotNull)
+										.filter((el) => el != null)
 										.map((entry) => (
 											<MediaListItem
 												key={entry.id}

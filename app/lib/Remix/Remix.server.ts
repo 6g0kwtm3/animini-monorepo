@@ -141,12 +141,9 @@ export async function runLoader<E, A>(
 	}
 
 	if (error instanceof Timeout) {
-		throw json(
-			`Request timeout. Try again in ${error.reset - Date.now()}s`,
-			{
-				status: 504
-			}
-		)
+		throw json(`Request timeout. Try again in ${error.reset - Date.now()}s`, {
+			status: 504
+		})
 	}
 
 	throw json(null, {

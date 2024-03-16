@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import { Predicate, ReadonlyArray } from "effect"
+import { ReadonlyArray } from "effect"
 import { serverOnly$ } from "vite-env-only"
 import { List, ListItem } from "~/components/List"
 import {
@@ -50,12 +50,14 @@ export function SearchTrending(props: {
 							Trending
 						</div>
 					</Ariakit.ComboboxGroupLabel>
-					{data.trending.media.filter(Predicate.isNotNull).map((media) => (
-						<SearchViewItem
-							key={media.id}
-							render={<SearchItem media={media} />}
-						/>
-					))}
+					{data.trending.media
+						.filter((el) => el != null)
+						.map((media) => (
+							<SearchViewItem
+								key={media.id}
+								render={<SearchItem media={media} />}
+							/>
+						))}
 				</SearchViewBodyGroup>
 			</SearchViewBody>
 		)

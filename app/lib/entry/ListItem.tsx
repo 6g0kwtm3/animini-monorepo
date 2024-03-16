@@ -1,20 +1,18 @@
-import { Form, NavLink, useParams } from "@remix-run/react"
+import {
+	Form,
+	Link,
+	NavLink,
+	useActionData,
+	useNavigation,
+	useParams,
+	useSearchParams
+} from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import { Predicate } from "effect"
-import {
-	Button as ButtonText,
-	ButtonIcon as ButtonTextIcon
-} from "~/components/Button"
-import {
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichSupportingText,
-	TooltipRichTrigger
-} from "~/components/Tooltip"
+
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
@@ -30,19 +28,21 @@ import {
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
-	ListItemImg,
-	ListItemTrailingSupportingText
+	ListItemImg
 } from "~/components/List"
-import { MediaType } from "~/gql/graphql"
 import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
+
 import { route_media } from "../route"
 import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
 
+import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.$selected"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
+import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
+import { M3 } from "../components"
 import { useRawRouteLoaderData } from "../data"
 
 const MediaListItem_entry = serverOnly$(
@@ -72,25 +72,25 @@ export function MediaListItem(props: {
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem
-				render={
-					entry?.media ? (
-						<NavLink
-							unstable_viewTransition
-							prefetch="intent"
-							to={route_media({ id: entry.media.id })}
-						/>
-					) : (
-						<div />
-					)
-				}
-			>
+			<ListItem render={<div />}>
 				<ListItemImg>
 					<Skeleton full>
 						{entry?.media ? <MediaCover media={entry.media} /> : null}
 					</Skeleton>
 				</ListItemImg>
-				<ListItemContent>
+				<ListItemContent
+					render={
+						entry?.media ? (
+							<NavLink
+								unstable_viewTransition
+								prefetch="intent"
+								to={route_media({ id: entry.media.id })}
+							/>
+						) : (
+							<div />
+						)
+					}
+				>
 					<ListItemContentTitle>
 						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
 					</ListItemContentTitle>
@@ -100,9 +100,8 @@ export function MediaListItem(props: {
 						</Skeleton>
 					</ListItemContentSubtitle>
 				</ListItemContent>
-				<ListItemTrailingSupportingText>
-					<Skeleton>{entry && <Progress entry={entry} />}</Skeleton>
-				</ListItemTrailingSupportingText>
+
+				<Skeleton>{entry && <Progress entry={entry} />}</Skeleton>
 			</ListItem>
 		</li>
 	)
@@ -179,7 +178,6 @@ const Progress_entry = serverOnly$(
 	graphql(`
 		fragment Progress_entry on MediaList {
 			id
-
 			progress
 			media {
 				...Avalible_media
@@ -197,74 +195,60 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 	const avalible = getAvalible(entry.media)
 	const data = useRawRouteLoaderData<typeof rootLoader>("root")
 	const params = useParams()
+	const actionData = useActionData<typeof selectedAction>()
+	const navigation = useNavigation()
+
+	const optimisticEntry =
+		actionData?.SaveMediaListEntry ??
+		Object.fromEntries(navigation.formData ?? new FormData())
+
+	const progress =
+		(Number(optimisticEntry.id) === entry.id
+			? Number(optimisticEntry.progress)
+			: entry.progress) ?? 0
+
+	const [search] = useSearchParams()
+
+	search.set("sheet", String(entry.id))
 
 	return (
-		<TooltipRich placement="top">
-			<TooltipRichTrigger>
-				{entry.progress}
-				{Predicate.isNumber(avalible) ? (
-					<>
-						/
-						<span
-							className={
-								avalible !== (entry.media?.episodes ?? entry.media?.chapters)
-									? "underline decoration-dotted"
-									: ""
-							}
-						>
-							{avalible}
-						</span>
-					</>
-				) : (
-					""
+		<div className="flex">
+			{Predicate.isString(data?.Viewer?.name) &&
+				data.Viewer.name === params.userName && (
+					<Form className="hidden sm:block" method="post">
+						<input type="hidden" name="progress" value={progress + 1} />
+						<input type="hidden" name="id" value={entry.id} />
+						<input type="hidden" name="intent" value="increment" />
+						<M3.Button type="submit">
+							<span>
+								{progress}
+								{Predicate.isNumber(avalible) ? (
+									<>
+										/
+										<span
+											className={
+												avalible !==
+												(entry.media?.episodes ?? entry.media?.chapters)
+													? "underline decoration-dotted"
+													: ""
+											}
+										>
+											{avalible}
+										</span>
+									</>
+								) : (
+									""
+								)}
+							</span>
+							<M3.ButtonIcon>
+								<MaterialSymbolsAdd />
+							</M3.ButtonIcon>
+						</M3.Button>
+					</Form>
 				)}
-			</TooltipRichTrigger>
-			<TooltipRichContainer>
-				<TooltipRichSupportingText>
-					{entry.media?.type === MediaType.Anime ? (
-						avalible !== entry.media.episodes ? (
-							<>
-								{m.avalible_episodes({ avalible: avalible ?? "unknown" })}
-								<br />
-								{m.total_episodes({
-									total: entry.media.episodes ?? "unknown"
-								})}
-							</>
-						) : (
-							m.all_avalible()
-						)
-					) : avalible !== entry.media?.chapters ? (
-						<>
-							{m.avalible_chapters({ avalible: avalible ?? "unknown" })}
-							<br />
-							{m.total_chapters({
-								total: entry.media?.chapters ?? "unknown"
-							})}
-						</>
-					) : (
-						m.all_chapters_avalible()
-					)}
-				</TooltipRichSupportingText>
-				{Predicate.isString(data?.Viewer?.name) &&
-					data.Viewer.name === params.userName && (
-						<TooltipRichActions>
-							<Form method="post">
-								<input type="hidden" name="mediaId" value={entry.media?.id} />
-								<input
-									type="hidden"
-									name="progress"
-									value={(entry.progress ?? 0) + 1}
-								/>
-								<ButtonText type="submit">
-									<ButtonTextIcon>
-										<MaterialSymbolsAdd />
-									</ButtonTextIcon>
-									{m.increment_progress()}
-								</ButtonText>
-							</Form>
-						</TooltipRichActions>
-					)}
-			</TooltipRichContainer>
-		</TooltipRich>
+			<M3.Icon render={<Link to={`?${search}`} prefetch="intent" />}>
+				<MaterialSymbolsMoreHoriz />
+			</M3.Icon>
+		</div>
 	)
 }

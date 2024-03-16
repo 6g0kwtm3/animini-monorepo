@@ -1,13 +1,12 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import { vitePlugin as remix } from "@remix-run/dev"
+import { installGlobals } from "@remix-run/node"
 import { vercelPreset } from "@vercel/remix/vite"
-import * as million from "million/compiler"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import envOnly from "vite-env-only"
 import tsconfigPaths from "vite-tsconfig-paths"
-import { installGlobals } from "@remix-run/node"
 installGlobals()
 
 export default defineConfig({

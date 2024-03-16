@@ -175,8 +175,8 @@ export const loader = (async (args) => {
 }) satisfies LoaderFunction
 
 const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
+	maxAge: 60,
+	staleWhileRevalidate: 60 * 5,
 	private: true
 }
 

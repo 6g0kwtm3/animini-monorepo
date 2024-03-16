@@ -194,7 +194,7 @@ async function getMedia(
 
 	return ReadonlyRecord.fromEntries(
 		data?.Page?.media
-			?.filter(Predicate.isNotNull)
+			?.filter((el) => el != null)
 			.map((media) => [String(media.id), media] as const) ?? []
 	)
 }
@@ -247,7 +247,7 @@ export default function Index(): ReactNode {
 			<LayoutPane>
 				<ul className="flex flex-col gap-2">
 					{data.page?.activities
-						?.filter(Predicate.isNotNull)
+						?.filter((el) => el != null)
 						.map((activity) => {
 							if (activity.__typename === "TextActivity") {
 								return (

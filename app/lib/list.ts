@@ -12,7 +12,7 @@ export const createList = tv(
 			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
 			itemContent:
-				"grid first:col-span-2 last:col-span-2 first:last:col-span-3",
+				"grid h-full first:col-span-2 last:col-span-2 first:last:col-span-3",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
 			trailingSupportingText: "text-end text-label-sm text-on-surface-variant"
@@ -21,18 +21,21 @@ export const createList = tv(
 			lines: {
 				one: {
 					root: "",
-					item: "min-h-[3.5rem] items-center py-2",
-					itemSubtitle: "hidden"
+					item: "min-h-[3.5rem] items-center",
+					itemSubtitle: "hidden",
+					itemContent: "py-2"
 				},
 				two: {
 					root: "",
-					item: "min-h-[4.5rem] items-center py-2",
-					itemSubtitle: "block truncate"
+					item: "min-h-[4.5rem] items-center",
+					itemSubtitle: "block truncate",
+					itemContent: "py-2"
 				},
 				three: {
 					root: "",
-					item: "min-h-[5.5rem] items-start py-3",
-					itemSubtitle: "line-clamp-2"
+					item: "min-h-[5.5rem] items-start",
+					itemSubtitle: "line-clamp-2",
+					itemContent: "py-3"
 				}
 			}
 		},

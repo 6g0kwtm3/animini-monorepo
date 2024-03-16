@@ -258,7 +258,7 @@
 // 	const defaultAdvancedScores =
 // 		pipe(
 // 			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
-// 				?.filter(Predicate.isNotNull)
+// 				?.filter(el=> el!=null)
 // 				.map((category) =>
 // 					pipe(
 // 						advancedScores,
@@ -607,7 +607,7 @@
 // 		useFragment<typeof CustomLists_mediaListTypeOptions>(listOptions)
 
 // 	const customLists =
-// 		mediaListTypeOptions?.customLists?.filter(Predicate.isNotNull) ?? []
+// 		mediaListTypeOptions?.customLists?.filter(el=> el!=null) ?? []
 
 // 	if (!customLists.length) {
 // 		return null

@@ -1,9 +1,9 @@
 import {
-    Link,
-    useLocation,
-    useOutlet,
-    useParams,
-    type ClientLoaderFunctionArgs
+	Link,
+	useLocation,
+	useOutlet,
+	useParams,
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import type { LoaderFunction, MetaFunction, SerializeFrom } from "@vercel/remix"
 import { json } from "@vercel/remix"
@@ -15,19 +15,19 @@ import { cloneElement } from "react"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-    Menu,
-    MenuDivider,
-    MenuItem,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuTrigger
+	Menu,
+	MenuDivider,
+	MenuItem,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuTrigger
 } from "~/components/Menu"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import { graphql, makeFragmentData } from "~/lib/graphql"

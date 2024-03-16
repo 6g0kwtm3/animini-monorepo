@@ -1,18 +1,18 @@
 import { Schema } from "@effect/schema"
 import type {
-    HeadersFunction,
-    LoaderFunction,
-    MetaFunction,
-    SerializeFrom
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction,
+	SerializeFrom
 } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
 import {
-    Form,
-    Link,
-    useFetcher,
-    useLocation,
-    type ClientLoaderFunctionArgs
+	Form,
+	Link,
+	useFetcher,
+	useLocation,
+	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ReactNode } from "react"

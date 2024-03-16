@@ -101,7 +101,7 @@ export const loader = (async (args) => {
 
 			const order = ReadonlyRecord.fromEntries(
 				(listOptions?.sectionOrder ?? [])
-					.filter(Predicate.isNotNull)
+					.filter((el) => el != null)
 					.map((key, index) => [key, index])
 			)
 
@@ -111,10 +111,10 @@ export const loader = (async (args) => {
 						...MediaListCollection,
 						lists: pipe(
 							MediaListCollection.lists
-								?.filter(Predicate.isNotNull)
+								?.filter((el) => el != null)
 								.map((list) => ({
 									...list,
-									entries: list.entries?.slice(0, 4).filter(Predicate.isNotNull)
+									entries: list.entries?.slice(0, 4).filter((el) => el != null)
 								})) ?? [],
 							ReadonlyArray.sortBy(
 								Order.mapInput(

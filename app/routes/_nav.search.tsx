@@ -2,7 +2,6 @@ import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
 import { json } from "@vercel/remix"
 
 import { type ClientLoaderFunctionArgs } from "@remix-run/react"
-import { Predicate } from "effect"
 import type { ReactNode } from "react"
 import { clientOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
@@ -73,7 +72,7 @@ export default function Page(): ReactNode {
 					<div className="-mx-4">
 						<List>
 							{data?.page?.media
-								?.filter(Predicate.isNotNull)
+								?.filter((el) => el != null)
 								.map((media) => (
 									<SearchItem
 										media={makeFragmentData<SearchItem_media>(media)}

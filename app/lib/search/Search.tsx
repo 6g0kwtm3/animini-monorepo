@@ -12,7 +12,7 @@ import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 import type { clientLoader as searchLoader } from "~/routes/_nav.search"
 
-import { Predicate, ReadonlyArray } from "effect"
+import { ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
@@ -82,7 +82,7 @@ export function Search(): ReactNode {
 		return () => window.removeEventListener("keydown", listener)
 	}, [navigate, sheetParams])
 
-	const media = submit.data?.page?.media?.filter(Predicate.isNotNull) ?? []
+	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
 
 	const data = useRawRouteLoaderData<typeof navLoader>("routes/_nav")
 
