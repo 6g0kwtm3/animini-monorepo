@@ -1,3 +1,4 @@
+import { json } from "@remix-run/cloudflare"
 import {
 	Links,
 	Meta,
@@ -8,15 +9,14 @@ import {
 	useRouteError,
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import { LoaderArgs, LoaderLive } from "./lib/urql.server"
-import { json } from "@vercel/remix"
 import { SnackbarQueue } from "./components/Snackbar"
+import { LoaderArgs, LoaderLive } from "./lib/urql.server"
 
 import type {
 	LinksFunction,
 	LoaderFunction,
 	SerializeFrom
-} from "@vercel/remix"
+} from "@remix-run/cloudflare"
 
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"

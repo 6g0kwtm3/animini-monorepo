@@ -1,4 +1,4 @@
-import { createCookie } from "@vercel/remix"
+import { createCookie } from "@remix-run/cloudflare"
 
 export const tokenCookie = createCookie("anilist-token", {
 	maxAge: 604_800 // one week

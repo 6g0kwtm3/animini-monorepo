@@ -1,11 +1,11 @@
-import { Link, type ClientLoaderFunctionArgs } from "@remix-run/react"
 import type {
 	HeadersFunction,
 	LoaderFunction,
 	MetaFunction,
 	SerializeFrom
-} from "@vercel/remix"
-import { json } from "@vercel/remix"
+} from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
+import { Link, type ClientLoaderFunctionArgs } from "@remix-run/react"
 import { useRawLoaderData } from "~/lib/data"
 
 import {

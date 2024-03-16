@@ -1,5 +1,7 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import { Schema } from "@effect/schema"
+import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import {
 	Form,
 	Link,
@@ -13,8 +15,6 @@ import {
 	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
-import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
-import { json } from "@vercel/remix"
 
 import { Order } from "effect"
 import type { ReactNode } from "react"

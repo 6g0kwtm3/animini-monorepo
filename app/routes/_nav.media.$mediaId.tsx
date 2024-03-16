@@ -1,3 +1,9 @@
+import type {
+	LoaderFunction,
+	MetaFunction,
+	SerializeFrom
+} from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import {
 	Link,
 	useLocation,
@@ -5,8 +11,6 @@ import {
 	useParams,
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import type { LoaderFunction, MetaFunction, SerializeFrom } from "@vercel/remix"
-import { json } from "@vercel/remix"
 
 import { AnimatePresence, motion } from "framer-motion"
 

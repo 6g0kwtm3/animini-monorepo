@@ -1,5 +1,5 @@
-import type { ActionFunction } from "@vercel/remix"
-import { redirect } from "@vercel/remix"
+import type { ActionFunction } from "@remix-run/cloudflare"
+import { redirect } from "@remix-run/cloudflare"
 import cookie from "cookie"
 
 export const action = (async (args) => {

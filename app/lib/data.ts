@@ -1,9 +1,9 @@
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
 import type {
 	SerializeFrom as SerializeFrom_,
 	TypedDeferredData,
 	TypedResponse
-} from "@vercel/remix"
+} from "@remix-run/cloudflare"
+import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
 
 export function useRawLoaderData<T>(): SerializeFrom_<T> {
 	return useLoaderData() as SerializeFrom_<T>

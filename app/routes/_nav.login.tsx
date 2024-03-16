@@ -1,6 +1,6 @@
+import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
+import { redirect } from "@remix-run/cloudflare"
 import { useFetcher } from "@remix-run/react"
-import type { ActionFunction, MetaFunction } from "@vercel/remix"
-import { redirect } from "@vercel/remix"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput

@@ -1,7 +1,9 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
-import { vitePlugin as remix } from "@remix-run/dev"
+import {
+	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
+	vitePlugin as remix
+} from "@remix-run/dev"
 import { installGlobals } from "@remix-run/node"
-import { vercelPreset } from "@vercel/remix/vite"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
@@ -17,13 +19,13 @@ export default defineConfig({
 		}),
 		envOnly(),
 		remixDevTools(),
+		cloudflareDevProxy(),
 		remix({
 			future: {
 				v3_fetcherPersist: true,
 				v3_relativeSplatPath: true,
 				v3_throwAbortReason: true
-			},
-			presets: [vercelPreset()]
+			}
 		}),
 		tsconfigPaths(),
 		// million.vite({ auto: true, rsc: true, log: false }),

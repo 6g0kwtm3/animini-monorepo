@@ -1,4 +1,4 @@
-import { json, type LoaderFunction } from "@vercel/remix"
+import { json, type LoaderFunction } from "@remix-run/cloudflare"
 
 export const loader = (async () => {
 	return json(

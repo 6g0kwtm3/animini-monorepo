@@ -1,10 +1,10 @@
+import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
 import {
 	Await,
 	Outlet,
 	useLocation,
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
 
 import { Effect, Option, Predicate, pipe } from "effect"
 
@@ -22,7 +22,7 @@ import {
 import { graphql } from "~/lib/graphql"
 
 import { Schema } from "@effect/schema"
-import { defer } from "@vercel/remix"
+import { defer } from "@remix-run/cloudflare"
 import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"

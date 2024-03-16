@@ -1,7 +1,7 @@
 import cookie from "cookie"
 
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
-import type { LoaderFunctionArgs } from "@vercel/remix"
 
 import { Context, Effect, Layer, Option, pipe } from "effect"
 
@@ -9,7 +9,7 @@ import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "./viewer"
 
-import { json } from "@vercel/remix"
+import { json } from "@remix-run/cloudflare"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { Remix } from "./Remix/index.server"

@@ -1,16 +1,16 @@
+import type {
+	HeadersFunction,
+	LoaderFunction,
+	MetaFunction,
+	SerializeFrom
+} from "@remix-run/cloudflare"
+import { defer } from "@remix-run/cloudflare"
 import {
 	Await,
 	Link,
 	useFetcher,
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
-} from "@vercel/remix"
-import { defer } from "@vercel/remix"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"

@@ -7,9 +7,9 @@ import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
+import type { LoaderFunctionArgs, TypedResponse } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import type { ClientLoaderFunctionArgs } from "@remix-run/react"
-import type { LoaderFunctionArgs, TypedResponse } from "@vercel/remix"
-import { json } from "@vercel/remix"
 import cookie from "cookie"
 import { dev } from "../dev"
 

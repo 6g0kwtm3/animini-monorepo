@@ -1,5 +1,5 @@
-import type { LoaderFunction, SerializeFrom } from "@vercel/remix"
-import { json } from "@vercel/remix"
+import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 
 import { type ClientLoaderFunctionArgs } from "@remix-run/react"
 import type { ReactNode } from "react"

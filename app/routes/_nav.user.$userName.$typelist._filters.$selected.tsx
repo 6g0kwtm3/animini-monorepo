@@ -14,8 +14,8 @@ import type {
 	HeadersFunction,
 	LoaderFunction,
 	SerializeFrom
-} from "@vercel/remix"
-import { defer, json } from "@vercel/remix"
+} from "@remix-run/cloudflare"
+import { defer, json } from "@remix-run/cloudflare"
 import { useRawLoaderData } from "~/lib/data"
 
 // import type { FragmentType } from "~/lib/graphql"
