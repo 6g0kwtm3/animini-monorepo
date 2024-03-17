@@ -1,15 +1,15 @@
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
+    HeadersFunction,
+    LoaderFunction,
+    MetaFunction,
+    SerializeFrom
 } from "@remix-run/cloudflare"
 import { defer } from "@remix-run/cloudflare"
 import {
-	Await,
-	Link,
-	useFetcher,
-	type ClientLoaderFunctionArgs
+    Await,
+    Link,
+    useFetcher,
+    type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 
 import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
@@ -20,13 +20,13 @@ import marked from "marked"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
-	ListItem,
-	ListItemAvatar,
-	ListItemContent,
-	ListItemImg,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemContent,
+    ListItemImg,
+    ListItemContentSubtitle as ListItemSubtitle,
+    ListItemContentTitle as ListItemTitle
 } from "~/components/List"
 import { graphql } from "~/gql"
 import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
@@ -48,10 +48,10 @@ import { makeFragmentData } from "~/lib/graphql"
 
 import createDOMPurify from "dompurify"
 import {
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichTrigger
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichTrigger
 } from "~/components/Tooltip"
 
 import * as Ariakit from "@ariakit/react"
@@ -60,11 +60,11 @@ import { Loading, Skeleton } from "~/components/Skeleton"
 import type { clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "./user.$userName.info"
 
+import { ClientOnly } from "remix-utils/client-only"
 import { client, createGetInitialData } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "./user.$userId.follow"
-import { ClientOnly } from "remix-utils/client-only"
 
 function MediaLink({
 	mediaId,
@@ -225,7 +225,7 @@ export async function clientLoader(
 		revalidateIfStale: true,
 		queryKey: ["_nav._index"],
 		queryFn: () => indexLoader(args),
-		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+		initialData: isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true

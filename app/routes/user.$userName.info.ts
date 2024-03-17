@@ -51,7 +51,7 @@ export async function clientLoader(
 		persister,
 		queryKey: ["_nav", args.params.userName, "info"],
 		queryFn: () => infoLoader(args),
-		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+		initialData: isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true

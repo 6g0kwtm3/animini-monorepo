@@ -57,7 +57,7 @@ export async function clientLoader(
 		queryKey: ["_nav.search", new URL(args.request.url).searchParams.get("q")],
 		queryFn: () => searchLoader(args),
 		persister,
-		initialData: isInitialRequest && (await args.serverLoader<typeof loader>())
+		initialData: isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true

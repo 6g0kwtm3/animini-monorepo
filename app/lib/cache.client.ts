@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query"
 
 import { experimental_createPersister } from "@tanstack/query-persist-client-core"
 
-export function createGetInitialData(): () => boolean | undefined {
+export function createGetInitialData(): () => true | undefined {
 	let isInitialRequest = true
 
 	return function getInitialData() {
