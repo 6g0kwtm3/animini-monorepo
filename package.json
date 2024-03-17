@@ -10,7 +10,7 @@
 		"dev": "pnpm run \"/dev:/\"",
 		"dev:vite": "remix vite:dev",
 		"dev:codegen": "pnpm run codegen --watch",
-		"start": "wrangler pages dev ./build/client",
+		"start": "wrangler pages dev ./build/client --port 3000",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
 		"check": "wrangler types && tsc",
