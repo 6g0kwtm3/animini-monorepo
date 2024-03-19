@@ -1,19 +1,19 @@
 import {
-    Await,
-    Outlet,
-    isRouteErrorResponse,
-    useRouteError,
-    useSearchParams,
-    type ClientActionFunction,
-    type ClientLoaderFunctionArgs,
-    type ShouldRevalidateFunction
+	Await,
+	Outlet,
+	isRouteErrorResponse,
+	useRouteError,
+	useSearchParams,
+	type ClientActionFunction,
+	type ClientLoaderFunctionArgs,
+	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
 import type {
-    ActionFunction,
-    HeadersFunction,
-    LoaderFunction,
-    SerializeFrom
+	ActionFunction,
+	HeadersFunction,
+	LoaderFunction,
+	SerializeFrom
 } from "@remix-run/cloudflare"
 import { defer, json } from "@remix-run/cloudflare"
 import { useRawLoaderData } from "~/lib/data"
@@ -22,16 +22,16 @@ import { useRawLoaderData } from "~/lib/data"
 
 import { MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
 import {
-    graphql,
-    makeFragmentData,
-    useFragment as readFragment,
-    type FragmentType
+	graphql,
+	makeFragmentData,
+	useFragment as readFragment,
+	type FragmentType
 } from "~/lib/graphql"
 import {
-    AwaitLibrary,
-    MediaListHeader,
-    MediaListHeaderItem,
-    MediaListHeaderToWatch
+	AwaitLibrary,
+	MediaListHeader,
+	MediaListHeaderItem,
+	MediaListHeaderToWatch
 } from "~/lib/list/MediaList"
 import { LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
@@ -52,8 +52,8 @@ import { client, createGetInitialData } from "~/lib/cache.client"
 import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
 import { getLibrary } from "~/lib/electron/library.server"
 import {
-    MediaListItem,
-    type ListItem_EntryFragment
+	MediaListItem,
+	type ListItem_EntryFragment
 } from "~/lib/entry/ListItem"
 import { increment } from "~/lib/entry/progress/increment"
 import { toWatch } from "~/lib/entry/toWatch"
@@ -308,7 +308,8 @@ export async function clientLoader(
 			args.params.selected
 		],
 		queryFn: () => selectedLoader(args),
-		initialData: isInitialRequest?.() && (await args.serverLoader<typeof loader>())
+		initialData:
+			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true
