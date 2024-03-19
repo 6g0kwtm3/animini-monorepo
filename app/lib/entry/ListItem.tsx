@@ -72,7 +72,7 @@ export function MediaListItem(props: {
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem render={<div />}  >
+			<ListItem render={<div />}>
 				<ListItemImg>
 					<Skeleton full>
 						{entry?.media ? <MediaCover media={entry.media} /> : null}
