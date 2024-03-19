@@ -7,7 +7,8 @@ import {
 	ScrollRestoration,
 	isRouteErrorResponse,
 	useRouteError,
-	type ClientLoaderFunctionArgs
+	type ClientLoaderFunctionArgs,
+	type ShouldRevalidateFunction
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
 import { LoaderArgs, LoaderLive } from "./lib/urql.server"
@@ -92,6 +93,17 @@ export const loader = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies LoaderFunction
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	formAction,
+	defaultShouldRevalidate
+}) => {
+	return (
+		formAction === "/login" ||
+		formAction === "/logout" ||
+		defaultShouldRevalidate
+	)
+}
 
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const { locale, dir } = useLocale()

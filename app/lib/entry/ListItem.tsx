@@ -72,7 +72,7 @@ export function MediaListItem(props: {
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem render={<div />}>
+			<ListItem render={<div />}  >
 				<ListItemImg>
 					<Skeleton full>
 						{entry?.media ? <MediaCover media={entry.media} /> : null}
@@ -215,7 +215,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 		<div className="flex">
 			{Predicate.isString(data?.Viewer?.name) &&
 				data.Viewer.name === params.userName && (
-					<Form className="hidden sm:block" method="post">
+					<Form className="hidden @md:block" method="post">
 						<input type="hidden" name="progress" value={progress + 1} />
 						<input type="hidden" name="id" value={entry.id} />
 						<input type="hidden" name="intent" value="increment" />

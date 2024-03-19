@@ -191,7 +191,7 @@ export default function Page(): ReactNode {
 											<Ariakit.Heading className="text-balance">
 												{list.name}
 											</Ariakit.Heading>
-											<List className="-mx-4">
+											<List className="-mx-4 @container">
 												{list.entries?.map((entry) => {
 													return (
 														<MediaListItem

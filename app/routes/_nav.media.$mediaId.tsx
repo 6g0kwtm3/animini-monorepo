@@ -1,15 +1,16 @@
 import type {
-    LoaderFunction,
-    MetaFunction,
-    SerializeFrom
+	LoaderFunction,
+	MetaFunction,
+	SerializeFrom
 } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
 import {
-    Link,
-    useLocation,
-    useOutlet,
-    useParams,
-    type ClientLoaderFunctionArgs
+	Link,
+	useLocation,
+	useOutlet,
+	useParams,
+	type ClientLoaderFunctionArgs,
+	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
 import { AnimatePresence, motion } from "framer-motion"
@@ -19,19 +20,19 @@ import { cloneElement } from "react"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-    Menu,
-    MenuDivider,
-    MenuItem,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuTrigger
+	Menu,
+	MenuDivider,
+	MenuItem,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuTrigger
 } from "~/components/Menu"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import { graphql, makeFragmentData } from "~/lib/graphql"
@@ -75,10 +76,27 @@ export async function clientLoader(
 		persister,
 		queryKey: ["_nav._media", args.params.mediaId],
 		queryFn: () => mediaLoader(args),
-		initialData: isInitialRequest?.() && (await args.serverLoader<typeof loader>())
+		initialData:
+			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
 }
 clientLoader.hydrate = true
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod,
+	nextParams,
+	currentParams
+}) => {
+	if (
+		formMethod?.toUpperCase() === "GET" &&
+		currentParams.mediaId === nextParams.mediaId
+	) {
+		return false
+	}
+
+	return defaultShouldRevalidate
+}
 
 export const meta = (({ data }) => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]

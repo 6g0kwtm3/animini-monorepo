@@ -354,7 +354,7 @@ export default function Page(): ReactNode {
 
 			<div className="-mx-4 sm:-my-4">
 				<div className={``}>
-					<List>
+					<List className="@container">
 						<Suspense
 							fallback={
 								<Loading>
