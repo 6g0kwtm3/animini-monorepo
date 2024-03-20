@@ -94,12 +94,12 @@ const cacheControl = {
 }
 
 export const action = (async (args) => {
-	return await increment(args)
+	return increment(args)
 }) satisfies ActionFunction
 
 export const clientAction = (async (args) => {
 	const result = await increment(args)
-	client.invalidateQueries()
+	await client.invalidateQueries()
 	return result
 }) satisfies ClientActionFunction
 
@@ -298,7 +298,7 @@ const isInitialRequest = clientOnly$(createGetInitialData())
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	return await client.ensureQueryData({
+	return client.ensureQueryData({
 		revalidateIfStale: true,
 		queryKey: [
 			"_nav._user",

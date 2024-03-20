@@ -10,9 +10,9 @@ import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = createTextField({})
 
-const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
+const LazySelectFactory = lazy(async () => import("./LazySelectFactory"))
 
-const LazySelect = lazy(() => import("./LazySelect"))
+const LazySelect = lazy(async () => import("./LazySelect"))
 export function SelectFactory({
 	label,
 

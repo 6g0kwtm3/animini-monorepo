@@ -55,7 +55,7 @@ export async function clientLoader(
 		revalidateIfStale: true,
 		staleTime: 60 * 60 * 1000, //1 hour
 		queryKey: ["_nav.search", new URL(args.request.url).searchParams.get("q")],
-		queryFn: () => searchLoader(args),
+		queryFn: async () => searchLoader(args),
 		persister,
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())

@@ -69,7 +69,7 @@ export async function clientLoader(
 clientLoader.hydrate = true
 
 export const loader = (async (args) => {
-	return await pipe(
+	return pipe(
 		pipe(
 			Effect.gen(function* (_) {
 				const { request } = yield* _(LoaderArgs)

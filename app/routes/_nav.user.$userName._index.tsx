@@ -48,11 +48,11 @@ const isInitialRequest = clientOnly$(createGetInitialData())
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	return await client.ensureQueryData({
+	return client.ensureQueryData({
 		revalidateIfStale: true,
 		persister,
 		queryKey: ["_nav.user", args.params.userName, "_index"],
-		queryFn: () => userLoader(args),
+		queryFn: async () => userLoader(args),
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})

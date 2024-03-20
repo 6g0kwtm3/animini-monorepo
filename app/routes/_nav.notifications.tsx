@@ -54,12 +54,12 @@ import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outli
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	return await args.serverLoader<typeof loader>()
+	return args.serverLoader<typeof loader>()
 }
 clientLoader.hydrate = true
 
 export const loader = (async (args) => {
-	return await pipe(
+	return pipe(
 		Effect.gen(function* (_) {
 			const client = yield* _(EffectUrql)
 
@@ -109,7 +109,7 @@ const cacheControl = {
 }
 
 export const action = (async (args) => {
-	return await pipe(
+	return pipe(
 		Effect.gen(function* (_) {
 			const formData = yield* _(Remix.formData)
 			const { id } = yield* _(yield* _(Viewer))

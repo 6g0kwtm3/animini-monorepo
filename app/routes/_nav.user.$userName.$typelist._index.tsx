@@ -36,7 +36,7 @@ import { button } from "~/lib/button"
 import { getCacheControl } from "~/lib/getCacheControl"
 
 export const loader = (async (args) => {
-	return await pipe(
+	return pipe(
 		Effect.gen(function* (_) {
 			const client = yield* _(EffectUrql)
 			const params = yield* _(
@@ -150,7 +150,7 @@ const cacheControl = {
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	return await args.serverLoader<typeof loader>()
+	return args.serverLoader<typeof loader>()
 }
 clientLoader.hydrate = true
 

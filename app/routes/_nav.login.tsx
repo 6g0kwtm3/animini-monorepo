@@ -32,7 +32,7 @@ export const meta = (() => {
 const ANILIST_CLIENT_ID = 3455
 
 export const action = (async (args) => {
-	return await pipe(
+	return pipe(
 		Effect.gen(function* (_) {
 			const formData = yield* _(Remix.formData)
 			const { searchParams } = yield* _(ClientArgs)
@@ -109,7 +109,7 @@ export default function Login(): ReactNode {
 						<TextFieldOutlinedInput
 							name={store.names.token}
 							required
-							render={<textarea />}
+							type="password"
 						/>
 						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
 					</Outlined>

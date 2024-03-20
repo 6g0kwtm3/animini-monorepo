@@ -83,7 +83,7 @@ export function Sheet({
 									if (offset.y > window.innerHeight * 0.75 || velocity.y > 10) {
 										props.onClose?.(e)
 									} else {
-										animate(y, 0, {
+										void animate(y, 0, {
 											type: "inertia",
 											bounceStiffness: 300,
 											bounceDamping: 40,

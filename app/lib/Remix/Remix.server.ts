@@ -51,7 +51,7 @@ function createCloudflareKV<
 
 						const value = Option.fromNullable(
 							yield* _(
-								Effect.promise(async () => await env?.MY_KV.get(`${key}-${id}`))
+								Effect.promise(async () => env?.MY_KV.get(`${key}-${id}`))
 							)
 						)
 
@@ -71,7 +71,7 @@ function createCloudflareKV<
 
 						yield* _(
 							Effect.promise(
-								async () => await env?.MY_KV.put(`${key}-${id}`, encoded)
+								async () => env?.MY_KV.put(`${key}-${id}`, encoded)
 							)
 						)
 					})
@@ -99,7 +99,7 @@ export function params<Fields extends StructFields>(fields: Fields) {
 
 export const formData = Effect.gen(function* (_) {
 	const { request } = yield* _(LoaderArgs)
-	return yield* _(Effect.promise(() => request.formData()))
+	return yield* _(Effect.promise(async () => request.formData()))
 })
 
 export class ResponseError<T> extends Data.TaggedError("ResponseError")<{

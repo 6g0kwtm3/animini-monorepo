@@ -10,12 +10,12 @@ import { client_operation, type AnyActionFunctionArgs } from "~/lib/client"
 import { m } from "~/lib/paraglide"
 
 export const action = (async (args) => {
-	return await follow(args)
+	return follow(args)
 }) satisfies ActionFunction
 
 export const clientAction = (async (args) => {
 	const data = await follow(args)
-	client.invalidateQueries()
+	await client.invalidateQueries()
 	return data
 }) satisfies ClientActionFunction
 

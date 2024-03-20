@@ -25,7 +25,7 @@ export function client_get_client(args: {
 	) => Promise<NonNullable<T> | null>
 } {
 	return {
-		operation<T, V>(document: TypedDocumentString<T, V>, variables: V) {
+		async operation<T, V>(document: TypedDocumentString<T, V>, variables: V) {
 			return client_operation(document, variables, args)
 		}
 	}

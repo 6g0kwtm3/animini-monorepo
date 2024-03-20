@@ -76,7 +76,7 @@ export function operation<T, V>(
 		}
 
 		const response = yield* _(
-			Effect.promise((signal) =>
+			Effect.promise(async (signal) =>
 				fetch(API_URL, {
 					body,
 					headers,
@@ -89,7 +89,7 @@ export function operation<T, V>(
 		if (!response.ok) {
 			console.error({
 				response,
-				body: yield* _(Effect.promise(() => response.text()))
+				body: yield* _(Effect.promise(async () => response.text()))
 			})
 			return yield* _(
 				new Remix.ResponseError({
@@ -114,7 +114,7 @@ export function operation<T, V>(
 			)
 		)
 
-		const { data, errors } = yield* _(Effect.promise(() => response.json()))
+		const { data, errors } = yield* _(Effect.promise(async () => response.json()))
 
 		if (errors?.length) {
 			console.log(errors)

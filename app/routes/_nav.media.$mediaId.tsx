@@ -71,11 +71,11 @@ const isInitialRequest = clientOnly$(createGetInitialData())
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	return await client.ensureQueryData({
+	return client.ensureQueryData({
 		revalidateIfStale: true,
 		persister,
 		queryKey: ["_nav._media", args.params.mediaId],
-		queryFn: () => mediaLoader(args),
+		queryFn: async () => mediaLoader(args),
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})

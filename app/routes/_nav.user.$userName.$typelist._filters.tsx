@@ -95,7 +95,7 @@ const cacheControl = {
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
 ): Promise<SerializeFrom<typeof loader>> {
-	return await args.serverLoader<typeof loader>()
+	return args.serverLoader<typeof loader>()
 }
 clientLoader.hydrate = true
 
