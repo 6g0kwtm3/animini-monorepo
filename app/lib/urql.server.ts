@@ -114,7 +114,9 @@ export function operation<T, V>(
 			)
 		)
 
-		const { data, errors } = yield* _(Effect.promise(async () => response.json()))
+		const { data, errors } = yield* _(
+			Effect.promise(async () => response.json())
+		)
 
 		if (errors?.length) {
 			console.log(errors)

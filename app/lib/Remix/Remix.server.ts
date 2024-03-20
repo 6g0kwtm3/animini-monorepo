@@ -70,8 +70,8 @@ function createCloudflareKV<
 						)
 
 						yield* _(
-							Effect.promise(
-								async () => env?.MY_KV.put(`${key}-${id}`, encoded)
+							Effect.promise(async () =>
+								env?.MY_KV.put(`${key}-${id}`, encoded)
 							)
 						)
 					})
