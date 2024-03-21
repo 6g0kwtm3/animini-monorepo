@@ -149,17 +149,19 @@ export default function Filters(): ReactNode {
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Status</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
-										{Object.entries(params.typelist === "animelist"?ANIME_STATUS_OPTIONS:MANGA_STATUS_OPTIONS).map(
-											([value, label]) => {
-												return (
-													<li key={value}>
-														<ChipFilter name="status" value={value}>
-															{label}
-														</ChipFilter>
-													</li>
-												)
-											}
-										)}
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_STATUS_OPTIONS
+												: MANGA_STATUS_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<li key={value}>
+													<ChipFilter name="status" value={value}>
+														{label}
+													</ChipFilter>
+												</li>
+											)
+										})}
 									</ul>
 								</Group>
 							</CheckboxProvider>
@@ -167,17 +169,19 @@ export default function Filters(): ReactNode {
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Format</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
-										{Object.entries(	params.typelist === "animelist"?ANIME_FORMAT_OPTIONS:MANGA_FORMAT_OPTIONS).map(
-											([value, label]) => {
-												return (
-													<li key={value}>
-														<ChipFilter name="format" value={value}>
-															{label}
-														</ChipFilter>
-													</li>
-												)
-											}
-										)}
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_FORMAT_OPTIONS
+												: MANGA_FORMAT_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<li key={value}>
+													<ChipFilter name="format" value={value}>
+														{label}
+													</ChipFilter>
+												</li>
+											)
+										})}
 									</ul>
 								</Group>
 							</CheckboxProvider>
@@ -185,19 +189,19 @@ export default function Filters(): ReactNode {
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Progress</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
-										{Object.entries(			params.typelist === "animelist"
-											? ANIME_PROGRESS_OPTIONS
-											: MANGA_PROGRESS_OPTIONS).map(
-											([value, label]) => {
-												return (
-													<li key={value}>
-														<ChipFilter name="progress" value={value}>
-															{label}
-														</ChipFilter>
-													</li>
-												)
-											}
-										)}
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_PROGRESS_OPTIONS
+												: MANGA_PROGRESS_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<li key={value}>
+													<ChipFilter name="progress" value={value}>
+														{label}
+													</ChipFilter>
+												</li>
+											)
+										})}
 									</ul>
 								</Group>
 							</CheckboxProvider>
@@ -206,25 +210,23 @@ export default function Filters(): ReactNode {
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Sort</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
-										{Object.entries(					params.typelist === "animelist"
-											? ANIME_SORT_OPTIONS
-											: MANGA_SORT_OPTIONS).map(
-											([value, label]) => {
-												return (
-													<li key={value}>
-														<ChipFilter name="sort" value={value}>
-															{label}
-														</ChipFilter>
-													</li>
-												)
-											}
-										)}
+										{Object.entries(
+											params.typelist === "animelist"
+												? ANIME_SORT_OPTIONS
+												: MANGA_SORT_OPTIONS
+										).map(([value, label]) => {
+											return (
+												<li key={value}>
+													<ChipFilter name="sort" value={value}>
+														{label}
+													</ChipFilter>
+												</li>
+											)
+										})}
 									</ul>
 								</Group>
 							</CheckboxProvider>
 
-						  
-				 
 							<ButtonText type="submit">Filter</ButtonText>
 							<ButtonText type="reset">Reset</ButtonText>
 						</Form>
