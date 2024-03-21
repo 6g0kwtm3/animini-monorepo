@@ -287,7 +287,6 @@ function Edit() {
 					<TooltipPlainTrigger
 						render={
 							<Link
-								prefetch="intent"
 								to={
 									root?.Viewer
 										? route_media_edit({ id: Number(mediaId) })

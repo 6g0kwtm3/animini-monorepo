@@ -354,7 +354,7 @@
 // 								<Ariakit.DialogDismiss
 // 									render={
 // 										<Link
-// 											prefetch="intent" to=".."
+// 											 to=".."
 // 											onClick={(e) => (e.preventDefault(), navigate(-1))}
 // 										/>
 // 									}

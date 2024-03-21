@@ -39,7 +39,6 @@ export const SearchItem = forwardRef<
 			ref={ref}
 			render={
 				<Link
-					prefetch="intent"
 					to={route_media({ id: data.id })}
 					title={data.title?.userPreferred ?? undefined}
 				/>

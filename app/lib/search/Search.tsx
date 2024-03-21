@@ -158,7 +158,6 @@ export function SearchButton(): ReactNode {
 			<TooltipPlainTrigger
 				render={
 					<NavigationItem
-						prefetch="intent"
 						to={{
 							search: `?q=`
 						}}

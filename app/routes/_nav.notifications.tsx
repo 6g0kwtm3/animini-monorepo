@@ -290,7 +290,6 @@ function Airing(props: {
 				<ListItem
 					render={
 						<Link
-							prefetch="intent"
 							to={route_media({
 								id: notification.media.id
 							})}
@@ -382,7 +381,6 @@ function RelatedMediaAddition(props: {
 				<ListItem
 					render={
 						<Link
-							prefetch="intent"
 							to={route_media({
 								id: notification.media.id
 							})}
@@ -453,11 +451,7 @@ function ActivityLike(props: {
 
 	return (
 		notification.user && (
-			<ListItem
-				render={
-					<Link prefetch="intent" to={`/activity/${notification.activityId}`} />
-				}
-			>
+			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
 				<ListItemImg>
 					<img
 						src={notification.user.avatar?.large || ""}

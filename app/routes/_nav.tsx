@@ -202,7 +202,7 @@ export default function Nav(): ReactNode {
 				) : (
 					<>
 						<Link
-							prefetch="intent" to={route_login(({
+							 to={route_login(({
 								redirect: pathname
 							}))}
 							className={button()}
@@ -224,7 +224,7 @@ export default function Nav(): ReactNode {
 					lg: "drawer"
 				}}
 			>
-				<NavigationItem prefetch="intent" to="/">
+				<NavigationItem to="/">
 					<NavigationItemIcon>
 						<MaterialSymbolsFeedOutline />
 						<MaterialSymbolsFeed />
@@ -233,10 +233,7 @@ export default function Nav(): ReactNode {
 				</NavigationItem>
 				{rootData?.Viewer ? (
 					<>
-						<NavigationItem
-							prefetch="intent"
-							to={route_user({ userName: rootData.Viewer.name })}
-						>
+						<NavigationItem to={route_user({ userName: rootData.Viewer.name })}>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
@@ -245,7 +242,6 @@ export default function Nav(): ReactNode {
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
-							prefetch="intent"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "animelist"
@@ -258,7 +254,6 @@ export default function Nav(): ReactNode {
 							<div className="max-w-full break-words">Anime List</div>
 						</NavigationItem>
 						<NavigationItem
-							prefetch="intent"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "mangalist"
@@ -274,7 +269,6 @@ export default function Nav(): ReactNode {
 					</>
 				) : (
 					<NavigationItem
-						prefetch="intent"
 						to={route_login({
 							redirect: pathname
 						})}
@@ -286,7 +280,7 @@ export default function Nav(): ReactNode {
 						<div className="max-w-full break-words">Login</div>
 					</NavigationItem>
 				)}
-				<NavigationItem prefetch="intent" to="/notifications">
+				<NavigationItem to="/notifications">
 					<NavigationItemIcon>
 						<MaterialSymbolsNotificationsOutline />
 						<MaterialSymbolsNotifications />

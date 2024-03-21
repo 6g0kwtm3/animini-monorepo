@@ -120,10 +120,10 @@ export default function Page(): ReactNode {
 		<LayoutBody>
 			<LayoutPane>
 				<nav>
-					<Link prefetch="intent" to="animelist" className={button()}>
+					<Link to="animelist" className={button()}>
 						Anime List
 					</Link>
-					<Link prefetch="intent" to="mangalist" className={button()}>
+					<Link to="mangalist" className={button()}>
 						Manga List
 					</Link>
 				</nav>

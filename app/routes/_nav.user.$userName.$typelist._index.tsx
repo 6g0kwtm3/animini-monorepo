@@ -204,7 +204,6 @@ export default function Page(): ReactNode {
 												})}
 											</List>
 											<Link
-												prefetch="intent"
 												to={list.name}
 												className={button({ className: "w-full" })}
 											>

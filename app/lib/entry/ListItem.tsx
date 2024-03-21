@@ -1,7 +1,6 @@
 import {
 	Form,
 	Link,
-	NavLink,
 	useActionData,
 	useNavigation,
 	useParams,
@@ -81,9 +80,8 @@ export function MediaListItem(props: {
 				<ListItemContent
 					render={
 						entry?.media ? (
-							<NavLink
+							<Link
 								unstable_viewTransition
-								prefetch="intent"
 								to={route_media({ id: entry.media.id })}
 							/>
 						) : (
@@ -246,7 +244,7 @@ function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
 						</M3.Button>
 					</Form>
 				)}
-			<M3.Icon render={<Link to={`?${search}`} prefetch="intent" />}>
+			<M3.Icon render={<Link to={`?${search}`} />}>
 				<MaterialSymbolsMoreHoriz />
 			</M3.Icon>
 		</div>

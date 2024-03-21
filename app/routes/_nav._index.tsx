@@ -75,7 +75,7 @@ function MediaLink({
 	const data = useRawLoaderData<typeof clientLoader>()
 
 	return (
-		<Link prefetch="intent" to={route_media({ id: mediaId })} {...props}>
+		<Link to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
 				<Await errorElement={"Error..."} resolve={data.media}>
 					{(data) => {
@@ -374,7 +374,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 		<TooltipRich placement="top" store={store}>
 			<TooltipRichTrigger
 				render={
-					<Link prefetch="intent" to={route_user({ userName: props.userName })}>
+					<Link to={route_user({ userName: props.userName })}>
 						{props.children}
 					</Link>
 				}
@@ -487,7 +487,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 // 			domNode.name === "a"
 // 		) {
 // 			return (
-// 				<Link prefetch="intent" to={route_user({ userName: domNode.attribs["data-user-name"] })}>
+// 				<Link  to={route_user({ userName: domNode.attribs["data-user-name"] })}>
 // 					{domToReact(domNode.children, options)}
 // 				</Link>
 // 			)
