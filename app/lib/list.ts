@@ -23,19 +23,19 @@ export const createList = tv(
 					root: "",
 					item: "min-h-[3.5rem] items-center",
 					itemSubtitle: "hidden",
-					itemContent: "py-2 items-center"
+					itemContent: "items-center py-2"
 				},
 				two: {
 					root: "",
 					item: "min-h-[4.5rem] items-center",
 					itemSubtitle: "block truncate",
-					itemContent: "py-2 items-center"
+					itemContent: "items-center py-2"
 				},
 				three: {
 					root: "",
 					item: "min-h-[5.5rem] items-start",
 					itemSubtitle: "line-clamp-2",
-					itemContent: "py-3 items-start"
+					itemContent: "items-start py-3"
 				}
 			}
 		},
