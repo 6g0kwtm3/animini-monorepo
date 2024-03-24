@@ -1,6 +1,8 @@
 import type { ActionFunction } from "@remix-run/cloudflare"
 import { redirect } from "@remix-run/cloudflare"
+import type { ClientActionFunction } from "@remix-run/react"
 import cookie from "cookie"
+import { client } from "~/lib/cache.client"
 
 export const action = (async (args) => {
 	const url = new URL(args.request.url)
@@ -14,3 +16,9 @@ export const action = (async (args) => {
 		}
 	})
 }) satisfies ActionFunction
+
+export const clientAction: ClientActionFunction = async ({ serverAction }) => {
+	const result = await serverAction<typeof action>()
+	await client.invalidateQueries()
+	return result
+}

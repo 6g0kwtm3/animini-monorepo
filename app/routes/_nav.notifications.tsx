@@ -108,6 +108,12 @@ const cacheControl = {
 	private: true
 }
 
+export const clientAction: ClientActionFunction = async ({ serverAction }) => {
+	const result = await serverAction<typeof action>()
+	await client.invalidateQueries()
+	return result
+}
+
 export const action = (async (args) => {
 	return pipe(
 		Effect.gen(function* (_) {

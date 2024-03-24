@@ -1,6 +1,6 @@
 import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
 import { redirect } from "@remix-run/cloudflare"
-import { useFetcher } from "@remix-run/react"
+import { useFetcher, type ClientActionFunction } from "@remix-run/react"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput
@@ -24,6 +24,7 @@ import {
 	operation
 } from "~/lib/urql.server"
 import { JsonToToken } from "~/lib/viewer"
+import { client } from "~/lib/cache.client"
 
 export const meta = (() => {
 	return [{ title: "Login" }]
@@ -91,6 +92,13 @@ export const action = (async (args) => {
 		Remix.runLoader
 	)
 }) satisfies ActionFunction
+
+export const clientAction: ClientActionFunction = async ({ serverAction }) => {
+	const result = await serverAction<typeof action>()
+	await client.invalidateQueries()
+	return result
+}
+
 export default function Login(): ReactNode {
 	const fetcher = useFetcher()
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
