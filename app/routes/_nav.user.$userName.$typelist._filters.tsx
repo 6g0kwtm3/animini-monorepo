@@ -513,7 +513,7 @@ const ANIME_FORMAT_OPTIONS = {
 }
 
 const ANIME_PROGRESS_OPTIONS = {
-	UNSEEN: "Unseen",
+	UNSEEN: "Unwatched",
 	STARTED: "Started"
 }
 
