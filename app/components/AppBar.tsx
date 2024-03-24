@@ -10,7 +10,7 @@ const tv = createTV({ twMerge: false })
 const appBar = tv(
 	{
 		slots: {
-			root: "grid bg-surface",
+			root: "grid bg-surface z-50",
 			title: "text-title-lg text-on-surface first:ms-2"
 		},
 		variants: {

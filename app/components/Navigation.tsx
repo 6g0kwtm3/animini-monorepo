@@ -14,7 +14,7 @@ const tv = createTV({ twMerge: false })
 const createNavigation = tv(
 	{
 		slots: {
-			root: "fixed bottom-0 start-0",
+			root: "fixed bottom-0 start-0 z-50",
 			label: `group relative flex text-center`,
 			activeIndicator: "absolute bg-secondary-container",
 			icon: "i last:*:hidden",
