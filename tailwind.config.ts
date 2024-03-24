@@ -19,32 +19,6 @@ export default withTV({
 	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
-		transitionTimingFunction: {
-			emphasized: "cubic-bezier(0.2, 0.0, 0, 1.0)",
-			"emphasized-decelerate": "cubic-bezier(0.05, 0.7, 0.1, 1.0)",
-			"emphasized-accelerate": "cubic-bezier(0.3, 0.0, 0.8, 0.15)",
-			standard: "cubic-bezier(0.2, 0.0, 0, 1.0)",
-			"standard-decelerate": "cubic-bezier(0, 0, 0, 1)",
-			"standard-accelerate": "cubic-bezier(0.3, 0.0, 1, 1)"
-		},
-		transitionDuration: {
-			"sm-1": "50ms",
-			"sm-2": "100ms",
-			"sm-3": "150ms",
-			"sm-4": "200ms",
-			"md-1": "250ms",
-			"md-2": "300ms",
-			"md-3": "350ms",
-			"md-4": "400ms",
-			"lg-1": "450ms",
-			"lg-2": "500ms",
-			"lg-3": "550ms",
-			"lg-4": "600ms",
-			"xl-1": "700ms",
-			"xl-2": "700ms",
-			"xl-3": "800ms",
-			"xl-4": "1000ms"
-		},
 		screens: {
 			sm: "600px",
 			md: "840px",
@@ -190,7 +164,34 @@ export default withTV({
 			),
 			{ transparent: "transparent" }
 		),
-		extend: {}
+		extend: {
+			transitionTimingFunction: {
+				emphasized: "cubic-bezier(0.2, 0.0, 0, 1.0)",
+				"emphasized-decelerate": "cubic-bezier(0.05, 0.7, 0.1, 1.0)",
+				"emphasized-accelerate": "cubic-bezier(0.3, 0.0, 0.8, 0.15)",
+				standard: "cubic-bezier(0.2, 0.0, 0, 1.0)",
+				"standard-decelerate": "cubic-bezier(0, 0, 0, 1)",
+				"standard-accelerate": "cubic-bezier(0.3, 0.0, 1, 1)"
+			},
+			transitionDuration: {
+				"sm-1": "50ms",
+				"sm-2": "100ms",
+				"sm-3": "150ms",
+				"sm-4": "200ms",
+				"md-1": "250ms",
+				"md-2": "300ms",
+				"md-3": "350ms",
+				"md-4": "400ms",
+				"lg-1": "450ms",
+				"lg-2": "500ms",
+				"lg-3": "550ms",
+				"lg-4": "600ms",
+				"xl-1": "700ms",
+				"xl-2": "700ms",
+				"xl-3": "800ms",
+				"xl-4": "1000ms"
+			}
+		}
 	},
 	plugins: [
 		require("@tailwindcss/container-queries"),
