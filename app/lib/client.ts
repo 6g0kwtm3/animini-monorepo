@@ -14,6 +14,7 @@ import type {
 import * as cookie from "cookie"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
+import { client, persister } from "./cache.client"
 
 const API_URL = "https://graphql.anilist.co"
 export function client_get_client(args: {
@@ -40,6 +41,23 @@ export type AnyActionFunctionArgs =
 	| ClientActionFunctionArgs
 
 export async function client_operation<T, V>(
+	document: TypedDocumentString<T, V>,
+	variables: V,
+	args: { request: Pick<Request, "headers" | "signal"> }
+): Promise<NonNullable<T> | null> {
+	return (
+		clientOnly$(
+			client.ensureQueryData({
+				revalidateIfStale: true,
+				queryKey: [document.toString(), variables],
+				persister,
+				queryFn: async () => server_operation(document, variables, args)
+			})
+		) ?? server_operation(document, variables, args)
+	)
+}
+
+export async function server_operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
 	args: { request: Pick<Request, "headers" | "signal"> }
