@@ -258,7 +258,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate
 }) => {
 	if (
-		formMethod?.toUpperCase() === "GET" &&
+		formMethod?.toLocaleUpperCase() === "GET" &&
 		currentParams.userName === nextParams.userName &&
 		currentParams.typelist === nextParams.typelist &&
 		currentParams.selected === nextParams.selected

@@ -22,7 +22,6 @@ import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
-import { ChipFilter } from "~/components/Chip"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
 	List,
@@ -38,6 +37,7 @@ import { client_get_client } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import { getCacheControl } from "~/lib/getCacheControl"
 
+import { M3 } from "~/lib/components"
 import { graphql } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import { HashNavLink } from "~/lib/search/HashNavLink"
@@ -53,7 +53,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate
 }) => {
 	if (
-		formMethod?.toUpperCase() === "GET" &&
+		formMethod?.toLocaleUpperCase() === "GET" &&
 		currentParams.userName === nextParams.userName &&
 		currentParams.typelist === nextParams.typelist
 	) {
@@ -156,9 +156,13 @@ export default function Filters(): ReactNode {
 										).map(([value, label]) => {
 											return (
 												<li key={value}>
-													<ChipFilter name="status" value={value}>
+													<M3.ChipFilter>
+														<M3.ChipFilterCheckbox
+															name="status"
+															value={value}
+														/>
 														{label}
-													</ChipFilter>
+													</M3.ChipFilter>
 												</li>
 											)
 										})}
@@ -176,9 +180,13 @@ export default function Filters(): ReactNode {
 										).map(([value, label]) => {
 											return (
 												<li key={value}>
-													<ChipFilter name="format" value={value}>
+													<M3.ChipFilter>
+														<M3.ChipFilterCheckbox
+															name="format"
+															value={value}
+														/>
 														{label}
-													</ChipFilter>
+													</M3.ChipFilter>
 												</li>
 											)
 										})}
@@ -196,9 +204,13 @@ export default function Filters(): ReactNode {
 										).map(([value, label]) => {
 											return (
 												<li key={value}>
-													<ChipFilter name="progress" value={value}>
+													<M3.ChipFilter>
+														<M3.ChipFilterCheckbox
+															name="progress"
+															value={value}
+														/>
 														{label}
-													</ChipFilter>
+													</M3.ChipFilter>
 												</li>
 											)
 										})}
@@ -217,9 +229,10 @@ export default function Filters(): ReactNode {
 										).map(([value, label]) => {
 											return (
 												<li key={value}>
-													<ChipFilter name="sort" value={value}>
+													<M3.ChipFilter>
+														<M3.ChipFilterRadio name="sort" value={value} />
 														{label}
-													</ChipFilter>
+													</M3.ChipFilter>
 												</li>
 											)
 										})}

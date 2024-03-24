@@ -3,7 +3,8 @@ import {
 	Await,
 	Outlet,
 	useLocation,
-	type ClientLoaderFunctionArgs
+	type ClientLoaderFunctionArgs,
+	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
 import { Effect, Option, Predicate, pipe } from "effect"
@@ -173,6 +174,16 @@ export const loader = (async (args) => {
 		}
 	)
 }) satisfies LoaderFunction
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod
+}) => {
+	if (formMethod?.toLocaleUpperCase() === "GET") {
+		return false
+	}
+	return defaultShouldRevalidate
+}
 
 const cacheControl = {
 	maxAge: 60,

@@ -11,6 +11,7 @@ import {
 	Form,
 	Link,
 	redirect,
+	type ClientActionFunction,
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import cookie from "cookie"
@@ -50,6 +51,7 @@ import type { ReactNode } from "react"
 import { Ariakit } from "~/lib/ariakit"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+import { client } from "~/lib/cache.client"
 
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs

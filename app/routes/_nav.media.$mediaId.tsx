@@ -89,7 +89,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams
 }) => {
 	if (
-		formMethod?.toUpperCase() === "GET" &&
+		formMethod?.toLocaleUpperCase() === "GET" &&
 		currentParams.mediaId === nextParams.mediaId
 	) {
 		return false

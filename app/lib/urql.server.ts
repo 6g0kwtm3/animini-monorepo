@@ -114,19 +114,27 @@ export function operation<T, V>(
 			)
 		)
 
-		const { data, errors } = yield* _(
-			Effect.promise(async () => response.json())
+		const GraphqlResult = Schema.struct({
+			data: Schema.optional(Schema.unknown),
+			errors: Schema.optional(Schema.array(Schema.unknown))
+		})
+
+		const data = yield* _(Effect.promise(async () => response.json()))
+
+		const result = yield* _(
+			Schema.decodeUnknown(GraphqlResult)(data),
+			Effect.orDie
 		)
 
-		if (errors?.length) {
-			console.log(errors)
+		if (result.errors?.length) {
+			console.log(result.errors)
 		}
 
 		// if (errors?.length) {
 		// 	return yield* _(new Timeout({ reset: -1 }))
 		// }
 
-		return (data as T) ?? null
+		return (result.data as T) ?? null
 	})
 }
 let timeout = 0
