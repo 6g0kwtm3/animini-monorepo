@@ -138,23 +138,25 @@ async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 	}
 }
 
-const SortEntries_entries = graphql(`
-	fragment SortEntries_entries on MediaList {
-		id
-		...ListItem_entry
-		progress
-		score
-		...ToWatch_entry
-		media {
+const SortEntries_entries = serverOnly$(
+	graphql(`
+		fragment SortEntries_entries on MediaList {
 			id
-			status(version: 2)
-			title {
-				userPreferred
+			...ListItem_entry
+			progress
+			score
+			...ToWatch_entry
+			media {
+				id
+				status(version: 2)
+				title {
+					userPreferred
+				}
 			}
+			updatedAt
 		}
-		updatedAt
-	}
-`)
+	`)
+)
 
 function sortEntries(
 	data: readonly FragmentType<typeof SortEntries_entries>[],
@@ -203,20 +205,22 @@ function sortEntries(
 	return ReadonlyArray.sortBy(...order)(entries)
 }
 
-const FilterEntries_entries = graphql(`
-	fragment FilterEntries_entries on MediaList {
-		id
-		...SortEntries_entries
-		...MediaListHeaderToWatch_entries
-		...ToWatch_entry
-		progress
-		media {
+const FilterEntries_entries = serverOnly$(
+	graphql(`
+		fragment FilterEntries_entries on MediaList {
 			id
-			status(version: 2)
-			format
+			...SortEntries_entries
+			...MediaListHeaderToWatch_entries
+			...ToWatch_entry
+			progress
+			media {
+				id
+				status(version: 2)
+				format
+			}
 		}
-	}
-`)
+	`)
+)
 
 function filterEntries(
 	data: readonly FragmentType<typeof FilterEntries_entries>[],
