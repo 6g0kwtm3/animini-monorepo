@@ -1,21 +1,14 @@
 import {
-	Form,
-	Link,
-	useActionData,
-	useNavigation,
-	useParams,
-	useSearchParams
+	Link
 } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
-import { Predicate } from "effect"
 
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
 
-import { avalible as getAvalible } from "../media/avalible"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
@@ -29,20 +22,15 @@ import {
 	ListItemContentTitle,
 	ListItemImg
 } from "~/components/List"
-import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 
 import { route_media } from "../route"
 import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
 
-import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.$selected"
-import MaterialSymbolsAdd from "~icons/material-symbols/add"
-import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
-import { M3 } from "../components"
-import { useRawRouteLoaderData } from "../data"
+import { Progress } from "./Progress"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -172,81 +160,3 @@ function MediaListItemSubtitle(props: {
 	)
 }
 
-const Progress_entry = serverOnly$(
-	graphql(`
-		fragment Progress_entry on MediaList {
-			id
-			progress
-			media {
-				...Avalible_media
-				type
-				id
-				episodes
-				chapters
-			}
-		}
-	`)
-)
-
-function Progress(props: { entry: FragmentType<typeof Progress_entry> }) {
-	const entry = readFragment<typeof Progress_entry>(props.entry)
-	const avalible = getAvalible(entry.media)
-	const data = useRawRouteLoaderData<typeof rootLoader>("root")
-	const params = useParams()
-	const actionData = useActionData<typeof selectedAction>()
-	const navigation = useNavigation()
-
-	const optimisticEntry =
-		actionData?.SaveMediaListEntry ??
-		Object.fromEntries(navigation.formData ?? new FormData())
-
-	const progress =
-		(Number(optimisticEntry.id) === entry.id
-			? Number(optimisticEntry.progress)
-			: entry.progress) ?? 0
-
-	const [search] = useSearchParams()
-
-	search.set("sheet", String(entry.id))
-
-	return (
-		<div className="flex">
-			{Predicate.isString(data?.Viewer?.name) &&
-				data.Viewer.name === params.userName && (
-					<Form className="hidden @md:block" method="post">
-						<input type="hidden" name="progress" value={progress + 1} />
-						<input type="hidden" name="id" value={entry.id} />
-						<input type="hidden" name="intent" value="increment" />
-						<M3.Button type="submit">
-							<span>
-								{progress}
-								{Predicate.isNumber(avalible) ? (
-									<>
-										/
-										<span
-											className={
-												avalible !==
-												(entry.media?.episodes ?? entry.media?.chapters)
-													? "underline decoration-dotted"
-													: ""
-											}
-										>
-											{avalible}
-										</span>
-									</>
-								) : (
-									""
-								)}
-							</span>
-							<M3.ButtonIcon>
-								<MaterialSymbolsAdd />
-							</M3.ButtonIcon>
-						</M3.Button>
-					</Form>
-				)}
-			<M3.Icon render={<Link to={`?${search}`} />}>
-				<MaterialSymbolsMoreHoriz />
-			</M3.Icon>
-		</div>
-	)
-}
