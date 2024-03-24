@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test"
-import { MediaPage } from "./MediaPage"
-import { SearchPage } from "./SearchPage"
+import { MediaPage } from "./pages/MediaPage"
+import { SearchPage } from "./pages/SearchPage"
 
 test("when search, ArrowDown should change focus", async ({ page }) => {
 	await page.goto("/")

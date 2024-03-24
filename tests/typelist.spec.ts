@@ -1,6 +1,6 @@
 import { test, type Locator, type Page } from "@playwright/test"
-import { FeedPage } from "./IndexPage"
-import { TypelistPage } from "./TypelistPage"
+import { FeedPage } from "./pages/IndexPage"
+import { TypelistPage } from "./pages/TypelistPage"
 
 test.use({ storageState: "playwright/.auth/user.json" })
 
