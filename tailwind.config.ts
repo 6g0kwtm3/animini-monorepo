@@ -173,19 +173,19 @@ export default withTV({
 			"standard-accelerate": "cubic-bezier(0.3, 0.0, 1, 1)"
 		},
 		transitionDuration: {
-			"sm": "50ms",
+			sm: "50ms",
 			"2sm": "100ms",
 			"3sm": "150ms",
 			"4sm": "200ms",
-			"md": "250ms",
+			md: "250ms",
 			"2md": "300ms",
 			"3md": "350ms",
 			"4md": "400ms",
-			"lg": "450ms",
+			lg: "450ms",
 			"2lg": "500ms",
 			"3lg": "550ms",
 			"4lg": "600ms",
-			"xl": "700ms",
+			xl: "700ms",
 			"2xl": "700ms",
 			"3xl": "800ms",
 			"4xl": "1000ms"
