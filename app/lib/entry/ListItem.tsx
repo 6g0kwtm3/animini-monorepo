@@ -1,14 +1,10 @@
-import {
-	Link
-} from "@remix-run/react"
+import { Link } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
-
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, useFragment as readFragment } from "~/lib/graphql"
-
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
@@ -159,4 +155,3 @@ function MediaListItemSubtitle(props: {
 		</>
 	)
 }
-
