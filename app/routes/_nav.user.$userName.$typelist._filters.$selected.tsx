@@ -166,7 +166,7 @@ const SortEntries_entries = serverOnly$(
 					year
 				}
 				averageScore
-				
+
 				status(version: 2)
 				title {
 					userPreferred
@@ -182,9 +182,6 @@ const OrderFuzzyDate = Order.combineAll([
 	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.month ?? 0),
 	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.day ?? 0)
 ])
-
-
-
 
 function sortEntries(
 	data: readonly FragmentType<typeof SortEntries_entries>[],
@@ -252,10 +249,7 @@ function sortEntries(
 		}
 		if (sort === MediaListSort.AvgScore) {
 			order.push(
-				Order.mapInput(
-					Order.number,
-					(entry) => entry.media?.averageScore ?? 0
-				)
+				Order.mapInput(Order.number, (entry) => entry.media?.averageScore ?? 0)
 			)
 			continue
 		}
@@ -263,10 +257,7 @@ function sortEntries(
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (sort === MediaListSort.PopularityDesc) {
 			order.push(
-				Order.mapInput(
-					Order.number,
-					(entry) => entry.media?.popularity ?? 0
-				)
+				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
 			)
 			continue
 		}

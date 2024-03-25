@@ -1,6 +1,4 @@
-import * as api from "~/gql/graphql";
-
-
+import * as api from "~/gql/graphql"
 
 export enum MediaListSort {
 	TitleEnglish = api.MediaSort.TitleEnglish,
