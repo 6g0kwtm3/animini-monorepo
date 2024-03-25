@@ -31,7 +31,7 @@ import {
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { Tabs, TabsTab } from "~/components/Tabs"
-import { MediaFormat, MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
+import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { Ariakit } from "~/lib/ariakit"
 import { client_get_client } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
@@ -44,7 +44,9 @@ import { HashNavLink } from "~/lib/search/HashNavLink"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
+
 import { copySearchParams } from "./copySearchParams"
+import { MediaListSort } from "~/lib/MediaListSort"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -523,10 +525,18 @@ const MANGA_PROGRESS_OPTIONS = {
 }
 
 const ANIME_SORT_OPTIONS = {
-	[MediaSort.TitleEnglish]: m.media_sort_title(),
-	[MediaSort.ScoreDesc]: m.media_sort_score(),
-	[MediaSort.UpdatedAtDesc]: m.media_sort_last_updated()
+	[MediaListSort.TitleEnglish]: m.media_sort_title(),
+	[MediaListSort.ScoreDesc]: m.media_sort_score(),
+	[MediaListSort.ProgressDesc]: m.media_sort_progress(),
+	[MediaListSort.UpdatedTimeDesc]: m.media_sort_last_updated(),
+	[MediaListSort.IdDesc]: m.media_sort_last_added(),
+	[MediaListSort.StartedOnDesc]: m.media_sort_start_date(),
+	[MediaListSort.FinishedOnDesc]: m.media_sort_completed_date(),
+	[MediaListSort.StartDateDesc]: m.media_sort_release_date(),
+	[MediaListSort.AvgScore]: m.media_sort_avg_score(),
+	[MediaListSort.PopularityDesc]: m.media_sort_popularity()
 }
+
 const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
 
 const MANGA_FORMAT_OPTIONS = {

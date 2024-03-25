@@ -20,7 +20,7 @@ import { useRawLoaderData } from "~/lib/data"
 
 // import type { FragmentType } from "~/lib/graphql"
 
-import { MediaSort, MediaStatus, MediaType } from "~/gql/graphql"
+import { MediaStatus, MediaType, type FuzzyDate } from "~/gql/graphql"
 import {
 	graphql,
 	makeFragmentData,
@@ -46,6 +46,7 @@ import { clientOnly$, serverOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
 import { Loading, Skeleton } from "~/components/Skeleton"
+import { MediaListSort } from "~/lib/MediaListSort"
 import { Remix } from "~/lib/Remix/index.server"
 import { Ariakit } from "~/lib/ariakit"
 import { client, createGetInitialData } from "~/lib/cache.client"
@@ -146,8 +147,26 @@ const SortEntries_entries = serverOnly$(
 			progress
 			score
 			...ToWatch_entry
+			startedAt {
+				day
+				month
+				year
+			}
+			completedAt {
+				day
+				month
+				year
+			}
 			media {
 				id
+				popularity
+				startDate {
+					day
+					month
+					year
+				}
+				averageScore
+				
 				status(version: 2)
 				title {
 					userPreferred
@@ -157,6 +176,15 @@ const SortEntries_entries = serverOnly$(
 		}
 	`)
 )
+
+const OrderFuzzyDate = Order.combineAll([
+	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.year ?? 0),
+	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.month ?? 0),
+	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.day ?? 0)
+])
+
+
+
 
 function sortEntries(
 	data: readonly FragmentType<typeof SortEntries_entries>[],
@@ -168,41 +196,101 @@ function sortEntries(
 	const order: Order.Order<(typeof entries)[number]>[] = []
 
 	for (const sort of sorts) {
-		if (sort === MediaSort.ScoreDesc) {
-			order.push(
-				Order.reverse(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
-			)
+		if (!Schema.is(Schema.enums(MediaListSort))(sort)) {
+			continue
 		}
-		if (sort === MediaSort.TitleEnglish) {
-			order.push(
-				Order.mapInput(
-					Order.string,
-					(entry) => entry.media?.title?.userPreferred ?? ""
-				)
-			)
-		}
-		if (sort === MediaSort.UpdatedAtDesc) {
+		if (sort === MediaListSort.TitleEnglish) {
 			order.push(
 				Order.reverse(
-					Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0)
+					Order.mapInput(
+						Order.string,
+						(entry) => entry.media?.title?.userPreferred ?? ""
+					)
 				)
 			)
+			continue
 		}
+
+		if (sort === MediaListSort.ScoreDesc) {
+			order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
+			continue
+		}
+
+		if (sort === MediaListSort.ProgressDesc) {
+			order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
+			continue
+		}
+
+		if (sort === MediaListSort.UpdatedTimeDesc) {
+			order.push(Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0))
+			continue
+		}
+
+		if (sort === MediaListSort.IdDesc) {
+			order.push(Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0))
+			continue
+		}
+
+		if (sort === MediaListSort.StartedOnDesc) {
+			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
+			continue
+		}
+
+		if (sort === MediaListSort.FinishedOnDesc) {
+			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
+			continue
+		}
+
+		if (sort === MediaListSort.StartDateDesc) {
+			order.push(
+				Order.mapInput(
+					OrderFuzzyDate,
+					(entry) => entry.media?.startDate ?? null
+				)
+			)
+			continue
+		}
+		if (sort === MediaListSort.AvgScore) {
+			order.push(
+				Order.mapInput(
+					Order.number,
+					(entry) => entry.media?.averageScore ?? 0
+				)
+			)
+			continue
+		}
+
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (sort === MediaListSort.PopularityDesc) {
+			order.push(
+				Order.mapInput(
+					Order.number,
+					(entry) => entry.media?.popularity ?? 0
+				)
+			)
+			continue
+		}
+
+		sort satisfies never
 	}
 
 	order.push(
-		Order.mapInput(
-			Order.number,
-			(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
-		),
-		Order.mapInput(Order.number, (entry) => {
-			return [MediaStatus.Releasing, MediaStatus.NotYetReleased].indexOf(
-				entry.media?.status ?? MediaStatus.Cancelled
+		Order.reverse(
+			Order.mapInput(
+				Order.number,
+				(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
 			)
-		})
+		),
+		Order.reverse(
+			Order.mapInput(Order.number, (entry) => {
+				return [MediaStatus.Releasing, MediaStatus.NotYetReleased].indexOf(
+					entry.media?.status ?? MediaStatus.Cancelled
+				)
+			})
+		)
 	)
 
-	return ReadonlyArray.sortBy(...order)(entries)
+	return ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))(entries)
 }
 
 const FilterEntries_entries = serverOnly$(
