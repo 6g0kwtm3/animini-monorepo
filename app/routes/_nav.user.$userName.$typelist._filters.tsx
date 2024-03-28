@@ -1,4 +1,9 @@
-import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
+import {
+	CheckboxProvider,
+	Group,
+	GroupLabel,
+	RadioProvider
+} from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
@@ -30,10 +35,9 @@ import {
 	ListItemContentTitle
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
-import { Tabs, TabsTab } from "~/components/Tabs"
+import { TabsList, TabsListItem } from "~/components/Tabs"
 import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
 import { Ariakit } from "~/lib/ariakit"
-import { client_get_client } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import { getCacheControl } from "~/lib/getCacheControl"
 
@@ -220,7 +224,7 @@ export default function Filters(): ReactNode {
 								</Group>
 							</CheckboxProvider>
 
-							<CheckboxProvider value={searchParams.getAll("sort")}>
+							<RadioProvider value={searchParams.get("sort")}>
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Sort</GroupLabel>
 									<ul className="flex flex-wrap gap-2">
@@ -240,7 +244,7 @@ export default function Filters(): ReactNode {
 										})}
 									</ul>
 								</Group>
-							</CheckboxProvider>
+							</RadioProvider>
 
 							<ButtonText type="submit">Filter</ButtonText>
 							<ButtonText type="reset">Reset</ButtonText>
@@ -250,28 +254,32 @@ export default function Filters(): ReactNode {
 				<LayoutPane>
 					<Card variant="elevated" className="max-sm:contents">
 						<div className="flex flex-col gap-4 ">
-							<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
-								<AppBar
-									hide
-									className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
-								>
-									<div className="flex items-center gap-2 p-2">
-										<AppBarTitle>Anime list</AppBarTitle>
-										<div className="flex-1" />
-										<Icon>
-											<MaterialSymbolsSearch />
-										</Icon>
-										<FilterButton />
-										<Icon>
-											<MaterialSymbolsMoreHoriz />
-										</Icon>
-									</div>
-									<ListTabs />
-								</AppBar>
-							</div>
-							<Ariakit.HeadingLevel>
-								<Outlet />
-							</Ariakit.HeadingLevel>
+							<M3.Tabs selectedId={params.selected}>
+								<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
+									<AppBar
+										hide
+										className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
+									>
+										<div className="flex items-center gap-2 p-2">
+											<AppBarTitle>Anime list</AppBarTitle>
+											<div className="flex-1" />
+											<Icon>
+												<MaterialSymbolsSearch />
+											</Icon>
+											<FilterButton />
+											<Icon>
+												<MaterialSymbolsMoreHoriz />
+											</Icon>
+										</div>
+										<ListTabs />
+									</AppBar>
+								</div>
+								<M3.TabsPanel tabId={params.selected}>
+									<Ariakit.HeadingLevel>
+										<Outlet />
+									</Ariakit.HeadingLevel>
+								</M3.TabsPanel>
+							</M3.Tabs>
 						</div>
 					</Card>
 				</LayoutPane>
@@ -293,18 +301,23 @@ function ListTabs() {
 
 	const [searchParams] = useSearchParams()
 
+
 	return (
-		<Tabs>
+		<TabsList>
 			{lists?.map((list, i) => {
 				return (
 					list.name && (
-						<TabsTab key={list.name} to={`${list.name}?${searchParams}`}>
+						<TabsListItem
+							key={list.name}
+							id={list.name}
+							render={<Link to={`${list.name}?${searchParams}`} />}
+						>
 							{list.name}
-						</TabsTab>
+						</TabsListItem>
 					)
 				)
 			})}
-		</Tabs>
+		</TabsList>
 	)
 }
 
@@ -369,116 +382,130 @@ function Filter() {
 					})
 				}}
 			>
-				<Tabs
-					grow
-					className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
-				>
-					<TabsTab render={<HashNavLink to={`?${filterParams}`} />}>
-						Filter
-					</TabsTab>
-					<TabsTab render={<HashNavLink to={`?${sortParams}`} />}>Sort</TabsTab>
-				</Tabs>
+				<M3.Tabs selectedId={sheet}>
+					<TabsList
+						grow
+						className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
+					>
+						<TabsListItem id="filter" render={<Link to={`?${filterParams}`} />}>
+							Filter
+						</TabsListItem>
+						<TabsListItem id="sort" render={<Link to={`?${sortParams}`} />}>
+							Sort
+						</TabsListItem>
+					</TabsList>
 
-				<SheetBody>
-					<List lines="one" render={<Group />}>
-						{filter && (
-							<>
-								<ListItem
-									render={<GroupLabel />}
-									className="text-body-md text-on-surface-variant force:hover:state-none"
-								>
-									<Ariakit.Heading className="col-span-full ">
-										Status
-									</Ariakit.Heading>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("status")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_STATUS_OPTIONS
-											: MANGA_STATUS_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Checkbox name="status" value={value} />
-												<div className="col-span-2 col-start-2">
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</div>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
-								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<Ariakit.Heading className="col-span-full ">
-										Format
-									</Ariakit.Heading>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("format")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_FORMAT_OPTIONS
-											: MANGA_FORMAT_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Checkbox name="format" value={value} />
-												<ListItemContent>
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</ListItemContent>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
-								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<Ariakit.Heading className="col-span-full ">
-										Progress
-									</Ariakit.Heading>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("progress")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_PROGRESS_OPTIONS
-											: MANGA_PROGRESS_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Checkbox name="progress" value={value} />
-												<ListItemContent>
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</ListItemContent>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
-							</>
-						)}
+					<M3.TabsPanel tabId={sheet}>
+						<SheetBody>
+							<List lines="one" render={<Group />}>
+								{filter && (
+									<>
+										<ListItem
+											render={<GroupLabel />}
+											className="text-body-md text-on-surface-variant force:hover:state-none"
+										>
+											<Ariakit.Heading className="col-span-full ">
+												Status
+											</Ariakit.Heading>
+										</ListItem>
+										<CheckboxProvider value={searchParams.getAll("status")}>
+											{Object.entries(
+												params.typelist === "animelist"
+													? ANIME_STATUS_OPTIONS
+													: MANGA_STATUS_OPTIONS
+											).map(([value, label]) => {
+												return (
+													<ListItem render={<label />} key={value}>
+														<Checkbox name="status" value={value} />
+														<div className="col-span-2 col-start-2">
+															<ListItemContentTitle>
+																{label}
+															</ListItemContentTitle>
+														</div>
+													</ListItem>
+												)
+											})}
+										</CheckboxProvider>
+										<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+											<Ariakit.Heading className="col-span-full ">
+												Format
+											</Ariakit.Heading>
+										</ListItem>
+										<CheckboxProvider value={searchParams.getAll("format")}>
+											{Object.entries(
+												params.typelist === "animelist"
+													? ANIME_FORMAT_OPTIONS
+													: MANGA_FORMAT_OPTIONS
+											).map(([value, label]) => {
+												return (
+													<ListItem render={<label />} key={value}>
+														<Checkbox name="format" value={value} />
+														<ListItemContent>
+															<ListItemContentTitle>
+																{label}
+															</ListItemContentTitle>
+														</ListItemContent>
+													</ListItem>
+												)
+											})}
+										</CheckboxProvider>
+										<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+											<Ariakit.Heading className="col-span-full ">
+												Progress
+											</Ariakit.Heading>
+										</ListItem>
+										<CheckboxProvider value={searchParams.getAll("progress")}>
+											{Object.entries(
+												params.typelist === "animelist"
+													? ANIME_PROGRESS_OPTIONS
+													: MANGA_PROGRESS_OPTIONS
+											).map(([value, label]) => {
+												return (
+													<ListItem render={<label />} key={value}>
+														<Checkbox name="progress" value={value} />
+														<ListItemContent>
+															<ListItemContentTitle>
+																{label}
+															</ListItemContentTitle>
+														</ListItemContent>
+													</ListItem>
+												)
+											})}
+										</CheckboxProvider>
+									</>
+								)}
 
-						{sort && (
-							<>
-								<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-									<Ariakit.Heading className="col-span-full ">
-										Sort
-									</Ariakit.Heading>
-								</ListItem>
-								<CheckboxProvider value={searchParams.getAll("sort")}>
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_SORT_OPTIONS
-											: MANGA_SORT_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<ListItem render={<label />} key={value}>
-												<Radio name="sort" value={value} />
-												<ListItemContent>
-													<ListItemContentTitle>{label}</ListItemContentTitle>
-												</ListItemContent>
-											</ListItem>
-										)
-									})}
-								</CheckboxProvider>
-							</>
-						)}
-					</List>
-				</SheetBody>
+								{sort && (
+									<>
+										<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
+											<Ariakit.Heading className="col-span-full ">
+												Sort
+											</Ariakit.Heading>
+										</ListItem>
+										<CheckboxProvider value={searchParams.getAll("sort")}>
+											{Object.entries(
+												params.typelist === "animelist"
+													? ANIME_SORT_OPTIONS
+													: MANGA_SORT_OPTIONS
+											).map(([value, label]) => {
+												return (
+													<ListItem render={<label />} key={value}>
+														<Radio name="sort" value={value} />
+														<ListItemContent>
+															<ListItemContentTitle>
+																{label}
+															</ListItemContentTitle>
+														</ListItemContent>
+													</ListItem>
+												)
+											})}
+										</CheckboxProvider>
+									</>
+								)}
+							</List>
+						</SheetBody>
+					</M3.TabsPanel>
+				</M3.Tabs>
 			</Sheet>
 		</Form>
 	)
