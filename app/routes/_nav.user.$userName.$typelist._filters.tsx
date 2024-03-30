@@ -301,7 +301,6 @@ function ListTabs() {
 
 	const [searchParams] = useSearchParams()
 
-
 	return (
 		<TabsList>
 			{lists?.map((list, i) => {
