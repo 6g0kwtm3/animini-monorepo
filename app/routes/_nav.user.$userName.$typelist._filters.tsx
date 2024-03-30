@@ -44,13 +44,13 @@ import { getCacheControl } from "~/lib/getCacheControl"
 import { M3 } from "~/lib/components"
 import { graphql } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
-import { HashNavLink } from "~/lib/search/HashNavLink"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
-import { copySearchParams } from "./copySearchParams"
 import { MediaListSort } from "~/lib/MediaListSort"
+import { client_get_client } from "~/lib/client"
+import { copySearchParams } from "./copySearchParams"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
