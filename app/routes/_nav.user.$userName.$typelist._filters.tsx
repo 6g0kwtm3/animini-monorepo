@@ -29,7 +29,6 @@ import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
 	ListItem,
 	ListItemContent,
 	ListItemContentTitle
@@ -50,6 +49,7 @@ import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
 import { MediaListSort } from "~/lib/MediaListSort"
 import { client_get_client } from "~/lib/client"
+import { route_user_list } from "~/lib/route"
 import { copySearchParams } from "./copySearchParams"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -254,7 +254,7 @@ export default function Filters(): ReactNode {
 				<LayoutPane>
 					<Card variant="elevated" className="max-sm:contents">
 						<div className="flex flex-col gap-4 ">
-							<M3.Tabs selectedId={params.selected}>
+							<M3.Tabs selectedId={String(params.selected)}>
 								<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
 									<AppBar
 										hide
@@ -300,9 +300,16 @@ function ListTabs() {
 		)
 
 	const [searchParams] = useSearchParams()
+	const params = useParams()
 
 	return (
 		<TabsList>
+			<TabsListItem
+				id={"undefined"}
+				render={<Link to={`${route_user_list(params)}?${searchParams}`} />}
+			>
+				All
+			</TabsListItem>
 			{lists?.map((list, i) => {
 				return (
 					list.name && (
@@ -396,117 +403,129 @@ function Filter() {
 
 					<M3.TabsPanel tabId={sheet}>
 						<SheetBody>
-							<List lines="one" render={<Group />}>
-								{filter && (
-									<>
-										<ListItem
-											render={<GroupLabel />}
-											className="text-body-md text-on-surface-variant force:hover:state-none"
-										>
-											<Ariakit.Heading className="col-span-full ">
-												Status
-											</Ariakit.Heading>
-										</ListItem>
-										<CheckboxProvider value={searchParams.getAll("status")}>
-											{Object.entries(
-												params.typelist === "animelist"
-													? ANIME_STATUS_OPTIONS
-													: MANGA_STATUS_OPTIONS
-											).map(([value, label]) => {
-												return (
-													<ListItem render={<label />} key={value}>
-														<Checkbox name="status" value={value} />
-														<div className="col-span-2 col-start-2">
-															<ListItemContentTitle>
-																{label}
-															</ListItemContentTitle>
-														</div>
-													</ListItem>
-												)
-											})}
-										</CheckboxProvider>
-										<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-											<Ariakit.Heading className="col-span-full ">
-												Format
-											</Ariakit.Heading>
-										</ListItem>
-										<CheckboxProvider value={searchParams.getAll("format")}>
-											{Object.entries(
-												params.typelist === "animelist"
-													? ANIME_FORMAT_OPTIONS
-													: MANGA_FORMAT_OPTIONS
-											).map(([value, label]) => {
-												return (
-													<ListItem render={<label />} key={value}>
-														<Checkbox name="format" value={value} />
-														<ListItemContent>
-															<ListItemContentTitle>
-																{label}
-															</ListItemContentTitle>
-														</ListItemContent>
-													</ListItem>
-												)
-											})}
-										</CheckboxProvider>
-										<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-											<Ariakit.Heading className="col-span-full ">
-												Progress
-											</Ariakit.Heading>
-										</ListItem>
-										<CheckboxProvider value={searchParams.getAll("progress")}>
-											{Object.entries(
-												params.typelist === "animelist"
-													? ANIME_PROGRESS_OPTIONS
-													: MANGA_PROGRESS_OPTIONS
-											).map(([value, label]) => {
-												return (
-													<ListItem render={<label />} key={value}>
-														<Checkbox name="progress" value={value} />
-														<ListItemContent>
-															<ListItemContentTitle>
-																{label}
-															</ListItemContentTitle>
-														</ListItemContent>
-													</ListItem>
-												)
-											})}
-										</CheckboxProvider>
-									</>
-								)}
-
-								{sort && (
-									<>
-										<ListItem className="text-body-md text-on-surface-variant force:hover:state-none">
-											<Ariakit.Heading className="col-span-full ">
-												Sort
-											</Ariakit.Heading>
-										</ListItem>
-										<CheckboxProvider value={searchParams.getAll("sort")}>
-											{Object.entries(
-												params.typelist === "animelist"
-													? ANIME_SORT_OPTIONS
-													: MANGA_SORT_OPTIONS
-											).map(([value, label]) => {
-												return (
-													<ListItem render={<label />} key={value}>
-														<Radio name="sort" value={value} />
-														<ListItemContent>
-															<ListItemContentTitle>
-																{label}
-															</ListItemContentTitle>
-														</ListItemContent>
-													</ListItem>
-												)
-											})}
-										</CheckboxProvider>
-									</>
-								)}
-							</List>
+							{filter && <SheetFilter />}
+							{sort && <SheetSort />}
 						</SheetBody>
 					</M3.TabsPanel>
 				</M3.Tabs>
 			</Sheet>
 		</Form>
+	)
+}
+
+function SheetSort() {
+	const searchParams = useOptimisticSearchParams()
+
+	const params = useParams<"typelist">()
+
+	const lines = "one"
+
+	return (
+		<Group>
+			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
+				Sort
+			</M3.Subheader>
+			<M3.List lines={lines} render={<div />}>
+				<CheckboxProvider value={searchParams.getAll("sort")}>
+					{Object.entries(
+						params.typelist === "animelist"
+							? ANIME_SORT_OPTIONS
+							: MANGA_SORT_OPTIONS
+					).map(([value, label]) => {
+						return (
+							<ListItem render={<label />} key={value}>
+								<Radio name="sort" value={value} />
+								<ListItemContent>
+									<ListItemContentTitle>{label}</ListItemContentTitle>
+								</ListItemContent>
+							</ListItem>
+						)
+					})}
+				</CheckboxProvider>
+			</M3.List>
+		</Group>
+	)
+}
+
+function SheetFilter() {
+	const searchParams = useOptimisticSearchParams()
+
+	const params = useParams<"typelist">()
+
+	const lines = "one"
+
+	return (
+		<>
+			<Group>
+				<M3.Subheader lines={lines} render={<GroupLabel />}>
+					Status
+				</M3.Subheader>
+				<M3.List lines={lines} render={<div />} className="-mt-2">
+					<CheckboxProvider value={searchParams.getAll("status")}>
+						{Object.entries(
+							params.typelist === "animelist"
+								? ANIME_STATUS_OPTIONS
+								: MANGA_STATUS_OPTIONS
+						).map(([value, label]) => {
+							return (
+								<ListItem render={<label />} key={value}>
+									<Checkbox name="status" value={value} />
+									<div className="col-span-2 col-start-2">
+										<ListItemContentTitle>{label}</ListItemContentTitle>
+									</div>
+								</ListItem>
+							)
+						})}
+					</CheckboxProvider>
+				</M3.List>
+			</Group>
+			<Group>
+				<M3.Subheader lines={lines} render={<GroupLabel />}>
+					Format
+				</M3.Subheader>
+				<M3.List lines={lines} render={<div />} className="-mt-2">
+					<CheckboxProvider value={searchParams.getAll("format")}>
+						{Object.entries(
+							params.typelist === "animelist"
+								? ANIME_FORMAT_OPTIONS
+								: MANGA_FORMAT_OPTIONS
+						).map(([value, label]) => {
+							return (
+								<ListItem render={<label />} key={value}>
+									<Checkbox name="format" value={value} />
+									<ListItemContent>
+										<ListItemContentTitle>{label}</ListItemContentTitle>
+									</ListItemContent>
+								</ListItem>
+							)
+						})}
+					</CheckboxProvider>
+				</M3.List>
+			</Group>
+			<Group>
+				<M3.Subheader lines={lines} render={<GroupLabel />}>
+					Progress
+				</M3.Subheader>
+				<M3.List lines={lines} render={<div />} className="-mt-2">
+					<CheckboxProvider value={searchParams.getAll("progress")}>
+						{Object.entries(
+							params.typelist === "animelist"
+								? ANIME_PROGRESS_OPTIONS
+								: MANGA_PROGRESS_OPTIONS
+						).map(([value, label]) => {
+							return (
+								<ListItem render={<label />} key={value}>
+									<Checkbox name="progress" value={value} />
+									<ListItemContent>
+										<ListItemContentTitle>{label}</ListItemContentTitle>
+									</ListItemContent>
+								</ListItem>
+							)
+						})}
+					</CheckboxProvider>
+				</M3.List>
+			</Group>
+		</>
 	)
 }
 

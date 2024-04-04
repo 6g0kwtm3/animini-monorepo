@@ -1,7 +1,8 @@
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
-import type { VariantProps } from "tailwind-variants"
+import { createTV, type VariantProps } from "tailwind-variants"
+import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 import { createList } from "~/lib/list"
 
@@ -95,6 +96,34 @@ export function ListItemIcon(
 		className: itemIcon({ className: props.className })
 	})
 }
+
+const tv = createTV({ twMerge: false })
+const subheader = tv({
+	base: "truncate px-4 text-body-md text-on-surface-variant",
+	variants: {
+		lines: {
+			one: "py-2",
+			two: "py-2",
+			three: "py-3"
+		}
+	},
+	defaultVariants: {
+		lines: "two"
+	}
+})
+
+export function Subheader({
+	lines,
+	...props
+}: Ariakit.HeadingProps & VariantProps<typeof subheader>): ReactNode {
+	return (
+		<Ariakit.Heading
+			{...props}
+			className={subheader({ className: props.className, lines })}
+		/>
+	)
+}
+
 export function ListItemTrailingSupportingText(
 	props: ComponentPropsWithoutRef<"span">
 ): ReactNode {

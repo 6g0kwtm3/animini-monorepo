@@ -37,6 +37,7 @@ import type { SearchItem_media } from "./SearchItem"
 import { SearchItem } from "./SearchItem"
 import type { SearchTrending_query } from "./SearchTrending"
 import { SearchTrending } from "./SearchTrending"
+import { M3 } from "../components"
 
 function useOptimisticSearchParams() {
 	const { search } = useOptimisticLocation()
@@ -110,29 +111,25 @@ export function Search(): ReactNode {
 
 					{ReadonlyArray.isNonEmptyArray(media) ? (
 						<SearchViewBody>
-							<SearchViewBodyGroup
-								render={
-									<List lines={"one"} className="force:py-0" render={<div />} />
-								}
-							>
+							<SearchViewBodyGroup>
 								<Ariakit.ComboboxGroupLabel
-									render={<ListItem render={<div />} />}
-									className="force:hover:state-none"
+									render={<M3.Subheader lines={"one"} />}
 								>
-									<div className="col-span-full text-body-md text-on-surface-variant">
-										Results
-									</div>
+									Results
 								</Ariakit.ComboboxGroupLabel>
-								{media.map((media) => (
-									<SearchViewItem
-										key={media.id}
-										render={
-											<SearchItem
-												media={makeFragmentData<SearchItem_media>(media)}
-											/>
-										}
-									/>
-								))}
+
+								<List lines={"one"} render={<div />} className="-mt-2">
+									{media.map((media) => (
+										<SearchViewItem
+											key={media.id}
+											render={
+												<SearchItem
+													media={makeFragmentData<SearchItem_media>(media)}
+												/>
+											}
+										/>
+									))}
+								</List>
 							</SearchViewBodyGroup>
 						</SearchViewBody>
 					) : data ? (

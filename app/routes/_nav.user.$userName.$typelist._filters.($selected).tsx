@@ -13,6 +13,7 @@ import type {
 	ActionFunction,
 	HeadersFunction,
 	LoaderFunction,
+	MetaFunction,
 	SerializeFrom
 } from "@remix-run/cloudflare"
 import { defer, json } from "@remix-run/cloudflare"
@@ -98,6 +99,17 @@ export const action = (async (args) => {
 	return increment(args)
 }) satisfies ActionFunction
 
+export const meta = (({ params }) => {
+	return [
+		{
+			title:
+				params.typelist === "animelist"
+					? `${params.userName}'s anime list`
+					: `${params.userName}'s manga list`
+		}
+	]
+}) satisfies MetaFunction<typeof loader>
+
 export const clientAction = (async (args) => {
 	const result = await increment(args)
 	await client.invalidateQueries()
@@ -110,6 +122,7 @@ export const headers = (({ loaderHeaders }) => {
 		? { "Cache-Control": cacheControl }
 		: new Headers()
 }) satisfies HeadersFunction
+
 async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 	const client = await client_get_client(args)
@@ -121,6 +134,19 @@ async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 			mangalist: MediaType.Manga
 		}[params.typelist]
 	})
+
+	if (typeof params.selected !== "string") {
+		return {
+			...data,
+			MediaListCollection: undefined,
+			selectedList: {
+				name: "All",
+				entries: data?.MediaListCollection?.lists?.flatMap(
+					(list) => list?.entries
+				)
+			}
+		}
+	}
 
 	const selectedList = data?.MediaListCollection?.lists?.find(
 		(list) => list?.name === params.selected
@@ -352,7 +378,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 const Params = Schema.struct({
-	selected: Schema.string,
+	selected: Schema.optional(Schema.string),
 	userName: Schema.string,
 	typelist: Schema.literal("animelist", "mangalist")
 })

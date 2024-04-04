@@ -12,6 +12,7 @@ import { graphql, useFragment } from "~/lib/graphql"
 import { SearchItem } from "./SearchItem"
 
 import type { ReactNode } from "react"
+import { M3 } from "../components"
 
 const SearchTrending_query = serverOnly$(
 	graphql(`
@@ -37,27 +38,21 @@ export function SearchTrending(props: {
 		data.trending?.media &&
 		ReadonlyArray.isNonEmptyArray(data.trending.media) && (
 			<SearchViewBody>
-				<SearchViewBodyGroup
-					render={
-						<List lines={"one"} className="force:py-0" render={<div />} />
-					}
-				>
-					<Ariakit.ComboboxGroupLabel
-						render={<ListItem render={<div />} />}
-						className="force:hover:state-none"
-					>
-						<div className="col-span-full text-body-md text-on-surface-variant">
-							Trending
-						</div>
+				<SearchViewBodyGroup>
+					<Ariakit.ComboboxGroupLabel render={<M3.Subheader lines={"one"} />}>
+						Trending
 					</Ariakit.ComboboxGroupLabel>
-					{data.trending.media
-						.filter((el) => el != null)
-						.map((media) => (
-							<SearchViewItem
-								key={media.id}
-								render={<SearchItem media={media} />}
-							/>
-						))}
+
+					<List lines={"one"} render={<div />} className="-mt-2">
+						{data.trending.media
+							.filter((el) => el != null)
+							.map((media) => (
+								<SearchViewItem
+									key={media.id}
+									render={<SearchItem media={media} />}
+								/>
+							))}
+					</List>
 				</SearchViewBodyGroup>
 			</SearchViewBody>
 		)
