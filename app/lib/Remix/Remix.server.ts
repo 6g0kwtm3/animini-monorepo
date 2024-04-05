@@ -17,9 +17,9 @@ export const Cookie = <I, A>(
 	name: string,
 	schema: Schema.Schema<never, I, A>
 ): Effect.Effect<
-	LoaderFunctionArgs | ClientLoaderFunctionArgs,
+	Option.Option<A>,
 	never,
-	Option.Option<A>
+	LoaderFunctionArgs | ClientLoaderFunctionArgs
 > =>
 	Effect.gen(function* (_) {
 		const { request } = yield* _(LoaderArgs)
@@ -107,7 +107,7 @@ export class ResponseError<T> extends Data.TaggedError("ResponseError")<{
 }> {}
 
 export async function runLoader<E, A>(
-	effect: Effect.Effect<never, E, A>
+	effect: Effect.Effect<A, E, never>
 ): Promise<A> {
 	const exit = await pipe(effect, Effect.runPromiseExit)
 

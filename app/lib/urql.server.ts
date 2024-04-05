@@ -24,40 +24,49 @@ export interface JSONObject {
 
 interface JSONArray extends Array<JSONValue> {}
 
-type Result<Data> = Effect.Effect<never, Remix.ResponseError<null>, Data | null>
+type Result<Data> = Effect.Effect<Data | null, Remix.ResponseError<null>>
 
 type Args<Data, Variables> = [
 	query: TypedDocumentString<Data, Variables>,
 	variables: Variables
 ]
 
-export interface EffectUrql {
-	query: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
-	mutation: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
-}
+export interface EffectUrql {}
 
-export const EffectUrql = Context.Tag<EffectUrql>("Urql")
-export const LoaderArgs = Context.Tag<
+export class EffectUrql extends Context.Tag("Urql")<
+	EffectUrql,
+	{
+		query: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
+		mutation: <Data, Variables>(...args: Args<Data, Variables>) => Result<Data>
+	}
+>() {}
+
+export class LoaderArgs extends Context.Tag("loader(args)")<
+	LoaderArgs,
 	LoaderFunctionArgs | ClientLoaderFunctionArgs
->("loader(args)")
+>() {}
 
 type Arguments = {
 	params: Readonly<Params<string>>
 	searchParams: URLSearchParams
 }
 
-export const ClientArgs = Context.Tag<Arguments>("client/Args")
+export class ClientArgs extends Context.Tag("client/Args")<
+	ClientArgs,
+	Arguments
+>() {}
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.number
 }) {}
+
 export function operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
 	options?: {
 		headers?: Headers
 	}
-): Effect.Effect<never, Remix.ResponseError<any>, NonNullable<T> | null> {
+): Effect.Effect<NonNullable<T> | null, Remix.ResponseError<any>> {
 	return Effect.gen(function* (_) {
 		const body = yield* _(
 			Schema.encode(Schema.parseJson(Schema.any))({
