@@ -60,7 +60,7 @@ export function Progress(props: {
 
 	const episodes = entry.media?.episodes ?? entry.media?.chapters
 	return (
-		<div className="flex">
+		<div className="flex justify-end">
 			{Predicate.isString(data?.Viewer?.name) &&
 				data.Viewer.name === params.userName && (
 					<Form className="hidden @md:block" method="post">
