@@ -15,7 +15,7 @@ import { dev } from "../dev"
 
 export const Cookie = <I, A>(
 	name: string,
-	schema: Schema.Schema<never, I, A>
+	schema: Schema.Schema<A, I>
 ): Effect.Effect<
 	Option.Option<A>,
 	never,
@@ -38,7 +38,7 @@ export const CloudflareKV = createCloudflareKV({
 })
 
 function createCloudflareKV<
-	O extends Record<string, Schema.Schema<never, any, any>>
+	O extends Record<string, Schema.Schema<any, any, never>>
 >(options: O) {
 	return {
 		store<K extends keyof O & string>(key: K) {
@@ -58,10 +58,10 @@ function createCloudflareKV<
 						return Option.flatMap(
 							value,
 							Schema.decodeOption(Schema.parseJson(schema))
-						) satisfies Option.Option<Schema.Schema.To<O[K]>>
+						) satisfies Option.Option<Schema.Schema.Type<O[K]>>
 					})
 				},
-				put(id: string | number, value: Schema.Schema.From<O[K]>) {
+				put(id: string | number, value: Schema.Schema.Encoded<O[K]>) {
 					return Effect.gen(function* (_) {
 						const env = Option.getOrNull(yield* _(CloudflareEnv))
 
@@ -106,9 +106,7 @@ export class ResponseError<T> extends Data.TaggedError("ResponseError")<{
 	response: TypedResponse<T>
 }> {}
 
-export async function runLoader<E, A>(
-	effect: Effect.Effect<A, E, never>
-): Promise<A> {
+export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	const exit = await pipe(effect, Effect.runPromiseExit)
 
 	if (Exit.isSuccess(exit)) {
