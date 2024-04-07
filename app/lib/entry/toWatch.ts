@@ -1,8 +1,8 @@
 import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment as readFragment } from "~/lib/graphql"
+import { graphql, readFragment } from "~/lib/graphql"
 
 import { serverOnly$ } from "vite-env-only"
-import { behind } from "./behind"
+import { behind as getBehind } from "./behind"
 
 const ToWatch_entry = serverOnly$(
 	graphql(`
@@ -19,9 +19,16 @@ const ToWatch_entry = serverOnly$(
 
 export type ToWatch_entry = typeof ToWatch_entry
 
-export function toWatch(data: FragmentType<typeof ToWatch_entry>): number {
+export function toWatch(
+	data: FragmentType<typeof ToWatch_entry>
+): number | null {
 	const entry = readFragment<typeof ToWatch_entry>(data)
-	return Math.max(0, behind(entry) * (entry.media?.duration ?? 25) - 3)
+	const behind = getBehind(entry)
+	if (typeof behind !== "number") {
+		return null
+	}
+
+	return behind * Math.max(3, (entry.media?.duration ?? 25) - 3)
 }
 
 export function formatWatch(minutes: number): string {
@@ -29,7 +36,7 @@ export function formatWatch(minutes: number): string {
 		return ""
 	}
 	if (minutes > 60) {
-		return Math.floor(minutes / 60) + "h " + (minutes % 60) + "min"
+		return `${Math.floor(minutes / 60)}h ${minutes % 60}min`
 	}
-	return minutes + "min"
+	return `${minutes}min`
 }

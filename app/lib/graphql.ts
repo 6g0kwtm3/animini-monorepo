@@ -11,27 +11,27 @@ export type FragmentType<
 > = FragmentType_<NonNullable<F>>
 
 // return non-nullable if `fragmentType` is non-nullable
-export function useFragment<
+export function readFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(fragmentType: FragmentType<F>): ResultOf<F>
 // return nullable if `fragmentType` is nullable
-export function useFragment<
+export function readFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
 	fragmentType: FragmentType<F> | null | undefined
 ): ResultOf<F> | null | undefined
 
 // return array of non-nullable if `fragmentType` is array of non-nullable
-export function useFragment<
+export function readFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(fragmentType: ReadonlyArray<FragmentType<F>>): ReadonlyArray<ResultOf<F>>
 // return array of nullable if `fragmentType` is array of nullable
-export function useFragment<
+export function readFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
 	fragmentType: ReadonlyArray<FragmentType<F>> | null | undefined
 ): ReadonlyArray<ResultOf<F>> | null | undefined
-export function useFragment<
+export function readFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
 	fragmentType:
@@ -40,7 +40,7 @@ export function useFragment<
 		| undefined
 ): ReadonlyArray<ResultOf<F> | null | undefined> | null | undefined
 
-export function useFragment<
+export function readFragment<
 	F extends DocumentTypeDecoration<any, any> | undefined
 >(
 	fragmentType:

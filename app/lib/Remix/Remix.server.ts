@@ -3,25 +3,19 @@ import { LoaderArgs, Timeout } from "~/lib/urql.server"
 import { Token } from "../viewer"
 
 import { Schema } from "@effect/schema"
-import type { StructFields } from "@effect/schema/Schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
-import type { LoaderFunctionArgs, TypedResponse } from "@remix-run/cloudflare"
+import type { TypedResponse } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
-import type { ClientLoaderFunctionArgs } from "@remix-run/react"
 import cookie from "cookie"
 import { dev } from "../dev"
 
-export const Cookie = <I, A>(
+export function Cookie<I, A>(
 	name: string,
 	schema: Schema.Schema<A, I>
-): Effect.Effect<
-	Option.Option<A>,
-	never,
-	LoaderFunctionArgs | ClientLoaderFunctionArgs
-> =>
-	Effect.gen(function* (_) {
+): Effect.Effect<Option.Option<A>, never, LoaderArgs> {
+	return Effect.gen(function* (_) {
 		const { request } = yield* _(LoaderArgs)
 
 		const cookies = cookie.parse(request.headers.get("Cookie") ?? "")
@@ -32,6 +26,7 @@ export const Cookie = <I, A>(
 			Option.flatMap(Schema.decodeOption(Schema.parseJson(schema)))
 		) satisfies Option.Option<A>
 	})
+}
 
 export const CloudflareKV = createCloudflareKV({
 	"notifications-read": Schema.number
@@ -90,7 +85,7 @@ const CloudflareEnv = Effect.succeed(
 	}>(null)
 )
 
-export function params<Fields extends StructFields>(fields: Fields) {
+export function params<Fields extends Schema.Struct.Fields>(fields: Fields) {
 	return Effect.gen(function* (_) {
 		const { params } = yield* _(LoaderArgs)
 		return yield* _(Schema.decodeUnknown(Schema.struct(fields))(params))
@@ -115,9 +110,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	const { cause } = exit
 
 	if (dev) {
-		throw json(Cause.pretty(cause), {
-			status: 500
-		})
+		throw new Error(Cause.pretty(cause))
 	}
 
 	if (!Cause.isFailType(cause)) {

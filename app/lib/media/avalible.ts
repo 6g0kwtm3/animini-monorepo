@@ -1,7 +1,6 @@
-import { Predicate } from "effect"
 import { MediaStatus } from "~/gql/graphql"
 import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment as readFragment } from "~/lib/graphql"
+import { graphql, readFragment } from "~/lib/graphql"
 
 import { serverOnly$ } from "vite-env-only"
 
@@ -30,18 +29,19 @@ export function avalible(
 	}
 
 	if (
-		media.status === MediaStatus.Releasing ||
 		media.status === MediaStatus.Finished ||
 		media.status === MediaStatus.Cancelled
 	) {
-		return media.nextAiringEpisode &&
-			Predicate.isNumber(media.nextAiringEpisode.episode)
-			? media.nextAiringEpisode.episode - 1
-			: media.episodes ?? media.chapters
+		return media.episodes ?? media.chapters
 	}
 
-	if (media.status === MediaStatus.Hiatus) {
-		return null
+	if (
+		media.status === MediaStatus.Releasing ||
+		media.status === MediaStatus.Hiatus
+	) {
+		return typeof media.nextAiringEpisode?.episode === "number"
+			? media.nextAiringEpisode.episode - 1
+			: null
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

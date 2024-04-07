@@ -1,7 +1,7 @@
-import { graphql } from "~/gql"
-import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
-import { avalible } from "../media/avalible"
 import { serverOnly$ } from "vite-env-only"
+import { graphql } from "~/gql"
+import { readFragment, type FragmentType } from "~/lib/graphql"
+import { avalible as getAvalible } from "../media/avalible"
 
 const Behind_entry = serverOnly$(
 	graphql(`
@@ -15,11 +15,14 @@ const Behind_entry = serverOnly$(
 	`)
 )
 
-export function behind(data: FragmentType<typeof Behind_entry>): number {
+export function behind(data: FragmentType<typeof Behind_entry>): number | null {
 	const entry = readFragment<typeof Behind_entry>(data)
 
-	return (
-		(avalible(entry.media) ?? entry.progress ?? Number.POSITIVE_INFINITY) -
-		(entry.progress ?? 0)
-	)
+	const avalible = getAvalible(entry.media)
+
+	if (typeof avalible !== "number") {
+		return null
+	}
+
+	return Math.max(0, avalible - (entry.progress ?? 0))
 }

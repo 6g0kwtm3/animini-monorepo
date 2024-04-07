@@ -70,24 +70,22 @@ clientLoader.hydrate = true
 
 export const loader = (async (args) => {
 	return pipe(
-		pipe(
-			Effect.gen(function* (_) {
-				const { request } = yield* _(LoaderArgs)
-				const viewer = Option.getOrNull(yield* _(Viewer))
-				return json(
-					{
-						Viewer: viewer,
-						// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
-						language: request.headers.get("accept-language")
-					},
-					{
-						headers: {
-							"Cache-Control": getCacheControl(cacheControl)
-						}
+		Effect.gen(function* (_) {
+			const { request } = yield* _(LoaderArgs)
+			const viewer = Option.getOrNull(yield* _(Viewer))
+			return json(
+				{
+					Viewer: viewer,
+					// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+					language: request.headers.get("accept-language")
+				},
+				{
+					headers: {
+						"Cache-Control": getCacheControl(cacheControl)
 					}
-				)
-			})
-		),
+				}
+			)
+		}),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader

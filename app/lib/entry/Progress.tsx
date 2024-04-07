@@ -7,23 +7,24 @@ import {
 	useSearchParams
 } from "@remix-run/react"
 import { Predicate } from "effect"
+import type { ReactNode } from "react"
 import { serverOnly$ } from "vite-env-only"
 import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment as readFragment } from "~/lib/graphql"
+import { graphql, readFragment } from "~/lib/graphql"
 import type { clientLoader as rootLoader } from "~/root"
-import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.$selected"
+import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.($selected)"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import { M3 } from "../components"
 import { useRawRouteLoaderData } from "../data"
 import { avalible as getAvalible } from "../media/avalible"
-import type { ReactNode } from "react"
 
-const Progress_entry = serverOnly$(
+const IncrementProgress_entry = serverOnly$(
 	graphql(`
-		fragment Progress_entry on MediaList {
+		fragment IncrementProgress_entry on MediaList {
 			id
 			progress
+			...Progress_entry
 			media {
 				...Avalible_media
 				type
@@ -35,10 +36,10 @@ const Progress_entry = serverOnly$(
 	`)
 )
 
-export function Progress(props: {
-	entry: FragmentType<typeof Progress_entry>
+export function IncrementProgress(props: {
+	entry: FragmentType<typeof IncrementProgress_entry>
 }): ReactNode {
-	const entry = readFragment<typeof Progress_entry>(props.entry)
+	const entry = readFragment<typeof IncrementProgress_entry>(props.entry)
 	const avalible = getAvalible(entry.media)
 	const data = useRawRouteLoaderData<typeof rootLoader>("root")
 	const params = useParams()
@@ -69,33 +70,16 @@ export function Progress(props: {
 						<input type="hidden" name="intent" value="increment" />
 						<M3.TooltipPlain>
 							<M3.TooltipPlainTrigger render={<M3.Button type="submit" />}>
-								<span>
-									{progress}
-									{Predicate.isNumber(avalible) ? (
-										<>
-											/
-											<span
-												className={
-													avalible !== episodes
-														? "underline decoration-dotted"
-														: ""
-												}
-											>
-												{avalible}
-											</span>
-										</>
-									) : (
-										""
-									)}
-								</span>
+								<Progress entry={entry} />
 								<M3.ButtonIcon>
 									<MaterialSymbolsAdd />
 								</M3.ButtonIcon>
 							</M3.TooltipPlainTrigger>
 							{avalible !== episodes && (
 								<M3.TooltipPlainContainer>
-									{Predicate.isNumber(episodes) &&
-									Predicate.isNumber(avalible) ? (
+									{!episodes ? (
+										<>some more to release</>
+									) : Predicate.isNumber(avalible) ? (
 										<>{episodes - avalible} more to release</>
 									) : (
 										<>more to release</>
@@ -109,5 +93,60 @@ export function Progress(props: {
 				<MaterialSymbolsMoreHoriz />
 			</M3.Icon>
 		</div>
+	)
+}
+
+const Progress_entry = serverOnly$(
+	graphql(`
+		fragment Progress_entry on MediaList {
+			id
+			progress
+			media {
+				...Avalible_media
+				id
+				episodes
+				chapters
+			}
+		}
+	`)
+)
+
+export function Progress(props: {
+	entry: FragmentType<typeof Progress_entry>
+}): ReactNode {
+	const entry = readFragment<typeof Progress_entry>(props.entry)
+	const avalible = getAvalible(entry.media)
+	const actionData = useActionData<typeof selectedAction>()
+	const navigation = useNavigation()
+
+	const optimisticEntry =
+		actionData?.SaveMediaListEntry ??
+		Object.fromEntries(navigation.formData ?? new FormData())
+
+	const progress =
+		(Number(optimisticEntry.id) === entry.id
+			? Number(optimisticEntry.progress)
+			: entry.progress) ?? 0
+
+	const episodes = entry.media?.episodes ?? entry.media?.chapters
+
+	return (
+		<span>
+			{progress}
+			{episodes === progress ? null : Predicate.isNumber(avalible) ? (
+				<>
+					/
+					<span
+						className={
+							avalible !== episodes ? "underline decoration-dotted" : ""
+						}
+					>
+						{avalible}
+					</span>
+				</>
+			) : (
+				`/${episodes ?? "-"}`
+			)}
+		</span>
 	)
 }

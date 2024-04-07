@@ -4,7 +4,7 @@ import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment as readFragment } from "~/lib/graphql"
+import { graphql, readFragment } from "~/lib/graphql"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
@@ -24,14 +24,19 @@ import { route_media } from "../route"
 import { MediaCover } from "./MediaListCover"
 import { formatWatch, toWatch } from "./toWatch"
 
+import { MediaType } from "~/gql/graphql"
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
-import { Progress } from "./Progress"
+import { IncrementProgress } from "./Progress"
+
+import { Predicate } from "effect"
+import type { clientLoader as rootLoader } from "~/root"
+import { useRawRouteLoaderData } from "../data"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
 		fragment ListItem_entry on MediaList {
-			...Progress_entry
+			...IncrementProgress_entry
 			...MediaListItemTitle_entry
 			...MediaListItemSubtitle_entry
 			media {
@@ -83,7 +88,7 @@ export function MediaListItem(props: {
 					</ListItemContentSubtitle>
 				</ListItemContent>
 
-				<Skeleton>{entry && <Progress entry={entry} />}</Skeleton>
+				<Skeleton>{entry && <IncrementProgress entry={entry} />}</Skeleton>
 			</ListItem>
 		</li>
 	)
@@ -131,6 +136,11 @@ const MediaListItemSubtitle_entry = serverOnly$(
 			id
 			score
 			...ToWatch_entry
+			...Progress_entry
+			media {
+				id
+				type
+			}
 		}
 	`)
 )
@@ -139,19 +149,26 @@ function MediaListItemSubtitle(props: {
 	entry: FragmentType<typeof MediaListItemSubtitle_entry>
 }): ReactNode {
 	const entry = readFragment<typeof MediaListItemSubtitle_entry>(props.entry)
+	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
+	const watch = toWatch(entry)
 	return (
 		<>
 			<div>
 				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
 			</div>
-			&middot;
-			<div>
-				<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
-				{toWatch(entry) > 0
-					? m.time_to_watch({ time: formatWatch(toWatch(entry)) })
-					: m.nothing_to_watch()}
-			</div>
+
+			{entry.media?.type === MediaType.Anime && Predicate.isNumber(watch) && (
+				<>
+					&middot;
+					<div>
+						<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
+						{watch > 0
+							? m.time_to_watch({ time: formatWatch(watch) })
+							: m.nothing_to_watch()}
+					</div>
+				</>
+			)}
 		</>
 	)
 }

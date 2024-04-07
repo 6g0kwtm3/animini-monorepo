@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 import { serverOnly$ } from "vite-env-only"
 import { createElement } from "../createElement"
 import type { FragmentType } from "../graphql"
-import { graphql, useFragment } from "../graphql"
+import { graphql, readFragment } from "../graphql"
 
 const MediaCover_media = serverOnly$(
 	graphql(`
@@ -31,7 +31,7 @@ export function MediaCover({
 }: ComponentPropsWithoutRef<"img"> & {
 	media: FragmentType<typeof MediaCover_media>
 }): ReactNode {
-	const data = useFragment<typeof MediaCover_media>(media)
+	const data = readFragment<typeof MediaCover_media>(media)
 
 	return createElement("img", {
 		src:

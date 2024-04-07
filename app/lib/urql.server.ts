@@ -1,7 +1,7 @@
 import cookie from "cookie"
 
 import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
+import { type Params } from "@remix-run/react"
 
 import { Context, Effect, Layer, Option, pipe } from "effect"
 
@@ -43,7 +43,7 @@ export class EffectUrql extends Context.Tag("Urql")<
 
 export class LoaderArgs extends Context.Tag("loader(args)")<
 	LoaderArgs,
-	LoaderFunctionArgs | ClientLoaderFunctionArgs
+	LoaderFunctionArgs
 >() {}
 
 type Arguments = {

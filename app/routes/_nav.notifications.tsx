@@ -1,18 +1,18 @@
 import { useTooltipStore } from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import type {
-	ActionFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
+    ActionFunction,
+    LoaderFunction,
+    MetaFunction,
+    SerializeFrom
 } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
 import {
-	Form,
-	Link,
-	redirect,
-	type ClientActionFunction,
-	type ClientLoaderFunctionArgs
+    Form,
+    Link,
+    redirect,
+    type ClientActionFunction,
+    type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import cookie from "cookie"
 import { Effect, Option, Predicate, pipe } from "effect"
@@ -20,18 +20,18 @@ import { serverOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle,
-	ListItemContentTitle,
-	ListItemImg,
-	ListItemTrailingSupportingText
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemContentSubtitle,
+    ListItemContentTitle,
+    ListItemImg,
+    ListItemTrailingSupportingText
 } from "~/components/List"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
 import { Viewer } from "~/lib/Remix/Remix.server"
@@ -41,7 +41,7 @@ import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaListCover"
 import { getCacheControl } from "~/lib/getCacheControl"
 import type { FragmentType } from "~/lib/graphql"
-import { makeFragmentData, useFragment } from "~/lib/graphql"
+import { makeFragmentData, readFragment } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
@@ -49,9 +49,9 @@ import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
 import { Ariakit } from "~/lib/ariakit"
+import { client } from "~/lib/cache.client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import { client } from "~/lib/cache.client"
 
 export async function clientLoader(
 	args: ClientLoaderFunctionArgs
@@ -176,7 +176,7 @@ const Notifications_query = serverOnly$(
 )
 export default function Notifications(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
-	const query = useFragment<typeof Notifications_query>(
+	const query = readFragment<typeof Notifications_query>(
 		makeFragmentData<typeof Notifications_query>(data.query)
 	)
 
@@ -287,7 +287,7 @@ const Airing_notification = serverOnly$(
 function Airing(props: {
 	notification: FragmentType<typeof Airing_notification>
 }) {
-	const notification = useFragment<typeof Airing_notification>(
+	const notification = readFragment<typeof Airing_notification>(
 		props.notification
 	)
 	const data = useRawLoaderData<typeof clientLoader>()
@@ -378,7 +378,7 @@ const RelatedMediaAddition_notification = serverOnly$(
 function RelatedMediaAddition(props: {
 	notification: FragmentType<typeof RelatedMediaAddition_notification>
 }) {
-	const notification = useFragment<typeof RelatedMediaAddition_notification>(
+	const notification = readFragment<typeof RelatedMediaAddition_notification>(
 		props.notification
 	)
 	const data = useRawLoaderData<typeof clientLoader>()
@@ -452,7 +452,7 @@ export const meta = (() => {
 function ActivityLike(props: {
 	notification: FragmentType<typeof ActivityLike_notification>
 }) {
-	const notification = useFragment<typeof ActivityLike_notification>(
+	const notification = readFragment<typeof ActivityLike_notification>(
 		props.notification
 	)
 	const data = useRawLoaderData<typeof clientLoader>()

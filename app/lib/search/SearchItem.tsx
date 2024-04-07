@@ -2,14 +2,14 @@ import { Link } from "@remix-run/react"
 import { forwardRef } from "react"
 import { serverOnly$ } from "vite-env-only"
 import {
-	ListItem,
-	ListItemAvatar,
-	ListItemContent,
-	ListItemContentTitle,
-	ListItemTrailingSupportingText
+    ListItem,
+    ListItemAvatar,
+    ListItemContent,
+    ListItemContentTitle,
+    ListItemTrailingSupportingText
 } from "~/components/List"
 import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment } from "~/lib/graphql"
+import { graphql, readFragment } from "~/lib/graphql"
 import { MediaCover } from "../entry/MediaListCover"
 import { route_media } from "../route"
 
@@ -31,7 +31,7 @@ export const SearchItem = forwardRef<
 	HTMLLIElement,
 	{ media: FragmentType<typeof SearchItem_media> }
 >(function SearchItem({ media, ...props }, ref) {
-	const data = useFragment<typeof SearchItem_media>(media)
+	const data = readFragment<typeof SearchItem_media>(media)
 
 	return (
 		<ListItem

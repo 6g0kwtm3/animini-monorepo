@@ -1,7 +1,7 @@
 import { Await } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
-import { useFragment as readFragment, type FragmentType } from "~/lib/graphql"
+import { readFragment, type FragmentType } from "~/lib/graphql"
 
 // import {} from 'glob'
 

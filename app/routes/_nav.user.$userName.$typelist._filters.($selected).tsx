@@ -25,7 +25,7 @@ import { MediaStatus, MediaType, type FuzzyDate } from "~/gql/graphql"
 import {
 	graphql,
 	makeFragmentData,
-	useFragment as readFragment,
+	readFragment,
 	type FragmentType
 } from "~/lib/graphql"
 import {
@@ -141,8 +141,13 @@ async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 			MediaListCollection: undefined,
 			selectedList: {
 				name: "All",
-				entries: data?.MediaListCollection?.lists?.flatMap(
-					(list) => list?.entries
+				entries: Object.values(
+					Object.fromEntries(
+						data?.MediaListCollection?.lists
+							?.flatMap((list) => list?.entries)
+							.filter((entry) => entry != null)
+							.map((entry) => [entry.id, entry]) ?? []
+					)
 				)
 			}
 		}
@@ -295,7 +300,7 @@ function sortEntries(
 		Order.reverse(
 			Order.mapInput(
 				Order.number,
-				(entry) => toWatch(entry) || Number.POSITIVE_INFINITY
+				(entry) => (toWatch(entry) ?? 1) || Number.POSITIVE_INFINITY
 			)
 		),
 		Order.reverse(
@@ -350,7 +355,7 @@ function filterEntries(
 
 	for (const progress of progresses) {
 		if (progress === "UNSEEN") {
-			entries = entries.filter((entry) => toWatch(entry) > 0)
+			entries = entries.filter((entry) => (toWatch(entry) ?? 1) > 0)
 		}
 		if (progress === "STARTED") {
 			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
