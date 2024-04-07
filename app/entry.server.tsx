@@ -3,8 +3,9 @@ import { RemixServer } from "@remix-run/react"
 import * as isbotModule from "isbot"
 import { renderToReadableStream } from "react-dom/server"
 
-process.on('unhandledRejection',(reason,promise)=>{
-	console.error('Unhandled rejection at:', promise, 'reason:',reason)
+import process from "node:process"
+process.on("unhandledRejection", (reason, promise) => {
+	console.error("Unhandled rejection at:", promise, "reason:", reason)
 })
 
 export default async function handleRequest(
