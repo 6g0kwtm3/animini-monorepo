@@ -251,7 +251,10 @@ export default function Index(): ReactNode {
 						.map((activity) => {
 							if (activity.__typename === "TextActivity") {
 								return (
-									<li key={activity.id}>
+									<li
+										key={activity.id}
+										className="animate-appear [animation-range:entry_5%_cover_20%] [animation-timeline:view()]"
+									>
 										<Card
 											variant="filled"
 											render={<article />}

@@ -405,7 +405,7 @@
 
 // 								{/* <Snackbar open={touched}>
 // 																			Careful - you have unsaved changes!
-// 																			<SnackbarAction type="reset">Reset</SnackbarAction>
+// 																			<dib className="flex-1" /><SnackbarAction type="reset">Reset</SnackbarAction>
 // 																			<SnackbarAction
 // 																				onClick={() => form.current!.requestSubmit()}
 // 																			>

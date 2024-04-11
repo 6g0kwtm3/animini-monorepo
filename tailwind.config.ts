@@ -348,5 +348,5 @@ export default withTV({
 } satisfies Config)
 
 function chroma(chroma: number) {
-	return (chroma / 120) * 0.4
+	return (chroma / 120) * 0.3
 }

@@ -9,12 +9,14 @@ import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
 import {
 	Form,
+	isRouteErrorResponse,
 	Link,
 	Outlet,
 	useLocation,
 	useNavigate,
 	useNavigation,
 	useParams,
+	useRouteError,
 	useSearchParams,
 	useSubmit,
 	type ClientLoaderFunctionArgs,
@@ -50,7 +52,7 @@ import MaterialSymbolsSearch from "~icons/material-symbols/search"
 import { MediaListSort } from "~/lib/MediaListSort"
 import { client_get_client } from "~/lib/client"
 import { route_user_list } from "~/lib/route"
-import { copySearchParams } from "./copySearchParams"
+import { copySearchParams } from "~/lib/copySearchParams"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -588,4 +590,47 @@ const MANGA_FORMAT_OPTIONS = {
 	[MediaFormat.Manga]: m.media_format_manga(),
 	[MediaFormat.Novel]: m.media_format_novel(),
 	[MediaFormat.OneShot]: m.media_format_one_shot()
+}
+
+export function ErrorBoundary(): ReactNode {
+	const error = useRouteError()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<LayoutBody>
+				<LayoutPane>
+					<div>
+						<Ariakit.Heading>Oops</Ariakit.Heading>
+						<p>Status: {error.status}</p>
+						<p>{error.data}</p>
+					</div>
+				</LayoutPane>
+			</LayoutBody>
+		)
+	}
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<LayoutBody>
+			<LayoutPane>
+				<Card
+					variant="elevated"
+					className="m-4 force:bg-error-container force:text-on-error-container"
+				>
+					<Ariakit.Heading className="text-balance text-headline-md">
+						Uh oh ...
+					</Ariakit.Heading>
+					<p className="text-headline-sm">Something went wrong.</p>
+					<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+				</Card>
+			</LayoutPane>
+		</LayoutBody>
+	)
 }

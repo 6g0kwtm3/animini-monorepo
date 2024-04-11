@@ -29,7 +29,7 @@ import {
 	SearchViewItem
 } from "~/components/SearchView"
 import type { clientLoader as navLoader } from "~/routes/_nav"
-import { copySearchParams } from "~/routes/copySearchParams"
+import { copySearchParams } from "~/lib/copySearchParams"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { useRawRouteLoaderData } from "../data"
 import { makeFragmentData } from "../graphql"
