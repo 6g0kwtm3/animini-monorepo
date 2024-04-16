@@ -10,11 +10,10 @@ const tv = createTV({ twMerge: false })
 const appBar = tv(
 	{
 		slots: {
-			root: "z-50 grid bg-surface",
-			title: "text-title-lg text-on-surface first:ms-2"
+			root: "flex gap-2 bg-surface",
+			title: "flex h-10 items-center text-title-lg text-on-surface first:ms-2"
 		},
 		variants: {
-			position: { fixed: { root: "sticky top-0" }, static: { root: "static" } },
 			elevate: {
 				true: { root: "data-[elevated='true']:bg-surface-container" },
 				false: {}
@@ -30,13 +29,13 @@ const appBar = tv(
 					root: ""
 				},
 				small: {
-					root: "min-h-16"
+					root: "h-16 px-2 pb-3 pt-3"
 				},
 				medium: {
 					root: ""
 				},
 				large: {
-					root: ""
+					root: "h-28 animate-app-bar-large px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]"
 				}
 			}
 		},
@@ -55,6 +54,7 @@ export function AppBar({
 	variant,
 	elevate,
 	hide,
+
 	...props
 }: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
 	const [scrolled, setScrolled] = useState(0)

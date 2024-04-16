@@ -58,13 +58,13 @@ import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
 import { Loading, Skeleton } from "~/components/Skeleton"
 import type { clientLoader as rootLoader } from "~/root"
-import type { clientLoader as userInfoLoader } from "./user.$userName.info"
+import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
 
 import { ClientOnly } from "remix-utils/client-only"
 import { client, createGetInitialData } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
-import type { action as userFollowAction } from "./user.$userId.follow"
+import type { action as userFollowAction } from "../user.$userId.follow/route"
 
 function MediaLink({
 	mediaId,

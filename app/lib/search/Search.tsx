@@ -10,7 +10,7 @@ import {
 
 import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
-import type { clientLoader as searchLoader } from "~/routes/_nav.search"
+import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
 import { ReadonlyArray } from "effect"
 import {
@@ -19,7 +19,7 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 
-import { List, ListItem } from "~/components/List"
+import { List } from "~/components/List"
 import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import {
 	SearchView,
@@ -28,16 +28,16 @@ import {
 	SearchViewInput,
 	SearchViewItem
 } from "~/components/SearchView"
-import type { clientLoader as navLoader } from "~/routes/_nav"
 import { copySearchParams } from "~/lib/copySearchParams"
+import type { clientLoader as navLoader } from "~/routes/_nav/route"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
+import { M3 } from "../components"
 import { useRawRouteLoaderData } from "../data"
 import { makeFragmentData } from "../graphql"
 import type { SearchItem_media } from "./SearchItem"
 import { SearchItem } from "./SearchItem"
 import type { SearchTrending_query } from "./SearchTrending"
 import { SearchTrending } from "./SearchTrending"
-import { M3 } from "../components"
 
 function useOptimisticSearchParams() {
 	const { search } = useOptimisticLocation()

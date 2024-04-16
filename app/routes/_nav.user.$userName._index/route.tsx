@@ -28,7 +28,7 @@ import type { clientLoader as rootLoader } from "~/root"
 import { clientOnly$ } from "vite-env-only"
 import { client, createGetInitialData, persister } from "~/lib/cache.client"
 import { m } from "~/lib/paraglide"
-import type { action as userFollowAction } from "./user.$userId.follow"
+import type { action as userFollowAction } from "../user.$userId.follow/route"
 
 export const loader = (async (args) => {
 	return json(await userLoader(args), {

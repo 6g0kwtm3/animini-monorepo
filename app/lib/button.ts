@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 
 export const btnIcon = tv({
-	base: "relative h-10 w-10 select-none rounded-full bg-center p-2 text-on-surface-variant i hover:state-hover focused:state-focus pressed:state-pressed outline-primary focused:outline outline-1",
+	base: "relative h-10 w-10 select-none rounded-full bg-center p-2 text-on-surface-variant outline-1 outline-primary i hover:state-hover focused:outline focused:state-focus pressed:state-pressed",
 	variants: {
 		variant: {
 			standard: ""
@@ -16,7 +16,7 @@ export const btnIcon = tv({
 
 export const createButton = tv({
 	slots: {
-		root: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus outline-primary focused:outline outline-1",
+		root: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg outline-1 outline-primary hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-[active]:state-pressed data-[focus-visible]:state-focus focused:outline",
 		icon: "dummy h-[1.125rem] w-[1.125rem] i-[1.125rem]"
 	},
 	variants: {

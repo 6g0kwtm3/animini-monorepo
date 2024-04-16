@@ -51,8 +51,8 @@ import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
 import { MediaListSort } from "~/lib/MediaListSort"
 import { client_get_client } from "~/lib/client"
-import { route_user_list } from "~/lib/route"
 import { copySearchParams } from "~/lib/copySearchParams"
+import { route_user_list } from "~/lib/route"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -88,11 +88,14 @@ export const loader = (async (args) => {
 		}[params.typelist]
 	})
 
-	return json(data, {
-		headers: {
-			"Cache-Control": getCacheControl(cacheControl)
+	return json(
+		{ data, params },
+		{
+			headers: {
+				"Cache-Control": getCacheControl(cacheControl)
+			}
 		}
-	})
+	)
 }) satisfies LoaderFunction
 const cacheControl = {
 	maxAge: 15,
@@ -255,28 +258,36 @@ export default function Filters(): ReactNode {
 				</LayoutPane>
 				<LayoutPane>
 					<Card variant="elevated" className="max-sm:contents">
-						<div className="flex flex-col gap-4 ">
+						<div className="flex flex-col gap-4">
 							<M3.Tabs selectedId={String(params.selected)}>
-								<div className="sticky top-0 sm:-mx-4 sm:-mt-4 sm:bg-surface md:static">
+								<div className="sticky top-0 z-50 -mx-4 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
 									<AppBar
-										hide
-										className="-mx-4 sm:mx-0 sm:rounded-t-md sm:bg-surface-container-low"
+										variant="large"
+										className="sm:bg-surface-container-low "
 									>
-										<div className="flex items-center gap-2 p-2">
-											<AppBarTitle>Anime list</AppBarTitle>
-											<div className="flex-1" />
-											<Icon>
-												<MaterialSymbolsSearch />
-											</Icon>
-											<FilterButton />
-											<Icon>
-												<MaterialSymbolsMoreHoriz />
-											</Icon>
-										</div>
-										<ListTabs />
+										<Icon>
+											<MaterialSymbolsSearch />
+										</Icon>
+										<AppBarTitle>
+											{params.typelist === "animelist"
+												? "Anime list"
+												: "Manga list"}
+										</AppBarTitle>
+										<div className="flex-1" />
+										<Icon>
+											<MaterialSymbolsSearch />
+										</Icon>
+										<FilterButton />
+										<Icon>
+											<MaterialSymbolsMoreHoriz />
+										</Icon>
 									</AppBar>
+									<ListTabs />
 								</div>
-								<M3.TabsPanel tabId={params.selected}>
+								<M3.TabsPanel
+									tabId={params.selected}
+									className="flex flex-col gap-4"
+								>
 									<Ariakit.HeadingLevel>
 										<Outlet />
 									</Ariakit.HeadingLevel>
@@ -293,7 +304,7 @@ export default function Filters(): ReactNode {
 }
 
 function ListTabs() {
-	const data = useRawLoaderData<typeof clientLoader>()
+	const { data, params } = useRawLoaderData<typeof clientLoader>()
 
 	const lists = data?.MediaListCollection?.lists
 		?.filter((el) => el != null)
@@ -302,7 +313,6 @@ function ListTabs() {
 		)
 
 	const [searchParams] = useSearchParams()
-	const params = useParams()
 
 	return (
 		<TabsList>
@@ -362,7 +372,6 @@ function Filter() {
 	const navigate = useNavigate()
 	const searchParams = useOptimisticSearchParams()
 	const submit = useSubmit()
-	const params = useParams<"typelist">()
 
 	const sheet = searchParams.get("sheet")
 	const filter = sheet === "filter"

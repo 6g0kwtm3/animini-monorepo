@@ -2,7 +2,8 @@ import type { AnitomyResult } from "anitomy"
 
 import { anitomy, electron, path } from "./electron.server"
 
-import { Effect, Option, Predicate, pipe } from "effect"
+import { Effect, Option, Predicate, ReadonlyArray, pipe } from "effect"
+import type { NonEmptyArray } from "effect/ReadonlyArray"
 
 let library: Record<string, AnitomyResult> = {}
 
@@ -50,4 +51,5 @@ if (electron && !Predicate.isString(electron)) {
 	})
 }
 
-export const getLibrary = (): Record<string, AnitomyResult> => library
+export const getLibrary = (): Record<string, NonEmptyArray<AnitomyResult>> =>
+	ReadonlyArray.groupBy(Object.values(library), ({ title }) => title ?? "")

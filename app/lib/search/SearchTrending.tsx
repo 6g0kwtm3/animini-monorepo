@@ -3,9 +3,9 @@ import { ReadonlyArray } from "effect"
 import { serverOnly$ } from "vite-env-only"
 import { List } from "~/components/List"
 import {
-    SearchViewBody,
-    SearchViewBodyGroup,
-    SearchViewItem
+	SearchViewBody,
+	SearchViewBodyGroup,
+	SearchViewItem
 } from "~/components/SearchView"
 import type { FragmentType } from "~/lib/graphql"
 import { graphql, readFragment } from "~/lib/graphql"

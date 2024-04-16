@@ -1,4 +1,4 @@
-import { Await } from "@remix-run/react"
+import { Await, type AwaitProps } from "@remix-run/react"
 // import type { FragmentType } from "~/lib/graphql"
 
 import { readFragment, type FragmentType } from "~/lib/graphql"
@@ -8,18 +8,20 @@ import { readFragment, type FragmentType } from "~/lib/graphql"
 import { Library } from "~/lib/entry/ListItem"
 import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
+import type { SerializeFrom } from "@remix-run/cloudflare"
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/ReadonlyArray"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ReactNode } from "react"
 import { serverOnly$ } from "vite-env-only"
 import { graphql } from "~/lib/graphql"
 
 export function AwaitLibrary({
 	children,
 	...props
-}: ComponentPropsWithoutRef<typeof Await> & {
+}: AwaitProps<
+	Promise<SerializeFrom<Record<string, NonEmptyArray<AnitomyResult>>>>
+> & {
 	children: ReactNode
-	resolve: Promise<Record<string, NonEmptyArray<AnitomyResult>>>
 }): ReactNode {
 	return (
 		<Await {...props}>
@@ -51,7 +53,7 @@ export function MediaListHeaderToWatch(props: {
 	return formatWatch(
 		entries
 			.map(toWatch)
-			.filter(Number.isFinite)
+			.filter((n) => typeof n === "number")
 			.reduce((a, b) => a + b, 0)
 	)
 }

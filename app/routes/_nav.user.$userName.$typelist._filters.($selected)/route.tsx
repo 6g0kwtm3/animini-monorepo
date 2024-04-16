@@ -34,13 +34,14 @@ import {
 	MediaListHeaderItem,
 	MediaListHeaderToWatch
 } from "~/lib/list/MediaList"
-import { LoaderArgs, LoaderLive } from "~/lib/urql.server"
 
-import { Effect, Order, Predicate, ReadonlyArray, pipe } from "effect"
+import { Order, Predicate, ReadonlyArray } from "effect"
 
 // import {} from 'glob'
 
 import { Schema } from "@effect/schema"
+import type { AnitomyResult } from "anitomy"
+import type { NonEmptyArray } from "effect/ReadonlyArray"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
 import { clientOnly$, serverOnly$ } from "vite-env-only"
@@ -48,7 +49,6 @@ import { Card } from "~/components/Card"
 import { List } from "~/components/List"
 import { Loading, Skeleton } from "~/components/Skeleton"
 import { MediaListSort } from "~/lib/MediaListSort"
-import { Remix } from "~/lib/Remix/index.server"
 import { Ariakit } from "~/lib/ariakit"
 import { client, createGetInitialData } from "~/lib/cache.client"
 import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
@@ -390,20 +390,9 @@ const Params = Schema.struct({
 
 function selectedLoader(args: AnyLoaderFunctionArgs) {
 	return {
-		Library:
-			serverOnly$(
-				pipe(
-					Effect.succeed(
-						ReadonlyArray.groupBy(
-							Object.values(getLibrary()),
-							({ title }) => title ?? ""
-						)
-					),
-					Effect.provide(LoaderLive),
-					Effect.provideService(LoaderArgs, args),
-					Remix.runLoader
-				)
-			) ?? Promise.resolve({}),
+		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>(
+			serverOnly$(getLibrary()) ?? {}
+		),
 		query: fetchSelectedList(args)
 	}
 }
@@ -467,7 +456,7 @@ export default function Page(): ReactNode {
 				</MediaListHeaderItem>
 			</MediaListHeader>
 
-			<div className="-mx-4 sm:-my-4">
+			<div className="-mx-4">
 				<div className={``}>
 					<List className="@container">
 						<Suspense

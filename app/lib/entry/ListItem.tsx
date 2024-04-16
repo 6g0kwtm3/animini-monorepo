@@ -29,9 +29,8 @@ import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { IncrementProgress } from "./Progress"
 
+import type { SerializeFrom } from "@remix-run/cloudflare"
 import { Predicate } from "effect"
-import type { clientLoader as rootLoader } from "~/root"
-import { useRawRouteLoaderData } from "../data"
 
 const MediaListItem_entry = serverOnly$(
 	graphql(`
@@ -48,9 +47,8 @@ const MediaListItem_entry = serverOnly$(
 )
 
 export type ListItem_EntryFragment = typeof MediaListItem_entry
-
 export const Library = createContext<
-	Record<string, NonEmptyArray<AnitomyResult>>
+	SerializeFrom<Record<string, NonEmptyArray<AnitomyResult>>>
 >({})
 
 export function MediaListItem(props: {

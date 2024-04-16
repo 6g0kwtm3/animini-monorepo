@@ -15,6 +15,10 @@ function toeInv(x: number): number {
 	return (x ** 2 + K_1 * x) / (K_3 * (x + K_2))
 }
 
+// function toe(y: number){
+// return K_1**2-2*K_1*K_3*y+K_3
+// }
+
 export default withTV({
 	content: ["app/**/*.{ts,tsx}"],
 
@@ -190,7 +194,21 @@ export default withTV({
 			"3xl": "800ms",
 			"4xl": "1000ms"
 		},
-		extend: {}
+		extend: {
+			animation: {
+				appear: "appear linear both",
+				"app-bar-large": "app-bar-large linear both"
+			},
+			keyframes: {
+				appear: {
+					from: { opacity: "0", scale: ".8" },
+					to: { opacity: "1", scale: "1" }
+				},
+				"app-bar-large": {
+					to: { height: "4rem", paddingBottom: "0.75rem" }
+				}
+			}
+		}
 	},
 	plugins: [
 		require("@tailwindcss/container-queries"),

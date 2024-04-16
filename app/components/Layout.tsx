@@ -11,7 +11,7 @@ const createLayout = tv(
 	{
 		slots: {
 			root: "",
-			body: "grid grid-flow-col gap-6 pe-4 [grid-auto-columns:auto] sm:pe-6"
+			body: "flex gap-6 pe-4 sm:pe-6"
 		},
 		variants: {
 			navigation: {
@@ -60,8 +60,8 @@ const pane = tv({
 	base: "grid content-start",
 	variants: {
 		variant: {
-			fixed: "w-[22.5rem]",
-			flexible: ""
+			fixed: "w-[22.5rem] shrink-0",
+			flexible: "flex-1"
 		}
 	},
 	defaultVariants: { variant: "flexible" }
