@@ -3,7 +3,7 @@ import {
 	unstable_parseMultipartFormData,
 	type ActionFunction
 } from "@remix-run/cloudflare"
-import { Form, useActionData } from "@remix-run/react"
+import { Form, useActionData, useNavigation } from "@remix-run/react"
 
 export const action = (async ({ request, context }) => {
 	console.log("action")
@@ -27,9 +27,11 @@ export const action = (async ({ request, context }) => {
 
 export default function Page() {
 	const data = useActionData<typeof action>()
+	const navigation = useNavigation()
 
 	return (
 		<Form method="post" encType="multipart/form-data">
+			{navigation.state}
 			{data?.message}
 			<input type="file" name="file" />
 			<button type="submit">Click me</button>
