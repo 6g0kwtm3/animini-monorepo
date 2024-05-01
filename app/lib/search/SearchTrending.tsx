@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import { ReadonlyArray } from "effect"
+import { Array as ReadonlyArray } from "effect"
 import { serverOnly$ } from "vite-env-only"
 import { List } from "~/components/List"
 import {

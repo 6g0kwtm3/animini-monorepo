@@ -1,4 +1,12 @@
-import { Cause, Data, Effect, Exit, Option, ReadonlyRecord, pipe } from "effect"
+import {
+	Cause,
+	Data,
+	Effect,
+	Exit,
+	Option,
+	Record as ReadonlyRecord,
+	pipe
+} from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql.server"
 import { Token } from "../viewer"
 
@@ -15,8 +23,8 @@ export function Cookie<I, A>(
 	name: string,
 	schema: Schema.Schema<A, I>
 ): Effect.Effect<Option.Option<A>, never, LoaderArgs> {
-	return Effect.gen(function* (_) {
-		const { request } = yield* _(LoaderArgs)
+	return Effect.gen(function* () {
+		const { request } = yield* LoaderArgs
 
 		const cookies = cookie.parse(request.headers.get("Cookie") ?? "")
 
@@ -29,7 +37,7 @@ export function Cookie<I, A>(
 }
 
 export const CloudflareKV = createCloudflareKV({
-	"notifications-read": Schema.number
+
 })
 
 function createCloudflareKV<
@@ -41,13 +49,11 @@ function createCloudflareKV<
 
 			return {
 				get(id: string | number) {
-					return Effect.gen(function* (_) {
-						const env = Option.getOrNull(yield* _(CloudflareEnv))
+					return Effect.gen(function* () {
+						const env = Option.getOrNull(yield* CloudflareEnv)
 
 						const value = Option.fromNullable(
-							yield* _(
-								Effect.promise(async () => env?.MY_KV.get(`${key}-${id}`))
-							)
+							yield* Effect.promise(async () => env?.MY_KV.get(`${key}-${id}`))
 						)
 
 						return Option.flatMap(
@@ -57,17 +63,15 @@ function createCloudflareKV<
 					})
 				},
 				put(id: string | number, value: Schema.Schema.Encoded<O[K]>) {
-					return Effect.gen(function* (_) {
-						const env = Option.getOrNull(yield* _(CloudflareEnv))
+					return Effect.gen(function* () {
+						const env = Option.getOrNull(yield* CloudflareEnv)
 
-						const encoded: string = yield* _(
-							Schema.encode(Schema.parseJson(schema))(value)
-						)
+						const encoded: string = yield* Schema.encode(
+							Schema.parseJson(schema)
+						)(value)
 
-						yield* _(
-							Effect.promise(async () =>
-								env?.MY_KV.put(`${key}-${id}`, encoded)
-							)
+						yield* Effect.promise(async () =>
+							env?.MY_KV.put(`${key}-${id}`, encoded)
 						)
 					})
 				}
@@ -86,15 +90,15 @@ const CloudflareEnv = Effect.succeed(
 )
 
 export function params<Fields extends Schema.Struct.Fields>(fields: Fields) {
-	return Effect.gen(function* (_) {
-		const { params } = yield* _(LoaderArgs)
-		return yield* _(Schema.decodeUnknown(Schema.struct(fields))(params))
+	return Effect.gen(function* () {
+		const { params } = yield* LoaderArgs
+		return yield* Schema.decodeUnknown(Schema.Struct(fields))(params)
 	})
 }
 
-export const formData = Effect.gen(function* (_) {
-	const { request } = yield* _(LoaderArgs)
-	return yield* _(Effect.promise(async () => request.formData()))
+export const formData = Effect.gen(function* () {
+	const { request } = yield* LoaderArgs
+	return yield* Effect.promise(async () => request.formData())
 })
 
 export class ResponseError<T> extends Data.TaggedError("ResponseError")<{
@@ -142,8 +146,8 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	})
 }
 
-export const Viewer = Effect.gen(function* (_) {
-	const token = yield* _(Cookie("anilist-token", Token))
+export const Viewer = Effect.gen(function* () {
+	const token = yield* Cookie("anilist-token", Token)
 
 	return Option.map(token, (token) => token.viewer)
 })

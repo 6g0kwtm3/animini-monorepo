@@ -65,7 +65,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 )
 
 export interface FormSelectProps
-	extends Omit<ComponentPropsWithoutRef<typeof Ariakit.Role.button>, "render">,
+	extends Omit<Ariakit.Role.buttonProps, "render">,
 		Pick<ComponentPropsWithoutRef<typeof LazySelect>, "render"> {
 	name: string
 }
@@ -95,7 +95,7 @@ export default FormSelect
 
 const { item } = createMenu({})
 export function LazySelectOption(
-	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>
+	props: Ariakit.SelectItemProps
 ): ReactNode {
 	return (
 		<Ariakit.SelectItem

@@ -1,8 +1,8 @@
 import * as Ariakit from "@ariakit/react"
 import {
-	forwardRef,
-	type ComponentPropsWithoutRef,
-	type ReactNode
+    forwardRef,
+    type ComponentPropsWithoutRef,
+    type ReactNode
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -25,7 +25,7 @@ export function TextFieldOutlined({
 }
 
 export function TextFieldOutlinedSupporting(
-	props: ComponentPropsWithoutRef<typeof Ariakit.FormError>
+	props: Ariakit.FormErrorProps
 ) {
 	return (
 		<Ariakit.FormError
@@ -41,7 +41,7 @@ export function TextFieldOutlinedSupporting(
 function OutlinedLabel({
 	children,
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.FormLabel>) {
+}: Ariakit.FormLabelProps) {
 	return (
 		<>
 			<Ariakit.FormLabel
@@ -68,7 +68,7 @@ function OutlinedLabel({
 
 export const TextFieldOutlinedInput = forwardRef<
 	HTMLInputElement,
-	ComponentPropsWithoutRef<typeof Ariakit.FormInput>
+	Ariakit.FormInputProps
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
 	return (
@@ -130,7 +130,7 @@ export function TextFieldFilled(
 }
 
 export function TextFieldFilledInput(
-	props: ComponentPropsWithoutRef<typeof Ariakit.FormInput>
+	props: Ariakit.FormInputProps
 ) {
 	return (
 		<Ariakit.FormInput
@@ -145,7 +145,7 @@ export function TextFieldFilledInput(
 }
 
 export function TextFieldFilledLabel(
-	props: ComponentPropsWithoutRef<typeof Ariakit.FormLabel>
+	props: Ariakit.FormLabelProps
 ) {
 	return (
 		<Ariakit.FormLabel
@@ -184,7 +184,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 				"peer-disabled:text-on-surface/[.38]",
 				"group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
 				"text-on-surface-variant",
-				"me-3 i i-6",
+				"me-3 i",
 				props.className
 			)}
 		/>

@@ -70,11 +70,13 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
+
+
 export const loader = (async (args) => {
 	const params = await Schema.decodeUnknownSync(
-		Schema.struct({
-			userName: Schema.string,
-			typelist: Schema.literal("animelist", "mangalist")
+		Schema.Struct({
+			userName: Schema.String,
+			typelist: Schema.Literal("animelist", "mangalist")
 		})
 	)(args.params)
 

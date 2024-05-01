@@ -17,7 +17,7 @@ export function SelectFactory({
 	label,
 
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
+}: Ariakit.SelectProps &
 	ComponentPropsWithoutRef<"select"> & {
 		children: ReactNode
 		label: ReactNode
@@ -61,7 +61,7 @@ export function SelectFactory({
 }
 export function Select({
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
+}: Ariakit.SelectProps &
 	ComponentPropsWithoutRef<"select"> & {
 		children: ReactNode
 		name: string

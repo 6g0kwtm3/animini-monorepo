@@ -14,7 +14,7 @@ export function ChipFilter(
 }
 
 export function ChipFilterCheckbox(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Checkbox>
+	props: Ariakit.CheckboxProps
 ): ReactNode {
 	return (
 		<>
@@ -27,7 +27,7 @@ export function ChipFilterCheckbox(
 }
 
 export function ChipFilterRadio(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Radio>
+	props: Ariakit.RadioProps
 ): ReactNode {
 	return (
 		<>

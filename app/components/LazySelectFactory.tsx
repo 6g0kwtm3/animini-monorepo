@@ -1,6 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ReactNode } from "react"
 
 import LazySelect from "./LazySelect"
 import { TextFieldOutlined } from "./TextField"
@@ -9,7 +9,7 @@ export default function LazySelectFactory({
 	label,
 
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> & {
+}: Ariakit.SelectProps & {
 	children: ReactNode
 	label: ReactNode
 	name: string

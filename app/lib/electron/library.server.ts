@@ -2,8 +2,8 @@ import type { AnitomyResult } from "anitomy"
 
 import { anitomy, electron, path } from "./electron.server"
 
-import { Effect, Option, Predicate, ReadonlyArray, pipe } from "effect"
-import type { NonEmptyArray } from "effect/ReadonlyArray"
+import { Array as ReadonlyArray, Effect, Option, pipe, Predicate } from "effect"
+import type { NonEmptyArray } from "effect/Array"
 
 let library: Record<string, AnitomyResult> = {}
 

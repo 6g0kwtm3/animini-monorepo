@@ -10,7 +10,7 @@ import { formatWatch, toWatch } from "~/lib/entry/toWatch"
 
 import type { SerializeFrom } from "@remix-run/cloudflare"
 import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/ReadonlyArray"
+import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { serverOnly$ } from "vite-env-only"
 import { graphql } from "~/lib/graphql"

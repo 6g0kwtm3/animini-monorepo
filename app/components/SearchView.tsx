@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import type { ReactElement } from "react"
 import { createContext, forwardRef, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -39,7 +39,7 @@ export const SearchViewContext = createContext(createSearchView())
 
 export const SearchViewBody = forwardRef<
 	HTMLDivElement,
-	ComponentPropsWithoutRef<typeof Ariakit.ComboboxList>
+	Ariakit.ComboboxListProps
 >(function SearchViewBody(props, ref) {
 	const { body } = useContext(SearchViewContext)
 
@@ -54,7 +54,7 @@ export const SearchViewBody = forwardRef<
 
 export const SearchView = forwardRef<
 	HTMLDivElement,
-	ComponentPropsWithoutRef<typeof Ariakit.Dialog> & {
+	Ariakit.DialogProps & {
 		open?: Ariakit.DialogStoreProps["open"]
 		onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
 		onSearch?: Ariakit.ComboboxProviderProps["setValue"]
@@ -87,7 +87,7 @@ export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
 
 export const SearchViewInput = forwardRef<
 	HTMLInputElement,
-	ComponentPropsWithoutRef<typeof Ariakit.Combobox>
+	Ariakit.ComboboxProps
 >(function SearchViewInput(props, ref) {
 	const { input } = useContext(SearchViewContext)
 	return (
@@ -111,7 +111,7 @@ export const SearchViewInput = forwardRef<
 
 export const SearchViewItem = forwardRef<
 	HTMLDivElement,
-	ComponentPropsWithoutRef<typeof Ariakit.ComboboxItem> & {
+	Ariakit.ComboboxItemProps & {
 		render?: ReactElement
 	}
 >(function SearchViewItem(props, ref) {

@@ -57,7 +57,7 @@ export class ClientArgs extends Context.Tag("client/Args")<
 >() {}
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
-	reset: Schema.number
+	reset: Schema.Number
 }) {}
 
 export function operation<T, V>(
@@ -67,9 +67,9 @@ export function operation<T, V>(
 		headers?: Headers
 	}
 ): Effect.Effect<NonNullable<T> | null, Remix.ResponseError<any>> {
-	return Effect.gen(function* (_) {
-		const body = yield* _(
-			Schema.encode(Schema.parseJson(Schema.any))({
+	return Effect.gen(function* () {
+		const body = yield* pipe(
+			Schema.encode(Schema.parseJson(Schema.Any))({
 				query: document.toString(),
 				variables: variables
 			}),
@@ -84,7 +84,7 @@ export function operation<T, V>(
 			headers.append(key, value)
 		}
 
-		const response = yield* _(
+		const response = yield* (
 			Effect.promise(async (signal) =>
 				fetch(API_URL, {
 					body,
@@ -98,9 +98,9 @@ export function operation<T, V>(
 		if (!response.ok) {
 			console.error({
 				response,
-				body: yield* _(Effect.promise(async () => response.text()))
+				body: yield*(Effect.promise(async () => response.text()))
 			})
-			return yield* _(
+			return yield* (
 				new Remix.ResponseError({
 					response: json(null, {
 						status: response.status,
@@ -123,14 +123,14 @@ export function operation<T, V>(
 			)
 		)
 
-		const GraphqlResult = Schema.struct({
-			data: Schema.optional(Schema.unknown),
-			errors: Schema.optional(Schema.array(Schema.unknown))
+		const GraphqlResult = Schema.Struct({
+			data: Schema.optional(Schema.Unknown),
+			errors: Schema.optional(Schema.Array(Schema.Unknown))
 		})
 
-		const data = yield* _(Effect.promise(async () => response.json()))
+		const data = yield* (Effect.promise(async () => response.json()))
 
-		const result = yield* _(
+		const result = yield* pipe(
 			Schema.decodeUnknown(GraphqlResult)(data),
 			Effect.orDie
 		)
@@ -140,7 +140,7 @@ export function operation<T, V>(
 		}
 
 		// if (errors?.length) {
-		// 	return yield* _(new Timeout({ reset: -1 }))
+		// 	return yield* (new Timeout({ reset: -1 }))
 		// }
 
 		return (result.data as T) ?? null

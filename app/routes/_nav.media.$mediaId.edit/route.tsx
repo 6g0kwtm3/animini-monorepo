@@ -66,20 +66,20 @@
 
 // export const loader = (async (args) => {
 // 	return await pipe(
-// 		Effect.gen(function* (_) {
-// 			const { mediaId } = yield* _(
+// 		Effect.gen(function* () {
+// 			const { mediaId } = yield* (
 // 				Remix.params({ mediaId: S.NumberFromString })
 // 			)
-// 			const { searchParams } = yield* _(ClientArgs)
-// 			const client = yield* _(EffectUrql)
+// 			const { searchParams } = yield* (ClientArgs)
+// 			const client = yield* (EffectUrql)
 
-// 			const format = yield* _(
+// 			const format = yield* (
 // 				S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(
 // 					searchParams.get("format")
 // 				)
 // 			)
 
-// 			return yield* _(
+// 			return yield* (
 // 				client.query(
 // 					graphql(`
 // 						query MediaEditQuery($mediaId: Int!, $format: ScoreFormat) {

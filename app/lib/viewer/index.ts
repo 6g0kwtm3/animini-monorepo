@@ -1,11 +1,11 @@
 import { Schema } from "@effect/schema"
 
-const Viewer = Schema.struct({
-	name: Schema.string,
-	id: Schema.number
+const Viewer = Schema.Struct({
+	name: Schema.String,
+	id: Schema.Number
 })
 
-export const Token = Schema.struct({
+export const Token = Schema.Struct({
 	token: Schema.Trim,
 	viewer: Viewer
 })

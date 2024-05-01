@@ -62,7 +62,7 @@ export async function server_operation<T, V>(
 	variables: V,
 	args: { request: Pick<Request, "headers" | "signal"> }
 ): Promise<NonNullable<T> | null> {
-	const body = Schema.encodeSync(Schema.parseJson(Schema.any))({
+	const body = Schema.encodeSync(Schema.parseJson(Schema.Any))({
 		query: document.toString(),
 		variables: variables
 	})
@@ -92,9 +92,9 @@ export async function server_operation<T, V>(
 	}
 
 	const { data, errors } = Schema.decodeSync(
-		Schema.struct({
-			data: Schema.unknown,
-			errors: Schema.optional(Schema.array(Schema.unknown))
+		Schema.Struct({
+			data: Schema.Unknown,
+			errors: Schema.optional(Schema.Array(Schema.Unknown))
 		})
 	)(await response.json())
 
@@ -108,8 +108,6 @@ export async function server_operation<T, V>(
 export function client_get_headers(
 	request: Pick<Request, "headers">
 ): Headers | undefined {
-	console.log(request.headers.get("cookie"))
-
 	let cookies = cookie.parse(
 		clientOnly$(document.cookie) ?? request.headers.get("Cookie") ?? ""
 	)

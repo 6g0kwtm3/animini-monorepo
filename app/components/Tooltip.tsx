@@ -1,22 +1,22 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
 import type {
-	ReactNode,
-	ComponentPropsWithoutRef,
-	PropsWithChildren
+    ComponentPropsWithoutRef,
+    PropsWithChildren,
+    ReactNode
 } from "react"
 import { forwardRef } from "react"
 
 import { createTV } from "tailwind-variants"
 
 export function TooltipRich(
-	props: ComponentPropsWithoutRef<typeof Ariakit.HovercardProvider>
+	props: Ariakit.HovercardProviderProps
 ): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
 export function TooltipRichTrigger(
 	props: PropsWithChildren<
-		ComponentPropsWithoutRef<typeof Ariakit.HovercardAnchor>
+		Ariakit.HovercardAnchorProps
 	>
 ): ReactNode {
 	return <Ariakit.HovercardAnchor render={<div />} {...props} />
@@ -33,7 +33,7 @@ const tooltip = tv({
 	}
 })
 export function TooltipRichContainer(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Hovercard>
+	props: Ariakit.HovercardProps
 ): ReactNode {
 	const { container } = tooltip({ variant: "rich" })
 	return (
@@ -45,7 +45,7 @@ export function TooltipRichContainer(
 	)
 }
 export function TooltipRichSubhead(
-	props: ComponentPropsWithoutRef<typeof Ariakit.HovercardHeading>
+	props: Ariakit.HovercardHeadingProps
 ): ReactNode {
 	return (
 		<Ariakit.HovercardHeading
@@ -70,13 +70,13 @@ export function TooltipRichActions(
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
 export function TooltipPlain(
-	props: ComponentPropsWithoutRef<typeof Ariakit.TooltipProvider>
+	props: Ariakit.TooltipProviderProps
 ): ReactNode {
 	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
 export const TooltipPlainTrigger = forwardRef<
 	HTMLDivElement,
-	PropsWithChildren<ComponentPropsWithoutRef<typeof Ariakit.TooltipAnchor>>
+	PropsWithChildren<Ariakit.TooltipAnchorProps>
 >(function TooltipPlainTrigger({ children, ...props }, ref): ReactNode {
 	return (
 		<Ariakit.TooltipAnchor ref={ref} {...props}>
@@ -85,7 +85,7 @@ export const TooltipPlainTrigger = forwardRef<
 	)
 })
 export function TooltipPlainContainer(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Tooltip>
+	props: Ariakit.TooltipProps
 ): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
 	if (!tooltip) {

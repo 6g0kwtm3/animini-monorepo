@@ -95,7 +95,7 @@ export function AppBar({
 	)
 }
 export function AppBarTitle(
-	props: ComponentPropsWithoutRef<typeof Ariakit.Heading>
+	props: Ariakit.HeadingProps
 ): ReactNode {
 	const styles = useContext(AppBarContext)
 	return createElement(Ariakit.Heading, {

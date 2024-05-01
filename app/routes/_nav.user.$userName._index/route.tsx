@@ -1,18 +1,18 @@
 import { Schema } from "@effect/schema"
 import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
+    HeadersFunction,
+    LoaderFunction,
+    MetaFunction,
+    SerializeFrom
 } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
 
 import {
-	Form,
-	Link,
-	useFetcher,
-	useLocation,
-	type ClientLoaderFunctionArgs
+    Form,
+    Link,
+    useFetcher,
+    useLocation,
+    type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ReactNode } from "react"
@@ -101,8 +101,8 @@ async function userLoader(args: AnyLoaderFunctionArgs) {
 }
 
 function params() {
-	return Schema.struct({
-		userName: Schema.string
+	return Schema.Struct({
+		userName: Schema.String
 	})
 }
 

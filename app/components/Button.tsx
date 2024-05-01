@@ -2,8 +2,7 @@ import type {
 	ComponentPropsWithoutRef,
 	FC,
 	PropsWithChildren,
-	ReactNode,
-	SyntheticEvent
+	ReactNode
 } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
@@ -15,35 +14,10 @@ import { TouchTarget } from "./Tooltip"
 export type Icon = FC<ComponentPropsWithoutRef<"div">>
 
 interface ButtonProps
-	extends ComponentPropsWithoutRef<typeof Ariakit.Button>,
+	extends Ariakit.ButtonProps,
 		VariantProps<typeof createButton> {
 	invoketarget?: string
 	invokeaction?: string
-}
-
-interface InvokeEventInit extends EventInit {
-	action?: string
-	relatedTarget: HTMLElement
-}
-
-class InvokeEvent_ extends Event {
-	readonly relatedTarget: HTMLElement
-	readonly action: string
-
-	constructor(init: InvokeEventInit) {
-		super("invoke", init)
-		this.relatedTarget = init.relatedTarget
-
-		this.action = init.action ?? "auto"
-	}
-}
-
-declare global {
-	type InvokeEvent = InvokeEvent_
-
-	interface GlobalEventHandlersEventMap {
-		invoke: InvokeEvent
-	}
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -66,48 +40,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 export const BaseButton = forwardRef<
 	HTMLButtonElement,
-	ComponentPropsWithoutRef<typeof Ariakit.Button> & {
-		invoketarget?: string
-		invokeaction?: string
-	}
+	Ariakit.ButtonProps
 >(function BaseButton(props, ref) {
-	function invoke(event: SyntheticEvent<HTMLElement>) {
-		if (typeof props.invoketarget === "string" && props.type !== "submit") {
-			event.preventDefault()
-			document.querySelector(`#${props.invoketarget}`)?.dispatchEvent(
-				new InvokeEvent_({
-					relatedTarget: event.currentTarget,
-					...(typeof props.invokeaction === "string"
-						? { action: props.invokeaction }
-						: {})
-				})
-			)
-		}
-	}
-
-	return (
-		<Ariakit.Button
-			ref={ref}
-			{...props}
-			onKeyDown={(event) => {
-				props.onKeyDown?.(event)
-				if (event.isDefaultPrevented()) {
-					return
-				}
-
-				if (event.key === " " || event.key === "Enter") {
-					invoke(event)
-				}
-			}}
-			onClick={(event) => {
-				props.onClick?.(event)
-				if (event.isDefaultPrevented()) {
-					return
-				}
-				invoke(event)
-			}}
-		/>
-	)
+	return <Ariakit.Button ref={ref} {...props} />
 })
 
 const ButtonContext = createContext(createButton())

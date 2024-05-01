@@ -12,7 +12,7 @@ import {
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
 
-import { Predicate, ReadonlyArray, ReadonlyRecord } from "effect"
+import { Array as ReadonlyArray, Predicate, Record as ReadonlyRecord } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
 

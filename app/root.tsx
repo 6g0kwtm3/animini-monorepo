@@ -72,9 +72,10 @@ clientLoader.hydrate = true
 
 export const loader = (async (args) => {
 	return pipe(
-		Effect.gen(function* (_) {
-			const { request } = yield* _(LoaderArgs)
-			const viewer = Option.getOrNull(yield* _(Viewer))
+		Effect.gen(function* () {
+			const { request } = yield* (LoaderArgs)
+			const viewer = Option.getOrNull(yield* (Viewer))
+
 			return json(
 				{
 					Viewer: viewer,

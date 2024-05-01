@@ -5,7 +5,7 @@ import { graphql } from "~/lib/graphql"
 
 export async function increment(args: AnyActionFunctionArgs) {
 	const formData = Schema.decodeUnknownSync(
-		Schema.struct({
+		Schema.Struct({
 			id: Schema.NumberFromString,
 			progress: Schema.NumberFromString
 		})

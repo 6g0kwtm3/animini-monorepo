@@ -12,7 +12,7 @@ import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
-import { ReadonlyArray } from "effect"
+import { Array as ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,

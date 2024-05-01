@@ -1,5 +1,4 @@
 import { useTooltipStore } from "@ariakit/react"
-import { Schema } from "@effect/schema"
 import type {
 	ActionFunction,
 	LoaderFunction,
@@ -14,8 +13,7 @@ import {
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs
 } from "@remix-run/react"
-import cookie from "cookie"
-import { Effect, Option, Predicate, pipe } from "effect"
+import { Effect, Predicate, pipe } from "effect"
 import { serverOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -34,7 +32,6 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
-import { Viewer } from "~/lib/Remix/Remix.server"
 import { Remix } from "~/lib/Remix/index.server"
 import { fab } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
@@ -62,34 +59,19 @@ clientLoader.hydrate = true
 
 export const loader = (async (args) => {
 	return pipe(
-		Effect.gen(function* (_) {
-			const client = yield* _(EffectUrql)
+		Effect.gen(function* () {
+			const client = yield* EffectUrql
 
-			const data = yield* _(
-				client.query(
-					graphql(`
-						query NotificationsQuery($coverExtraLarge: Boolean = false) {
-							...Notifications_query
-						}
-					`),
-					{}
-				)
-			)
-			const { id } = yield* _(Viewer, Effect.flatten)
-
-			const storedRead = yield* _(
-				Remix.CloudflareKV.store("notifications-read").get(id)
+			const data = yield* client.query(
+				graphql(`
+					query NotificationsQuery($coverExtraLarge: Boolean = false) {
+						...Notifications_query
+					}
+				`),
+				{}
 			)
 
-			const read = yield* _(Remix.Cookie("notifications-read", Schema.number))
-
-			return {
-				query: data,
-				read: Math.max(
-					Option.getOrElse(storedRead, () => 0),
-					Option.getOrElse(read, () => 0)
-				)
-			}
+			return data
 		}),
 		Effect.map((data) =>
 			json(data, {
@@ -118,27 +100,22 @@ export const clientAction: ClientActionFunction = async ({ serverAction }) => {
 
 export const action = (async (args) => {
 	return pipe(
-		Effect.gen(function* (_) {
-			const formData = yield* _(Remix.formData)
-			const { id } = yield* _(yield* _(Viewer))
-
-			const read = Number(formData.get("createdAt"))
-
-			yield* _(Remix.CloudflareKV.store("notifications-read").put(id, read))
-
-			return redirect(".", {
-				headers: {
-					"Set-Cookie": cookie.serialize(
-						"notifications-read",
-						JSON.stringify(read),
-						{
-							sameSite: "lax",
-							maxAge: 365 * 24 * 60 * 60, // 1 year
-							path: "/"
+		Effect.gen(function* () {
+			const client = yield* EffectUrql
+			yield* client.query(
+				graphql(`
+					query NotificationsRead {
+						Page(perPage: 0) {
+							notifications(resetNotificationCount: true) {
+								__typename
+							}
 						}
-					)
-				}
-			})
+					}
+				`),
+				{}
+			)
+
+			return redirect(".")
 		}),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
@@ -149,6 +126,11 @@ export const action = (async (args) => {
 const Notifications_query = serverOnly$(
 	graphql(`
 		fragment Notifications_query on Query {
+			Viewer {
+				id
+				unreadNotificationCount
+			}
+
 			Page {
 				notifications(
 					type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]
@@ -175,9 +157,10 @@ const Notifications_query = serverOnly$(
 	`)
 )
 export default function Notifications(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
 	const query = readFragment<typeof Notifications_query>(
-		makeFragmentData<typeof Notifications_query>(data.query)
+		makeFragmentData<typeof Notifications_query>(
+			useRawLoaderData<typeof clientLoader>()
+		)
 	)
 
 	const store = useTooltipStore()
@@ -189,7 +172,8 @@ export default function Notifications(): ReactNode {
 		)
 		.find(Predicate.isNumber)
 
-	const someNotRead = (lastCreatedAt ?? 0) > data.read
+	const someNotRead =
+		(lastCreatedAt ?? 0) > (query?.Viewer?.unreadNotificationCount ?? 0)
 
 	return (
 		<LayoutBody>
@@ -309,7 +293,8 @@ function Airing(props: {
 					</ListItemImg>
 					<ListItemContent>
 						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) > data.read && (
+							{(notification.createdAt ?? 0) >
+								(data?.Viewer?.unreadNotificationCount ?? 0) && (
 								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 							)}{" "}
 							{m.episode_aired({
@@ -400,7 +385,8 @@ function RelatedMediaAddition(props: {
 					</ListItemImg>
 					<ListItemContent>
 						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) > data.read && (
+							{(notification.createdAt ?? 0) >
+								(data?.Viewer?.unreadNotificationCount ?? 0) && (
 								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 							)}{" "}
 							{m.recently_added()}
@@ -473,7 +459,8 @@ function ActivityLike(props: {
 				</ListItemImg>
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
-						{(notification.createdAt ?? 0) > data.read && (
+						{(notification.createdAt ?? 0) >
+							(data?.Viewer?.unreadNotificationCount ?? 0) && (
 							<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 						)}{" "}
 						{notification.context}

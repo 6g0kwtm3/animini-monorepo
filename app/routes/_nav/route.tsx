@@ -7,7 +7,7 @@ import {
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
-import { Effect, Option, Predicate, pipe } from "effect"
+import { Effect, Option, pipe } from "effect"
 
 import { Remix } from "~/lib/Remix/index.server"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
@@ -22,7 +22,6 @@ import {
 } from "~/components/Navigation"
 import { graphql } from "~/lib/graphql"
 
-import { Schema } from "@effect/schema"
 import { defer } from "@remix-run/cloudflare"
 import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
@@ -56,111 +55,27 @@ export const loader = (async (args) => {
 	return defer(
 		{
 			trending: pipe(
-				Effect.gen(function* (_) {
-					const client = yield* _(EffectUrql)
-					const viewer = yield* _(Viewer)
+				Effect.gen(function* () {
+					const client = yield* EffectUrql
+					const viewer = yield* Viewer
 
-					const { notifications, ...data } = (yield* _(
-						client.query(
-							graphql(`
-								query NavQuery(
-									$coverExtraLarge: Boolean = false
-									$isToken: Boolean = false
-								) {
-									notifications: Page @include(if: $isToken) {
-										nodes: notifications {
-											__typename
-											... on ActivityLikeNotification {
-												createdAt
-											}
-											... on ActivityMentionNotification {
-												createdAt
-											}
-											... on ActivityMessageNotification {
-												createdAt
-											}
-											... on ActivityReplyLikeNotification {
-												createdAt
-											}
-											... on ActivityReplyNotification {
-												createdAt
-											}
-											... on ActivityReplySubscribedNotification {
-												createdAt
-											}
-											... on AiringNotification {
-												createdAt
-											}
-											... on FollowingNotification {
-												createdAt
-											}
-											... on MediaDataChangeNotification {
-												createdAt
-											}
-											... on MediaDeletionNotification {
-												createdAt
-											}
-											... on MediaMergeNotification {
-												createdAt
-											}
-											... on RelatedMediaAdditionNotification {
-												createdAt
-											}
-											... on ThreadCommentLikeNotification {
-												createdAt
-											}
-											... on ThreadCommentMentionNotification {
-												createdAt
-											}
-											... on ThreadCommentReplyNotification {
-												createdAt
-											}
-											... on ThreadCommentSubscribedNotification {
-												createdAt
-											}
-											... on ThreadLikeNotification {
-												createdAt
-											}
-										}
-									}
-									...Search_query
+					const data = (yield* client.query(
+						graphql(`
+							query NavQuery(
+								$coverExtraLarge: Boolean = false
+								$isToken: Boolean = false
+							) {
+								Viewer @include(if: $isToken) {
+									id
+									unreadNotificationCount
 								}
-							`),
-							{ isToken: Option.isSome(viewer) }
-						)
+								...Search_query
+							}
+						`),
+						{ isToken: Option.isSome(viewer) }
 					)) ?? { trending: null }
 
-					const storedRead = Option.getOrElse(
-						Option.isSome(viewer)
-							? yield* _(
-									Remix.CloudflareKV.store("notifications-read").get(
-										viewer.value.id
-									)
-								)
-							: Option.none(),
-						() => 0
-					)
-
-					const read = Option.getOrElse(
-						yield* _(Remix.Cookie("notifications-read", Schema.number)),
-						() => 0
-					)
-
-					const readNotifications =
-						notifications?.nodes?.findIndex(
-							(notification) =>
-								notification &&
-								Predicate.isNumber(notification.createdAt) &&
-								notification.createdAt <= Math.max(storedRead, read)
-						) ?? 0
-
-					return {
-						...data,
-						notifications:
-							readNotifications < 0
-								? notifications?.nodes?.length
-								: readNotifications
-					}
+					return data
 				}),
 				Effect.provide(LoaderLive),
 				Effect.provideService(LoaderArgs, args),
@@ -300,9 +215,9 @@ export default function Nav(): ReactNode {
 					<Suspense>
 						<Await resolve={data.trending} errorElement={<></>}>
 							{(data) =>
-								(data.notifications ?? 0) > 0 && (
+								(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 									<NavigationItemLargeBadge>
-										{data.notifications}
+										{data.Viewer?.unreadNotificationCount}
 									</NavigationItemLargeBadge>
 								)
 							}

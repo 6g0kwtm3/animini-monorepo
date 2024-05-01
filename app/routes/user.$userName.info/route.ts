@@ -10,8 +10,8 @@ import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
 import { getCacheControl } from "~/lib/getCacheControl"
 async function infoLoader(args: AnyLoaderFunctionArgs) {
 	const params = Schema.decodeUnknownSync(
-		Schema.struct({
-			userName: Schema.string
+		Schema.Struct({
+			userName: Schema.String
 		})
 	)(args.params)
 

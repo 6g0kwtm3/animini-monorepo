@@ -35,13 +35,14 @@ import {
 	MediaListHeaderToWatch
 } from "~/lib/list/MediaList"
 
-import { Order, Predicate, ReadonlyArray } from "effect"
+import { Array as ReadonlyArray, Order, Predicate, } from "effect"
 
 // import {} from 'glob'
 
 import { Schema } from "@effect/schema"
 import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/ReadonlyArray"
+
+import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
 import { clientOnly$, serverOnly$ } from "vite-env-only"
@@ -51,7 +52,11 @@ import { Loading, Skeleton } from "~/components/Skeleton"
 import { MediaListSort } from "~/lib/MediaListSort"
 import { Ariakit } from "~/lib/ariakit"
 import { client, createGetInitialData } from "~/lib/cache.client"
-import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
+import {
+	client_get_client,
+	type AnyActionFunctionArgs,
+	type AnyLoaderFunctionArgs
+} from "~/lib/client"
 import { getLibrary } from "~/lib/electron/library.server"
 import {
 	MediaListItem,
@@ -224,7 +229,7 @@ function sortEntries(
 	const order: Order.Order<(typeof entries)[number]>[] = []
 
 	for (const sort of sorts) {
-		if (!Schema.is(Schema.enums(MediaListSort))(sort)) {
+		if (!Schema.is(Schema.Enums(MediaListSort))(sort)) {
 			continue
 		}
 		if (sort === MediaListSort.TitleEnglish) {
@@ -382,10 +387,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-const Params = Schema.struct({
-	selected: Schema.optional(Schema.string),
-	userName: Schema.string,
-	typelist: Schema.literal("animelist", "mangalist")
+const Params = Schema.Struct({
+	selected: Schema.optional(Schema.String),
+	userName: Schema.String,
+	typelist: Schema.Literal("animelist", "mangalist")
 })
 
 function selectedLoader(args: AnyLoaderFunctionArgs) {

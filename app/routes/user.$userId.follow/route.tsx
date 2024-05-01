@@ -21,7 +21,7 @@ export const clientAction = (async (args) => {
 
 async function follow(args: AnyActionFunctionArgs) {
 	const params = Schema.decodeUnknownSync(
-		Schema.struct({
+		Schema.Struct({
 			userId: Schema.NumberFromString
 		})
 	)(args.params)

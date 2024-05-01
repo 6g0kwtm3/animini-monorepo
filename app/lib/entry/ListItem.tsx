@@ -7,7 +7,7 @@ import type { FragmentType } from "~/lib/graphql"
 import { graphql, readFragment } from "~/lib/graphql"
 
 import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/ReadonlyArray"
+import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { serverOnly$ } from "vite-env-only"
