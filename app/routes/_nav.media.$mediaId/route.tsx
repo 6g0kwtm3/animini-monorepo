@@ -52,6 +52,10 @@ import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
+// type X = HTMLAttributes<any>
+import { Predicate } from "effect"
+import { getThemeFromHex } from "~/lib/theme"
+import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 
 export const loader = (async (args) => {
 	return json(await mediaLoader(args), {
@@ -134,7 +138,10 @@ async function mediaLoader(args: AnyLoaderFunctionArgs) {
 	}
 
 	return {
-		Media: data.Media
+		Media: data.Media,
+		theme: Predicate.isString(data.Media.coverImage?.color)
+			? getThemeFromHex(data.Media.coverImage.color)
+			: {}
 	}
 }
 
@@ -146,10 +153,10 @@ export default function Page(): ReactNode {
 
 	return (
 		<LayoutBody
-			style={{
-				"--theme": data.Media.coverImage?.color ?? ""
-			}}
-			className={`${data.Media.coverImage?.color ? ` theme-light palette-[--theme] dark:theme-dark` : ""}`}
+			style={data.theme}
+			className={
+				"contrast-standard contrast-more:contrast-high theme-light dark:theme-dark"
+			}
 		>
 			<PaneFlexible>
 				<div>

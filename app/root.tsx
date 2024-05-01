@@ -27,6 +27,8 @@ import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix/Remix.server"
 import { Ariakit } from "./lib/ariakit"
 
+import theme from '~/../fallback.json'
+
 import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { ClientOnly } from "remix-utils/client-only"
@@ -113,7 +115,8 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 		<html
 			lang={locale}
 			dir={dir}
-			className="theme-light select-none bg-background font-['Noto_Sans',sans-serif] text-on-background palette-[#6751a4] [color-scheme:light_dark] dark:theme-dark supports-[(color:AccentColor)]:palette-[AccentColor]"
+			style={theme}
+			className="contrast-more:contrast-high contrast-standard theme-light bg-background font-['Noto_Sans',sans-serif] text-on-background [color-scheme:light_dark] dark:theme-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />

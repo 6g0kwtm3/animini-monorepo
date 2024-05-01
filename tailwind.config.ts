@@ -160,10 +160,7 @@ export default withTV({
 		colors: Object.assign(
 			Object.fromEntries(
 				Object.entries(colors.dark).map(([key, value]) => {
-					return [
-						`${key}`,
-						`oklch(from var(--m3-${key}) l c h / <alpha-value>)`
-					]
+					return [`${key}`, `rgb(var(--${key}) / <alpha-value>)`]
 				})
 			),
 			{ transparent: "transparent" }
@@ -335,26 +332,45 @@ export default withTV({
 
 			matchUtilities(
 				{
-					palette: (value) => {
-						return {
-							"--m3-palette-primary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(36)} h)`,
-							"--m3-palette-secondary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(16)} h)`,
-							"--m3-palette-tertiary": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(24)} calc(h + 60))`,
-							"--m3-palette-neutral": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(6)} h)`,
-							"--m3-palette-neutral-variant": `oklch(from ${value} ${toeInv(50 / 100)} ${chroma(8)} h)`,
-							"--m3-palette-error": `oklch(${toeInv(50 / 100)} ${chroma(84)} 25)`
-						}
+					contrast: (value) => {
+						return Object.fromEntries(
+							Object.keys(colors.dark).flatMap((key) => {
+								return [
+									[`--${key}-light`, `var(--${key}-light-${value})`],
+									[`--${key}-dark`, `var(--${key}-dark-${value})`]
+								]
+							})
+						)
 					}
 				},
 				{
-					type: ["color", "any"]
+					type: ["any"],
+					values: {
+						high: "high",
+						medium: "medium",
+						standard: "standard"
+					}
 				}
 			)
 
-			addComponents({
-				".theme-dark": themeColors(colors.dark),
-				".theme-light": themeColors(colors.light)
-			})
+			matchUtilities(
+				{
+					theme: (value) => {
+						return Object.fromEntries(
+							Object.keys(colors.dark).map((key) => {
+								return [`--${key}`, `var(--${key}-${value})`]
+							})
+						)
+					}
+				},
+				{
+					type: ["any"],
+					values: {
+						dark: "dark",
+						light: "light"
+					}
+				}
+			)
 
 			addComponents({
 				".i-inline": {

@@ -64,6 +64,7 @@ import { ClientOnly } from "remix-utils/client-only"
 import { client, createGetInitialData } from "~/lib/cache.client"
 import { getCacheControl } from "~/lib/getCacheControl"
 import { m } from "~/lib/paraglide"
+import { getThemeFromHex } from "~/lib/theme"
 import type { action as userFollowAction } from "../user.$userId.follow/route"
 
 function MediaLink({
@@ -79,14 +80,13 @@ function MediaLink({
 			<Suspense fallback="Loading...">
 				<Await errorElement={"Error..."} resolve={data.media}>
 					{(data) => {
-						const media = data[mediaId]
+						const { media, theme } = data[mediaId] ?? {}
+
 						return (
 							media && (
 								<Card
-									className={`not-prose inline-flex overflow-hidden text-start force:p-0${media.coverImage?.color ? ` theme-light palette-[--theme] dark:theme-dark` : ""}`}
-									style={{
-										"--theme": media.coverImage?.color ?? ""
-									}}
+									className={`not-prose contrast-standard contrast-more:contrast-high theme-light inline-flex overflow-hidden text-start dark:theme-dark force:p-0`}
+									style={theme}
 									render={<span />}
 								>
 									<List className="force:p-0" render={<span />}>
@@ -194,7 +194,18 @@ async function getMedia(
 	return ReadonlyRecord.fromEntries(
 		data?.Page?.media
 			?.filter((el) => el != null)
-			.map((media) => [String(media.id), media] as const) ?? []
+			.map(
+				(media) =>
+					[
+						String(media.id),
+						{
+							media,
+							theme: Predicate.isString(media.coverImage?.color)
+								? getThemeFromHex(media.coverImage?.color)
+								: {}
+						}
+					] as const
+			) ?? []
 	)
 }
 
