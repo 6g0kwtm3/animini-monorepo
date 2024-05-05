@@ -70,8 +70,6 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-
-
 export const loader = (async (args) => {
 	const params = await Schema.decodeUnknownSync(
 		Schema.Struct({
@@ -161,95 +159,81 @@ export default function Filters(): ReactNode {
 							<CheckboxProvider value={searchParams.getAll("status")}>
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Status</GroupLabel>
-									<ul className="flex flex-wrap gap-2">
+									<div className="flex flex-wrap gap-2">
 										{Object.entries(
 											params.typelist === "animelist"
 												? ANIME_STATUS_OPTIONS
 												: MANGA_STATUS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<li key={value}>
-													<M3.ChipFilter>
-														<M3.ChipFilterCheckbox
-															name="status"
-															value={value}
-														/>
-														{label}
-													</M3.ChipFilter>
-												</li>
+												<M3.ChipFilter key={value}>
+													<M3.ChipFilterCheckbox name="status" value={value} />
+													{label}
+												</M3.ChipFilter>
 											)
 										})}
-									</ul>
+									</div>
 								</Group>
 							</CheckboxProvider>
 							<CheckboxProvider value={searchParams.getAll("format")}>
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Format</GroupLabel>
-									<ul className="flex flex-wrap gap-2">
+									<div className="flex flex-wrap gap-2">
 										{Object.entries(
 											params.typelist === "animelist"
 												? ANIME_FORMAT_OPTIONS
 												: MANGA_FORMAT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<li key={value}>
-													<M3.ChipFilter>
-														<M3.ChipFilterCheckbox
-															name="format"
-															value={value}
-														/>
-														{label}
-													</M3.ChipFilter>
-												</li>
+												<M3.ChipFilter key={value}>
+													<M3.ChipFilterCheckbox name="format" value={value} />
+													{label}
+												</M3.ChipFilter>
 											)
 										})}
-									</ul>
+									</div>
 								</Group>
 							</CheckboxProvider>
 							<CheckboxProvider value={searchParams.getAll("progress")}>
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Progress</GroupLabel>
-									<ul className="flex flex-wrap gap-2">
+									<div className="flex flex-wrap gap-2">
 										{Object.entries(
 											params.typelist === "animelist"
 												? ANIME_PROGRESS_OPTIONS
 												: MANGA_PROGRESS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<li key={value}>
-													<M3.ChipFilter>
-														<M3.ChipFilterCheckbox
-															name="progress"
-															value={value}
-														/>
-														{label}
-													</M3.ChipFilter>
-												</li>
+												<M3.ChipFilter key={value}>
+													<M3.ChipFilterCheckbox
+														name="progress"
+														value={value}
+													/>
+													{label}
+												</M3.ChipFilter>
 											)
 										})}
-									</ul>
+									</div>
 								</Group>
 							</CheckboxProvider>
 
 							<RadioProvider value={searchParams.get("sort")}>
 								<Group className="col-span-2" render={<fieldset />}>
 									<GroupLabel render={<legend />}>Sort</GroupLabel>
-									<ul className="flex flex-wrap gap-2">
+									<div className="flex flex-wrap gap-2">
 										{Object.entries(
 											params.typelist === "animelist"
 												? ANIME_SORT_OPTIONS
 												: MANGA_SORT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<li key={value}>
-													<M3.ChipFilter>
-														<M3.ChipFilterRadio name="sort" value={value} />
-														{label}
-													</M3.ChipFilter>
-												</li>
+												<M3.ChipFilter key={value}>
+													<M3.ChipFilterRadio name="sort" value={value} />
+													{label}
+												</M3.ChipFilter>
 											)
 										})}
-									</ul>
+									</div>
 								</Group>
 							</RadioProvider>
 
@@ -615,6 +599,7 @@ export function ErrorBoundary(): ReactNode {
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
 						<p>{error.data}</p>
+						<M3.Button render={<Link to="." />}>Try again</M3.Button>
 					</div>
 				</LayoutPane>
 			</LayoutBody>
