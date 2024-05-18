@@ -22,12 +22,12 @@ import type {
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
 
-import { type ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix/Remix.server"
 import { Ariakit } from "./lib/ariakit"
 
-import theme from '~/../fallback.json'
+import theme from "~/../fallback.json"
 
 import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
@@ -37,6 +37,8 @@ import { getCacheControl } from "./lib/getCacheControl"
 import { useLocale } from "./lib/useLocale"
 import { setLanguageTag } from "./paraglide/runtime"
 import tailwind from "./tailwind.css?url"
+
+import { useRevalidator } from "@remix-run/react"
 
 export const links: LinksFunction = () => {
 	return [
@@ -153,7 +155,19 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	)
 }
 
+function useOnFocus(callback: () => void) {
+	useEffect(() => {
+		const onFocus = () => callback()
+		window.addEventListener("focus", onFocus)
+		return () => window.removeEventListener("focus", onFocus)
+	}, [callback])
+}
+
 export default function App(): ReactNode {
+	const revalidator = useRevalidator()
+
+	useOnFocus(() => revalidator.revalidate())
+
 	return (
 		<SnackbarQueue>
 			<Outlet />
