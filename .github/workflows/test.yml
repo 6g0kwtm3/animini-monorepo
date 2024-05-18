@@ -52,14 +52,12 @@ jobs:
         uses: WalshyDev/cf-pages-await@v1
         id: cf-pages
         with:
-          accountEmail: ${{ secrets.CF_ACCOUNT_EMAIL  }}
           apiToken: ${{ secrets.CF_API_TOKEN  }}
           accountId: 'e9b0348e83d33e46fbb82c3271317d70'
           project: 'animini-pwa'
 
       - name: Test E2E
         run: pnpm run test --project=${{ matrix.project }}
-        if: 
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
           BASE_URL: ${{ steps.cf-pages.outputs.url }}
