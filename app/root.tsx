@@ -114,8 +114,8 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 
 	const isHydrated = useSyncExternalStore(
 		() => () => {},
+		() => true,
 		() => false,
-		() => true
 	)
 
 	return (
