@@ -20,6 +20,7 @@ jobs:
         project: [mobile-chrome, mobile-webkit]
 
     name: Test E2E
+
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -47,10 +48,21 @@ jobs:
         run: pnpm exec playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
+      - name: Await CF Pages
+        uses: WalshyDev/cf-pages-await@v1
+        id: cf-pages
+        with:
+          accountEmail: ${{ secrets.CF_ACCOUNT_EMAIL  }}
+          apiKey: ${{ secrets.CF_API_KEY  }}
+          accountId: 'e9b0348e83d33e46fbb82c3271317d70'
+          project: 'animini-pwa'
+
       - name: Test E2E
         run: pnpm run test --project=${{ matrix.project }}
+        if: 
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
+          BASE_URL: ${{ steps.cf-pages.outputs.url }}
 
       - name: Upload test results
         if: always()
