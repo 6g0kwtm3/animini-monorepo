@@ -1,9 +1,8 @@
-import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
 import {
 	Await,
 	Outlet,
+	unstable_defineClientLoader,
 	useLocation,
-	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
@@ -22,7 +21,6 @@ import {
 } from "~/components/Navigation"
 import { graphql } from "~/lib/graphql"
 
-import { defer } from "@remix-run/cloudflare"
 import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
@@ -44,51 +42,45 @@ import { getCacheControl } from "~/lib/getCacheControl"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
-	return args.serverLoader<typeof loader>()
-}
+import { unstable_defineLoader } from "@remix-run/cloudflare"
+
+export const clientLoader = unstable_defineClientLoader(async (args) =>
+	args.serverLoader<typeof loader>()
+)
 clientLoader.hydrate = true
+export const loader = unstable_defineLoader(async (args) => {
+	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
 
-export const loader = (async (args) => {
-	return defer(
-		{
-			trending: pipe(
-				Effect.gen(function* () {
-					const client = yield* EffectUrql
-					const viewer = yield* Viewer
+	return {
+		trending: pipe(
+			Effect.gen(function* () {
+				const client = yield* EffectUrql
+				const viewer = yield* Viewer
 
-					const data = (yield* client.query(
-						graphql(`
-							query NavQuery(
-								$coverExtraLarge: Boolean = false
-								$isToken: Boolean = false
-							) {
-								Viewer @include(if: $isToken) {
-									id
-									unreadNotificationCount
-								}
-								...Search_query
+				const data = (yield* client.query(
+					graphql(`
+						query NavQuery(
+							$coverExtraLarge: Boolean = false
+							$isToken: Boolean = false
+						) {
+							Viewer @include(if: $isToken) {
+								id
+								unreadNotificationCount
 							}
-						`),
-						{ isToken: Option.isSome(viewer) }
-					)) ?? { trending: null }
+							...Search_query
+						}
+					`),
+					{ isToken: Option.isSome(viewer) }
+				)) ?? { trending: null }
 
-					return data
-				}),
-				Effect.provide(LoaderLive),
-				Effect.provideService(LoaderArgs, args),
-				Remix.runLoader
-			)
-		},
-		{
-			headers: {
-				"Cache-Control": getCacheControl(cacheControl)
-			}
-		}
-	)
-}) satisfies LoaderFunction
+				return data
+			}),
+			Effect.provide(LoaderLive),
+			Effect.provideService(LoaderArgs, args),
+			Remix.runLoader
+		)
+	}
+})
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,

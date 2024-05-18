@@ -1,15 +1,11 @@
-import type {
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
-} from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/cloudflare"
+import { json, unstable_defineLoader } from "@remix-run/cloudflare"
 import {
 	Link,
 	useLocation,
 	useOutlet,
 	useParams,
-	type ClientLoaderFunctionArgs,
+	type MetaArgs_SingleFetch,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
@@ -53,17 +49,15 @@ import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
+import { unstable_defineClientLoader } from "@remix-run/react"
 import { Predicate } from "effect"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 
-export const loader = (async (args) => {
-	return json(await mediaLoader(args), {
-		headers: {
-			"Cache-Control": getCacheControl(cacheControl)
-		}
-	})
-}) satisfies LoaderFunction
+export const loader = unstable_defineLoader(async (args) => {
+	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	return mediaLoader(args)
+})
 
 const cacheControl = {
 	maxAge: 15,
@@ -72,9 +66,7 @@ const cacheControl = {
 }
 
 const isInitialRequest = clientOnly$(createGetInitialData())
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return client.ensureQueryData({
 		revalidateIfStale: true,
 		persister,
@@ -83,7 +75,7 @@ export async function clientLoader(
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
-}
+})
 clientLoader.hydrate = true
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -102,9 +94,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export const meta = (({ data }) => {
+export const meta = ({
+	data
+}: MetaArgs_SingleFetch<typeof loader>): ReturnType<MetaFunction> => {
 	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
-}) satisfies MetaFunction<typeof loader>
+}
 
 async function mediaLoader(args: AnyLoaderFunctionArgs) {
 	const client = client_get_client(args)
@@ -269,9 +263,6 @@ export default function Page(): ReactNode {
 		</LayoutBody>
 	)
 }
-
-// type X = HTMLAttributes<any>
-
 declare global {
 	namespace React {
 		interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {

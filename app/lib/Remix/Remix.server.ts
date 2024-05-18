@@ -36,9 +36,7 @@ export function Cookie<I, A>(
 	})
 }
 
-export const CloudflareKV = createCloudflareKV({
-
-})
+export const CloudflareKV = createCloudflareKV({})
 
 function createCloudflareKV<
 	O extends Record<string, Schema.Schema<any, any, never>>

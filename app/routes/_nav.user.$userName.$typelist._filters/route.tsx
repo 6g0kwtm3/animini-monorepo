@@ -5,13 +5,12 @@ import {
 	RadioProvider
 } from "@ariakit/react"
 import { Schema } from "@effect/schema"
-import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
 import {
 	Form,
 	isRouteErrorResponse,
 	Link,
 	Outlet,
+	unstable_defineClientLoader,
 	useLocation,
 	useNavigate,
 	useNavigation,
@@ -19,7 +18,6 @@ import {
 	useRouteError,
 	useSearchParams,
 	useSubmit,
-	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
@@ -54,6 +52,8 @@ import { client_get_client } from "~/lib/client"
 import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
+import { unstable_defineLoader } from "@remix-run/cloudflare"
+
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
 	nextParams,
@@ -69,8 +69,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	}
 	return defaultShouldRevalidate
 }
-
-export const loader = (async (args) => {
+export const loader = unstable_defineLoader(async (args) => {
 	const params = await Schema.decodeUnknownSync(
 		Schema.Struct({
 			userName: Schema.String,
@@ -88,26 +87,19 @@ export const loader = (async (args) => {
 		}[params.typelist]
 	})
 
-	return json(
-		{ data, params },
-		{
-			headers: {
-				"Cache-Control": getCacheControl(cacheControl)
-			}
-		}
-	)
-}) satisfies LoaderFunction
+	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+
+	return { data, params }
+})
 const cacheControl = {
 	maxAge: 15,
 	staleWhileRevalidate: 45,
 	private: true
 }
 
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
-	return args.serverLoader<typeof loader>()
-}
+export const clientLoader = unstable_defineClientLoader(async (args) =>
+	args.serverLoader<typeof loader>()
+)
 clientLoader.hydrate = true
 
 function UserListSelectedFiltersQuery() {

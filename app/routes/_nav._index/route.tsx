@@ -1,18 +1,16 @@
-import type {
-	HeadersFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
-} from "@remix-run/cloudflare"
-import { defer } from "@remix-run/cloudflare"
+import type { HeadersFunction, MetaFunction } from "@remix-run/cloudflare"
 import {
 	Await,
 	Link,
-	useFetcher,
-	type ClientLoaderFunctionArgs
+	unstable_defineClientLoader,
+	useFetcher
 } from "@remix-run/react"
 
-import { Array as ReadonlyArray, Predicate, Record as ReadonlyRecord } from "effect"
+import {
+	Predicate,
+	Array as ReadonlyArray,
+	Record as ReadonlyRecord
+} from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
 
@@ -67,6 +65,8 @@ import { m } from "~/lib/paraglide"
 import { getThemeFromHex } from "~/lib/theme"
 import type { action as userFollowAction } from "../user.$userId.follow/route"
 
+import { unstable_defineLoader } from "@remix-run/cloudflare"
+
 function MediaLink({
 	mediaId,
 	...props
@@ -85,7 +85,7 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose contrast-standard contrast-more:contrast-high theme-light inline-flex overflow-hidden text-start dark:theme-dark force:p-0`}
+									className={`not-prose inline-flex overflow-hidden text-start contrast-standard theme-light force:p-0 contrast-more:contrast-high dark:theme-dark`}
 									style={theme}
 									render={<span />}
 								>
@@ -201,7 +201,7 @@ async function getMedia(
 						{
 							media,
 							theme: Predicate.isString(media.coverImage?.color)
-								? getThemeFromHex(media.coverImage?.color)
+								? getThemeFromHex(media.coverImage.color)
 								: {}
 						}
 					] as const
@@ -229,9 +229,7 @@ async function indexLoader(args: AnyLoaderFunctionArgs) {
 }
 
 const isInitialRequest = clientOnly$(createGetInitialData())
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return client.ensureQueryData({
 		revalidateIfStale: true,
 		queryKey: ["_nav._index"],
@@ -239,16 +237,13 @@ export async function clientLoader(
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
-}
+})
 clientLoader.hydrate = true
 
-export const loader = (async (args) => {
-	return defer(await indexLoader(args), {
-		headers: {
-			"Cache-Control": getCacheControl(cacheControl)
-		}
-	})
-}) satisfies LoaderFunction
+export const loader = unstable_defineLoader(async (args) => {
+	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	return indexLoader(args)
+})
 
 export default function Index(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()

@@ -1,4 +1,3 @@
-import { json } from "@remix-run/cloudflare"
 import {
 	Links,
 	Meta,
@@ -6,17 +5,16 @@ import {
 	Scripts,
 	ScrollRestoration,
 	isRouteErrorResponse,
+	unstable_defineClientLoader,
 	useRouteError,
-	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
 import { LoaderArgs, LoaderLive } from "./lib/urql.server"
 
-import type {
-	LinksFunction,
-	LoaderFunction,
-	SerializeFrom
+import {
+	unstable_defineLoader,
+	type LinksFunction
 } from "@remix-run/cloudflare"
 
 import { Effect, Option, pipe } from "effect"
@@ -65,37 +63,38 @@ const cacheControl = {
 	private: true
 }
 
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
-	return args.serverLoader<typeof loader>()
-}
+export const clientLoader = unstable_defineClientLoader(async (args) =>
+	args.serverLoader<typeof loader>()
+)
 clientLoader.hydrate = true
 
-export const loader = (async (args) => {
+export const loader = unstable_defineLoader(async (args) => {
 	return pipe(
 		Effect.gen(function* () {
-			const { request } = yield* (LoaderArgs)
-			const viewer = Option.getOrNull(yield* (Viewer))
+			const { request } = yield* LoaderArgs
+			const viewer = Option.getOrNull(yield* Viewer)
 
-			return json(
-				{
-					Viewer: viewer,
-					// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
-					language: request.headers.get("accept-language")
-				},
-				{
-					headers: {
-						"Cache-Control": getCacheControl(cacheControl)
-					}
-				}
+			args.response?.headers.append(
+				"Cache-Control",
+				getCacheControl(cacheControl)
 			)
+
+			args.response?.headers.append(
+				"Cache-Control",
+				getCacheControl(cacheControl)
+			)
+
+			return {
+				Viewer: viewer,
+				// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+				language: request.headers.get("accept-language")
+			}
 		}),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader
 	)
-}) satisfies LoaderFunction
+})
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	formAction,

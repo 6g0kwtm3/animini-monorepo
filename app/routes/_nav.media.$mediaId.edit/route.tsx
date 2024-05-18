@@ -64,7 +64,9 @@
 // 		(s: string) => s.padStart(maxLength, fillString)
 // 	)
 
-// export const loader = (async (args) => {
+//
+// import { unstable_defineLoader } from "@remix-run/cloudflare"
+// export const loader = unstable_defineLoader(async (args) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
 // 			const { mediaId } = yield* (
@@ -148,7 +150,7 @@
 // 		Effect.provideService(LoaderArgs, args),
 // 		Remix.runLoader
 // 	)
-// }) satisfies LoaderFunction
+// })
 
 // const FuzzyDateInput = S.compose(
 // 	S.compose(

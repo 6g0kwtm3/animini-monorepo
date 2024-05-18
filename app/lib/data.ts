@@ -6,13 +6,13 @@ import type {
 import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
 
 export function useRawLoaderData<T>(): SerializeFrom_<T> {
-	return useLoaderData() as SerializeFrom_<T>
+	return useLoaderData<T>()
 }
 
 export function useRawRouteLoaderData<T>(
 	...args: Parameters<typeof useRouteLoaderData>
 ): SerializeFrom_<T> | undefined {
-	return useRouteLoaderData(...args) as SerializeFrom_<T> | undefined
+	return useRouteLoaderData<T>(...args)
 }
 
 export type SerializeFrom<T> = T extends (...args: any[]) => infer Output

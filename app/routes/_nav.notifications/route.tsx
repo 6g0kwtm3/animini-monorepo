@@ -1,17 +1,11 @@
 import { useTooltipStore } from "@ariakit/react"
-import type {
-	ActionFunction,
-	LoaderFunction,
-	MetaFunction,
-	SerializeFrom
-} from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
+import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
 import {
 	Form,
 	Link,
 	redirect,
-	type ClientActionFunction,
-	type ClientLoaderFunctionArgs
+	unstable_defineClientLoader,
+	type ClientActionFunction
 } from "@remix-run/react"
 import { Effect, Predicate, pipe } from "effect"
 import { serverOnly$ } from "vite-env-only"
@@ -50,14 +44,13 @@ import { client } from "~/lib/cache.client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
-	return args.serverLoader<typeof loader>()
-}
-clientLoader.hydrate = true
+import { unstable_defineLoader } from "@remix-run/cloudflare"
 
-export const loader = (async (args) => {
+export const clientLoader = unstable_defineClientLoader(async (args) =>
+	args.serverLoader<typeof loader>()
+)
+clientLoader.hydrate = true
+export const loader = unstable_defineLoader(async (args) => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql
@@ -71,20 +64,18 @@ export const loader = (async (args) => {
 				{}
 			)
 
+			args.response?.headers.append(
+				"Cache-Control",
+				getCacheControl(cacheControl)
+			)
+
 			return data
 		}),
-		Effect.map((data) =>
-			json(data, {
-				headers: {
-					"Cache-Control": getCacheControl(cacheControl)
-				}
-			})
-		),
 		Effect.provide(LoaderLive),
 		Effect.provideService(LoaderArgs, args),
 		Remix.runLoader
 	)
-}) satisfies LoaderFunction
+})
 
 const cacheControl = {
 	maxAge: 15,

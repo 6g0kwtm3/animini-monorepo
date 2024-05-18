@@ -1,7 +1,6 @@
-import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
+import { unstable_defineLoader } from "@remix-run/cloudflare"
 
-import { type ClientLoaderFunctionArgs } from "@remix-run/react"
+import { unstable_defineClientLoader } from "@remix-run/react"
 import type { ReactNode } from "react"
 import { clientOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
@@ -38,19 +37,17 @@ async function searchLoader(args: AnyLoaderFunctionArgs) {
 	)
 	return data
 }
+export const loader = unstable_defineLoader(async (args) => {
+	args.response?.headers.append(
+		"Cache-Control",
+		`max-age=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, private`
+	)
 
-export const loader = (async (args) => {
-	return json(await searchLoader(args), {
-		headers: {
-			"Cache-Control": `max-age=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, private`
-		}
-	})
-}) satisfies LoaderFunction
+	return searchLoader(args)
+})
 
 const isInitialRequest = clientOnly$(createGetInitialData())
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return client.ensureQueryData({
 		revalidateIfStale: true,
 		staleTime: 60 * 60 * 1000, //1 hour
@@ -60,7 +57,7 @@ export async function clientLoader(
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
-}
+})
 clientLoader.hydrate = true
 
 export default function Page(): ReactNode {

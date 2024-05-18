@@ -11,13 +11,8 @@ import type { CSSProperties } from "react"
 
 import colors from "~/../colors.json"
 
-export function getThemeFromHex(hex: string): CSSProperties {
+export function getThemeFromHex(hex: string): { [k: string]: string } {
 	const main = Hct.fromInt(argbFromHex(hex))
-
-	const contrast = 0.35
-
-	const light = new SchemeTonalSpot(main, false, contrast)
-	const dark = new SchemeTonalSpot(main, true, contrast)
 
 	return Object.fromEntries(
 		Object.keys(colors.light).flatMap((key) => {
@@ -50,7 +45,7 @@ export function getThemeFromHex(hex: string): CSSProperties {
 				})
 			})
 		})
-	)
+	) satisfies CSSProperties
 
 	// return light
 }

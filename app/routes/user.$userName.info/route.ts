@@ -1,8 +1,7 @@
 import { Schema } from "@effect/schema"
-import type { LoaderFunction, SerializeFrom } from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
+import { unstable_defineLoader } from "@remix-run/cloudflare"
 
-import type { ClientLoaderFunctionArgs } from "@remix-run/react"
+import { unstable_defineClientLoader } from "@remix-run/react"
 import { clientOnly$ } from "vite-env-only"
 import { graphql } from "~/gql"
 import { client, createGetInitialData, persister } from "~/lib/cache.client"
@@ -43,9 +42,7 @@ const cacheControl = {
 }
 
 const isInitialRequest = clientOnly$(createGetInitialData())
-export async function clientLoader(
-	args: ClientLoaderFunctionArgs
-): Promise<SerializeFrom<typeof loader>> {
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return client.ensureQueryData({
 		revalidateIfStale: true,
 		persister,
@@ -54,13 +51,10 @@ export async function clientLoader(
 		initialData:
 			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
 	})
-}
+})
 clientLoader.hydrate = true
 
-export const loader = (async (args) => {
-	return json(await infoLoader(args), {
-		headers: {
-			"Cache-Control": getCacheControl(cacheControl)
-		}
-	})
-}) satisfies LoaderFunction
+export const loader = unstable_defineLoader(async (args) => {
+	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	return infoLoader(args)
+})
