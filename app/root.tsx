@@ -20,7 +20,7 @@ import {
 import { Effect, Option, pipe } from "effect"
 import { Remix } from "./lib/Remix/index.server"
 
-import { useEffect, type ReactNode } from "react"
+import { useEffect, useSyncExternalStore, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix/Remix.server"
 import { Ariakit } from "./lib/ariakit"
@@ -110,15 +110,21 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const { locale, dir } = useLocale()
 	// const { nonce } = useRawLoaderData()
-
 	setLanguageTag(locale)
+
+	const isHydrated = useSyncExternalStore(
+		() => () => {},
+		() => false,
+		() => true
+	)
 
 	return (
 		<html
 			lang={locale}
 			dir={dir}
 			style={theme}
-			className="contrast-more:contrast-high contrast-standard theme-light bg-background font-['Noto_Sans',sans-serif] text-on-background [color-scheme:light_dark] dark:theme-dark"
+			data-testid={isHydrated && "hydrated"}
+			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />
