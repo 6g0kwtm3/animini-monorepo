@@ -46,7 +46,7 @@ jobs:
 
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        # if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Await CF Pages
         uses: WalshyDev/cf-pages-await@v1
@@ -63,12 +63,47 @@ jobs:
           BASE_URL: ${{ steps.cf-pages.outputs.url }}
 
       - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project }}-playwright-report
+          name: blob-report-${{ matrix.project }}
+          path: blob-report
+          retention-days: 1
+
+
+  merge-reports:
+      # Merge reports after playwright-tests, even if some shards have failed
+      if: ${{ !cancelled() }}
+      needs: [test]
+
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies 📦
+        run: pnpm i --frozen-lockfile
+
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML Report
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report--attempt-${{ github.run_attempt }}
           path: playwright-report
-          retention-days: 30
+          retention-days: 14
 
   typecheck:
     runs-on: ubuntu-latest
