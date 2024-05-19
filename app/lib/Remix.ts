@@ -150,5 +150,4 @@ export const Viewer = Effect.gen(function* () {
 	return Option.map(token, (token) => token.viewer)
 })
 
-
 export * as Remix from "./Remix"

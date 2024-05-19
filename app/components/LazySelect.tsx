@@ -94,9 +94,7 @@ const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
 export default FormSelect
 
 const { item } = createMenu({})
-export function LazySelectOption(
-	props: Ariakit.SelectItemProps
-): ReactNode {
+export function LazySelectOption(props: Ariakit.SelectItemProps): ReactNode {
 	return (
 		<Ariakit.SelectItem
 			{...props}

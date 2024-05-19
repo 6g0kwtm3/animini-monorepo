@@ -9,9 +9,7 @@ import MaterialSymbolsRadioButtonCheckedOutline from "~icons/material-symbols/ra
 
 import MaterialSymbolsCircleOutline from "~icons/material-symbols/circle-outline"
 
-export function Checkbox(
-	props: Ariakit.CheckboxProps
-): ReactNode {
+export function Checkbox(props: Ariakit.CheckboxProps): ReactNode {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>
@@ -30,9 +28,7 @@ export function Checkbox(
 		</label>
 	)
 }
-export function Radio(
-	props: Ariakit.RadioProps
-): ReactNode {
+export function Radio(props: Ariakit.RadioProps): ReactNode {
 	return (
 		<label className="group relative">
 			<Ariakit.VisuallyHidden>

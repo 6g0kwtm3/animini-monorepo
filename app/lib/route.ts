@@ -29,5 +29,4 @@ export const route_login = ({ redirect }: { redirect: string }): string => {
 	return `/login/?${new URLSearchParams({ redirect })}`
 }
 
-export * as Routes from './route'
-
+export * as Routes from "./route"

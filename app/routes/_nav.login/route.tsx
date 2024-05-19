@@ -2,8 +2,8 @@ import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
 import { redirect } from "@remix-run/cloudflare"
 import { useFetcher, type ClientActionFunction } from "@remix-run/react"
 import {
-    TextFieldOutlined as Outlined,
-    TextFieldOutlinedInput
+	TextFieldOutlined as Outlined,
+	TextFieldOutlinedInput
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
@@ -18,12 +18,7 @@ import { button } from "~/lib/button"
 import { client } from "~/lib/cache.client"
 import { graphql } from "~/lib/graphql"
 import { route_user_list } from "~/lib/route"
-import {
-    ClientArgs,
-    LoaderArgs,
-    LoaderLive,
-    operation
-} from "~/lib/urql"
+import { ClientArgs, LoaderArgs, LoaderLive, operation } from "~/lib/urql"
 import { JsonToToken } from "~/lib/viewer"
 
 export const meta = (() => {
@@ -35,8 +30,8 @@ const ANILIST_CLIENT_ID = 3455
 export const action = (async (args) => {
 	return pipe(
 		Effect.gen(function* () {
-			const formData = yield* (Remix.formData)
-			const { searchParams } = yield* (ClientArgs)
+			const formData = yield* Remix.formData
+			const { searchParams } = yield* ClientArgs
 
 			const token = formData.get("token")
 
@@ -44,31 +39,27 @@ export const action = (async (args) => {
 				return {}
 			}
 
-			const data = yield* (
-				operation(
-					graphql(`
-						query LoginQuery {
-							Viewer {
-								id
-								name
-							}
+			const data = yield* operation(
+				graphql(`
+					query LoginQuery {
+						Viewer {
+							id
+							name
 						}
-					`),
-					{},
-					{ headers: new Headers({ Authorization: `Bearer ${token.trim()}` }) }
-				)
+					}
+				`),
+				{},
+				{ headers: new Headers({ Authorization: `Bearer ${token.trim()}` }) }
 			)
 
 			if (!data?.Viewer) {
 				return {}
 			}
 
-			const encoded = yield* (
-				Schema.encodeOption(JsonToToken)({
-					token: token,
-					viewer: data.Viewer
-				})
-			)
+			const encoded = yield* Schema.encodeOption(JsonToToken)({
+				token: token,
+				viewer: data.Viewer
+			})
 
 			return redirect(
 				searchParams.get("redirect") ??

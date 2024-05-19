@@ -149,7 +149,7 @@ export default function Page(): ReactNode {
 		<LayoutBody
 			style={data.theme}
 			className={
-				"contrast-standard contrast-more:contrast-high theme-light dark:theme-dark"
+				"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 			}
 		>
 			<PaneFlexible>

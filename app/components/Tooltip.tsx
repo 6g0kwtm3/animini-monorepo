@@ -1,23 +1,19 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
 import type {
-    ComponentPropsWithoutRef,
-    PropsWithChildren,
-    ReactNode
+	ComponentPropsWithoutRef,
+	PropsWithChildren,
+	ReactNode
 } from "react"
 import { forwardRef } from "react"
 
 import { createTV } from "tailwind-variants"
 
-export function TooltipRich(
-	props: Ariakit.HovercardProviderProps
-): ReactNode {
+export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
 export function TooltipRichTrigger(
-	props: PropsWithChildren<
-		Ariakit.HovercardAnchorProps
-	>
+	props: PropsWithChildren<Ariakit.HovercardAnchorProps>
 ): ReactNode {
 	return <Ariakit.HovercardAnchor render={<div />} {...props} />
 }
@@ -32,9 +28,7 @@ const tooltip = tv({
 		}
 	}
 })
-export function TooltipRichContainer(
-	props: Ariakit.HovercardProps
-): ReactNode {
+export function TooltipRichContainer(props: Ariakit.HovercardProps): ReactNode {
 	const { container } = tooltip({ variant: "rich" })
 	return (
 		<Ariakit.Hovercard
@@ -69,9 +63,7 @@ export function TooltipRichActions(
 ): ReactNode {
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
-export function TooltipPlain(
-	props: Ariakit.TooltipProviderProps
-): ReactNode {
+export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
 	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
 export const TooltipPlainTrigger = forwardRef<
@@ -84,9 +76,7 @@ export const TooltipPlainTrigger = forwardRef<
 		</Ariakit.TooltipAnchor>
 	)
 })
-export function TooltipPlainContainer(
-	props: Ariakit.TooltipProps
-): ReactNode {
+export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
 	if (!tooltip) {
 		throw new Error("Tooltip must be wrapped in TooltipProvider")

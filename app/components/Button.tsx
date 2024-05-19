@@ -38,12 +38,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	}
 )
 
-export const BaseButton = forwardRef<
-	HTMLButtonElement,
-	Ariakit.ButtonProps
->(function BaseButton(props, ref) {
-	return <Ariakit.Button ref={ref} {...props} />
-})
+export const BaseButton = forwardRef<HTMLButtonElement, Ariakit.ButtonProps>(
+	function BaseButton(props, ref) {
+		return <Ariakit.Button ref={ref} {...props} />
+	}
+)
 
 const ButtonContext = createContext(createButton())
 export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {

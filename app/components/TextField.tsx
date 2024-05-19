@@ -1,8 +1,8 @@
 import * as Ariakit from "@ariakit/react"
 import {
-    forwardRef,
-    type ComponentPropsWithoutRef,
-    type ReactNode
+	forwardRef,
+	type ComponentPropsWithoutRef,
+	type ReactNode
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -24,9 +24,7 @@ export function TextFieldOutlined({
 	)
 }
 
-export function TextFieldOutlinedSupporting(
-	props: Ariakit.FormErrorProps
-) {
+export function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps) {
 	return (
 		<Ariakit.FormError
 			{...props}
@@ -38,10 +36,7 @@ export function TextFieldOutlinedSupporting(
 	)
 }
 
-function OutlinedLabel({
-	children,
-	...props
-}: Ariakit.FormLabelProps) {
+function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
 	return (
 		<>
 			<Ariakit.FormLabel
@@ -129,9 +124,7 @@ export function TextFieldFilled(
 	)
 }
 
-export function TextFieldFilledInput(
-	props: Ariakit.FormInputProps
-) {
+export function TextFieldFilledInput(props: Ariakit.FormInputProps) {
 	return (
 		<Ariakit.FormInput
 			{...props}
@@ -144,9 +137,7 @@ export function TextFieldFilledInput(
 	)
 }
 
-export function TextFieldFilledLabel(
-	props: Ariakit.FormLabelProps
-) {
+export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
 	return (
 		<Ariakit.FormLabel
 			{...props}

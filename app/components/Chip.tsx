@@ -13,9 +13,7 @@ export function ChipFilter(
 	)
 }
 
-export function ChipFilterCheckbox(
-	props: Ariakit.CheckboxProps
-): ReactNode {
+export function ChipFilterCheckbox(props: Ariakit.CheckboxProps): ReactNode {
 	return (
 		<>
 			<Ariakit.VisuallyHidden className="peer">
@@ -26,9 +24,7 @@ export function ChipFilterCheckbox(
 	)
 }
 
-export function ChipFilterRadio(
-	props: Ariakit.RadioProps
-): ReactNode {
+export function ChipFilterRadio(props: Ariakit.RadioProps): ReactNode {
 	return (
 		<>
 			<Ariakit.VisuallyHidden className="peer">

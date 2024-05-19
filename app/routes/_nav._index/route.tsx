@@ -241,7 +241,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 clientLoader.hydrate = true
 
 export const loader = unstable_defineLoader(async (args) => {
-	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
 	return indexLoader(args)
 })
 

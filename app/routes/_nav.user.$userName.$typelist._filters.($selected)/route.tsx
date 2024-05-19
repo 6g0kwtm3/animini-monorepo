@@ -84,7 +84,7 @@ function UserListSelectedFiltersIndexQuery() {
 	`)
 }
 export const loader = unstable_defineLoader(async (args) => {
-	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
 	return selectedLoader(args)
 })
 

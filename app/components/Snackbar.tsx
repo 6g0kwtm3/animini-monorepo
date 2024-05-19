@@ -83,7 +83,6 @@ export function SnackbarQueue(props: PropsWithChildren<{}>): ReactNode {
 	)
 }
 
-
 const SnackbarContext = createContext<string | undefined>(undefined)
 export function Snackbar({
 	timeout,
@@ -111,7 +110,7 @@ export function Snackbar({
 		}
 
 		function onInvoke(this: HTMLElement, event: Event) {
-			if(!isInvokeEvent(event)){
+			if (!isInvokeEvent(event)) {
 				return
 			}
 
@@ -174,8 +173,7 @@ export function Snackbar({
 }
 
 function isInvokeEvent(event: Event) {
-	return 'action' in event &&
-		typeof event.action === 'string'
+	return "action" in event && typeof event.action === "string"
 }
 
 export function SnackbarAction(

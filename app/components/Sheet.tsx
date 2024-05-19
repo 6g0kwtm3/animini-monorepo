@@ -1,10 +1,10 @@
 import * as Ariakit from "@ariakit/react"
 import {
-    AnimatePresence,
-    animate,
-    motion,
-    useMotionValue,
-    useTransform
+	AnimatePresence,
+	animate,
+	motion,
+	useMotionValue,
+	useTransform
 } from "framer-motion"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, useContext } from "react"
@@ -43,8 +43,7 @@ export function Sheet({
 	modal,
 	variant,
 	...props
-}: VariantProps<typeof sheet> &
-	Ariakit.DialogProps): JSX.Element {
+}: VariantProps<typeof sheet> & Ariakit.DialogProps): JSX.Element {
 	const styles = sheet({ modal, variant })
 
 	const y = useMotionValue(0)
