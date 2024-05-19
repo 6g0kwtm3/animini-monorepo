@@ -38,7 +38,7 @@ jobs:
           project: 'animini-pwa'
 
       - name: Test E2E
-        run: pnpm run test --project=${{ matrix.project }}
+        run: pnpm run test
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
           BASE_URL: ${{ steps.cf-pages.outputs.url }}
