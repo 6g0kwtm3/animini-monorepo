@@ -34,6 +34,7 @@ module.exports = {
 	],
 	rules: {
 		"no-useless-constructor": "off",
+		"@typescript-eslint/no-unused-vars": ["warn"],
 		"@typescript-eslint/explicit-module-boundary-types": "warn",
 		"@typescript-eslint/method-signature-style": ["error", "property"],
 		"react/self-closing-comp": "error",
