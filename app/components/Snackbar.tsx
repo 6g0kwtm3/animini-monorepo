@@ -83,6 +83,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>): ReactNode {
 	)
 }
 
+
 const SnackbarContext = createContext<string | undefined>(undefined)
 export function Snackbar({
 	timeout,
@@ -108,7 +109,12 @@ export function Snackbar({
 		if (!current) {
 			return
 		}
-		function onInvoke(this: HTMLElement, event: InvokeEvent) {
+
+		function onInvoke(this: HTMLElement, event: Event) {
+			if(!isInvokeEvent(event)){
+				return
+			}
+
 			if (
 				(event.action === "show" || event.action === "auto") &&
 				!this.matches(":popover-open")
@@ -166,6 +172,12 @@ export function Snackbar({
 		</SnackbarContext.Provider>
 	)
 }
+
+function isInvokeEvent(event: Event) {
+	return 'action' in event &&
+		typeof event.action === 'string'
+}
+
 export function SnackbarAction(
 	props: ComponentPropsWithoutRef<"button">
 ): ReactNode {

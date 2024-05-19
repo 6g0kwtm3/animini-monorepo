@@ -9,7 +9,7 @@ export default function LazySelectFactory({
 	label,
 
 	...props
-}: Ariakit.SelectProps & {
+}: Omit<Ariakit.SelectProps, "ref"> & {
 	children: ReactNode
 	label: ReactNode
 	name: string

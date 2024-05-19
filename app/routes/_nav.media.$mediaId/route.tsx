@@ -55,7 +55,7 @@ import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 
 export const loader = unstable_defineLoader(async (args) => {
-	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
 	return mediaLoader(args)
 })
 

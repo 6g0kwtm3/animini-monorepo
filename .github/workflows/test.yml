@@ -34,8 +34,8 @@ jobs:
         id: cf-pages
         with:
           apiToken: ${{ secrets.CF_API_TOKEN  }}
-          accountId: 'e9b0348e83d33e46fbb82c3271317d70'
-          project: 'animini-pwa'
+          accountId: "e9b0348e83d33e46fbb82c3271317d70"
+          project: "animini-pwa"
 
       - name: Test E2E
         run: pnpm run test

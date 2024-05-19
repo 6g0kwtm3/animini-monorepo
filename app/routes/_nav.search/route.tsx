@@ -38,7 +38,7 @@ async function searchLoader(args: AnyLoaderFunctionArgs) {
 	return data
 }
 export const loader = unstable_defineLoader(async (args) => {
-	args.response?.headers.append(
+	args.response.headers.append(
 		"Cache-Control",
 		`max-age=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, private`
 	)

@@ -10,7 +10,7 @@ import { SelectContext } from "./SelectOption"
 const { input } = createTextField({})
 const { root } = createMenu()
 
-export interface SelectProps extends Ariakit.SelectProps {
+export interface SelectProps extends Omit<Ariakit.SelectProps, "ref"> {
 	value?: string
 	setValue?: (value: string) => void
 	defaultValue?: string
@@ -27,7 +27,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 			setValue,
 			defaultValue: defaultValue ?? ""
 		})
-		const portalRef = useRef<HTMLDivElement>(null)
+		const portalRef = useRef<HTMLElement>(null)
 
 		// Only call onBlur if the focus is leaving the whole widget.
 		const onBlur = (event: FocusEvent<HTMLElement>) => {
@@ -65,7 +65,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 )
 
 export interface FormSelectProps
-	extends Omit<Ariakit.Role.buttonProps, "render">,
+	extends Omit<Ariakit.ButtonProps, "render">,
 		Pick<ComponentPropsWithoutRef<typeof LazySelect>, "render"> {
 	name: string
 }

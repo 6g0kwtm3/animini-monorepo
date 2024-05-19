@@ -1,10 +1,10 @@
 import {
+	isRouteErrorResponse,
 	Links,
 	Meta,
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	isRouteErrorResponse,
 	unstable_defineClientLoader,
 	useRouteError,
 	type ShouldRevalidateFunction
@@ -21,7 +21,7 @@ import { Effect, Option, pipe } from "effect"
 
 import { useEffect, useSyncExternalStore, type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Viewer } from "./lib/Remix/Remix"
+import { Remix, Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
@@ -36,7 +36,6 @@ import { setLanguageTag } from "./paraglide/runtime"
 import tailwind from "./tailwind.css?url"
 
 import { useRevalidator } from "@remix-run/react"
-import { Remix } from "./lib/Remix"
 
 export const links: LinksFunction = () => {
 	return [
@@ -74,12 +73,12 @@ export const loader = unstable_defineLoader(async (args) => {
 			const { request } = yield* LoaderArgs
 			const viewer = Option.getOrNull(yield* Viewer)
 
-			args.response?.headers.append(
+			args.response.headers.append(
 				"Cache-Control",
 				getCacheControl(cacheControl)
 			)
 
-			args.response?.headers.append(
+			args.response.headers.append(
 				"Cache-Control",
 				getCacheControl(cacheControl)
 			)
@@ -115,7 +114,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const isHydrated = useSyncExternalStore(
 		() => () => {},
 		() => true,
-		() => false,
+		() => false
 	)
 
 	return (

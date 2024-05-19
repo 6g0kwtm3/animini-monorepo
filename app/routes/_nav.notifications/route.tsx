@@ -64,7 +64,7 @@ export const loader = unstable_defineLoader(async (args) => {
 				{}
 			)
 
-			args.response?.headers.append(
+			args.response.headers.append(
 				"Cache-Control",
 				getCacheControl(cacheControl)
 			)

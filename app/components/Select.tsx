@@ -17,12 +17,11 @@ export function SelectFactory({
 	label,
 
 	...props
-}: Ariakit.SelectProps &
-	ComponentPropsWithoutRef<"select"> & {
-		children: ReactNode
-		label: ReactNode
-		name: string
-	}): ReactNode {
+}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
+	children: ReactNode
+	label: ReactNode
+	name: string
+}): ReactNode {
 	const form = Ariakit.useFormContext()
 	if (!form) throw new Error("FormSelect must be used within a Form")
 	const value = form.useValue(props.name)
@@ -59,13 +58,13 @@ export function SelectFactory({
 		</ClientOnly>
 	)
 }
+
 export function Select({
 	...props
-}: Ariakit.SelectProps &
-	ComponentPropsWithoutRef<"select"> & {
-		children: ReactNode
-		name: string
-	}): ReactNode {
+}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
+	children: ReactNode
+	name: string
+}): ReactNode {
 	const fallback = (
 		<select {...props} className={input({ className: "appearance-none" })} />
 	)

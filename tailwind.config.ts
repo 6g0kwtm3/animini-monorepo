@@ -7,18 +7,6 @@ import { Predicate } from "effect"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
 
-const K_1 = 0.173
-const K_2 = 0.004
-const K_3 = (1.0 + K_1) / (1.0 + K_2)
-
-function toeInv(x: number): number {
-	return (x ** 2 + K_1 * x) / (K_3 * (x + K_2))
-}
-
-// function toe(y: number){
-// return K_1**2-2*K_1*K_3*y+K_3
-// }
-
 export default withTV({
 	content: ["app/**/*.{ts,tsx}"],
 
@@ -278,6 +266,10 @@ export default withTV({
 				":merge(.group):has([aria-invalid='true']) &"
 			])
 			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
+			addVariant("has-focused", [
+				"&:has([data-focus-visible])",
+				"&:has(:focus-visible)"
+			])
 			addVariant("pressed", ["&[data-active]", "&:active"])
 			addVariant("group-focused", [
 				":merge(.group)[data-focus-visible] &",
@@ -315,20 +307,6 @@ export default withTV({
 					)
 				}
 			)
-
-			const themeColors = (theme: (typeof colors)["dark" | "light"]) =>
-				Object.fromEntries(
-					Object.entries(theme).map(([key, value]) => {
-						const [token = "", tone] = value
-							.replaceAll(/(\d+)$/g, "_$1")
-							.split("_")
-
-						return [
-							`--m3-${key}`,
-							`oklch(from var(--m3-palette-${token}) ${toeInv(Number(tone) / 100)} c h)`
-						]
-					})
-				)
 
 			matchUtilities(
 				{
@@ -380,7 +358,3 @@ export default withTV({
 		})
 	]
 } satisfies Config)
-
-function chroma(chroma: number) {
-	return (chroma / 120) * 0.3
-}

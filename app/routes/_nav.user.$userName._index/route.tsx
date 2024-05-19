@@ -26,7 +26,7 @@ import { m } from "~/lib/paraglide"
 import type { action as userFollowAction } from "../user.$userId.follow/route"
 
 export const loader = unstable_defineLoader(async (args) => {
-	args.response?.headers.append("Cache-Control", getCacheControl(cacheControl))
+	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
 
 	return userLoader(args)
 })
