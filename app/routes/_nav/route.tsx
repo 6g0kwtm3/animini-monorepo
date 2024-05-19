@@ -8,9 +8,9 @@ import {
 
 import { Effect, Option, pipe } from "effect"
 
-import { Remix } from "~/lib/Remix/index.server"
+import { Remix, Viewer } from "~/lib/Remix"
 import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import type { clientLoader as rootLoader } from "~/root"
 
 import {
@@ -37,7 +37,7 @@ import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
 import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-outline"
 
 import { Layout } from "~/components/Layout"
-import { Viewer } from "~/lib/Remix/Remix.server"
+
 import { getCacheControl } from "~/lib/getCacheControl"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"

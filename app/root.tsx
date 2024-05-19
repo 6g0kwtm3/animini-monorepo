@@ -10,7 +10,7 @@ import {
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
-import { LoaderArgs, LoaderLive } from "./lib/urql.server"
+import { LoaderArgs, LoaderLive } from "./lib/urql"
 
 import {
 	unstable_defineLoader,
@@ -18,11 +18,10 @@ import {
 } from "@remix-run/cloudflare"
 
 import { Effect, Option, pipe } from "effect"
-import { Remix } from "./lib/Remix/index.server"
 
 import { useEffect, useSyncExternalStore, type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Viewer } from "./lib/Remix/Remix.server"
+import { Viewer } from "./lib/Remix/Remix"
 import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
@@ -37,6 +36,7 @@ import { setLanguageTag } from "./paraglide/runtime"
 import tailwind from "./tailwind.css?url"
 
 import { useRevalidator } from "@remix-run/react"
+import { Remix } from "./lib/Remix"
 
 export const links: LinksFunction = () => {
 	return [

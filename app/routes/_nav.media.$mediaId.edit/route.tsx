@@ -28,7 +28,7 @@
 // 	EffectUrql,
 // 	LoaderArgs,
 // 	LoaderLive
-// } from "~/lib/urql.server"
+// } from "~/lib/urql"
 
 // import * as S from "@effect/schema/Schema"
 // import { DialogFullscreenIcon } from "~/components/Dialog"
@@ -44,7 +44,7 @@
 // import { ChipFilter } from "~/components/Chip"
 // import { SelectFactory } from "~/components/Select"
 // import { SelectOption } from "~/components/SelectOption"
-// import { Remix } from "~/lib/Remix/index.server"
+// import { Remix } from "~/lib/Remix"
 // import { button } from "~/lib/button"
 // import { useRawLoaderData } from "~/lib/data"
 

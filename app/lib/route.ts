@@ -28,3 +28,6 @@ export const route_user_list_selected = (params: {
 export const route_login = ({ redirect }: { redirect: string }): string => {
 	return `/login/?${new URLSearchParams({ redirect })}`
 }
+
+export * as Routes from './route'
+

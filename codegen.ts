@@ -17,8 +17,8 @@ const config: CodegenConfig = {
 		defaultScalarType: "unknown",
 		dedupeFragments: true,
 		scalars: {
-			Json: "~/lib/urql.server#JSONValue",
-			CountryCode: "~/lib/urql.server#CountryCode",
+			Json: "~/lib/urql#JSONValue",
+			CountryCode: "~/lib/urql#CountryCode",
 			FuzzyDateInt: "number"
 		},
 		useTypeImports: true,

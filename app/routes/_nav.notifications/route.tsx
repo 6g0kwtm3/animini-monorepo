@@ -26,7 +26,7 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { graphql } from "~/gql"
-import { Remix } from "~/lib/Remix/index.server"
+import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaListCover"
@@ -35,7 +35,7 @@ import type { FragmentType } from "~/lib/graphql"
 import { makeFragmentData, readFragment } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql.server"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"

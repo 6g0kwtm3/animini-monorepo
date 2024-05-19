@@ -13,7 +13,7 @@ import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"
 import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { Remix } from "~/lib/Remix/index.server"
+import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 import { client } from "~/lib/cache.client"
 import { graphql } from "~/lib/graphql"
@@ -23,7 +23,7 @@ import {
     LoaderArgs,
     LoaderLive,
     operation
-} from "~/lib/urql.server"
+} from "~/lib/urql"
 import { JsonToToken } from "~/lib/viewer"
 
 export const meta = (() => {
