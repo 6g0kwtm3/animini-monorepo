@@ -112,7 +112,7 @@ export const SearchViewInput = forwardRef<
 export const SearchViewItem = forwardRef<
 	HTMLDivElement,
 	Ariakit.ComboboxItemProps & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 >(function SearchViewItem(props, ref) {
 	return (

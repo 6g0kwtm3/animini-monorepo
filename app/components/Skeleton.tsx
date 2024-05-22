@@ -31,7 +31,7 @@ export function Skeleton({
 	...props
 }: ComponentPropsWithoutRef<"div"> &
 	VariantProps<typeof skeleton> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}): ReactNode {
 	const loading = useContext(LoadingContext)
 

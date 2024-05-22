@@ -71,7 +71,7 @@ export function LayoutPane({
 	...props
 }: ComponentPropsWithoutRef<"div"> &
 	VariantProps<typeof pane> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}): ReactNode {
 	return createElement("section", {
 		...props,

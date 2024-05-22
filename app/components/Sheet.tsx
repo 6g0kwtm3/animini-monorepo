@@ -6,7 +6,7 @@ import {
 	useMotionValue,
 	useTransform
 } from "framer-motion"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode, JSX } from "react"
 import { createContext, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"

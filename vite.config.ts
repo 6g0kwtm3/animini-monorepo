@@ -1,18 +1,19 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
+import MillionLint from "@million/lint"
 import {
 	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
 	vitePlugin as remix
 } from "@remix-run/dev"
-
+import million from "million/compiler"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import envOnly from "vite-env-only"
 import tsconfigPaths from "vite-tsconfig-paths"
-import million from "million/compiler"
 
 export default defineConfig({
 	plugins: [
+		MillionLint.vite(),
 		paraglide({
 			project: "./project.inlang",
 			outdir: "./app/paraglide"
@@ -29,7 +30,11 @@ export default defineConfig({
 			}
 		}),
 		tsconfigPaths(),
-		million.vite({ auto: true, rsc: true, log: false }),
+		million.vite({
+			auto: true,
+			rsc: true,
+			log: false
+		}),
 		icons({
 			compiler: "jsx",
 			jsx: "react",
@@ -49,7 +54,6 @@ export default defineConfig({
 				: "`${Date.now()}`"
 	}
 })
-
 declare global {
 	const __BUSTER__: string
 }

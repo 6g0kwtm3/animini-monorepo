@@ -95,7 +95,7 @@ export const NavigationItem = forwardRef<
 	Partial<ComponentPropsWithoutRef<typeof NavLink>> & {
 		children?: ReactNode
 		className?: string
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 >(function NavigationItem({ children, ...props }, ref) {
 	const { label } = useContext(Context)

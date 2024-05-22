@@ -1,9 +1,17 @@
 import cookie from "cookie"
 
 import type { unstable_defineLoader } from "@remix-run/cloudflare"
-import { type Params, type unstable_defineClientLoader } from "@remix-run/react"
+import { type Params } from "@remix-run/react"
 
-import { Context, Effect, Layer, Option, pipe, Schedule } from "effect"
+import {
+	Context,
+	Effect,
+	Layer,
+	Option,
+	pipe,
+	Schedule,
+	type Scope
+} from "effect"
 
 import { Schema } from "@effect/schema"
 
@@ -13,6 +21,8 @@ import { json } from "@remix-run/cloudflare"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { Remix } from "./Remix"
+
+import * as Http from "@effect/platform/HttpClient"
 
 const API_URL = "https://graphql.anilist.co"
 
@@ -38,11 +48,6 @@ export class LoaderArgs extends Context.Tag("loader(args)")<
 	Parameters<Parameters<typeof unstable_defineLoader>[0]>[0]
 >() {}
 
-export class ClientLoaderArgs extends Context.Tag("clientLoader(args)")<
-	LoaderArgs,
-	Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
->() {}
-
 type Arguments = {
 	params: Readonly<Params<string>>
 	searchParams: URLSearchParams
@@ -54,8 +59,19 @@ export class ClientArgs extends Context.Tag("client/Args")<
 >() {}
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
-	reset: Schema.Number
+	reset: Schema.String
 }) {}
+
+const GraphqlResult = Schema.Struct({
+	data: Schema.optional(Schema.Unknown),
+	errors: Schema.optional(
+		Schema.Array(
+			Schema.Struct({
+				status: Schema.optional(Schema.Number)
+			})
+		)
+	)
+})
 
 export function operation<T, V>(
 	document: TypedDocumentString<T, V>,
@@ -66,13 +82,10 @@ export function operation<T, V>(
 ): Effect.Effect<NonNullable<T> | null, Remix.ResponseError<null> | Timeout> {
 	return pipe(
 		Effect.gen(function* () {
-			const body: string = yield* pipe(
-				Schema.encode(Schema.parseJson(Schema.Any))({
-					query: document.toString(),
-					variables: variables
-				}),
-				Effect.orDie
-			)
+			const body = yield* Http.body.json({
+				query: document.toString(),
+				variables: variables
+			})
 
 			const headers = new Headers()
 			headers.append("Content-Type", "application/json")
@@ -82,76 +95,63 @@ export function operation<T, V>(
 				headers.append(key, value)
 			}
 
-			const response: Response = yield* Effect.promise(async (signal) =>
-				fetch(API_URL, {
-					body,
-					headers,
-					method: "post",
-					signal
-				})
-			)
 
-			if (!response.ok) {
-				console.error({
-					response,
-					body: yield* Effect.promise(async () => response.text())
-				})
-				return yield* new Remix.ResponseError({
-					response: json(null, {
-						status: response.status,
-						statusText: response.statusText
-					})
-				})
-			}
 
-			timeout = Math.max(
-				timeout,
-				pipe(
-					Option.fromNullable(response.headers.get("Retry-After")),
-					Option.orElse(() =>
-						Option.fromNullable(response.headers.get("X-RateLimit-Reset"))
-					),
-					Option.map(parseInt),
-					Option.filter(isFinite),
-					Option.getOrElse(() => 0)
-				)
-			)
-
-			const GraphqlResult = Schema.Struct({
-				data: Schema.optional(Schema.Unknown),
-				errors: Schema.optional(Schema.Array(Schema.Unknown))
+			const request = Http.request.post(API_URL, {
+				body: body,
+				headers
 			})
 
-			const data: unknown = yield* Effect.promise(async () => response.json())
+			const response = yield* Http.client.fetchOk(request)
 
-			const result = yield* pipe(
-				Schema.decodeUnknown(GraphqlResult)(data),
-				Effect.orDie
-			)
+			const result =
+				yield* Http.response.schemaBodyJson(GraphqlResult)(response)
 
 			if (result.errors?.length) {
 				console.log(result.errors)
 			}
 
-			if (result.errors?.some((error) => error?.status === 429)) {
-				return yield* new Timeout({ reset: -1 })
-			}
-
 			return (result.data as T) ?? null
 		}),
+		Effect.withTracerEnabled(false),
+		Effect.catchTags({
+			RequestError: Effect.die,
+			BodyError: Effect.die,
+			ParseError: Effect.die,
+			ResponseError: (error) => {
+				if (error.response.status === 429) {
+					return new Timeout({
+						reset: pipe(
+							error.response.headers,
+							Http.headers.get("retry-after"),
+							Option.getOrElse(() => "60")
+						)
+					})
+				}
+
+				return new Remix.ResponseError({
+					response: json(null, {
+						status: error.response.status,
+						statusText: error.response.statusText
+					})
+				})
+			}
+		}),
+		Effect.scoped,
 		Effect.retry({
 			schedule: Schedule.intersect(
-				Schedule.jittered(Schedule.exponential("60 seconds")),
+				Schedule.jittered(Schedule.exponential("5 seconds")),
 				Schedule.recurs(10)
 			),
 			while: (error) => error instanceof Timeout
 		})
 	)
 }
-let timeout = 0
 
-const makeClientLive = Effect.map(Effect.serviceOption(LoaderArgs), (args) => {
-	const request = Option.getOrNull(args)?.request
+const makeClientLive = Effect.gen(function* () {
+	const request = Option.getOrNull(
+		yield* Effect.serviceOption(LoaderArgs)
+	)?.request
 
 	const cookies = cookie.parse(
 		clientOnly$(document.cookie) ?? request?.headers.get("Cookie") ?? ""

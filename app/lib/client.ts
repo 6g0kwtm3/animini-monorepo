@@ -1,25 +1,20 @@
-import { Schema } from "@effect/schema"
-import { Option, pipe } from "effect"
-import { JsonToToken } from "./viewer"
+import { Effect, pipe } from "effect"
 
 import type {
 	ActionFunctionArgs,
 	LoaderFunctionArgs
 } from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
 import type {
-	ClientActionFunctionArgs,
-	ClientLoaderFunctionArgs
+	unstable_ClientAction,
+	unstable_ClientLoader
 } from "@remix-run/react"
-import * as cookie from "cookie"
 import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { client, persister } from "./cache.client"
+import { Remix } from "./Remix"
+import { EffectUrql, LoaderArgs, } from "./urql"
 
-const API_URL = "https://graphql.anilist.co"
-export function client_get_client(args: {
-	request: Pick<Request, "headers" | "signal">
-}): {
+export function client_get_client(args: { request: Request }): {
 	operation: <T, V>(
 		document: TypedDocumentString<T, V>,
 		variables: V
@@ -34,16 +29,16 @@ export function client_get_client(args: {
 
 export type AnyLoaderFunctionArgs =
 	| LoaderFunctionArgs
-	| ClientLoaderFunctionArgs
+	| Parameters<unstable_ClientLoader>[0]
 
 export type AnyActionFunctionArgs =
 	| ActionFunctionArgs
-	| ClientActionFunctionArgs
+	| Parameters<unstable_ClientAction>[0]
 
 export async function client_operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
-	args: { request: Pick<Request, "headers" | "signal"> }
+	args: { request: Request }
 ): Promise<NonNullable<T> | null> {
 	return (
 		clientOnly$(
@@ -60,95 +55,15 @@ export async function client_operation<T, V>(
 export async function server_operation<T, V>(
 	document: TypedDocumentString<T, V>,
 	variables: V,
-	args: { request: Pick<Request, "headers" | "signal"> }
+	args: { request: Request }
 ): Promise<NonNullable<T> | null> {
-	const body = Schema.encodeSync(Schema.parseJson(Schema.Any))({
-		query: document.toString(),
-		variables: variables
-	})
-
-	const headers = new Headers()
-	headers.append("Content-Type", "application/json")
-	headers.append("Accept", "application/json")
-
-	for (const [key, value] of client_get_headers(args.request)?.entries() ??
-		[]) {
-		headers.append(key, value)
-	}
-
-	const response = await fetch(API_URL, {
-		body,
-		headers,
-		method: "post",
-		signal: args.request.signal
-	})
-
-	if (!response.ok) {
-		console.error({ response, body: await response.text() })
-		throw json(null, {
-			status: response.status,
-			statusText: response.statusText
-		})
-	}
-
-	const { data, errors } = Schema.decodeSync(
-		Schema.Struct({
-			data: Schema.Unknown,
-			errors: Schema.optional(Schema.Array(Schema.Unknown))
-		})
-	)(await response.json())
-
-	if (errors?.length) {
-		console.error(errors)
-	}
-
-	return (data as T) ?? null
-}
-
-export function client_get_headers(
-	request: Pick<Request, "headers">
-): Headers | undefined {
-	let cookies = cookie.parse(
-		clientOnly$(document.cookie) ?? request.headers.get("Cookie") ?? ""
+	return pipe(
+		Effect.gen(function* () {
+			const client = yield* EffectUrql
+			return yield* client.query(document, variables)
+		}),
+		Effect.provide(EffectUrql.Live),
+		Effect.provideService(LoaderArgs, args),
+		Remix.runLoader
 	)
-
-	let headers = pipe(
-		cookies["anilist-token"] ?? "",
-		Schema.decodeOption(JsonToToken),
-		Option.map(
-			({ token }) =>
-				new Headers({
-					Authorization: `Bearer ${token.trim()}`
-				})
-		),
-		Option.getOrUndefined
-	)
-
-	return headers
-}
-
-export class Cookie {
-	constructor(options: { key: string }) {}
-
-	parse(request: Request) {}
-}
-
-export function decodeCookie(request: Request): Headers | undefined {
-	let cookies = cookie.parse(
-		clientOnly$(document.cookie) ?? request.headers.get("Cookie") ?? ""
-	)
-
-	let headers = pipe(
-		cookies["anilist-token"] ?? "",
-		Schema.decodeOption(JsonToToken),
-		Option.map(
-			({ token }) =>
-				new Headers({
-					Authorization: `Bearer ${token.trim()}`
-				})
-		),
-		Option.getOrUndefined
-	)
-
-	return headers
 }

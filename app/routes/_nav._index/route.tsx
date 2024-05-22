@@ -521,7 +521,7 @@ function Markdown(props: { children: string }) {
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
 			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
-				() => parse2(markdownHtml(props.children), options),
+				 () => parse2(markdownHtml(props.children), options),
 				[props.children]
 			)}
 		</div>

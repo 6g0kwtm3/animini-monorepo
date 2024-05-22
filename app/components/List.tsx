@@ -14,7 +14,7 @@ export const ListItem = forwardRef<
 	HTMLLIElement,
 	ComponentPropsWithoutRef<"li"> &
 		ListVariantProps & {
-			render?: ReactElement
+			render?: ReactElement<any>
 		}
 >(function ListItem({ lines, ...props }, ref) {
 	const { item } = useContext(ListContext)
@@ -26,7 +26,7 @@ export const ListItem = forwardRef<
 })
 export function ListItemContentTitle(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 ): ReactNode {
 	const { itemTitle } = useContext(ListContext)
@@ -38,7 +38,7 @@ export function ListItemContentTitle(
 }
 export function ListItemContent(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 ): ReactNode {
 	const { itemContent } = useContext(ListContext)
@@ -50,7 +50,7 @@ export function ListItemContent(
 }
 export function ListItemContentSubtitle(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 ): ReactNode {
 	const { itemSubtitle } = useContext(ListContext)
@@ -62,7 +62,7 @@ export function ListItemContentSubtitle(
 }
 export function ListItemImg(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 ): ReactNode {
 	const { itemImg } = useContext(ListContext)
@@ -74,7 +74,7 @@ export function ListItemImg(
 }
 export function ListItemAvatar(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 ): ReactNode {
 	const { itemAvatar } = useContext(ListContext)
@@ -86,7 +86,7 @@ export function ListItemAvatar(
 }
 export function ListItemIcon(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement
+		render?: ReactElement<any>
 	}
 ): ReactNode {
 	const { itemIcon } = useContext(ListContext)
@@ -141,7 +141,7 @@ export const List = forwardRef<
 	HTMLUListElement,
 	ComponentPropsWithoutRef<"ul"> &
 		ListVariantProps & {
-			render?: ReactElement
+			render?: ReactElement<any>
 		}
 >(function List({ lines, ...props }, ref): ReactNode {
 	const styles = createList({ lines })
