@@ -109,6 +109,7 @@ export default function Login(): ReactNode {
 							name={store.names.token}
 							required
 							type="password"
+							autoComplete="current-password"
 						/>
 						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
 					</Outlined>
