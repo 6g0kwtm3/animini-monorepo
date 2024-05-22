@@ -95,8 +95,6 @@ export function operation<T, V>(
 				headers.append(key, value)
 			}
 
-
-
 			const request = Http.request.post(API_URL, {
 				body: body,
 				headers

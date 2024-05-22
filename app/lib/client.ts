@@ -12,7 +12,7 @@ import { clientOnly$ } from "vite-env-only"
 import type { TypedDocumentString } from "~/gql/graphql"
 import { client, persister } from "./cache.client"
 import { Remix } from "./Remix"
-import { EffectUrql, LoaderArgs, } from "./urql"
+import { EffectUrql, LoaderArgs } from "./urql"
 
 export function client_get_client(args: { request: Request }): {
 	operation: <T, V>(
