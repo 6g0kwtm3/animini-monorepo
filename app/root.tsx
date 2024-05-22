@@ -170,7 +170,11 @@ function useOnFocus(callback: () => void) {
 export default function App(): ReactNode {
 	const revalidator = useRevalidator()
 
-	useOnFocus(() => revalidator.revalidate())
+	useOnFocus(() => {
+		if (revalidator.state === "idle") {
+			revalidator.revalidate()
+		}
+	})
 
 	return (
 		<SnackbarQueue>
