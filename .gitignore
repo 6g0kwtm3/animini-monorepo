@@ -7,7 +7,6 @@ public/build
 
 vite.config.ts.timestamp-*
 $houdini
-**/gql
 *.log
 .vercel
 .wrangler
@@ -17,3 +16,4 @@ worker-configuration.d.ts
 /blob-report/
 /playwright/.cache/
 /playwright/.auth
+.million

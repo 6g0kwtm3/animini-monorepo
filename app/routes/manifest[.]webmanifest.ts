@@ -1,6 +1,6 @@
 import { json, type LoaderFunction } from "@remix-run/cloudflare"
 
-export const loader = (async () => {
+export const clientLoader = (async () => {
 	return json(
 		{
 			short_name: "PWA",
