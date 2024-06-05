@@ -1,6 +1,6 @@
 import ReactRelay from "react-relay"
 
-import { } from "vite-env-only"
+import {} from "vite-env-only"
 
 import type { Behind_entry$key } from "~/gql/Behind_entry.graphql"
 import { readFragment } from "../Network"
@@ -22,7 +22,7 @@ const Behind_entry = graphql`
 export function behind(data: Behind_entry$key): number | null {
 	const entry = readFragment(Behind_entry, data)
 
-	const avalible = (entry.media?.avalible)
+	const avalible = entry.media?.avalible
 
 	if (typeof avalible !== "number") {
 		return null

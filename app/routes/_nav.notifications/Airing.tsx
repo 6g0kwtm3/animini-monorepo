@@ -68,7 +68,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 							})}
 						</ListItemContentTitle>
 						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred }
+							title={notification.media.title.userPreferred}
 						>
 							{notification.media.title.userPreferred}
 						</ListItemContentSubtitle>

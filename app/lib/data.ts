@@ -1,7 +1,4 @@
-import type {
-	TypedDeferredData,
-	TypedResponse
-} from "@remix-run/cloudflare"
+import type { TypedDeferredData, TypedResponse } from "@remix-run/cloudflare"
 import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
 
 export const useRawLoaderData = useLoaderData
