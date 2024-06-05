@@ -25,7 +25,7 @@ const Avalible_media = graphql`
 export function avalible(key: Avalible_media$key): number | null | undefined {
 	const media = readFragment(Avalible_media, key)
 
-	if (media?.status == null) {
+	if (media.status == null) {
 		return null
 	}
 

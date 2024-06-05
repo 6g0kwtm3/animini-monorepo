@@ -329,6 +329,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 
 	const store = Ariakit.useHovercardStore()
 
+	// eslint-disable-next-line react-compiler/react-compiler
 	const open = store.useState("open")
 
 	useEffect(() => {

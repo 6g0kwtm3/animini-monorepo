@@ -24,6 +24,7 @@ export function SelectFactory({
 }): ReactNode {
 	const form = Ariakit.useFormContext()
 	if (!form) throw new Error("FormSelect must be used within a Form")
+	// eslint-disable-next-line react-compiler/react-compiler
 	const value = form.useValue(props.name)
 
 	const fallback = (

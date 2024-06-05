@@ -62,7 +62,11 @@ export function TabsListItem({
 	const layoutId = useContext(TabsContext)
 
 	const context = Ariakit.useTabContext()
-	const selectedId = context?.useState("selectedId")
+	if (!context) {
+		throw new Error("TabsListItem must be wrapped in TabsList")
+	}
+	// eslint-disable-next-line react-compiler/react-compiler
+	const selectedId = context.useState("selectedId")
 
 	return (
 		<Ariakit.Tab

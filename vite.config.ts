@@ -3,13 +3,11 @@ import {
 	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
 	vitePlugin as remix
 } from "@remix-run/dev"
-import million from "million/compiler"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
-import envOnly from "vite-env-only"
 
 export default defineConfig({
 	plugins: [

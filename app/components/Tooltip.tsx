@@ -81,8 +81,10 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	if (!tooltip) {
 		throw new Error("Tooltip must be wrapped in TooltipProvider")
 	}
+	// eslint-disable-next-line react-compiler/react-compiler
 	const mounted = tooltip.useState("mounted")
 
+	// eslint-disable-next-line react-compiler/react-compiler
 	const y = tooltip.useState((state) => {
 		const dir = state.currentPlacement.split("-")[0]!
 		return dir === "top" ? -8 : 8

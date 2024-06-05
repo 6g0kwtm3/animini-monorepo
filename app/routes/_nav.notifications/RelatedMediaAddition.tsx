@@ -1,9 +1,6 @@
 import ReactRelay from "react-relay"
 
-import {
-	Link,
-	useLoaderData
-} from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 import {
 	ListItem,
 	ListItemContent,
@@ -70,7 +67,7 @@ export function RelatedMediaAddition(props: {
 							{m.recently_added()}
 						</ListItemContentTitle>
 						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred ?? undefined}
+							title={notification.media.title.userPreferred}
 						>
 							{notification.media.title.userPreferred}
 						</ListItemContentSubtitle>

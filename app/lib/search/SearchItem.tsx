@@ -40,7 +40,7 @@ export const SearchItem = forwardRef<
 			render={
 				<Link
 					to={route_media({ id: data.id })}
-					title={data.title?.userPreferred ?? undefined}
+					title={data.title.userPreferred }
 				/>
 			}
 		>
@@ -49,7 +49,7 @@ export const SearchItem = forwardRef<
 			</ListItemAvatar>
 
 			<ListItemContent>
-				<ListItemContentTitle>{data.title?.userPreferred}</ListItemContentTitle>
+				<ListItemContentTitle>{data.title.userPreferred}</ListItemContentTitle>
 			</ListItemContent>
 
 			{data.type && (
