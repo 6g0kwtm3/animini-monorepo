@@ -1,24 +1,28 @@
-import { serverOnly$ } from "vite-env-only"
-import { graphql } from "~/gql"
-import { readFragment, type FragmentType } from "~/lib/graphql"
-import { avalible as getAvalible } from "../media/avalible"
+import ReactRelay from "react-relay"
 
-const Behind_entry = serverOnly$(
-	graphql(`
-		fragment Behind_entry on MediaList {
-			progress
-			media {
-				id
-				...Avalible_media
-			}
+import { } from "vite-env-only"
+
+import type { Behind_entry$key } from "~/gql/Behind_entry.graphql"
+import { readFragment } from "../Network"
+const { graphql } = ReactRelay
+
+const Behind_entry = graphql`
+	fragment Behind_entry on MediaList {
+		progress
+		media {
+			id
+			avalible @required(action: NONE)
 		}
-	`)
-)
+	}
+`
 
-export function behind(data: FragmentType<typeof Behind_entry>): number | null {
-	const entry = readFragment<typeof Behind_entry>(data)
+/**
+ * @RelayResolver MediaList.behind: Int
+ * @rootFragment Behind_entry*/
+export function behind(data: Behind_entry$key): number | null {
+	const entry = readFragment(Behind_entry, data)
 
-	const avalible = getAvalible(entry.media)
+	const avalible = (entry.media?.avalible)
 
 	if (typeof avalible !== "number") {
 		return null

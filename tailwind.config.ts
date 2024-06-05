@@ -271,6 +271,8 @@ export default withTV({
 				"&:has(:focus-visible)"
 			])
 			addVariant("pressed", ["&[data-active]", "&:active"])
+			addVariant("popover-open", ["&[data-open]", "&:popover-open"])
+			addVariant("starting-style", ["@starting-style{&}"])
 			addVariant("group-focused", [
 				":merge(.group)[data-focus-visible] &",
 				":merge(.group):focus-visible &"
@@ -353,6 +355,9 @@ export default withTV({
 			addComponents({
 				".i-inline": {
 					"vertical-align": "-11.5%"
+				},
+				".allow-discrete": {
+					"transition-behavior": "allow-discrete"
 				}
 			})
 		})

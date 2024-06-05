@@ -1,5 +1,4 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
-import MillionLint from "@million/lint"
 import {
 	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
 	vitePlugin as remix
@@ -8,33 +7,49 @@ import million from "million/compiler"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
-import envOnly from "vite-env-only"
+import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
+import envOnly from "vite-env-only"
 
 export default defineConfig({
 	plugins: [
-		MillionLint.vite(),
+		// MillionLint.vite(),
 		paraglide({
 			project: "./project.inlang",
 			outdir: "./app/paraglide"
 		}),
-		envOnly(),
+
 		remixDevTools(),
 		cloudflareDevProxy(),
+
 		remix({
 			future: {
 				v3_fetcherPersist: true,
 				v3_relativeSplatPath: true,
 				v3_throwAbortReason: true,
 				unstable_singleFetch: true
-			}
+			},
+			ssr: false,
+			// routes(defineRoutes) {
+			// 	return defineRoutes((route) => {
+			// 		// route("", "routes/Nav.tsx", () => {
+			// 		// 	// route("", "routes/NavFeed.tsx", { index: true })
+			// 		// 	route("user/:userName", "routes/NavUser.tsx", { index: true })
+			// 		// 	route("login", "routes/NavLogin.tsx")
+			// 		// 	route("user/:userName/:typelist", "routes/NavUserList.tsx", () => {
+			// 		// 		route(":selected?", "routes/NavUserListEntries.tsx")
+			// 		// 	})
+			// 		// })
+			// 	})
+			// }
 		}),
+
+		// million.vite({
+		// 	auto: true,
+		// 	// rsc: true,
+		// 	log: false
+		// }),
 		tsconfigPaths(),
-		million.vite({
-			auto: true,
-			rsc: true,
-			log: false
-		}),
 		icons({
 			compiler: "jsx",
 			jsx: "react",
@@ -42,7 +57,8 @@ export default defineConfig({
 				props.width = "1em"
 				props.height = "1em"
 			}
-		})
+		}),
+		relay
 	],
 	server: {
 		port: 3000

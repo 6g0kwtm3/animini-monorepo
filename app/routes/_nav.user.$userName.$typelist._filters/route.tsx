@@ -11,6 +11,7 @@ import {
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
+	useLoaderData,
 	useLocation,
 	useNavigate,
 	useNavigation,
@@ -35,24 +36,23 @@ import {
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
-import { MediaFormat, MediaStatus, MediaType } from "~/gql/graphql"
+
 import { Ariakit } from "~/lib/ariakit"
-import { useRawLoaderData } from "~/lib/data"
-import { getCacheControl } from "~/lib/getCacheControl"
 
 import { M3 } from "~/lib/components"
-import { graphql } from "~/lib/graphql"
 import { m } from "~/lib/paraglide"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
 import { MediaListSort } from "~/lib/MediaListSort"
-import { client_get_client } from "~/lib/client"
+
 import { copySearchParams } from "~/lib/copySearchParams"
+import environment, { fetchQuery } from "~/lib/Network"
 import { route_user_list } from "~/lib/route"
 
-import { unstable_defineLoader } from "@remix-run/cloudflare"
+import ReactRelay from "react-relay"
+import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -69,7 +69,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	}
 	return defaultShouldRevalidate
 }
-export const loader = unstable_defineLoader(async (args) => {
+
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const params = await Schema.decodeUnknownSync(
 		Schema.Struct({
 			userName: Schema.String,
@@ -77,42 +78,34 @@ export const loader = unstable_defineLoader(async (args) => {
 		})
 	)(args.params)
 
-	const client = await client_get_client(args)
-
-	const data = await client.operation(UserListSelectedFiltersQuery(), {
-		userName: params.userName,
-		type: {
-			animelist: MediaType.Anime,
-			mangalist: MediaType.Manga
-		}[params.typelist]
-	})
-
-	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
+	const data = await fetchQuery<NavUserListQuery>(
+		environment,
+		routeNavUserListQuery,
+		{
+			userName: params.userName,
+			type: (
+				{
+					animelist: "ANIME",
+					mangalist: "MANGA"
+				} as const
+			)[params.typelist]
+		}
+	).toPromise()
 
 	return { data, params }
 })
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
 
-export const clientLoader = unstable_defineClientLoader(async (args) =>
-	args.serverLoader<typeof loader>()
-)
-clientLoader.hydrate = true
+const { graphql } = ReactRelay
 
-function UserListSelectedFiltersQuery() {
-	return graphql(`
-		query UserListSelectedFiltersQuery($userName: String!, $type: MediaType!) {
-			MediaListCollection(userName: $userName, type: $type) {
-				lists {
-					name
-				}
+const routeNavUserListQuery = graphql`
+	query routeNavUserListQuery($userName: String!, $type: MediaType!) {
+		MediaListCollection(userName: $userName, type: $type) {
+			lists {
+				name
 			}
 		}
-	`)
-}
+	}
+`
 
 function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()
@@ -282,7 +275,7 @@ export default function Filters(): ReactNode {
 }
 
 function ListTabs() {
-	const { data, params } = useRawLoaderData<typeof clientLoader>()
+	const { data, params } = useLoaderData<typeof clientLoader>()
 
 	const lists = data?.MediaListCollection?.lists
 		?.filter((el) => el != null)
@@ -524,28 +517,28 @@ export type ReadonlyURLSearchParams = Omit<
 >
 
 const ANIME_STATUS_OPTIONS = {
-	[MediaStatus.Finished]: m.media_status_finished(),
-	[MediaStatus.Releasing]: m.media_status_releasing(),
-	[MediaStatus.NotYetReleased]: m.media_status_not_yet_released(),
-	[MediaStatus.Cancelled]: m.media_status_cancelled()
+	"MediaStatus.Finished": m.media_status_finished(),
+	"MediaStatus.Releasing": m.media_status_releasing(),
+	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
+	"MediaStatus.Cancelled": m.media_status_cancelled()
 }
 
 const MANGA_STATUS_OPTIONS = {
-	[MediaStatus.Finished]: m.media_status_finished(),
-	[MediaStatus.Releasing]: m.media_status_releasing(),
-	[MediaStatus.Hiatus]: m.media_status_hiatus(),
-	[MediaStatus.NotYetReleased]: m.media_status_not_yet_released(),
-	[MediaStatus.Cancelled]: m.media_status_cancelled()
+	"MediaStatus.Finished": m.media_status_finished(),
+	"MediaStatus.Releasing": m.media_status_releasing(),
+	"MediaStatus.Hiatus": m.media_status_hiatus(),
+	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
+	"MediaStatus.Cancelled": m.media_status_cancelled()
 }
 
 const ANIME_FORMAT_OPTIONS = {
-	[MediaFormat.Tv]: m.media_format_tv(),
-	[MediaFormat.TvShort]: m.media_format_tv_short(),
-	[MediaFormat.Movie]: m.media_format_movie(),
-	[MediaFormat.Special]: m.media_format_special(),
-	[MediaFormat.Ova]: m.media_format_ova(),
-	[MediaFormat.Ona]: m.media_format_ona(),
-	[MediaFormat.Music]: m.media_format_music()
+	"MediaFormat.Tv": m.media_format_tv(),
+	"MediaFormat.TvShort": m.media_format_tv_short(),
+	"MediaFormat.Movie": m.media_format_movie(),
+	"MediaFormat.Special": m.media_format_special(),
+	"MediaFormat.Ova": m.media_format_ova(),
+	"MediaFormat.Ona": m.media_format_ona(),
+	"MediaFormat.Music": m.media_format_music()
 }
 
 const ANIME_PROGRESS_OPTIONS = {
@@ -574,9 +567,9 @@ const ANIME_SORT_OPTIONS = {
 const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
 
 const MANGA_FORMAT_OPTIONS = {
-	[MediaFormat.Manga]: m.media_format_manga(),
-	[MediaFormat.Novel]: m.media_format_novel(),
-	[MediaFormat.OneShot]: m.media_format_one_shot()
+	"MediaFormat.Manga": m.media_format_manga(),
+	"MediaFormat.Novel": m.media_format_novel(),
+	"MediaFormat.OneShot": m.media_format_one_shot()
 }
 
 export function ErrorBoundary(): ReactNode {

@@ -1,6 +1,6 @@
-import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/cloudflare"
 import { redirect } from "@remix-run/cloudflare"
-import { useFetcher, type ClientActionFunction } from "@remix-run/react"
+import { unstable_defineClientAction, useFetcher } from "@remix-run/react"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput
@@ -11,15 +11,23 @@ import { Schema } from "@effect/schema"
 import cookie from "cookie"
 import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"
+import ReactRelay from "react-relay"
 import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
-import { client } from "~/lib/cache.client"
-import { graphql } from "~/lib/graphql"
+
+import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import { route_user_list } from "~/lib/route"
-import { ClientArgs, LoaderArgs, LoaderLive, operation } from "~/lib/urql"
+import {
+	ClientArgs,
+	EffectUrql,
+	LoaderArgs,
+	LoaderLive,
+	operation
+} from "~/lib/urql"
 import { JsonToToken } from "~/lib/viewer"
+const { graphql } = ReactRelay
 
 export const meta = (() => {
 	return [{ title: "Login" }]
@@ -27,11 +35,13 @@ export const meta = (() => {
 
 const ANILIST_CLIENT_ID = 3455
 
-export const action = (async (args) => {
+export const clientAction = unstable_defineClientAction(async (args) => {
 	return pipe(
 		Effect.gen(function* () {
-			const formData = yield* Remix.formData
-			const { searchParams } = yield* ClientArgs
+			const formData = yield* Effect.promise(async () =>
+				args.request.formData()
+			)
+			const { searchParams } = new URL(args.request.url)
 
 			const token = formData.get("token")
 
@@ -39,15 +49,15 @@ export const action = (async (args) => {
 				return {}
 			}
 
-			const data = yield* operation(
-				graphql(`
-					query LoginQuery {
+			const data = yield* operation<NavLoginQuery>(
+				graphql`
+					query routeNavLoginQuery {
 						Viewer {
 							id
 							name
 						}
 					}
-				`),
+				`,
 				{},
 				{ headers: new Headers({ Authorization: `Bearer ${token.trim()}` }) }
 			)
@@ -56,10 +66,18 @@ export const action = (async (args) => {
 				return {}
 			}
 
-			const encoded = yield* Schema.encodeOption(JsonToToken)({
+			const encoded = Schema.encodeSync(JsonToToken)({
 				token: token,
 				viewer: data.Viewer
 			})
+
+			const setCookie = cookie.serialize(`anilist-token`, encoded, {
+				sameSite: "lax",
+				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
+				path: "/"
+			})
+
+			document.cookie = setCookie
 
 			return redirect(
 				searchParams.get("redirect") ??
@@ -69,29 +87,18 @@ export const action = (async (args) => {
 					}),
 				{
 					headers: {
-						"Set-Cookie": cookie.serialize(`anilist-token`, encoded, {
-							sameSite: "lax",
-							maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-							path: "/"
-						})
+						"Set-Cookie": setCookie
 					}
 				}
 			)
 		}),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
+		Effect.provide(EffectUrql.Live),
 		Remix.runLoader
 	)
-}) satisfies ActionFunction
-
-export const clientAction: ClientActionFunction = async ({ serverAction }) => {
-	const result = await serverAction<typeof action>()
-	await client.invalidateQueries()
-	return result
-}
+})
 
 export default function Login(): ReactNode {
-	const fetcher = useFetcher()
+	const fetcher = useFetcher<typeof clientAction>()
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
 	store.onSubmit((state) => {

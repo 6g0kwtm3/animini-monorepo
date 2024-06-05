@@ -6,6 +6,12 @@
 	button {
 		cursor: unset;
 	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:focus-visible {
+			@apply outline outline-offset-4 outline-primary transition-[outline-offset] duration-md ease-emphasized-accelerate;
+		}
+	}
 }
 
 /* ::view-transition-old(root),

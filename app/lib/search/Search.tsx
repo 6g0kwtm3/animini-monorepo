@@ -5,11 +5,13 @@ import {
 	useFetcher,
 	useLocation,
 	useNavigate,
-	useNavigation
+	useNavigation,
+	useRouteLoaderData
 } from "@remix-run/react"
 
 import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
+import ReactRelay from "react-relay"
 import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
 import { Array as ReadonlyArray } from "effect"
@@ -32,12 +34,11 @@ import { copySearchParams } from "~/lib/copySearchParams"
 import type { clientLoader as navLoader } from "~/routes/_nav/route"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { M3 } from "../components"
-import { useRawRouteLoaderData } from "../data"
-import { makeFragmentData } from "../graphql"
-import type { SearchItem_media } from "./SearchItem"
+
 import { SearchItem } from "./SearchItem"
-import type { SearchTrending_query } from "./SearchTrending"
 import { SearchTrending } from "./SearchTrending"
+
+const { graphql } = ReactRelay
 
 function useOptimisticSearchParams() {
 	const { search } = useOptimisticLocation()
@@ -83,7 +84,7 @@ export function Search(): ReactNode {
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
 
-	const data = useRawRouteLoaderData<typeof navLoader>("routes/_nav")
+	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
 	return (
 		<SearchView
@@ -122,11 +123,7 @@ export function Search(): ReactNode {
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}
-											render={
-												<SearchItem
-													media={makeFragmentData<SearchItem_media>(media)}
-												/>
-											}
+											render={<SearchItem media={media} />}
 										/>
 									))}
 								</List>
@@ -135,11 +132,7 @@ export function Search(): ReactNode {
 					) : data ? (
 						<Suspense fallback="">
 							<Await resolve={data.trending} errorElement={<></>}>
-								{(data) => (
-									<SearchTrending
-										query={makeFragmentData<SearchTrending_query>(data)}
-									/>
-								)}
+								{(data) => data && <SearchTrending query={data} />}
 							</Await>
 						</Suspense>
 					) : null}

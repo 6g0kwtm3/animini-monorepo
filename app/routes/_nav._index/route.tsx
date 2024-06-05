@@ -1,9 +1,10 @@
-import type { HeadersFunction, MetaFunction } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/cloudflare"
 import {
 	Await,
 	Link,
 	unstable_defineClientLoader,
-	useFetcher
+	useFetcher,
+	useRouteLoaderData
 } from "@remix-run/react"
 
 import {
@@ -15,6 +16,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
 
 import marked from "marked"
+import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
@@ -26,23 +28,19 @@ import {
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle
 } from "~/components/List"
-import { graphql } from "~/gql"
-import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
+
+import { client_operation } from "~/lib/client"
 
 import { route_media, route_user } from "~/lib/route"
 
 // import * as R from '@remix-run/router'
 // console.log(R)
 
-import { clientOnly$, serverOnly$ } from "vite-env-only"
 // import {RouterProvider} from 'react-router-dom'
-import type { VariablesOf } from "@graphql-typed-document-node/core"
-import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
+import { useRawLoaderData } from "~/lib/data"
 
 import { Parser } from "htmlparser2"
-import type { MediaCover_media } from "~/lib/entry/MediaListCover"
-import { MediaCover } from "~/lib/entry/MediaListCover"
-import { makeFragmentData } from "~/lib/graphql"
+import { MediaCover } from "~/lib/entry/MediaCover"
 
 import createDOMPurify from "dompurify"
 import {
@@ -59,13 +57,12 @@ import type { clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
 
 import { ClientOnly } from "remix-utils/client-only"
-import { client, createGetInitialData } from "~/lib/cache.client"
-import { getCacheControl } from "~/lib/getCacheControl"
+import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
+import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { m } from "~/lib/paraglide"
 import { getThemeFromHex } from "~/lib/theme"
-import type { action as userFollowAction } from "../user.$userId.follow/route"
-
-import { unstable_defineLoader } from "@remix-run/cloudflare"
+import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+const { graphql } = ReactRelay
 
 function MediaLink({
 	mediaId,
@@ -92,13 +89,11 @@ function MediaLink({
 									<List className="force:p-0" render={<span />}>
 										<ListItem render={<span />}>
 											<ListItemImg>
-												<MediaCover
-													media={makeFragmentData<MediaCover_media>(media)}
-												/>
+												<MediaCover media={media} />
 											</ListItemImg>
 											<ListItemContent>
 												<ListItemTitle render={<span />}>
-													{media.title?.userPreferred}
+													{media.title.userPreferred}
 												</ListItemTitle>
 												<ListItemSubtitle render={<span />}>
 													{media.type}
@@ -122,43 +117,10 @@ function matchMediaId(s: string) {
 		.filter(isFinite)
 }
 
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
-
-export const headers = (({ loaderHeaders }) => {
-	const cacheControl = loaderHeaders.get("Cache-Control")
-	return Predicate.isString(cacheControl)
-		? { "Cache-Control": cacheControl }
-		: new Headers()
-}) satisfies HeadersFunction
-
-const indexMediaQuery = serverOnly$(
-	graphql(`
-		query IndexMediaQuery($ids: [Int], $coverExtraLarge: Boolean = false) {
-			Page {
-				media(id_in: $ids) {
-					id
-					title {
-						userPreferred
-					}
-					type
-					...MediaCover_media
-					coverImage {
-						color
-					}
-				}
-			}
-		}
-	`)
-)
-
-async function getPage(args: AnyLoaderFunctionArgs) {
-	const data = await client_operation(
-		graphql(`
-			query IndexQuery {
+async function getPage() {
+	const data = await client_operation<routeNavFeedQuery>(
+		graphql`
+			query routeNavFeedQuery {
 				Page(perPage: 10) {
 					activities(sort: [ID_DESC], type_in: [TEXT]) {
 						__typename
@@ -178,18 +140,33 @@ async function getPage(args: AnyLoaderFunctionArgs) {
 					}
 				}
 			}
-		`),
-		{},
-		args
+		`,
+		{}
 	)
 	return data?.Page
 }
 
-async function getMedia(
-	variables: VariablesOf<typeof indexMediaQuery>,
-	args: AnyLoaderFunctionArgs
-) {
-	const data = await client_operation(indexMediaQuery!, variables, args)
+async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
+	const data = await client_operation<routeNavFeedMediaQuery>(
+		graphql`
+			query routeNavFeedMediaQuery($ids: [Int]) {
+				Page {
+					media(id_in: $ids) {
+						id
+						title @required(action: LOG) {
+							userPreferred @required(action: LOG)
+						}
+						type
+						...MediaCover_media
+						coverImage {
+							color
+						}
+					}
+				}
+			}
+		`,
+		variables
+	)
 
 	return ReadonlyRecord.fromEntries(
 		data?.Page?.media
@@ -209,8 +186,8 @@ async function getMedia(
 	)
 }
 
-async function indexLoader(args: AnyLoaderFunctionArgs) {
-	const page = await getPage(args)
+export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const page = await getPage()
 
 	const ids =
 		page?.activities?.flatMap((activity) => {
@@ -223,26 +200,9 @@ async function indexLoader(args: AnyLoaderFunctionArgs) {
 	return {
 		page,
 		media: ReadonlyArray.isNonEmptyArray(ids)
-			? getMedia({ ids: ids }, args)
+			? getMedia({ ids: ids })
 			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
 	}
-}
-
-const isInitialRequest = clientOnly$(createGetInitialData())
-export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return client.ensureQueryData({
-		revalidateIfStale: true,
-		queryKey: ["_nav._index"],
-		queryFn: async () => indexLoader(args),
-		initialData:
-			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
-	})
-})
-clientLoader.hydrate = true
-
-export const loader = unstable_defineLoader(async (args) => {
-	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
-	return indexLoader(args)
 })
 
 export default function Index(): ReactNode {
@@ -377,7 +337,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 		}
 	}, [open, fetcher, props.userName])
 
-	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
+	const rootData = useRouteLoaderData<typeof rootLoader>("root")
 
 	return (
 		<TooltipRich placement="top" store={store}>

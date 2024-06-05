@@ -1,8 +1,8 @@
 import type { AnitomyResult } from "anitomy"
 
-import { anitomy, electron, path } from "./electron.server"
+import { anitomy, electron, path } from "./electron"
 
-import { Array as ReadonlyArray, Effect, Option, pipe, Predicate } from "effect"
+import { Effect, Option, pipe, Predicate, Array as ReadonlyArray } from "effect"
 import type { NonEmptyArray } from "effect/Array"
 
 let library: Record<string, AnitomyResult> = {}
@@ -36,7 +36,6 @@ if (electron && !Predicate.isString(electron)) {
 		pipe(
 			parsePath(filePath),
 			Effect.tap((result) => (library[filePath] = result)),
-
 			Effect.runSync
 		)
 	})

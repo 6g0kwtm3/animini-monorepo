@@ -109,7 +109,7 @@ export function Snackbar({
 			return
 		}
 
-		function onInvoke(this: HTMLElement, event: Event) {
+		function onInvoke(this: HTMLElement, event: Event | ToggleEvent) {
 			if (!isInvokeEvent(event)) {
 				return
 			}
@@ -172,8 +172,12 @@ export function Snackbar({
 	)
 }
 
-function isInvokeEvent(event: Event) {
-	return "action" in event && typeof event.action === "string"
+interface ToggleEvent extends Event {
+	action: string
+}
+
+function isInvokeEvent(event: Event | ToggleEvent) {
+	return "action" in event
 }
 
 export function SnackbarAction(
@@ -200,7 +204,7 @@ export function SnackbarAction(
 						invokeaction: "hide",
 						invoketarget
 					})}
-			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary first:ms-auto hover:state-hover focus:state-focus"
+			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary hover:state-hover focus:state-focus"
 		/>
 	)
 }

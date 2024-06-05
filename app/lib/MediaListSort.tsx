@@ -1,14 +1,12 @@
-import * as api from "~/gql/graphql"
-
 export enum MediaListSort {
-	TitleEnglish = api.MediaSort.TitleEnglish,
-	ScoreDesc = api.MediaListSort.ScoreDesc,
-	ProgressDesc = api.MediaListSort.ProgressDesc,
-	UpdatedTimeDesc = api.MediaListSort.UpdatedTimeDesc,
-	IdDesc = api.MediaSort.IdDesc,
-	StartedOnDesc = api.MediaListSort.StartedOnDesc,
-	FinishedOnDesc = api.MediaListSort.FinishedOnDesc,
-	StartDateDesc = api.MediaSort.StartDateDesc,
+	TitleEnglish = "MediaSort.TitleEnglish",
+	ScoreDesc = "MediaListSort.ScoreDesc",
+	ProgressDesc = "MediaListSort.ProgressDesc",
+	UpdatedTimeDesc = "MediaListSort.UpdatedTimeDesc",
+	IdDesc = "MediaSort.IdDesc",
+	StartedOnDesc = "MediaListSort.StartedOnDesc",
+	FinishedOnDesc = "MediaListSort.FinishedOnDesc",
+	StartDateDesc = "MediaSort.StartDateDesc",
 	AvgScore = "AVG_SCORE",
-	PopularityDesc = api.MediaSort.PopularityDesc
+	PopularityDesc = "MediaSort.PopularityDesc"
 }

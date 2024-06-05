@@ -2,15 +2,16 @@ import {
 	Await,
 	Outlet,
 	unstable_defineClientLoader,
+	useLoaderData,
 	useLocation,
+	useRouteLoaderData,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
+import ReactRelay from "react-relay"
 
 import { Effect, Option, pipe } from "effect"
 
 import { Remix, Viewer } from "~/lib/Remix"
-import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import type { clientLoader as rootLoader } from "~/root"
 
 import {
@@ -19,7 +20,6 @@ import {
 	NavigationItemIcon,
 	NavigationItemLargeBadge
 } from "~/components/Navigation"
-import { graphql } from "~/lib/graphql"
 
 import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
@@ -38,40 +38,32 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 
 import { Layout } from "~/components/Layout"
 
-import { getCacheControl } from "~/lib/getCacheControl"
+import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
+import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 
-import { unstable_defineLoader } from "@remix-run/cloudflare"
+const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) =>
-	args.serverLoader<typeof loader>()
-)
-clientLoader.hydrate = true
-export const loader = unstable_defineLoader(async (args) => {
-	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
-
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return {
 		trending: pipe(
 			Effect.gen(function* () {
 				const client = yield* EffectUrql
-				const viewer = yield* Viewer
+				const viewer = Viewer()
 
-				const data = (yield* client.query(
-					graphql(`
-						query NavQuery(
-							$coverExtraLarge: Boolean = false
-							$isToken: Boolean = false
-						) {
+				const data = yield* client.query<NavQuery>(
+					graphql`
+						query routeNavQuery($isToken: Boolean = false) {
 							Viewer @include(if: $isToken) {
 								id
 								unreadNotificationCount
 							}
-							...Search_query
+							...SearchTrending_query
 						}
-					`),
+					`,
 					{ isToken: Option.isSome(viewer) }
-				)) ?? { trending: null }
+				)
 
 				return data
 			}),
@@ -92,15 +84,9 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-const cacheControl = {
-	maxAge: 60,
-	staleWhileRevalidate: 60 * 5,
-	private: true
-}
-
-export default function Nav(): ReactNode {
-	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function NavRoute(): ReactNode {
+	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+	const data = useLoaderData<typeof clientLoader>()
 
 	const { pathname } = useLocation()
 
@@ -113,27 +99,27 @@ export default function Nav(): ReactNode {
 			}}
 		>
 			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
-				{data?.Viewer ? (
-					<>
+      {data?.Viewer ? (
+        <>
 
-					</>
-				) : (
-					<>
-						<Link
-							 to={route_login(({
-								redirect: pathname
-							}))}
-							className={button()}
-						>
-							Login
-						</Link>
-					</>
-				)}
+        </>
+      ) : (
+        <>
+          <Link
+             to={route_login(({
+              redirect: pathname
+            }))}
+            className={button()}
+          >
+            Login
+          </Link>
+        </>
+      )}
 
-				<div className="self-end">
-					<Search></Search>
-				</div>
-			</nav> */}
+      <div className="self-end">
+        <Search></Search>
+      </div>
+    </nav> */}
 
 			<Navigation
 				variant={{
@@ -207,9 +193,9 @@ export default function Nav(): ReactNode {
 					<Suspense>
 						<Await resolve={data.trending} errorElement={<></>}>
 							{(data) =>
-								(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 									<NavigationItemLargeBadge>
-										{data.Viewer?.unreadNotificationCount}
+										{data?.Viewer?.unreadNotificationCount}
 									</NavigationItemLargeBadge>
 								)
 							}

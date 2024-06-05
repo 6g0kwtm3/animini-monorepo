@@ -1,85 +1,44 @@
 import { Schema } from "@effect/schema"
-import type { HeadersFunction, MetaFunction } from "@remix-run/cloudflare"
-import { json, unstable_defineLoader } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 
 import {
 	Form,
 	Link,
 	unstable_defineClientLoader,
 	useFetcher,
-	useLocation
+	useLocation,
+	useRouteLoaderData
 } from "@remix-run/react"
-import { Predicate } from "effect"
 import type { ReactNode } from "react"
+import ReactRelay from "react-relay"
 import { Button, Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { graphql } from "~/gql"
+
 import { button } from "~/lib/button"
-import { client_operation, type AnyLoaderFunctionArgs } from "~/lib/client"
-import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
-import { getCacheControl } from "~/lib/getCacheControl"
+import { client_operation } from "~/lib/client"
+import { useRawLoaderData } from "~/lib/data"
 import type { clientLoader as rootLoader } from "~/root"
 
-import { clientOnly$ } from "vite-env-only"
-import { client, createGetInitialData, persister } from "~/lib/cache.client"
+import type { routeNavUserQuery as NavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import { m } from "~/lib/paraglide"
-import type { action as userFollowAction } from "../user.$userId.follow/route"
+import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+const { graphql } = ReactRelay
 
-export const loader = unstable_defineLoader(async (args) => {
-	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
-
-	return userLoader(args)
-})
-
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
-
-const isInitialRequest = clientOnly$(createGetInitialData())
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return client.ensureQueryData({
-		revalidateIfStale: true,
-		persister,
-		queryKey: ["_nav.user", args.params.userName, "_index"],
-		queryFn: async () => userLoader(args),
-		initialData:
-			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
-	})
-})
-clientLoader.hydrate = true
-
-export const headers = (({ loaderHeaders }) => {
-	const cacheControl = loaderHeaders.get("Cache-Control")
-	return Predicate.isString(cacheControl)
-		? { "Cache-Control": cacheControl }
-		: new Headers()
-}) satisfies HeadersFunction
-
-export const meta = (({ params }) => {
-	return [
-		{
-			title: `${params.userName}'s profile`
-		}
-	]
-}) satisfies MetaFunction<typeof loader>
-
-async function userLoader(args: AnyLoaderFunctionArgs) {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
-	const data = await client_operation(
-		graphql(`
-			query UserQuery($userName: String!) {
+	const data = await client_operation<NavUserQuery>(
+		graphql`
+			query routeNavUserQuery($userName: String!) {
 				User(name: $userName) {
 					id
 					name
 					isFollowing
 				}
 			}
-		`),
-		{ userName },
-		args
+		`,
+		{ userName }
 	)
 
 	if (!data?.User) {
@@ -89,7 +48,17 @@ async function userLoader(args: AnyLoaderFunctionArgs) {
 	}
 
 	return { user: data.User }
-}
+})
+
+
+
+export const meta = (({ params }) => {
+	return [
+		{
+			title: `${params.userName}'s profile`
+		}
+	]
+}) satisfies MetaFunction<typeof clientLoader>
 
 function params() {
 	return Schema.Struct({
@@ -98,7 +67,7 @@ function params() {
 }
 
 export default function Page(): ReactNode {
-	const rootData = useRawRouteLoaderData<typeof rootLoader>("root")
+	const rootData = useRouteLoaderData<typeof rootLoader>("root")
 	const data = useRawLoaderData<typeof clientLoader>()
 
 	const { pathname } = useLocation()

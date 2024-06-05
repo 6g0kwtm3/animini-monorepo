@@ -18,22 +18,19 @@ import type { TypedResponse } from "@remix-run/cloudflare"
 import { json } from "@remix-run/cloudflare"
 import cookie from "cookie"
 import { dev } from "./dev"
+import { ClientOnly } from "remix-utils/client-only"
 
 export function Cookie<I, A>(
 	name: string,
 	schema: Schema.Schema<A, I>
-): Effect.Effect<Option.Option<A>, never, LoaderArgs> {
-	return Effect.gen(function* () {
-		const { request } = yield* LoaderArgs
+): Option.Option<A> {
+	const cookies = cookie.parse(document.cookie)
 
-		const cookies = cookie.parse(request.headers.get("Cookie") ?? "")
-
-		return pipe(
-			Option.fromNullable(cookies),
-			Option.flatMap(ReadonlyRecord.get(name)),
-			Option.flatMap(Schema.decodeOption(Schema.parseJson(schema)))
-		) satisfies Option.Option<A>
-	})
+	return pipe(
+		Option.fromNullable(cookies),
+		Option.flatMap(ReadonlyRecord.get(name)),
+		Option.flatMap(Schema.decodeOption(Schema.parseJson(schema)))
+	) satisfies Option.Option<A>
 }
 
 export const CloudflareKV = createCloudflareKV({})
@@ -134,7 +131,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	}
 
 	if (error instanceof Timeout) {
-		throw json(`Request timeout. Try again in ${error.reset - Date.now()}s`, {
+		throw json(`Request timeout. Try again in ${error.reset}s`, {
 			status: 504
 		})
 	}
@@ -144,10 +141,13 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	})
 }
 
-export const Viewer = Effect.gen(function* () {
-	const token = yield* Cookie("anilist-token", Token)
+export function Viewer(): Option.Option<{
+	readonly name: string
+	readonly id: number
+}> {
+	const token = Cookie("anilist-token", Token)
 
 	return Option.map(token, (token) => token.viewer)
-})
+}
 
 export * as Remix from "./Remix"

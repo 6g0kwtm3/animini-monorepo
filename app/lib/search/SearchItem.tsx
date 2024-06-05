@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react"
 import { forwardRef } from "react"
-import { serverOnly$ } from "vite-env-only"
+import ReactRelay from "react-relay"
+
 import {
 	ListItem,
 	ListItemAvatar,
@@ -8,32 +9,31 @@ import {
 	ListItemContentTitle,
 	ListItemTrailingSupportingText
 } from "~/components/List"
-import type { FragmentType } from "~/lib/graphql"
-import { graphql, readFragment } from "~/lib/graphql"
-import { MediaCover } from "../entry/MediaListCover"
+
+import { MediaCover } from "../entry/MediaCover"
 import { route_media } from "../route"
+import { useFragment } from "../Network"
+import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
+const { graphql } = ReactRelay
 
-const SearchItem_media = serverOnly$(
-	graphql(`
-		fragment SearchItem_media on Media {
-			id
-			type
-			...MediaCover_media
-			title {
-				userPreferred
-			}
+const SearchItem_media = graphql`
+	fragment SearchItem_media on Media {
+		id
+		type
+		...MediaCover_media
+		title @required(action: LOG) {
+			userPreferred @required(action: LOG)
 		}
-	`)
-)
+	}
+`
 
-export type SearchItem_media = typeof SearchItem_media
 export const SearchItem = forwardRef<
 	HTMLLIElement,
-	{ media: FragmentType<typeof SearchItem_media> }
+	{ media: SearchItem_media$key }
 >(function SearchItem({ media, ...props }, ref) {
-	const data = readFragment<typeof SearchItem_media>(media)
+	const data = useFragment(SearchItem_media, media)
 
-	return (
+	return data && (
 		<ListItem
 			{...props}
 			ref={ref}

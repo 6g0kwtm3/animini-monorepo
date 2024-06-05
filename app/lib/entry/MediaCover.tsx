@@ -1,22 +1,24 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createTV } from "tailwind-variants"
-import { serverOnly$ } from "vite-env-only"
-import { createElement } from "../createElement"
-import type { FragmentType } from "../graphql"
-import { graphql, readFragment } from "../graphql"
 
-const MediaCover_media = serverOnly$(
-	graphql(`
-		fragment MediaCover_media on Media {
-			id
-			coverImage {
-				extraLarge @include(if: $coverExtraLarge)
-				large
-				medium
-			}
+import ReactRelay from "react-relay"
+import { createElement } from "../createElement"
+import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
+import { useFragment } from "../Network"
+
+const { graphql } = ReactRelay
+
+const MediaCover_media = graphql`
+	fragment MediaCover_media on Media
+	@argumentDefinitions(extraLarge: { type: "Boolean", defaultValue: false }) {
+		id
+		coverImage {
+			extraLarge @include(if: $extraLarge)
+			large
+			medium
 		}
-	`)
-)
+	}
+`
 
 export type MediaCover_media = typeof MediaCover_media
 
@@ -29,9 +31,9 @@ export function MediaCover({
 	media,
 	...props
 }: ComponentPropsWithoutRef<"img"> & {
-	media: FragmentType<typeof MediaCover_media>
+	media: MediaCover_media$key
 }): ReactNode {
-	const data = readFragment<typeof MediaCover_media>(media)
+	const data = useFragment(MediaCover_media, media)
 
 	return createElement("img", {
 		src:

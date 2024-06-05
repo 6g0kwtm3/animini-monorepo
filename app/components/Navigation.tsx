@@ -1,4 +1,4 @@
-import type { NavLinkProps, NavLink } from "@remix-run/react"
+import type { NavLink, NavLinkProps } from "@remix-run/react"
 
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
@@ -49,7 +49,7 @@ const createNavigation = tv(
 					root: "top-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-surface p-3",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed `,
 					activeIndicator:
-						"inset-0 -z-10 hidden h-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:nav-indicator] force:w-full",
+						"inset-0 -z-10 hidden h-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)] force:w-full",
 					icon: "h-6 w-6 group-hover:text-on-surface group-hover:state-none group-aria-[current='page']:first:*:block group-aria-[current='page']:last:*:hidden group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
 					largeBadge: "static ms-auto"
 				}
@@ -119,12 +119,15 @@ export const NavigationItem = forwardRef<
 	})
 })
 
-const NavigationContext = createContext<string | undefined>(undefined)
+const NavigationContext = createContext<{ "--id": string } | undefined>(
+	undefined
+)
 
 function NavigationActiveIndicator() {
 	const { activeIndicator } = useContext(Context)
+	const style = useContext(NavigationContext)
 
-	return <div className={activeIndicator()} />
+	return <div className={activeIndicator()} style={style} />
 }
 
 export function NavigationItemIcon(
@@ -142,7 +145,11 @@ export function Navigation({
 	const styles = createNavigation({ variant })
 
 	return (
-		<NavigationContext.Provider value={useId()}>
+		<NavigationContext.Provider
+			value={{
+				"--id": useId()
+			}}
+		>
 			<Context.Provider value={styles}>
 				<nav
 					{...props}

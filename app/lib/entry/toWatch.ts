@@ -1,34 +1,33 @@
-import type { FragmentType } from "~/lib/graphql"
-import { graphql, readFragment } from "~/lib/graphql"
+import ReactRelay from "react-relay"
+import type { ToWatch_entry$key } from "~/gql/ToWatch_entry.graphql"
+import { readFragment } from "../Network"
 
-import { serverOnly$ } from "vite-env-only"
-import { behind as getBehind } from "./behind"
+const { graphql } = ReactRelay
 
-const ToWatch_entry = serverOnly$(
-	graphql(`
-		fragment ToWatch_entry on MediaList {
-			...Behind_entry
-			media {
-				duration
-				id
-			}
+const ToWatch_entry = graphql`
+	fragment ToWatch_entry on MediaList {
+		behind @required(action: NONE)
+		media {
+			duration
 			id
 		}
-	`)
-)
+		id
+	}
+`
 
 export type ToWatch_entry = typeof ToWatch_entry
 
-export function toWatch(
-	data: FragmentType<typeof ToWatch_entry>
-): number | null {
-	const entry = readFragment<typeof ToWatch_entry>(data)
-	const behind = getBehind(entry)
-	if (typeof behind !== "number") {
+/**
+ * @RelayResolver MediaList.toWatch: Int
+ * @rootFragment ToWatch_entry*/
+export function toWatch(data: ToWatch_entry$key): number | null {
+	const entry = readFragment(ToWatch_entry, data)
+
+	if (!entry) {
 		return null
 	}
 
-	return behind * Math.max(3, (entry.media?.duration ?? 25) - 3)
+	return entry.behind * Math.max(3, (entry.media?.duration ?? 25) - 3)
 }
 
 export function formatWatch(minutes: number): string {

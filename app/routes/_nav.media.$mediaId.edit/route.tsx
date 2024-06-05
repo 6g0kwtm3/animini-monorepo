@@ -22,7 +22,6 @@
 // 	TextFieldOutlinedFactory,
 // 	TextFieldOutlinedInput
 // } from "~/components/TextField"
-// import { MediaListStatus, ScoreFormat } from "~/gql/graphql"
 // import {
 // 	ClientArgs,
 // 	EffectUrql,
@@ -38,8 +37,6 @@
 // import { motion } from "framer-motion"
 // import type { ComponentPropsWithoutRef, ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
-// import type { FragmentType } from "~/lib/graphql"
-// import { graphql, useFragment } from "~/lib/graphql"
 
 // import { ChipFilter } from "~/components/Chip"
 // import { SelectFactory } from "~/components/Select"
@@ -48,7 +45,7 @@
 // import { button } from "~/lib/button"
 // import { useRawLoaderData } from "~/lib/data"
 
-// import { serverOnly$ } from "vite-env-only"
+// import {  } from "vite-env-only"
 
 // export const action = (async ({ request, params }): Promise<null> => {
 // 	await request.formData()
@@ -66,7 +63,7 @@
 
 //
 // import { unstable_defineLoader } from "@remix-run/cloudflare"
-// export const loader = unstable_defineLoader(async (args) => {
+// export const clientLoader = unstable_defineClientLoader(async (args) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
 // 			const { mediaId } = yield* (
@@ -83,7 +80,7 @@
 
 // 			return yield* (
 // 				client.query(
-// 					graphql(`
+// 					graphql`
 // 						query MediaEditQuery($mediaId: Int!, $format: ScoreFormat) {
 // 							Viewer {
 // 								id
@@ -128,7 +125,7 @@
 // 								}
 // 							}
 // 						}
-// 					`),
+// 					`,
 // 					{
 // 						format,
 // 						mediaId
@@ -180,8 +177,8 @@
 // 	)
 // )
 
-// const Save = serverOnly$(
-// 	graphql(`
+// const Save = (
+// 	graphql`
 // 		mutation Save(
 // 			$mediaId: Int
 // 			$advancedScores: [Float]
@@ -209,7 +206,7 @@
 // 				id
 // 			}
 // 		}
-// 	`)
+// 	`
 // )
 // const ScoreFormatSchema = S.enums(ScoreFormat)
 
@@ -475,21 +472,21 @@
 // 	return <TextFieldOutlinedFactory {...props} type="date" label="Start Date" />
 // }
 
-// const Progress_media = serverOnly$(
-// 	graphql(`
+// const Progress_media = (
+// 	graphql`
 // 		fragment Progress_media on Media {
 // 			id
 // 			episodes
 // 			chapters
 // 		}
-// 	`)
+// 	`
 // )
 
 // function Progress({
 // 	media,
 // 	...props
 // }: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
-// 	media: FragmentType<typeof Progress_media> | null
+// 	media: Progress_media$key | null
 // }) {
 // 	const data = useFragment<typeof Progress_media>(media)
 // 	return (
@@ -544,13 +541,13 @@
 // 	)
 // }
 
-// const AdvancedScoring_listOptions = serverOnly$(
-// 	graphql(`
+// const AdvancedScoring_listOptions = (
+// 	graphql`
 // 		fragment AdvancedScoring_listOptions on MediaListTypeOptions {
 // 			advancedScoringEnabled
 // 			advancedScoring
 // 		}
-// 	`)
+// 	`
 // )
 
 // function AdvancedScores({
@@ -558,7 +555,7 @@
 // 	children
 // }: {
 // 	children: ReactNode
-// 	advancedScoring: FragmentType<typeof AdvancedScoring_listOptions> | null
+// 	advancedScoring: AdvancedScoring_listOptions$key | null
 // }) {
 // 	const data = useFragment<typeof AdvancedScoring_listOptions>(listOptions)
 // 	if (!data?.advancedScoringEnabled) {
@@ -591,19 +588,19 @@
 // 	)
 // }
 
-// const CustomLists_mediaListTypeOptions = serverOnly$(
-// 	graphql(`
+// const CustomLists_mediaListTypeOptions = (
+// 	graphql`
 // 		fragment CustomLists_mediaListTypeOptions on MediaListTypeOptions {
 // 			customLists
 // 		}
-// 	`)
+// 	`
 // )
 
 // function CustomLists({
 // 	listOptions,
 // 	...props
 // }: {
-// 	listOptions: FragmentType<typeof CustomLists_mediaListTypeOptions> | null
+// 	listOptions: CustomLists_mediaListTypeOptions$key | null
 // }) {
 // 	const mediaListTypeOptions =
 // 		useFragment<typeof CustomLists_mediaListTypeOptions>(listOptions)

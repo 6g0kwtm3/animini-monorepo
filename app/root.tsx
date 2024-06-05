@@ -10,32 +10,25 @@ import {
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
-import { LoaderArgs, LoaderLive } from "./lib/urql"
 
-import {
-	unstable_defineLoader,
-	type LinksFunction
-} from "@remix-run/cloudflare"
+import { type LinksFunction } from "@remix-run/cloudflare"
 
-import { Effect, Option, pipe } from "effect"
+import { Option } from "effect"
 
-import { useEffect, useSyncExternalStore, type ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Remix, Viewer } from "./lib/Remix"
+import { Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
 
-import { QueryClientProvider } from "@tanstack/react-query"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { ClientOnly } from "remix-utils/client-only"
-import { client } from "./lib/cache.client"
-import { getCacheControl } from "./lib/getCacheControl"
-import { useLocale } from "./lib/useLocale"
-import { setLanguageTag } from "./paraglide/runtime"
+
 import tailwind from "./tailwind.css?url"
 
 import { useRevalidator } from "@remix-run/react"
+import { useIsHydrated } from "~/lib/useIsHydrated"
+import environment, { RelayEnvironmentProvider } from "./lib/Network"
 
 export const links: LinksFunction = () => {
 	return [
@@ -56,43 +49,14 @@ export const links: LinksFunction = () => {
 	]
 }
 
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
+export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const viewer = Option.getOrNull(Viewer())
 
-export const clientLoader = unstable_defineClientLoader(async (args) =>
-	args.serverLoader<typeof loader>()
-)
-clientLoader.hydrate = true
-
-export const loader = unstable_defineLoader(async (args) => {
-	return pipe(
-		Effect.gen(function* () {
-			const { request } = yield* LoaderArgs
-			const viewer = Option.getOrNull(yield* Viewer)
-
-			args.response.headers.append(
-				"Cache-Control",
-				getCacheControl(cacheControl)
-			)
-
-			args.response.headers.append(
-				"Cache-Control",
-				getCacheControl(cacheControl)
-			)
-
-			return {
-				Viewer: viewer,
-				// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
-				language: request.headers.get("accept-language")
-			}
-		}),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Remix.runLoader
-	)
+	return {
+		Viewer: viewer,
+		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+		language: args.request.headers.get("accept-language")
+	}
 })
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -107,20 +71,17 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 export function Layout({ children }: { children: ReactNode }): ReactNode {
-	const { locale, dir } = useLocale()
+	// const { theme } = useRawLoaderData<typeof loader>()
+	// const { locale, dir } = useLocale()
 	// const { nonce } = useRawLoaderData()
-	setLanguageTag(locale)
+	// setLanguageTag(locale)
 
-	const isHydrated = useSyncExternalStore(
-		() => () => {},
-		() => true,
-		() => false
-	)
+	const isHydrated = useIsHydrated()
 
 	return (
 		<html
-			lang={locale}
-			dir={dir}
+			// lang={locale}
+			// dir={dir}
 			style={theme}
 			data-testid={isHydrated && "hydrated"}
 			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
@@ -140,14 +101,12 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<Links />
 			</head>
 			<body>
-				<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
-				<ClientOnly>
-					{() => (
-						<QueryClientProvider client={client}>
-							<ReactQueryDevtools initialIsOpen={false} />
-						</QueryClientProvider>
-					)}
-				</ClientOnly>
+				<RelayEnvironmentProvider environment={environment}>
+					<SnackbarQueue>
+						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
+					</SnackbarQueue>
+				</RelayEnvironmentProvider>
+
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
@@ -176,11 +135,7 @@ export default function App(): ReactNode {
 		}
 	})
 
-	return (
-		<SnackbarQueue>
-			<Outlet />
-		</SnackbarQueue>
-	)
+	return <Outlet />
 }
 
 export function ErrorBoundary(): ReactNode {

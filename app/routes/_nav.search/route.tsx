@@ -1,27 +1,25 @@
-import { unstable_defineLoader } from "@remix-run/cloudflare"
-
 import { unstable_defineClientLoader } from "@remix-run/react"
 import type { ReactNode } from "react"
-import { clientOnly$ } from "vite-env-only"
+
+import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
-import { client, createGetInitialData, persister } from "~/lib/cache.client"
-import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
+import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
+import { client_get_client } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
-import { graphql, makeFragmentData } from "~/lib/graphql"
-import { SearchItem, type SearchItem_media } from "~/lib/search/SearchItem"
+import { SearchItem } from "~/lib/search/SearchItem"
+const { graphql } = ReactRelay
 
-async function searchLoader(args: AnyLoaderFunctionArgs) {
-	const client = client_get_client(args)
+export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const client = client_get_client()
 	const { searchParams } = new URL(args.request.url)
 
-	const data = await client.operation(
-		graphql(`
-			query SearchQuery(
+	const data = await client.operation<routeNavSearchQuery>(
+		graphql`
+			query routeNavSearchQuery(
 				$q: String
 				$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
-				$coverExtraLarge: Boolean = false
 			) {
 				page: Page(perPage: 10) {
 					media(search: $q, sort: $sort) {
@@ -30,35 +28,13 @@ async function searchLoader(args: AnyLoaderFunctionArgs) {
 					}
 				}
 			}
-		`),
+		`,
 		{
 			q: searchParams.get("q")
 		}
 	)
 	return data
-}
-export const loader = unstable_defineLoader(async (args) => {
-	args.response.headers.append(
-		"Cache-Control",
-		`max-age=${24 * 60 * 60}, stale-while-revalidate=${365 * 24 * 60 * 60}, private`
-	)
-
-	return searchLoader(args)
 })
-
-const isInitialRequest = clientOnly$(createGetInitialData())
-export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return client.ensureQueryData({
-		revalidateIfStale: true,
-		staleTime: 60 * 60 * 1000, //1 hour
-		queryKey: ["_nav.search", new URL(args.request.url).searchParams.get("q")],
-		queryFn: async () => searchLoader(args),
-		persister,
-		initialData:
-			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
-	})
-})
-clientLoader.hydrate = true
 
 export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
@@ -71,12 +47,7 @@ export default function Page(): ReactNode {
 						<List>
 							{data?.page?.media
 								?.filter((el) => el != null)
-								.map((media) => (
-									<SearchItem
-										media={makeFragmentData<SearchItem_media>(media)}
-										key={media.id}
-									/>
-								))}
+								.map((media) => <SearchItem media={media} key={media.id} />)}
 						</List>
 					</div>
 				</Card>

@@ -5,7 +5,7 @@ module.exports = {
 		"@remix-run/eslint-config",
 		"@remix-run/eslint-config/node"
 	],
-	plugins: ["react-refresh", "compat"],
+	plugins: ["react-refresh", "compat", "eslint-plugin-react-compiler"],
 	overrides: [
 		{
 			files: ["*.ts", "*.tsx"],
@@ -13,6 +13,7 @@ module.exports = {
 				project: true
 			},
 			rules: {
+				"react-compiler/react-compiler": "error",
 				"@typescript-eslint/no-unnecessary-condition": "error",
 				"@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
 				"@typescript-eslint/dot-notation": "error",

@@ -3,14 +3,12 @@ import { Link } from "@remix-run/react"
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
-import type { FragmentType } from "~/lib/graphql"
-import { graphql, readFragment } from "~/lib/graphql"
+import ReactRelay from "react-relay"
 
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
-import { serverOnly$ } from "vite-env-only"
 import {
 	ListItem,
 	ListItemContent,
@@ -21,30 +19,36 @@ import {
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 
 import { route_media } from "../route"
-import { MediaCover } from "./MediaListCover"
-import { formatWatch, toWatch } from "./toWatch"
+import { MediaCover } from "./MediaCover"
+import { formatWatch } from "./ToWatch"
 
-import { MediaType } from "~/gql/graphql"
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
-import { IncrementProgress } from "./Progress"
+import { ProgressIncrement } from "./Progress"
 
 import type { SerializeFrom } from "@remix-run/cloudflare"
 import { Predicate } from "effect"
+import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
+import type {
+	MediaListItemSubtitle_entry$key,
+	MediaType
+} from "~/gql/MediaListItemSubtitle_entry.graphql"
+import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
+import { useFragment } from "../Network"
 
-const MediaListItem_entry = serverOnly$(
-	graphql(`
-		fragment ListItem_entry on MediaList {
-			...IncrementProgress_entry
-			...MediaListItemTitle_entry
-			...MediaListItemSubtitle_entry
-			media {
-				id
-				...MediaCover_media
-			}
+const { graphql } = ReactRelay
+
+const MediaListItem_entry = graphql`
+	fragment MediaListItem_entry on MediaList {
+		...ProgressIncrement_entry
+		...MediaListItemTitle_entry
+		...MediaListItemSubtitle_entry
+		media {
+			id
+			...MediaCover_media
 		}
-	`)
-)
+	}
+`
 
 export type ListItem_EntryFragment = typeof MediaListItem_entry
 export const Library = createContext<
@@ -52,9 +56,9 @@ export const Library = createContext<
 >({})
 
 export function MediaListItem(props: {
-	entry: FragmentType<typeof MediaListItem_entry> | null
+	entry: MediaListItem_entry$key | null
 }): ReactNode {
-	const entry = readFragment<typeof MediaListItem_entry>(props.entry)
+	const entry = useFragment(MediaListItem_entry, props.entry)
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
@@ -86,33 +90,35 @@ export function MediaListItem(props: {
 					</ListItemContentSubtitle>
 				</ListItemContent>
 
-				<Skeleton>{entry && <IncrementProgress entry={entry} />}</Skeleton>
+				<Skeleton>{entry && <ProgressIncrement entry={entry} />}</Skeleton>
 			</ListItem>
 		</li>
 	)
 }
 
-const MediaListItemTitle_entry = serverOnly$(
-	graphql(`
-		fragment MediaListItemTitle_entry on MediaList {
-			id
-			progress
-			media {
-				title {
-					userPreferred
-				}
+const MediaListItemTitle_entry = graphql`
+	fragment MediaListItemTitle_entry on MediaList {
+		id
+		progress
+		media @required(action: LOG) {
+			title @required(action: LOG) {
+				userPreferred @required(action: LOG)
 			}
 		}
-	`)
-)
+	}
+`
 
 function MediaListItemTitle(props: {
-	entry: FragmentType<typeof MediaListItemTitle_entry>
+	entry: MediaListItemTitle_entry$key
 }): ReactNode {
-	const entry = readFragment<typeof MediaListItemTitle_entry>(props.entry)
-	const library = useContext(Library)[entry.media?.title?.userPreferred ?? ""]
+	const entry = useFragment(MediaListItemTitle_entry, props.entry)
+	const library = useContext(Library)
 
-	const libraryHasNextEpisode = library?.some(
+	if (!entry) {
+		return null
+	}
+
+	const libraryHasNextEpisode = library[entry.media.title.userPreferred]?.some(
 		({ episode }) => episode.number === (entry.progress || 0) + 1
 	)
 
@@ -123,50 +129,49 @@ function MediaListItemTitle(props: {
 
 				// <span className="i-inline text-primary">video_library</span>
 			)}
-			{entry.media?.title?.userPreferred}
+			{entry.media.title.userPreferred}
 		</>
 	)
 }
 
-const MediaListItemSubtitle_entry = serverOnly$(
-	graphql(`
-		fragment MediaListItemSubtitle_entry on MediaList {
+const MediaListItemSubtitle_entry = graphql`
+	fragment MediaListItemSubtitle_entry on MediaList {
+		id
+		score
+		toWatch
+		...Progress_entry
+		media {
 			id
-			score
-			...ToWatch_entry
-			...Progress_entry
-			media {
-				id
-				type
-			}
+			type
 		}
-	`)
-)
+	}
+`
 
 function MediaListItemSubtitle(props: {
-	entry: FragmentType<typeof MediaListItemSubtitle_entry>
+	entry: MediaListItemSubtitle_entry$key
 }): ReactNode {
-	const entry = readFragment<typeof MediaListItemSubtitle_entry>(props.entry)
+	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
 	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
-	const watch = toWatch(entry)
+	const watch = (entry.toWatch)
 	return (
 		<>
 			<div>
 				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
 			</div>
 
-			{entry.media?.type === MediaType.Anime && Predicate.isNumber(watch) && (
-				<>
-					&middot;
-					<div>
-						<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
-						{watch > 0
-							? m.time_to_watch({ time: formatWatch(watch) })
-							: m.nothing_to_watch()}
-					</div>
-				</>
-			)}
+			{entry.media?.type === ("ANIME" satisfies MediaType) &&
+				Predicate.isNumber(watch) && (
+					<>
+						&middot;
+						<div>
+							<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
+							{watch > 0
+								? m.time_to_watch({ time: formatWatch(watch) })
+								: m.nothing_to_watch()}
+						</div>
+					</>
+				)}
 		</>
 	)
 }

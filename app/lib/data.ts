@@ -1,19 +1,12 @@
 import type {
-	SerializeFrom as SerializeFrom_,
 	TypedDeferredData,
 	TypedResponse
 } from "@remix-run/cloudflare"
 import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
 
-export function useRawLoaderData<T>(): SerializeFrom_<T> {
-	return useLoaderData<T>()
-}
+export const useRawLoaderData = useLoaderData
 
-export function useRawRouteLoaderData<T>(
-	...args: Parameters<typeof useRouteLoaderData>
-): SerializeFrom_<T> | undefined {
-	return useRouteLoaderData<T>(...args)
-}
+export const useRawRouteLoaderData = useRouteLoaderData
 
 export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>

@@ -6,11 +6,10 @@ import {
 	useMotionValue,
 	useTransform
 } from "framer-motion"
-import type { ComponentPropsWithoutRef, ReactNode, JSX } from "react"
+import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
-import { clientOnly$ } from "vite-env-only"
 
 const tv = createTV({ twMerge: false })
 
@@ -47,7 +46,7 @@ export function Sheet({
 	const styles = sheet({ modal, variant })
 
 	const y = useMotionValue(0)
-	const h = clientOnly$(window.innerHeight) ?? 9999
+	const h = window.innerHeight ?? 9999
 	let opacity = useTransform(y, [0, h], [0.4, 0])
 
 	return (
@@ -71,7 +70,7 @@ export function Sheet({
 								drag="y"
 								style={{ y }}
 								animate={{ y: 0 }}
-								exit={{ y: clientOnly$(window.innerHeight) }}
+								exit={{ y: window.innerHeight }}
 								dragConstraints={{ top: 0 }}
 								dragElastic={{ top: 0 }}
 								transition={{

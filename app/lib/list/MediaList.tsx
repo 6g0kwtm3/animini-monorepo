@@ -1,19 +1,19 @@
 import { Await, type AwaitProps } from "@remix-run/react"
-// import type { FragmentType } from "~/lib/graphql"
-
-import { readFragment, type FragmentType } from "~/lib/graphql"
 
 // import {} from 'glob'
 
-import { Library } from "~/lib/entry/ListItem"
-import { formatWatch, toWatch } from "~/lib/entry/toWatch"
+import { Library } from "~/lib/entry/MediaListItem"
+import { formatWatch } from "~/lib/entry/ToWatch"
 
 import type { SerializeFrom } from "@remix-run/cloudflare"
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
-import { serverOnly$ } from "vite-env-only"
-import { graphql } from "~/lib/graphql"
+import ReactRelay from "react-relay"
+import type { MediaListHeaderToWatch_entries$key } from "~/gql/MediaListHeaderToWatch_entries.graphql"
+import { useFragment } from "../Network"
+
+const { graphql } = ReactRelay
 
 export function AwaitLibrary({
 	children,
@@ -32,27 +32,21 @@ export function AwaitLibrary({
 	)
 }
 
-const MediaListHeaderToWatch_entries = serverOnly$(
-	graphql(`
-		fragment MediaListHeaderToWatch_entries on MediaList {
-			id
-			...ToWatch_entry
-		}
-	`)
-)
+const MediaListHeaderToWatch_entries = graphql`
+	fragment MediaListHeaderToWatch_entries on MediaList @relay(plural: true) {
+		id
+		toWatch
+	}
+`
 
-export type MediaListHeaderToWatch_entries =
-	typeof MediaListHeaderToWatch_entries
 export function MediaListHeaderToWatch(props: {
-	entries: readonly FragmentType<typeof MediaListHeaderToWatch_entries>[]
+	entries: MediaListHeaderToWatch_entries$key
 }): string {
-	let entries = readFragment<typeof MediaListHeaderToWatch_entries>(
-		props.entries
-	)
+	let entries = useFragment(MediaListHeaderToWatch_entries, props.entries)
 
 	return formatWatch(
 		entries
-			.map(toWatch)
+			.map(entry=>entry.toWatch)
 			.filter((n) => typeof n === "number")
 			.reduce((a, b) => a + b, 0)
 	)

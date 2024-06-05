@@ -1,32 +1,65 @@
-export const route_media = ({ id }: { id: number }): string => {
-	return `/media/${id}/`
+export interface Path {
+	pathname: Pathname
+	hash: Hash
+	search: SearchParams
 }
 
-export const route_media_edit = (params: { id: number }): string => {
-	return `${route_media(params)}edit/`
+type SearchParams = `?${string}`
+type Hash = `#${string}`
+
+type Pathname =
+	| `/`
+	| `/media/${string}/`
+	| `/media/${string}/edit/`
+	| `/user/${string}/`
+	| `/user/${string}/${"animelist" | "mangalist"}/`
+	| `/user/${string}/${"animelist" | "mangalist"}/${string}/`
+	| `/login/`
+
+export type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
+
+export function route_media({ id }: { id: number }): `/media/${number}/` {
+	return `/media/${id}/` satisfies Route
 }
 
-export const route_user = ({ userName }: { userName: string }): string => {
-	return `/user/${userName}/`
+export function route_media_edit(params: {
+	id: number
+}): `/media/${number}/edit/` {
+	return `${route_media(params)}edit/` satisfies Route
 }
 
-export const route_user_list = (params: {
+export function route_user({
+	userName
+}: {
+	userName: string
+}): `/user/${string}/` {
+	return `/user/${userName}/` satisfies Route
+}
+
+export function route_user_list(params: {
 	userName: string
 	typelist: "animelist" | "mangalist"
-}): string => {
-	return `${route_user(params)}${params.typelist}/`
+}): `/user/${string}/animelist/` | `/user/${string}/mangalist/` {
+	return `${route_user(params)}${params.typelist}/` satisfies Route
 }
 
-export const route_user_list_selected = (params: {
+export function route_user_list_selected(params: {
 	userName: string
 	typelist: "animelist" | "mangalist"
 	selected: string
-}): string => {
-	return `${route_user_list(params)}${params.selected}/`
+}):
+	| `/user/${string}/animelist/${string}/`
+	| `/user/${string}/mangalist/${string}/` {
+	return `${route_user_list(params)}${params.selected}/` satisfies Route
 }
 
-export const route_login = ({ redirect }: { redirect: string }): string => {
-	return `/login/?${new URLSearchParams({ redirect })}`
+export function route_login({
+	redirect
+}: {
+	redirect: string
+}): `/login/?${string}` {
+	return `/login/?${new URLSearchParams({ redirect })}` satisfies Route
 }
 
 export * as Routes from "./route"
+

@@ -8,23 +8,10 @@ import {
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
-import type {
-	ActionFunction,
-	HeadersFunction,
-	MetaFunction
-} from "@remix-run/cloudflare"
-import { json, unstable_defineLoader } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import { useRawLoaderData } from "~/lib/data"
 
-// import type { FragmentType } from "~/lib/graphql"
-
-import { MediaStatus, MediaType, type FuzzyDate } from "~/gql/graphql"
-import {
-	graphql,
-	makeFragmentData,
-	readFragment,
-	type FragmentType
-} from "~/lib/graphql"
 import {
 	AwaitLibrary,
 	MediaListHeader,
@@ -32,7 +19,7 @@ import {
 	MediaListHeaderToWatch
 } from "~/lib/list/MediaList"
 
-import { Order, Predicate, Array as ReadonlyArray } from "effect"
+import { Order, Array as ReadonlyArray } from "effect"
 
 // import {} from 'glob'
 
@@ -43,60 +30,105 @@ import { unstable_defineClientLoader } from "@remix-run/react"
 import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
-import { clientOnly$, serverOnly$ } from "vite-env-only"
+
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
 import { Loading, Skeleton } from "~/components/Skeleton"
-import { MediaListSort } from "~/lib/MediaListSort"
 import { Ariakit } from "~/lib/ariakit"
-import { client, createGetInitialData } from "~/lib/cache.client"
-import {
-	client_get_client,
-	type AnyActionFunctionArgs,
-	type AnyLoaderFunctionArgs
-} from "~/lib/client"
-import { getLibrary } from "~/lib/electron/library.server"
-import {
-	MediaListItem,
-	type ListItem_EntryFragment
-} from "~/lib/entry/ListItem"
-import { increment } from "~/lib/entry/progress/increment"
-import { toWatch } from "~/lib/entry/toWatch"
-import { getCacheControl } from "~/lib/getCacheControl"
+
+import { client_get_client } from "~/lib/client"
+
+import { MediaListItem } from "~/lib/entry/MediaListItem"
+import { increment } from "~/lib/entry/progress/ProgressIncrement"
+import { MediaListSort } from "~/lib/MediaListSort"
 import { m } from "~/lib/paraglide"
 
-function UserListSelectedFiltersIndexQuery() {
-	return graphql(`
-		query UserListSelectedFiltersIndexQuery(
-			$userName: String!
-			$type: MediaType!
-			$coverExtraLarge: Boolean = false
-		) {
-			MediaListCollection(userName: $userName, type: $type) {
-				lists {
-					name
-					entries {
-						...FilterEntries_entries
-					}
+import ReactRelay from "react-relay"
+import { readInlineData } from "~/lib/Network"
+
+import type {
+	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
+	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key
+} from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
+import { type routeNavUserListEntriesQuery as NavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
+import type {
+	MediaStatus,
+	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key
+} from "~/gql/routeNavUserListEntriesSort_entries.graphql"
+
+import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
+import type {
+	MediaListStatus,
+	routeUserSetStatusMutation
+} from "~/gql/routeUserSetStatusMutation.graphql"
+
+const { graphql } = ReactRelay
+
+const NavUserListEntriesSort_entries = graphql`
+	fragment routeNavUserListEntriesSort_entries on MediaList @inline {
+		id
+		...MediaListItem_entry
+		progress
+		score
+		toWatch
+		startedAt {
+			...routeFuzzyDateOrder_fuzzyDate
+		}
+		completedAt {
+			...routeFuzzyDateOrder_fuzzyDate
+		}
+		media {
+			id
+			popularity
+			startDate {
+				...routeFuzzyDateOrder_fuzzyDate
+			}
+			averageScore
+
+			status(version: 2)
+			title {
+				userPreferred
+			}
+		}
+		updatedAt
+	}
+`
+
+const NavUserListEntriesFilter_entries = graphql`
+	fragment routeNavUserListEntriesFilter_entries on MediaList @inline {
+		id
+		...routeNavUserListEntriesSort_entries
+		...MediaListHeaderToWatch_entries
+		toWatch
+		progress
+		media {
+			id
+			status(version: 2)
+			format
+		}
+	}
+`
+
+const NavUserListEntriesQuery = graphql`
+	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!) {
+		MediaListCollection(userName: $userName, type: $type) {
+			lists {
+				name
+				entries {
+					id
+					...routeNavUserListEntriesFilter_entries
 				}
 			}
 		}
-	`)
-}
-export const loader = unstable_defineLoader(async (args) => {
-	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
-	return selectedLoader(args)
+	}
+`
+
+export const clientLoader = unstable_defineClientLoader(async (args) => {
+	return {
+		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>({}),
+		query: fetchSelectedList(args)
+	}
 })
-
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
-
-export const action = (async (args) => {
-	return increment(args)
-}) satisfies ActionFunction
 
 export const meta = (({ params }) => {
 	return [
@@ -107,37 +139,85 @@ export const meta = (({ params }) => {
 					: `${params.userName}'s manga list`
 		}
 	]
-}) satisfies MetaFunction<typeof loader>
+}) satisfies MetaFunction<typeof clientLoader>
+
+const UserSetStatus = graphql`
+	mutation routeUserSetStatusMutation(
+		$mediaId: Int!
+		$status: MediaListStatus!
+	) {
+		SaveMediaListEntry(mediaId: $mediaId, status: $status) {
+			id
+			progress
+		}
+	}
+`
+
+async function setStatus(formData: FormData) {
+	const variables = Schema.decodeUnknownSync(
+		Schema.Struct({
+			mediaId: Schema.NumberFromString,
+			status: Schema.Enums<{
+				[K in MediaListStatus]: K
+			}>({
+				COMPLETED: "COMPLETED",
+				CURRENT: "CURRENT",
+				DROPPED: "DROPPED",
+				PAUSED: "PAUSED",
+				PLANNING: "PLANNING",
+				REPEATING: "REPEATING",
+				"%future added value": "%future added value"
+			})
+		})
+	)(formData)
+
+	const client = client_get_client()
+	const data = await client.mutation<routeUserSetStatusMutation>({
+		mutation: UserSetStatus,
+		variables: variables
+	})
+
+	if (!data.SaveMediaListEntry) {
+		throw new Error("Failed to set status")
+	}
+
+	return { SaveMediaListEntry: data.SaveMediaListEntry }
+}
 
 export const clientAction = (async (args) => {
-	const result = await increment(args)
-	await client.invalidateQueries()
-	return result
+	const formData = await args.request.formData()
+	if (formData.get("intent") === "increment") {
+		return increment(formData)
+	}
+	if (formData.get("intent") === "set_status") {
+		return setStatus(formData)
+	}
+	throw json(`Unknown intent ${formData.get("intent")}`, {
+		status: 400
+	})
 }) satisfies ClientActionFunction
 
-export const headers = (({ loaderHeaders }) => {
-	const cacheControl = loaderHeaders.get("Cache-Control")
-	return Predicate.isString(cacheControl)
-		? { "Cache-Control": cacheControl }
-		: new Headers()
-}) satisfies HeadersFunction
-
-async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
+async function fetchSelectedList(
+	args: Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
+) {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
-	const client = await client_get_client(args)
+	const client = await client_get_client()
 
-	const data = await client.operation(UserListSelectedFiltersIndexQuery(), {
-		userName: params.userName,
-		type: {
-			animelist: MediaType.Anime,
-			mangalist: MediaType.Manga
-		}[params.typelist]
-	})
+	const data = await client.operation<NavUserListEntriesQuery>(
+		NavUserListEntriesQuery,
+		{
+			userName: params.userName,
+			type: (
+				{
+					animelist: "ANIME",
+					mangalist: "MANGA"
+				} as const
+			)[params.typelist]
+		}
+	)
 
 	if (typeof params.selected !== "string") {
 		return {
-			...data,
-			MediaListCollection: undefined,
 			selectedList: {
 				name: "All",
 				entries: Object.values(
@@ -163,61 +243,43 @@ async function fetchSelectedList(args: AnyLoaderFunctionArgs) {
 	}
 
 	return {
-		...data,
-		MediaListCollection: undefined,
 		selectedList
 	}
 }
 
-const SortEntries_entries = serverOnly$(
-	graphql(`
-		fragment SortEntries_entries on MediaList {
-			id
-			...ListItem_entry
-			progress
-			score
-			...ToWatch_entry
-			startedAt {
-				day
-				month
-				year
-			}
-			completedAt {
-				day
-				month
-				year
-			}
-			media {
-				id
-				popularity
-				startDate {
-					day
-					month
-					year
-				}
-				averageScore
-
-				status(version: 2)
-				title {
-					userPreferred
-				}
-			}
-			updatedAt
-		}
-	`)
-)
+const FuzzyDate = graphql`
+	fragment routeFuzzyDateOrder_fuzzyDate on FuzzyDate @inline {
+		year
+		month
+		day
+	}
+`
 
 const OrderFuzzyDate = Order.combineAll([
-	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.year ?? 0),
-	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.month ?? 0),
-	Order.mapInput(Order.number, (date: FuzzyDate | null) => date?.day ?? 0)
+	Order.mapInput(
+		Order.number,
+		(date: routeFuzzyDate$key | null | undefined) =>
+			readInlineData(FuzzyDate, date)?.year ?? 0
+	),
+	Order.mapInput(
+		Order.number,
+		(date: routeFuzzyDate$key | null | undefined) =>
+			readInlineData(FuzzyDate, date)?.month ?? 0
+	),
+	Order.mapInput(
+		Order.number,
+		(date: routeFuzzyDate$key | null | undefined) =>
+			readInlineData(FuzzyDate, date)?.day ?? 0
+	)
 ])
 
 function sortEntries(
-	data: readonly FragmentType<typeof SortEntries_entries>[],
+	data: readonly NavUserListEntriesSort_entries$key[],
 	searchParams: URLSearchParams
 ) {
-	let entries = readFragment<typeof SortEntries_entries>(data)
+	let entries = data.map((key) =>
+		readInlineData(NavUserListEntriesSort_entries, key)
+	)
 	const sorts = searchParams.getAll("sort")
 
 	const order: Order.Order<(typeof entries)[number]>[] = []
@@ -270,10 +332,7 @@ function sortEntries(
 
 		if (sort === MediaListSort.StartDateDesc) {
 			order.push(
-				Order.mapInput(
-					OrderFuzzyDate,
-					(entry) => entry.media?.startDate ?? null
-				)
+				Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
 			)
 			continue
 		}
@@ -299,14 +358,15 @@ function sortEntries(
 		Order.reverse(
 			Order.mapInput(
 				Order.number,
-				(entry) => (toWatch(entry) ?? 1) || Number.POSITIVE_INFINITY
+				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
 			)
 		),
 		Order.reverse(
 			Order.mapInput(Order.number, (entry) => {
-				return [MediaStatus.Releasing, MediaStatus.NotYetReleased].indexOf(
-					entry.media?.status ?? MediaStatus.Cancelled
-				)
+				return [
+					"RELEASING" satisfies MediaStatus,
+					"NOT_YET_RELEASED" satisfies MediaStatus
+				].indexOf(entry.media?.status ?? ("CANCELLED" satisfies MediaStatus))
 			})
 		)
 	)
@@ -314,28 +374,13 @@ function sortEntries(
 	return ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))(entries)
 }
 
-const FilterEntries_entries = serverOnly$(
-	graphql(`
-		fragment FilterEntries_entries on MediaList {
-			id
-			...SortEntries_entries
-			...MediaListHeaderToWatch_entries
-			...ToWatch_entry
-			progress
-			media {
-				id
-				status(version: 2)
-				format
-			}
-		}
-	`)
-)
-
 function filterEntries(
-	data: readonly FragmentType<typeof FilterEntries_entries>[],
+	data: readonly NavUserListEntriesFilter_entries$key[],
 	searchParams: URLSearchParams
-) {
-	let entries = readFragment<typeof FilterEntries_entries>(data)
+): NavUserListEntriesFilter_entries$data[] {
+	let entries = data.map((key) =>
+		readInlineData(NavUserListEntriesFilter_entries, key)
+	)
 	const status = searchParams.getAll("status")
 	const format = searchParams.getAll("format")
 	const progresses = searchParams.getAll("progress")
@@ -354,7 +399,7 @@ function filterEntries(
 
 	for (const progress of progresses) {
 		if (progress === "UNSEEN") {
-			entries = entries.filter((entry) => (toWatch(entry) ?? 1) > 0)
+			entries = entries.filter((entry) => (entry.toWatch ?? 1) > 0)
 		}
 		if (progress === "STARTED") {
 			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
@@ -387,33 +432,6 @@ const Params = Schema.Struct({
 	typelist: Schema.Literal("animelist", "mangalist")
 })
 
-function selectedLoader(args: AnyLoaderFunctionArgs) {
-	return {
-		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>(
-			serverOnly$(getLibrary()) ?? {}
-		),
-		query: fetchSelectedList(args)
-	}
-}
-
-const isInitialRequest = clientOnly$(createGetInitialData())
-export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return client.ensureQueryData({
-		revalidateIfStale: true,
-		queryKey: [
-			"_nav._user",
-			args.params.userName,
-			args.params.typelist,
-			"_filters",
-			args.params.selected
-		],
-		queryFn: () => selectedLoader(args),
-		initialData:
-			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
-	})
-})
-clientLoader.hydrate = true
-
 export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
 	const [search] = useSearchParams()
@@ -427,9 +445,7 @@ export default function Page(): ReactNode {
 							{({ selectedList }) => (
 								<MediaListHeaderToWatch
 									entries={filterEntries(
-										makeFragmentData<typeof FilterEntries_entries>(
-											selectedList.entries?.filter((el) => el != null) ?? []
-										),
+										selectedList.entries?.filter((el) => el != null) ?? [],
 										search
 									)}
 								/>
@@ -442,9 +458,7 @@ export default function Page(): ReactNode {
 						<Await resolve={data.query}>
 							{({ selectedList }) =>
 								filterEntries(
-									makeFragmentData<typeof FilterEntries_entries>(
-										selectedList.entries?.filter((el) => el != null) ?? []
-									),
+									selectedList.entries?.filter((el) => el != null) ?? [],
 									search
 								).length
 							}
@@ -469,19 +483,14 @@ export default function Page(): ReactNode {
 								{({ selectedList }) => {
 									const mediaList = sortEntries(
 										filterEntries(
-											makeFragmentData<typeof FilterEntries_entries>(
-												selectedList.entries?.filter((el) => el != null) ?? []
-											),
+											selectedList.entries?.filter((el) => el != null) ?? [],
 											search
 										),
 										search
 									)
 										.filter((el) => el != null)
 										.map((entry) => (
-											<MediaListItem
-												key={entry.id}
-												entry={makeFragmentData<ListItem_EntryFragment>(entry)}
-											/>
+											<MediaListItem key={entry.id} entry={entry} />
 										))
 
 									return (

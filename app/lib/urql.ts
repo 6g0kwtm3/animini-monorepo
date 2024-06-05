@@ -1,28 +1,24 @@
-import cookie from "cookie"
+import { type Params, type unstable_defineClientLoader } from "@remix-run/react"
 
-import type { unstable_defineLoader } from "@remix-run/cloudflare"
-import { type Params } from "@remix-run/react"
-
-import {
-	Context,
-	Effect,
-	Layer,
-	Option,
-	pipe,
-	Schedule,
-	type Scope
-} from "effect"
+import { Context, Effect, Layer } from "effect"
 
 import { Schema } from "@effect/schema"
 
-import { JsonToToken } from "./viewer"
+import type { Remix } from "./Remix"
 
-import { json } from "@remix-run/cloudflare"
-import { clientOnly$ } from "vite-env-only"
-import type { TypedDocumentString } from "~/gql/graphql"
-import { Remix } from "./Remix"
+import type {
+	CacheConfig,
+	FetchQueryFetchPolicy,
+	GraphQLTaggedNode,
+	MutationConfig,
 
-import * as Http from "@effect/platform/HttpClient"
+	MutationParameters,
+
+	OperationType,
+	Variables
+} from "relay-runtime"
+
+import environment, { commitMutation, fetchQuery } from "./Network"
 
 const API_URL = "https://graphql.anilist.co"
 
@@ -34,18 +30,9 @@ export interface JSONObject {
 
 interface JSONArray extends Array<JSONValue> {}
 
-type Result<Data> = Effect.Effect<Data | null, Remix.ResponseError<null>>
-
-type Args<Data, Variables> = [
-	query: TypedDocumentString<Data, Variables>,
-	variables: Variables
-]
-
-// EffectUrql.query
-
 export class LoaderArgs extends Context.Tag("loader(args)")<
 	LoaderArgs,
-	Parameters<Parameters<typeof unstable_defineLoader>[0]>[0]
+	Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
 >() {}
 
 type Arguments = {
@@ -62,128 +49,56 @@ export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String
 }) {}
 
-const GraphqlResult = Schema.Struct({
-	data: Schema.optional(Schema.Unknown),
-	errors: Schema.optional(
-		Schema.Array(
-			Schema.Struct({
-				status: Schema.optional(Schema.Number)
-			})
-		)
-	)
-})
 
-export function operation<T, V>(
-	document: TypedDocumentString<T, V>,
-	variables: V,
+
+export function operation<T extends OperationType>(
+	document: GraphQLTaggedNode,
+	variables: T["variables"],
 	options?: {
 		headers?: Headers
 	}
-): Effect.Effect<NonNullable<T> | null, Remix.ResponseError<null> | Timeout> {
-	return pipe(
-		Effect.gen(function* () {
-			const body = yield* Http.body.json({
-				query: document.toString(),
-				variables: variables
-			})
-
-			const headers = new Headers()
-			headers.append("Content-Type", "application/json")
-			headers.append("Accept", "application/json")
-
-			for (const [key, value] of options?.headers?.entries() ?? []) {
-				headers.append(key, value)
+): Effect.Effect<
+	T["response"] | undefined,
+	Timeout | Remix.ResponseError<null>,
+	never
+> {
+	return Effect.promise(async () =>
+		fetchQuery<T>(environment, document, variables, {
+			networkCacheConfig: {
+				metadata: options
 			}
-
-			const request = Http.request.post(API_URL, {
-				body: body,
-				headers
-			})
-
-			const response = yield* Http.client.fetchOk(request)
-
-			const result =
-				yield* Http.response.schemaBodyJson(GraphqlResult)(response)
-
-			if (result.errors?.length) {
-				console.log(result.errors)
-			}
-
-			return (result.data as T) ?? null
-		}),
-		Effect.withTracerEnabled(false),
-		Effect.catchTags({
-			RequestError: Effect.die,
-			BodyError: Effect.die,
-			ParseError: Effect.die,
-			ResponseError: (error) => {
-				if (error.response.status === 429) {
-					return new Timeout({
-						reset: pipe(
-							error.response.headers,
-							Http.headers.get("retry-after"),
-							Option.getOrElse(() => "60")
-						)
-					})
-				}
-
-				return new Remix.ResponseError({
-					response: json(null, {
-						status: error.response.status,
-						statusText: error.response.statusText
-					})
-				})
-			}
-		}),
-		Effect.scoped,
-		Effect.retry({
-			schedule: Schedule.intersect(
-				Schedule.jittered(Schedule.exponential("5 seconds")),
-				Schedule.recurs(10)
-			),
-			while: (error) => error instanceof Timeout
-		})
+		}).toPromise()
 	)
 }
 
-const makeClientLive = Effect.gen(function* () {
-	const request = Option.getOrNull(
-		yield* Effect.serviceOption(LoaderArgs)
-	)?.request
 
-	const cookies = cookie.parse(
-		clientOnly$(document.cookie) ?? request?.headers.get("Cookie") ?? ""
-	)
 
-	const token = pipe(
-		cookies["anilist-token"],
-		Option.fromNullable,
-		Option.flatMap(Schema.decodeOption(JsonToToken)),
-		Option.map(({ token }) => token),
-		Option.getOrUndefined
-	)
-
+const makeClientLive = Effect.sync(() => {
 	return {
-		query: <Data, Variables>(...args: Args<Data, Variables>) => {
-			return pipe(
-				operation(
-					args[0],
-					args[1],
-					token
-						? {
-								headers: new Headers({
-									Authorization: `Bearer ${token.trim()}`
-								})
-							}
-						: undefined
-				)
-			)
-		},
-		mutation: <Data, Variables>(
-			...args: Args<Data, Variables>
-		): Result<Data> => {
-			throw new Error("Not implemented")
-		}
+		query: <T extends OperationType>(
+			taggedNode: GraphQLTaggedNode,
+			variables: Variables,
+			cacheConfig?: {
+				networkCacheConfig?: CacheConfig | null | undefined
+				fetchPolicy?: FetchQueryFetchPolicy | null | undefined
+			} | null
+		) =>
+			Effect.promise(async () =>
+				fetchQuery<T>(
+					environment,
+					taggedNode,
+					variables,
+					cacheConfig
+				).toPromise()
+			),
+		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>
+			Effect.async<T['response'], Error>((resume) => {
+				commitMutation<T>(environment, {
+					...config,
+					onCompleted: (value) => resume(Effect.succeed(value)),
+					onError: (error) => resume(Effect.fail(error))
+				})
+			})
 	}
 })
 

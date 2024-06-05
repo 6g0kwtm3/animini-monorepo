@@ -1,10 +1,11 @@
 import type { MetaFunction } from "@remix-run/cloudflare"
-import { json, unstable_defineLoader } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import {
 	Link,
 	useLocation,
 	useOutlet,
 	useParams,
+	useRouteLoaderData,
 	type MetaArgs_SingleFetch,
 	type ShouldRevalidateFunction
 } from "@remix-run/react"
@@ -13,16 +14,17 @@ import { AnimatePresence, motion } from "framer-motion"
 
 import { useTooltipStore } from "@ariakit/react"
 import { cloneElement } from "react"
+import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
 	Menu,
 	MenuDivider,
-	MenuItem,
 	MenuItemLeadingIcon,
 	MenuItemTrailingIcon,
 	MenuItemTrailingText,
 	MenuList,
+	MenuListItem,
 	MenuTrigger
 } from "~/components/Menu"
 import {
@@ -31,52 +33,71 @@ import {
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
-import { graphql, makeFragmentData } from "~/lib/graphql"
 import type { clientLoader as rootLoader } from "~/root"
+import MaterialSymbolsCheck from "~icons/material-symbols/check"
+import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
+import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
+import MaterialSymbolsEdit from "~icons/material-symbols/edit"
+import MaterialSymbolsKeyboardCommandKey from "~icons/material-symbols/keyboard-command-key"
+import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
 import { Button } from "~/components/Button"
-import { useRawLoaderData, useRawRouteLoaderData } from "~/lib/data"
+import { useRawLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
-import { clientOnly$ } from "vite-env-only"
+
 import { Ariakit } from "~/lib/ariakit"
-import { client, createGetInitialData, persister } from "~/lib/cache.client"
-import { client_get_client, type AnyLoaderFunctionArgs } from "~/lib/client"
-import type { MediaCover_media } from "~/lib/entry/MediaListCover"
-import { MediaCover } from "~/lib/entry/MediaListCover"
-import { getCacheControl } from "~/lib/getCacheControl"
+import { client_get_client } from "~/lib/client"
+import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
 import { unstable_defineClientLoader } from "@remix-run/react"
 import { Predicate } from "effect"
+import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
+const { graphql } = ReactRelay
 
-export const loader = unstable_defineLoader(async (args) => {
-	args.response.headers.append("Cache-Control", getCacheControl(cacheControl))
-	return mediaLoader(args)
-})
-
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
-
-const isInitialRequest = clientOnly$(createGetInitialData())
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return client.ensureQueryData({
-		revalidateIfStale: true,
-		persister,
-		queryKey: ["_nav._media", args.params.mediaId],
-		queryFn: async () => mediaLoader(args),
-		initialData:
-			isInitialRequest?.() && (await args.serverLoader<typeof loader>())
-	})
+	const client = client_get_client()
+
+	const data = await client.operation<routeNavMediaQuery>(
+		graphql`
+			query routeNavMediaQuery($id: Int!) {
+				Media(id: $id) {
+					id
+					coverImage {
+						color
+					}
+					...MediaCover_media @arguments(extraLarge: true)
+					bannerImage
+					title @required(action: LOG) {
+						userPreferred @required(action: LOG)
+					}
+					description
+				}
+			}
+		`,
+		{
+			id: Number(args.params.mediaId)
+		}
+	)
+
+	if (!data?.Media) {
+		throw json("Media not found", {
+			status: 404
+		})
+	}
+
+	return {
+		Media: data.Media,
+		theme: Predicate.isString(data.Media.coverImage?.color)
+			? getThemeFromHex(data.Media.coverImage.color)
+			: {}
+	}
 })
-clientLoader.hydrate = true
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -96,47 +117,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export const meta = ({
 	data
-}: MetaArgs_SingleFetch<typeof loader>): ReturnType<MetaFunction> => {
-	return [{ title: `Media - ${data?.Media.title?.userPreferred}` }]
-}
-
-async function mediaLoader(args: AnyLoaderFunctionArgs) {
-	const client = client_get_client(args)
-
-	const data = await client.operation(
-		graphql(`
-			query MediaQuery($id: Int!, $coverExtraLarge: Boolean = true) {
-				Media(id: $id) {
-					id
-					coverImage {
-						color
-					}
-					...MediaCover_media
-					bannerImage
-					title {
-						userPreferred
-					}
-					description
-				}
-			}
-		`),
-		{
-			id: Number(args.params.mediaId)
-		}
-	)
-
-	if (!data?.Media) {
-		throw json("Media not found", {
-			status: 404
-		})
-	}
-
-	return {
-		Media: data.Media,
-		theme: Predicate.isString(data.Media.coverImage?.color)
-			? getThemeFromHex(data.Media.coverImage.color)
-			: {}
-	}
+}: MetaArgs_SingleFetch<
+	() => ReturnType<typeof clientLoader>
+>): ReturnType<MetaFunction> => {
+	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]
 }
 
 export default function Page(): ReactNode {
@@ -159,7 +143,7 @@ export default function Page(): ReactNode {
 						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
 					>
 						<MediaCover
-							media={makeFragmentData<MediaCover_media>(data.Media)}
+							media={data.Media}
 							className="rounded-xl [view-transition-name:media-cover]"
 						/>
 
@@ -186,7 +170,7 @@ export default function Page(): ReactNode {
 							<Card variant="elevated">
 								<div className="sm:p-12">
 									<Ariakit.Heading className="text-balance text-display-lg">
-										{data.Media.title?.userPreferred}
+										{data.Media.title.userPreferred}
 									</Ariakit.Heading>
 									<Menu>
 										<MenuTrigger
@@ -198,44 +182,55 @@ export default function Page(): ReactNode {
 										</MenuTrigger>
 
 										<MenuList className="top-auto">
-											<li>
-												<MenuItem render={<a href="" />}>
-													<MenuItemLeadingIcon>visibility</MenuItemLeadingIcon>
-													Item 1
-												</MenuItem>
-											</li>
-											<MenuItem>
-												<MenuItemLeadingIcon>content_copy</MenuItemLeadingIcon>
+											<MenuListItem render={<a href="" />}>
+												<MenuItemLeadingIcon>
+													<MaterialSymbolsVisibility />
+												</MenuItemLeadingIcon>
+												Item 1
+											</MenuListItem>
+
+											<MenuListItem>
+												<MenuItemLeadingIcon>
+													<MaterialSymbolsContentCopy />
+												</MenuItemLeadingIcon>
 												Item 2
 												<MenuItemTrailingText>
-													<span className="i">keyboard_command_key</span>
+													<span className="i">
+														<MaterialSymbolsKeyboardCommandKey />
+													</span>
 													+Shift+X
 												</MenuItemTrailingText>
-											</MenuItem>
-											<MenuItem>
-												-<MenuItemLeadingIcon>edit</MenuItemLeadingIcon>
-												Item 3<MenuItemTrailingIcon>check</MenuItemTrailingIcon>
-											</MenuItem>
+											</MenuListItem>
+											<MenuListItem>
+												<MenuItemLeadingIcon>
+													<MaterialSymbolsEdit />
+												</MenuItemLeadingIcon>
+												Item 3
+												<MenuItemTrailingIcon>
+													<MaterialSymbolsCheck />
+												</MenuItemTrailingIcon>
+											</MenuListItem>
 											<MenuDivider />
-											<li>
-												<Menu className="group">
-													<MenuItem render={<MenuTrigger />}>
-														<MenuItemLeadingIcon>cloud</MenuItemLeadingIcon>
-														Item 4
-														<MenuItemTrailingIcon className="group-open:rotate-180">
-															chevron_right
-														</MenuItemTrailingIcon>
-													</MenuItem>
-													<MenuList className="-top-2 left-full">
-														<MenuItem>
-															<MenuItemLeadingIcon>
-																visibility
-															</MenuItemLeadingIcon>
-															Item 1
-														</MenuItem>
-													</MenuList>
-												</Menu>
-											</li>
+
+											<Menu>
+												<MenuListItem render={<MenuTrigger />}>
+													<MenuItemLeadingIcon>
+														<MaterialSymbolsCloud />
+													</MenuItemLeadingIcon>
+													Item 4
+													<MenuItemTrailingIcon className="group-open:rotate-180">
+														<MaterialSymbolsChevronRight />
+													</MenuItemTrailingIcon>
+												</MenuListItem>
+												<MenuList className="-top-2 left-full">
+													<MenuListItem>
+														<MenuItemLeadingIcon>
+															<MaterialSymbolsVisibility />
+														</MenuItemLeadingIcon>
+														Item 1
+													</MenuListItem>
+												</MenuList>
+											</Menu>
 										</MenuList>
 									</Menu>
 									<div
@@ -276,7 +271,7 @@ function Edit() {
 
 	const store = useTooltipStore()
 
-	const root = useRawRouteLoaderData<typeof rootLoader>("root")
+	const root = useRouteLoaderData<typeof rootLoader>("root")
 
 	return (
 		<motion.div layoutId="edit" className="fixed bottom-24 end-4 sm:bottom-4">

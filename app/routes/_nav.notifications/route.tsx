@@ -1,170 +1,125 @@
+import ReactRelay from "react-relay"
+
 import { useTooltipStore } from "@ariakit/react"
 import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
 import {
 	Form,
-	Link,
 	redirect,
 	unstable_defineClientLoader,
-	type ClientActionFunction
+	useLoaderData
 } from "@remix-run/react"
 import { Effect, Predicate, pipe } from "effect"
-import { serverOnly$ } from "vite-env-only"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle,
-	ListItemContentTitle,
-	ListItemImg,
-	ListItemTrailingSupportingText
-} from "~/components/List"
+import { List } from "~/components/List"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger
 } from "~/components/Tooltip"
-import { graphql } from "~/gql"
+
 import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
 import { useRawLoaderData } from "~/lib/data"
-import { MediaCover } from "~/lib/entry/MediaListCover"
-import { getCacheControl } from "~/lib/getCacheControl"
-import type { FragmentType } from "~/lib/graphql"
-import { makeFragmentData, readFragment } from "~/lib/graphql"
-import { m } from "~/lib/paraglide"
-import { route_media } from "~/lib/route"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
+import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
+import { useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
-import { client } from "~/lib/cache.client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
-import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+import { ActivityLike } from "./ActivityLike"
+import { Airing } from "./Airing"
+import { RelatedMediaAddition } from "./RelatedMediaAddition"
+import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
 
-import { unstable_defineLoader } from "@remix-run/cloudflare"
+const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) =>
-	args.serverLoader<typeof loader>()
-)
-clientLoader.hydrate = true
-export const loader = unstable_defineLoader(async (args) => {
+export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql
 
-			const data = yield* client.query(
-				graphql(`
-					query NotificationsQuery($coverExtraLarge: Boolean = false) {
-						...Notifications_query
+			const data = yield* client.query<NavNotificationsQuery>(
+				graphql`
+					query routeNavNotificationsQuery {
+						Viewer {
+							id
+							unreadNotificationCount
+						}
+						...routeNavNotifications_query
 					}
-				`),
+				`,
 				{}
-			)
-
-			args.response.headers.append(
-				"Cache-Control",
-				getCacheControl(cacheControl)
 			)
 
 			return data
 		}),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
+		Effect.provide(EffectUrql.Live),
 		Remix.runLoader
 	)
 })
 
-const cacheControl = {
-	maxAge: 15,
-	staleWhileRevalidate: 45,
-	private: true
-}
-
-export const clientAction: ClientActionFunction = async ({ serverAction }) => {
-	const result = await serverAction<typeof action>()
-	await client.invalidateQueries()
-	return result
-}
-
-export const action = (async (args) => {
+export const clientAction = (async (args) => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql
 			yield* client.query(
-				graphql(`
-					query NotificationsRead {
+				graphql`
+					query routeNavNotificationsReadQuery {
 						Page(perPage: 0) {
 							notifications(resetNotificationCount: true) {
 								__typename
 							}
 						}
 					}
-				`),
+				`,
 				{}
 			)
 
 			return redirect(".")
 		}),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Effect.runPromise
+		Effect.provide(EffectUrql.Live),
+		Remix.runLoader
 	)
 }) satisfies ActionFunction
 
-const Notifications_query = serverOnly$(
-	graphql(`
-		fragment Notifications_query on Query {
-			Viewer {
-				id
-				unreadNotificationCount
-			}
+export default function Notifications(): ReactNode {
+	const data = useLoaderData<typeof clientLoader>()
 
-			Page {
-				notifications(
-					type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]
-				) {
-					__typename
-					... on AiringNotification {
-						id
-						...Airing_notification
-						createdAt
-					}
-					... on RelatedMediaAdditionNotification {
-						id
-						createdAt
-						...RelatedMediaAddition_notification
-					}
-					... on ActivityLikeNotification {
-						id
-						createdAt
-						...ActivityLike_notification
+	const key: routeNavNotifications_query$key | undefined = data
+
+	const query = useFragment(
+		graphql`
+			fragment routeNavNotifications_query on Query {
+				Page {
+					notifications(
+						type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]
+					) {
+						__typename
+						... on AiringNotification {
+							id
+							...Airing_notification
+						}
+						... on RelatedMediaAdditionNotification {
+							id
+							...RelatedMediaAddition_notification
+						}
+						... on ActivityLikeNotification {
+							id
+							...ActivityLike_notification
+						}
 					}
 				}
 			}
-		}
-	`)
-)
-export default function Notifications(): ReactNode {
-	const query = readFragment<typeof Notifications_query>(
-		makeFragmentData<typeof Notifications_query>(
-			useRawLoaderData<typeof clientLoader>()
-		)
+		`,
+		key
 	)
 
 	const store = useTooltipStore()
 
-	const lastCreatedAt = query?.Page?.notifications
-		?.map(
-			(notification) =>
-				notification && "createdAt" in notification && notification.createdAt
-		)
-		.find(Predicate.isNumber)
-
-	const someNotRead =
-		(lastCreatedAt ?? 0) > (query?.Viewer?.unreadNotificationCount ?? 0)
+	const someNotRead = data?.Viewer?.unreadNotificationCount ?? 0
 
 	return (
 		<LayoutBody>
@@ -187,12 +142,6 @@ export default function Notifications(): ReactNode {
 								</TooltipPlain>
 							</div>
 						</div>
-
-						<input
-							type="hidden"
-							value={lastCreatedAt ?? Date.now() / 1000}
-							name="createdAt"
-						/>
 					</Form>
 				)}
 				<Card variant="elevated" className="max-sm:contents">
@@ -242,73 +191,6 @@ export default function Notifications(): ReactNode {
 	)
 }
 
-const Airing_notification = serverOnly$(
-	graphql(`
-		fragment Airing_notification on AiringNotification {
-			id
-			episode
-			createdAt
-			media {
-				title {
-					userPreferred
-				}
-				...MediaCover_media
-				id
-			}
-		}
-	`)
-)
-
-function Airing(props: {
-	notification: FragmentType<typeof Airing_notification>
-}) {
-	const notification = readFragment<typeof Airing_notification>(
-		props.notification
-	)
-	const data = useRawLoaderData<typeof clientLoader>()
-
-	return (
-		notification.media && (
-			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={
-						<Link
-							to={route_media({
-								id: notification.media.id
-							})}
-						/>
-					}
-				>
-					<ListItemImg>
-						<MediaCover media={notification.media} />
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) >
-								(data?.Viewer?.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
-							)}{" "}
-							{m.episode_aired({
-								episode: notification.episode
-							})}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title?.userPreferred ?? undefined}
-						>
-							{notification.media.title?.userPreferred}
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					{notification.createdAt && (
-						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - Date.now() / 1000)}
-						</ListItemTrailingSupportingText>
-					)}
-				</ListItem>
-			</li>
-		)
-	)
-}
-
 function format(seconds: number) {
 	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
 
@@ -335,137 +217,10 @@ function format(seconds: number) {
 	return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 365)), "years")
 }
 
-const RelatedMediaAddition_notification = serverOnly$(
-	graphql(`
-		fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification {
-			id
-			createdAt
-			media {
-				title {
-					userPreferred
-				}
-				...MediaCover_media
-				id
-			}
-		}
-	`)
-)
-
-function RelatedMediaAddition(props: {
-	notification: FragmentType<typeof RelatedMediaAddition_notification>
-}) {
-	const notification = readFragment<typeof RelatedMediaAddition_notification>(
-		props.notification
-	)
-	const data = useRawLoaderData<typeof clientLoader>()
-
-	return (
-		notification.media && (
-			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={
-						<Link
-							to={route_media({
-								id: notification.media.id
-							})}
-						/>
-					}
-				>
-					<ListItemImg>
-						<MediaCover media={notification.media} />
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) >
-								(data?.Viewer?.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
-							)}{" "}
-							{m.recently_added()}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title?.userPreferred ?? undefined}
-						>
-							{notification.media.title?.userPreferred}
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					{notification.createdAt && (
-						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - Date.now() / 1000)}
-						</ListItemTrailingSupportingText>
-					)}
-				</ListItem>
-			</li>
-		)
-	)
-}
-
-const ActivityLike_notification = serverOnly$(
-	graphql(`
-		fragment ActivityLike_notification on ActivityLikeNotification {
-			id
-			createdAt
-			activityId
-			context
-			user {
-				id
-				name
-				avatar {
-					large
-					medium
-				}
-			}
-		}
-	`)
-)
-
 export const meta = (() => {
 	return [
 		{
 			title: `Notifications`
 		}
 	]
-}) satisfies MetaFunction<typeof loader>
-
-function ActivityLike(props: {
-	notification: FragmentType<typeof ActivityLike_notification>
-}) {
-	const notification = readFragment<typeof ActivityLike_notification>(
-		props.notification
-	)
-	const data = useRawLoaderData<typeof clientLoader>()
-
-	return (
-		notification.user && (
-			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
-				<ListItemImg>
-					<img
-						src={notification.user.avatar?.large || ""}
-						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
-						style={{
-							"--bg": `url(${notification.user.avatar?.medium})`
-						}}
-						loading="lazy"
-						alt=""
-					/>
-				</ListItemImg>
-				<ListItemContent className="grid grid-cols-subgrid">
-					<ListItemContentTitle>
-						{(notification.createdAt ?? 0) >
-							(data?.Viewer?.unreadNotificationCount ?? 0) && (
-							<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
-						)}{" "}
-						{notification.context}
-					</ListItemContentTitle>
-					<ListItemContentSubtitle title={notification.user.name}>
-						{notification.user.name}
-					</ListItemContentSubtitle>
-				</ListItemContent>
-				{notification.createdAt && (
-					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - Date.now() / 1000)}
-					</ListItemTrailingSupportingText>
-				)}
-			</ListItem>
-		)
-	)
-}
+}) satisfies MetaFunction<typeof clientLoader>
