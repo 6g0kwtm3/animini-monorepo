@@ -37,7 +37,7 @@ export const clientAction = (async (args) => {
 		throw new Error("Failed to follow")
 	}
 
-	return {ToggleFollow:data.ToggleFollow}
+	return { ToggleFollow: data.ToggleFollow }
 }) satisfies ClientActionFunction
 
 export default function Page(): ReactNode {

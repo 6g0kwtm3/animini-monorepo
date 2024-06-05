@@ -1,11 +1,4 @@
-
-
 import { Schema } from "@effect/schema"
-
-
-
-
-
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String

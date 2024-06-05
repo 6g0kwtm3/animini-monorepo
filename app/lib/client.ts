@@ -1,6 +1,5 @@
 import { Effect, pipe } from "effect"
 
-
 import type {
 	GraphQLTaggedNode,
 	MutationConfig,

@@ -27,7 +27,7 @@ export default defineConfig({
 				v3_throwAbortReason: true,
 				unstable_singleFetch: true
 			},
-			ssr: false,
+			ssr: false
 			// routes(defineRoutes) {
 			// 	return defineRoutes((route) => {
 			// 		// route("", "routes/Nav.tsx", () => {

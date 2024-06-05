@@ -50,8 +50,6 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return { user: data.User }
 })
 
-
-
 export const meta = (({ params }) => {
 	return [
 		{

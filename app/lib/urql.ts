@@ -11,9 +11,7 @@ import type {
 	FetchQueryFetchPolicy,
 	GraphQLTaggedNode,
 	MutationConfig,
-
 	MutationParameters,
-
 	OperationType,
 	Variables
 } from "relay-runtime"
@@ -49,8 +47,6 @@ export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String
 }) {}
 
-
-
 export function operation<T extends OperationType>(
 	document: GraphQLTaggedNode,
 	variables: T["variables"],
@@ -71,8 +67,6 @@ export function operation<T extends OperationType>(
 	)
 }
 
-
-
 const makeClientLive = Effect.sync(() => {
 	return {
 		query: <T extends OperationType>(
@@ -92,7 +86,7 @@ const makeClientLive = Effect.sync(() => {
 				).toPromise()
 			),
 		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>
-			Effect.async<T['response'], Error>((resume) => {
+			Effect.async<T["response"], Error>((resume) => {
 				commitMutation<T>(environment, {
 					...config,
 					onCompleted: (value) => resume(Effect.succeed(value)),

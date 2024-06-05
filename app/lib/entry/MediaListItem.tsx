@@ -153,7 +153,7 @@ function MediaListItemSubtitle(props: {
 	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
 	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
-	const watch = (entry.toWatch)
+	const watch = entry.toWatch
 	return (
 		<>
 			<div>

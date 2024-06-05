@@ -46,7 +46,7 @@ export function MediaListHeaderToWatch(props: {
 
 	return formatWatch(
 		entries
-			.map(entry=>entry.toWatch)
+			.map((entry) => entry.toWatch)
 			.filter((n) => typeof n === "number")
 			.reduce((a, b) => a + b, 0)
 	)

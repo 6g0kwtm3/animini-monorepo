@@ -2,11 +2,9 @@ import { redirect } from "@remix-run/cloudflare"
 import { unstable_defineClientAction } from "@remix-run/react"
 import cookie from "cookie"
 
-
 export const clientAction = unstable_defineClientAction(async (args) => {
 	const url = new URL(args.request.url)
 
-	
 	const setCookie = cookie.serialize(`anilist-token`, "", {
 		sameSite: "lax",
 		maxAge: 0,

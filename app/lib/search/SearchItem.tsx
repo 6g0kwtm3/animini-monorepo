@@ -33,30 +33,34 @@ export const SearchItem = forwardRef<
 >(function SearchItem({ media, ...props }, ref) {
 	const data = useFragment(SearchItem_media, media)
 
-	return data && (
-		<ListItem
-			{...props}
-			ref={ref}
-			render={
-				<Link
-					to={route_media({ id: data.id })}
-					title={data.title.userPreferred }
-				/>
-			}
-		>
-			<ListItemAvatar>
-				<MediaCover media={data} />
-			</ListItemAvatar>
+	return (
+		data && (
+			<ListItem
+				{...props}
+				ref={ref}
+				render={
+					<Link
+						to={route_media({ id: data.id })}
+						title={data.title.userPreferred}
+					/>
+				}
+			>
+				<ListItemAvatar>
+					<MediaCover media={data} />
+				</ListItemAvatar>
 
-			<ListItemContent>
-				<ListItemContentTitle>{data.title.userPreferred}</ListItemContentTitle>
-			</ListItemContent>
+				<ListItemContent>
+					<ListItemContentTitle>
+						{data.title.userPreferred}
+					</ListItemContentTitle>
+				</ListItemContent>
 
-			{data.type && (
-				<ListItemTrailingSupportingText>
-					{data.type.toLowerCase()}
-				</ListItemTrailingSupportingText>
-			)}
-		</ListItem>
+				{data.type && (
+					<ListItemTrailingSupportingText>
+						{data.type.toLowerCase()}
+					</ListItemTrailingSupportingText>
+				)}
+			</ListItem>
+		)
 	)
 })
