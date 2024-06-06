@@ -10,7 +10,7 @@ const tv = createTV({ twMerge: false })
 const createLayout = tv(
 	{
 		slots: {
-			root: "",
+			root: "isolate",
 			body: "flex gap-6 pe-4 sm:pe-6"
 		},
 		variants: {

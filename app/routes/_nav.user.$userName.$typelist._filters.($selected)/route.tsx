@@ -169,12 +169,17 @@ async function setStatus(formData: FormData) {
 				"%future added value": "%future added value"
 			})
 		})
-	)(formData)
+	)(Object.fromEntries(formData))
 
 	const client = client_get_client()
 	const data = await client.mutation<routeUserSetStatusMutation>({
 		mutation: UserSetStatus,
-		variables: variables
+		variables: variables,
+		updater: (store) => {
+			store.invalidateStore()
+			// const ref = store.get(`Media:${variables.mediaId}`)
+			// if (ref != null) ref.invalidateRecord()
+		}
 	})
 
 	if (!data.SaveMediaListEntry) {

@@ -15,8 +15,8 @@ const tv = createTV({ twMerge: false })
 
 const sheet = tv({
 	slots: {
-		root: "fixed bottom-0 left-0 top-[4.5rem] z-50 mx-auto my-0 mt-auto flex h-fit max-h-[calc(100%-4.5rem)] w-full max-w-[40rem] flex-col overflow-hidden rounded-t-xl bg-surface-container-low min-[640px]:left-14 min-[640px]:right-14 min-[640px]:top-14 min-[640px]:max-h-[calc(100%-3.5rem)] min-[640px]:w-[calc(100%-7rem)]",
-		backdrop: "z-50 bg-scrim/[--opacity]",
+		root: "fixed bottom-0 left-0 top-[4.5rem] mx-auto my-0 mt-auto flex h-fit max-h-[calc(100%-4.5rem)] w-full max-w-[40rem] flex-col overflow-hidden rounded-t-xl bg-surface-container-low min-[640px]:left-14 min-[640px]:right-14 min-[640px]:top-14 min-[640px]:max-h-[calc(100%-3.5rem)] min-[640px]:w-[calc(100%-7rem)]",
+		backdrop: "bg-scrim/[--opacity]",
 		container:
 			"flex w-full flex-col overflow-auto overscroll-contain text-body-md text-on-surface"
 	},
@@ -54,7 +54,7 @@ export function Sheet({
 			<AnimatePresence>
 				{props.open && (
 					<Ariakit.Dialog
-						portal={false}
+			
 						backdrop={
 							<motion.div
 								style={{ "--opacity": opacity }}

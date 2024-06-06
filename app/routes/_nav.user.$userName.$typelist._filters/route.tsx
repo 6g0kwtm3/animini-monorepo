@@ -48,11 +48,11 @@ import MaterialSymbolsSearch from "~icons/material-symbols/search"
 import { MediaListSort } from "~/lib/MediaListSort"
 
 import { copySearchParams } from "~/lib/copySearchParams"
-import environment, { fetchQuery } from "~/lib/Network"
 import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
+import { client_operation } from "~/lib/client"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -78,19 +78,15 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		})
 	)(args.params)
 
-	const data = await fetchQuery<NavUserListQuery>(
-		environment,
-		routeNavUserListQuery,
-		{
-			userName: params.userName,
-			type: (
-				{
-					animelist: "ANIME",
-					mangalist: "MANGA"
-				} as const
-			)[params.typelist]
-		}
-	).toPromise()
+	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
+		userName: params.userName,
+		type: (
+			{
+				animelist: "ANIME",
+				mangalist: "MANGA"
+			} as const
+		)[params.typelist]
+	})
 
 	return { data, params }
 })

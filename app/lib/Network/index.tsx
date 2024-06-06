@@ -60,11 +60,11 @@ const fetchQuery_: FetchFunction = async function (
 						cacheConfig.metadata?.headers
 					)
 				) ?? new Headers()
-			headers.append("Content-Type", "application/json")
-			headers.append("Accept", "application/json")
+			headers.set("Content-Type", "application/json")
+			headers.set("Accept", "application/json")
 
 			if (token) {
-				headers.append("Authorization", `Bearer ${token}`)
+				headers.set("Authorization", `Bearer ${token}`)
 			}
 
 			const request = Http.request.post(API_URL, {

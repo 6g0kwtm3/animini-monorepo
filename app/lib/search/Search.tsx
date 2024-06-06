@@ -89,7 +89,7 @@ export function Search(): ReactNode {
 	return (
 		<SearchView
 			aria-label="Search anime or manga"
-			portal={false}
+		
 			open={show}
 			onClose={(state) => {
 				navigate({ search: `?${searchParams}` })

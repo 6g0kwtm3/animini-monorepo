@@ -4,7 +4,6 @@ import { Context, Effect, Layer } from "effect"
 
 import { Schema } from "@effect/schema"
 
-import type { Remix } from "./Remix"
 
 import type {
 	CacheConfig,
@@ -47,26 +46,6 @@ export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String
 }) {}
 
-export function operation<T extends OperationType>(
-	document: GraphQLTaggedNode,
-	variables: T["variables"],
-	options?: {
-		headers?: Headers
-	}
-): Effect.Effect<
-	T["response"] | undefined,
-	Timeout | Remix.ResponseError<null>,
-	never
-> {
-	return Effect.promise(async () =>
-		fetchQuery<T>(environment, document, variables, {
-			networkCacheConfig: {
-				metadata: options
-			}
-		}).toPromise()
-	)
-}
-
 const makeClientLive = Effect.sync(() => {
 	return {
 		query: <T extends OperationType>(
@@ -78,12 +57,10 @@ const makeClientLive = Effect.sync(() => {
 			} | null
 		) =>
 			Effect.promise(async () =>
-				fetchQuery<T>(
-					environment,
-					taggedNode,
-					variables,
-					cacheConfig
-				).toPromise()
+				fetchQuery<T>(environment, taggedNode, variables, {
+					...cacheConfig,
+					fetchPolicy: "store-or-network"
+				}).toPromise()
 			),
 		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>
 			Effect.async<T["response"], Error>((resume) => {

@@ -31,7 +31,7 @@ const ProgressIncrement_entry = graphql`
 		id
 		progress
 		...Progress_entry
-		media {
+		media @required(action: LOG) {
 			avalible
 			type
 			id
@@ -57,12 +57,17 @@ export function ProgressIncrement(props: {
 		actionData?.SaveMediaListEntry ??
 		Object.fromEntries(navigation.formData ?? new FormData())
 
-	const progress =
+		const [search] = useSearchParams()
+
+		if(!entry){
+			return null
+		}
+
+		const progress =
 		(Number(optimisticEntry.id) === entry.id
 			? Number(optimisticEntry.progress)
 			: entry.progress) ?? 0
 
-	const [search] = useSearchParams()
 
 	search.set("sheet", String(entry.id))
 
@@ -154,6 +159,7 @@ export function ProgressIncrement(props: {
 
 					<Form action="" method="post">
 						<input type="hidden" name="intent" value="set_status" />
+						<input type="hidden" name="mediaId" value={entry.media.id} />
 
 						<M3.Menu>
 							<M3.MenuListItem render={<M3.MenuTrigger />}>
@@ -168,6 +174,7 @@ export function ProgressIncrement(props: {
 									render={
 										<button
 											type="submit"
+											name="status"
 											value={"COMPLETED" satisfies MediaListStatus}
 										/>
 									}
@@ -177,17 +184,17 @@ export function ProgressIncrement(props: {
 								<M3.MenuListItem
 									render={
 										<button
-											type="submit"
+											type="submit" name="status"
 											value={"PAUSED" satisfies MediaListStatus}
 										/>
 									}
 								>
-									On Hold
+									Paused
 								</M3.MenuListItem>
 								<M3.MenuListItem
 									render={
 										<button
-											type="submit"
+											type="submit" name="status"
 											value={"DROPPED" satisfies MediaListStatus}
 										/>
 									}

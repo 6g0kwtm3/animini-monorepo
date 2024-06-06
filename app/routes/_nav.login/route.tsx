@@ -19,13 +19,7 @@ import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import { route_user_list } from "~/lib/route"
-import {
-	ClientArgs,
-	EffectUrql,
-	LoaderArgs,
-	LoaderLive,
-	operation
-} from "~/lib/urql"
+import { EffectUrql } from "~/lib/urql"
 import { JsonToToken } from "~/lib/viewer"
 const { graphql } = ReactRelay
 
@@ -49,7 +43,9 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				return {}
 			}
 
-			const data = yield* operation<NavLoginQuery>(
+			const client = yield* EffectUrql
+
+			const data = yield* client.query<NavLoginQuery>(
 				graphql`
 					query routeNavLoginQuery {
 						Viewer {
@@ -59,7 +55,13 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 					}
 				`,
 				{},
-				{ headers: new Headers({ Authorization: `Bearer ${token.trim()}` }) }
+				{
+					networkCacheConfig: {
+						metadata: {
+							headers: new Headers({ Authorization: `Bearer ${token.trim()}` })
+						}
+					}
+				}
 			)
 
 			if (!data?.Viewer) {
