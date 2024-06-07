@@ -1,165 +1,168 @@
 import * as Ariakit from "@ariakit/react"
 import {
 	Await,
+	Form,
 	useFetcher,
 	useLocation,
 	useNavigate,
 	useNavigation,
-	useSearchParams
+	useRouteLoaderData,
 } from "@remix-run/react"
 
-import type { ElementRef } from "react"
+import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
-import type { loader as searchLoader } from "~/routes/search"
+import ReactRelay from "react-relay"
+import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
-import { Predicate, ReadonlyArray } from "effect"
+import { Array as ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
-	TooltipPlainTrigger
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { List, ListItem } from "~/components/List"
+import { List } from "~/components/List"
 import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import {
 	SearchView,
 	SearchViewBody,
 	SearchViewBodyGroup,
-	SearchViewInput
+	SearchViewInput,
+	SearchViewItem,
 } from "~/components/SearchView"
-import type { loader as navLoader } from "~/routes/_nav"
+import { copySearchParams } from "~/lib/copySearchParams"
+import type { clientLoader as navLoader } from "~/routes/_nav/route"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
-import { useRawRouteLoaderData } from "../data"
-import { makeFragmentData } from "../graphql"
-import { HashNavLink } from "./HashNavLink"
-import type { SearchItem_media } from "./SearchItem"
+import { M3 } from "../components"
+
 import { SearchItem } from "./SearchItem"
-import type { SearchTrending_query } from "./SearchTrending"
 import { SearchTrending } from "./SearchTrending"
 
-export function Search() {
-	const [searchParams] = useSearchParams()
+const { graphql } = ReactRelay
+
+function useOptimisticSearchParams() {
+	const { search } = useOptimisticLocation()
+
+	return new URLSearchParams(search)
+}
+
+function useOptimisticLocation() {
+	let location = useLocation()
+	const navigation = useNavigation()
+
+	if (navigation.location?.pathname === location.pathname) {
+		location = navigation.location
+	}
+	return location
+}
+
+export function Search(): ReactNode {
+	const searchParams = useOptimisticSearchParams()
 
 	const submit = useFetcher<typeof searchLoader>()
 
 	let ref = useRef<ElementRef<"input">>(null)
 
-	const navigation = useNavigation()
+	const show = searchParams.get("sheet") === "search"
+	searchParams.delete("sheet")
 
-	let location = useLocation()
-
-	if (navigation.state === "loading") {
-		location = navigation.location
-	}
-	let navigate = useNavigate()
-
-	const show = location.hash === "#search"
+	const sheetParams = copySearchParams(searchParams)
+	sheetParams.set("sheet", "search")
+	const navigate = useNavigate()
 
 	// bind command + k
 	useEffect(() => {
 		let listener = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
 				event.preventDefault()
-				navigate({ hash: "#search" })
+				navigate({ search: `?${sheetParams}` })
 			}
 		}
 		window.addEventListener("keydown", listener)
 		return () => window.removeEventListener("keydown", listener)
-	}, [navigate])
+	}, [navigate, sheetParams])
 
-	const media = submit.data?.page?.media?.filter(Predicate.isNotNull) ?? []
+	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
 
-	const data = useRawRouteLoaderData<typeof navLoader>("routes/_nav")
+	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
 	return (
-		<>
-			<TooltipPlain>
-				<TooltipPlainTrigger
-					render={<NavigationItem render={<HashNavLink to="#search" />} />}
-				>
-					<NavigationItemIcon>
-						<MaterialSymbolsTravelExplore />
-						<MaterialSymbolsTravelExplore />
-					</NavigationItemIcon>
+		<SearchView
+			aria-label="Search anime or manga"
+			open={show}
+			onClose={(state) => {
+				navigate({ search: `?${searchParams}` })
+			}}
+			initialFocus={ref}
+			variant={{
+				initial: "fullscreen",
+				sm: "docked",
+			}}
+			defaultValue={searchParams.get("q") ?? ""}
+		>
+			<Form role="search" action="/search" className={"flex w-full flex-col"}>
+				<>
+					<SearchViewInput
+						ref={ref}
+						placeholder="Search anime or manga"
+						onChange={(e) => submit.submit(e.currentTarget.form, {})}
+						name="q"
+					/>
 
-					<div className="max-w-full break-words">Explore</div>
-				</TooltipPlainTrigger>
-				<TooltipPlainContainer>
-					<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
-				</TooltipPlainContainer>
-			</TooltipPlain>
-
-			<SearchView
-				aria-label="Search anime or manga"
-				open={show}
-				onClose={(state) => {
-					// console.log({ state })
-					navigate({
-						pathname: location.pathname,
-						search: location.search
-					})
-				}}
-				initialFocus={ref}
-				variant={{
-					initial: "fullscreen",
-					sm: "docked"
-				}}
-				defaultValue={searchParams.get("q") ?? ""}
-			>
-				<submit.Form
-					role="search"
-					action="/search"
-					className={"flex w-full flex-col"}
-				>
-					<>
-						<SearchViewInput
-							ref={ref}
-							placeholder="Search anime or manga"
-							onChange={(e) => submit.submit(e.currentTarget.form, {})}
-							name="q"
-						/>
-
-						{ReadonlyArray.isNonEmptyArray(media) ? (
-							<SearchViewBody>
-								<SearchViewBodyGroup
-									render={
-										<List
-											lines={"one"}
-											className="force:py-0"
-											render={<div />}
-										/>
-									}
+					{ReadonlyArray.isNonEmptyArray(media) ? (
+						<SearchViewBody>
+							<SearchViewBodyGroup>
+								<Ariakit.ComboboxGroupLabel
+									render={<M3.Subheader lines={"one"} />}
 								>
-									<Ariakit.ComboboxGroupLabel
-										render={<ListItem render={<div />} />}
-										className="force:hover:state-none"
-									>
-										<div className="col-span-full text-body-md text-on-surface-variant">
-											Results
-										</div>
-									</Ariakit.ComboboxGroupLabel>
+									Results
+								</Ariakit.ComboboxGroupLabel>
+
+								<List lines={"one"} render={<div />} className="-mt-2">
 									{media.map((media) => (
-										<SearchItem
-											media={makeFragmentData<SearchItem_media>(media)}
+										<SearchViewItem
 											key={media.id}
+											render={<SearchItem media={media} />}
 										/>
 									))}
-								</SearchViewBodyGroup>
-							</SearchViewBody>
-						) : data ? (
-							<Suspense fallback="">
-								<Await resolve={data.trending} errorElement={<></>}>
-									{(data) => (
-										<SearchTrending
-											query={makeFragmentData<SearchTrending_query>(data)}
-										/>
-									)}
-								</Await>
-							</Suspense>
-						) : null}
-					</>
-				</submit.Form>
-			</SearchView>
-		</>
+								</List>
+							</SearchViewBodyGroup>
+						</SearchViewBody>
+					) : data ? (
+						<Suspense fallback="">
+							<Await resolve={data.trending} errorElement={<></>}>
+								{(data) => data && <SearchTrending query={data} />}
+							</Await>
+						</Suspense>
+					) : null}
+				</>
+			</Form>
+		</SearchView>
+	)
+}
+
+export function SearchButton(): ReactNode {
+	return (
+		<TooltipPlain>
+			<TooltipPlainTrigger
+				render={
+					<NavigationItem
+						to={{
+							search: `?q=`,
+						}}
+					/>
+				}
+			>
+				<NavigationItemIcon>
+					<MaterialSymbolsTravelExplore />
+					<MaterialSymbolsTravelExplore />
+				</NavigationItemIcon>
+
+				<div className="max-w-full break-words">Explore</div>
+			</TooltipPlainTrigger>
+			<TooltipPlainContainer>
+				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
+			</TooltipPlainContainer>
+		</TooltipPlain>
 	)
 }

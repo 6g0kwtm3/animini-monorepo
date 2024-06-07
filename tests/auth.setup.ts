@@ -1,5 +1,5 @@
 import { test as setup } from "@playwright/test"
-import { FeedPage } from "./IndexPage"
+import { FeedPage } from "./pages/IndexPage"
 
 const authFile = "playwright/.auth/user.json"
 

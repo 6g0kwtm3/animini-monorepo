@@ -1,41 +1,72 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import { vitePlugin as remix } from "@remix-run/dev"
-import { vercelPreset } from "@vercel/remix/vite"
-import * as million from "million/compiler"
-import { remixDevTools } from "remix-development-tools/vite"
+import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
-import envOnly from "vite-env-only"
+import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
+		// MillionLint.vite(),
 		paraglide({
 			project: "./project.inlang",
-			outdir: "./app/paraglide"
+			outdir: "./app/paraglide",
 		}),
-		envOnly(),
+
 		remixDevTools(),
+		// cloudflareDevProxy(),
+
 		remix({
 			future: {
 				v3_fetcherPersist: true,
 				v3_relativeSplatPath: true,
-				v3_throwAbortReason: true
+				v3_throwAbortReason: true,
+				unstable_singleFetch: true,
 			},
-			presets: [vercelPreset()]
+			ssr: false,
+
+			// routes(defineRoutes) {
+			// 	return defineRoutes((route) => {
+			// 		// route("", "routes/Nav.tsx", () => {
+			// 		// 	// route("", "routes/NavFeed.tsx", { index: true })
+			// 		// 	route("user/:userName", "routes/NavUser.tsx", { index: true })
+			// 		// 	route("login", "routes/NavLogin.tsx")
+			// 		// 	route("user/:userName/:typelist", "routes/NavUserList.tsx", () => {
+			// 		// 		route(":selected?", "routes/NavUserListEntries.tsx")
+			// 		// 	})
+			// 		// })
+			// 	})
+			// }
 		}),
+
+		// million.vite({
+		// 	auto: true,
+		// 	// rsc: true,
+		// 	log: false
+		// }),
 		tsconfigPaths(),
-		million.vite({ auto: true, rsc: true, log: false }),
 		icons({
 			compiler: "jsx",
 			jsx: "react",
 			iconCustomizer(_collection, _icon, props) {
 				props.width = "1em"
 				props.height = "1em"
-			}
-		})
+			},
+		}),
+		relay,
 	],
 	server: {
-		port: 3000
-	}
+		port: 3000,
+	},
+	define: {
+		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,
+		__BUSTER__:
+			`${Date.now()}` || process.env.NODE_ENV === "production"
+				? `${Date.now()}`
+				: "`${Date.now()}`",
+	},
 })
+declare global {
+	const __BUSTER__: string
+}

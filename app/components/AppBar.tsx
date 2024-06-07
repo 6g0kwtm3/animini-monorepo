@@ -1,7 +1,8 @@
-import type { ComponentPropsWithoutRef, ElementRef } from "react"
+import type { ComponentPropsWithoutRef, ElementRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
+import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 
 const tv = createTV({ twMerge: false })
@@ -9,54 +10,53 @@ const tv = createTV({ twMerge: false })
 const appBar = tv(
 	{
 		slots: {
-			root: "grid bg-surface",
-			title: "text-title-lg text-on-surface first:ms-2"
+			root: "flex gap-2 bg-surface",
+			title: "flex h-10 items-center text-title-lg text-on-surface first:ms-2",
 		},
 		variants: {
-			position: { fixed: { root: "sticky top-0" }, static: { root: "static" } },
 			elevate: {
 				true: { root: "data-[elevated='true']:bg-surface-container" },
-				false: {}
+				false: {},
 			},
 			hide: {
 				true: {
-					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0"
+					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0",
 				},
-				false: { root: "" }
+				false: { root: "" },
 			},
 			variant: {
 				centered: {
-					root: ""
+					root: "",
 				},
 				small: {
-					root: "min-h-16"
+					root: "h-16 px-2 pb-3 pt-3",
 				},
 				medium: {
-					root: ""
+					root: "",
 				},
 				large: {
-					root: ""
-				}
-			}
+					root: "h-28 animate-app-bar-large px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]",
+				},
+			},
 		},
 		defaultVariants: {
 			variant: "small",
 			elevate: false,
 			hide: false,
-			position: "fixed"
-		}
+			position: "fixed",
+		},
 	},
 	{}
 )
 
 const AppBarContext = createContext(appBar())
-
 export function AppBar({
 	variant,
 	elevate,
 	hide,
+
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>) {
+}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 
@@ -65,7 +65,7 @@ export function AppBar({
 	const styles = appBar({
 		variant,
 		elevate,
-		hide
+		hide,
 	})
 
 	useEffect(() => {
@@ -87,17 +87,17 @@ export function AppBar({
 				"data-hidden": hidden,
 				"data-elevated": scrolled !== 0,
 				style: {
-					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px"
+					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px",
 				},
-				className: styles.root({ className: props.className })
+				className: styles.root({ className: props.className }),
 			})}
 		</AppBarContext.Provider>
 	)
 }
-export function AppBarTitle(props: ComponentPropsWithoutRef<"h1">) {
+export function AppBarTitle(props: Ariakit.HeadingProps): ReactNode {
 	const styles = useContext(AppBarContext)
-	return createElement("h1", {
+	return createElement(Ariakit.Heading, {
 		...props,
-		className: styles.title({ className: props.className })
+		className: styles.title({ className: props.className }),
 	})
 }

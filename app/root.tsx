@@ -1,86 +1,88 @@
 import {
+	isRouteErrorResponse,
 	Links,
 	Meta,
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	isRouteErrorResponse,
-	json,
-	useRouteError
+	unstable_defineClientLoader,
+	useRouteError,
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
-import { LoaderArgs, LoaderLive } from "./lib/urql.server"
-
 import { SnackbarQueue } from "./components/Snackbar"
 
-import type { LinksFunction, LoaderFunction } from "@vercel/remix"
+import { type LinksFunction } from "@remix-run/node"
 
-import { Effect, Option, pipe } from "effect"
-import { Remix } from "./lib/Remix/index.server"
+import { Option } from "effect"
+
+import { useEffect, type ReactNode } from "react"
+import { Card } from "./components/Card"
+import { Viewer } from "./lib/Remix"
+import { Ariakit } from "./lib/ariakit"
+
+import theme from "~/../fallback.json"
+
 import tailwind from "./tailwind.css?url"
 
-import type { ReactNode } from "react"
-import { Card } from "./components/Card"
-import { Layout as AppLayout } from "./components/Layout"
-import { Viewer } from "./lib/Remix/Remix.server"
-import { useLocale } from "./lib/useLocale"
-import { setLanguageTag } from "./paraglide/runtime"
+import { useRevalidator } from "@remix-run/react"
+import { useIsHydrated } from "~/lib/useIsHydrated"
+import environment, { RelayEnvironmentProvider } from "./lib/Network"
 
 export const links: LinksFunction = () => {
 	return [
 		{
 			rel: "stylesheet",
-			href: tailwind
+			href: tailwind,
 		},
 		{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 		{
 			rel: "preconnect",
 			href: "https://fonts.gstatic.com",
-			crossOrigin: "anonymous"
+			crossOrigin: "anonymous",
 		},
 		{
 			rel: "stylesheet",
-			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"
-		}
+			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap",
+		},
 	]
 }
 
-export const loader = (async (args) => {
-	return pipe(
-		pipe(
-			Effect.gen(function* (_) {
-				const { request } = yield* _(LoaderArgs)
-				const viewer = Option.getOrNull(yield* _(Viewer))
-				return json(
-					{
-						Viewer: viewer,
-						// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
-						language: request.headers.get("accept-language")
-					},
-					{
-						headers: {
-							"Cache-Control": "max-age=15, stale-while-revalidate=45, private"
-						}
-					}
-				)
-			})
-		),
-		Effect.provide(LoaderLive),
-		Effect.provideService(LoaderArgs, args),
-		Remix.runLoader
+export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const viewer = Option.getOrNull(Viewer())
+
+	return {
+		Viewer: viewer,
+		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+		language: args.request.headers.get("accept-language"),
+	}
+})
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	formAction,
+	defaultShouldRevalidate,
+}) => {
+	return (
+		formAction === "/login" ||
+		formAction === "/logout" ||
+		defaultShouldRevalidate
 	)
-}) satisfies LoaderFunction
+}
 
-export function Layout({ children }: { children: ReactNode }) {
-	const { locale, dir } = useLocale()
-	// const { nonce } = useRawLoaderData<typeof loader>()
+export function Layout({ children }: { children: ReactNode }): ReactNode {
+	// const { theme } = useRawLoaderData<typeof loader>()
+	// const { locale, dir } = useLocale()
+	// const { nonce } = useRawLoaderData()
+	// setLanguageTag(locale)
 
-	setLanguageTag(locale)
+	const isHydrated = useIsHydrated()
 
 	return (
 		<html
-			lang={locale}
-			dir={dir}
-			className="theme-light bg-background font-['Noto_Sans',sans-serif] text-on-background palette-[#6751a4] dark:theme-dark supports-[(color:AccentColor)]:palette-[AccentColor]"
+			// lang={locale}
+			// dir={dir}
+			style={theme}
+			data-testid={isHydrated && "hydrated"}
+			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -97,7 +99,12 @@ export function Layout({ children }: { children: ReactNode }) {
 				<Links />
 			</head>
 			<body>
-				{children}
+				<RelayEnvironmentProvider environment={environment}>
+					<SnackbarQueue>
+						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
+					</SnackbarQueue>
+				</RelayEnvironmentProvider>
+
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
@@ -109,30 +116,34 @@ export function Layout({ children }: { children: ReactNode }) {
 	)
 }
 
-export default function App() {
-	return (
-		<SnackbarQueue>
-			<AppLayout
-				navigation={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer"
-				}}
-			>
-				<Outlet />
-			</AppLayout>
-		</SnackbarQueue>
-	)
+function useOnFocus(callback: () => void) {
+	useEffect(() => {
+		const onFocus = () => callback()
+		window.addEventListener("focus", onFocus)
+		return () => window.removeEventListener("focus", onFocus)
+	}, [callback])
 }
 
-export function ErrorBoundary() {
+export default function App(): ReactNode {
+	const revalidator = useRevalidator()
+
+	useOnFocus(() => {
+		if (revalidator.state === "idle") {
+			revalidator.revalidate()
+		}
+	})
+
+	return <Outlet />
+}
+
+export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
 
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
 			<div>
-				<h1>Oops</h1>
+				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
 			</div>
@@ -151,7 +162,9 @@ export function ErrorBoundary() {
 			variant="elevated"
 			className="m-4 force:bg-error-container force:text-on-error-container"
 		>
-			<h1 className="text-balance text-headline-md">Uh oh ...</h1>
+			<Ariakit.Heading className="text-balance text-headline-md">
+				Uh oh ...
+			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
 		</Card>

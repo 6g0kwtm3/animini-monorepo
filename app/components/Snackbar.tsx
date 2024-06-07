@@ -2,7 +2,8 @@ import { Predicate } from "effect"
 import type {
 	ComponentPropsWithoutRef,
 	ElementRef,
-	PropsWithChildren
+	PropsWithChildren,
+	ReactNode,
 } from "react"
 import {
 	createContext,
@@ -11,24 +12,30 @@ import {
 	useEffect,
 	useId,
 	useRef,
-	useState
+	useState,
 } from "react"
 import { BaseButton } from "./Button"
 
-type OnBeforeToggle = (this: HTMLElement, event: ToggleEvent) => void
+type OnBeforeToggle = (
+	this: HTMLElement,
+	event: HTMLElementEventMap["beforetoggle"]
+) => void
 
 const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 	console.warn("Snackbar is outside of SnackbarQueue")
 })
-
-export function SnackbarQueue(props: PropsWithChildren<{}>) {
+export function SnackbarQueue(props: PropsWithChildren<{}>): ReactNode {
 	const queue = useRef<HTMLElement[]>([])
 
 	const add = useCallback<OnBeforeToggle>(
 		function (event) {
 			const state = queue.current.at(0) === this ? "open" : "closed"
 
-			if (state === "closed" && event.newState === "open") {
+			if (
+				state === "closed" &&
+				"newState" in event &&
+				event.newState === "open"
+			) {
 				event.preventDefault()
 
 				queue.current = queue.current.includes(this)
@@ -37,7 +44,7 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 				return
 			}
 
-			if (event.newState === "closed") {
+			if ("newState" in event && event.newState === "closed") {
 				queue.current = queue.current.includes(this)
 					? queue.current.filter((f) => f !== this)
 					: queue.current
@@ -51,16 +58,16 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 
 	useEffect(() => {
 		for (const element of queue.current) {
-			element.showPopover?.()
+			element.showPopover()
 
-			const timeout = Number(element.dataset["timeout"])
+			const timeout = Number(element.dataset.timeout)
 
 			if (!Number.isFinite(timeout)) {
 				return
 			}
 
 			const timeoutId = setTimeout(() => {
-				element.hidePopover?.()
+				element.hidePopover()
 			}, timeout)
 
 			return () => {
@@ -77,7 +84,6 @@ export function SnackbarQueue(props: PropsWithChildren<{}>) {
 }
 
 const SnackbarContext = createContext<string | undefined>(undefined)
-
 export function Snackbar({
 	timeout,
 	open,
@@ -85,15 +91,15 @@ export function Snackbar({
 }: ComponentPropsWithoutRef<"div"> & {
 	timeout?: number
 	open: boolean
-}) {
+}): ReactNode {
 	const ref = useRef<ElementRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
 	useEffect(() => {
 		if (open) {
-			ref.current?.showPopover?.()
+			ref.current?.showPopover()
 		} else {
-			ref.current?.hidePopover?.()
+			ref.current?.hidePopover()
 		}
 	}, [open])
 
@@ -102,12 +108,17 @@ export function Snackbar({
 		if (!current) {
 			return
 		}
-		function onInvoke(this: HTMLElement, event: InvokeEvent) {
+
+		function onInvoke(this: HTMLElement, event: Event | ToggleEvent) {
+			if (!isInvokeEvent(event)) {
+				return
+			}
+
 			if (
 				(event.action === "show" || event.action === "auto") &&
 				!this.matches(":popover-open")
 			) {
-				this.showPopover?.()
+				this.showPopover()
 				return
 			}
 
@@ -115,7 +126,7 @@ export function Snackbar({
 				(event.action === "hide" || event.action === "auto") &&
 				this.matches(":popover-open")
 			) {
-				this.hidePopover?.()
+				this.hidePopover()
 			}
 		}
 		current.addEventListener("invoke", onInvoke)
@@ -161,7 +172,17 @@ export function Snackbar({
 	)
 }
 
-export function SnackbarAction(props: ComponentPropsWithoutRef<"button">) {
+interface ToggleEvent extends Event {
+	action: string
+}
+
+function isInvokeEvent(event: Event | ToggleEvent) {
+	return "action" in event
+}
+
+export function SnackbarAction(
+	props: ComponentPropsWithoutRef<"button">
+): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)
@@ -177,13 +198,13 @@ export function SnackbarAction(props: ComponentPropsWithoutRef<"button">) {
 			{...(supportsPopover
 				? {
 						popovertargetaction: "hide",
-						popovertarget: invoketarget
+						popovertarget: invoketarget,
 					}
 				: {
 						invokeaction: "hide",
-						invoketarget
+						invoketarget,
 					})}
-			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary first:ms-auto hover:state-hover focus:state-focus"
+			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary hover:state-hover focus:state-focus"
 		/>
 	)
 }

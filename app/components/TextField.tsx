@@ -2,7 +2,7 @@ import * as Ariakit from "@ariakit/react"
 import {
 	forwardRef,
 	type ComponentPropsWithoutRef,
-	type ReactNode
+	type ReactNode,
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -24,9 +24,7 @@ export function TextFieldOutlined({
 	)
 }
 
-export function TextFieldOutlinedSupporting(
-	props: ComponentPropsWithoutRef<typeof Ariakit.FormError>
-) {
+export function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps) {
 	return (
 		<Ariakit.FormError
 			{...props}
@@ -38,15 +36,12 @@ export function TextFieldOutlinedSupporting(
 	)
 }
 
-function OutlinedLabel({
-	children,
-	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.FormLabel>) {
+function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
 	return (
 		<>
 			<Ariakit.FormLabel
 				{...props}
-				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg  group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
+				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
 			>
 				{children}
 			</Ariakit.FormLabel>
@@ -68,7 +63,7 @@ function OutlinedLabel({
 
 export const TextFieldOutlinedInput = forwardRef<
 	HTMLInputElement,
-	ComponentPropsWithoutRef<typeof Ariakit.FormInput>
+	Ariakit.FormInputProps
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
 	return (
@@ -101,7 +96,9 @@ export function TextFieldOutlinedFactory({
 
 TextFieldOutlined.Label = OutlinedLabel
 
-export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
+export function TextFieldFilled(
+	props: ComponentPropsWithoutRef<"label">
+): JSX.Element {
 	return (
 		<label
 			{...props}
@@ -127,9 +124,7 @@ export function TextFieldFilled(props: ComponentPropsWithoutRef<"label">) {
 	)
 }
 
-export function TextFieldFilledInput(
-	props: ComponentPropsWithoutRef<typeof Ariakit.FormInput>
-) {
+export function TextFieldFilledInput(props: Ariakit.FormInputProps) {
 	return (
 		<Ariakit.FormInput
 			{...props}
@@ -142,9 +137,7 @@ export function TextFieldFilledInput(
 	)
 }
 
-export function TextFieldFilledLabel(
-	props: ComponentPropsWithoutRef<typeof Ariakit.FormLabel>
-) {
+export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
 	return (
 		<Ariakit.FormLabel
 			{...props}
@@ -182,7 +175,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 				"peer-disabled:text-on-surface/[.38]",
 				"group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
 				"text-on-surface-variant",
-				"me-3 i i-6",
+				"me-3 i",
 				props.className
 			)}
 		/>

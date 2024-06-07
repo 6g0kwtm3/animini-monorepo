@@ -5,42 +5,44 @@ const tv = createTV({ twMerge: false })
 export const createList = tv(
 	{
 		slots: {
-			root: "grid grid-cols-[auto_1fr_auto] gap-x-4 py-2 [grid-auto-rows:1fr]",
-			subheader: "",
-			item: "group col-span-full grid grid-cols-subgrid px-4 outline-none hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
+			root: "grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4",
+			item: "group col-span-full grid grid-cols-subgrid px-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
 			itemAvatar: "h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full",
 			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
 			itemContent:
-				"grid first:col-span-2 last:col-span-2 first:last:col-span-3",
+				"flex h-full flex-col first:col-span-2 last:col-span-2 first:last:col-span-3",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
-			trailingSupportingText: "text-end text-label-sm text-on-surface-variant"
+			trailingSupportingText: "text-end text-label-sm text-on-surface-variant",
 		},
 		variants: {
 			lines: {
 				one: {
 					root: "",
-					item: "min-h-[3.5rem] items-center py-2",
-					itemSubtitle: "hidden"
+					item: "min-h-[3.5rem] items-center",
+					itemSubtitle: "hidden",
+					itemContent: "justify-center py-2",
 				},
 				two: {
 					root: "",
-					item: "min-h-[4.5rem] items-center py-2",
-					itemSubtitle: "block truncate"
+					item: "min-h-[4.5rem] items-center",
+					itemSubtitle: "block truncate",
+					itemContent: "justify-center py-2",
 				},
 				three: {
 					root: "",
-					item: "min-h-[5.5rem] items-start py-3",
-					itemSubtitle: "line-clamp-2"
-				}
-			}
+					item: "min-h-[5.5rem] items-start",
+					itemSubtitle: "line-clamp-2",
+					itemContent: "justify-start py-3",
+				},
+			},
 		},
 		defaultVariants: {
-			lines: "two"
-		}
+			lines: "two",
+		},
 	},
 	{
-		responsiveVariants: ["sm"]
+		responsiveVariants: ["sm"],
 	}
 )

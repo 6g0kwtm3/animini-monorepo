@@ -1,66 +1,66 @@
 import { Link } from "@remix-run/react"
-import { serverOnly$ } from "vite-env-only"
+import { forwardRef } from "react"
+import ReactRelay from "react-relay"
+
 import {
 	ListItem,
 	ListItemAvatar,
 	ListItemContent,
 	ListItemContentTitle,
-	ListItemTrailingSupportingText
+	ListItemTrailingSupportingText,
 } from "~/components/List"
-import { SearchViewItem } from "~/components/SearchView"
-import type { FragmentType } from "~/lib/graphql"
-import { graphql, useFragment } from "~/lib/graphql"
-import { MediaCover } from "../entry/MediaListCover"
+
+import { MediaCover } from "../entry/MediaCover"
 import { route_media } from "../route"
+import { useFragment } from "../Network"
+import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
+const { graphql } = ReactRelay
 
-const SearchItem_media = serverOnly$(
-	graphql(`
-		fragment SearchItem_media on Media {
-			id
-			type
-			...MediaCover_media
-			title {
-				userPreferred
-			}
+const SearchItem_media = graphql`
+	fragment SearchItem_media on Media {
+		id
+		type
+		...MediaCover_media
+		title @required(action: LOG) {
+			userPreferred @required(action: LOG)
 		}
-	`)
-)
+	}
+`
 
-export type SearchItem_media = typeof SearchItem_media
-
-export function SearchItem(props: {
-	media: FragmentType<typeof SearchItem_media>
-}) {
-	const media = useFragment<typeof SearchItem_media>(props.media)
+export const SearchItem = forwardRef<
+	HTMLLIElement,
+	{ media: SearchItem_media$key }
+>(function SearchItem({ media, ...props }, ref) {
+	const data = useFragment(SearchItem_media, media)
 
 	return (
-		<SearchViewItem
-			render={
-				<ListItem
-					render={
-						<Link
-							to={route_media({ id: media.id })}
-							title={media.title?.userPreferred ?? undefined}
-						/>
-					}
-				/>
-			}
-		>
-			<ListItemAvatar>
-				<MediaCover media={media} />
-			</ListItemAvatar>
+		data && (
+			<ListItem
+				{...props}
+				ref={ref}
+				render={
+					<Link
+						to={route_media({ id: data.id })}
+						title={data.title.userPreferred}
+					/>
+				}
+			>
+				<ListItemAvatar>
+					<MediaCover media={data} />
+				</ListItemAvatar>
 
-			<ListItemContent>
-				<ListItemContentTitle>
-					{media.title?.userPreferred}
-				</ListItemContentTitle>
-			</ListItemContent>
+				<ListItemContent>
+					<ListItemContentTitle>
+						{data.title.userPreferred}
+					</ListItemContentTitle>
+				</ListItemContent>
 
-			{media.type && (
-				<ListItemTrailingSupportingText>
-					{media.type.toLowerCase()}
-				</ListItemTrailingSupportingText>
-			)}
-		</SearchViewItem>
+				{data.type && (
+					<ListItemTrailingSupportingText>
+						{data.type.toLowerCase()}
+					</ListItemTrailingSupportingText>
+				)}
+			</ListItem>
+		)
 	)
-}
+})

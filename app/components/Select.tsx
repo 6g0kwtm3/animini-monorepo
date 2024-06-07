@@ -1,30 +1,30 @@
 import * as Ariakit from "@ariakit/react"
-import { lazy, type ComponentPropsWithoutRef, type ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
+
 import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
-import { Suspense } from "react"
+import { Suspense, lazy } from "react"
 import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = createTextField({})
 
-const LazySelectFactory = lazy(() => import("./LazySelectFactory"))
+const LazySelectFactory = lazy(async () => import("./LazySelectFactory"))
 
-const LazySelect = lazy(() => import("./LazySelect"))
-
+const LazySelect = lazy(async () => import("./LazySelect"))
 export function SelectFactory({
 	label,
 
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
-	ComponentPropsWithoutRef<"select"> & {
-		children: ReactNode
-		label: ReactNode
-		name: string
-	}) {
+}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
+	children: ReactNode
+	label: ReactNode
+	name: string
+}): ReactNode {
 	const form = Ariakit.useFormContext()
 	if (!form) throw new Error("FormSelect must be used within a Form")
+	// eslint-disable-next-line react-compiler/react-compiler
 	const value = form.useValue(props.name)
 
 	const fallback = (
@@ -62,11 +62,10 @@ export function SelectFactory({
 
 export function Select({
 	...props
-}: ComponentPropsWithoutRef<typeof Ariakit.Select> &
-	ComponentPropsWithoutRef<"select"> & {
-		children: ReactNode
-		name: string
-	}) {
+}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
+	children: ReactNode
+	name: string
+}): ReactNode {
 	const fallback = (
 		<select {...props} className={input({ className: "appearance-none" })} />
 	)
