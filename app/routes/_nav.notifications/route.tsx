@@ -26,12 +26,14 @@ import { sourceLanguageTag } from "~/paraglide/runtime"
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
-import { useFragment } from "~/lib/Network"
+import environment, { commitLocalUpdate, useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
+
+import type { routeNavNotificationsUpdateQuery } from "~/gql/routeNavNotificationsUpdateQuery.graphql"
 
 const { graphql } = ReactRelay
 
@@ -76,6 +78,21 @@ export const clientAction = (async (args) => {
 				`,
 				{}
 			)
+
+			commitLocalUpdate(environment, (store) => {
+				const { updatableData } = store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
+					graphql`
+						query routeNavNotificationsUpdateQuery @updatable {
+							Viewer {
+								unreadNotificationCount
+							}
+						}
+					`,
+					{}
+				)
+				if (updatableData.Viewer)
+					updatableData.Viewer.unreadNotificationCount = 0
+			})
 
 			return redirect(".")
 		}),
@@ -123,7 +140,7 @@ export default function Notifications(): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				{someNotRead && (
+				{someNotRead > 0 && (
 					<Form method="post">
 						<div className="fixed bottom-24 end-4 sm:bottom-4">
 							<div className="relative">
