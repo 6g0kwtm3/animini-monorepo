@@ -71,7 +71,7 @@ export function ProgressIncrement(props: {
 
 	search.set("sheet", String(entry.id))
 
-	const episodes = entry.media?.episodes ?? entry.media?.chapters
+	const episodes = entry.media.episodes ?? entry.media.chapters
 
 	return (
 		<div className="flex justify-end">
@@ -88,11 +88,11 @@ export function ProgressIncrement(props: {
 									<MaterialSymbolsAdd />
 								</M3.ButtonIcon>
 							</M3.TooltipPlainTrigger>
-							{entry.media?.avalible !== episodes && (
+							{entry.media.avalible !== episodes && (
 								<M3.TooltipPlainContainer>
 									{!episodes ? (
 										<>some more to release</>
-									) : Predicate.isNumber(entry.media?.avalible) ? (
+									) : Predicate.isNumber(entry.media.avalible) ? (
 										<>{episodes - entry.media.avalible} more to release</>
 									) : (
 										<>more to release</>
@@ -122,9 +122,9 @@ export function ProgressIncrement(props: {
 					<ClientOnly>
 						{() => {
 							const shareData: ShareData = {
-								title: entry.media?.title.userPreferred ?? "",
-								text: entry.media?.title.userPreferred ?? "",
-								url: `https://${location.host}/media/${entry.media?.id}`
+								title: entry.media.title.userPreferred,
+								text: entry.media.title.userPreferred,
+								url: `https://${location.host}/media/${entry.media.id}`
 							}
 
 							const canShare =
