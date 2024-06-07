@@ -3,19 +3,19 @@ import ReactRelay from "react-relay"
 import { useTooltipStore } from "@ariakit/react"
 import type { ActionFunction, MetaFunction } from "@remix-run/node"
 import {
-    Form,
-    redirect,
-    unstable_defineClientLoader,
-    useLoaderData
+	Form,
+	redirect,
+	unstable_defineClientLoader,
+	useLoaderData,
 } from "@remix-run/react"
 import { Effect, pipe } from "effect"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
 import { Remix } from "~/lib/Remix"
@@ -219,7 +219,7 @@ function format(seconds: number) {
 export const meta = (() => {
 	return [
 		{
-			title: `Notifications`
-		}
+			title: `Notifications`,
+		},
 	]
 }) satisfies MetaFunction<typeof clientLoader>

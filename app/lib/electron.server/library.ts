@@ -13,7 +13,7 @@ if (electron && !Predicate.isString(electron)) {
 		path.resolve(electron.app.getPath("downloads"), "**", "*.mkv"),
 		{
 			ignored: /(^|[\/\\])\../, // ignore dotfiles
-			persistent: true
+			persistent: true,
 		}
 	)
 
@@ -23,7 +23,7 @@ if (electron && !Predicate.isString(electron)) {
 		return pipe(
 			Option.fromNullable(
 				anitomy.parse(file, {
-					parseFileExtension: true
+					parseFileExtension: true,
 				})
 			)
 			// Option.filter(() => {

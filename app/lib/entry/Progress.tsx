@@ -4,7 +4,7 @@ import {
 	useNavigation,
 	useParams,
 	useRouteLoaderData,
-	useSearchParams
+	useSearchParams,
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ReactNode } from "react"
@@ -57,17 +57,16 @@ export function ProgressIncrement(props: {
 		actionData?.SaveMediaListEntry ??
 		Object.fromEntries(navigation.formData ?? new FormData())
 
-		const [search] = useSearchParams()
+	const [search] = useSearchParams()
 
-		if(!entry){
-			return null
-		}
+	if (!entry) {
+		return null
+	}
 
-		const progress =
+	const progress =
 		(Number(optimisticEntry.id) === entry.id
 			? Number(optimisticEntry.progress)
 			: entry.progress) ?? 0
-
 
 	search.set("sheet", String(entry.id))
 
@@ -124,7 +123,7 @@ export function ProgressIncrement(props: {
 							const shareData: ShareData = {
 								title: entry.media.title.userPreferred,
 								text: entry.media.title.userPreferred,
-								url: `https://${location.host}/media/${entry.media.id}`
+								url: `https://${location.host}/media/${entry.media.id}`,
 							}
 
 							const canShare =
@@ -184,7 +183,8 @@ export function ProgressIncrement(props: {
 								<M3.MenuListItem
 									render={
 										<button
-											type="submit" name="status"
+											type="submit"
+											name="status"
 											value={"PAUSED" satisfies MediaListStatus}
 										/>
 									}
@@ -194,7 +194,8 @@ export function ProgressIncrement(props: {
 								<M3.MenuListItem
 									render={
 										<button
-											type="submit" name="status"
+											type="submit"
+											name="status"
 											value={"DROPPED" satisfies MediaListStatus}
 										/>
 									}

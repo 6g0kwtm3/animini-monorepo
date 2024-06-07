@@ -5,7 +5,7 @@ import {
 	useLoaderData,
 	useLocation,
 	useRouteLoaderData,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
 
@@ -18,7 +18,7 @@ import {
 	Navigation,
 	NavigationItem,
 	NavigationItemIcon,
-	NavigationItemLargeBadge
+	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
 import { Suspense, type ReactNode } from "react"
@@ -70,13 +70,13 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			Effect.provide(LoaderLive),
 			Effect.provideService(LoaderArgs, args),
 			Remix.runLoader
-		)
+		),
 	}
 })
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
-	formMethod
+	formMethod,
 }) => {
 	if (formMethod?.toLocaleUpperCase() === "GET") {
 		return false
@@ -95,7 +95,7 @@ export default function NavRoute(): ReactNode {
 			navigation={{
 				initial: "bar",
 				sm: "rail",
-				lg: "drawer"
+				lg: "drawer",
 			}}
 		>
 			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
@@ -125,7 +125,7 @@ export default function NavRoute(): ReactNode {
 				variant={{
 					initial: "bar",
 					sm: "rail",
-					lg: "drawer"
+					lg: "drawer",
 				}}
 			>
 				<NavigationItem to="/">
@@ -148,7 +148,7 @@ export default function NavRoute(): ReactNode {
 							className="max-sm:hidden"
 							to={route_user_list({
 								userName: rootData.Viewer.name,
-								typelist: "animelist"
+								typelist: "animelist",
 							})}
 						>
 							<NavigationItemIcon>
@@ -160,7 +160,7 @@ export default function NavRoute(): ReactNode {
 						<NavigationItem
 							to={route_user_list({
 								userName: rootData.Viewer.name,
-								typelist: "mangalist"
+								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
 						>
@@ -174,7 +174,7 @@ export default function NavRoute(): ReactNode {
 				) : (
 					<NavigationItem
 						to={route_login({
-							redirect: pathname
+							redirect: pathname,
 						})}
 					>
 						<NavigationItemIcon>

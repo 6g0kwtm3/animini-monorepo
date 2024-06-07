@@ -64,7 +64,7 @@ const rtlLngs = [
 	"prs",
 	"dv",
 	"sam",
-	"ckb"
+	"ckb",
 ]
 
 export function useLocale(): {

@@ -9,24 +9,24 @@ import { Ariakit } from "~/lib/ariakit"
 const TabsContext = createContext<string | undefined>(undefined)
 
 const tv = createTV({
-	twMerge: false
+	twMerge: false,
 })
 
 const tabs = tv({
 	slots: {
-		root: "border-b border-surface-container-highest"
+		root: "border-b border-surface-container-highest",
 	},
 	variants: {
 		variant: {
 			primary: {},
-			secondary: {}
+			secondary: {},
 		},
 		grow: {
 			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
-			false: { root: "flex overflow-x-auto" }
-		}
+			false: { root: "flex overflow-x-auto" },
+		},
 	},
-	defaultVariants: { primary: true, grow: false }
+	defaultVariants: { primary: true, grow: false },
 })
 
 export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
@@ -47,7 +47,7 @@ export function TabsList({
 			<Ariakit.TabList
 				{...props}
 				className={styles.root({
-					className: props.className
+					className: props.className,
 				})}
 				render={<nav />}
 			/>

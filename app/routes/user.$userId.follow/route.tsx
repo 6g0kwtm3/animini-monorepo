@@ -23,14 +23,14 @@ const UserFollow = graphql`
 export const clientAction = (async (args) => {
 	const params = Schema.decodeUnknownSync(
 		Schema.Struct({
-			userId: Schema.NumberFromString
+			userId: Schema.NumberFromString,
 		})
 	)(args.params)
 	const client = client_get_client()
 
 	const data = await client.mutation<routeUserFollowMutation>({
 		mutation: UserFollow,
-		variables: { userId: params.userId }
+		variables: { userId: params.userId },
 	})
 
 	if (!data.ToggleFollow) {

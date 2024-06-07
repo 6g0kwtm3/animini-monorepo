@@ -1,7 +1,5 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
-import {
-	vitePlugin as remix
-} from "@remix-run/dev"
+import { vitePlugin as remix } from "@remix-run/dev"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"

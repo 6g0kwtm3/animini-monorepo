@@ -1,11 +1,11 @@
 import {
-    Await,
-    Outlet,
-    isRouteErrorResponse,
-    useRouteError,
-    useSearchParams,
-    type ClientActionFunction,
-    type ShouldRevalidateFunction
+	Await,
+	Outlet,
+	isRouteErrorResponse,
+	useRouteError,
+	useSearchParams,
+	type ClientActionFunction,
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import type { MetaFunction } from "@remix-run/node"
@@ -13,10 +13,10 @@ import { json } from "@remix-run/node"
 import { useRawLoaderData } from "~/lib/data"
 
 import {
-    AwaitLibrary,
-    MediaListHeader,
-    MediaListHeaderItem,
-    MediaListHeaderToWatch
+	AwaitLibrary,
+	MediaListHeader,
+	MediaListHeaderItem,
+	MediaListHeaderToWatch,
 } from "~/lib/list/MediaList"
 
 import { Order, Array as ReadonlyArray } from "effect"
@@ -47,19 +47,19 @@ import ReactRelay from "react-relay"
 import { readInlineData } from "~/lib/Network"
 
 import type {
-    routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
-    routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key
+	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
+	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
 } from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
 import { type routeNavUserListEntriesQuery as NavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 import type {
-    MediaStatus,
-    routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key
+	MediaStatus,
+	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type {
-    MediaListStatus,
-    routeUserSetStatusMutation
+	MediaListStatus,
+	routeUserSetStatusMutation,
 } from "~/gql/routeUserSetStatusMutation.graphql"
 
 const { graphql } = ReactRelay
@@ -126,7 +126,7 @@ const NavUserListEntriesQuery = graphql`
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return {
 		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>({}),
-		query: fetchSelectedList(args)
+		query: fetchSelectedList(args),
 	}
 })
 
@@ -136,8 +136,8 @@ export const meta = (({ params }) => {
 			title:
 				params.typelist === "animelist"
 					? `${params.userName}'s anime list`
-					: `${params.userName}'s manga list`
-		}
+					: `${params.userName}'s manga list`,
+		},
 	]
 }) satisfies MetaFunction<typeof clientLoader>
 
@@ -166,8 +166,8 @@ async function setStatus(formData: FormData) {
 				PAUSED: "PAUSED",
 				PLANNING: "PLANNING",
 				REPEATING: "REPEATING",
-				"%future added value": "%future added value"
-			})
+				"%future added value": "%future added value",
+			}),
 		})
 	)(Object.fromEntries(formData))
 
@@ -179,7 +179,7 @@ async function setStatus(formData: FormData) {
 			store.invalidateStore()
 			// const ref = store.get(`Media:${variables.mediaId}`)
 			// if (ref != null) ref.invalidateRecord()
-		}
+		},
 	})
 
 	if (!data.SaveMediaListEntry) {
@@ -198,7 +198,7 @@ export const clientAction = (async (args) => {
 		return setStatus(formData)
 	}
 	throw json(`Unknown intent ${formData.get("intent")}`, {
-		status: 400
+		status: 400,
 	})
 }) satisfies ClientActionFunction
 
@@ -215,9 +215,9 @@ async function fetchSelectedList(
 			type: (
 				{
 					animelist: "ANIME",
-					mangalist: "MANGA"
+					mangalist: "MANGA",
 				} as const
-			)[params.typelist]
+			)[params.typelist],
 		}
 	)
 
@@ -232,8 +232,8 @@ async function fetchSelectedList(
 							.filter((entry) => entry != null)
 							.map((entry) => [entry.id, entry]) ?? []
 					)
-				)
-			}
+				),
+			},
 		}
 	}
 
@@ -243,12 +243,12 @@ async function fetchSelectedList(
 
 	if (!selectedList) {
 		throw json("List not found", {
-			status: 404
+			status: 404,
 		})
 	}
 
 	return {
-		selectedList
+		selectedList,
 	}
 }
 
@@ -275,7 +275,7 @@ const OrderFuzzyDate = Order.combineAll([
 		Order.number,
 		(date: routeFuzzyDate$key | null | undefined) =>
 			readInlineData(FuzzyDate, date)?.day ?? 0
-	)
+	),
 ])
 
 function sortEntries(
@@ -370,7 +370,7 @@ function sortEntries(
 			Order.mapInput(Order.number, (entry) => {
 				return [
 					"RELEASING" satisfies MediaStatus,
-					"NOT_YET_RELEASED" satisfies MediaStatus
+					"NOT_YET_RELEASED" satisfies MediaStatus,
 				].indexOf(entry.media?.status ?? ("CANCELLED" satisfies MediaStatus))
 			})
 		)
@@ -418,7 +418,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
 	nextParams,
 	formMethod,
-	defaultShouldRevalidate
+	defaultShouldRevalidate,
 }) => {
 	if (
 		formMethod?.toLocaleUpperCase() === "GET" &&
@@ -434,7 +434,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 const Params = Schema.Struct({
 	selected: Schema.optional(Schema.String),
 	userName: Schema.String,
-	typelist: Schema.Literal("animelist", "mangalist")
+	typelist: Schema.Literal("animelist", "mangalist"),
 })
 
 export default function Page(): ReactNode {

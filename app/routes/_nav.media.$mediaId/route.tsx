@@ -1,13 +1,13 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import {
-    Link,
-    useLocation,
-    useOutlet,
-    useParams,
-    useRouteLoaderData,
-    type MetaArgs_SingleFetch,
-    type ShouldRevalidateFunction
+	Link,
+	useLocation,
+	useOutlet,
+	useParams,
+	useRouteLoaderData,
+	type MetaArgs_SingleFetch,
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import { AnimatePresence, motion } from "framer-motion"
@@ -18,19 +18,19 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-    Menu,
-    MenuDivider,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuListItem,
-    MenuTrigger
+	Menu,
+	MenuDivider,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuListItem,
+	MenuTrigger,
 } from "~/components/Menu"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import type { clientLoader as rootLoader } from "~/root"
@@ -81,13 +81,13 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			}
 		`,
 		{
-			id: Number(args.params.mediaId)
+			id: Number(args.params.mediaId),
 		}
 	)
 
 	if (!data?.Media) {
 		throw json("Media not found", {
-			status: 404
+			status: 404,
 		})
 	}
 
@@ -95,7 +95,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		Media: data.Media,
 		theme: Predicate.isString(data.Media.coverImage?.color)
 			? getThemeFromHex(data.Media.coverImage.color)
-			: {}
+			: {},
 	}
 })
 
@@ -103,7 +103,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 	formMethod,
 	nextParams,
-	currentParams
+	currentParams,
 }) => {
 	if (
 		formMethod?.toLocaleUpperCase() === "GET" &&
@@ -116,7 +116,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 export const meta = ({
-	data
+	data,
 }: MetaArgs_SingleFetch<
 	() => ReturnType<typeof clientLoader>
 >): ReturnType<MetaFunction> => {
@@ -175,7 +175,7 @@ export default function Page(): ReactNode {
 									<Menu>
 										<MenuTrigger
 											className={button({
-												className: "cursor-default"
+												className: "cursor-default",
 											})}
 										>
 											Format
@@ -236,7 +236,7 @@ export default function Page(): ReactNode {
 									<div
 										className="text-title-lg"
 										dangerouslySetInnerHTML={{
-											__html: data.Media.description || ""
+											__html: data.Media.description || "",
 										}}
 									/>
 								</div>
@@ -250,7 +250,7 @@ export default function Page(): ReactNode {
 				{outlet && (
 					<AnimatePresence mode="wait">
 						{cloneElement(outlet, {
-							key: pathname
+							key: pathname,
 						})}
 					</AnimatePresence>
 				)}
@@ -284,7 +284,7 @@ function Edit() {
 									root?.Viewer
 										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
-												redirect: route_media_edit({ id: Number(mediaId) })
+												redirect: route_media_edit({ id: Number(mediaId) }),
 											})
 								}
 								preventScrollReset={true}

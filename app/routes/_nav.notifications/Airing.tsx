@@ -6,7 +6,7 @@ import {
 	ListItemContentSubtitle,
 	ListItemContentTitle,
 	ListItemImg,
-	ListItemTrailingSupportingText
+	ListItemTrailingSupportingText,
 } from "~/components/List"
 import type { clientLoader } from "./route"
 
@@ -49,7 +49,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 					render={
 						<Link
 							to={route_media({
-								id: notification.media.id
+								id: notification.media.id,
 							})}
 						/>
 					}
@@ -64,7 +64,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 							)}{" "}
 							{m.episode_aired({
-								episode: notification.episode
+								episode: notification.episode,
 							})}
 						</ListItemContentTitle>
 						<ListItemContentSubtitle

@@ -1,7 +1,7 @@
 import { Schema } from "@effect/schema"
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
-	reset: Schema.String
+	reset: Schema.String,
 }) {}
 
 const PayloadErrors = Schema.mutable(
@@ -9,7 +9,7 @@ const PayloadErrors = Schema.mutable(
 		Schema.mutable(
 			Schema.Struct({
 				message: Schema.String,
-				status: Schema.optional(Schema.Number)
+				status: Schema.optional(Schema.Number),
 			})
 		)
 	)
@@ -24,14 +24,14 @@ const GraphQLResponseWithData = Schema.mutable(
 	Schema.Struct({
 		data: PayloadData,
 		extensions: Schema.optional(PayloadExtensions),
-		errors: Schema.optional(PayloadErrors)
+		errors: Schema.optional(PayloadErrors),
 	})
 )
 
 const GraphQLResponseWithExtensionsOnly = Schema.mutable(
 	Schema.Struct({
 		data: Schema.Null,
-		extensions: PayloadExtensions
+		extensions: PayloadExtensions,
 	})
 )
 
@@ -39,7 +39,7 @@ const GraphQLResponseWithoutData = Schema.mutable(
 	Schema.Struct({
 		data: Schema.optional(PayloadData),
 		extensions: Schema.optional(PayloadExtensions),
-		errors: PayloadErrors
+		errors: PayloadErrors,
 	})
 )
 

@@ -29,7 +29,7 @@ export default defineConfig({
 		baseURL: process.env.BASE_URL ?? "http://localhost:3000",
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: "on-first-retry"
+		trace: "on-first-retry",
 	},
 
 	/* Configure projects for major browsers */
@@ -55,13 +55,13 @@ export default defineConfig({
 		{
 			name: "mobile-chrome",
 			use: { ...devices["Pixel 5"] },
-			dependencies: ["setup"]
+			dependencies: ["setup"],
 		},
 		{
 			name: "mobile-webkit",
 			use: { ...devices["iPhone 12"] },
-			dependencies: ["setup"]
-		}
+			dependencies: ["setup"],
+		},
 
 		/* Test against branded browsers. */
 		// {
@@ -72,7 +72,7 @@ export default defineConfig({
 		//   name: 'Google Chrome',
 		//   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
 		// },
-	]
+	],
 
 	/* Run your local dev server before starting the tests */
 	// webServer: {

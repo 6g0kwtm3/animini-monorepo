@@ -21,7 +21,7 @@ export const ListItem = forwardRef<
 	return createElement("li", {
 		...props,
 		ref,
-		className: item({ className: props.className, lines })
+		className: item({ className: props.className, lines }),
 	})
 })
 export function ListItemContentTitle(
@@ -33,7 +33,7 @@ export function ListItemContentTitle(
 
 	return createElement("div", {
 		...props,
-		className: itemTitle({ className: props.className })
+		className: itemTitle({ className: props.className }),
 	})
 }
 export function ListItemContent(
@@ -45,7 +45,7 @@ export function ListItemContent(
 
 	return createElement("div", {
 		...props,
-		className: itemContent({ className: props.className })
+		className: itemContent({ className: props.className }),
 	})
 }
 export function ListItemContentSubtitle(
@@ -57,7 +57,7 @@ export function ListItemContentSubtitle(
 
 	return createElement("div", {
 		...props,
-		className: itemSubtitle({ className: props.className })
+		className: itemSubtitle({ className: props.className }),
 	})
 }
 export function ListItemImg(
@@ -69,7 +69,7 @@ export function ListItemImg(
 
 	return createElement("div", {
 		...props,
-		className: itemImg({ className: props.className })
+		className: itemImg({ className: props.className }),
 	})
 }
 export function ListItemAvatar(
@@ -81,7 +81,7 @@ export function ListItemAvatar(
 
 	return createElement("div", {
 		...props,
-		className: itemAvatar({ className: props.className })
+		className: itemAvatar({ className: props.className }),
 	})
 }
 export function ListItemIcon(
@@ -93,7 +93,7 @@ export function ListItemIcon(
 
 	return createElement("div", {
 		...props,
-		className: itemIcon({ className: props.className })
+		className: itemIcon({ className: props.className }),
 	})
 }
 
@@ -104,12 +104,12 @@ const subheader = tv({
 		lines: {
 			one: "py-2",
 			two: "py-2",
-			three: "py-3"
-		}
+			three: "py-3",
+		},
 	},
 	defaultVariants: {
-		lines: "two"
-	}
+		lines: "two",
+	},
 })
 
 export function Subheader({
@@ -151,7 +151,7 @@ export const List = forwardRef<
 			{createElement("ul", {
 				...props,
 				ref,
-				className: styles.root({ className: props.className })
+				className: styles.root({ className: props.className }),
 			})}
 		</ListContext.Provider>
 	)

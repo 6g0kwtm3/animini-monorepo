@@ -5,7 +5,7 @@ import { List } from "~/components/List"
 import {
 	SearchViewBody,
 	SearchViewBodyGroup,
-	SearchViewItem
+	SearchViewItem,
 } from "~/components/SearchView"
 
 import { SearchItem } from "./SearchItem"

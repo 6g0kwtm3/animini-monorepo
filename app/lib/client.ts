@@ -4,7 +4,7 @@ import type {
 	GraphQLTaggedNode,
 	MutationConfig,
 	MutationParameters,
-	OperationType
+	OperationType,
 } from "relay-runtime"
 import { Remix } from "./Remix"
 import { EffectUrql } from "./urql"

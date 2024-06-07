@@ -12,12 +12,12 @@ const skeleton = tv({
 	variants: {
 		full: {
 			true: "block h-full w-full",
-			false: "my-[calc((1lh-1ic)/2)] block h-[1ic] w-full max-w-[65ch]"
-		}
+			false: "my-[calc((1lh-1ic)/2)] block h-[1ic] w-full max-w-[65ch]",
+		},
 	},
 	defaultVariants: {
-		full: false
-	}
+		full: false,
+	},
 })
 
 const LoadingContext = createContext(false)
@@ -38,7 +38,7 @@ export function Skeleton({
 	if (loading)
 		return createElement("div", {
 			...props,
-			className: skeleton({ className: props.className, full })
+			className: skeleton({ className: props.className, full }),
 		})
 
 	return props.children

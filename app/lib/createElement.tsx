@@ -12,7 +12,7 @@ export function createElement(
 			...render.props,
 			className: [rest.className, render.props.className]
 				.filter(Boolean)
-				.join(" ")
+				.join(" "),
 		})
 	}
 	return <Type {...rest} />

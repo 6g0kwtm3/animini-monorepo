@@ -7,7 +7,7 @@ import {
 	ScrollRestoration,
 	unstable_defineClientLoader,
 	useRouteError,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
 
@@ -22,7 +22,6 @@ import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
 
-
 import tailwind from "./tailwind.css?url"
 
 import { useRevalidator } from "@remix-run/react"
@@ -33,18 +32,18 @@ export const links: LinksFunction = () => {
 	return [
 		{
 			rel: "stylesheet",
-			href: tailwind
+			href: tailwind,
 		},
 		{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 		{
 			rel: "preconnect",
 			href: "https://fonts.gstatic.com",
-			crossOrigin: "anonymous"
+			crossOrigin: "anonymous",
 		},
 		{
 			rel: "stylesheet",
-			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"
-		}
+			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap",
+		},
 	]
 }
 
@@ -54,13 +53,13 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return {
 		Viewer: viewer,
 		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
-		language: args.request.headers.get("accept-language")
+		language: args.request.headers.get("accept-language"),
 	}
 })
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	formAction,
-	defaultShouldRevalidate
+	defaultShouldRevalidate,
 }) => {
 	return (
 		formAction === "/login" ||

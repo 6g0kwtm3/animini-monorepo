@@ -3,14 +3,14 @@ module.exports = {
 	extends: [
 		"plugin:compat/recommended",
 		"@remix-run/eslint-config",
-		"@remix-run/eslint-config/node"
+		"@remix-run/eslint-config/node",
 	],
 	plugins: ["react-refresh", "compat", "eslint-plugin-react-compiler"],
 	overrides: [
 		{
 			files: ["*.ts", "*.tsx"],
 			parserOptions: {
-				project: true
+				project: true,
 			},
 			rules: {
 				"react-compiler/react-compiler": "error",
@@ -21,17 +21,17 @@ module.exports = {
 				"@typescript-eslint/no-floating-promises": "error",
 				"@typescript-eslint/promise-function-async": "error",
 				"@typescript-eslint/no-misused-promises": "error",
-				"@typescript-eslint/return-await": "error"
-			}
+				"@typescript-eslint/return-await": "error",
+			},
 		},
 		{
 			files: ["*.js"],
-			processor: "@graphql-eslint/graphql"
+			processor: "@graphql-eslint/graphql",
 		},
 		{
 			files: ["*.graphql"],
-			extends: "plugin:@graphql-eslint/operations-all"
-		}
+			extends: "plugin:@graphql-eslint/operations-all",
+		},
 	],
 	rules: {
 		"no-useless-constructor": "off",
@@ -53,9 +53,9 @@ module.exports = {
 					"clientAction",
 					"clientLoader",
 					"config",
-					"shouldRevalidate"
-				]
-			}
-		]
-	}
+					"shouldRevalidate",
+				],
+			},
+		],
+	},
 }

@@ -7,7 +7,7 @@ import {
 	ListItemContentSubtitle,
 	ListItemContentTitle,
 	ListItemImg,
-	ListItemTrailingSupportingText
+	ListItemTrailingSupportingText,
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { useRawLoaderData } from "~/lib/data"
@@ -49,7 +49,7 @@ export function ActivityLike(props: {
 						src={notification.user.avatar?.large || ""}
 						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
 						style={{
-							"--bg": `url(${notification.user.avatar?.medium})`
+							"--bg": `url(${notification.user.avatar?.medium})`,
 						}}
 						loading="lazy"
 						alt=""

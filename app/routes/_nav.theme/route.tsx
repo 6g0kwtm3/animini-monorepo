@@ -10,7 +10,7 @@ export default function Page(): ReactNode {
 					<div className="theme-[AccentColor]">
 						<Palette />
 					</div>
-					<div className="theme-[#6751a4] ">
+					<div className="theme-[#6751a4]">
 						<Palette />
 					</div>
 					<div className="theme-[#d6ae6b]">
@@ -28,7 +28,7 @@ export default function Page(): ReactNode {
 function ColorItem({
 	color,
 	children,
-	text
+	text,
 }: {
 	color: string
 	text?: string
@@ -39,7 +39,7 @@ function ColorItem({
 			className="p-4"
 			style={{
 				backgroundColor: `var(--${color})`,
-				color: text ? `var(--${text})` : `var(--on-${color})`
+				color: text ? `var(--${text})` : `var(--on-${color})`,
 			}}
 		>
 			{children ??
