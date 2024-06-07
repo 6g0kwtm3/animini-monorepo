@@ -60,7 +60,7 @@ export default defineConfig({
 		port: 3000,
 	},
 	define: {
-		"process.env.NODE_DEBUG":process.env.NODE_DEBUG,
+		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,
 		__BUSTER__:
 			`${Date.now()}` || process.env.NODE_ENV === "production"
 				? `${Date.now()}`
