@@ -1,17 +1,11 @@
+import type { TypedDeferredData, TypedResponse } from "@remix-run/node"
 import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
-import type { TypedDeferredData, TypedResponse } from "@vercel/remix"
 
-export function useRawLoaderData<T>(): SerializeFrom<T> {
-	return useLoaderData() as SerializeFrom<T>
-}
+export const useRawLoaderData = useLoaderData
 
-export function useRawRouteLoaderData<T>(
-	...args: Parameters<typeof useRouteLoaderData>
-): SerializeFrom<T> | undefined {
-	return useRouteLoaderData(...args) as SerializeFrom<T> | undefined
-}
+export const useRawRouteLoaderData = useRouteLoaderData
 
-type SerializeFrom<T> = T extends (...args: any[]) => infer Output
+export type SerializeFrom<T> = T extends (...args: any[]) => infer Output
 	? Serialize<Awaited<Output>>
 	: Jsonify<Awaited<T>>
 

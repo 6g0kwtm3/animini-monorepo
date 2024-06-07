@@ -1,5 +1,5 @@
 import { isAvailableLanguageTag } from "~/paraglide/runtime"
-import type { loader as rootLoader } from "~/root"
+import type { clientLoader as rootLoader } from "~/root"
 import { useRawRouteLoaderData } from "./data"
 
 const rtlLngs = [
@@ -64,10 +64,13 @@ const rtlLngs = [
 	"prs",
 	"dv",
 	"sam",
-	"ckb"
+	"ckb",
 ]
 
-export function useLocale() {
+export function useLocale(): {
+	readonly locale: "en" | "ja"
+	readonly dir: "rtl" | "ltr"
+} {
 	const acceptLanguage =
 		useRawRouteLoaderData<typeof rootLoader>("root")?.language
 

@@ -1,15 +1,16 @@
 import * as Ariakit from "@ariakit/react"
 
-import type { ComponentPropsWithoutRef, FocusEvent } from "react"
+import type { ComponentPropsWithoutRef, FocusEvent, ReactNode } from "react"
 import { forwardRef, useRef } from "react"
 
 import { createMenu } from "~/lib/menu"
 import { createTextField } from "~/lib/textField"
 import { SelectContext } from "./SelectOption"
+
 const { input } = createTextField({})
 const { root } = createMenu()
 
-export interface SelectProps extends Ariakit.SelectProps {
+export interface SelectProps extends Omit<Ariakit.SelectProps, "ref"> {
 	value?: string
 	setValue?: (value: string) => void
 	defaultValue?: string
@@ -24,9 +25,9 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 		const store = Ariakit.useSelectStore({
 			value,
 			setValue,
-			defaultValue: defaultValue ?? ""
+			defaultValue: defaultValue ?? "",
 		})
-		const portalRef = useRef<HTMLDivElement>(null)
+		const portalRef = useRef<HTMLElement>(null)
 
 		// Only call onBlur if the focus is leaving the whole widget.
 		const onBlur = (event: FocusEvent<HTMLElement>) => {
@@ -53,7 +54,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 					onBlur={onBlur}
 					className={root({
 						className:
-							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]"
+							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
 					})}
 				>
 					{children}
@@ -64,7 +65,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 )
 
 export interface FormSelectProps
-	extends Omit<ComponentPropsWithoutRef<typeof Ariakit.Role.button>, "render">,
+	extends Omit<Ariakit.ButtonProps, "render">,
 		Pick<ComponentPropsWithoutRef<typeof LazySelect>, "render"> {
 	name: string
 }
@@ -74,6 +75,7 @@ const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
 		const form = Ariakit.useFormContext()
 		if (!form) throw new Error("FormSelect must be used within a Form")
 
+		// eslint-disable-next-line react-compiler/react-compiler
 		const value = form.useValue(name)
 
 		const select = (
@@ -93,15 +95,12 @@ const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
 export default FormSelect
 
 const { item } = createMenu({})
-
-export function LazySelectOption(
-	props: ComponentPropsWithoutRef<typeof Ariakit.SelectItem>
-) {
+export function LazySelectOption(props: Ariakit.SelectItemProps): ReactNode {
 	return (
 		<Ariakit.SelectItem
 			{...props}
 			className={item({
-				className: "data-[active-item]:state-focus"
+				className: "data-[active-item]:state-focus",
 			})}
 		/>
 	)

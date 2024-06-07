@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	button {
+		cursor: unset;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:focus-visible {
+			@apply outline outline-offset-4 outline-primary transition-[outline-offset] duration-md ease-emphasized-accelerate;
+		}
+	}
+}
+
+/* ::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+} */
+
 ::view-transition-old(media-cover),
 ::view-transition-new(media-cover) {
 	/* Prevent the default animation,

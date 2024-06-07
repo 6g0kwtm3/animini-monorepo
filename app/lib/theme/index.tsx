@@ -1,17 +1,55 @@
 import {
 	argbFromHex,
-	themeFromSourceColor
+	blueFromArgb,
+	greenFromArgb,
+	Hct,
+	MaterialDynamicColors,
+	redFromArgb,
+	SchemeTonalSpot,
 } from "@material/material-color-utilities"
-import { useMemo } from "react"
-export function getThemeFromHex(hex: string) {
-	const theme = themeFromSourceColor(argbFromHex(hex))
+import type { CSSProperties } from "react"
 
-	return theme
+import colors from "~/../colors.json"
+
+export function getThemeFromHex(hex: string): { [k: string]: string } {
+	const main = Hct.fromInt(argbFromHex(hex))
+
+	return Object.fromEntries(
+		Object.keys(colors.light).flatMap((key) => {
+			const color = key.replaceAll(/-([a-z])/g, (_, l) => l.toUpperCase())
+
+			if (!(color in MaterialDynamicColors)) {
+				console.warn(`Unknown color ${color}`)
+				return []
+			}
+
+			return (
+				[
+					["standard", 0],
+					["high", 0.35],
+				] as const
+			).flatMap(([contrast, contrastLevel]) => {
+				return (
+					[
+						["light", false],
+						["dark", true],
+					] as const
+				).map(([theme, isDark]) => {
+					const spot = new SchemeTonalSpot(main, isDark, contrastLevel)
+
+					return [
+						`--${key}-${theme}-${contrast}`,
+						// @ts-ignore
+						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot)),
+					]
+				})
+			})
+		})
+	) satisfies CSSProperties
+
+	// return light
 }
 
-export function useThemeFromHex(hex: string | null | undefined) {
-	return useMemo(
-		() => (typeof hex === "string" ? getThemeFromHex(hex) : hex),
-		[hex]
-	)
+function formatArgb(argb: number): string {
+	return [redFromArgb(argb), greenFromArgb(argb), blueFromArgb(argb)].join(" ")
 }

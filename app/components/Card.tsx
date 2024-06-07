@@ -1,4 +1,5 @@
-import { type ComponentPropsWithoutRef, type ReactElement } from "react"
+import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { createElement } from "~/lib/createElement"
@@ -14,43 +15,42 @@ const card = tv({
 			filled:
 				"bg-surface-container-highest disabled:bg-surface-container-highest/[.38]",
 			elevated:
-				"bg-surface-container-low shadow disabled:bg-surface-container-low/[.38]"
+				"bg-surface-container-low shadow disabled:bg-surface-container-low/[.38]",
 		},
 		interactive: {
 			true: "hover:state-hover focused:state-focus pressed:state-pressed",
-			false: ""
-		}
+			false: "",
+		},
 	},
 	compoundVariants: [
 		{
 			variant: "outlined",
 			interactive: true,
 			className:
-				"hover:bg-surface-container-low focused:border-on-surface pressed:border-outline-variant"
+				"hover:bg-surface-container-low focused:border-on-surface pressed:border-outline-variant",
 		},
 		{
 			variant: "filled",
 			interactive: true,
-			className: "hover:bg-surface-container-low"
+			className: "hover:bg-surface-container-low",
 		},
 		{
 			variant: "elevated",
 			interactive: true,
-			className: "hover:bg-surface-container"
-		}
+			className: "hover:bg-surface-container",
+		},
 	],
-	defaultVariants: { variant: "outlined", interactive: false }
+	defaultVariants: { variant: "outlined", interactive: false },
 })
-
 export function Card({
 	variant,
 	...props
 }: ComponentPropsWithoutRef<"section"> &
 	VariantProps<typeof card> & {
-		render?: ReactElement
-	}) {
+		render?: ReactElement<any>
+	}): ReactNode {
 	return createElement("section", {
 		...props,
-		className: card({ variant: variant, className: props.className })
+		className: card({ variant: variant, className: props.className }),
 	})
 }

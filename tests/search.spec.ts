@@ -1,31 +1,34 @@
 import { expect, test } from "@playwright/test"
-import { MediaPage } from "./MediaPage"
-import { SearchPage } from "./SearchPage"
+import { MediaPage } from "./pages/MediaPage"
+import { SearchPage } from "./pages/SearchPage"
 
-test("search with keyboard", async ({ page }) => {
+test("when search, ArrowDown should change focus", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
+	await expect(page.getByTestId("hydrated")).toBeVisible()
 	await page.keyboard.press("Control+k")
 	const searchPage = SearchPage.new(page)
 	await searchPage.search.fill("sousou no frieren")
 	await expect(searchPage.active).toHaveText(/Sousou no Frieren/)
+	// when
 	await searchPage.search.press("ArrowDown")
+	// then
 	await expect(await searchPage.active.textContent()).toBe(
 		await searchPage.options.nth(1).textContent()
 	)
-	await searchPage.search.press("Enter")
-	const mediaPage = await MediaPage.new(page)
-	await expect(mediaPage.title).toHaveText("Sousou no Frieren")
 })
 
 test("search", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
+	await expect(page.getByTestId("hydrated")).toBeVisible()
 	await page.keyboard.press("Control+k")
 	const searchPage = SearchPage.new(page)
 	await searchPage.search.fill("sousou no frieren")
 	await expect(searchPage.active).toHaveText(/Sousou no Frieren/)
+	// when
 	await searchPage.search.press("Enter")
+	// then
 	const mediaPage = await MediaPage.new(page)
 	await expect(mediaPage.title).toHaveText("Sousou no Frieren")
 })

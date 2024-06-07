@@ -41,7 +41,7 @@ export async function initRemix({
 	serverBuild: serverBuildOption,
 	mode,
 	publicFolder: publicFolderOption = "public",
-	getLoadContext
+	getLoadContext,
 }) {
 	await app.whenReady()
 
@@ -54,7 +54,7 @@ export async function initRemix({
 					vite.createServer({
 						server: { middlewareMode: true },
 						root: appRoot,
-						configFile: resolve(appRoot, "vite.config.ts")
+						configFile: resolve(appRoot, "vite.config.ts"),
 					})
 				)
 
@@ -68,7 +68,7 @@ export async function initRemix({
 			"/assets",
 			express.static(resolve(appRoot, "build/client/assets"), {
 				immutable: true,
-				maxAge: "1y"
+				maxAge: "1y",
 			})
 		)
 	}
@@ -92,7 +92,7 @@ export async function initRemix({
 		createRequestHandler({
 			build: serverBuild,
 			mode,
-			getLoadContext
+			getLoadContext,
 		})
 	)
 

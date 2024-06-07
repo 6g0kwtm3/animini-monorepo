@@ -1,10 +1,10 @@
-import { createCookie } from "@vercel/remix"
+import { createCookie } from "@remix-run/node"
 
 export const tokenCookie = createCookie("anilist-token", {
-	maxAge: 604_800 // one week
+	maxAge: 604_800, // one week
 })
 
-export async function getToken(request: Request) {
+export async function getToken(request: Request): Promise<string | null> {
 	const cookieHeader = request.headers.get("Cookie")
 
 	const token = await tokenCookie.parse(cookieHeader)
@@ -14,7 +14,7 @@ export async function getToken(request: Request) {
 	return null
 }
 
-export async function getHeaders(request: Request) {
+export async function getHeaders(request: Request): Promise<Headers> {
 	const token = await getToken(request)
 	const headers = new Headers()
 	if (token) {

@@ -1,0 +1,17 @@
+diff --git a/package.json b/package.json
+index 53e47a654c3b8e9fc8bb91966cddccce6fd0d058..0121090ea99eb18c8542681e7f0aadbaced86bd3 100644
+--- a/package.json
++++ b/package.json
+@@ -22,6 +22,12 @@
+   "directories": {
+     "": "./"
+   },
++  "type": "commonjs",
++  "exports": {
++    ".": "./index.js",
++    "./lib/store/experimental-live-resolvers/LiveResolverStore": "./lib/store/experimental-live-resolvers/LiveResolverStore.js",
++    "./store/ResolverFragments": "./lib/store/ResolverFragments.js"
++  },
+   "main": "index.js",
+   "haste_commonjs": true
+ }

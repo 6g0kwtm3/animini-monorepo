@@ -1,74 +1,88 @@
-import type { Link } from "@remix-run/react"
-import { NavLink } from "@remix-run/react"
-import { Predicate } from "effect"
 import { motion } from "framer-motion"
 
-import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import type { ReactNode } from "react"
 import { createContext, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
+import { Ariakit } from "~/lib/ariakit"
 
 const TabsContext = createContext<string | undefined>(undefined)
 
 const tv = createTV({
-	twMerge: false
+	twMerge: false,
 })
 
 const tabs = tv({
 	slots: {
-		root: "border-b border-surface-container-highest"
+		root: "border-b border-surface-container-highest",
 	},
 	variants: {
 		variant: {
 			primary: {},
-			secondary: {}
+			secondary: {},
 		},
 		grow: {
 			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
-			false: { root: "flex overflow-x-auto" }
-		}
+			false: { root: "flex overflow-x-auto" },
+		},
 	},
-	defaultVariants: { primary: true, grow: false }
+	defaultVariants: { primary: true, grow: false },
 })
 
-export function Tabs({
+export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
+	return <Ariakit.TabProvider selectOnMove={false} {...props} />
+}
+
+export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
+	return <Ariakit.TabPanel {...props} />
+}
+
+export function TabsList({
 	grow,
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof tabs>) {
+}: Ariakit.TabListProps & VariantProps<typeof tabs>): ReactNode {
 	const styles = tabs({ grow })
 	return (
 		<TabsContext.Provider value={useId()}>
-			<nav
+			<Ariakit.TabList
 				{...props}
 				className={styles.root({
-					className: props.className
+					className: props.className,
 				})}
+				render={<nav />}
 			/>
 		</TabsContext.Provider>
 	)
 }
 
-export function TabsTab({
+export function TabsListItem({
 	children,
 	...props
-}: Partial<ComponentPropsWithoutRef<typeof Link>> & {
-	render?: ReactElement
-}) {
+}: Ariakit.TabProps): ReactNode {
 	const layoutId = useContext(TabsContext)
-	return createElement(NavLink, {
-		...props,
-		className: `flex justify-center px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-[current='page']:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed`,
-		children: (({ isActive }) => (
+
+	const context = Ariakit.useTabContext()
+	if (!context) {
+		throw new Error("TabsListItem must be wrapped in TabsList")
+	}
+	// eslint-disable-next-line react-compiler/react-compiler
+	const selectedId = context.useState("selectedId")
+
+	return (
+		<Ariakit.Tab
+			{...props}
+			className="flex justify-center px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed"
+		>
 			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
 				{children}
-				{isActive && (
+
+				{selectedId === props.id && (
 					<motion.div
-						{...(Predicate.isString(layoutId) ? { layoutId } : {})}
+						layoutId={layoutId}
 						className="absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem] bg-primary"
 					/>
 				)}
 			</div>
-		)) satisfies ComponentPropsWithoutRef<typeof NavLink>["children"]
-	})
+		</Ariakit.Tab>
+	)
 }

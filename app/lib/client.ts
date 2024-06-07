@@ -1,89 +1,50 @@
-import { Schema } from "@effect/schema"
-import { Option, pipe } from "effect"
-import { JsonToToken } from "./viewer"
+import { Effect, pipe } from "effect"
 
-import type { LoaderFunctionArgs } from "@vercel/remix"
-import * as cookie from "cookie"
-import type { TypedDocumentString } from "~/gql/graphql"
-import { IS_SERVER } from "./isClient"
+import type {
+	GraphQLTaggedNode,
+	MutationConfig,
+	MutationParameters,
+	OperationType,
+} from "relay-runtime"
+import { Remix } from "./Remix"
+import { EffectUrql } from "./urql"
 
-const API_URL = "https://graphql.anilist.co"
+class Client {
+	async operation<T extends OperationType>(
+		document: GraphQLTaggedNode,
+		variables: T["variables"]
+	): Promise<T["response"] | undefined> {
+		return client_operation(document, variables)
+	}
 
-export function client_get_client(args: LoaderFunctionArgs) {
-	return {
-		operation<T, V>(document: TypedDocumentString<T, V>, variables: V) {
-			return client_operation(document, variables, args)
-		}
+	async mutation<T extends MutationParameters>(
+		config: MutationConfig<T>
+	): Promise<T["response"]> {
+		return pipe(
+			Effect.gen(function* () {
+				const client = yield* EffectUrql
+				return yield* client.mutation<T>(config)
+			}),
+			Effect.provide(EffectUrql.Live),
+			Remix.runLoader
+		)
 	}
 }
 
-export async function client_operation<T, V>(
-	document: TypedDocumentString<T, V>,
-	variables: V,
-	args: LoaderFunctionArgs
-) {
-	const body = Schema.encodeSync(Schema.parseJson(Schema.any))({
-		query: document.toString(),
-		variables: variables
-	})
-
-	const headers = new Headers()
-	headers.append("Content-Type", "application/json")
-	headers.append("Accept", "application/json")
-
-	for (const [key, value] of client_get_headers(args.request)?.entries() ??
-		[]) {
-		headers.append(key, value)
-	}
-
-	const response = await fetch(API_URL, {
-		body,
-		headers,
-		method: "post",
-		signal: args.request.signal
-	})
-
-	if (!response.ok) {
-		console.error({ response, body: await response.text() })
-		throw new Response(null, {
-			status: response.status,
-			statusText: response.statusText
-		})
-	}
-
-	const { data, errors } = Schema.decodeSync(
-		Schema.struct({
-			data: Schema.unknown,
-			errors: Schema.optional(Schema.array(Schema.unknown))
-		})
-	)(await response.json())
-
-	if (errors?.length) {
-		console.error(errors)
-	}
-
-	return (data as T) ?? null
+export function client_get_client(): Client {
+	return new Client()
 }
 
-export function client_get_headers(request: Request) {
-	let cookies = cookie.parse(
-		(!IS_SERVER ? globalThis.document.cookie : null) ??
-			request.headers.get("Cookie") ??
-			""
+export async function client_operation<T extends OperationType>(
+	document: GraphQLTaggedNode,
+	variables: T["variables"]
+): Promise<T["response"] | undefined> {
+	return pipe(
+		Effect.gen(function* () {
+			const client = yield* EffectUrql
+			return yield* client.query<T>(document, variables)
+		}),
+		Effect.provide(EffectUrql.Live),
+		Remix.runLoader
 	)
-
-	let headers = pipe(
-		cookies["anilist-token"] ?? "",
-		Schema.decodeOption(JsonToToken),
-		Option.map(
-			({ token }) =>
-				new Headers({
-					Authorization: `Bearer ${token.trim()}`
-				})
-		),
-
-		Option.getOrUndefined
-	)
-
-	return headers
 }

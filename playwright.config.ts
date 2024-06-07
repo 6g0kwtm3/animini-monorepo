@@ -13,8 +13,10 @@ dotenv.config()
  */
 export default defineConfig({
 	testDir: "./tests",
+	timeout: 60000,
+	expect: { timeout: 10000 },
 	/* Run tests in files in parallel */
-	fullyParallel: true,
+	fullyParallel: false,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
 	forbidOnly: !!process.env.CI,
 	/* Retry on CI only */
@@ -22,14 +24,14 @@ export default defineConfig({
 	/* Opt out of parallel tests on CI. */
 	workers: process.env.CI ? 1 : undefined,
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
-	reporter: "html",
+	reporter: process.env.CI ? "github" : "dot",
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
 		/* Base URL to use in actions like `await page.goto('/')`. */
 		baseURL: process.env.BASE_URL ?? "http://localhost:3000",
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: "on-first-retry"
+		trace: "on-first-retry",
 	},
 
 	/* Configure projects for major browsers */
@@ -55,13 +57,13 @@ export default defineConfig({
 		{
 			name: "mobile-chrome",
 			use: { ...devices["Pixel 5"] },
-			dependencies: ["setup"]
+			dependencies: ["setup"],
 		},
 		{
 			name: "mobile-webkit",
 			use: { ...devices["iPhone 12"] },
-			dependencies: ["setup"]
-		}
+			dependencies: ["setup"],
+		},
 
 		/* Test against branded browsers. */
 		// {
@@ -72,7 +74,7 @@ export default defineConfig({
 		//   name: 'Google Chrome',
 		//   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
 		// },
-	]
+	],
 
 	/* Run your local dev server before starting the tests */
 	// webServer: {

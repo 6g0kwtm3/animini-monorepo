@@ -1,4 +1,4 @@
-/// <reference types="@vercel/remix" />
+/// <reference types="@remix-run/node" />
 /// <reference types="vite/client" />
 
 declare module "react" {
