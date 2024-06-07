@@ -1,4 +1,4 @@
-import { redirect } from "@remix-run/cloudflare"
+import { redirect } from "@remix-run/node"
 import { unstable_defineClientAction } from "@remix-run/react"
 import cookie from "cookie"
 

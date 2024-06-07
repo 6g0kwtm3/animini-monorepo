@@ -11,7 +11,7 @@ import {
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { type LinksFunction } from "@remix-run/cloudflare"
+import { type LinksFunction } from "@remix-run/node"
 
 import { Option } from "effect"
 
@@ -22,7 +22,6 @@ import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
 
-import { ClientOnly } from "remix-utils/client-only"
 
 import tailwind from "./tailwind.css?url"
 

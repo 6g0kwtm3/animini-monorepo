@@ -1,4 +1,4 @@
-import { createCookie } from "@remix-run/cloudflare"
+import { createCookie } from "@remix-run/node"
 
 export const tokenCookie = createCookie("anilist-token", {
 	maxAge: 604_800 // one week

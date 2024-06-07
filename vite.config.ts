@@ -1,6 +1,5 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import {
-	cloudflareDevProxyVitePlugin as cloudflareDevProxy,
 	vitePlugin as remix
 } from "@remix-run/dev"
 import { remixDevTools } from "remix-development-tools"
@@ -14,20 +13,21 @@ export default defineConfig({
 		// MillionLint.vite(),
 		paraglide({
 			project: "./project.inlang",
-			outdir: "./app/paraglide"
+			outdir: "./app/paraglide",
 		}),
 
 		remixDevTools(),
-		cloudflareDevProxy(),
+		// cloudflareDevProxy(),
 
 		remix({
 			future: {
 				v3_fetcherPersist: true,
 				v3_relativeSplatPath: true,
 				v3_throwAbortReason: true,
-				unstable_singleFetch: true
+				unstable_singleFetch: true,
 			},
-			ssr: false
+			ssr: false,
+
 			// routes(defineRoutes) {
 			// 	return defineRoutes((route) => {
 			// 		// route("", "routes/Nav.tsx", () => {
@@ -54,19 +54,19 @@ export default defineConfig({
 			iconCustomizer(_collection, _icon, props) {
 				props.width = "1em"
 				props.height = "1em"
-			}
+			},
 		}),
-		relay
+		relay,
 	],
 	server: {
-		port: 3000
+		port: 3000,
 	},
 	define: {
 		__BUSTER__:
 			`${Date.now()}` || process.env.NODE_ENV === "production"
 				? `${Date.now()}`
-				: "`${Date.now()}`"
-	}
+				: "`${Date.now()}`",
+	},
 })
 declare global {
 	const __BUSTER__: string

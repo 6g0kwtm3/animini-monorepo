@@ -9,7 +9,7 @@
 // 	redirect,
 // 	type ActionFunction,
 // 	type LoaderFunction
-// } from "@remix-run/cloudflare"
+// } from "@remix-run/node"
 // import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 // import {
 // 	Button as ButtonText,
@@ -62,7 +62,7 @@
 // 	)
 
 //
-// import { unstable_defineLoader } from "@remix-run/cloudflare"
+// import { unstable_defineLoader } from "@remix-run/node"
 // export const clientLoader = unstable_defineClientLoader(async (args) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {

@@ -15,7 +15,7 @@ import { Schema } from "@effect/schema"
 
 import { JsonToToken } from "../viewer"
 
-import { json } from "@remix-run/cloudflare"
+import { json } from "@remix-run/node"
 
 import { Remix } from "../Remix"
 

@@ -5,7 +5,7 @@ import { Await, type AwaitProps } from "@remix-run/react"
 import { Library } from "~/lib/entry/MediaListItem"
 import { formatWatch } from "~/lib/entry/ToWatch"
 
-import type { SerializeFrom } from "@remix-run/cloudflare"
+import type { SerializeFrom } from "@remix-run/node"
 import type { AnitomyResult } from "anitomy"
 import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"

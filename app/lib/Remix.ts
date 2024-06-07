@@ -1,11 +1,11 @@
 import {
-	Cause,
-	Data,
-	Effect,
-	Exit,
-	Option,
-	Record as ReadonlyRecord,
-	pipe
+    Cause,
+    Data,
+    Effect,
+    Exit,
+    Option,
+    Record as ReadonlyRecord,
+    pipe
 } from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql"
 import { Token } from "./viewer"
@@ -14,11 +14,10 @@ import { Schema } from "@effect/schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
-import type { TypedResponse } from "@remix-run/cloudflare"
-import { json } from "@remix-run/cloudflare"
+import type { TypedResponse } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import cookie from "cookie"
 import { dev } from "./dev"
-import { ClientOnly } from "remix-utils/client-only"
 
 export function Cookie<I, A>(
 	name: string,

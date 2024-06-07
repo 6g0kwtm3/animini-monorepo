@@ -1,16 +1,16 @@
-import type { MetaFunction } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/node"
 import {
-	Await,
-	Link,
-	unstable_defineClientLoader,
-	useFetcher,
-	useRouteLoaderData
+    Await,
+    Link,
+    unstable_defineClientLoader,
+    useFetcher,
+    useRouteLoaderData
 } from "@remix-run/react"
 
 import {
-	Predicate,
-	Array as ReadonlyArray,
-	Record as ReadonlyRecord
+    Predicate,
+    Array as ReadonlyArray,
+    Record as ReadonlyRecord
 } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
@@ -20,13 +20,13 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
-	ListItem,
-	ListItemAvatar,
-	ListItemContent,
-	ListItemImg,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemContent,
+    ListItemImg,
+    ListItemContentSubtitle as ListItemSubtitle,
+    ListItemContentTitle as ListItemTitle
 } from "~/components/List"
 
 import { client_operation } from "~/lib/client"
@@ -44,10 +44,10 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 
 import createDOMPurify from "dompurify"
 import {
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichTrigger
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichTrigger
 } from "~/components/Tooltip"
 
 import * as Ariakit from "@ariakit/react"

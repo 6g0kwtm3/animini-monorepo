@@ -1,38 +1,37 @@
 import ReactRelay from "react-relay"
 
 import { useTooltipStore } from "@ariakit/react"
-import type { ActionFunction, MetaFunction } from "@remix-run/cloudflare"
+import type { ActionFunction, MetaFunction } from "@remix-run/node"
 import {
-	Form,
-	redirect,
-	unstable_defineClientLoader,
-	useLoaderData
+    Form,
+    redirect,
+    unstable_defineClientLoader,
+    useLoaderData
 } from "@remix-run/react"
-import { Effect, Predicate, pipe } from "effect"
+import { Effect, pipe } from "effect"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger
 } from "~/components/Tooltip"
 
 import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
-import { useRawLoaderData } from "~/lib/data"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
+import { EffectUrql } from "~/lib/urql"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
+import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
 import { useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
-import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
 
 const { graphql } = ReactRelay
 

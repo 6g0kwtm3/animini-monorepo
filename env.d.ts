@@ -1,4 +1,4 @@
-/// <reference types="@remix-run/cloudflare" />
+/// <reference types="@remix-run/node" />
 /// <reference types="vite/client" />
 
 declare module "react" {
