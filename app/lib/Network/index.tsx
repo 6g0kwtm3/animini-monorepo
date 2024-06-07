@@ -148,6 +148,7 @@ export const {
 	RelayEnvironmentProvider,
 	useFragment,
 	readInlineData,
+	commitLocalUpdate,
 } = ReactRelay
 
 export default environment
