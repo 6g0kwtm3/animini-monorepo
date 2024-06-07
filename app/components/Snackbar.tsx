@@ -3,7 +3,7 @@ import type {
 	ComponentPropsWithoutRef,
 	ElementRef,
 	PropsWithChildren,
-	ReactNode
+	ReactNode,
 } from "react"
 import {
 	createContext,
@@ -12,7 +12,7 @@ import {
 	useEffect,
 	useId,
 	useRef,
-	useState
+	useState,
 } from "react"
 import { BaseButton } from "./Button"
 
@@ -198,11 +198,11 @@ export function SnackbarAction(
 			{...(supportsPopover
 				? {
 						popovertargetaction: "hide",
-						popovertarget: invoketarget
+						popovertarget: invoketarget,
 					}
 				: {
 						invokeaction: "hide",
-						invoketarget
+						invoketarget,
 					})}
 			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary hover:state-hover focus:state-focus"
 		/>

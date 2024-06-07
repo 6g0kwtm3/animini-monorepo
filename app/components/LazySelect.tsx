@@ -25,7 +25,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 		const store = Ariakit.useSelectStore({
 			value,
 			setValue,
-			defaultValue: defaultValue ?? ""
+			defaultValue: defaultValue ?? "",
 		})
 		const portalRef = useRef<HTMLElement>(null)
 
@@ -54,7 +54,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 					onBlur={onBlur}
 					className={root({
 						className:
-							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]"
+							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
 					})}
 				>
 					{children}
@@ -100,7 +100,7 @@ export function LazySelectOption(props: Ariakit.SelectItemProps): ReactNode {
 		<Ariakit.SelectItem
 			{...props}
 			className={item({
-				className: "data-[active-item]:state-focus"
+				className: "data-[active-item]:state-focus",
 			})}
 		/>
 	)

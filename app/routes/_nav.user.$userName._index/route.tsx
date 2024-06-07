@@ -3,12 +3,12 @@ import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
 import {
-    Form,
-    Link,
-    unstable_defineClientLoader,
-    useFetcher,
-    useLocation,
-    useRouteLoaderData
+	Form,
+	Link,
+	unstable_defineClientLoader,
+	useFetcher,
+	useLocation,
+	useRouteLoaderData,
 } from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
@@ -43,7 +43,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	if (!data?.User) {
 		throw json("User not found", {
-			status: 404
+			status: 404,
 		})
 	}
 
@@ -53,14 +53,14 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 export const meta = (({ params }) => {
 	return [
 		{
-			title: `${params.userName}'s profile`
-		}
+			title: `${params.userName}'s profile`,
+		},
 	]
 }) satisfies MetaFunction<typeof clientLoader>
 
 function params() {
 	return Schema.Struct({
-		userName: Schema.String
+		userName: Schema.String,
 	})
 }
 
@@ -71,7 +71,7 @@ export default function Page(): ReactNode {
 	const { pathname } = useLocation()
 
 	const follow = useFetcher<typeof userFollowAction>({
-		key: `${data.user.name}-follow`
+		key: `${data.user.name}-follow`,
 	})
 
 	return (
@@ -115,7 +115,7 @@ export default function Page(): ReactNode {
 					<Form
 						method="post"
 						action={`/logout/?${new URLSearchParams({
-							redirect: pathname
+							redirect: pathname,
 						})}`}
 					>
 						<ButtonText type="submit">Logout</ButtonText>

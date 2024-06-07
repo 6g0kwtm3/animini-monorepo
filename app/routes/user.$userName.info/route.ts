@@ -8,7 +8,7 @@ const { graphql } = ReactRelay
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const params = Schema.decodeUnknownSync(
 		Schema.Struct({
-			userName: Schema.String
+			userName: Schema.String,
 		})
 	)(args.params)
 

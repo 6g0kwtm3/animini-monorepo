@@ -5,7 +5,7 @@ import {
 	Hct,
 	MaterialDynamicColors,
 	redFromArgb,
-	SchemeTonalSpot
+	SchemeTonalSpot,
 } from "@material/material-color-utilities"
 import type { CSSProperties } from "react"
 
@@ -26,13 +26,13 @@ export function getThemeFromHex(hex: string): { [k: string]: string } {
 			return (
 				[
 					["standard", 0],
-					["high", 0.35]
+					["high", 0.35],
 				] as const
 			).flatMap(([contrast, contrastLevel]) => {
 				return (
 					[
 						["light", false],
-						["dark", true]
+						["dark", true],
 					] as const
 				).map(([theme, isDark]) => {
 					const spot = new SchemeTonalSpot(main, isDark, contrastLevel)
@@ -40,7 +40,7 @@ export function getThemeFromHex(hex: string): { [k: string]: string } {
 					return [
 						`--${key}-${theme}-${contrast}`,
 						// @ts-ignore
-						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot))
+						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot)),
 					]
 				})
 			})

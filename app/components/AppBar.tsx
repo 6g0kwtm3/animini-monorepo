@@ -11,40 +11,40 @@ const appBar = tv(
 	{
 		slots: {
 			root: "flex gap-2 bg-surface",
-			title: "flex h-10 items-center text-title-lg text-on-surface first:ms-2"
+			title: "flex h-10 items-center text-title-lg text-on-surface first:ms-2",
 		},
 		variants: {
 			elevate: {
 				true: { root: "data-[elevated='true']:bg-surface-container" },
-				false: {}
+				false: {},
 			},
 			hide: {
 				true: {
-					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0"
+					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0",
 				},
-				false: { root: "" }
+				false: { root: "" },
 			},
 			variant: {
 				centered: {
-					root: ""
+					root: "",
 				},
 				small: {
-					root: "h-16 px-2 pb-3 pt-3"
+					root: "h-16 px-2 pb-3 pt-3",
 				},
 				medium: {
-					root: ""
+					root: "",
 				},
 				large: {
-					root: "h-28 animate-app-bar-large px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]"
-				}
-			}
+					root: "h-28 animate-app-bar-large px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]",
+				},
+			},
 		},
 		defaultVariants: {
 			variant: "small",
 			elevate: false,
 			hide: false,
-			position: "fixed"
-		}
+			position: "fixed",
+		},
 	},
 	{}
 )
@@ -65,7 +65,7 @@ export function AppBar({
 	const styles = appBar({
 		variant,
 		elevate,
-		hide
+		hide,
 	})
 
 	useEffect(() => {
@@ -87,9 +87,9 @@ export function AppBar({
 				"data-hidden": hidden,
 				"data-elevated": scrolled !== 0,
 				style: {
-					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px"
+					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px",
 				},
-				className: styles.root({ className: props.className })
+				className: styles.root({ className: props.className }),
 			})}
 		</AppBarContext.Provider>
 	)
@@ -98,6 +98,6 @@ export function AppBarTitle(props: Ariakit.HeadingProps): ReactNode {
 	const styles = useContext(AppBarContext)
 	return createElement(Ariakit.Heading, {
 		...props,
-		className: styles.title({ className: props.className })
+		className: styles.title({ className: props.className }),
 	})
 }

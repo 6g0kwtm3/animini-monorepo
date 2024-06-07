@@ -3,7 +3,7 @@ import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 import type {
 	ProgressIncrementMutation,
-	ProgressIncrementMutation$data
+	ProgressIncrementMutation$data,
 } from "~/gql/ProgressIncrementMutation.graphql"
 import { client_get_client } from "~/lib/client"
 const { graphql } = ReactRelay
@@ -16,7 +16,7 @@ export const increment = async (
 	const formData = Schema.decodeUnknownSync(
 		Schema.Struct({
 			id: Schema.NumberFromString,
-			progress: Schema.NumberFromString
+			progress: Schema.NumberFromString,
 		})
 	)(Object.fromEntries(form))
 
@@ -31,7 +31,7 @@ export const increment = async (
 				}
 			}
 		`,
-		variables: { entryId: formData.id, progress: formData.progress }
+		variables: { entryId: formData.id, progress: formData.progress },
 	})
 
 	if (!data.SaveMediaListEntry) {

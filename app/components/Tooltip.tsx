@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import type {
 	ComponentPropsWithoutRef,
 	PropsWithChildren,
-	ReactNode
+	ReactNode,
 } from "react"
 import { forwardRef } from "react"
 
@@ -24,9 +24,9 @@ const tooltip = tv({
 	slots: { container: "" },
 	variants: {
 		variant: {
-			rich: { container: "rounded-md bg-surface-container px-4 pb-2 pt-3" }
-		}
-	}
+			rich: { container: "rounded-md bg-surface-container px-4 pb-2 pt-3" },
+		},
+	},
 })
 export function TooltipRichContainer(props: Ariakit.HovercardProps): ReactNode {
 	const { container } = tooltip({ variant: "rich" })
@@ -112,6 +112,6 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 }
 export function TouchTarget(): ReactNode {
 	return (
-		<span className="absolute left-1/2 top-1/2 h-[max(100%,3rem)] w-[max(100%,3rem)]  -translate-x-1/2 -translate-y-1/2" />
+		<span className="absolute left-1/2 top-1/2 h-[max(100%,3rem)] w-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2" />
 	)
 }

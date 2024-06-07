@@ -4,7 +4,6 @@ import { Context, Effect, Layer } from "effect"
 
 import { Schema } from "@effect/schema"
 
-
 import type {
 	CacheConfig,
 	FetchQueryFetchPolicy,
@@ -12,7 +11,7 @@ import type {
 	MutationConfig,
 	MutationParameters,
 	OperationType,
-	Variables
+	Variables,
 } from "relay-runtime"
 
 import environment, { commitMutation, fetchQuery } from "./Network"
@@ -43,7 +42,7 @@ export class ClientArgs extends Context.Tag("client/Args")<
 >() {}
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
-	reset: Schema.String
+	reset: Schema.String,
 }) {}
 
 const makeClientLive = Effect.sync(() => {
@@ -59,7 +58,7 @@ const makeClientLive = Effect.sync(() => {
 			Effect.promise(async () =>
 				fetchQuery<T>(environment, taggedNode, variables, {
 					...cacheConfig,
-					fetchPolicy: "store-or-network"
+					fetchPolicy: "store-or-network",
 				}).toPromise()
 			),
 		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>
@@ -67,9 +66,9 @@ const makeClientLive = Effect.sync(() => {
 				commitMutation<T>(environment, {
 					...config,
 					onCompleted: (value) => resume(Effect.succeed(value)),
-					onError: (error) => resume(Effect.fail(error))
+					onError: (error) => resume(Effect.fail(error)),
 				})
-			})
+			}),
 	}
 })
 
@@ -78,7 +77,7 @@ export const ArgsAdapterLive = Layer.effect(
 	Effect.map(LoaderArgs, ({ params, request }) => {
 		return ClientArgs.of({
 			params,
-			searchParams: new URL(request.url).searchParams
+			searchParams: new URL(request.url).searchParams,
 		})
 	})
 )

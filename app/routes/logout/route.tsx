@@ -8,12 +8,12 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 	const setCookie = cookie.serialize(`anilist-token`, "", {
 		sameSite: "lax",
 		maxAge: 0,
-		path: "/"
+		path: "/",
 	})
 	document.cookie = setCookie
 	return redirect(url.searchParams.get("redirect") ?? "/", {
 		headers: {
-			"Set-Cookie": setCookie
-		}
+			"Set-Cookie": setCookie,
+		},
 	})
 })

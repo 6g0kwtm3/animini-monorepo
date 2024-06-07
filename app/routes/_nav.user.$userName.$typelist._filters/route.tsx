@@ -2,7 +2,7 @@ import {
 	CheckboxProvider,
 	Group,
 	GroupLabel,
-	RadioProvider
+	RadioProvider,
 } from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import {
@@ -19,7 +19,7 @@ import {
 	useRouteError,
 	useSearchParams,
 	useSubmit,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import { Order } from "effect"
@@ -32,7 +32,7 @@ import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
 	ListItem,
 	ListItemContent,
-	ListItemContentTitle
+	ListItemContentTitle,
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
@@ -58,7 +58,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
 	nextParams,
 	formMethod,
-	defaultShouldRevalidate
+	defaultShouldRevalidate,
 }) => {
 	if (
 		formMethod?.toLocaleUpperCase() === "GET" &&
@@ -74,7 +74,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const params = await Schema.decodeUnknownSync(
 		Schema.Struct({
 			userName: Schema.String,
-			typelist: Schema.Literal("animelist", "mangalist")
+			typelist: Schema.Literal("animelist", "mangalist"),
 		})
 	)(args.params)
 
@@ -83,9 +83,9 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		type: (
 			{
 				animelist: "ANIME",
-				mangalist: "MANGA"
+				mangalist: "MANGA",
 			} as const
-		)[params.typelist]
+		)[params.typelist],
 	})
 
 	return { data, params }
@@ -230,7 +230,7 @@ export default function Filters(): ReactNode {
 								<div className="sticky top-0 z-50 -mx-4 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
 									<AppBar
 										variant="large"
-										className="sm:bg-surface-container-low "
+										className="sm:bg-surface-container-low"
 									>
 										<Icon>
 											<MaterialSymbolsSearch />
@@ -318,12 +318,12 @@ function FilterButton() {
 
 	return (
 		<Icon
-			className={`md:hidden${searchParams.size > 0 ? " text-tertiary" : ""}`}
+			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
 			render={
 				<Link
 					to={{
 						search: `?${filterParams}`,
-						pathname
+						pathname,
 					}}
 				/>
 			}
@@ -362,7 +362,7 @@ function Filter() {
 				open={filter || sort}
 				onClose={() => {
 					navigate({
-						search: `?${searchParams}`
+						search: `?${searchParams}`,
 					})
 				}}
 			>
@@ -516,7 +516,7 @@ const ANIME_STATUS_OPTIONS = {
 	"MediaStatus.Finished": m.media_status_finished(),
 	"MediaStatus.Releasing": m.media_status_releasing(),
 	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
-	"MediaStatus.Cancelled": m.media_status_cancelled()
+	"MediaStatus.Cancelled": m.media_status_cancelled(),
 }
 
 const MANGA_STATUS_OPTIONS = {
@@ -524,7 +524,7 @@ const MANGA_STATUS_OPTIONS = {
 	"MediaStatus.Releasing": m.media_status_releasing(),
 	"MediaStatus.Hiatus": m.media_status_hiatus(),
 	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
-	"MediaStatus.Cancelled": m.media_status_cancelled()
+	"MediaStatus.Cancelled": m.media_status_cancelled(),
 }
 
 const ANIME_FORMAT_OPTIONS = {
@@ -534,17 +534,17 @@ const ANIME_FORMAT_OPTIONS = {
 	"MediaFormat.Special": m.media_format_special(),
 	"MediaFormat.Ova": m.media_format_ova(),
 	"MediaFormat.Ona": m.media_format_ona(),
-	"MediaFormat.Music": m.media_format_music()
+	"MediaFormat.Music": m.media_format_music(),
 }
 
 const ANIME_PROGRESS_OPTIONS = {
 	UNSEEN: "Unwatched",
-	STARTED: "Started"
+	STARTED: "Started",
 }
 
 const MANGA_PROGRESS_OPTIONS = {
 	UNSEEN: "Unread",
-	STARTED: "Started"
+	STARTED: "Started",
 }
 
 const ANIME_SORT_OPTIONS = {
@@ -557,7 +557,7 @@ const ANIME_SORT_OPTIONS = {
 	[MediaListSort.FinishedOnDesc]: m.media_sort_completed_date(),
 	[MediaListSort.StartDateDesc]: m.media_sort_release_date(),
 	[MediaListSort.AvgScore]: m.media_sort_avg_score(),
-	[MediaListSort.PopularityDesc]: m.media_sort_popularity()
+	[MediaListSort.PopularityDesc]: m.media_sort_popularity(),
 }
 
 const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
@@ -565,7 +565,7 @@ const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
 const MANGA_FORMAT_OPTIONS = {
 	"MediaFormat.Manga": m.media_format_manga(),
 	"MediaFormat.Novel": m.media_format_novel(),
-	"MediaFormat.OneShot": m.media_format_one_shot()
+	"MediaFormat.OneShot": m.media_format_one_shot(),
 }
 
 export function ErrorBoundary(): ReactNode {

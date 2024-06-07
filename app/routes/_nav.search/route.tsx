@@ -30,7 +30,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			}
 		`,
 		{
-			q: searchParams.get("q")
+			q: searchParams.get("q"),
 		}
 	)
 	return data

@@ -1,11 +1,11 @@
 import {
-    Cause,
-    Data,
-    Effect,
-    Exit,
-    Option,
-    Record as ReadonlyRecord,
-    pipe
+	Cause,
+	Data,
+	Effect,
+	Exit,
+	Option,
+	Record as ReadonlyRecord,
+	pipe,
 } from "effect"
 import { LoaderArgs, Timeout } from "~/lib/urql"
 import { Token } from "./viewer"
@@ -35,7 +35,7 @@ export function Cookie<I, A>(
 export const CloudflareKV = createCloudflareKV({})
 
 function createCloudflareKV<
-	O extends Record<string, Schema.Schema<any, any, never>>
+	O extends Record<string, Schema.Schema<any, any, never>>,
 >(options: O) {
 	return {
 		store<K extends keyof O & string>(key: K) {
@@ -68,9 +68,9 @@ function createCloudflareKV<
 							env?.MY_KV.put(`${key}-${id}`, encoded)
 						)
 					})
-				}
+				},
 			}
-		}
+		},
 	}
 }
 
@@ -113,7 +113,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 
 	if (!Cause.isFailType(cause)) {
 		throw json(null, {
-			status: 500
+			status: 500,
 		})
 	}
 
@@ -121,7 +121,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 
 	if (error instanceof NoSuchElementException) {
 		throw json("Not found", {
-			status: 404
+			status: 404,
 		})
 	}
 
@@ -131,12 +131,12 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 
 	if (error instanceof Timeout) {
 		throw json(`Request timeout. Try again in ${error.reset}s`, {
-			status: 504
+			status: 504,
 		})
 	}
 
 	throw json(null, {
-		status: 500
+		status: 500,
 	})
 }
 

@@ -6,7 +6,7 @@ import {
 	useLocation,
 	useNavigate,
 	useNavigation,
-	useRouteLoaderData
+	useRouteLoaderData,
 } from "@remix-run/react"
 
 import type { ElementRef, ReactNode } from "react"
@@ -18,7 +18,7 @@ import { Array as ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
-	TooltipPlainTrigger
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
 import { List } from "~/components/List"
@@ -28,7 +28,7 @@ import {
 	SearchViewBody,
 	SearchViewBodyGroup,
 	SearchViewInput,
-	SearchViewItem
+	SearchViewItem,
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
 import type { clientLoader as navLoader } from "~/routes/_nav/route"
@@ -89,7 +89,6 @@ export function Search(): ReactNode {
 	return (
 		<SearchView
 			aria-label="Search anime or manga"
-		
 			open={show}
 			onClose={(state) => {
 				navigate({ search: `?${searchParams}` })
@@ -97,7 +96,7 @@ export function Search(): ReactNode {
 			initialFocus={ref}
 			variant={{
 				initial: "fullscreen",
-				sm: "docked"
+				sm: "docked",
 			}}
 			defaultValue={searchParams.get("q") ?? ""}
 		>
@@ -149,7 +148,7 @@ export function SearchButton(): ReactNode {
 				render={
 					<NavigationItem
 						to={{
-							search: `?q=`
+							search: `?q=`,
 						}}
 					/>
 				}

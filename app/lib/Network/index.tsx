@@ -4,7 +4,7 @@ import {
 	Environment,
 	Network,
 	RecordSource,
-	type FetchFunction
+	type FetchFunction,
 } from "relay-runtime"
 
 import RelayRuntime from "relay-runtime"
@@ -51,7 +51,7 @@ const fetchQuery_: FetchFunction = async function (
 		Effect.gen(function* () {
 			const body = yield* Http.body.json({
 				query: operation.text,
-				variables: variables
+				variables: variables,
 			})
 
 			const headers =
@@ -69,7 +69,7 @@ const fetchQuery_: FetchFunction = async function (
 
 			const request = Http.request.post(API_URL, {
 				body: body,
-				headers
+				headers,
 			})
 
 			const response = yield* Http.client.fetchOk(request)
@@ -95,17 +95,17 @@ const fetchQuery_: FetchFunction = async function (
 							error.response.headers,
 							Http.headers.get("retry-after"),
 							Option.getOrElse(() => "60")
-						)
+						),
 					})
 				}
 
 				return new Remix.ResponseError({
 					response: json(null, {
 						status: error.response.status,
-						statusText: ""
-					})
+						statusText: "",
+					}),
 				})
-			}
+			},
 		}),
 		Effect.scoped,
 		Effect.retry({
@@ -113,7 +113,7 @@ const fetchQuery_: FetchFunction = async function (
 				Schedule.jittered(Schedule.exponential("5 seconds")),
 				Schedule.recurs(10)
 			),
-			while: (error) => error instanceof Timeout
+			while: (error) => error instanceof Timeout,
 		}),
 		Effect.runPromise
 	)
@@ -136,7 +136,7 @@ const environment = new Environment({
 		}
 	},
 	getDataID: (data, typeName) =>
-		data.id != null ? `${typeName}:${data.id}` : null
+		data.id != null ? `${typeName}:${data.id}` : null,
 	// ... other options
 })
 
@@ -147,7 +147,7 @@ export const {
 	fetchQuery,
 	RelayEnvironmentProvider,
 	useFragment,
-	readInlineData
+	readInlineData,
 } = ReactRelay
 
 export default environment

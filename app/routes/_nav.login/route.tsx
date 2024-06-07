@@ -2,8 +2,8 @@ import type { MetaFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { unstable_defineClientAction, useFetcher } from "@remix-run/react"
 import {
-    TextFieldOutlined as Outlined,
-    TextFieldOutlinedInput
+	TextFieldOutlined as Outlined,
+	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
@@ -58,9 +58,9 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				{
 					networkCacheConfig: {
 						metadata: {
-							headers: new Headers({ Authorization: `Bearer ${token.trim()}` })
-						}
-					}
+							headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
+						},
+					},
 				}
 			)
 
@@ -70,13 +70,13 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 			const encoded = Schema.encodeSync(JsonToToken)({
 				token: token,
-				viewer: data.Viewer
+				viewer: data.Viewer,
 			})
 
 			const setCookie = cookie.serialize(`anilist-token`, encoded, {
 				sameSite: "lax",
 				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-				path: "/"
+				path: "/",
 			})
 
 			document.cookie = setCookie
@@ -85,12 +85,12 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				searchParams.get("redirect") ??
 					route_user_list({
 						typelist: "animelist",
-						userName: data.Viewer.name
+						userName: data.Viewer.name,
 					}),
 				{
 					headers: {
-						"Set-Cookie": setCookie
-					}
+						"Set-Cookie": setCookie,
+					},
 				}
 			)
 		}),
@@ -105,7 +105,7 @@ export default function Login(): ReactNode {
 
 	store.onSubmit((state) => {
 		fetcher.submit(state.values, {
-			method: "post"
+			method: "post",
 		})
 	})
 
@@ -129,7 +129,7 @@ export default function Login(): ReactNode {
 							href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
 								{
 									client_id: String(ANILIST_CLIENT_ID),
-									response_type: "token"
+									response_type: "token",
 								}
 							)}`}
 							rel="noreferrer"

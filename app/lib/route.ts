@@ -29,7 +29,7 @@ export function route_media_edit(params: {
 }
 
 export function route_user({
-	userName
+	userName,
 }: {
 	userName: string
 }): `/user/${string}/` {
@@ -54,7 +54,7 @@ export function route_user_list_selected(params: {
 }
 
 export function route_login({
-	redirect
+	redirect,
 }: {
 	redirect: string
 }): `/login/?${string}` {

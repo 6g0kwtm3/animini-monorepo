@@ -25,7 +25,7 @@ export type MediaCover_media = typeof MediaCover_media
 const tv = createTV({ twMerge: false })
 
 const cover = tv({
-	base: "bg-cover bg-center object-cover object-center [.transitioning_&]:[view-transition-name:media-cover]"
+	base: "bg-cover bg-center object-cover object-center [.transitioning_&]:[view-transition-name:media-cover]",
 })
 export function MediaCover({
 	media,
@@ -46,10 +46,10 @@ export function MediaCover({
 		...props,
 		style: {
 			backgroundImage: `url(${data.coverImage?.medium})`,
-			...props.style
+			...props.style,
 		},
 		className: cover({
-			className: props.className
-		})
+			className: props.className,
+		}),
 	})
 }

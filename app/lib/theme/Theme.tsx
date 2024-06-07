@@ -22,7 +22,7 @@ function getStyleFromTheme(theme: Theme | undefined | null, dark: boolean) {
 					tertiary: "tertiary",
 					neutral: "neutral",
 					"neutral-variant": "neutralVariant",
-					error: "error"
+					error: "error",
 				} as const
 			)[token]
 			if (!palette) {
@@ -39,7 +39,7 @@ function parseArgb(value: number) {
 	const color = [
 		Number.parseInt(r1 + r2, 16),
 		Number.parseInt(g1 + g2, 16),
-		Number.parseInt(b1 + b2, 16)
+		Number.parseInt(b1 + b2, 16),
 	].join(" ")
 
 	return color
@@ -76,6 +76,6 @@ export const ThemeProvider = ({
 
 				{children}
 			</>
-		)
+		),
 	})
 }

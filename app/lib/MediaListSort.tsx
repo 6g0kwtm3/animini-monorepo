@@ -8,5 +8,5 @@ export enum MediaListSort {
 	FinishedOnDesc = "MediaListSort.FinishedOnDesc",
 	StartDateDesc = "MediaSort.StartDateDesc",
 	AvgScore = "AVG_SCORE",
-	PopularityDesc = "MediaSort.PopularityDesc"
+	PopularityDesc = "MediaSort.PopularityDesc",
 }

@@ -7,7 +7,7 @@ import {
 	ListItemAvatar,
 	ListItemContent,
 	ListItemContentTitle,
-	ListItemTrailingSupportingText
+	ListItemTrailingSupportingText,
 } from "~/components/List"
 
 import { MediaCover } from "../entry/MediaCover"

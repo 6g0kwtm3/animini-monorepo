@@ -2,7 +2,7 @@ import type {
 	ComponentPropsWithoutRef,
 	FC,
 	PropsWithChildren,
-	ReactNode
+	ReactNode,
 } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
@@ -30,7 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					ref={ref}
 					{...props}
 					className={styles.root({
-						className: props.className
+						className: props.className,
 					})}
 				/>
 			</ButtonContext.Provider>

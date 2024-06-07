@@ -4,7 +4,7 @@ import {
 	unstable_useViewTransitionState,
 	useLocation,
 	useNavigation,
-	useResolvedPath
+	useResolvedPath,
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ComponentPropsWithoutRef } from "react"
@@ -34,7 +34,7 @@ export const HashNavLink = forwardRef<
 				? children({
 						isActive: isActive,
 						isTransitioning,
-						isPending
+						isPending,
 					})
 				: children}
 		</Link>

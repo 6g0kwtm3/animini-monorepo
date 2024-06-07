@@ -1,16 +1,16 @@
 import type { MetaFunction } from "@remix-run/node"
 import {
-    Await,
-    Link,
-    unstable_defineClientLoader,
-    useFetcher,
-    useRouteLoaderData
+	Await,
+	Link,
+	unstable_defineClientLoader,
+	useFetcher,
+	useRouteLoaderData,
 } from "@remix-run/react"
 
 import {
-    Predicate,
-    Array as ReadonlyArray,
-    Record as ReadonlyRecord
+	Predicate,
+	Array as ReadonlyArray,
+	Record as ReadonlyRecord,
 } from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
@@ -20,13 +20,13 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemContent,
-    ListItemImg,
-    ListItemContentSubtitle as ListItemSubtitle,
-    ListItemContentTitle as ListItemTitle
+	List,
+	ListItem,
+	ListItemAvatar,
+	ListItemContent,
+	ListItemImg,
+	ListItemContentSubtitle as ListItemSubtitle,
+	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 import { client_operation } from "~/lib/client"
@@ -44,10 +44,10 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 
 import createDOMPurify from "dompurify"
 import {
-    TooltipRich,
-    TooltipRichActions,
-    TooltipRichContainer,
-    TooltipRichTrigger
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichTrigger,
 } from "~/components/Tooltip"
 
 import * as Ariakit from "@ariakit/react"
@@ -179,8 +179,8 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 							media,
 							theme: Predicate.isString(media.coverImage?.color)
 								? getThemeFromHex(media.coverImage.color)
-								: {}
-						}
+								: {},
+						},
 					] as const
 			) ?? []
 	)
@@ -201,7 +201,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		page,
 		media: ReadonlyArray.isNonEmptyArray(ids)
 			? getMedia({ ids: ids })
-			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({})
+			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
 })
 
@@ -239,7 +239,7 @@ export default function Index(): ReactNode {
 															src={activity.user?.avatar?.large || ""}
 															className="h-10 w-10 rounded-full bg-[image:--bg] bg-cover object-cover"
 															style={{
-																"--bg": `url(${activity.user?.avatar?.medium})`
+																"--bg": `url(${activity.user?.avatar?.medium})`,
 															}}
 														/>
 													</div>
@@ -315,16 +315,16 @@ const options = {
 					{props.children}
 				</a>
 			)
-		}
-	}
+		},
+	},
 } satisfies Options
 
 function UserLink(props: { userName: string; children: ReactNode }) {
 	const fetcher = useFetcher<typeof userInfoLoader>({
-		key: `${props.userName}-info`
+		key: `${props.userName}-info`,
 	})
 	const follow = useFetcher<typeof userFollowAction>({
-		key: `${props.userName}-follow`
+		key: `${props.userName}-follow`,
 	})
 
 	const store = Ariakit.useHovercardStore()
@@ -360,7 +360,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 											src={fetcher.data?.User?.avatar?.large ?? ""}
 											className="bg-[image:--bg] bg-cover bg-center object-cover object-center"
 											style={{
-												"--bg": `url(${fetcher.data?.User?.avatar?.medium ?? ""})`
+												"--bg": `url(${fetcher.data?.User?.avatar?.medium ?? ""})`,
 											}}
 											loading="lazy"
 											alt=""
@@ -531,7 +531,7 @@ function getAttributes(attributes: any) {
 		..._attributes,
 		...(className ? { className } : {}),
 		...(allowFullScreen ? { allowFullScreen } : {}),
-		...(frameBorder ? { frameBorder } : {})
+		...(frameBorder ? { frameBorder } : {}),
 	}
 }
 
@@ -543,7 +543,7 @@ function parse2(html: string, options: any): ReactNode {
 			const node = new HtmlTag((props) => {
 				const fullProps = {
 					...getAttributes(attributes),
-					...props
+					...props,
 				}
 
 				if (Name in options.replace) {
@@ -560,7 +560,7 @@ function parse2(html: string, options: any): ReactNode {
 		},
 		onclosetag(name) {
 			stack.pop()
-		}
+		},
 	})
 	parser.write(html)
 	parser.end()
@@ -605,9 +605,9 @@ function sanitizeHtml(t: string) {
 			"span",
 			"strike",
 			"strong",
-			"ul"
+			"ul",
 		],
-		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"]
+		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"],
 	})
 
 	return out
@@ -621,7 +621,7 @@ function markdownHtml(t: string) {
 		pedantic: false,
 		sanitize: false,
 		smartLists: true,
-		smartypants: false
+		smartypants: false,
 	})
 
 	const d = new marked.Renderer(),
@@ -658,7 +658,7 @@ function markdownHtml(t: string) {
 			// @ts-ignore
 			marked(t, {
 				renderer: d,
-				lexer: u
+				lexer: u,
 			})
 		)),
 		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),

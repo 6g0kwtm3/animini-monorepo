@@ -14,7 +14,7 @@ export const createList = tv(
 				"flex h-full flex-col first:col-span-2 last:col-span-2 first:last:col-span-3",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
-			trailingSupportingText: "text-end text-label-sm text-on-surface-variant"
+			trailingSupportingText: "text-end text-label-sm text-on-surface-variant",
 		},
 		variants: {
 			lines: {
@@ -22,27 +22,27 @@ export const createList = tv(
 					root: "",
 					item: "min-h-[3.5rem] items-center",
 					itemSubtitle: "hidden",
-					itemContent: "justify-center py-2"
+					itemContent: "justify-center py-2",
 				},
 				two: {
 					root: "",
 					item: "min-h-[4.5rem] items-center",
 					itemSubtitle: "block truncate",
-					itemContent: "justify-center py-2"
+					itemContent: "justify-center py-2",
 				},
 				three: {
 					root: "",
 					item: "min-h-[5.5rem] items-start",
 					itemSubtitle: "line-clamp-2",
-					itemContent: "justify-start py-3"
-				}
-			}
+					itemContent: "justify-start py-3",
+				},
+			},
 		},
 		defaultVariants: {
-			lines: "two"
-		}
+			lines: "two",
+		},
 	},
 	{
-		responsiveVariants: ["sm"]
+		responsiveVariants: ["sm"],
 	}
 )

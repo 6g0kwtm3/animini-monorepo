@@ -7,7 +7,7 @@ import {
 	ListItemContentSubtitle,
 	ListItemContentTitle,
 	ListItemImg,
-	ListItemTrailingSupportingText
+	ListItemTrailingSupportingText,
 } from "~/components/List"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
@@ -50,7 +50,7 @@ export function RelatedMediaAddition(props: {
 					render={
 						<Link
 							to={route_media({
-								id: notification.media.id
+								id: notification.media.id,
 							})}
 						/>
 					}
