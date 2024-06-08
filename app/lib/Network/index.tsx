@@ -1,13 +1,11 @@
 import cookie from "cookie"
 import ReactRelay from "react-relay"
-import {
+import RelayRuntime, {
 	Environment,
 	Network,
 	RecordSource,
 	type FetchFunction,
 } from "relay-runtime"
-
-import RelayRuntime from "relay-runtime"
 
 import { Effect, Option, pipe, Schedule } from "effect"
 
@@ -25,6 +23,7 @@ import { GraphQLResponse, Timeout } from "./schema"
 
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
+const { ROOT_TYPE } = RelayRuntime
 
 const { RelayFeatureFlags } = RelayRuntime
 
@@ -126,6 +125,33 @@ const store = new LiveResolverStore(new RecordSource())
 const environment = new Environment({
 	network,
 	store,
+	missingFieldHandlers: [
+		{
+			handle(field, record, argValues) {
+				if (
+					record != null &&
+					record.getType() === ROOT_TYPE &&
+					(field.name === "User" ||
+						field.name === "Media" ||
+						field.name === "AiringSchedule" ||
+						field.name === "Character" ||
+						field.name === "Staff" ||
+						field.name === "MediaList" ||
+						field.name === "Studio" ||
+						field.name === "Review" ||
+						field.name === "ActivityReply" ||
+						field.name === "Thread" ||
+						field.name === "ThreadComment" ||
+						field.name === "Recommendation") &&
+					argValues.hasOwnProperty("id")
+				) {
+					return `${field.name}:${argValues.id}`
+				}
+				return undefined
+			},
+			kind: "linked",
+		},
+	],
 	requiredFieldLogger(event) {
 		if (event.kind === "relay_resolver.error") {
 			// Log this somewhere!

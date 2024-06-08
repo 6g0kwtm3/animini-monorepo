@@ -77,6 +77,22 @@ export const clientAction = (async (args) => {
 				{}
 			)
 
+			commitLocalUpdate(environment, (store) => {
+				const { updatableData } =
+					store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
+						graphql`
+							query routeNavNotificationsUpdateQuery @updatable {
+								Viewer {
+									unreadNotificationCount
+								}
+							}
+						`,
+						{}
+					)
+				if (updatableData.Viewer)
+					updatableData.Viewer.unreadNotificationCount = 0
+			})
+
 			return redirect(".")
 		}),
 		Effect.provide(EffectUrql.Live),
