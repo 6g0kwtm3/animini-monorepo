@@ -57,11 +57,11 @@ export function LayoutBody(props: ComponentPropsWithoutRef<"main">): ReactNode {
 }
 
 const pane = tv({
-	base: "grid content-start",
+	base: "block",
 	variants: {
 		variant: {
-			fixed: "w-[22.5rem] shrink-0",
-			flexible: "flex-1",
+			fixed: "w-[22.5rem]",
+			flexible: "w-full flex-grow",
 		},
 	},
 	defaultVariants: { variant: "flexible" },
@@ -75,6 +75,7 @@ export function LayoutPane({
 	}): ReactNode {
 	return createElement("section", {
 		...props,
+
 		className: pane({ className: props.className, variant }),
 	})
 }
