@@ -1,4 +1,5 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
+// import MillionLint from "@million/lint"
 import { vitePlugin as remix } from "@remix-run/dev"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"

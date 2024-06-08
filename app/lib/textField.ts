@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 export const createTextField = tv({
 	slots: {
-		input: "",
+		input: "outline-none",
 		root: "",
 	},
 	variants: {

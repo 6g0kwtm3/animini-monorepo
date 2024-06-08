@@ -75,7 +75,7 @@ dependencies:
     version: 16.2.0(patch_hash=bmkedwzx5jilildfred3ixzumu)
   remix-utils:
     specifier: ^7.6.0
-    version: 7.6.0(@remix-run/node@2.9.2)(@remix-run/react@2.9.2)(react@18.3.1)(zod@3.23.8)
+    version: 7.6.0(@remix-run/node@2.9.2)(@remix-run/react@2.9.2)(react@18.3.1)(zod@3.23.5)
   tailwind-variants:
     specifier: npm:@patryk_walach/tailwind-variants@^0.1.18
     version: /@patryk_walach/tailwind-variants@0.1.18(tailwindcss@3.4.4)
@@ -393,7 +393,7 @@ packages:
       '@babel/parser': 7.24.7
       '@babel/template': 7.24.7
       '@babel/traverse': 7.24.7
-      '@babel/types': 7.24.6
+      '@babel/types': 7.24.7
       convert-source-map: 2.0.0
       debug: 4.3.5
       gensync: 1.0.0-beta.2
@@ -10838,7 +10838,7 @@ packages:
       - '@types/react-dom'
     dev: true
 
-  /remix-utils@7.6.0(@remix-run/node@2.9.2)(@remix-run/react@2.9.2)(react@18.3.1)(zod@3.23.8):
+  /remix-utils@7.6.0(@remix-run/node@2.9.2)(@remix-run/react@2.9.2)(react@18.3.1)(zod@3.23.5):
     resolution: {integrity: sha512-BPhCUEy+nwrhDDDg2v3+LFSszV6tluMbeSkbffj2o4tqZxt5Kn69Y9sNpGxYLAj8gjqeYDuxjv55of+gYnnykA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
@@ -10878,7 +10878,7 @@ packages:
       '@remix-run/react': 2.9.2(react-dom@18.3.1)(react@18.3.1)(typescript@5.5.0-dev.20240519)
       react: 18.3.1
       type-fest: 4.10.2
-      zod: 3.23.8
+      zod: 3.23.5
     dev: false
 
   /remove-trailing-separator@1.1.0:
@@ -12681,10 +12681,10 @@ packages:
 
   /zod@3.23.5:
     resolution: {integrity: sha512-fkwiq0VIQTksNNA131rDOsVJcns0pfVUjHzLrNBiF/O/Xxb5lQyEXkhZWcJ7npWsYlvs+h0jFWXXy4X46Em1JA==}
-    dev: true
 
   /zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+    dev: true
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
