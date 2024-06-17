@@ -9,7 +9,7 @@ import {
 	useRouteLoaderData,
 } from "@remix-run/react"
 
-import type { ElementRef, ReactNode } from "react"
+import type { ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 import ReactRelay from "react-relay"
 import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
@@ -50,9 +50,9 @@ function useOptimisticLocation() {
 	let location = useLocation()
 	const navigation = useNavigation()
 
-	if (navigation.location?.pathname === location.pathname) {
-		location = navigation.location
-	}
+	// if (navigation.location?.pathname === location.pathname) {
+		location = navigation.location??location
+	// }
 	return location
 }
 
@@ -61,7 +61,7 @@ export function Search(): ReactNode {
 
 	const submit = useFetcher<typeof searchLoader>()
 
-	let ref = useRef<ElementRef<"input">>(null)
+	let ref = useRef<ComponentRef<"input">>(null)
 
 	const show = searchParams.get("sheet") === "search"
 	searchParams.delete("sheet")
@@ -93,7 +93,7 @@ export function Search(): ReactNode {
 			onClose={(state) => {
 				navigate({ search: `?${searchParams}` })
 			}}
-			initialFocus={ref}
+			initialFocus={ref.current}
 			variant={{
 				initial: "fullscreen",
 				sm: "docked",
