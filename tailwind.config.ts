@@ -272,7 +272,7 @@ export default withTV({
 			])
 			addVariant("pressed", ["&[data-active]", "&:active"])
 			addVariant("popover-open", ["&[data-open]", "&:popover-open"])
-			addVariant("starting-style", ["@starting-style{&}"])
+			addVariant("starting", ["@starting-style{&}"])
 			addVariant("group-focused", [
 				":merge(.group)[data-focus-visible] &",
 				":merge(.group):focus-visible &",
