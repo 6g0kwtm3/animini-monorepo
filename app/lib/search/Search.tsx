@@ -51,7 +51,7 @@ function useOptimisticLocation() {
 	const navigation = useNavigation()
 
 	// if (navigation.location?.pathname === location.pathname) {
-		location = navigation.location??location
+	location = navigation.location ?? location
 	// }
 	return location
 }
