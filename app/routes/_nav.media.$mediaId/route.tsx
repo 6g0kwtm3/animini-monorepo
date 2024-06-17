@@ -76,7 +76,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 					bannerImage
 					title @required(action: LOG) {
 						...MediaTitle_mediaTitle
-						userPreferred  @required(action: LOG)
+						userPreferred @required(action: LOG)
 					}
 					description
 				}
