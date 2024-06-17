@@ -16,6 +16,7 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
+import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
@@ -31,7 +32,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 				createdAt
 				media @required(action: LOG) {
 					title @required(action: LOG) {
-						userPreferred @required(action: LOG)
+						...MediaTitle_mediaTitle
 					}
 					...MediaCover_media
 					id
@@ -67,10 +68,8 @@ export function Airing(props: { notification: Airing_notification$key }) {
 								episode: notification.episode,
 							})}
 						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred}
-						>
-							{notification.media.title.userPreferred}
+						<ListItemContentSubtitle>
+							<MediaTitle mediaTitle={notification.media.title} />
 						</ListItemContentSubtitle>
 					</ListItemContent>
 					{notification.createdAt && (

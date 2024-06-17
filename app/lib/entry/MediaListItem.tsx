@@ -34,6 +34,7 @@ import type {
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
+import { MediaTitle } from "../MediaTitle"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -101,7 +102,9 @@ const MediaListItemTitle_entry = graphql`
 		id
 		progress
 		media @required(action: LOG) {
+			id
 			title @required(action: LOG) {
+				...MediaTitle_mediaTitle
 				userPreferred @required(action: LOG)
 			}
 		}
@@ -129,7 +132,7 @@ function MediaListItemTitle(props: {
 
 				// <span className="i-inline text-primary">video_library</span>
 			)}
-			{entry.media.title.userPreferred}
+			<MediaTitle mediaTitle={entry.media.title} />
 		</>
 	)
 }
