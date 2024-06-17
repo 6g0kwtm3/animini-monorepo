@@ -97,7 +97,7 @@ export const NavigationItem = forwardRef<
 		className?: string
 		render?: ReactElement<any>
 	}
->(async function NavigationItem({ children, ...props }, ref) {
+>(function NavigationItem({ children, ...props }, ref): ReactNode {
 	const { label } = useContext(Context)
 
 	return createElement(HashNavLink, {
