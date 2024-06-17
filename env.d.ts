@@ -7,4 +7,9 @@ declare module "react" {
 	}
 }
 
-export {}
+declare module "relay-runtime" {
+	export const suspenseSentinel: <T>() => T
+}
+
+export { }
+

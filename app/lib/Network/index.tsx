@@ -23,7 +23,7 @@ import { GraphQLResponse, Timeout } from "./schema"
 
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
-const { ROOT_TYPE } = RelayRuntime
+const { suspenseSentinel, ROOT_TYPE } = RelayRuntime
 
 const { RelayFeatureFlags } = RelayRuntime
 
@@ -178,3 +178,45 @@ export const {
 } = ReactRelay
 
 export default environment
+
+export type LiveState<T> = {
+	/**
+	 * Returns the current value of the live state.
+	 */
+	read: () => T
+	/**
+	 * Subscribes to changes in the live state. The state provider should
+	 * call the callback when the value of the live state changes.
+	 */
+	subscribe: (cb: () => void) => () => void
+}
+
+export function makeLiveState<T>(promise: Promise<T>): LiveState<T | null> {
+	let read: () => T | null = suspenseSentinel
+	let callbacks: Set<() => void> = new Set()
+
+	promise
+		.then(
+			(value) => {
+				read = () => value
+			},
+			() => {
+				read = () => null
+			}
+		)
+		.finally(() => {
+			callbacks.forEach((cb) => cb())
+		})
+
+	return {
+		read() {
+			return read()
+		},
+		subscribe(cb) {
+			callbacks.add(cb)
+			return () => {
+				callbacks.delete(cb)
+			}
+		},
+	}
+}
