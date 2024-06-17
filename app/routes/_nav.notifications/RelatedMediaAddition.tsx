@@ -19,6 +19,7 @@ import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAd
 import { useFragment } from "~/lib/Network"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
+import { MediaTitle } from "~/lib/MediaTitle"
 
 const { graphql } = ReactRelay
 
@@ -32,7 +33,7 @@ export function RelatedMediaAddition(props: {
 				createdAt
 				media @required(action: LOG) {
 					title @required(action: LOG) {
-						userPreferred @required(action: LOG)
+						...MediaTitle_mediaTitle
 					}
 					...MediaCover_media
 					id
@@ -66,10 +67,8 @@ export function RelatedMediaAddition(props: {
 							)}{" "}
 							{m.recently_added()}
 						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred}
-						>
-							{notification.media.title.userPreferred}
+						<ListItemContentSubtitle>
+							<MediaTitle mediaTitle={notification.media.title} />
 						</ListItemContentSubtitle>
 					</ListItemContent>
 					{notification.createdAt && (

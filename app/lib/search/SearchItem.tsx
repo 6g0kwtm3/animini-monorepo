@@ -10,10 +10,11 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components/List"
 
-import { MediaCover } from "../entry/MediaCover"
-import { route_media } from "../route"
-import { useFragment } from "../Network"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
+import { MediaCover } from "../entry/MediaCover"
+import { MediaTitle } from "../MediaTitle"
+import { useFragment } from "../Network"
+import { route_media } from "../route"
 const { graphql } = ReactRelay
 
 const SearchItem_media = graphql`
@@ -22,7 +23,7 @@ const SearchItem_media = graphql`
 		type
 		...MediaCover_media
 		title @required(action: LOG) {
-			userPreferred @required(action: LOG)
+			...MediaTitle_mediaTitle
 		}
 	}
 `
@@ -38,12 +39,7 @@ export const SearchItem = forwardRef<
 			<ListItem
 				{...props}
 				ref={ref}
-				render={
-					<Link
-						to={route_media({ id: data.id })}
-						title={data.title.userPreferred}
-					/>
-				}
+				render={<Link to={route_media({ id: data.id })} />}
 			>
 				<ListItemAvatar>
 					<MediaCover media={data} />
@@ -51,7 +47,7 @@ export const SearchItem = forwardRef<
 
 				<ListItemContent>
 					<ListItemContentTitle>
-						{data.title.userPreferred}
+						<MediaTitle mediaTitle={data.title} />
 					</ListItemContentTitle>
 				</ListItemContent>
 

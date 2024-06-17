@@ -56,6 +56,7 @@ import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 import { unstable_defineClientLoader } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
+import { MediaTitle } from "~/lib/MediaTitle"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 const { graphql } = ReactRelay
@@ -74,7 +75,8 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 					...MediaCover_media @arguments(extraLarge: true)
 					bannerImage
 					title @required(action: LOG) {
-						userPreferred @required(action: LOG)
+						...MediaTitle_mediaTitle
+						userPreferred  @required(action: LOG)
 					}
 					description
 				}
@@ -170,7 +172,7 @@ export default function Page(): ReactNode {
 							<Card variant="elevated">
 								<div className="sm:p-12">
 									<Ariakit.Heading className="text-balance text-display-lg">
-										{data.Media.title.userPreferred}
+										<MediaTitle mediaTitle={data.Media.title} />
 									</Ariakit.Heading>
 									<Menu>
 										<MenuTrigger

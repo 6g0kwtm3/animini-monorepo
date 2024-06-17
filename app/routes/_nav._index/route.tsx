@@ -59,6 +59,7 @@ import type { clientLoader as userInfoLoader } from "../user.$userName.info/rout
 import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
+import { MediaTitle } from "~/lib/MediaTitle"
 import { m } from "~/lib/paraglide"
 import { getThemeFromHex } from "~/lib/theme"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
@@ -93,7 +94,7 @@ function MediaLink({
 											</ListItemImg>
 											<ListItemContent>
 												<ListItemTitle render={<span />}>
-													{media.title.userPreferred}
+													<MediaTitle mediaTitle={media.title} />
 												</ListItemTitle>
 												<ListItemSubtitle render={<span />}>
 													{media.type}
@@ -154,7 +155,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 					media(id_in: $ids) {
 						id
 						title @required(action: LOG) {
-							userPreferred @required(action: LOG)
+							...MediaTitle_mediaTitle
 						}
 						type
 						...MediaCover_media
