@@ -16,7 +16,7 @@ export const ListItem = forwardRef<
 		ListVariantProps & {
 			render?: ReactElement<any>
 		}
->(function ListItem({ lines, ...props }, ref) {
+>(async function ListItem({ lines, ...props }, ref) {
 	const { item } = useContext(ListContext)
 	return createElement("li", {
 		...props,
