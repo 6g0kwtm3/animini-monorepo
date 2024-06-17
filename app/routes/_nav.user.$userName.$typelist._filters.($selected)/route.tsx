@@ -499,7 +499,6 @@ function AwaitQuery() {
 	const { selectedList } = use(data.query)
 	const [search] = useSearchParams()
 
-
 	const mediaList = sortEntries(
 		filterEntries(
 			selectedList.entries?.filter((el) => el != null) ?? [],
