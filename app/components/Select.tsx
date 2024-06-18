@@ -1,5 +1,9 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef, ComponentPropsWithRef, ReactNode } from "react"
+import type {
+	ComponentPropsWithoutRef,
+	ComponentPropsWithRef,
+	ReactNode,
+} from "react"
 
 import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
