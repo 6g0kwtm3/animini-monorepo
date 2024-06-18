@@ -2,9 +2,7 @@ import * as Ariakit from "@ariakit/react"
 import type { ComponentPropsWithRef, ReactNode } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 
-export function ChipFilter(
-	props: ComponentPropsWithRef<"label">
-): ReactNode {
+export function ChipFilter(props: ComponentPropsWithRef<"label">): ReactNode {
 	return (
 		<label
 			{...props}

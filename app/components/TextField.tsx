@@ -1,9 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import {
-    forwardRef,
-    type ComponentPropsWithRef,
-    type ReactNode,
-} from "react"
+import { forwardRef, type ComponentPropsWithRef, type ReactNode } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
 
@@ -217,9 +213,7 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
-TextFieldFilled.Suffix = function Suffix(
-	props: ComponentPropsWithRef<"span">
-) {
+TextFieldFilled.Suffix = function Suffix(props: ComponentPropsWithRef<"span">) {
 	return (
 		<span
 			{...props}

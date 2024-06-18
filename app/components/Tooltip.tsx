@@ -1,10 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
-import type {
-    ComponentPropsWithRef,
-    PropsWithChildren,
-    ReactNode,
-} from "react"
+import type { ComponentPropsWithRef, PropsWithChildren, ReactNode } from "react"
 import { forwardRef } from "react"
 
 import { createTV } from "tailwind-variants"

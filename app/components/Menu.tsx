@@ -68,9 +68,7 @@ export const MenuListItem = forwardRef<HTMLDivElement, Ariakit.MenuItemProps>(
 	}
 )
 
-export function MenuItemIcon(
-	props: ComponentPropsWithRef<"div">
-): ReactNode {
+export function MenuItemIcon(props: ComponentPropsWithRef<"div">): ReactNode {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
 export function MenuItemLeadingIcon(
