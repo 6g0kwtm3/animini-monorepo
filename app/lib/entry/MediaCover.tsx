@@ -1,9 +1,9 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 import { createTV } from "tailwind-variants"
 
 import ReactRelay from "react-relay"
-import { createElement } from "../createElement"
 import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
+import { createElement } from "../createElement"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -30,7 +30,7 @@ const cover = tv({
 export function MediaCover({
 	media,
 	...props
-}: ComponentPropsWithoutRef<"img"> & {
+}: ComponentPropsWithRef<"img"> & {
 	media: MediaCover_media$key
 }): ReactNode {
 	const data = useFragment(MediaCover_media, media)

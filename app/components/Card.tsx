@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -45,7 +45,7 @@ const card = tv({
 export function Card({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"section"> &
+}: ComponentPropsWithRef<"section"> &
 	VariantProps<typeof card> & {
 		render?: ReactElement<any>
 	}): ReactNode {

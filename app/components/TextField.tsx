@@ -1,8 +1,8 @@
 import * as Ariakit from "@ariakit/react"
 import {
-	forwardRef,
-	type ComponentPropsWithoutRef,
-	type ReactNode,
+    forwardRef,
+    type ComponentPropsWithRef,
+    type ReactNode,
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -11,7 +11,7 @@ export function TextFieldOutlined({
 	children,
 
 	...props
-}: ComponentPropsWithoutRef<"label">) {
+}: ComponentPropsWithRef<"label">) {
 	return (
 		<label
 			{...props}
@@ -82,7 +82,7 @@ export const TextFieldOutlinedInput = forwardRef<
 export function TextFieldOutlinedFactory({
 	label,
 	...props
-}: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
+}: ComponentPropsWithRef<typeof TextFieldOutlinedInput> & {
 	label: ReactNode
 }) {
 	return (
@@ -99,7 +99,7 @@ export function TextFieldOutlinedFactory({
 TextFieldOutlined.Label = OutlinedLabel
 
 export function TextFieldFilled(
-	props: ComponentPropsWithoutRef<"label">
+	props: ComponentPropsWithRef<"label">
 ): JSX.Element {
 	return (
 		<label
@@ -161,7 +161,7 @@ export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
 	)
 }
 
-function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
+function LeadingIcon(props: ComponentPropsWithRef<"div">) {
 	return (
 		<div
 			{...props}
@@ -173,7 +173,7 @@ function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
+function TrailingIcon(props: ComponentPropsWithRef<"div">) {
 	return (
 		<div
 			{...props}
@@ -188,7 +188,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function Suffix(props: ComponentPropsWithoutRef<"span">) {
+function Suffix(props: ComponentPropsWithRef<"span">) {
 	return (
 		<span
 			{...props}
@@ -200,7 +200,7 @@ function Suffix(props: ComponentPropsWithoutRef<"span">) {
 	)
 }
 
-function Prefix(props: ComponentPropsWithoutRef<"span">) {
+function Prefix(props: ComponentPropsWithRef<"span">) {
 	return (
 		<span
 			{...props}
@@ -218,7 +218,7 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
 TextFieldFilled.Suffix = function Suffix(
-	props: ComponentPropsWithoutRef<"span">
+	props: ComponentPropsWithRef<"span">
 ) {
 	return (
 		<span

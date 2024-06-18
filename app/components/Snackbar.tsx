@@ -1,18 +1,18 @@
 import { Predicate } from "effect"
 import type {
-	ComponentPropsWithoutRef,
-	ElementRef,
-	PropsWithChildren,
-	ReactNode,
+    ComponentPropsWithRef,
+    ElementRef,
+    PropsWithChildren,
+    ReactNode,
 } from "react"
 import {
-	createContext,
-	useCallback,
-	useContext,
-	useEffect,
-	useId,
-	useRef,
-	useState,
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useId,
+    useRef,
+    useState,
 } from "react"
 import { BaseButton } from "./Button"
 
@@ -88,7 +88,7 @@ export function Snackbar({
 	timeout,
 	open,
 	...props
-}: ComponentPropsWithoutRef<"div"> & {
+}: ComponentPropsWithRef<"div"> & {
 	timeout?: number
 	open: boolean
 }): ReactNode {
@@ -181,7 +181,7 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 }
 
 export function SnackbarAction(
-	props: ComponentPropsWithoutRef<"button">
+	props: ComponentPropsWithRef<"button">
 ): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
