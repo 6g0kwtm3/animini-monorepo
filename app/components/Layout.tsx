@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
 import { createTV, type VariantProps } from "tailwind-variants"
@@ -39,7 +39,7 @@ const LayoutContext = createContext(createLayout())
 export function Layout({
 	navigation,
 	...props
-}: ComponentPropsWithoutRef<"div"> &
+}: ComponentPropsWithRef<"div"> &
 	VariantProps<typeof createLayout>): ReactNode {
 	const styles = createLayout({ navigation })
 
@@ -51,7 +51,7 @@ export function Layout({
 		</LayoutContext.Provider>
 	)
 }
-export function LayoutBody(props: ComponentPropsWithoutRef<"main">): ReactNode {
+export function LayoutBody(props: ComponentPropsWithRef<"main">): ReactNode {
 	const { body } = useContext(LayoutContext)
 	return <main {...props} className={body({ className: props.className })} />
 }
@@ -69,7 +69,7 @@ const pane = tv({
 export function LayoutPane({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"div"> &
+}: ComponentPropsWithRef<"div"> &
 	VariantProps<typeof pane> & {
 		render?: ReactElement<any>
 	}): ReactNode {

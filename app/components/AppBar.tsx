@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ComponentRef, ReactNode } from "react"
+import type { ComponentPropsWithRef, ComponentRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -56,7 +56,7 @@ export function AppBar({
 	hide,
 
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
+}: ComponentPropsWithRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 

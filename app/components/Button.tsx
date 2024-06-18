@@ -1,8 +1,8 @@
 import type {
-	ComponentPropsWithoutRef,
-	FC,
-	PropsWithChildren,
-	ReactNode,
+    ComponentPropsWithRef,
+    FC,
+    PropsWithChildren,
+    ReactNode,
 } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
@@ -11,7 +11,7 @@ import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton } from "~/lib/button"
 import { TouchTarget } from "./Tooltip"
 
-export type Icon = FC<ComponentPropsWithoutRef<"div">>
+export type Icon = FC<ComponentPropsWithRef<"div">>
 
 interface ButtonProps
 	extends Ariakit.ButtonProps,
@@ -45,7 +45,7 @@ export const BaseButton = forwardRef<HTMLButtonElement, Ariakit.ButtonProps>(
 )
 
 const ButtonContext = createContext(createButton())
-export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
+export function ButtonIcon(props: ComponentPropsWithRef<"div">): ReactNode {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }
@@ -53,7 +53,7 @@ export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 export const Icon = forwardRef<
 	HTMLButtonElement,
 	VariantProps<typeof btnIcon> &
-		PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
+		PropsWithChildren<ComponentPropsWithRef<typeof Button>>
 >(function ButtonIcon({ children, variant, className, ...props }, ref) {
 	return (
 		<BaseButton

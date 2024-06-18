@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 
 import ReactRelay from "react-relay"
 import type { MediaTitle_mediaTitle$key } from "~/gql/MediaTitle_mediaTitle.graphql"
@@ -11,7 +11,7 @@ const MediaTitle_mediaTitle = graphql`
 	}
 `
 
-interface Props extends ComponentPropsWithoutRef<"span"> {
+interface Props extends ComponentPropsWithRef<"span"> {
 	mediaTitle: MediaTitle_mediaTitle$key
 }
 

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import { createTV } from "tailwind-variants"
@@ -69,28 +69,28 @@ export const MenuListItem = forwardRef<HTMLDivElement, Ariakit.MenuItemProps>(
 )
 
 export function MenuItemIcon(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
 export function MenuItemLeadingIcon(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant i" />
 }
 export function MenuItemTrailingIcon(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
 	return (
 		<div {...props} className="ms-auto h-6 w-6 text-on-surface-variant i" />
 	)
 }
 export function MenuItemTrailingText(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
 	return <div {...props} className="ms-auto text-on-surface-variant" />
 }
-export function MenuDivider(props: ComponentPropsWithoutRef<"li">): ReactNode {
+export function MenuDivider(props: ComponentPropsWithRef<"li">): ReactNode {
 	return (
 		<li {...props} className="contents">
 			<div className="my-2 w-full border-b border-outline-variant" />

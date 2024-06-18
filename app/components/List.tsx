@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
 import { createTV, type VariantProps } from "tailwind-variants"
@@ -12,7 +12,7 @@ const ListContext = createContext(createList())
 
 export const ListItem = forwardRef<
 	HTMLLIElement,
-	ComponentPropsWithoutRef<"li"> &
+	ComponentPropsWithRef<"li"> &
 		ListVariantProps & {
 			render?: ReactElement<any>
 		}
@@ -25,7 +25,7 @@ export const ListItem = forwardRef<
 	})
 })
 export function ListItemContentTitle(
-	props: ComponentPropsWithoutRef<"div"> & {
+	props: ComponentPropsWithRef<"div"> & {
 		render?: ReactElement<any>
 	}
 ): ReactNode {
@@ -37,7 +37,7 @@ export function ListItemContentTitle(
 	})
 }
 export function ListItemContent(
-	props: ComponentPropsWithoutRef<"div"> & {
+	props: ComponentPropsWithRef<"div"> & {
 		render?: ReactElement<any>
 	}
 ): ReactNode {
@@ -49,7 +49,7 @@ export function ListItemContent(
 	})
 }
 export function ListItemContentSubtitle(
-	props: ComponentPropsWithoutRef<"div"> & {
+	props: ComponentPropsWithRef<"div"> & {
 		render?: ReactElement<any>
 	}
 ): ReactNode {
@@ -61,7 +61,7 @@ export function ListItemContentSubtitle(
 	})
 }
 export function ListItemImg(
-	props: ComponentPropsWithoutRef<"div"> & {
+	props: ComponentPropsWithRef<"div"> & {
 		render?: ReactElement<any>
 	}
 ): ReactNode {
@@ -73,7 +73,7 @@ export function ListItemImg(
 	})
 }
 export function ListItemAvatar(
-	props: ComponentPropsWithoutRef<"div"> & {
+	props: ComponentPropsWithRef<"div"> & {
 		render?: ReactElement<any>
 	}
 ): ReactNode {
@@ -85,7 +85,7 @@ export function ListItemAvatar(
 	})
 }
 export function ListItemIcon(
-	props: ComponentPropsWithoutRef<"div"> & {
+	props: ComponentPropsWithRef<"div"> & {
 		render?: ReactElement<any>
 	}
 ): ReactNode {
@@ -125,7 +125,7 @@ export function Subheader({
 }
 
 export function ListItemTrailingSupportingText(
-	props: ComponentPropsWithoutRef<"span">
+	props: ComponentPropsWithRef<"span">
 ): ReactNode {
 	const { trailingSupportingText } = useContext(ListContext)
 
@@ -139,7 +139,7 @@ export function ListItemTrailingSupportingText(
 
 export const List = forwardRef<
 	HTMLUListElement,
-	ComponentPropsWithoutRef<"ul"> &
+	ComponentPropsWithRef<"ul"> &
 		ListVariantProps & {
 			render?: ReactElement<any>
 		}

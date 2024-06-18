@@ -1,19 +1,19 @@
 import type { NavLink } from "@remix-run/react"
 import {
-	Link,
-	unstable_useViewTransitionState,
-	useLocation,
-	useNavigation,
-	useResolvedPath,
+    Link,
+    unstable_useViewTransitionState,
+    useLocation,
+    useNavigation,
+    useResolvedPath,
 } from "@remix-run/react"
 import { Predicate } from "effect"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithRef } from "react"
 import { forwardRef } from "react"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,
-	Omit<ComponentPropsWithoutRef<typeof Link>, "children"> & {
-		children?: ComponentPropsWithoutRef<typeof NavLink>["children"]
+	Omit<ComponentPropsWithRef<typeof Link>, "children"> & {
+		children?: ComponentPropsWithRef<typeof NavLink>["children"]
 	}
 >(function HashNavLink({ children, ...props }, ref) {
 	const { search, pathname } = useLocation()
