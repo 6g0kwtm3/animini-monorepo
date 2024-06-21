@@ -12,7 +12,7 @@ import {
 	Array as ReadonlyArray,
 	Record as ReadonlyRecord,
 } from "effect"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
 
 import marked from "marked"
@@ -68,7 +68,7 @@ const { graphql } = ReactRelay
 function MediaLink({
 	mediaId,
 	...props
-}: Omit<ComponentPropsWithoutRef<typeof Link>, "to"> & {
+}: Omit<ComponentPropsWithRef<typeof Link>, "to"> & {
 	mediaId: number
 }) {
 	const data = useRawLoaderData<typeof clientLoader>()
@@ -277,7 +277,7 @@ export default function Index(): ReactNode {
 interface Options {
 	replace: Partial<{
 		[K in keyof JSX.IntrinsicElements]: (
-			props: ComponentPropsWithoutRef<K>
+			props: ComponentPropsWithRef<K>
 		) => ReactNode
 	}>
 }
@@ -483,7 +483,7 @@ function Markdown(props: { children: string }) {
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
 			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
-				() => parse2(markdownHtml(props.children), options),
+				async () => parse2(markdownHtml(props.children), options),
 				[props.children]
 			)}
 		</div>

@@ -1,6 +1,6 @@
 import type { NavLink, NavLinkProps } from "@remix-run/react"
 
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
@@ -92,12 +92,12 @@ const Context = createContext(createNavigation())
 
 export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
-	Partial<ComponentPropsWithoutRef<typeof NavLink>> & {
+	Partial<ComponentPropsWithRef<typeof NavLink>> & {
 		children?: ReactNode
 		className?: string
 		render?: ReactElement<any>
 	}
->(function NavigationItem({ children, ...props }, ref) {
+>(function NavigationItem({ children, ...props }, ref): ReactNode {
 	const { label } = useContext(Context)
 
 	return createElement(HashNavLink, {
@@ -131,7 +131,7 @@ function NavigationActiveIndicator() {
 }
 
 export function NavigationItemIcon(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
 	const { icon } = useContext(Context)
 
@@ -140,7 +140,7 @@ export function NavigationItemIcon(
 export function Navigation({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"nav"> &
+}: ComponentPropsWithRef<"nav"> &
 	VariantProps<typeof createNavigation>): ReactNode {
 	const styles = createNavigation({ variant })
 
@@ -161,7 +161,7 @@ export function Navigation({
 }
 
 export function NavigationItemLargeBadge(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
 	const { largeBadge } = useContext(Context)
 

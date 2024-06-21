@@ -1,9 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import {
-	forwardRef,
-	type ComponentPropsWithoutRef,
-	type ReactNode,
-} from "react"
+import { forwardRef, type ComponentPropsWithRef, type ReactNode } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
 
@@ -11,7 +7,7 @@ export function TextFieldOutlined({
 	children,
 
 	...props
-}: ComponentPropsWithoutRef<"label">) {
+}: ComponentPropsWithRef<"label">) {
 	return (
 		<label
 			{...props}
@@ -41,9 +37,10 @@ function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
 		<>
 			<Ariakit.FormLabel
 				{...props}
-				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
+				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
 			>
 				{children}
+				<div className="hidden group-has-[:required]:inline">*</div>
 			</Ariakit.FormLabel>
 
 			<fieldset className="pointer-events-none absolute -top-[0.71875rem] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
@@ -52,8 +49,9 @@ function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
 						"overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-focus-within:group-has-[:placeholder-shown]:max-w-none"
 					}
 				>
-					<span className="px-1 text-body-sm group-has-[:required]:after:content-['*']">
+					<span className="px-1 text-body-sm">
 						{children}
+						<span className="hidden group-has-[:required]:inline">*</span>
 					</span>
 				</legend>
 			</fieldset>
@@ -80,7 +78,7 @@ export const TextFieldOutlinedInput = forwardRef<
 export function TextFieldOutlinedFactory({
 	label,
 	...props
-}: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
+}: ComponentPropsWithRef<typeof TextFieldOutlinedInput> & {
 	label: ReactNode
 }) {
 	return (
@@ -97,16 +95,20 @@ export function TextFieldOutlinedFactory({
 TextFieldOutlined.Label = OutlinedLabel
 
 export function TextFieldFilled(
-	props: ComponentPropsWithoutRef<"label">
+	props: ComponentPropsWithRef<"label">
 ): JSX.Element {
 	return (
 		<label
 			{...props}
 			className={classes(
-				"group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-on-surface-variant after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:border-primary after:transition-transform focus-within:after:scale-x-100 hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container",
+				"group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest hover:state-hover focus-within:hover:state-none",
 				props.className
 			)}
-		/>
+		>
+			<div className="absolute bottom-0 left-0 w-full border-b border-on-surface-variant group-hover:border-on-surface group-hover:has-[:disabled]:border-on-surface/[.38] group-has-[:disabled]:border-on-surface/[.38] group-error:border-error group-error:hover:border-on-error-container" />
+			{props.children}
+			<div className="absolute bottom-0 left-0 w-full scale-x-0 border-b-2 border-primary transition-transform group-focus-within:scale-x-100 group-error:border-error group-error:group-focus-within:scale-x-100" />
+		</label>
 
 		/* <p
       className={classes(
@@ -155,7 +157,7 @@ export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
 	)
 }
 
-function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
+function LeadingIcon(props: ComponentPropsWithRef<"div">) {
 	return (
 		<div
 			{...props}
@@ -167,7 +169,7 @@ function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
+function TrailingIcon(props: ComponentPropsWithRef<"div">) {
 	return (
 		<div
 			{...props}
@@ -182,7 +184,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function Suffix(props: ComponentPropsWithoutRef<"span">) {
+function Suffix(props: ComponentPropsWithRef<"span">) {
 	return (
 		<span
 			{...props}
@@ -194,7 +196,7 @@ function Suffix(props: ComponentPropsWithoutRef<"span">) {
 	)
 }
 
-function Prefix(props: ComponentPropsWithoutRef<"span">) {
+function Prefix(props: ComponentPropsWithRef<"span">) {
 	return (
 		<span
 			{...props}
@@ -211,9 +213,7 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
-TextFieldFilled.Suffix = function Suffix(
-	props: ComponentPropsWithoutRef<"span">
-) {
+TextFieldFilled.Suffix = function Suffix(props: ComponentPropsWithRef<"span">) {
 	return (
 		<span
 			{...props}

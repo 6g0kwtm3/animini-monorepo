@@ -15,7 +15,7 @@ import { type LinksFunction } from "@remix-run/node"
 
 import { Option } from "effect"
 
-import { useEffect, type ReactNode } from "react"
+import { useEffect, type FC, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
@@ -25,8 +25,16 @@ import theme from "~/../fallback.json"
 import tailwind from "./tailwind.css?url"
 
 import { useRevalidator } from "@remix-run/react"
+import type { Environment } from "react-relay"
 import { useIsHydrated } from "~/lib/useIsHydrated"
-import environment, { RelayEnvironmentProvider } from "./lib/Network"
+import environment, {
+	RelayEnvironmentProvider as RelayEnvironmentProvider_,
+} from "./lib/Network"
+
+const RelayEnvironmentProvider = RelayEnvironmentProvider_ as unknown as FC<{
+	environment: Environment
+	children?: ReactNode
+}>
 
 export const links: LinksFunction = () => {
 	return [

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
 import type { VariantProps } from "tailwind-variants"
@@ -22,14 +22,14 @@ const skeleton = tv({
 
 const LoadingContext = createContext(false)
 export function Loading(
-	props: Partial<ComponentPropsWithoutRef<typeof LoadingContext.Provider>>
+	props: Partial<ComponentPropsWithRef<typeof LoadingContext.Provider>>
 ): ReactNode {
 	return <LoadingContext.Provider value={true} {...props} />
 }
 export function Skeleton({
 	full,
 	...props
-}: ComponentPropsWithoutRef<"div"> &
+}: ComponentPropsWithRef<"div"> &
 	VariantProps<typeof skeleton> & {
 		render?: ReactElement<any>
 	}): ReactNode {

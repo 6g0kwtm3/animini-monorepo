@@ -1,14 +1,12 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 
-export function ChipFilter(
-	props: ComponentPropsWithoutRef<"label">
-): ReactNode {
+export function ChipFilter(props: ComponentPropsWithRef<"label">): ReactNode {
 	return (
 		<label
 			{...props}
-			className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow outline-1 outline-primary duration-md ease-standard-decelerate has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow has-focused:outline has-focused:outline-offset-4 motion-safe:transition-[outline-offset] hover:[&:not(\#)]:state-hover has-focused:[&:not(\#)]:state-focus"
+			className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow outline-1 outline-primary duration-md ease-standard-decelerate has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow has-focused:outline has-focused:outline-offset-4 hover:force:state-hover has-focused:force:state-focus motion-safe:transition-[outline-offset]"
 		/>
 	)
 }

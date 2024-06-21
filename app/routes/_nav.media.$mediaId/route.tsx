@@ -263,7 +263,9 @@ export default function Page(): ReactNode {
 declare global {
 	namespace React {
 		interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
-			popover?: "manual" | true | "auto" | undefined
+			popover?: "" | "auto" | "manual" | undefined
+			popoverTargetAction?: "toggle" | "show" | "hide" | undefined
+			popoverTarget?: string | undefined
 		}
 	}
 }

@@ -29,7 +29,7 @@ import type { AnitomyResult } from "anitomy"
 import { unstable_defineClientLoader } from "@remix-run/react"
 import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
-import { Suspense } from "react"
+import { Suspense, use } from "react"
 
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
@@ -484,29 +484,7 @@ export default function Page(): ReactNode {
 								</Loading>
 							}
 						>
-							<Await resolve={data.query}>
-								{({ selectedList }) => {
-									const mediaList = sortEntries(
-										filterEntries(
-											selectedList.entries?.filter((el) => el != null) ?? [],
-											search
-										),
-										search
-									)
-										.filter((el) => el != null)
-										.map((entry) => (
-											<MediaListItem key={entry.id} entry={entry} />
-										))
-
-									return (
-										<Suspense fallback={mediaList}>
-											<AwaitLibrary resolve={data.Library}>
-												{mediaList}
-											</AwaitLibrary>
-										</Suspense>
-									)
-								}}
-							</Await>
+							<AwaitQuery />
 						</Suspense>
 					</List>
 				</div>
@@ -515,6 +493,29 @@ export default function Page(): ReactNode {
 		</>
 	)
 }
+
+function AwaitQuery() {
+	const data = useRawLoaderData<typeof clientLoader>()
+	const { selectedList } = use(data.query)
+	const [search] = useSearchParams()
+
+	const mediaList = sortEntries(
+		filterEntries(
+			selectedList.entries?.filter((el) => el != null) ?? [],
+			search
+		),
+		search
+	)
+		.filter((el) => el != null)
+		.map((entry) => <MediaListItem key={entry.id} entry={entry} />)
+
+	return (
+		<Suspense fallback={mediaList}>
+			<AwaitLibrary resolve={data.Library}>{mediaList}</AwaitLibrary>
+		</Suspense>
+	)
+}
+
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
 

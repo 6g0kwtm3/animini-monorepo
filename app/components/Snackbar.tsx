@@ -1,6 +1,6 @@
 import { Predicate } from "effect"
 import type {
-	ComponentPropsWithoutRef,
+	ComponentPropsWithRef,
 	ElementRef,
 	PropsWithChildren,
 	ReactNode,
@@ -88,7 +88,7 @@ export function Snackbar({
 	timeout,
 	open,
 	...props
-}: ComponentPropsWithoutRef<"div"> & {
+}: ComponentPropsWithRef<"div"> & {
 	timeout?: number
 	open: boolean
 }): ReactNode {
@@ -181,7 +181,7 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 }
 
 export function SnackbarAction(
-	props: ComponentPropsWithoutRef<"button">
+	props: ComponentPropsWithRef<"button">
 ): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
