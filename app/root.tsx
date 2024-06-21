@@ -15,12 +15,17 @@ import { type LinksFunction } from "@remix-run/node"
 
 import { Option } from "effect"
 
-import { useEffect, type FC, type ReactNode } from "react"
+import {
+	useEffect,
+	useState,
+	type FC,
+	type ReactNode
+} from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
 
-import theme from "~/../fallback.json"
+import fallbackTheme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
@@ -30,6 +35,7 @@ import { useIsHydrated } from "~/lib/useIsHydrated"
 import environment, {
 	RelayEnvironmentProvider as RelayEnvironmentProvider_,
 } from "./lib/Network"
+import { getThemeFromHex } from "./lib/theme"
 
 const RelayEnvironmentProvider = RelayEnvironmentProvider_ as unknown as FC<{
 	environment: Environment
@@ -76,6 +82,41 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	)
 }
 
+const rgba2hex = (rgba: string) => {
+	const match = rgba.match(
+		/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/
+	)
+	if (!match) return null
+
+	return `#${match
+		.slice(1)
+		.map((n, i) =>
+			(i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n))
+				.toString(16)
+				.padStart(2, "0")
+				.replace("NaN", "")
+		)
+		.join("")}`
+}
+
+const getAccentColorTheme = () => {
+	const div = globalThis.document.createElement("div")
+	globalThis.document.body.appendChild(div)
+	div.style.setProperty("background", "AccentColor")
+	const AccentColor = globalThis.window
+		.getComputedStyle(div)
+		.getPropertyValue("background-color")
+	globalThis.document.body.removeChild(div)
+
+	const hexed = rgba2hex(AccentColor)
+
+	if (hexed?.match(/#0+/)) {
+		return null
+	}
+
+	return hexed ? getThemeFromHex(hexed) : null
+}
+
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// const { theme } = useRawLoaderData<typeof loader>()
 	// const { locale, dir } = useLocale()
@@ -83,6 +124,15 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// setLanguageTag(locale)
 
 	const isHydrated = useIsHydrated()
+
+	const [theme, setTheme] = useState<{
+		[key: string]: string
+	}>(fallbackTheme)
+
+	useEffect(() => {
+		const theme = getAccentColorTheme()
+		if (theme) setTheme(theme)
+	}, [])
 
 	return (
 		<html
