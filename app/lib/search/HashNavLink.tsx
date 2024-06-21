@@ -1,10 +1,10 @@
 import type { NavLink } from "@remix-run/react"
 import {
-    Link,
-    unstable_useViewTransitionState,
-    useLocation,
-    useNavigation,
-    useResolvedPath,
+	Link,
+	unstable_useViewTransitionState,
+	useLocation,
+	useNavigation,
+	useResolvedPath,
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ComponentPropsWithRef } from "react"
