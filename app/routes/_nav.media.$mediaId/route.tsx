@@ -160,12 +160,12 @@ export default function Page(): ReactNode {
 						</div>
 
 						{/* <div className="grid gap-4 flex-1">
-              <img
-                src={data?.Media?.bannerImage ?? ""}
+            {data?.Media?.bannerImage&&  <img
+                src={data?.Media?.bannerImage}
                 loading="lazy"
                 className="rounded-xl"
                 alt=""
-              />
+              />}
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
 						<div className="overflow-hidden rounded-xl">

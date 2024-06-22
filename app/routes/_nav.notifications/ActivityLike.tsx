@@ -12,9 +12,9 @@ import {
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { useRawLoaderData } from "~/lib/data"
 import { useFragment } from "~/lib/Network"
+import { sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
-import { sourceLanguageTag } from "~/paraglide/runtime"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -45,15 +45,17 @@ export function ActivityLike(props: {
 		notification.user && (
 			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
 				<ListItemImg>
-					<img
-						src={notification.user.avatar?.large || ""}
-						className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
-						style={{
-							"--bg": `url(${notification.user.avatar?.medium})`,
-						}}
-						loading="lazy"
-						alt=""
-					/>
+					{notification.user.avatar?.large && (
+						<img
+							src={notification.user.avatar.large}
+							className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
+							style={{
+								"--bg": `url(${notification.user.avatar.medium})`,
+							}}
+							loading="lazy"
+							alt=""
+						/>
+					)}
 				</ListItemImg>
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>

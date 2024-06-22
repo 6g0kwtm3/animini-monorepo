@@ -35,21 +35,25 @@ export function MediaCover({
 }): ReactNode {
 	const data = useFragment(MediaCover_media, media)
 
-	return createElement("img", {
-		src:
-			data.coverImage?.extraLarge ??
+	return (
+		(data.coverImage?.extraLarge ??
 			data.coverImage?.large ??
-			data.coverImage?.medium ??
-			"",
-		loading: "lazy",
-		alt: "",
-		...props,
-		style: {
-			backgroundImage: `url(${data.coverImage?.medium})`,
-			...props.style,
-		},
-		className: cover({
-			className: props.className,
-		}),
-	})
+			data.coverImage?.medium) &&
+		createElement("img", {
+			src:
+				data.coverImage.extraLarge ??
+				data.coverImage.large ??
+				data.coverImage.medium,
+			loading: "lazy",
+			alt: "",
+			...props,
+			style: {
+				backgroundImage: `url(${data.coverImage.medium})`,
+				...props.style,
+			},
+			className: cover({
+				className: props.className,
+			}),
+		})
+	)
 }
