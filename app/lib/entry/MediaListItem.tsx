@@ -1,4 +1,6 @@
-import { Link } from "@remix-run/react"
+import {
+	Link
+} from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"

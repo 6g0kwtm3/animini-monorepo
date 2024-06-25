@@ -293,7 +293,7 @@ function ListTabs() {
 				return (
 					list.name && (
 						<TabsListItem
-							key={list.name}
+							key={list.name + ":" + i}
 							id={list.name}
 							render={<Link to={`${list.name}?${searchParams}`} />}
 						>

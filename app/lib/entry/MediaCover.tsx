@@ -25,8 +25,9 @@ export type MediaCover_media = typeof MediaCover_media
 const tv = createTV({ twMerge: false })
 
 const cover = tv({
-	base: "bg-cover bg-center object-cover object-center [.transitioning_&]:[view-transition-name:media-cover]",
+	base: "bg-cover bg-center object-cover object-center",
 })
+
 export function MediaCover({
 	media,
 	...props
