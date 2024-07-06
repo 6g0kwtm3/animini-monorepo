@@ -1,3 +1,6 @@
+import { faker as en } from "@faker-js/faker/locale/en"
+import { faker as ja } from "@faker-js/faker/locale/ja"
+
 function store() {}
 
 export function mockUser(initialValue: {} = {}) {
@@ -7,9 +10,6 @@ export function mockUser(initialValue: {} = {}) {
 		...initialValue,
 	}
 }
-
-import { faker as en } from "@faker-js/faker/locale/en"
-import { faker as ja } from "@faker-js/faker/locale/ja"
 
 export function mockStaff(initialValue: {} = {}) {
 	return {
