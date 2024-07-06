@@ -272,7 +272,12 @@ function ListTabs() {
 		<TabsList>
 			<TabsListItem
 				id={"undefined"}
-				render={<Link to={`${route_user_list(params)}?${searchParams}`} />}
+				render={
+					<Link
+						to={`${route_user_list(params)}?${searchParams}`}
+						preventScrollReset
+					/>
+				}
 			>
 				All
 			</TabsListItem>
@@ -282,7 +287,12 @@ function ListTabs() {
 						<TabsListItem
 							key={list.name}
 							id={list.name}
-							render={<Link to={`${list.name}?${searchParams}`} />}
+							render={
+								<Link
+									to={`${list.name}?${searchParams}`}
+									preventScrollReset
+								/>
+							}
 						>
 							{list.name}
 						</TabsListItem>
