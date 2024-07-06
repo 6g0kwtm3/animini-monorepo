@@ -7,7 +7,7 @@ import {
 	useTransform,
 } from "framer-motion"
 import type { ComponentPropsWithRef, JSX, ReactNode } from "react"
-import { createContext, useContext } from "react"
+import { createContext, use } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 
@@ -109,7 +109,7 @@ export function SheetHandle(props: ComponentPropsWithRef<"div">): ReactNode {
 }
 
 export function SheetBody(props: ComponentPropsWithRef<"div">): ReactNode {
-	const styles = useContext(Context)
+	const styles = use(Context)
 	return (
 		<div
 			{...props}

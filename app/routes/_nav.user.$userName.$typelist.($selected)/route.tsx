@@ -1,9 +1,9 @@
 import {
 	Await,
-	Outlet,
 	isRouteErrorResponse,
+	Link,
+	Outlet,
 	useRouteError,
-	useSearchParams,
 	type ClientActionFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
@@ -13,32 +13,29 @@ import { json } from "@remix-run/node"
 import { useRawLoaderData } from "~/lib/data"
 
 import {
-	AwaitLibrary,
 	MediaListHeader,
 	MediaListHeaderItem,
 	MediaListHeaderToWatch,
 } from "~/lib/list/MediaList"
 
-import { Order, Array as ReadonlyArray } from "effect"
+import { Order, pipe, Array as ReadonlyArray } from "effect"
 
 // import {} from 'glob'
 
 import { Schema } from "@effect/schema"
-import type { AnitomyResult } from "anitomy"
 
 import { unstable_defineClientLoader } from "@remix-run/react"
-import type { NonEmptyArray } from "effect/Array"
-import type { ReactNode } from "react"
-import { Suspense, use } from "react"
+import type { ComponentRef, ReactNode } from "react"
+import { Suspense, useRef } from "react"
 
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
-import { Loading, Skeleton } from "~/components/Skeleton"
+import { Skeleton } from "~/components/Skeleton"
 import { Ariakit } from "~/lib/ariakit"
 
 import { client_get_client } from "~/lib/client"
 
-import { MediaListItem } from "~/lib/entry/MediaListItem"
+import { MediaListItem, MockMediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 import { MediaListSort } from "~/lib/MediaListSort"
 import { m } from "~/lib/paraglide"
@@ -54,6 +51,7 @@ import { type routeNavUserListEntriesQuery as NavUserListEntriesQuery } from "~/
 import type {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
+	routeNavUserListEntriesSort_entries$data,
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
@@ -62,15 +60,16 @@ import type {
 	routeUserSetStatusMutation,
 } from "~/gql/routeUserSetStatusMutation.graphql"
 
+import { useWindowVirtualizer } from "@tanstack/react-virtual"
+import { button } from "~/lib/button"
+
 const { graphql } = ReactRelay
 
 const NavUserListEntriesSort_entries = graphql`
 	fragment routeNavUserListEntriesSort_entries on MediaList @inline {
 		id
-		...MediaListItem_entry
 		progress
 		score
-		toWatch
 		startedAt {
 			...routeFuzzyDateOrder_fuzzyDate
 		}
@@ -84,28 +83,29 @@ const NavUserListEntriesSort_entries = graphql`
 				...routeFuzzyDateOrder_fuzzyDate
 			}
 			averageScore
-
 			status(version: 2)
 			title {
 				userPreferred
 			}
 		}
 		updatedAt
+		toWatch
+		...MediaListItem_entry
+		...MediaListHeaderToWatch_entries
 	}
 `
 
 const NavUserListEntriesFilter_entries = graphql`
 	fragment routeNavUserListEntriesFilter_entries on MediaList @inline {
 		id
-		...routeNavUserListEntriesSort_entries
-		...MediaListHeaderToWatch_entries
-		toWatch
 		progress
 		media {
 			id
 			status(version: 2)
 			format
 		}
+		toWatch
+		...routeNavUserListEntriesSort_entries
 	}
 `
 
@@ -125,7 +125,6 @@ const NavUserListEntriesQuery = graphql`
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return {
-		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>({}),
 		query: fetchSelectedList(args),
 	}
 })
@@ -221,25 +220,19 @@ async function fetchSelectedList(
 		}
 	)
 
-	if (typeof params.selected !== "string") {
-		return {
-			selectedList: {
-				name: "All",
-				entries: Object.values(
+	let selectedList =
+		typeof params.selected !== "string"
+			? Object.values(
 					Object.fromEntries(
 						data?.MediaListCollection?.lists
 							?.flatMap((list) => list?.entries)
 							.filter((entry) => entry != null)
 							.map((entry) => [entry.id, entry]) ?? []
 					)
-				),
-			},
-		}
-	}
-
-	const selectedList = data?.MediaListCollection?.lists?.find(
-		(list) => list?.name === params.selected
-	)
+				)
+			: data?.MediaListCollection?.lists?.find(
+					(list) => list?.name === params.selected
+				)?.entries
 
 	if (!selectedList) {
 		throw json("List not found", {
@@ -247,8 +240,16 @@ async function fetchSelectedList(
 		})
 	}
 
+	const search = new URL(args.request.url).searchParams
+
 	return {
-		selectedList,
+		entries: sortEntries(
+			filterEntries(
+				selectedList.filter((el) => el != null),
+				search
+			),
+			search
+		),
 	}
 }
 
@@ -281,7 +282,7 @@ const OrderFuzzyDate = Order.combineAll([
 function sortEntries(
 	data: readonly NavUserListEntriesSort_entries$key[],
 	searchParams: URLSearchParams
-) {
+): routeNavUserListEntriesSort_entries$data[] {
 	let entries = data.map((key) =>
 		readInlineData(NavUserListEntriesSort_entries, key)
 	)
@@ -376,7 +377,10 @@ function sortEntries(
 		)
 	)
 
-	return ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))(entries)
+	return pipe(
+		entries,
+		ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))
+	)
 }
 
 function filterEntries(
@@ -438,81 +442,86 @@ const Params = Schema.Struct({
 })
 
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
-	const [search] = useSearchParams()
+	const entries = useRawLoaderData<typeof clientLoader>().query
 
 	return (
 		<>
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-						<Await resolve={data.query}>
-							{({ selectedList }) => (
-								<MediaListHeaderToWatch
-									entries={filterEntries(
-										selectedList.entries?.filter((el) => el != null) ?? [],
-										search
-									)}
-								/>
-							)}
+						<Await resolve={entries}>
+							{({ entries }) => <MediaListHeaderToWatch entries={entries} />}
 						</Await>
 					</Suspense>
 				</MediaListHeaderItem>
 				<MediaListHeaderItem subtitle={m.total_entries()}>
 					<Suspense fallback={<Skeleton>80</Skeleton>}>
-						<Await resolve={data.query}>
-							{({ selectedList }) =>
-								filterEntries(
-									selectedList.entries?.filter((el) => el != null) ?? [],
-									search
-								).length
-							}
-						</Await>
+						<Await resolve={entries}>{({ entries }) => entries.length}</Await>
 					</Suspense>
 				</MediaListHeaderItem>
 			</MediaListHeader>
 
 			<div className="-mx-4">
-				<div className={``}>
-					<List className="@container">
-						<Suspense
-							fallback={
-								<Loading>
-									{ReadonlyArray.range(1, 7).map((i) => (
-										<MediaListItem key={i} entry={null} />
-									))}
-								</Loading>
-							}
-						>
-							<AwaitQuery />
-						</Suspense>
-					</List>
-				</div>
+				<Suspense
+					fallback={
+						<List className="@container">
+							{ReadonlyArray.range(1, 7).map((i) => (
+								<MockMediaListItem key={i} />
+							))}
+						</List>
+					}
+				>
+					<Await resolve={entries}>
+						{({ entries }) => <AwaitQuery entries={entries} />}
+					</Await>
+				</Suspense>
 			</div>
 			<Outlet />
 		</>
 	)
 }
 
-function AwaitQuery() {
-	const data = useRawLoaderData<typeof clientLoader>()
-	const { selectedList } = use(data.query)
-	const [search] = useSearchParams()
+function AwaitQuery(props: {
+	entries: routeNavUserListEntriesSort_entries$data[]
+}) {
+	const mediaList = props.entries
 
-	const mediaList = sortEntries(
-		filterEntries(
-			selectedList.entries?.filter((el) => el != null) ?? [],
-			search
-		),
-		search
-	)
-		.filter((el) => el != null)
-		.map((entry) => <MediaListItem key={entry.id} entry={entry} />)
+	const ref = useRef<ComponentRef<"div">>(null)
+
+	const virtualizer = useWindowVirtualizer({
+		count: mediaList.length,
+		scrollMargin: ref.current?.offsetTop ?? 0,
+		estimateSize: () => 72,
+		overscan: 10,
+		getItemKey: (item) => mediaList[item]?.id ?? item,
+	})
 
 	return (
-		<Suspense fallback={mediaList}>
-			<AwaitLibrary resolve={data.Library}>{mediaList}</AwaitLibrary>
-		</Suspense>
+		<div ref={ref} className="">
+			<List
+				className="relative @container"
+				style={{ height: `${virtualizer.getTotalSize()}px` }}
+			>
+				{virtualizer.getVirtualItems().map((item) => {
+					const entry = mediaList[item.index]
+
+					return (
+						entry && (
+							<MediaListItem
+								data-id={entry.id}
+								key={item.key}
+								entry={entry}
+								style={{
+									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
+									height: `${item.size}px`,
+								}}
+								className="absolute left-0 top-0 w-full"
+							/>
+						)
+					)
+				})}
+			</List>
+		</div>
 	)
 }
 
@@ -526,6 +535,9 @@ export function ErrorBoundary(): ReactNode {
 				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
+				<Link to="." className={button()} relative="path">
+					Try again
+				</Link>
 			</div>
 		)
 	}
@@ -547,6 +559,9 @@ export function ErrorBoundary(): ReactNode {
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<Link to="." className={button()} relative="path">
+				Try again
+			</Link>
 		</Card>
 	)
 }

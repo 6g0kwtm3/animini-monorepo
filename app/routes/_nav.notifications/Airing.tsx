@@ -1,7 +1,6 @@
 import { Link } from "@remix-run/react"
 import ReactRelay from "react-relay"
 import {
-	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
@@ -15,7 +14,9 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
+import { use } from "react"
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
+import { ListContext } from "~/lib/list"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
@@ -43,17 +44,16 @@ export function Airing(props: { notification: Airing_notification$key }) {
 	)
 	const data = useRawLoaderData<typeof clientLoader>()
 
+	const list = use(ListContext)
+
 	return (
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={
-						<Link
-							to={route_media({
-								id: notification.media.id,
-							})}
-						/>
-					}
+				<Link
+					to={route_media({
+						id: notification.media.id,
+					})}
+					className={list.item()}
 				>
 					<ListItemImg>
 						<MediaCover media={notification.media} />
@@ -77,7 +77,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 							{format(notification.createdAt - Date.now() / 1000)}
 						</ListItemTrailingSupportingText>
 					)}
-				</ListItem>
+				</Link>
 			</li>
 		)
 	)

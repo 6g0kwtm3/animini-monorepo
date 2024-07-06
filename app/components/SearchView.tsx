@@ -1,9 +1,9 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactElement } from "react"
-import { createContext, forwardRef, useContext } from "react"
+import { createContext, forwardRef, use } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
+import MaterialSymbolsClose from "~icons/material-symbols/close"
 import { Icon } from "./Button"
 
 const tv = createTV({ twMerge: false })
@@ -41,7 +41,7 @@ export const SearchViewBody = forwardRef<
 	HTMLDivElement,
 	Ariakit.ComboboxListProps
 >(function SearchViewBody(props, ref) {
-	const { body } = useContext(SearchViewContext)
+	const { body } = use(SearchViewContext)
 
 	return (
 		<Ariakit.ComboboxList
@@ -84,25 +84,34 @@ export const SearchView = forwardRef<
 
 export const SearchViewBodyGroup = Ariakit.ComboboxGroup
 export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
-
 export const SearchViewInput = forwardRef<
 	HTMLInputElement,
 	Ariakit.ComboboxProps
 >(function SearchViewInput(props, ref) {
-	const { input } = useContext(SearchViewContext)
+	const { input } = use(SearchViewContext)
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss render={<Icon />}>
-					<MaterialSymbolsArrowBack />
-				</Ariakit.DialogDismiss>
+				<Ariakit.DialogDismiss
+					render={
+						<Icon>
+							<MaterialSymbolsArrowBack />
+						</Icon>
+					}
+				/>
 				<Ariakit.Combobox
 					ref={ref}
 					autoSelect={"always"}
 					{...props}
 					className={input({ className: props.className })}
 				/>
-				<Ariakit.ComboboxCancel render={<Icon />} />
+				<Ariakit.ComboboxCancel
+					render={
+						<Icon>
+							<MaterialSymbolsClose />
+						</Icon>
+					}
+				/>
 			</div>
 			<div className="border-b border-outline-variant sm:last:hidden" />
 		</>
@@ -111,9 +120,7 @@ export const SearchViewInput = forwardRef<
 
 export const SearchViewItem = forwardRef<
 	HTMLDivElement,
-	Ariakit.ComboboxItemProps & {
-		render?: ReactElement<any>
-	}
+	Ariakit.ComboboxItemProps
 >(function SearchViewItem(props, ref) {
 	return (
 		<Ariakit.ComboboxItem

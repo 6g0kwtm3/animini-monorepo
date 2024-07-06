@@ -13,14 +13,13 @@ import {
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Button, Button as ButtonText } from "~/components/Button"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
 
 import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import type { clientLoader as rootLoader } from "~/root"
 
-import type { routeNavUserQuery as NavUserQuery } from "~/gql/routeNavUserQuery.graphql"
+import type { routeNavUserIndexQuery as NavUserQuery } from "~/gql/routeNavUserIndexQuery.graphql"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 const { graphql } = ReactRelay
@@ -30,7 +29,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	const data = await client_operation<NavUserQuery>(
 		graphql`
-			query routeNavUserQuery($userName: String!) {
+			query routeNavUserIndexQuery($userName: String!) {
 				User(name: $userName) {
 					id
 					name
@@ -75,53 +74,51 @@ export default function Page(): ReactNode {
 	})
 
 	return (
-		<LayoutBody>
-			<LayoutPane>
-				<nav>
-					<Link to="animelist" className={button()}>
-						Anime List
-					</Link>
-					<Link to="mangalist" className={button()}>
-						Manga List
-					</Link>
-				</nav>
+		<>
+			<nav>
+				<Link to="animelist" className={button()}>
+					Anime List
+				</Link>
+				<Link to="mangalist" className={button()}>
+					Manga List
+				</Link>
+			</nav>
 
-				{rootData?.Viewer?.name && rootData.Viewer.name !== data.user.name && (
-					<follow.Form method="post" action={`/user/${data.user.id}/follow`}>
-						<input
-							type="hidden"
-							name="isFollowing"
-							value={
-								follow.formData?.get("isFollowing") ??
-								follow.data?.ToggleFollow.isFollowing ??
-								data.user.isFollowing
-									? ""
-									: "true"
-							}
-							id=""
-						/>
-
-						<Button type="submit" aria-disabled={!data.user.id}>
-							{follow.formData?.get("isFollowing") ??
+			{rootData?.Viewer?.name && rootData.Viewer.name !== data.user.name && (
+				<follow.Form method="post" action={`/user/${data.user.id}/follow`}>
+					<input
+						type="hidden"
+						name="isFollowing"
+						value={
+							follow.formData?.get("isFollowing") ??
 							follow.data?.ToggleFollow.isFollowing ??
 							data.user.isFollowing
-								? m.unfollow_button()
-								: m.follow_button()}
-						</Button>
-					</follow.Form>
-				)}
+								? ""
+								: "true"
+						}
+						id=""
+					/>
 
-				{rootData?.Viewer?.name === data.user.name && (
-					<Form
-						method="post"
-						action={`/logout/?${new URLSearchParams({
-							redirect: pathname,
-						})}`}
-					>
-						<ButtonText type="submit">Logout</ButtonText>
-					</Form>
-				)}
-			</LayoutPane>
-		</LayoutBody>
+					<Button type="submit" aria-disabled={!data.user.id}>
+						{follow.formData?.get("isFollowing") ??
+						follow.data?.ToggleFollow.isFollowing ??
+						data.user.isFollowing
+							? m.unfollow_button()
+							: m.follow_button()}
+					</Button>
+				</follow.Form>
+			)}
+
+			{rootData?.Viewer?.name === data.user.name && (
+				<Form
+					method="post"
+					action={`/logout/?${new URLSearchParams({
+						redirect: pathname,
+					})}`}
+				>
+					<ButtonText type="submit">Logout</ButtonText>
+				</Form>
+			)}
+		</>
 	)
 }

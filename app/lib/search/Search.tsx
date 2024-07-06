@@ -21,7 +21,6 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { List } from "~/components/List"
 import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
 import {
 	SearchView,
@@ -37,6 +36,7 @@ import { M3 } from "../components"
 
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
+import { createList, ListContext } from "../list"
 
 const { graphql } = ReactRelay
 
@@ -86,6 +86,8 @@ export function Search(): ReactNode {
 
 	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
+	const list = createList({ lines: "one" })
+
 	return (
 		<SearchView
 			aria-label="Search anime or manga"
@@ -101,41 +103,46 @@ export function Search(): ReactNode {
 			defaultValue={searchParams.get("q") ?? ""}
 		>
 			<Form role="search" action="/search" className={"flex w-full flex-col"}>
-				<>
-					<SearchViewInput
-						ref={ref}
-						placeholder="Search anime or manga"
-						onChange={(e) => submit.submit(e.currentTarget.form, {})}
-						name="q"
-					/>
+				<SearchViewInput
+					ref={ref}
+					placeholder="Search anime or manga"
+					onChange={(e) => submit.submit(e.currentTarget.form, {})}
+					name="q"
+				/>
 
-					{ReadonlyArray.isNonEmptyArray(media) ? (
-						<SearchViewBody>
-							<SearchViewBodyGroup>
-								<Ariakit.ComboboxGroupLabel
-									render={<M3.Subheader lines={"one"} />}
+				{ReadonlyArray.isNonEmptyArray(media) ? (
+					<SearchViewBody>
+						<SearchViewBodyGroup>
+							<Ariakit.ComboboxGroupLabel
+								render={<M3.Subheader lines={"one"} />}
+							>
+								Results
+							</Ariakit.ComboboxGroupLabel>
+
+							<ListContext value={list}>
+								<div
+									className={list.root({
+										className: "-mt-2",
+									})}
 								>
-									Results
-								</Ariakit.ComboboxGroupLabel>
-
-								<List lines={"one"} render={<div />} className="-mt-2">
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}
+											data-id={media.id}
 											render={<SearchItem media={media} />}
 										/>
 									))}
-								</List>
-							</SearchViewBodyGroup>
-						</SearchViewBody>
-					) : data ? (
-						<Suspense fallback="">
-							<Await resolve={data.trending} errorElement={<></>}>
-								{(data) => data && <SearchTrending query={data} />}
-							</Await>
-						</Suspense>
-					) : null}
-				</>
+								</div>
+							</ListContext>
+						</SearchViewBodyGroup>
+					</SearchViewBody>
+				) : data ? (
+					<Suspense fallback="">
+						<Await resolve={data.trending} errorElement={<></>}>
+							{(data) => data && <SearchTrending query={data} />}
+						</Await>
+					</Suspense>
+				) : null}
 			</Form>
 		</SearchView>
 	)

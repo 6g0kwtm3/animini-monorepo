@@ -1,3 +1,4 @@
+import { createContext } from "react"
 import { createTV } from "tailwind-variants"
 
 const tv = createTV({ twMerge: false })
@@ -5,16 +6,16 @@ const tv = createTV({ twMerge: false })
 export const createList = tv(
 	{
 		slots: {
-			root: "grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4",
-			item: "group col-span-full grid grid-cols-subgrid px-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
-			itemAvatar: "h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full",
-			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
+			root: "",
+			item: "group flex gap-x-4 px-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
+			itemAvatar:
+				"h-10 w-10 shrink-0 overflow-hidden rounded-full *:h-full *:w-full",
+			itemImg: "h-14 w-14 shrink-0 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
-			itemContent:
-				"flex h-full flex-col first:col-span-2 last:col-span-2 first:last:col-span-3",
+			itemContent: "flex h-full flex-1 flex-col truncate",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
-			trailingSupportingText: "text-end text-label-sm text-on-surface-variant",
+			trailingSupportingText: "text-label-sm text-on-surface-variant",
 		},
 		variants: {
 			lines: {
@@ -46,3 +47,5 @@ export const createList = tv(
 		responsiveVariants: ["sm"],
 	}
 )
+
+export const ListContext = createContext(createList())

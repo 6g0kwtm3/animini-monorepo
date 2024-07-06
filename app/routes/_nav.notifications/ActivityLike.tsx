@@ -1,8 +1,8 @@
 import { Link } from "@remix-run/react"
 
+import { use } from "react"
 import ReactRelay from "react-relay"
 import {
-	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
@@ -11,6 +11,7 @@ import {
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { useRawLoaderData } from "~/lib/data"
+import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
@@ -41,9 +42,11 @@ export function ActivityLike(props: {
 	)
 	const data = useRawLoaderData<typeof clientLoader>()
 
+	const list = use(ListContext)
+
 	return (
 		notification.user && (
-			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
+			<Link to={`/activity/${notification.activityId}`} className={list.item()}>
 				<ListItemImg>
 					{notification.user.avatar?.large && (
 						<img
@@ -74,7 +77,7 @@ export function ActivityLike(props: {
 						{format(notification.createdAt - Date.now() / 1000)}
 					</ListItemTrailingSupportingText>
 				)}
-			</ListItem>
+			</Link>
 		)
 	)
 }

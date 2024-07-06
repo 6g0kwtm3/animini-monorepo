@@ -1,4 +1,4 @@
-import type { ReadonlyURLSearchParams } from "~/routes/_nav.user.$userName.$typelist._filters/route"
+import type { ReadonlyURLSearchParams } from "~/routes/_nav.user.$userName.$typelist/route"
 
 export function copySearchParams(
 	params: ReadonlyURLSearchParams

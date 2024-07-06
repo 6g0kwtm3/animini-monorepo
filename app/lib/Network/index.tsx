@@ -17,7 +17,13 @@ import { json } from "@remix-run/node"
 
 import { Remix } from "../Remix"
 
-import * as Http from "@effect/platform/HttpClient"
+import {
+	HttpBody,
+	HttpClient,
+	HttpClientRequest,
+	HttpClientResponse,
+	Headers as HttpHeaders,
+} from "@effect/platform"
 
 import { GraphQLResponse, Timeout } from "./schema"
 
@@ -48,7 +54,7 @@ const fetchQuery_: FetchFunction = async function (
 
 	return pipe(
 		Effect.gen(function* () {
-			const body = yield* Http.body.json({
+			const body = yield* HttpBody.json({
 				query: operation.text,
 				variables: variables,
 			})
@@ -66,15 +72,15 @@ const fetchQuery_: FetchFunction = async function (
 				headers.set("Authorization", `Bearer ${token}`)
 			}
 
-			const request = Http.request.post(API_URL, {
+			const request = HttpClientRequest.post(API_URL, {
 				body: body,
 				headers,
 			})
 
-			const response = yield* Http.client.fetchOk(request)
+			const response = yield* HttpClient.fetchOk(request)
 
 			const result =
-				yield* Http.response.schemaBodyJson(GraphQLResponse)(response)
+				yield* HttpClientResponse.schemaBodyJson(GraphQLResponse)(response)
 
 			if ("errors" in result && result.errors?.length) {
 				yield* Effect.logWarning(...result.errors)
@@ -85,14 +91,14 @@ const fetchQuery_: FetchFunction = async function (
 		Effect.withTracerEnabled(false),
 		Effect.catchTags({
 			RequestError: Effect.die,
-			BodyError: Effect.die,
+			HttpBodyError: Effect.die,
 			ParseError: Effect.die,
 			ResponseError: (error) => {
 				if (error.response.status === 429) {
 					return new Timeout({
 						reset: pipe(
 							error.response.headers,
-							Http.headers.get("retry-after"),
+							HttpHeaders.get("retry-after"),
 							Option.getOrElse(() => "60")
 						),
 					})
@@ -161,8 +167,19 @@ const environment = new Environment({
 			console.warn(event.error)
 		}
 	},
+	//@ts-expect-error
+	relayFieldLogger(event) {
+		if (event.kind === "relay_resolver.error") {
+			// Log this somewhere!
+			console.warn(
+				`Resolver error encountered in ${event.owner}.${event.fieldPath}`
+			)
+			console.warn(event.error)
+		}
+	},
 	getDataID: (data, typeName) =>
 		data.id != null ? `${typeName}:${data.id}` : null,
+
 	// ... other options
 })
 

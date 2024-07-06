@@ -1,5 +1,6 @@
 import {
 	isRouteErrorResponse,
+	Link,
 	Links,
 	Meta,
 	Outlet,
@@ -27,9 +28,9 @@ import tailwind from "./tailwind.css?url"
 import { useRevalidator } from "@remix-run/react"
 import type { Environment } from "react-relay"
 import { useIsHydrated } from "~/lib/useIsHydrated"
-import environment, {
-	RelayEnvironmentProvider as RelayEnvironmentProvider_,
-} from "./lib/Network"
+import environment from "./lib/Network"
+import { RelayEnvironmentProvider as RelayEnvironmentProvider_ } from "./lib/Network/components"
+import { button } from "./lib/button"
 
 const RelayEnvironmentProvider = RelayEnvironmentProvider_ as unknown as FC<{
 	environment: Environment
@@ -154,6 +155,9 @@ export function ErrorBoundary(): ReactNode {
 				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
+				<Link to="." className={button()} relative="path">
+					Try again
+				</Link>
 			</div>
 		)
 	}
@@ -175,6 +179,9 @@ export function ErrorBoundary(): ReactNode {
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<Link to="." className={button()} relative="path">
+				Try again
+			</Link>
 		</Card>
 	)
 }

@@ -1,36 +1,13 @@
-import { Await, type AwaitProps } from "@remix-run/react"
-
 // import {} from 'glob'
 
-import { Library } from "~/lib/entry/MediaListItem"
 import { formatWatch } from "~/lib/entry/ToWatch"
 
-import type { SerializeFrom } from "@remix-run/node"
-import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import type { MediaListHeaderToWatch_entries$key } from "~/gql/MediaListHeaderToWatch_entries.graphql"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
-
-export function AwaitLibrary({
-	children,
-	...props
-}: AwaitProps<
-	Promise<SerializeFrom<Record<string, NonEmptyArray<AnitomyResult>>>>
-> & {
-	children: ReactNode
-}): ReactNode {
-	return (
-		<Await {...props}>
-			{(library) => (
-				<Library.Provider value={library}>{children}</Library.Provider>
-			)}
-		</Await>
-	)
-}
 
 const MediaListHeaderToWatch_entries = graphql`
 	fragment MediaListHeaderToWatch_entries on MediaList @relay(plural: true) {

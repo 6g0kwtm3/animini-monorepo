@@ -40,6 +40,8 @@ import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
+import MaterialSymbolsHome from "~icons/material-symbols/home"
+import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 
@@ -129,6 +131,14 @@ export default function NavRoute(): ReactNode {
 				}}
 			>
 				<NavigationItem to="/">
+					<NavigationItemIcon>
+						<MaterialSymbolsHomeOutline />
+						<MaterialSymbolsHome />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Home</div>
+				</NavigationItem>
+
+				<NavigationItem to="/feed">
 					<NavigationItemIcon>
 						<MaterialSymbolsFeedOutline />
 						<MaterialSymbolsFeed />

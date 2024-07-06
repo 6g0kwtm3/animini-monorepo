@@ -1,16 +1,12 @@
-import {
-	Link
-} from "@remix-run/react"
+import { Link } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/Array"
-import type { ReactNode } from "react"
-import { createContext, useContext } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
+import { use } from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -26,9 +22,8 @@ import { formatWatch } from "./ToWatch"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
-import { ProgressIncrement } from "./Progress"
+import { Progress, ProgressIncrement, ProgressTooltip } from "./Progress"
 
-import type { SerializeFrom } from "@remix-run/node"
 import { Predicate } from "effect"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
@@ -36,66 +31,83 @@ import type {
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
+import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
+import { M3 } from "../components"
+import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
 
+export type ListItem_EntryFragment = typeof MediaListItem_entry
+
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
-		...ProgressIncrement_entry
-		...MediaListItemTitle_entry
-		...MediaListItemSubtitle_entry
-		media {
+		media @required(action: LOG) {
 			id
 			...MediaCover_media
 		}
+		...ProgressIncrement_entry
+		...MediaListItemTitle_entry
+		...MediaListItemSubtitle_entry
+		...ProgressMoreMenu_entry
 	}
 `
 
-export type ListItem_EntryFragment = typeof MediaListItem_entry
-export const Library = createContext<
-	SerializeFrom<Record<string, NonEmptyArray<AnitomyResult>>>
->({})
-
-export function MediaListItem(props: {
-	entry: MediaListItem_entry$key | null
+export function MediaListItem({
+	entry,
+	...props
+}: ComponentPropsWithRef<"li"> & {
+	entry: MediaListItem_entry$key
 }): ReactNode {
-	const entry = useFragment(MediaListItem_entry, props.entry)
+	const data = useFragment(MediaListItem_entry, entry)
+
+	const list = use(ListContext)
 
 	return (
-		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem render={<div />}>
+		data && (
+			<ListItem {...props}>
 				<ListItemImg>
-					<Skeleton full>
-						{entry?.media ? <MediaCover media={entry.media} /> : null}
-					</Skeleton>
+					<MediaCover media={data.media} />
 				</ListItemImg>
-				<ListItemContent
-					render={
-						entry?.media ? (
-							<Link
-								unstable_viewTransition
-								to={route_media({ id: entry.media.id })}
-							/>
-						) : (
-							<div />
-						)
-					}
+
+				<Link
+					to={route_media({ id: data.media.id })}
+					className={list.itemContent()}
 				>
 					<ListItemContentTitle>
-						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
+						<MediaListItemTitle entry={data} />
 					</ListItemContentTitle>
 					<ListItemContentSubtitle className="flex flex-wrap gap-1">
-						<Skeleton className="force:max-w-[21.666666666666668ch]">
-							{entry && <MediaListItemSubtitle entry={entry} />}
-						</Skeleton>
+						<MediaListItemSubtitle entry={data} />
 					</ListItemContentSubtitle>
-				</ListItemContent>
+				</Link>
 
-				<Skeleton>{entry && <ProgressIncrement entry={entry} />}</Skeleton>
+				<ProgressIncrement entry={data} />
+				{/* <MoreMenu entry={data} /> */}
 			</ListItem>
-		</li>
+		)
+	)
+}
+
+export function MockMediaListItem({
+	...props
+}: ComponentPropsWithRef<"li">): ReactNode {
+	return (
+		<ListItem {...props}>
+			<ListItemImg>
+				<Skeleton full />
+			</ListItemImg>
+			<ListItemContent>
+				<ListItemContentTitle>
+					<Skeleton />
+				</ListItemContentTitle>
+				<ListItemContentSubtitle className="flex flex-wrap gap-1">
+					<Skeleton className="force:max-w-[21.666666666666668ch]" />
+				</ListItemContentSubtitle>
+			</ListItemContent>
+			<Skeleton />
+		</ListItem>
 	)
 }
 
@@ -106,8 +118,8 @@ const MediaListItemTitle_entry = graphql`
 		media @required(action: LOG) {
 			id
 			title @required(action: LOG) {
-				...MediaTitle_mediaTitle
 				userPreferred @required(action: LOG)
+				...MediaTitle_mediaTitle
 			}
 		}
 	}
@@ -117,15 +129,15 @@ function MediaListItemTitle(props: {
 	entry: MediaListItemTitle_entry$key
 }): ReactNode {
 	const entry = useFragment(MediaListItemTitle_entry, props.entry)
-	const library = useContext(Library)
 
 	if (!entry) {
 		return null
 	}
 
-	const libraryHasNextEpisode = library[entry.media.title.userPreferred]?.some(
-		({ episode }) => episode.number === (entry.progress || 0) + 1
-	)
+	const libraryHasNextEpisode = (entry as any).libraryHasNextEpisode
+	// library[entry.media.title.userPreferred]?.some(
+	// 	({ episode }) => episode.number === (entry.progress || 0) + 1
+	// )
 
 	return (
 		<>
@@ -143,15 +155,15 @@ const MediaListItemSubtitle_entry = graphql`
 	fragment MediaListItemSubtitle_entry on MediaList {
 		id
 		score
-		toWatch
-		...Progress_entry
 		media {
 			id
 			type
+			...ProgressTooltip_media
 		}
+		toWatch
+		...Progress_entry
 	}
 `
-
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
 }): ReactNode {
@@ -164,6 +176,17 @@ function MediaListItemSubtitle(props: {
 			<div>
 				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
 			</div>
+
+			<M3.TooltipPlain>
+				<M3.TooltipPlainTrigger className="contents @lg:hidden">
+					&middot;
+					<div>
+						<MaterialSymbolsPlayArrow className="i-inline inline" />{" "}
+						<Progress entry={entry} />
+					</div>
+				</M3.TooltipPlainTrigger>
+				{entry.media && <ProgressTooltip media={entry.media} />}
+			</M3.TooltipPlain>
 
 			{entry.media?.type === ("ANIME" satisfies MediaType) &&
 				Predicate.isNumber(watch) && (

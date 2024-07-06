@@ -1,5 +1,6 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
-// import MillionLint from "@million/lint"
+import MillionLint from "@million/lint"
+
 import { vitePlugin as remix } from "@remix-run/dev"
 import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
@@ -9,13 +10,15 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
-		// MillionLint.vite(),
+		MillionLint.vite({
+			optimizeDOM: true,
+		}),
 		paraglide({
 			project: "./project.inlang",
 			outdir: "./app/paraglide",
 		}),
 
-		remixDevTools(),
+		// remixDevTools(),
 		// cloudflareDevProxy(),
 
 		remix({
@@ -40,12 +43,6 @@ export default defineConfig({
 			// 	})
 			// }
 		}),
-
-		// million.vite({
-		// 	auto: true,
-		// 	// rsc: true,
-		// 	log: false
-		// }),
 		tsconfigPaths(),
 		icons({
 			compiler: "jsx",
