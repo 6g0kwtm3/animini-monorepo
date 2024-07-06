@@ -288,10 +288,7 @@ function ListTabs() {
 							key={list.name}
 							id={list.name}
 							render={
-								<Link
-									to={`${list.name}?${searchParams}`}
-									preventScrollReset
-								/>
+								<Link to={`${list.name}?${searchParams}`} preventScrollReset />
 							}
 						>
 							{list.name}
