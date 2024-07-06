@@ -56,10 +56,6 @@ export function ProgressIncrement(props: {
 
 	const [search] = useSearchParams()
 
-	if (!entry) {
-		return null
-	}
-
 	const progress =
 		(Number(optimisticEntry.id) === entry.id
 			? Number(optimisticEntry.progress)
