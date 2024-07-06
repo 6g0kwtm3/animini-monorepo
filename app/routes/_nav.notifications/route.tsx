@@ -174,6 +174,7 @@ export default function Notifications(): ReactNode {
 									if (notification.__typename === "AiringNotification") {
 										return (
 											<Airing
+												data-id={notification.id}
 												key={notification.id}
 												notification={notification}
 											/>
@@ -185,6 +186,7 @@ export default function Notifications(): ReactNode {
 									) {
 										return (
 											<RelatedMediaAddition
+												data-id={notification.id}
 												key={notification.id}
 												notification={notification}
 											/>
@@ -193,6 +195,7 @@ export default function Notifications(): ReactNode {
 									if (notification.__typename === "ActivityLikeNotification") {
 										return (
 											<ActivityLike
+												data-id={notification.id}
 												key={notification.id}
 												notification={notification}
 											/>

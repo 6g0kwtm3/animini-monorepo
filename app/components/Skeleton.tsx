@@ -1,9 +1,7 @@
-import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
-import { createContext, useContext } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
 
 const tv = createTV({ twMerge: false })
 
@@ -20,26 +18,14 @@ const skeleton = tv({
 	},
 })
 
-const LoadingContext = createContext(false)
-export function Loading(
-	props: Partial<ComponentPropsWithRef<typeof LoadingContext.Provider>>
-): ReactNode {
-	return <LoadingContext.Provider value={true} {...props} />
-}
 export function Skeleton({
 	full,
 	...props
-}: ComponentPropsWithRef<"div"> &
-	VariantProps<typeof skeleton> & {
-		render?: ReactElement<any>
-	}): ReactNode {
-	const loading = useContext(LoadingContext)
-
-	if (loading)
-		return createElement("div", {
-			...props,
-			className: skeleton({ className: props.className, full }),
-		})
-
-	return props.children
+}: ComponentPropsWithRef<"div"> & VariantProps<typeof skeleton>): ReactNode {
+	return (
+		<div
+			{...props}
+			className={skeleton({ className: props.className, full })}
+		/>
+	)
 }

@@ -1,13 +1,11 @@
-import type { NavLink, NavLinkProps } from "@remix-run/react"
+import { Link } from "@remix-run/react"
 
-import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
-import { createContext, forwardRef, useContext, useId } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
+import { createContext, use, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-import { createElement } from "~/lib/createElement"
-import { HashNavLink } from "~/lib/search/HashNavLink"
 
 const tv = createTV({ twMerge: false })
 
@@ -90,42 +88,31 @@ const createNavigation = tv(
 
 const Context = createContext(createNavigation())
 
-export const NavigationItem = forwardRef<
-	HTMLAnchorElement,
-	Partial<ComponentPropsWithRef<typeof NavLink>> & {
-		children?: ReactNode
-		className?: string
-		render?: ReactElement<any>
-	}
->(function NavigationItem({ children, ...props }, ref): ReactNode {
-	const { label } = useContext(Context)
+export function NavigationItem({
+	children,
+	active,
+	...props
+}: ComponentPropsWithRef<typeof Link> & {
+	active?: boolean
+}): ReactNode {
+	const { label } = use(Context)
 
-	return createElement(HashNavLink, {
-		ref,
-		...props,
-		unstable_viewTransition: true,
-		className: label({ className: props.className }),
-		children: ({
-			isActive,
-		}: Parameters<
-			Extract<NavLinkProps["children"], (...args: any) => any>
-		>[0]) => (
-			<>
-				<NavigationActiveIndicator />
-				{children}
-				<TouchTarget />
-			</>
-		),
-	})
-})
+	return (
+		<Link {...props} className={label({ className: props.className })}>
+			<NavigationActiveIndicator />
+			{children}
+			<TouchTarget />
+		</Link>
+	)
+}
 
 const NavigationContext = createContext<{ "--id": string } | undefined>(
 	undefined
 )
 
 function NavigationActiveIndicator() {
-	const { activeIndicator } = useContext(Context)
-	const style = useContext(NavigationContext)
+	const { activeIndicator } = use(Context)
+	const style = use(NavigationContext)
 
 	return <div className={activeIndicator()} style={style} />
 }
@@ -133,7 +120,7 @@ function NavigationActiveIndicator() {
 export function NavigationItemIcon(
 	props: ComponentPropsWithRef<"div">
 ): ReactNode {
-	const { icon } = useContext(Context)
+	const { icon } = use(Context)
 
 	return <div {...props} className={icon()} />
 }
@@ -163,7 +150,7 @@ export function Navigation({
 export function NavigationItemLargeBadge(
 	props: ComponentPropsWithRef<"div">
 ): ReactNode {
-	const { largeBadge } = useContext(Context)
+	const { largeBadge } = use(Context)
 
 	return <div {...props} className={largeBadge()} />
 }

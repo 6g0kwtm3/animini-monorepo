@@ -1,100 +1,66 @@
-import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
-import { createContext, forwardRef, useContext } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
+import { use } from "react"
 
 import { createTV, type VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
-import { createElement } from "~/lib/createElement"
-import { createList } from "~/lib/list"
+import { createList, ListContext } from "~/lib/list"
 
 type ListVariantProps = VariantProps<typeof createList>
 
-const ListContext = createContext(createList())
+export function ListItem({
+	lines,
+	...props
+}: ComponentPropsWithRef<"li"> & ListVariantProps): ReactNode {
+	const { item } = use(ListContext)
+	return (
+		<li {...props} className={item({ className: props.className, lines })} />
+	)
+}
 
-export const ListItem = forwardRef<
-	HTMLLIElement,
-	ComponentPropsWithRef<"li"> &
-		ListVariantProps & {
-			render?: ReactElement<any>
-		}
->(function ListItem({ lines, ...props }, ref): ReactNode {
-	const { item } = useContext(ListContext)
-	return createElement("li", {
-		...props,
-		ref,
-		className: item({ className: props.className, lines }),
-	})
-})
 export function ListItemContentTitle(
-	props: ComponentPropsWithRef<"div"> & {
-		render?: ReactElement<any>
-	}
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
-	const { itemTitle } = useContext(ListContext)
+	const { itemTitle } = use(ListContext)
 
-	return createElement("div", {
-		...props,
-		className: itemTitle({ className: props.className }),
-	})
+	return (
+		<div {...props} className={itemTitle({ className: props.className })} />
+	)
 }
 export function ListItemContent(
-	props: ComponentPropsWithRef<"div"> & {
-		render?: ReactElement<any>
-	}
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
-	const { itemContent } = useContext(ListContext)
+	const { itemContent } = use(ListContext)
 
-	return createElement("div", {
-		...props,
-		className: itemContent({ className: props.className }),
-	})
+	return (
+		<div {...props} className={itemContent({ className: props.className })} />
+	)
 }
+
 export function ListItemContentSubtitle(
-	props: ComponentPropsWithRef<"div"> & {
-		render?: ReactElement<any>
-	}
+	props: ComponentPropsWithRef<"div">
 ): ReactNode {
-	const { itemSubtitle } = useContext(ListContext)
+	const { itemSubtitle } = use(ListContext)
 
-	return createElement("div", {
-		...props,
-		className: itemSubtitle({ className: props.className }),
-	})
+	return (
+		<div {...props} className={itemSubtitle({ className: props.className })} />
+	)
 }
-export function ListItemImg(
-	props: ComponentPropsWithRef<"div"> & {
-		render?: ReactElement<any>
-	}
-): ReactNode {
-	const { itemImg } = useContext(ListContext)
-
-	return createElement("div", {
-		...props,
-		className: itemImg({ className: props.className }),
-	})
+export function ListItemImg(props: ComponentPropsWithRef<"div">): ReactNode {
+	const { itemImg } = use(ListContext)
+	return <div {...props} className={itemImg({ className: props.className })} />
 }
-export function ListItemAvatar(
-	props: ComponentPropsWithRef<"div"> & {
-		render?: ReactElement<any>
-	}
-): ReactNode {
-	const { itemAvatar } = useContext(ListContext)
 
-	return createElement("div", {
-		...props,
-		className: itemAvatar({ className: props.className }),
-	})
+export function ListItemAvatar(props: ComponentPropsWithRef<"div">): ReactNode {
+	const { itemAvatar } = use(ListContext)
+
+	return (
+		<div {...props} className={itemAvatar({ className: props.className })} />
+	)
 }
-export function ListItemIcon(
-	props: ComponentPropsWithRef<"div"> & {
-		render?: ReactElement<any>
-	}
-): ReactNode {
-	const { itemIcon } = useContext(ListContext)
+export function ListItemIcon(props: ComponentPropsWithRef<"div">): ReactNode {
+	const { itemIcon } = use(ListContext)
 
-	return createElement("div", {
-		...props,
-		className: itemIcon({ className: props.className }),
-	})
+	return <div {...props} className={itemIcon({ className: props.className })} />
 }
 
 const tv = createTV({ twMerge: false })
@@ -127,7 +93,7 @@ export function Subheader({
 export function ListItemTrailingSupportingText(
 	props: ComponentPropsWithRef<"span">
 ): ReactNode {
-	const { trailingSupportingText } = useContext(ListContext)
+	const { trailingSupportingText } = use(ListContext)
 
 	return (
 		<span
@@ -137,22 +103,15 @@ export function ListItemTrailingSupportingText(
 	)
 }
 
-export const List = forwardRef<
-	HTMLUListElement,
-	ComponentPropsWithRef<"ul"> &
-		ListVariantProps & {
-			render?: ReactElement<any>
-		}
->(function List({ lines, ...props }, ref): ReactNode {
+export function List({
+	lines,
+	...props
+}: ComponentPropsWithRef<"ul"> & ListVariantProps): ReactNode {
 	const styles = createList({ lines })
 
 	return (
 		<ListContext.Provider value={styles}>
-			{createElement("ul", {
-				...props,
-				ref,
-				className: styles.root({ className: props.className }),
-			})}
+			<ul {...props} className={styles.root({ className: props.className })} />
 		</ListContext.Provider>
 	)
-})
+}

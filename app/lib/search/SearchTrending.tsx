@@ -1,7 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 import { Array as ReadonlyArray } from "effect"
 
-import { List } from "~/components/List"
 import {
 	SearchViewBody,
 	SearchViewBodyGroup,
@@ -16,6 +15,7 @@ import { useFragment } from "../Network"
 
 import ReactRelay from "react-relay"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
+import { createList, ListContext } from "../list"
 const { graphql } = ReactRelay
 
 const SearchTrending_query = graphql`
@@ -34,6 +34,8 @@ export function SearchTrending(props: {
 }): ReactNode {
 	const data = useFragment(SearchTrending_query, props.query)
 
+	const list = createList({ lines: "one" })
+
 	return (
 		data.trending?.media &&
 		ReadonlyArray.isNonEmptyReadonlyArray(data.trending.media) && (
@@ -43,16 +45,20 @@ export function SearchTrending(props: {
 						Trending
 					</Ariakit.ComboboxGroupLabel>
 
-					<List lines={"one"} render={<div />} className="-mt-2">
-						{data.trending.media
-							.filter((el) => el != null)
-							.map((media) => (
-								<SearchViewItem
-									key={media.id}
-									render={<SearchItem media={media} />}
-								/>
-							))}
-					</List>
+					<ListContext value={list}>
+						<div className={list.root({ className: "-mt-2" })}>
+							{data.trending.media.map(
+								(media) =>
+									media && (
+										<SearchViewItem
+											key={media.id}
+											data-id={media.id}
+											render={<SearchItem media={media} />}
+										/>
+									)
+							)}
+						</div>
+					</ListContext>
 				</SearchViewBodyGroup>
 			</SearchViewBody>
 		)

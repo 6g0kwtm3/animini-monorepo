@@ -1,56 +1,20 @@
-import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
+import { Ariakit } from "~/lib/ariakit"
+import { card } from "~/lib/card"
 
-const tv = createTV({ twMerge: false })
-
-const card = tv({
-	base: "rounded-md p-4",
-	variants: {
-		variant: {
-			outlined:
-				"border border-outline-variant bg-surface disabled:border-outline/[.12]",
-			filled:
-				"bg-surface-container-highest disabled:bg-surface-container-highest/[.38]",
-			elevated:
-				"bg-surface-container-low shadow disabled:bg-surface-container-low/[.38]",
-		},
-		interactive: {
-			true: "hover:state-hover focused:state-focus pressed:state-pressed",
-			false: "",
-		},
-	},
-	compoundVariants: [
-		{
-			variant: "outlined",
-			interactive: true,
-			className:
-				"hover:bg-surface-container-low focused:border-on-surface pressed:border-outline-variant",
-		},
-		{
-			variant: "filled",
-			interactive: true,
-			className: "hover:bg-surface-container-low",
-		},
-		{
-			variant: "elevated",
-			interactive: true,
-			className: "hover:bg-surface-container",
-		},
-	],
-	defaultVariants: { variant: "outlined", interactive: false },
-})
 export function Card({
 	variant,
 	...props
-}: ComponentPropsWithRef<"section"> &
-	VariantProps<typeof card> & {
-		render?: ReactElement<any>
-	}): ReactNode {
-	return createElement("section", {
-		...props,
-		className: card({ variant: variant, className: props.className }),
-	})
+}: ComponentPropsWithRef<"section"> & VariantProps<typeof card>): ReactNode {
+	return (
+		<Ariakit.HeadingLevel>
+			<article
+				{...props}
+				className={card({ variant: variant, className: props.className })}
+			/>
+		</Ariakit.HeadingLevel>
+	)
 }

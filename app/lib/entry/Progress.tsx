@@ -7,12 +7,11 @@ import {
 	useSearchParams,
 } from "@remix-run/react"
 import { Predicate } from "effect"
-import type { ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { ClientOnly } from "remix-utils/client-only"
 
 import type { clientLoader as rootLoader } from "~/root"
-import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.($selected)/route"
+import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist.($selected)/route"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"
@@ -23,24 +22,22 @@ import { useFragment } from "../Network"
 
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
+import type { ProgressMoreMenu_entry$key } from "~/gql/ProgressMoreMenu_entry.graphql"
+import type { ProgressShareMedia_media$key } from "~/gql/ProgressShareMedia_media.graphql"
+import type { ProgressTooltip_media$key } from "~/gql/ProgressTooltip_media.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
+import { btnIcon, button } from "../button"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
 	fragment ProgressIncrement_entry on MediaList {
 		id
 		progress
-		...Progress_entry
-		media @required(action: LOG) {
-			avalible
-			type
+		media {
 			id
-			episodes
-			chapters
-			title @required(action: LOG) {
-				userPreferred @required(action: LOG)
-			}
+			...ProgressTooltip_media
 		}
+		...Progress_entry
 	}
 `
 
@@ -70,92 +67,117 @@ export function ProgressIncrement(props: {
 
 	search.set("sheet", String(entry.id))
 
-	const episodes = entry.media.episodes ?? entry.media.chapters
+	return (
+		Predicate.isString(data?.Viewer?.name) &&
+		data.Viewer.name === params.userName && (
+			<Form className="" method="post">
+				<input type="hidden" name="progress" value={progress + 1} />
+				<input type="hidden" name="id" value={entry.id} />
+				<input type="hidden" name="intent" value="increment" />
+				<M3.TooltipPlain>
+					<M3.TooltipPlainTrigger
+						render={<button type="submit" />}
+						className={button()}
+					>
+						<Progress entry={entry} className="hidden @lg:block" />
+						<M3.ButtonIcon>
+							<MaterialSymbolsAdd />
+						</M3.ButtonIcon>
+					</M3.TooltipPlainTrigger>
+					{entry.media && <ProgressTooltip media={entry.media} />}
+				</M3.TooltipPlain>
+			</Form>
+		)
+	)
+}
+
+const ProgressTooltip_media = graphql`
+	fragment ProgressTooltip_media on Media {
+		id
+		episodes
+		chapters
+		avalible
+	}
+`
+
+export function ProgressTooltip(props: {
+	media: ProgressTooltip_media$key
+}): ReactNode {
+	const media = useFragment(ProgressTooltip_media, props.media)
+
+	const episodes = media.episodes ?? media.chapters
 
 	return (
-		<div className="flex justify-end">
-			{Predicate.isString(data?.Viewer?.name) &&
-				data.Viewer.name === params.userName && (
-					<Form className="hidden @md:block" method="post">
-						<input type="hidden" name="progress" value={progress + 1} />
-						<input type="hidden" name="id" value={entry.id} />
-						<input type="hidden" name="intent" value="increment" />
-						<M3.TooltipPlain>
-							<M3.TooltipPlainTrigger render={<M3.Button type="submit" />}>
-								<Progress entry={entry} />
-								<M3.ButtonIcon>
-									<MaterialSymbolsAdd />
-								</M3.ButtonIcon>
-							</M3.TooltipPlainTrigger>
-							{entry.media.avalible !== episodes && (
-								<M3.TooltipPlainContainer>
-									{!episodes ? (
-										<>some more to release</>
-									) : Predicate.isNumber(entry.media.avalible) ? (
-										<>{episodes - entry.media.avalible} more to release</>
-									) : (
-										<>more to release</>
-									)}
-								</M3.TooltipPlainContainer>
-							)}
-						</M3.TooltipPlain>
-					</Form>
+		media.avalible !== episodes && (
+			<M3.TooltipPlainContainer>
+				{!episodes ? (
+					<>some more to release</>
+				) : Predicate.isNumber(media.avalible) ? (
+					<>{episodes - media.avalible} more to release</>
+				) : (
+					<>more to release</>
 				)}
-			<M3.Menu>
-				<M3.Icon render={<M3.MenuTrigger />}>
-					<MaterialSymbolsMoreHoriz />
-				</M3.Icon>
-				<M3.MenuList>
-					{/* <form action="">
-						<M3.MenuListItem>
-							<M3.MenuItemLeadingIcon>
-								<MaterialSymbolsPlaylistAdd />
-							</M3.MenuItemLeadingIcon>
-							Save
-						</M3.MenuListItem>
-					</form> */}
-					<M3.MenuListItem>
-						<M3.MenuItemLeadingIcon />
-						Edit
-					</M3.MenuListItem>
-					<ClientOnly>
-						{() => {
-							const shareData: ShareData = {
-								title: entry.media.title.userPreferred,
-								text: entry.media.title.userPreferred,
-								url: `https://${location.host}/media/${entry.media.id}`,
-							}
+			</M3.TooltipPlainContainer>
+		)
+	)
+}
 
-							const canShare =
-								typeof navigator.canShare === "function" &&
-								navigator.canShare(shareData)
+const Progress_entry = graphql`
+	fragment Progress_entry on MediaList {
+		id
+		progress
+		media {
+			avalible
+			id
+			episodes
+			chapters
+		}
+	}
+`
 
-							return (
-								canShare && (
-									<M3.MenuListItem
-										render={<button type="button" />}
-										onClick={() => {
-											void (async () => {
-												await navigator.share(shareData)
-											})()
-										}}
-									>
-										<M3.MenuItemLeadingIcon>
-											<MaterialSymbolsForward />
-										</M3.MenuItemLeadingIcon>
-										Share
-									</M3.MenuListItem>
-								)
-							)
-						}}
-					</ClientOnly>
-					<M3.MenuListItem>
-						<M3.MenuItemLeadingIcon>
-							<MaterialSymbolsFavorite />
-						</M3.MenuItemLeadingIcon>
-						Favourite
-					</M3.MenuListItem>
+const ProgressMoreMenu_entry = graphql`
+	fragment ProgressMoreMenu_entry on MediaList {
+		id
+		media {
+			id
+			...ProgressShareMedia_media
+		}
+	}
+`
 
+export function MoreMenu(props: {
+	entry: ProgressMoreMenu_entry$key
+}): ReactNode {
+	const entry = useFragment(ProgressMoreMenu_entry, props.entry)
+
+	return (
+		<M3.Menu>
+			<M3.MenuTrigger className={btnIcon()}>
+				<MaterialSymbolsMoreHoriz />
+				<M3.TouchTarget />
+			</M3.MenuTrigger>
+			<M3.MenuList>
+				{/* <form action="">
+            <M3.MenuListItem>
+                <M3.MenuItemLeadingIcon>
+                    <MaterialSymbolsPlaylistAdd />
+                </M3.MenuItemLeadingIcon>
+                Save
+            </M3.MenuListItem>
+        </form> */}
+				<M3.MenuListItem>
+					<M3.MenuItemLeadingIcon />
+					Edit
+				</M3.MenuListItem>
+				{entry.media && <ShareMedia media={entry.media} />}
+				<M3.MenuListItem>
+					<M3.MenuItemLeadingIcon>
+						<MaterialSymbolsFavorite />
+					</M3.MenuItemLeadingIcon>
+					Favourite
+				</M3.MenuListItem>
+
+				{entry.media && (
 					<Form action="" method="post">
 						<input type="hidden" name="intent" value="set_status" />
 						<input type="hidden" name="mediaId" value={entry.media.id} />
@@ -205,26 +227,60 @@ export function ProgressIncrement(props: {
 							</M3.MenuList>
 						</M3.Menu>
 					</Form>
-				</M3.MenuList>
-			</M3.Menu>
-		</div>
+				)}
+			</M3.MenuList>
+		</M3.Menu>
 	)
 }
-const Progress_entry = graphql`
-	fragment Progress_entry on MediaList {
+
+const ProgressShareMedia_media = graphql`
+	fragment ProgressShareMedia_media on Media {
 		id
-		progress
-		media {
-			avalible
-			id
-			episodes
-			chapters
+
+		title @required(action: LOG) {
+			userPreferred @required(action: LOG)
 		}
 	}
 `
 
-export function Progress(props: { entry: Progress_entry$key }): ReactNode {
-	const entry = useFragment(Progress_entry, props.entry)
+function ShareMedia(props: { media: ProgressShareMedia_media$key }): ReactNode {
+	const media = useFragment(ProgressShareMedia_media, props.media)
+
+	if (!media) return null
+
+	const shareData: ShareData = {
+		title: media.title.userPreferred,
+		text: media.title.userPreferred,
+		url: `https://${location.host}/media/${media.id}`,
+	}
+
+	const canShare =
+		typeof navigator.canShare === "function" && navigator.canShare(shareData)
+
+	return (
+		canShare && (
+			<M3.MenuListItem
+				render={<button type="button" />}
+				onClick={() => {
+					void navigator.share(shareData)
+				}}
+			>
+				<M3.MenuItemLeadingIcon>
+					<MaterialSymbolsForward />
+				</M3.MenuItemLeadingIcon>
+				Share
+			</M3.MenuListItem>
+		)
+	)
+}
+
+export function Progress({
+	entry,
+	...props
+}: ComponentPropsWithRef<"span"> & {
+	entry: Progress_entry$key
+}): ReactNode {
+	const data = useFragment(Progress_entry, entry)
 
 	const actionData = useActionData<typeof selectedAction>()
 	const navigation = useNavigation()
@@ -234,28 +290,28 @@ export function Progress(props: { entry: Progress_entry$key }): ReactNode {
 		Object.fromEntries(navigation.formData ?? new FormData())
 
 	const progress =
-		(Number(optimisticEntry.id) === entry.id
+		(Number(optimisticEntry.id) === data.id
 			? Number(optimisticEntry.progress)
-			: entry.progress) ?? 0
+			: data.progress) ?? 0
 
-	const episodes = entry.media?.episodes ?? entry.media?.chapters
+	const episodes = data.media?.episodes ?? data.media?.chapters
 
 	return (
-		<span>
+		<span {...props}>
 			{progress}
 			{episodes === progress ? null : Predicate.isNumber(
-					entry.media?.avalible
+					data.media?.avalible
 			  ) ? (
 				<>
 					/
 					<span
 						className={
-							entry.media.avalible !== episodes
+							data.media.avalible !== episodes
 								? "underline decoration-dotted"
 								: ""
 						}
 					>
-						{entry.media.avalible}
+						{data.media.avalible}
 					</span>
 				</>
 			) : (

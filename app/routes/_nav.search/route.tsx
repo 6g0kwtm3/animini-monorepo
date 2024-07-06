@@ -47,7 +47,9 @@ export default function Page(): ReactNode {
 						<List>
 							{data?.page?.media
 								?.filter((el) => el != null)
-								.map((media) => <SearchItem media={media} key={media.id} />)}
+								.map((media) => (
+									<SearchItem media={media} key={media.id} data-id={media.id} />
+								))}
 						</List>
 					</div>
 				</Card>

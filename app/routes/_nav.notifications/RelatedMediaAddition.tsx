@@ -2,7 +2,6 @@ import ReactRelay from "react-relay"
 
 import { Link, useLoaderData } from "@remix-run/react"
 import {
-	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
@@ -15,11 +14,13 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
+import { use } from "react"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
+import { ListContext } from "~/lib/list"
+import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
-import { MediaTitle } from "~/lib/MediaTitle"
 
 const { graphql } = ReactRelay
 
@@ -32,11 +33,11 @@ export function RelatedMediaAddition(props: {
 				id
 				createdAt
 				media @required(action: LOG) {
+					id
 					title @required(action: LOG) {
 						...MediaTitle_mediaTitle
 					}
 					...MediaCover_media
-					id
 				}
 			}
 		`,
@@ -44,17 +45,16 @@ export function RelatedMediaAddition(props: {
 	)
 	const data = useLoaderData<typeof clientLoader>()
 
+	const list = use(ListContext)
+
 	return (
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={
-						<Link
-							to={route_media({
-								id: notification.media.id,
-							})}
-						/>
-					}
+				<Link
+					to={route_media({
+						id: notification.media.id,
+					})}
+					className={list.item()}
 				>
 					<ListItemImg>
 						<MediaCover media={notification.media} />
@@ -76,7 +76,7 @@ export function RelatedMediaAddition(props: {
 							{format(notification.createdAt - Date.now() / 1000)}
 						</ListItemTrailingSupportingText>
 					)}
-				</ListItem>
+				</Link>
 			</li>
 		)
 	)

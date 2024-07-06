@@ -29,11 +29,7 @@ import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import {
-	ListItem,
-	ListItemContent,
-	ListItemContentTitle,
-} from "~/components/List"
+import { ListItemContent, ListItemContentTitle } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
@@ -52,7 +48,9 @@ import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
+import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
+import { createList } from "~/lib/list"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -128,143 +126,132 @@ export default function Filters(): ReactNode {
 
 	return (
 		<>
-			<LayoutBody>
-				<LayoutPane variant="fixed" className="max-md:hidden">
-					<Card variant="elevated" className="max-h-full overflow-y-auto">
-						<Form
-							action={pathname}
-							replace
-							onChange={(e) => submit(e.currentTarget)}
-							className="grid grid-cols-2 gap-2"
-						>
-							<CheckboxProvider value={searchParams.getAll("status")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Status</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_STATUS_OPTIONS
-												: MANGA_STATUS_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<M3.ChipFilter key={value}>
-													<M3.ChipFilterCheckbox name="status" value={value} />
-													{label}
-												</M3.ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</CheckboxProvider>
-							<CheckboxProvider value={searchParams.getAll("format")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Format</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_FORMAT_OPTIONS
-												: MANGA_FORMAT_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<M3.ChipFilter key={value}>
-													<M3.ChipFilterCheckbox name="format" value={value} />
-													{label}
-												</M3.ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</CheckboxProvider>
-							<CheckboxProvider value={searchParams.getAll("progress")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Progress</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_PROGRESS_OPTIONS
-												: MANGA_PROGRESS_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<M3.ChipFilter key={value}>
-													<M3.ChipFilterCheckbox
-														name="progress"
-														value={value}
-													/>
-													{label}
-												</M3.ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</CheckboxProvider>
+			<Card
+				variant="elevated"
+				className="max-h-full overflow-y-auto max-sm:hidden"
+			>
+				<Form
+					action={pathname}
+					replace
+					onChange={(e) => submit(e.currentTarget)}
+					className="grid grid-cols-2 gap-2"
+				>
+					<CheckboxProvider value={searchParams.getAll("status")}>
+						<Group className="col-span-2" render={<fieldset />}>
+							<GroupLabel render={<legend />}>Status</GroupLabel>
+							<div className="flex flex-wrap gap-2">
+								{Object.entries(
+									params.typelist === "animelist"
+										? ANIME_STATUS_OPTIONS
+										: MANGA_STATUS_OPTIONS
+								).map(([value, label]) => {
+									return (
+										<M3.ChipFilter key={value}>
+											<M3.ChipFilterCheckbox name="status" value={value} />
+											{label}
+										</M3.ChipFilter>
+									)
+								})}
+							</div>
+						</Group>
+					</CheckboxProvider>
+					<CheckboxProvider value={searchParams.getAll("format")}>
+						<Group className="col-span-2" render={<fieldset />}>
+							<GroupLabel render={<legend />}>Format</GroupLabel>
+							<div className="flex flex-wrap gap-2">
+								{Object.entries(
+									params.typelist === "animelist"
+										? ANIME_FORMAT_OPTIONS
+										: MANGA_FORMAT_OPTIONS
+								).map(([value, label]) => {
+									return (
+										<M3.ChipFilter key={value}>
+											<M3.ChipFilterCheckbox name="format" value={value} />
+											{label}
+										</M3.ChipFilter>
+									)
+								})}
+							</div>
+						</Group>
+					</CheckboxProvider>
+					<CheckboxProvider value={searchParams.getAll("progress")}>
+						<Group className="col-span-2" render={<fieldset />}>
+							<GroupLabel render={<legend />}>Progress</GroupLabel>
+							<div className="flex flex-wrap gap-2">
+								{Object.entries(
+									params.typelist === "animelist"
+										? ANIME_PROGRESS_OPTIONS
+										: MANGA_PROGRESS_OPTIONS
+								).map(([value, label]) => {
+									return (
+										<M3.ChipFilter key={value}>
+											<M3.ChipFilterCheckbox name="progress" value={value} />
+											{label}
+										</M3.ChipFilter>
+									)
+								})}
+							</div>
+						</Group>
+					</CheckboxProvider>
 
-							<RadioProvider value={searchParams.get("sort")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Sort</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_SORT_OPTIONS
-												: MANGA_SORT_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<M3.ChipFilter key={value}>
-													<M3.ChipFilterRadio name="sort" value={value} />
-													{label}
-												</M3.ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</RadioProvider>
+					<RadioProvider value={searchParams.get("sort")}>
+						<Group className="col-span-2" render={<fieldset />}>
+							<GroupLabel render={<legend />}>Sort</GroupLabel>
+							<div className="flex flex-wrap gap-2">
+								{Object.entries(
+									params.typelist === "animelist"
+										? ANIME_SORT_OPTIONS
+										: MANGA_SORT_OPTIONS
+								).map(([value, label]) => {
+									return (
+										<M3.ChipFilter key={value}>
+											<M3.ChipFilterRadio name="sort" value={value} />
+											{label}
+										</M3.ChipFilter>
+									)
+								})}
+							</div>
+						</Group>
+					</RadioProvider>
 
-							<ButtonText type="submit">Filter</ButtonText>
-							<ButtonText type="reset">Reset</ButtonText>
-						</Form>
-					</Card>
-				</LayoutPane>
-				<LayoutPane>
-					<Card variant="elevated" className="max-sm:contents">
-						<div className="flex flex-col gap-4">
-							<M3.Tabs selectedId={String(params.selected)}>
-								<div className="sticky top-0 z-50 -mx-4 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
-									<AppBar
-										variant="large"
-										className="sm:bg-surface-container-low"
-									>
-										<Icon>
-											<MaterialSymbolsSearch />
-										</Icon>
-										<AppBarTitle>
-											{params.typelist === "animelist"
-												? "Anime list"
-												: "Manga list"}
-										</AppBarTitle>
-										<div className="flex-1" />
-										<Icon>
-											<MaterialSymbolsSearch />
-										</Icon>
-										<FilterButton />
-										<Icon>
-											<MaterialSymbolsMoreHoriz />
-										</Icon>
-									</AppBar>
-									<ListTabs />
-								</div>
-								<M3.TabsPanel
-									tabId={params.selected}
-									className="flex flex-col gap-4"
-								>
-									<Ariakit.HeadingLevel>
-										<Outlet />
-									</Ariakit.HeadingLevel>
-								</M3.TabsPanel>
-							</M3.Tabs>
+					<ButtonText type="submit">Filter</ButtonText>
+					<ButtonText type="reset">Reset</ButtonText>
+				</Form>
+			</Card>
+
+			<Card variant="elevated" className="max-sm:contents">
+				<div className="flex flex-col gap-4">
+					<M3.Tabs selectedId={String(params.selected)}>
+						<div className="sticky top-0 z-50 -mx-4 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
+							<AppBar variant="large" className="sm:bg-surface-container-low">
+								<Icon>
+									<MaterialSymbolsSearch />
+								</Icon>
+								<AppBarTitle>
+									{params.typelist === "animelist"
+										? "Anime list"
+										: "Manga list"}
+								</AppBarTitle>
+								<div className="flex-1" />
+								<Icon>
+									<MaterialSymbolsSearch />
+								</Icon>
+								<FilterButton />
+								<Icon>
+									<MaterialSymbolsMoreHoriz />
+								</Icon>
+							</AppBar>
+							<ListTabs />
 						</div>
-					</Card>
-				</LayoutPane>
-			</LayoutBody>
-
+						<M3.TabsPanel
+							tabId={params.selected}
+							className="flex flex-col gap-4"
+						>
+							<Outlet />
+						</M3.TabsPanel>
+					</M3.Tabs>
+				</div>
+			</Card>
 			<Filter />
 		</>
 	)
@@ -397,13 +384,14 @@ function SheetSort() {
 	const params = useParams<"typelist">()
 
 	const lines = "one"
+	const list = createList({ lines })
 
 	return (
 		<Group>
 			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
 				Sort
 			</M3.Subheader>
-			<M3.List lines={lines} render={<div />}>
+			<div className={list.root()}>
 				<CheckboxProvider value={searchParams.getAll("sort")}>
 					{Object.entries(
 						params.typelist === "animelist"
@@ -411,16 +399,16 @@ function SheetSort() {
 							: MANGA_SORT_OPTIONS
 					).map(([value, label]) => {
 						return (
-							<ListItem render={<label />} key={value}>
+							<label className={list.item()} key={value}>
 								<Radio name="sort" value={value} />
 								<ListItemContent>
 									<ListItemContentTitle>{label}</ListItemContentTitle>
 								</ListItemContent>
-							</ListItem>
+							</label>
 						)
 					})}
 				</CheckboxProvider>
-			</M3.List>
+			</div>
 		</Group>
 	)
 }
@@ -432,13 +420,15 @@ function SheetFilter() {
 
 	const lines = "one"
 
+	const list = createList({ lines })
+
 	return (
 		<>
 			<Group>
 				<M3.Subheader lines={lines} render={<GroupLabel />}>
 					Status
 				</M3.Subheader>
-				<M3.List lines={lines} render={<div />} className="-mt-2">
+				<div className={list.root({ className: "-mt-2" })}>
 					<CheckboxProvider value={searchParams.getAll("status")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -446,22 +436,22 @@ function SheetFilter() {
 								: MANGA_STATUS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<label />} key={value}>
+								<label className={list.item()} key={value}>
 									<Checkbox name="status" value={value} />
 									<div className="col-span-2 col-start-2">
 										<ListItemContentTitle>{label}</ListItemContentTitle>
 									</div>
-								</ListItem>
+								</label>
 							)
 						})}
 					</CheckboxProvider>
-				</M3.List>
+				</div>
 			</Group>
 			<Group>
 				<M3.Subheader lines={lines} render={<GroupLabel />}>
 					Format
 				</M3.Subheader>
-				<M3.List lines={lines} render={<div />} className="-mt-2">
+				<div className={list.root({ className: "-mt-2" })}>
 					<CheckboxProvider value={searchParams.getAll("format")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -469,22 +459,22 @@ function SheetFilter() {
 								: MANGA_FORMAT_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<label />} key={value}>
+								<label className={list.item()} key={value}>
 									<Checkbox name="format" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
 									</ListItemContent>
-								</ListItem>
+								</label>
 							)
 						})}
 					</CheckboxProvider>
-				</M3.List>
+				</div>
 			</Group>
 			<Group>
 				<M3.Subheader lines={lines} render={<GroupLabel />}>
 					Progress
 				</M3.Subheader>
-				<M3.List lines={lines} render={<div />} className="-mt-2">
+				<div className={list.root({ className: "-mt-2" })}>
 					<CheckboxProvider value={searchParams.getAll("progress")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -492,16 +482,16 @@ function SheetFilter() {
 								: MANGA_PROGRESS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<label />} key={value}>
+								<label className={list.item()} key={value}>
 									<Checkbox name="progress" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
 									</ListItemContent>
-								</ListItem>
+								</label>
 							)
 						})}
 					</CheckboxProvider>
-				</M3.List>
+				</div>
 			</Group>
 		</>
 	)
@@ -580,7 +570,9 @@ export function ErrorBoundary(): ReactNode {
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
 						<p>{error.data}</p>
-						<M3.Button render={<Link to="." />}>Try again</M3.Button>
+						<Link to="." className={button()} relative="path">
+							Try again
+						</Link>
 					</div>
 				</LayoutPane>
 			</LayoutBody>
@@ -605,7 +597,10 @@ export function ErrorBoundary(): ReactNode {
 						Uh oh ...
 					</Ariakit.Heading>
 					<p className="text-headline-sm">Something went wrong.</p>
-					<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+					<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
+					<Link to="." className={button()} relative="path">
+						Try again
+					</Link>
 				</Card>
 			</LayoutPane>
 		</LayoutBody>

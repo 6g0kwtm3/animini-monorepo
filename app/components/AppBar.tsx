@@ -1,9 +1,8 @@
 import type { ComponentPropsWithRef, ComponentRef, ReactNode } from "react"
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import { createContext, use, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
-import { createElement } from "~/lib/createElement"
 
 const tv = createTV({ twMerge: false })
 
@@ -54,7 +53,6 @@ export function AppBar({
 	variant,
 	elevate,
 	hide,
-
 	...props
 }: ComponentPropsWithRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
 	const [scrolled, setScrolled] = useState(0)
@@ -81,23 +79,26 @@ export function AppBar({
 
 	return (
 		<AppBarContext.Provider value={styles}>
-			{createElement("nav", {
-				...props,
-				ref,
-				"data-hidden": hidden,
-				"data-elevated": scrolled !== 0,
-				style: {
-					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px",
-				},
-				className: styles.root({ className: props.className }),
-			})}
+			<nav
+				{...props}
+				ref={ref}
+				data-hidden={hidden}
+				data-elevated={scrolled !== 0}
+				style={{
+					...props.style,
+					"--app-bar-height": `${ref.current?.clientHeight ?? 0}px`,
+				}}
+				className={styles.root({ className: props.className })}
+			/>
 		</AppBarContext.Provider>
 	)
 }
 export function AppBarTitle(props: Ariakit.HeadingProps): ReactNode {
-	const styles = useContext(AppBarContext)
-	return createElement(Ariakit.Heading, {
-		...props,
-		className: styles.title({ className: props.className }),
-	})
+	const styles = use(AppBarContext)
+	return (
+		<Ariakit.Heading
+			{...props}
+			className={styles.title({ className: props.className })}
+		/>
+	)
 }

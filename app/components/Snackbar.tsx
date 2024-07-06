@@ -7,14 +7,14 @@ import type {
 } from "react"
 import {
 	createContext,
+	use,
 	useCallback,
-	useContext,
 	useEffect,
 	useId,
 	useRef,
 	useState,
 } from "react"
-import { BaseButton } from "./Button"
+import { Ariakit } from "~/lib/ariakit"
 
 type OnBeforeToggle = (
 	this: HTMLElement,
@@ -93,7 +93,7 @@ export function Snackbar({
 	open: boolean
 }): ReactNode {
 	const ref = useRef<ElementRef<"div">>(null)
-	const onBeforeToggle = useContext(SnackbarQueueContext)
+	const onBeforeToggle = use(SnackbarQueueContext)
 
 	useEffect(() => {
 		if (open) {
@@ -183,7 +183,7 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 export function SnackbarAction(
 	props: ComponentPropsWithRef<"button">
 ): ReactNode {
-	const invoketarget = useContext(SnackbarContext)
+	const invoketarget = use(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)
 
@@ -192,7 +192,7 @@ export function SnackbarAction(
 	}, [])
 
 	return (
-		<BaseButton
+		<Ariakit.Button
 			type="button"
 			{...props}
 			{...(supportsPopover

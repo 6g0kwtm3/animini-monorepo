@@ -72,13 +72,13 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 					coverImage {
 						color
 					}
-					...MediaCover_media @arguments(extraLarge: true)
 					bannerImage
 					title @required(action: LOG) {
-						...MediaTitle_mediaTitle
 						userPreferred @required(action: LOG)
+						...MediaTitle_mediaTitle
 					}
 					description
+					...MediaCover_media @arguments(extraLarge: true)
 				}
 			}
 		`,
@@ -144,10 +144,7 @@ export default function Page(): ReactNode {
 						variant="filled"
 						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
 					>
-						<MediaCover
-							media={data.Media}
-							className="rounded-xl [view-transition-name:media-cover]"
-						/>
+						<MediaCover media={data.Media} className="rounded-xl" />
 
 						<div className="flex flex-wrap gap-2">
 							<Button variant="filled">Favourite</Button>
@@ -160,12 +157,12 @@ export default function Page(): ReactNode {
 						</div>
 
 						{/* <div className="grid gap-4 flex-1">
-              <img
-                src={data?.Media?.bannerImage ?? ""}
+            {data?.Media?.bannerImage&&  <img
+                src={data?.Media?.bannerImage}
                 loading="lazy"
                 className="rounded-xl"
                 alt=""
-              />
+              />}
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
 						<div className="overflow-hidden rounded-xl">

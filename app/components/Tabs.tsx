@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 
 import type { ReactNode } from "react"
-import { createContext, useContext, useId } from "react"
+import { createContext, use, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
@@ -59,7 +59,7 @@ export function TabsListItem({
 	children,
 	...props
 }: Ariakit.TabProps): ReactNode {
-	const layoutId = useContext(TabsContext)
+	const layoutId = use(TabsContext)
 
 	const context = Ariakit.useTabContext()
 	if (!context) {

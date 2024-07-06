@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ReactNode } from "react"
-import { createContext, useContext } from "react"
+import { createContext, use } from "react"
 import type { LazySelectOption } from "./LazySelect"
 
 export const SelectContext = createContext<
@@ -12,7 +12,7 @@ export function SelectOption(
 	props: ComponentPropsWithRef<"option"> &
 		ComponentPropsWithRef<typeof LazySelectOption>
 ): ReactNode {
-	const Option = useContext(SelectContext)
+	const Option = use(SelectContext)
 
 	return <Option {...props} />
 }
