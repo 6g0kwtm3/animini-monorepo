@@ -15,7 +15,7 @@ export const cardFooter = tv({
 })
 
 export const card = tv({
-	base: "rounded-md p-4 gap-4 flex flex-col overflow-hidden relative h-auto",
+	base: "relative flex h-auto flex-col gap-4 overflow-hidden rounded-md p-4",
 	variants: {
 		variant: {
 			outlined:

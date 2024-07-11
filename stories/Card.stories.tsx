@@ -69,7 +69,7 @@ export const WithDivider: Story = {
 						href="."
 						onClick={(e) => {
 							e.preventDefault()
-              click(e)
+							click(e)
 						}}
 					>
 						Visit source code on GitHub.
