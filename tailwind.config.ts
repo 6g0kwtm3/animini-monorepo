@@ -36,8 +36,7 @@ export const config = {
 			pressed: "12%",
 			dragged: "16%",
 		},
-		//@ts-expect-error
-		fontSize: fontSize,
+		fontSize: fontSize as any,
 		colors: Object.assign(
 			Object.fromEntries(
 				Object.entries(colors.dark).map(([key, value]) => {
@@ -255,6 +254,6 @@ export const config = {
 			})
 		}),
 	],
-} satisfies Config
+} as const satisfies Config
 
 export default withTV(config)

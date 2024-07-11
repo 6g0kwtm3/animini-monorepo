@@ -41,6 +41,9 @@ import { createList, ListContext } from "~/lib/list"
 import { getThemeFromHex } from "~/lib/theme"
 import type { Options } from "./Markdown"
 import { Markdown } from "./Markdown"
+import { UserLink } from "./UserLink"
+
+import { MediaLink } from "./MediaLink"
 
 
 const { graphql } = ReactRelay
@@ -80,7 +83,6 @@ async function getPage() {
 	)
 	return data?.Page
 }
-
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await client_operation<routeNavFeedMediaQuery>(
 		graphql`
