@@ -1,7 +1,7 @@
 import { createContext } from "react"
-import { createTV } from "tailwind-variants"
+import { tv } from "./tailwind-variants"
 
-const tv = createTV({ twMerge: false })
+
 
 export const createList = tv(
 	{

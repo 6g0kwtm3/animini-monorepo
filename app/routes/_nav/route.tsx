@@ -138,7 +138,7 @@ export default function NavRoute(): ReactNode {
 						</NavigationItemIcon>
 						<div className="max-w-full break-words">Home</div>
 					</NavigationItem>
-					<NavigationItem to="/feed" activeId="feed">
+					<NavigationItem to="/feed" activeId="feed" className="max-sm:hidden">
 						<NavigationItemIcon>
 							<MaterialSymbolsFeedOutline />
 							<MaterialSymbolsFeed />

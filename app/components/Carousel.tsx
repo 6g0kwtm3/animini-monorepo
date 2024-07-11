@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from "react"
-import { createTV } from "tailwind-variants"
+import { tv } from "~/lib/tailwind-variants"
 
 export function Carousel(props: ComponentProps<"div">): ReactNode {
 	const styles = createCarousel()
@@ -13,10 +13,6 @@ export function Carousel(props: ComponentProps<"div">): ReactNode {
 		/>
 	)
 }
-
-const tv = createTV({
-	twMerge: false,
-})
 
 const createCarousel = tv({
 	slots: {

@@ -5,7 +5,7 @@ import {
 	unstable_defineClientLoader,
 	useLoaderData,
 } from "@remix-run/react"
-import type { ReactNode } from "react"
+import type { ComponentPropsWithRef, ReactNode } from "react"
 
 import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
@@ -13,8 +13,15 @@ import { M3 } from "~/lib/components"
 
 import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
+
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
+import { Markdown, type Options } from "../_nav.feed/Markdown"
+
+import type { routeUser_user$key } from "~/gql/routeUser_user.graphql"
+import { useFragment } from "~/lib/Network"
+import { MediaLink } from "../_nav.feed/MediaLink"
+import { UserLink } from "../_nav.feed/UserLink"
 
 const { graphql } = ReactRelay
 
@@ -30,20 +37,11 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			query routeNavUserQuery($userName: String!) {
 				User(name: $userName) {
 					id
-					name
-					bannerImage
-					statistics {
-						anime {
-							count
-						}
-						manga {
-							count
-						}
+					about
+					options {
+						profileTheme
 					}
-					avatar {
-						large
-						medium
-					}
+					...routeUser_user
 				}
 			}
 		`,
@@ -62,50 +60,119 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 export default function Page(): ReactNode {
 	const data = useLoaderData<typeof clientLoader>()
 
-	const src = data.user.avatar?.large ?? data.user.avatar?.medium
 	return (
-		<M3.LayoutBody>
-			<M3.LayoutPane>
-				<section className="-mx-4">
-					{data.user.bannerImage && (
-						<img
-							src={data.user.bannerImage}
-							alt=""
-							className="w-full object-cover"
-						/>
+		<M3.LayoutBody
+			style={data.user.options?.profileTheme ?? undefined}
+			className="contrast-standard theme-light contrast-more:contrast-high max-sm:pe-0 max-sm:ps-0 dark:theme-dark"
+		>
+			<M3.LayoutPane variant="fixed" className="max-md:hidden">
+				<User user={data.user} />
+				<M3.Card className="" variant="elevated">
+					<Ariakit.Heading>About me</Ariakit.Heading>
+					{data.user.about && (
+						<Markdown options={options}>{data.user.about}</Markdown>
 					)}
-					<div className="flex gap-4 p-4">
-						{data.user.avatar && (
-							<div className="-mt-20 overflow-hidden rounded-full bg-surface p-4">
-								{src && (
-									<img
-										src={src}
-										alt=""
-										className="bg-cover object-cover"
-										style={{
-											backgroundImage: `url(${data.user.avatar.medium})`,
-										}}
-									/>
-								)}
-							</div>
-						)}
-						<div>
-							<Ariakit.Heading className="truncate text-headline-lg">
-								{data.user.name}
-							</Ariakit.Heading>
-						</div>
-					</div>
-				</section>
-				<nav>
-					<Link to="animelist" className={button()}>
-						Anime List
-					</Link>
-					<Link to="mangalist" className={button()}>
-						Manga List
-					</Link>
-				</nav>
-				<Outlet />
+				</M3.Card>
 			</M3.LayoutPane>
+
+			<Outlet
+				context={
+					<>
+						<User user={data.user} className="md:hidden" />
+						<nav>
+							<Link to="animelist" className={button()}>
+								Anime List
+							</Link>
+							<Link to="mangalist" className={button()}>
+								Manga List
+							</Link>
+						</nav>
+					</>
+				}
+			/>
 		</M3.LayoutBody>
+	)
+}
+
+const options = {
+	replace: {
+		center(props) {
+			return <center {...props} />
+		},
+		p(props) {
+			return <div {...props} />
+		},
+		a(props) {
+			if (!props.href?.trim()) {
+				return <span className="text-primary">{props.children}</span>
+			}
+
+			// @ts-ignore
+			if (props.className === "media-link" && props["data-id"]) {
+				// @ts-ignore
+				return <MediaLink mediaId={props["data-id"]} />
+			}
+
+			// @ts-ignore
+			if (props["data-user-name"]) {
+				return (
+					// @ts-ignore
+					<UserLink userName={props["data-user-name"]}>
+						{props.children}
+					</UserLink>
+				)
+			}
+
+			return (
+				<a {...props} rel="noopener noreferrer" target="_blank">
+					{props.children}
+				</a>
+			)
+		},
+	},
+} satisfies Options
+
+const routeUser_user = graphql`
+	fragment routeUser_user on User {
+		id
+		name
+		bannerImage
+		avatar {
+			large
+			medium
+		}
+	}
+`
+
+function User({
+	user,
+	...props
+}: ComponentPropsWithRef<"div"> & { user: routeUser_user$key }) {
+	const data = useFragment(routeUser_user, user)
+	const src = data.avatar?.large ?? data.avatar?.medium
+
+	return (
+		<div {...props}>
+			<div className="relative">
+				{data.bannerImage && (
+					<img src={data.bannerImage} alt="" className="w-full object-cover" />
+				)}
+				{data.avatar && src && (
+					<img
+						src={src}
+						alt=""
+						className="absolute bottom-0 h-full translate-y-1/2 rounded-full bg-cover object-cover"
+						style={{
+							backgroundImage: `url(${data.avatar.medium})`,
+						}}
+					/>
+				)}
+			</div>
+			<div>
+				<Ariakit.Heading className="truncate text-headline-lg">
+					{data.name}
+				</Ariakit.Heading>
+			</div>
+		</div>
 	)
 }

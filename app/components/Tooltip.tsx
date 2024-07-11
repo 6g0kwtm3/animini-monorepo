@@ -1,9 +1,7 @@
 import * as Ariakit from "@ariakit/react"
-import { AnimatePresence, motion } from "framer-motion"
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
 import { forwardRef } from "react"
-
-import { createTV } from "tailwind-variants"
+import { tv } from "~/lib/tailwind-variants"
 
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
@@ -13,8 +11,6 @@ export function TooltipRichTrigger(
 ): ReactNode {
 	return <Ariakit.HovercardAnchor render={<div />} {...props} />
 }
-
-const tv = createTV({ twMerge: false })
 
 const tooltip = tv({
 	slots: { container: "" },
@@ -75,8 +71,6 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	if (!tooltip) {
 		throw new Error("Tooltip must be wrapped in TooltipProvider")
 	}
-	// eslint-disable-next-line react-compiler/react-compiler
-	const mounted = tooltip.useState("mounted")
 
 	// eslint-disable-next-line react-compiler/react-compiler
 	const y = tooltip.useState((state) => {
@@ -85,23 +79,12 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	})
 
 	return (
-		<AnimatePresence>
-			{mounted && (
-				<Ariakit.Tooltip
-					gutter={4}
-					alwaysVisible
-					{...props}
-					className="flex min-h-6 items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface"
-					render={
-						<motion.div
-							initial={{ opacity: 0, y }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y }}
-						/>
-					}
-				/>
-			)}
-		</AnimatePresence>
+		<Ariakit.Tooltip
+			gutter={4}
+			{...props}
+			style={{ "--y": `${y}px` }}
+			className="flex min-h-6 translate-y-[--y] items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface opacity-0 duration-4sm ease-emphasized-accelerate data-[open]:translate-y-0 data-[open]:opacity-100 starting:data-[open]:translate-y-[--y] starting:data-[open]:opacity-0 motion-safe:transition-all"
+		/>
 	)
 }
 export function TouchTarget(): ReactNode {

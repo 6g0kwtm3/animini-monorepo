@@ -188,7 +188,7 @@ export const { readFragment } = ResolverFragments
 export const {
 	commitMutation,
 	fetchQuery,
-	RelayEnvironmentProvider,
+
 	useFragment,
 	readInlineData,
 	commitLocalUpdate,

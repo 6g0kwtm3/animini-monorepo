@@ -1,6 +1,6 @@
-import { createTV } from "tailwind-variants"
+import { tv } from "./tailwind-variants";
 
-const tv = createTV({ twMerge: false })
+
 export const createTextField = tv({
 	slots: {
 		input: "outline-none",

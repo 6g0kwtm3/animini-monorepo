@@ -2,10 +2,9 @@ import type { ComponentProps, ReactNode } from "react"
 import { createContext, use, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
+import { LayoutNavigationContext } from "./Layout"
 
 const createNavigation = tv(
 	{
@@ -24,6 +23,7 @@ const createNavigation = tv(
 				end: {},
 			},
 			variant: {
+				none: { root: "hidden" },
 				bar: {
 					root: "end-0 grid h-20 grid-flow-col gap-2 bg-surface-container [grid-auto-columns:minmax(0,1fr)]",
 					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md data-[current='true']:text-on-surface`,
@@ -45,7 +45,7 @@ const createNavigation = tv(
 					root: "top-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-surface p-3",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg hover:state-hover data-[current='true']:text-on-secondary-container focused:state-focus pressed:state-pressed`,
 					activeIndicator:
-						"inset-0 -z-10 hidden h-full scale-x-100 rounded-xl group-data-[current='true']:block group-data-[current='true']:[view-transition-name:var(--id)] force:w-full",
+						"inset-0 -z-10 hidden h-full w-full scale-x-100 rounded-xl group-data-[current='true']:block group-data-[current='true']:[view-transition-name:var(--id)]",
 					icon: "h-6 w-6 group-hover:text-on-surface group-hover:state-none group-data-[current='true']:first:*:block group-data-[current='true']:last:*:hidden group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
 					largeBadge: "static ms-auto",
 				},
@@ -122,12 +122,15 @@ export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
 
 	return <div {...props} className={icon()} />
 }
+interface NavigationProps
+	extends ComponentProps<"nav">,
+		VariantProps<typeof createNavigation> {}
 
 export function Navigation({
 	variant,
 	align,
 	...props
-}: ComponentProps<"nav"> & VariantProps<typeof createNavigation>): ReactNode {
+}: NavigationProps): ReactNode {
 	const styles = createNavigation({ align, variant })
 
 	return (

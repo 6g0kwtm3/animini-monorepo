@@ -1,6 +1,4 @@
-import { createTV } from "tailwind-variants"
-
-export const tv = createTV({ twMerge: false })
+import { tv } from "./tailwind-variants"
 
 export const cardBody = tv({
 	base: "overflow-y-auto text-body-md",
@@ -13,7 +11,6 @@ export const cardHeader = tv({
 export const cardFooter = tv({
 	base: "",
 })
-
 export const card = tv({
 	base: "relative flex h-auto flex-col gap-4 overflow-hidden rounded-md p-4",
 	variants: {

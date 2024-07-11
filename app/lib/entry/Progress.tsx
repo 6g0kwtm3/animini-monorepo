@@ -70,18 +70,33 @@ export function ProgressIncrement(props: {
 				<input type="hidden" name="progress" value={progress + 1} />
 				<input type="hidden" name="id" value={entry.id} />
 				<input type="hidden" name="intent" value="increment" />
-				<M3.TooltipPlain>
-					<M3.TooltipPlainTrigger
-						render={<button type="submit" />}
-						className={button()}
-					>
-						<Progress entry={entry} className="hidden @lg:block" />
-						<M3.ButtonIcon>
+				<div className="hidden @lg:block">
+					<M3.TooltipPlain>
+						<M3.TooltipPlainTrigger
+							render={<button type="submit" />}
+							className={button({})}
+						>
+							<Progress entry={entry} />
+							<M3.ButtonIcon>
+								<MaterialSymbolsAdd />
+							</M3.ButtonIcon>
+						</M3.TooltipPlainTrigger>
+						{entry.media && <ProgressTooltip media={entry.media} />}
+					</M3.TooltipPlain>
+				</div>
+
+				<div className="@lg:hidden">
+					<M3.TooltipPlain>
+						<M3.TooltipPlainTrigger
+							render={<button type="submit" />}
+							className={btnIcon({})}
+						>
+							<span className="sr-only">Increment progress</span>
 							<MaterialSymbolsAdd />
-						</M3.ButtonIcon>
-					</M3.TooltipPlainTrigger>
-					{entry.media && <ProgressTooltip media={entry.media} />}
-				</M3.TooltipPlain>
+						</M3.TooltipPlainTrigger>
+						{entry.media && <ProgressTooltip media={entry.media} />}
+					</M3.TooltipPlain>
+				</div>
 			</Form>
 		)
 	)
@@ -123,10 +138,10 @@ const Progress_entry = graphql`
 		id
 		progress
 		media {
-			avalible
 			id
 			episodes
 			chapters
+			avalible
 		}
 	}
 `
