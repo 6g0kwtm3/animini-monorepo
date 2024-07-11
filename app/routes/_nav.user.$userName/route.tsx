@@ -3,7 +3,7 @@ import {
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
-	useLoaderData
+	useLoaderData,
 } from "@remix-run/react"
 import type { ComponentPropsWithRef, ReactNode } from "react"
 

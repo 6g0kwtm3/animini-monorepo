@@ -10,7 +10,7 @@ export const createList = tv(
 				"h-10 w-10 shrink-0 overflow-hidden rounded-full *:h-full *:w-full",
 			itemImg: "h-14 w-14 shrink-0 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
-			itemContent: "flex h-full flex-1 flex-col truncate px-4 -mx-4",
+			itemContent: "-mx-4 flex h-full flex-1 flex-col truncate px-4",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
 			trailingSupportingText: "text-label-sm text-on-surface-variant",

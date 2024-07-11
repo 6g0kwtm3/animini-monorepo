@@ -20,7 +20,7 @@ export function ChipFilter(props: ComponentProps<"label">): ReactNode {
 			<label
 				{...props}
 				data-focus-visible={focusVisible || undefined}
-				className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow hover:state-hover focused:state-focus"
+				className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow focused:state-focus"
 			/>
 		</FocusContext>
 	)
