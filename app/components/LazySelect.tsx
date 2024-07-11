@@ -1,6 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 
-import type { ComponentPropsWithRef, FocusEvent, ReactNode } from "react"
+import type { ComponentProps, FocusEvent, ReactNode } from "react"
 import { forwardRef, useRef } from "react"
 
 import { createMenu } from "~/lib/menu"
@@ -66,7 +66,7 @@ export const LazySelect = forwardRef<HTMLButtonElement, SelectProps>(
 
 export interface FormSelectProps
 	extends Omit<Ariakit.ButtonProps, "render">,
-		Pick<ComponentPropsWithRef<typeof LazySelect>, "render"> {
+		Pick<ComponentProps<typeof LazySelect>, "render"> {
 	name: string
 }
 

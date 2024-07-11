@@ -1,9 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type {
-	ComponentPropsWithoutRef,
-	ComponentPropsWithRef,
-	ReactNode,
-} from "react"
+import type { ComponentProps, ComponentPropsWithoutRef, ReactNode } from "react"
 
 import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
@@ -21,7 +17,7 @@ export function SelectFactory({
 	label,
 
 	...props
-}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithRef<"select">) & {
+}: (Omit<Ariakit.SelectProps, "ref"> & ComponentProps<"select">) & {
 	children: ReactNode
 	label: ReactNode
 	name: string

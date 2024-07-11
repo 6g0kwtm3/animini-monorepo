@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createContext, use, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
@@ -90,7 +90,7 @@ export function NavigationItem({
 	children,
 	active,
 	...props
-}: ComponentPropsWithRef<"div"> & {
+}: ComponentProps<"div"> & {
 	active?: boolean
 }): ReactNode {
 	const { label } = use(NavigationContext)
@@ -117,19 +117,17 @@ function NavigationActiveIndicator() {
 	return <div className={activeIndicator()} style={style} />
 }
 
-export function NavigationItemIcon(
-	props: ComponentPropsWithRef<"div">
-): ReactNode {
+export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
 	const { icon } = use(NavigationContext)
 
 	return <div {...props} className={icon()} />
 }
+
 export function Navigation({
 	variant,
 	align,
 	...props
-}: ComponentPropsWithRef<"nav"> &
-	VariantProps<typeof createNavigation>): ReactNode {
+}: ComponentProps<"nav"> & VariantProps<typeof createNavigation>): ReactNode {
 	const styles = createNavigation({ align, variant })
 
 	return (
@@ -149,7 +147,7 @@ export function Navigation({
 }
 
 export function NavigationItemLargeBadge(
-	props: ComponentPropsWithRef<"div">
+	props: ComponentProps<"div">
 ): ReactNode {
 	const { largeBadge } = use(NavigationContext)
 

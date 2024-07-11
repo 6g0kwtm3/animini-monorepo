@@ -1,12 +1,10 @@
 import {
 	Await,
-	Link,
 	Outlet,
 	unstable_defineClientLoader,
 	useLoaderData,
 	useLocation,
 	useRouteLoaderData,
-	type LinkProps,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
@@ -18,12 +16,11 @@ import type { clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
-	NavigationContext,
 	NavigationItemIcon,
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
-import { createContext, Suspense, use, type ReactNode } from "react"
+import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
 
@@ -46,6 +43,7 @@ import MaterialSymbolsHome from "~icons/material-symbols/home"
 import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
+import { ActiveId, NavigationItem } from "./NavigationItem"
 
 const { graphql } = ReactRelay
 
@@ -77,8 +75,6 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		),
 	}
 })
-
-
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -21,7 +21,7 @@ const skeleton = tv({
 export function Skeleton({
 	full,
 	...props
-}: ComponentPropsWithRef<"div"> & VariantProps<typeof skeleton>): ReactNode {
+}: ComponentProps<"div"> & VariantProps<typeof skeleton>): ReactNode {
 	return (
 		<div
 			{...props}

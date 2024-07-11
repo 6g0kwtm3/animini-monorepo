@@ -1,7 +1,7 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createTV } from "tailwind-variants"
 
-export function Carousel(props: ComponentPropsWithRef<"div">): ReactNode {
+export function Carousel(props: ComponentProps<"div">): ReactNode {
 	const styles = createCarousel()
 
 	return (
@@ -25,7 +25,7 @@ const createCarousel = tv({
 	},
 })
 
-export function CarouselItem(props: ComponentPropsWithRef<"div">): ReactNode {
+export function CarouselItem(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div
 			{...props}

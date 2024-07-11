@@ -6,7 +6,7 @@ import {
 	useMotionValue,
 	useTransform,
 } from "framer-motion"
-import type { ComponentPropsWithRef, JSX, ReactNode } from "react"
+import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, use } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
@@ -99,7 +99,7 @@ export function Sheet({
 	)
 }
 
-export function SheetHandle(props: ComponentPropsWithRef<"div">): ReactNode {
+export function SheetHandle(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div
 			className="mx-auto my-[1.375rem] h-1 w-8 rounded-xs bg-on-surface-variant/[.4]"
@@ -108,7 +108,7 @@ export function SheetHandle(props: ComponentPropsWithRef<"div">): ReactNode {
 	)
 }
 
-export function SheetBody(props: ComponentPropsWithRef<"div">): ReactNode {
+export function SheetBody(props: ComponentProps<"div">): ReactNode {
 	const styles = use(Context)
 	return (
 		<div

@@ -12,7 +12,7 @@ import {
 	Array as ReadonlyArray,
 	Record as ReadonlyRecord,
 } from "effect"
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createElement, Fragment, Suspense, useEffect, useMemo } from "react"
 
 import marked from "marked"
@@ -70,7 +70,7 @@ const { graphql } = ReactRelay
 function MediaLink({
 	mediaId,
 	...props
-}: Omit<ComponentPropsWithRef<typeof Link>, "to"> & {
+}: Omit<ComponentProps<typeof Link>, "to"> & {
 	mediaId: number
 }) {
 	const data = useRawLoaderData<typeof clientLoader>()
@@ -295,9 +295,7 @@ export default function Index(): ReactNode {
 
 interface Options {
 	replace: Partial<{
-		[K in keyof JSX.IntrinsicElements]: (
-			props: ComponentPropsWithRef<K>
-		) => ReactNode
+		[K in keyof JSX.IntrinsicElements]: (props: ComponentProps<K>) => ReactNode
 	}>
 }
 

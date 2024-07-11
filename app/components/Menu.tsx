@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createContext, forwardRef, use, useId } from "react"
 
 import { createTV } from "tailwind-variants"
@@ -65,27 +65,21 @@ export function MenuListItem(props: Ariakit.MenuItemProps): ReactNode {
 	)
 }
 
-export function MenuItemIcon(props: ComponentPropsWithRef<"div">): ReactNode {
+export function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
 }
-export function MenuItemLeadingIcon(
-	props: ComponentPropsWithRef<"div">
-): ReactNode {
+export function MenuItemLeadingIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="h-6 w-6 text-on-surface-variant i" />
 }
-export function MenuItemTrailingIcon(
-	props: ComponentPropsWithRef<"div">
-): ReactNode {
+export function MenuItemTrailingIcon(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div {...props} className="ms-auto h-6 w-6 text-on-surface-variant i" />
 	)
 }
-export function MenuItemTrailingText(
-	props: ComponentPropsWithRef<"div">
-): ReactNode {
+export function MenuItemTrailingText(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="ms-auto text-on-surface-variant" />
 }
-export function MenuDivider(props: ComponentPropsWithRef<"li">): ReactNode {
+export function MenuDivider(props: ComponentProps<"li">): ReactNode {
 	return (
 		<li {...props} className="contents">
 			<div className="my-2 w-full border-b border-outline-variant" />
