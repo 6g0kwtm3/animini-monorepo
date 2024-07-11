@@ -35,7 +35,7 @@
 // import * as Ariakit from "@ariakit/react"
 
 // import { motion } from "framer-motion"
-// import type { ComponentPropsWithRef, ReactNode } from "react"
+// import type { ComponentProps, ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
 
 // import { ChipFilter } from "~/components/Chip"
@@ -228,7 +228,7 @@
 
 // const Score = (
 // 	props: Omit<
-// 		ComponentPropsWithRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) => (
@@ -442,7 +442,7 @@
 // 	day: S.optionFromNullable(S.number)
 // })
 
-// function Status(props: ComponentPropsWithRef<typeof SelectFactory>) {
+// function Status(props: ComponentProps<typeof SelectFactory>) {
 // 	return (
 // 		<SelectFactory
 // 			{...props}
@@ -456,7 +456,7 @@
 
 // function FinishDate(
 // 	props: Omit<
-// 		ComponentPropsWithRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -465,7 +465,7 @@
 
 // function StartDate(
 // 	props: Omit<
-// 		ComponentPropsWithRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -485,7 +485,7 @@
 // function Progress({
 // 	media,
 // 	...props
-// }: ComponentPropsWithRef<typeof TextFieldOutlinedInput> & {
+// }: ComponentProps<typeof TextFieldOutlinedInput> & {
 // 	media: Progress_media$key | null
 // }) {
 // 	const data = useFragment<typeof Progress_media>(media)
@@ -506,7 +506,7 @@
 
 // function Repeat(
 // 	props: Omit<
-// 		ComponentPropsWithRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -522,7 +522,7 @@
 
 // function Notes(
 // 	props: Omit<
-// 		ComponentPropsWithRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -575,7 +575,7 @@
 // }
 
 // function AdvancedScore(
-// 	props: ComponentPropsWithRef<typeof TextFieldOutlinedFactory>
+// 	props: ComponentProps<typeof TextFieldOutlinedFactory>
 // ): ReactNode {
 // 	return (
 // 		<TextFieldOutlinedFactory

@@ -5,7 +5,7 @@ import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { use } from "react"
 import {
 	ListItem,
@@ -62,7 +62,7 @@ const MediaListItem_entry = graphql`
 export function MediaListItem({
 	entry,
 	...props
-}: ComponentPropsWithRef<"li"> & {
+}: ComponentProps<"li"> & {
 	entry: MediaListItem_entry$key
 }): ReactNode {
 	const data = useFragment(MediaListItem_entry, entry)
@@ -139,7 +139,7 @@ function Info(): ReactNode {
 
 export function MockMediaListItem({
 	...props
-}: ComponentPropsWithRef<"li">): ReactNode {
+}: ComponentProps<"li">): ReactNode {
 	return (
 		<ListItem {...props}>
 			<ListItemImg>

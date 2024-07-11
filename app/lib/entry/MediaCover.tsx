@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 
 import ReactRelay from "react-relay"
 import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
@@ -33,7 +33,7 @@ const cover = tv({
 export function MediaCover({
 	media,
 	...props
-}: ComponentPropsWithRef<"img"> & {
+}: ComponentProps<"img"> & {
 	media: MediaCover_media$key
 }): ReactNode {
 	const data = useFragment(MediaCover_media, media)

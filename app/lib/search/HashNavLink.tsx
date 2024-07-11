@@ -7,13 +7,13 @@ import {
 	useResolvedPath,
 } from "@remix-run/react"
 import { Predicate } from "effect"
-import type { ComponentPropsWithRef } from "react"
+import type { ComponentProps } from "react"
 import { forwardRef } from "react"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,
-	Omit<ComponentPropsWithRef<typeof Link>, "children"> & {
-		children?: ComponentPropsWithRef<typeof NavLink>["children"]
+	Omit<ComponentProps<typeof Link>, "children"> & {
+		children?: ComponentProps<typeof NavLink>["children"]
 	}
 >(function HashNavLink({ children, ...props }, ref) {
 	const { search, pathname } = useLocation()

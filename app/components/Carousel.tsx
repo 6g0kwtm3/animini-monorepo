@@ -1,7 +1,7 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { tv } from "~/lib/tailwind-variants"
 
-export function Carousel(props: ComponentPropsWithRef<"div">): ReactNode {
+export function Carousel(props: ComponentProps<"div">): ReactNode {
 	const styles = createCarousel()
 
 	return (
@@ -14,7 +14,6 @@ export function Carousel(props: ComponentPropsWithRef<"div">): ReactNode {
 	)
 }
 
- 
 const createCarousel = tv({
 	slots: {
 		root: "flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 py-2 [mask-image:linear-gradient(to_right,rgba(0,0,0,0.2)0%,rgb(0,0,0)20%,rgb(0,0,0)80%,rgba(0,0,0,0.2)100%)]",
@@ -22,7 +21,7 @@ const createCarousel = tv({
 	},
 })
 
-export function CarouselItem(props: ComponentPropsWithRef<"div">): ReactNode {
+export function CarouselItem(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div
 			{...props}

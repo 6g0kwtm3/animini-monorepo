@@ -8,7 +8,7 @@ import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
 import fontSize from "./font-size.json"
 
-export default withTV({
+export const config = {
 	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
@@ -255,4 +255,6 @@ export default withTV({
 			})
 		}),
 	],
-} satisfies Config)
+} satisfies Config
+
+export default withTV(config)

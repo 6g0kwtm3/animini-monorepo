@@ -16,7 +16,6 @@ import type { clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
-	NavigationItem,
 	NavigationItemIcon,
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
@@ -44,6 +43,7 @@ import MaterialSymbolsHome from "~icons/material-symbols/home"
 import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
+import { ActiveId, NavigationItem } from "./NavigationItem"
 
 const { graphql } = ReactRelay
 
@@ -123,91 +123,104 @@ export default function NavRoute(): ReactNode {
       </div>
     </nav> */}
 
-			<Navigation>
-				<NavigationItem to="/">
-					<NavigationItemIcon>
-						<MaterialSymbolsHomeOutline />
-						<MaterialSymbolsHome />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Home</div>
-				</NavigationItem>
-
-				<NavigationItem to="/feed" className="max-sm:hidden">
-					<NavigationItemIcon>
-						<MaterialSymbolsFeedOutline />
-						<MaterialSymbolsFeed />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Feed</div>
-				</NavigationItem>
-				{rootData?.Viewer ? (
-					<>
-						<NavigationItem to={route_user({ userName: rootData.Viewer.name })}>
+			<ActiveId value="notifications">
+				<Navigation
+					variant={{
+						initial: "bar",
+						sm: "rail",
+						lg: "drawer",
+					}}
+				>
+					<NavigationItem to="/" activeId="home">
+						<NavigationItemIcon>
+							<MaterialSymbolsHomeOutline />
+							<MaterialSymbolsHome />
+						</NavigationItemIcon>
+						<div className="max-w-full break-words">Home</div>
+					</NavigationItem>
+					<NavigationItem to="/feed" activeId="feed" className="max-sm:hidden">
+						<NavigationItemIcon>
+							<MaterialSymbolsFeedOutline />
+							<MaterialSymbolsFeed />
+						</NavigationItemIcon>
+						<div className="max-w-full break-words">Feed</div>
+					</NavigationItem>
+					{rootData?.Viewer ? (
+						<>
+							<NavigationItem
+								to={route_user({ userName: rootData.Viewer.name })}
+								activeId="viewer"
+							>
+								<NavigationItemIcon>
+									<MaterialSymbolsPersonOutline />
+									<MaterialSymbolsPerson />
+								</NavigationItemIcon>
+								<div className="max-w-full break-words">Profile</div>
+							</NavigationItem>
+							<NavigationItem
+								activeId="animelist"
+								className="max-sm:hidden"
+								to={route_user_list({
+									userName: rootData.Viewer.name,
+									typelist: "animelist",
+								})}
+							>
+								<NavigationItemIcon>
+									<MaterialSymbolsPlayArrowOutline />
+									<MaterialSymbolsPlayArrow />
+								</NavigationItemIcon>
+								<div className="max-w-full break-words">Anime List</div>
+							</NavigationItem>
+							<NavigationItem
+								activeId="mangalist"
+								to={route_user_list({
+									userName: rootData.Viewer.name,
+									typelist: "mangalist",
+								})}
+								className="max-sm:hidden"
+							>
+								<NavigationItemIcon>
+									<MaterialSymbolsMenuBookOutline />
+									<MaterialSymbolsMenuBook />
+								</NavigationItemIcon>
+								<div className="max-w-full break-words">Manga List</div>
+							</NavigationItem>
+						</>
+					) : (
+						<NavigationItem
+							activeId="login"
+							to={route_login({
+								redirect: pathname,
+							})}
+						>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
 							</NavigationItemIcon>
-							<div className="max-w-full break-words">Profile</div>
+							<div className="max-w-full break-words">Login</div>
 						</NavigationItem>
-						<NavigationItem
-							className="max-sm:hidden"
-							to={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "animelist",
-							})}
-						>
-							<NavigationItemIcon>
-								<MaterialSymbolsPlayArrowOutline />
-								<MaterialSymbolsPlayArrow />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Anime List</div>
-						</NavigationItem>
-						<NavigationItem
-							to={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "mangalist",
-							})}
-							className="max-sm:hidden"
-						>
-							<NavigationItemIcon>
-								<MaterialSymbolsMenuBookOutline />
-								<MaterialSymbolsMenuBook />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Manga List</div>
-						</NavigationItem>
-					</>
-				) : (
-					<NavigationItem
-						to={route_login({
-							redirect: pathname,
-						})}
-					>
+					)}
+					<NavigationItem to="/notifications" activeId="notifications">
 						<NavigationItemIcon>
-							<MaterialSymbolsPersonOutline />
-							<MaterialSymbolsPerson />
+							<MaterialSymbolsNotificationsOutline />
+							<MaterialSymbolsNotifications />
 						</NavigationItemIcon>
-						<div className="max-w-full break-words">Login</div>
+						<div className="max-w-full break-words">Notifications</div>
+						<Suspense>
+							<Await resolve={data.trending} errorElement={<></>}>
+								{(data) =>
+									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+										<NavigationItemLargeBadge>
+											{data?.Viewer?.unreadNotificationCount}
+										</NavigationItemLargeBadge>
+									)
+								}
+							</Await>
+						</Suspense>
 					</NavigationItem>
-				)}
-				<NavigationItem to="/notifications">
-					<NavigationItemIcon>
-						<MaterialSymbolsNotificationsOutline />
-						<MaterialSymbolsNotifications />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Notifications</div>
-					<Suspense>
-						<Await resolve={data.trending} errorElement={<></>}>
-							{(data) =>
-								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-									<NavigationItemLargeBadge>
-										{data?.Viewer?.unreadNotificationCount}
-									</NavigationItemLargeBadge>
-								)
-							}
-						</Await>
-					</Suspense>
-				</NavigationItem>
-				<SearchButton />
-			</Navigation>
+					<SearchButton />
+				</Navigation>
+			</ActiveId>
 
 			<Outlet />
 			<Search />

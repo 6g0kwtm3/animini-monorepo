@@ -7,7 +7,7 @@ import {
 	useSearchParams,
 } from "@remix-run/react"
 import { Predicate } from "effect"
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import ReactRelay from "react-relay"
 
 import type { clientLoader as rootLoader } from "~/root"
@@ -288,7 +288,7 @@ function ShareMedia(props: { media: ProgressShareMedia_media$key }): ReactNode {
 export function Progress({
 	entry,
 	...props
-}: ComponentPropsWithRef<"span"> & {
+}: ComponentProps<"span"> & {
 	entry: Progress_entry$key
 }): ReactNode {
 	const data = useFragment(Progress_entry, entry)

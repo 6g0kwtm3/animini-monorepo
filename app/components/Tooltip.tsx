@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithRef, PropsWithChildren, ReactNode } from "react"
+import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
 import { forwardRef } from "react"
 import { tv } from "~/lib/tailwind-variants"
 
@@ -41,7 +41,7 @@ export function TooltipRichSubhead(
 	)
 }
 export function TooltipRichSupportingText(
-	props: ComponentPropsWithRef<"p">
+	props: ComponentProps<"p">
 ): ReactNode {
 	return (
 		<Ariakit.HovercardDescription
@@ -50,9 +50,7 @@ export function TooltipRichSupportingText(
 		/>
 	)
 }
-export function TooltipRichActions(
-	props: ComponentPropsWithRef<"div">
-): ReactNode {
+export function TooltipRichActions(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
 export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
