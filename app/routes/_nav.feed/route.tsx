@@ -1,7 +1,5 @@
 import type { MetaFunction } from "@remix-run/node"
-import {
-	unstable_defineClientLoader
-} from "@remix-run/react"
+import { unstable_defineClientLoader } from "@remix-run/react"
 
 import {
 	Predicate,
@@ -17,22 +15,16 @@ import {
 	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle
+	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 import { client_operation } from "~/lib/client"
-
 
 // import * as R from '@remix-run/router'
 // console.log(R)
 
 // import {RouterProvider} from 'react-router-dom'
 import { useRawLoaderData } from "~/lib/data"
-
-
-
-
-
 
 import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
@@ -45,9 +37,7 @@ import { UserLink } from "./UserLink"
 
 import { MediaLink } from "./MediaLink"
 
-
 const { graphql } = ReactRelay
-
 
 function matchMediaId(s: string) {
 	return [...s.matchAll(/https:\/\/anilist.co\/(anime|manga)\/(\d+)/g)]
@@ -199,7 +189,11 @@ export default function Index(): ReactNode {
 											</ListContext>
 											<ClientOnly>
 												{() =>
-													activity.text && <Markdown options={options}>{activity.text}</Markdown>
+													activity.text && (
+														<Markdown options={options}>
+															{activity.text}
+														</Markdown>
+													)
 												}
 											</ClientOnly>
 										</Card>
@@ -218,13 +212,7 @@ export default function Index(): ReactNode {
 	)
 }
 
-
-
-
-
-
-
- const options = {
+const options = {
 	replace: {
 		center(props) {
 			return <center {...props} />
@@ -261,7 +249,6 @@ export default function Index(): ReactNode {
 		},
 	},
 } satisfies Options
-
 
 export const meta = (() => {
 	return [{ title: "Feed" }]

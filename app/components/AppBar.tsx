@@ -4,8 +4,6 @@ import type { VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 import { tv } from "~/lib/tailwind-variants"
 
-
-
 const appBar = tv(
 	{
 		slots: {

@@ -1,5 +1,4 @@
-import { tv } from "./tailwind-variants";
-
+import { tv } from "./tailwind-variants"
 
 export const createMenu = tv({
 	slots: {

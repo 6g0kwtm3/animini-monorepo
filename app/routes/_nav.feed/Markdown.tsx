@@ -1,8 +1,13 @@
 import createDOMPurify from "dompurify"
 import marked from "marked"
-import { createElement, Fragment, useMemo, type ComponentPropsWithRef, type ReactNode } from "react"
+import {
+	createElement,
+	Fragment,
+	useMemo,
+	type ComponentPropsWithRef,
+	type ReactNode,
+} from "react"
 import { route_media, route_user } from "~/lib/route"
-
 
 import { Parser } from "htmlparser2"
 
@@ -262,7 +267,10 @@ export interface Options {
 	}>
 }
 
-export function Markdown(props: { children: string; options: Options }): ReactNode {
+export function Markdown(props: {
+	children: string
+	options: Options
+}): ReactNode {
 	return (
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md">
 			{/* {(markdownHtml(props.children))} */}

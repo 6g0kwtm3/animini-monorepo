@@ -1,4 +1,3 @@
-
 export enum MediaListSort {
 	TitleEnglish = "TITLE_ENGLISH",
 	ScoreDesc = "SCORE_DESC",

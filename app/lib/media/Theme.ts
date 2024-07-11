@@ -13,9 +13,7 @@ const Theme_mediaCover = graphql`
 /**
  * @RelayResolver MediaCoverImage.theme: RelayResolverValue
  * @rootFragment Theme_mediaCover*/
-export function theme(
-	key: Theme_mediaCover$key
-): Theme | null {
+export function theme(key: Theme_mediaCover$key): Theme | null {
 	const media = readFragment(Theme_mediaCover, key)
 
 	return media.color ? getThemeFromHex(media.color) : null
