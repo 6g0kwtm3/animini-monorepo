@@ -4,6 +4,7 @@ module.exports = {
 		"plugin:compat/recommended",
 		"@remix-run/eslint-config",
 		"@remix-run/eslint-config/node",
+		"plugin:storybook/recommended",
 	],
 	plugins: ["react-refresh", "compat", "eslint-plugin-react-compiler"],
 	overrides: [

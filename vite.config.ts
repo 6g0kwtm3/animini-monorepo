@@ -2,11 +2,11 @@ import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import MillionLint from "@million/lint"
 
 import { vitePlugin as remix } from "@remix-run/dev"
-import { remixDevTools } from "remix-development-tools"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
+const isStorybook = process.argv[1]?.includes("storybook")
 
 export default defineConfig({
 	plugins: [
@@ -21,28 +21,29 @@ export default defineConfig({
 		// remixDevTools(),
 		// cloudflareDevProxy(),
 
-		remix({
-			future: {
-				v3_fetcherPersist: true,
-				v3_relativeSplatPath: true,
-				v3_throwAbortReason: true,
-				unstable_singleFetch: true,
-			},
-			ssr: false,
+		!isStorybook &&
+			remix({
+				future: {
+					v3_fetcherPersist: true,
+					v3_relativeSplatPath: true,
+					v3_throwAbortReason: true,
+					unstable_singleFetch: true,
+				},
+				ssr: false,
 
-			// routes(defineRoutes) {
-			// 	return defineRoutes((route) => {
-			// 		// route("", "routes/Nav.tsx", () => {
-			// 		// 	// route("", "routes/NavFeed.tsx", { index: true })
-			// 		// 	route("user/:userName", "routes/NavUser.tsx", { index: true })
-			// 		// 	route("login", "routes/NavLogin.tsx")
-			// 		// 	route("user/:userName/:typelist", "routes/NavUserList.tsx", () => {
-			// 		// 		route(":selected?", "routes/NavUserListEntries.tsx")
-			// 		// 	})
-			// 		// })
-			// 	})
-			// }
-		}),
+				// routes(defineRoutes) {
+				// 	return defineRoutes((route) => {
+				// 		// route("", "routes/Nav.tsx", () => {
+				// 		// 	// route("", "routes/NavFeed.tsx", { index: true })
+				// 		// 	route("user/:userName", "routes/NavUser.tsx", { index: true })
+				// 		// 	route("login", "routes/NavLogin.tsx")
+				// 		// 	route("user/:userName/:typelist", "routes/NavUserList.tsx", () => {
+				// 		// 		route(":selected?", "routes/NavUserListEntries.tsx")
+				// 		// 	})
+				// 		// })
+				// 	})
+				// }
+			}),
 		tsconfigPaths(),
 		icons({
 			compiler: "jsx",
