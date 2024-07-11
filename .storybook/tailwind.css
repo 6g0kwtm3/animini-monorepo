@@ -1,4 +1,4 @@
-@import "~/base.css";
+@import "../app/base.css";
 @config "../tailwind.storybook.config.ts";
 
 @tailwind base;
