@@ -606,9 +606,7 @@ export function ErrorBoundary(): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<Card
-					variant="elevated"
-				>
+				<Card variant="elevated">
 					<Ariakit.Heading className="text-balance text-headline-md">
 						Uh oh ...
 					</Ariakit.Heading>

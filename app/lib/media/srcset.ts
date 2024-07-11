@@ -5,12 +5,13 @@ import { readFragment } from "../Network"
 const { graphql } = ReactRelay
 
 const srcset_mediaCover = graphql`
-	fragment srcset_mediaCover on MediaCoverImage 	@argumentDefinitions(
+	fragment srcset_mediaCover on MediaCoverImage
+	@argumentDefinitions(
 		large: { type: "Boolean", defaultValue: true }
 		extraLarge: { type: "Boolean", defaultValue: true }
-	)  {
+	) {
 		extraLarge @include(if: $extraLarge)
-		large  @include(if: $large)
+		large @include(if: $large)
 		medium
 	}
 `

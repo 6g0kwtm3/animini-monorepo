@@ -1,11 +1,11 @@
 import { Await, Link } from "@remix-run/react"
 
 import {
-    createContext,
-    Suspense,
-    useContext,
-    type ComponentPropsWithRef,
-    type ReactNode,
+	createContext,
+	Suspense,
+	useContext,
+	type ComponentPropsWithRef,
+	type ReactNode,
 } from "react"
 import { ListItemContent, ListItemImg } from "~/components"
 import { route_media } from "~/lib/route"
@@ -45,7 +45,7 @@ function Media(props: { media: MediaLink_media$key }) {
 		media && (
 			<span
 				className={card({
-					className: `not-prose inline-flex overflow-hidden text-start contrast-standard theme-light p-0 contrast-more:contrast-high dark:theme-dark`,
+					className: `not-prose inline-flex overflow-hidden p-0 text-start contrast-standard theme-light contrast-more:contrast-high dark:theme-dark`,
 				})}
 				style={media.coverImage?.theme ?? undefined}
 			>

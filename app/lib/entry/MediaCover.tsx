@@ -24,8 +24,6 @@ const MediaCover_media = graphql`
 
 export type MediaCover_media = typeof MediaCover_media
 
-
-
 const cover = tv({
 	base: "bg-cover bg-center object-cover object-center",
 })
@@ -48,9 +46,7 @@ export function MediaCover({
 			alt=""
 			width={100}
 			height={150}
-			src={
-				data.coverImage.src
-			}
+			src={data.coverImage.src}
 			srcSet={data.coverImage.srcset}
 			{...props}
 			style={{

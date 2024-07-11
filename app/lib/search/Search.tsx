@@ -168,7 +168,7 @@ export function SearchButton(): ReactNode {
 						<div className="max-w-full break-words">Explore</div>
 					</NavigationItem>
 				}
-			 />
+			/>
 			<TooltipPlainContainer>
 				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
 			</TooltipPlainContainer>

@@ -39,8 +39,6 @@ export const MenuTrigger = forwardRef<
 	)
 })
 
-
-
 const createMenu = tv({
 	slots: {
 		button: "",

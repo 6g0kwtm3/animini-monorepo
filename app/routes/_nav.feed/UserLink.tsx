@@ -1,19 +1,16 @@
 import { Button } from "@ariakit/react"
 import { Link, useFetcher, useRouteLoaderData } from "@remix-run/react"
 
+import { useEffect, type ReactNode } from "react"
 import {
-    useEffect,
-    type ReactNode
-} from "react"
-import {
-    ListItem,
-    ListItemAvatar,
-    ListItemContent,
-    Skeleton,
-    TooltipRich,
-    TooltipRichActions,
-    TooltipRichContainer,
-    TooltipRichTrigger
+	ListItem,
+	ListItemAvatar,
+	ListItemContent,
+	Skeleton,
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichTrigger,
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"

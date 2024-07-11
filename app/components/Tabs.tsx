@@ -8,7 +8,6 @@ import { tv } from "~/lib/tailwind-variants"
 
 const TabsContext = createContext<string | undefined>(undefined)
 
- 
 const tabs = tv({
 	slots: {
 		root: "border-b border-surface-container-highest",
