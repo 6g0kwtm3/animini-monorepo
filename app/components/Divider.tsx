@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react"
-import { tv, type VariantProps } from "tailwind-variants"
+import { type VariantProps } from "tailwind-variants"
+import { tv } from "~/lib/tailwind-variants"
 
 const divider = tv({
 	base: "w-full border border-outline-variant",

@@ -1,21 +1,42 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentProps, ReactNode } from "react"
+import {
+	createContext,
+	use,
+	useState,
+	type ComponentProps,
+	type Dispatch,
+	type ReactNode,
+	type SetStateAction,
+} from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 
+const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {})
+
 export function ChipFilter(props: ComponentProps<"label">): ReactNode {
+	const [focusVisible, setFocusVisible] = useState(false)
+
 	return (
-		<label
-			{...props}
-			className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow outline-1 outline-primary duration-md ease-standard-decelerate has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow has-focused:outline has-focused:outline-offset-4 hover:force:state-hover has-focused:force:state-focus motion-safe:transition-[outline-offset]"
-		/>
+		<FocusContext value={setFocusVisible}>
+			<label
+				{...props}
+				data-focus-visible={focusVisible || undefined}
+				className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow hover:state-hover focused:state-focus"
+			/>
+		</FocusContext>
 	)
 }
 
 export function ChipFilterCheckbox(props: Ariakit.CheckboxProps): ReactNode {
+	const setFocusVisible = use(FocusContext)
 	return (
 		<>
 			<Ariakit.VisuallyHidden className="peer">
-				<Ariakit.Checkbox {...props} />
+				<Ariakit.Checkbox
+					{...props}
+					clickOnEnter
+					onFocusVisible={() => setFocusVisible(true)}
+					onBlur={() => setFocusVisible(false)}
+				/>
 			</Ariakit.VisuallyHidden>
 			<ChipFilterIcon />
 		</>
@@ -23,10 +44,16 @@ export function ChipFilterCheckbox(props: Ariakit.CheckboxProps): ReactNode {
 }
 
 export function ChipFilterRadio(props: Ariakit.RadioProps): ReactNode {
+	const setFocusVisible = use(FocusContext)
 	return (
 		<>
 			<Ariakit.VisuallyHidden className="peer">
-				<Ariakit.Radio {...props} />
+				<Ariakit.Radio
+					{...props}
+					clickOnEnter
+					onFocusVisible={() => setFocusVisible(true)}
+					onBlur={() => setFocusVisible(false)}
+				/>
 			</Ariakit.VisuallyHidden>
 			<ChipFilterIcon />
 		</>

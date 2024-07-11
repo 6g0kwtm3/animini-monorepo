@@ -7,12 +7,12 @@ export const createList = tv(
 	{
 		slots: {
 			root: "",
-			item: "group flex gap-x-4 px-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
+			item: "group flex gap-x-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
 			itemAvatar:
 				"h-10 w-10 shrink-0 overflow-hidden rounded-full *:h-full *:w-full",
 			itemImg: "h-14 w-14 shrink-0 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
-			itemContent: "flex h-full flex-1 flex-col truncate",
+			itemContent: "flex h-full flex-1 flex-col truncate px-4 -mx-4",
 			itemTitle: "truncate text-body-lg text-on-surface",
 			itemSubtitle: "text-body-md text-on-surface-variant",
 			trailingSupportingText: "text-label-sm text-on-surface-variant",

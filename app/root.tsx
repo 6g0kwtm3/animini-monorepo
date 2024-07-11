@@ -7,6 +7,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 	unstable_defineClientLoader,
+	useLocation,
 	useRouteError,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
@@ -147,6 +148,7 @@ export default function App(): ReactNode {
 
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
+	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
@@ -155,7 +157,7 @@ export function ErrorBoundary(): ReactNode {
 				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
-				<Link to="." className={button()} relative="path">
+				<Link to={location} className={button()}>
 					Try again
 				</Link>
 			</div>
@@ -170,16 +172,13 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<Card
-			variant="elevated"
-
-		>
+		<Card variant="elevated">
 			<Ariakit.Heading className="text-balance text-headline-md">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
-			<Link to="." className={button()} relative="path">
+			<Link to={location} className={button()}>
 				Try again
 			</Link>
 		</Card>

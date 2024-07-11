@@ -1,19 +1,15 @@
-import { Button } from "@ariakit/react"
 import { Link, useFetcher, useRouteLoaderData } from "@remix-run/react"
 
+import { useEffect, type ReactNode } from "react"
 import {
-    useEffect,
-    type ReactNode
-} from "react"
-import {
-    ListItem,
-    ListItemAvatar,
-    ListItemContent,
-    Skeleton,
-    TooltipRich,
-    TooltipRichActions,
-    TooltipRichContainer,
-    TooltipRichTrigger
+	ListItem,
+	ListItemAvatar,
+	ListItemContent,
+	Skeleton,
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichTrigger,
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
@@ -116,13 +112,16 @@ export function UserLink(props: {
 									id=""
 								/>
 
-								<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
+								<M3.Button
+									type="submit"
+									aria-disabled={!fetcher.data?.User?.id}
+								>
 									{follow.formData?.get("isFollowing") ??
 									follow.data?.ToggleFollow.isFollowing ??
 									fetcher.data?.User?.isFollowing
 										? m.unfollow_button()
 										: m.follow_button()}
-								</Button>
+								</M3.Button>
 							</follow.Form>
 						)}
 				</TooltipRichActions>

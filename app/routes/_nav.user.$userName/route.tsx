@@ -3,11 +3,10 @@ import {
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
-	useLoaderData,
+	useLoaderData
 } from "@remix-run/react"
 import type { ComponentPropsWithRef, ReactNode } from "react"
 
-import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { M3 } from "~/lib/components"
 
@@ -20,6 +19,7 @@ import { Markdown, type Options } from "../_nav.feed/Markdown"
 
 import type { routeUser_user$key } from "~/gql/routeUser_user.graphql"
 import { useFragment } from "~/lib/Network"
+import { route_user, route_user_list } from "~/lib/route"
 import { MediaLink } from "../_nav.feed/MediaLink"
 import { UserLink } from "../_nav.feed/UserLink"
 
@@ -38,6 +38,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 				User(name: $userName) {
 					id
 					about
+					name
 					options {
 						profileTheme
 					}
@@ -60,10 +61,12 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 export default function Page(): ReactNode {
 	const data = useLoaderData<typeof clientLoader>()
 
+	const tabs = Ariakit.useTabStore()
+
 	return (
 		<M3.LayoutBody
 			style={data.user.options?.profileTheme ?? undefined}
-			className="contrast-standard theme-light contrast-more:contrast-high max-sm:pe-0 max-sm:ps-0 dark:theme-dark"
+			className="max-sm:pe-0 max-sm:ps-0"
 		>
 			<M3.LayoutPane variant="fixed" className="max-md:hidden">
 				<User user={data.user} />
@@ -76,19 +79,50 @@ export default function Page(): ReactNode {
 			</M3.LayoutPane>
 
 			<Outlet
-				context={
-					<>
-						<User user={data.user} className="md:hidden" />
-						<nav>
-							<Link to="animelist" className={button()}>
-								Anime List
-							</Link>
-							<Link to="mangalist" className={button()}>
-								Manga List
-							</Link>
-						</nav>
-					</>
-				}
+				context={{
+					store: tabs,
+					children: (
+						<>
+							<User user={data.user} className="md:hidden" />
+							<M3.TabsList grow={true}>
+								<M3.TabsListItem
+									id="undefined"
+									render={
+										<Link to={route_user({ userName: data.user.name })} />
+									}
+								>
+									Overview
+								</M3.TabsListItem>
+								<M3.TabsListItem
+									id="animelist"
+									render={
+										<Link
+											to={route_user_list({
+												userName: data.user.name,
+												typelist: "animelist",
+											})}
+										/>
+									}
+								>
+									Anime List
+								</M3.TabsListItem>
+								<M3.TabsListItem
+									id="mangalist"
+									render={
+										<Link
+											to={route_user_list({
+												userName: data.user.name,
+												typelist: "mangalist",
+											})}
+										/>
+									}
+								>
+									Manga List
+								</M3.TabsListItem>
+							</M3.TabsList>
+						</>
+					),
+				}}
 			/>
 		</M3.LayoutBody>
 	)

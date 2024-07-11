@@ -4,7 +4,6 @@ import { createContext, use, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
 import { tv } from "~/lib/tailwind-variants"
-import { LayoutNavigationContext } from "./Layout"
 
 const createNavigation = tv(
 	{

@@ -4,24 +4,25 @@ import { json } from "@remix-run/node"
 
 import {
 	Form,
-	Link,
 	unstable_defineClientLoader,
 	useFetcher,
 	useLocation,
+	useOutletContext,
 	useRouteLoaderData,
 } from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Button, Button as ButtonText } from "~/components/Button"
 
-import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import type { clientLoader as rootLoader } from "~/root"
 
 import type { routeNavUserIndexQuery as NavUserQuery } from "~/gql/routeNavUserIndexQuery.graphql"
+import { M3 } from "~/lib/components"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+import type { Ariakit } from "~/lib/ariakit"
 const { graphql } = ReactRelay
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
@@ -73,52 +74,56 @@ export default function Page(): ReactNode {
 		key: `${data.user.name}-follow`,
 	})
 
+	const { children, store } = useOutletContext<{
+		children: ReactNode
+		store: Ariakit.TabStore
+	}>()
+
 	return (
-		<>
-			<nav>
-				<Link to="animelist" className={button()}>
-					Anime List
-				</Link>
-				<Link to="mangalist" className={button()}>
-					Manga List
-				</Link>
-			</nav>
+		<M3.LayoutPane>
+			<M3.Tabs store={store} selectedId={"undefined"}>
+				{children}
+				<M3.TabsPanel tabId={"undefined"}>
+					{rootData?.Viewer?.name &&
+						rootData.Viewer.name !== data.user.name && (
+							<follow.Form
+								method="post"
+								action={`/user/${data.user.id}/follow`}
+							>
+								<input
+									type="hidden"
+									name="isFollowing"
+									value={
+										follow.formData?.get("isFollowing") ??
+										follow.data?.ToggleFollow.isFollowing ??
+										data.user.isFollowing
+											? ""
+											: "true"
+									}
+									id=""
+								/>
 
-			{rootData?.Viewer?.name && rootData.Viewer.name !== data.user.name && (
-				<follow.Form method="post" action={`/user/${data.user.id}/follow`}>
-					<input
-						type="hidden"
-						name="isFollowing"
-						value={
-							follow.formData?.get("isFollowing") ??
-							follow.data?.ToggleFollow.isFollowing ??
-							data.user.isFollowing
-								? ""
-								: "true"
-						}
-						id=""
-					/>
-
-					<Button type="submit" aria-disabled={!data.user.id}>
-						{follow.formData?.get("isFollowing") ??
-						follow.data?.ToggleFollow.isFollowing ??
-						data.user.isFollowing
-							? m.unfollow_button()
-							: m.follow_button()}
-					</Button>
-				</follow.Form>
-			)}
-
-			{rootData?.Viewer?.name === data.user.name && (
-				<Form
-					method="post"
-					action={`/logout/?${new URLSearchParams({
-						redirect: pathname,
-					})}`}
-				>
-					<ButtonText type="submit">Logout</ButtonText>
-				</Form>
-			)}
-		</>
+								<Button type="submit" aria-disabled={!data.user.id}>
+									{follow.formData?.get("isFollowing") ??
+									follow.data?.ToggleFollow.isFollowing ??
+									data.user.isFollowing
+										? m.unfollow_button()
+										: m.follow_button()}
+								</Button>
+							</follow.Form>
+						)}
+					{rootData?.Viewer?.name === data.user.name && (
+						<Form
+							method="post"
+							action={`/logout/?${new URLSearchParams({
+								redirect: pathname,
+							})}`}
+						>
+							<ButtonText type="submit">Logout</ButtonText>
+						</Form>
+					)}
+				</M3.TabsPanel>
+			</M3.Tabs>
+		</M3.LayoutPane>
 	)
 }

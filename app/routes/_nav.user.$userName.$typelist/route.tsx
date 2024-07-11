@@ -127,46 +127,58 @@ export default function Filters(): ReactNode {
 	const { pathname } = useLocation()
 	const params = useParams()
 
+	const { children, store } = useOutletContext<{
+		children: ReactNode
+		store: Ariakit.TabStore
+	}>()
+
 	return (
 		<>
 			<M3.LayoutPane>
-				{useOutletContext<ReactNode>()}
-				<Card variant="elevated" className="px-0 max-sm:contents">
-					<div className="flex flex-col gap-4">
-						<M3.Tabs selectedId={String(params.selected)}>
-							<div className="sticky top-0 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
-								<AppBar variant="large" className="sm:bg-surface-container-low">
-									<Icon>
-										<span className="sr-only">Search</span>
-										<MaterialSymbolsSearch />
-									</Icon>
-									<AppBarTitle>
-										{params.typelist === "animelist"
-											? "Anime list"
-											: "Manga list"}
-									</AppBarTitle>
-									<div className="flex-1" />
-									<Icon>
-										<span className="sr-only">Filter</span>
-										<MaterialSymbolsSearch />
-									</Icon>
-									<FilterButton />
-									<Icon>
-										<span className="sr-only">More</span>
-										<MaterialSymbolsMoreHoriz />
-									</Icon>
-								</AppBar>
-								<ListTabs />
+				<M3.Tabs store={store} selectedId={params.typelist}>
+					{children}
+					<M3.TabsPanel tabId={params.typelist}>
+						<Card variant="elevated" className="px-0 max-sm:contents">
+							<div className="flex flex-col gap-4">
+								<M3.Tabs selectedId={String(params.selected)}>
+									<div className="sticky top-0 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
+										<AppBar
+											variant="large"
+											className="sm:bg-surface-container-low"
+										>
+											<Icon>
+												<span className="sr-only">Search</span>
+												<MaterialSymbolsSearch />
+											</Icon>
+											<AppBarTitle>
+												{params.typelist === "animelist"
+													? "Anime list"
+													: "Manga list"}
+											</AppBarTitle>
+											<div className="flex-1" />
+											<Icon>
+												<span className="sr-only">Filter</span>
+												<MaterialSymbolsSearch />
+											</Icon>
+											<FilterButton />
+											<Icon>
+												<span className="sr-only">More</span>
+												<MaterialSymbolsMoreHoriz />
+											</Icon>
+										</AppBar>
+										<ListTabs />
+									</div>
+									<M3.TabsPanel
+										tabId={params.selected}
+										className="flex flex-col gap-4"
+									>
+										<Outlet />
+									</M3.TabsPanel>
+								</M3.Tabs>
 							</div>
-							<M3.TabsPanel
-								tabId={params.selected}
-								className="flex flex-col gap-4"
-							>
-								<Outlet />
-							</M3.TabsPanel>
-						</M3.Tabs>
-					</div>
-				</Card>
+						</Card>
+					</M3.TabsPanel>
+				</M3.Tabs>
 				<Filter />
 			</M3.LayoutPane>
 			<M3.LayoutPane variant="fixed" className="max-xl:hidden">
@@ -577,22 +589,21 @@ const MANGA_FORMAT_OPTIONS = {
 
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
+	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<LayoutBody>
-				<LayoutPane>
-					<div>
-						<Ariakit.Heading>Oops</Ariakit.Heading>
-						<p>Status: {error.status}</p>
-						<p>{error.data}</p>
-						<Link to="." className={button()} relative="path">
-							Try again
-						</Link>
-					</div>
-				</LayoutPane>
-			</LayoutBody>
+			<LayoutPane>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+					<Link to={location} className={button()}>
+						Try again
+					</Link>
+				</div>
+			</LayoutPane>
 		)
 	}
 
@@ -604,21 +615,17 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<LayoutBody>
-			<LayoutPane>
-				<Card
-					variant="elevated"
-				>
-					<Ariakit.Heading className="text-balance text-headline-md">
-						Uh oh ...
-					</Ariakit.Heading>
-					<p className="text-headline-sm">Something went wrong.</p>
-					<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
-					<Link to="." className={button()} relative="path">
-						Try again
-					</Link>
-				</Card>
-			</LayoutPane>
-		</LayoutBody>
+		<LayoutPane>
+			<Card variant="elevated">
+				<Ariakit.Heading className="text-balance text-headline-md">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
+				<Link to={location} className={button()}>
+					Try again
+				</Link>
+			</Card>
+		</LayoutPane>
 	)
 }
