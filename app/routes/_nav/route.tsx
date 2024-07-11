@@ -1,10 +1,12 @@
 import {
 	Await,
+	Link,
 	Outlet,
 	unstable_defineClientLoader,
 	useLoaderData,
 	useLocation,
 	useRouteLoaderData,
+	type LinkProps,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
@@ -16,12 +18,12 @@ import type { clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
-	NavigationItem,
+	NavigationContext,
 	NavigationItemIcon,
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
-import { Suspense, type ReactNode } from "react"
+import { createContext, Suspense, use, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
 
@@ -76,6 +78,8 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	}
 })
 
+
+
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 	formMethod,
@@ -123,97 +127,104 @@ export default function NavRoute(): ReactNode {
       </div>
     </nav> */}
 
-			<Navigation
-				variant={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer",
-				}}
-			>
-				<NavigationItem to="/">
-					<NavigationItemIcon>
-						<MaterialSymbolsHomeOutline />
-						<MaterialSymbolsHome />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Home</div>
-				</NavigationItem>
-
-				<NavigationItem to="/feed">
-					<NavigationItemIcon>
-						<MaterialSymbolsFeedOutline />
-						<MaterialSymbolsFeed />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Feed</div>
-				</NavigationItem>
-				{rootData?.Viewer ? (
-					<>
-						<NavigationItem to={route_user({ userName: rootData.Viewer.name })}>
+			<ActiveId value="notifications">
+				<Navigation
+					variant={{
+						initial: "bar",
+						sm: "rail",
+						lg: "drawer",
+					}}
+				>
+					<NavigationItem to="/" activeId="home">
+						<NavigationItemIcon>
+							<MaterialSymbolsHomeOutline />
+							<MaterialSymbolsHome />
+						</NavigationItemIcon>
+						<div className="max-w-full break-words">Home</div>
+					</NavigationItem>
+					<NavigationItem to="/feed" activeId="feed">
+						<NavigationItemIcon>
+							<MaterialSymbolsFeedOutline />
+							<MaterialSymbolsFeed />
+						</NavigationItemIcon>
+						<div className="max-w-full break-words">Feed</div>
+					</NavigationItem>
+					{rootData?.Viewer ? (
+						<>
+							<NavigationItem
+								to={route_user({ userName: rootData.Viewer.name })}
+								activeId="viewer"
+							>
+								<NavigationItemIcon>
+									<MaterialSymbolsPersonOutline />
+									<MaterialSymbolsPerson />
+								</NavigationItemIcon>
+								<div className="max-w-full break-words">Profile</div>
+							</NavigationItem>
+							<NavigationItem
+								activeId="animelist"
+								className="max-sm:hidden"
+								to={route_user_list({
+									userName: rootData.Viewer.name,
+									typelist: "animelist",
+								})}
+							>
+								<NavigationItemIcon>
+									<MaterialSymbolsPlayArrowOutline />
+									<MaterialSymbolsPlayArrow />
+								</NavigationItemIcon>
+								<div className="max-w-full break-words">Anime List</div>
+							</NavigationItem>
+							<NavigationItem
+								activeId="mangalist"
+								to={route_user_list({
+									userName: rootData.Viewer.name,
+									typelist: "mangalist",
+								})}
+								className="max-sm:hidden"
+							>
+								<NavigationItemIcon>
+									<MaterialSymbolsMenuBookOutline />
+									<MaterialSymbolsMenuBook />
+								</NavigationItemIcon>
+								<div className="max-w-full break-words">Manga List</div>
+							</NavigationItem>
+						</>
+					) : (
+						<NavigationItem
+							activeId="login"
+							to={route_login({
+								redirect: pathname,
+							})}
+						>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
 							</NavigationItemIcon>
-							<div className="max-w-full break-words">Profile</div>
+							<div className="max-w-full break-words">Login</div>
 						</NavigationItem>
-						<NavigationItem
-							className="max-sm:hidden"
-							to={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "animelist",
-							})}
-						>
-							<NavigationItemIcon>
-								<MaterialSymbolsPlayArrowOutline />
-								<MaterialSymbolsPlayArrow />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Anime List</div>
-						</NavigationItem>
-						<NavigationItem
-							to={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "mangalist",
-							})}
-							className="max-sm:hidden"
-						>
-							<NavigationItemIcon>
-								<MaterialSymbolsMenuBookOutline />
-								<MaterialSymbolsMenuBook />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Manga List</div>
-						</NavigationItem>
-					</>
-				) : (
-					<NavigationItem
-						to={route_login({
-							redirect: pathname,
-						})}
-					>
+					)}
+					<NavigationItem to="/notifications" activeId="notifications">
 						<NavigationItemIcon>
-							<MaterialSymbolsPersonOutline />
-							<MaterialSymbolsPerson />
+							<MaterialSymbolsNotificationsOutline />
+							<MaterialSymbolsNotifications />
 						</NavigationItemIcon>
-						<div className="max-w-full break-words">Login</div>
+						<div className="max-w-full break-words">Notifications</div>
+						<Suspense>
+							<Await resolve={data.trending} errorElement={<></>}>
+								{(data) =>
+									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+										<NavigationItemLargeBadge>
+											{data?.Viewer?.unreadNotificationCount}
+										</NavigationItemLargeBadge>
+									)
+								}
+							</Await>
+						</Suspense>
 					</NavigationItem>
-				)}
-				<NavigationItem to="/notifications">
-					<NavigationItemIcon>
-						<MaterialSymbolsNotificationsOutline />
-						<MaterialSymbolsNotifications />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Notifications</div>
-					<Suspense>
-						<Await resolve={data.trending} errorElement={<></>}>
-							{(data) =>
-								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-									<NavigationItemLargeBadge>
-										{data?.Viewer?.unreadNotificationCount}
-									</NavigationItemLargeBadge>
-								)
-							}
-						</Await>
-					</Suspense>
-				</NavigationItem>
-				<SearchButton />
-			</Navigation>
+					<SearchButton />
+				</Navigation>
+			</ActiveId>
 
 			<Outlet />
 			<Search />

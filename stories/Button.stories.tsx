@@ -110,27 +110,27 @@ export const TextIconRtl: Story = {
 export const ElevatedIconRtl: Story = {
 	...ElevatedIcon,
 	parameters: {
-		dir: "rtl",
+		...TextIconRtl.parameters,
 	},
 }
 
 export const FilledIconRtl: Story = {
 	...FilledIcon,
 	parameters: {
-		dir: "rtl",
+		...TextIconRtl.parameters,
 	},
 }
 
 export const OutlinedIconRtl: Story = {
 	...OutlinedIcon,
 	parameters: {
-		dir: "rtl",
+		...TextIconRtl.parameters,
 	},
 }
 
 export const TonalIconRtl: Story = {
 	...TonalIcon,
 	parameters: {
-		dir: "rtl",
+		...TextIconRtl.parameters,
 	},
 }

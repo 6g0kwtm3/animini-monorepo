@@ -21,7 +21,7 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
+import { NavigationItemIcon } from "~/components/Navigation"
 import {
 	SearchView,
 	SearchViewBody,
@@ -34,9 +34,10 @@ import type { clientLoader as navLoader } from "~/routes/_nav/route"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { M3 } from "../components"
 
+import { NavigationItem } from "~/routes/_nav/NavigationItem"
+import { createList, ListContext } from "../list"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
-import { createList, ListContext } from "../list"
 
 const { graphql } = ReactRelay
 
@@ -154,6 +155,7 @@ export function SearchButton(): ReactNode {
 			<TooltipPlainTrigger
 				render={
 					<NavigationItem
+						activeId="search"
 						to={{
 							search: `?q=`,
 						}}
