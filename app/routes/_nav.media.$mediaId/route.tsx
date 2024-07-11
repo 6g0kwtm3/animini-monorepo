@@ -1,13 +1,13 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import {
-	Link,
-	useLocation,
-	useOutlet,
-	useParams,
-	useRouteLoaderData,
-	type MetaArgs_SingleFetch,
-	type ShouldRevalidateFunction,
+    Link,
+    useLocation,
+    useOutlet,
+    useParams,
+    useRouteLoaderData,
+    type MetaArgs_SingleFetch,
+    type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import { AnimatePresence, motion } from "framer-motion"
@@ -18,19 +18,19 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-	Menu,
-	MenuDivider,
-	MenuItemLeadingIcon,
-	MenuItemTrailingIcon,
-	MenuItemTrailingText,
-	MenuList,
-	MenuListItem,
-	MenuTrigger,
+    Menu,
+    MenuDivider,
+    MenuItemLeadingIcon,
+    MenuItemTrailingIcon,
+    MenuItemTrailingText,
+    MenuList,
+    MenuListItem,
+    MenuTrigger,
 } from "~/components/Menu"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import type { clientLoader as rootLoader } from "~/root"
@@ -142,7 +142,7 @@ export default function Page(): ReactNode {
 				<div>
 					<Card
 						variant="filled"
-						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
+						className="grid flex-1 gap-4 rounded-[2.75rem]"
 					>
 						<MediaCover media={data.Media} className="rounded-xl" />
 

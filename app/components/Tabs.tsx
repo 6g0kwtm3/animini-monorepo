@@ -2,16 +2,13 @@ import { motion } from "framer-motion"
 
 import type { ReactNode } from "react"
 import { createContext, use, useId } from "react"
-import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
+import type { VariantProps } from "tailwind-variants"
+import { tv } from "~/lib/tailwind-variants"
 
 const TabsContext = createContext<string | undefined>(undefined)
 
-const tv = createTV({
-	twMerge: false,
-})
-
+ 
 const tabs = tv({
 	slots: {
 		root: "border-b border-surface-container-highest",

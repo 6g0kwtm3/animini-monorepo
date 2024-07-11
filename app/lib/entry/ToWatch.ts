@@ -35,7 +35,7 @@ export function formatWatch(minutes: number): string {
 		return ""
 	}
 	if (minutes > 60) {
-		return `${Math.floor(minutes / 60)}h ${minutes % 60}min`
+		return `${Math.floor(minutes / 60)}h`
 	}
 	return `${minutes}min`
 }

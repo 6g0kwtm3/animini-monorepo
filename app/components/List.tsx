@@ -1,16 +1,16 @@
 import type { ComponentPropsWithRef, ReactNode } from "react"
 import { use } from "react"
+import type { VariantProps } from "tailwind-variants"
 
-import { createTV, type VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 import { createList, ListContext } from "~/lib/list"
+import { tv } from "~/lib/tailwind-variants"
 
-type ListVariantProps = VariantProps<typeof createList>
+interface ListVariantProps
+	extends ComponentPropsWithRef<"li">,
+		VariantProps<typeof createList> {}
 
-export function ListItem({
-	lines,
-	...props
-}: ComponentPropsWithRef<"li"> & ListVariantProps): ReactNode {
+export function ListItem({ lines, ...props }: ListVariantProps): ReactNode {
 	const { item } = use(ListContext)
 	return (
 		<li {...props} className={item({ className: props.className, lines })} />
@@ -63,7 +63,6 @@ export function ListItemIcon(props: ComponentPropsWithRef<"div">): ReactNode {
 	return <div {...props} className={itemIcon({ className: props.className })} />
 }
 
-const tv = createTV({ twMerge: false })
 const subheader = tv({
 	base: "truncate px-4 text-body-md text-on-surface-variant",
 	variants: {

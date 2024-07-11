@@ -4,10 +4,9 @@ import type { ComponentPropsWithRef, ReactNode } from "react"
 import { createContext, use, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
+import { LayoutNavigationContext } from "./Layout"
 
 const createNavigation = tv(
 	{
@@ -26,6 +25,7 @@ const createNavigation = tv(
 				end: {},
 			},
 			variant: {
+				none: { root: "hidden" },
 				bar: {
 					root: "end-0 grid h-20 grid-flow-col gap-2 bg-surface-container [grid-auto-columns:minmax(0,1fr)]",
 					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md text-on-surface-variant aria-[current='page']:text-on-surface`,
@@ -47,7 +47,7 @@ const createNavigation = tv(
 					root: "top-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-surface p-3",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed`,
 					activeIndicator:
-						"inset-0 -z-10 hidden h-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)] force:w-full",
+						"inset-0 -z-10 hidden h-full w-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
 					icon: "h-6 w-6 group-hover:text-on-surface group-hover:state-none group-aria-[current='page']:first:*:block group-aria-[current='page']:last:*:hidden group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
 					largeBadge: "static ms-auto",
 				},
@@ -124,11 +124,14 @@ export function NavigationItemIcon(
 
 	return <div {...props} className={icon()} />
 }
-export function Navigation({
-	variant,
-	...props
-}: ComponentPropsWithRef<"nav"> &
-	VariantProps<typeof createNavigation>): ReactNode {
+
+interface NavigationProps
+	extends ComponentPropsWithRef<"nav">,
+		Omit<VariantProps<typeof createNavigation>, "variant"> {}
+		
+export function Navigation({ ...props }: NavigationProps): ReactNode {
+	const variant = use(LayoutNavigationContext)
+
 	const styles = createNavigation({ variant })
 
 	return (

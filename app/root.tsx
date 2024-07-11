@@ -172,7 +172,7 @@ export function ErrorBoundary(): ReactNode {
 	return (
 		<Card
 			variant="elevated"
-			className="m-4 force:bg-error-container force:text-on-error-container"
+
 		>
 			<Ariakit.Heading className="text-balance text-headline-md">
 				Uh oh ...

@@ -1,9 +1,9 @@
 import type { ComponentPropsWithRef, ReactNode } from "react"
-
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 
-const tv = createTV({ twMerge: false })
+import { tv,  } from "~/lib/tailwind-variants"
+
+
 
 const skeleton = tv({
 	base: "animate-pulse select-none overflow-hidden rounded-xs bg-surface-container-highest text-transparent",

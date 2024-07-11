@@ -26,7 +26,7 @@ import { Schema } from "@effect/schema"
 
 import { unstable_defineClientLoader } from "@remix-run/react"
 import type { ComponentRef, ReactNode } from "react"
-import { Suspense, useRef } from "react"
+import { Suspense, use, useRef } from "react"
 
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
@@ -60,7 +60,8 @@ import type {
 	routeUserSetStatusMutation,
 } from "~/gql/routeUserSetStatusMutation.graphql"
 
-import { useWindowVirtualizer } from "@tanstack/react-virtual"
+import { useVirtualizer } from "@tanstack/react-virtual"
+import { PaneContext } from "~/components/Layout"
 import { button } from "~/lib/button"
 
 const { graphql } = ReactRelay
@@ -461,7 +462,7 @@ export default function Page(): ReactNode {
 				</MediaListHeaderItem>
 			</MediaListHeader>
 
-			<div className="-mx-4">
+			<div className="">
 				<Suspense
 					fallback={
 						<List className="@container">
@@ -488,7 +489,10 @@ function AwaitQuery(props: {
 
 	const ref = useRef<ComponentRef<"div">>(null)
 
-	const virtualizer = useWindowVirtualizer({
+	const pane = use(PaneContext)
+
+	const virtualizer = useVirtualizer({
+		getScrollElement: () => pane.current,
 		count: mediaList.length,
 		scrollMargin: ref.current?.offsetTop ?? 0,
 		estimateSize: () => 72,

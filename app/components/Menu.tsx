@@ -1,8 +1,8 @@
 import type { ComponentPropsWithRef, ReactNode } from "react"
 import { createContext, forwardRef, use, useId } from "react"
 
-import { createTV } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
+import { tv } from "~/lib/tailwind-variants"
 
 export function MenuList(props: Ariakit.MenuProps): ReactNode {
 	const { list } = use(Context)
@@ -39,7 +39,7 @@ export const MenuTrigger = forwardRef<
 	)
 })
 
-const tv = createTV({ twMerge: false })
+
 
 const createMenu = tv({
 	slots: {

@@ -1,12 +1,11 @@
 import * as Ariakit from "@ariakit/react"
 import { createContext, forwardRef, use } from "react"
-import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
+import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import MaterialSymbolsClose from "~icons/material-symbols/close"
 import { Icon } from "./Button"
-
-const tv = createTV({ twMerge: false })
+import type { VariantProps } from "tailwind-variants"
+import { btnIcon } from "~/lib/button"
 
 const createSearchView = tv(
 	{
@@ -26,7 +25,7 @@ const createSearchView = tv(
 				},
 				docked: {
 					input: "h-14",
-					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0",
+					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66svh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0",
 				},
 			},
 		},
@@ -89,16 +88,14 @@ export const SearchViewInput = forwardRef<
 	Ariakit.ComboboxProps
 >(function SearchViewInput(props, ref) {
 	const { input } = use(SearchViewContext)
+
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss
-					render={
-						<Icon>
-							<MaterialSymbolsArrowBack />
-						</Icon>
-					}
-				/>
+				<Ariakit.DialogDismiss className={btnIcon()}>
+					<span className="sr-only">Close</span>
+					<MaterialSymbolsArrowBack />
+				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
 					ref={ref}
 					autoSelect={"always"}
@@ -108,6 +105,7 @@ export const SearchViewInput = forwardRef<
 				<Ariakit.ComboboxCancel
 					render={
 						<Icon>
+							<span className="sr-only">Clear</span>
 							<MaterialSymbolsClose />
 						</Icon>
 					}

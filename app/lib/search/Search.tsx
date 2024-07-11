@@ -34,9 +34,9 @@ import type { clientLoader as navLoader } from "~/routes/_nav/route"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { M3 } from "../components"
 
+import { createList, ListContext } from "../list"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
-import { createList, ListContext } from "../list"
 
 const { graphql } = ReactRelay
 
@@ -157,16 +157,16 @@ export function SearchButton(): ReactNode {
 						to={{
 							search: `?q=`,
 						}}
-					/>
-				}
-			>
-				<NavigationItemIcon>
-					<MaterialSymbolsTravelExplore />
-					<MaterialSymbolsTravelExplore />
-				</NavigationItemIcon>
+					>
+						<NavigationItemIcon>
+							<MaterialSymbolsTravelExplore />
+							<MaterialSymbolsTravelExplore />
+						</NavigationItemIcon>
 
-				<div className="max-w-full break-words">Explore</div>
-			</TooltipPlainTrigger>
+						<div className="max-w-full break-words">Explore</div>
+					</NavigationItem>
+				}
+			 />
 			<TooltipPlainContainer>
 				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
 			</TooltipPlainContainer>

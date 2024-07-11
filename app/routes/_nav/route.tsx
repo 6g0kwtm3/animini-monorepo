@@ -123,13 +123,7 @@ export default function NavRoute(): ReactNode {
       </div>
     </nav> */}
 
-			<Navigation
-				variant={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer",
-				}}
-			>
+			<Navigation>
 				<NavigationItem to="/">
 					<NavigationItemIcon>
 						<MaterialSymbolsHomeOutline />
@@ -138,7 +132,7 @@ export default function NavRoute(): ReactNode {
 					<div className="max-w-full break-words">Home</div>
 				</NavigationItem>
 
-				<NavigationItem to="/feed">
+				<NavigationItem to="/feed" className="max-sm:hidden">
 					<NavigationItemIcon>
 						<MaterialSymbolsFeedOutline />
 						<MaterialSymbolsFeed />

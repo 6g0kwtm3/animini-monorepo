@@ -11,7 +11,11 @@ import type { CSSProperties } from "react"
 
 import colors from "~/../colors.json"
 
-export function getThemeFromHex(hex: string): { [k: string]: string } {
+export type Theme = {
+	[k: string]: string
+}
+
+export function getThemeFromHex(hex: string): Theme {
 	const main = Hct.fromInt(argbFromHex(hex))
 
 	return Object.fromEntries(

@@ -1,9 +1,9 @@
 import { Predicate } from "effect"
 import type {
 	ComponentPropsWithRef,
-	ElementRef,
+	ComponentRef,
 	PropsWithChildren,
-	ReactNode,
+	ReactNode
 } from "react"
 import {
 	createContext,
@@ -92,7 +92,7 @@ export function Snackbar({
 	timeout?: number
 	open: boolean
 }): ReactNode {
-	const ref = useRef<ElementRef<"div">>(null)
+	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = use(SnackbarQueueContext)
 
 	useEffect(() => {

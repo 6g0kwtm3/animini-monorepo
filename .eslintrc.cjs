@@ -1,10 +1,11 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
 	extends: [
-		"plugin:compat/recommended",
-		"@remix-run/eslint-config",
-		"@remix-run/eslint-config/node",
-	],
+        "plugin:compat/recommended",
+        "@remix-run/eslint-config",
+        "@remix-run/eslint-config/node",
+        "plugin:storybook/recommended"
+    ],
 	plugins: ["react-refresh", "compat", "eslint-plugin-react-compiler"],
 	overrides: [
 		{

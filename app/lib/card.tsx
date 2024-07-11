@@ -1,6 +1,6 @@
-import { createTV } from "tailwind-variants"
+import { tv } from "./tailwind-variants";
 
-export const tv = createTV({ twMerge: false })
+ 
 export const card = tv({
 	base: "rounded-md p-4",
 	variants: {

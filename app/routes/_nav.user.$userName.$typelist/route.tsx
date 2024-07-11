@@ -15,6 +15,7 @@ import {
 	useLocation,
 	useNavigate,
 	useNavigation,
+	useOutletContext,
 	useParams,
 	useRouteError,
 	useSearchParams,
@@ -47,8 +48,10 @@ import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
+import type { MediaStatus } from "~/gql/Avalible_media.graphql"
+import type { MediaFormat } from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
-import { button } from "~/lib/button"
+import { btnIcon, button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { createList } from "~/lib/list"
 
@@ -126,133 +129,137 @@ export default function Filters(): ReactNode {
 
 	return (
 		<>
-			<Card
-				variant="elevated"
-				className="max-h-full overflow-y-auto max-sm:hidden"
-			>
-				<Form
-					action={pathname}
-					replace
-					onChange={(e) => submit(e.currentTarget)}
-					className="grid grid-cols-2 gap-2"
-				>
-					<CheckboxProvider value={searchParams.getAll("status")}>
-						<Group className="col-span-2" render={<fieldset />}>
-							<GroupLabel render={<legend />}>Status</GroupLabel>
-							<div className="flex flex-wrap gap-2">
-								{Object.entries(
-									params.typelist === "animelist"
-										? ANIME_STATUS_OPTIONS
-										: MANGA_STATUS_OPTIONS
-								).map(([value, label]) => {
-									return (
-										<M3.ChipFilter key={value}>
-											<M3.ChipFilterCheckbox name="status" value={value} />
-											{label}
-										</M3.ChipFilter>
-									)
-								})}
+			<M3.LayoutPane>
+				{useOutletContext<ReactNode>()}
+				<Card variant="elevated" className="px-0 max-sm:contents">
+					<div className="flex flex-col gap-4">
+						<M3.Tabs selectedId={String(params.selected)}>
+							<div className="sticky top-0 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
+								<AppBar variant="large" className="sm:bg-surface-container-low">
+									<Icon>
+										<span className="sr-only">Search</span>
+										<MaterialSymbolsSearch />
+									</Icon>
+									<AppBarTitle>
+										{params.typelist === "animelist"
+											? "Anime list"
+											: "Manga list"}
+									</AppBarTitle>
+									<div className="flex-1" />
+									<Icon>
+										<span className="sr-only">Filter</span>
+										<MaterialSymbolsSearch />
+									</Icon>
+									<FilterButton />
+									<Icon>
+										<span className="sr-only">More</span>
+										<MaterialSymbolsMoreHoriz />
+									</Icon>
+								</AppBar>
+								<ListTabs />
 							</div>
-						</Group>
-					</CheckboxProvider>
-					<CheckboxProvider value={searchParams.getAll("format")}>
-						<Group className="col-span-2" render={<fieldset />}>
-							<GroupLabel render={<legend />}>Format</GroupLabel>
-							<div className="flex flex-wrap gap-2">
-								{Object.entries(
-									params.typelist === "animelist"
-										? ANIME_FORMAT_OPTIONS
-										: MANGA_FORMAT_OPTIONS
-								).map(([value, label]) => {
-									return (
-										<M3.ChipFilter key={value}>
-											<M3.ChipFilterCheckbox name="format" value={value} />
-											{label}
-										</M3.ChipFilter>
-									)
-								})}
-							</div>
-						</Group>
-					</CheckboxProvider>
-					<CheckboxProvider value={searchParams.getAll("progress")}>
-						<Group className="col-span-2" render={<fieldset />}>
-							<GroupLabel render={<legend />}>Progress</GroupLabel>
-							<div className="flex flex-wrap gap-2">
-								{Object.entries(
-									params.typelist === "animelist"
-										? ANIME_PROGRESS_OPTIONS
-										: MANGA_PROGRESS_OPTIONS
-								).map(([value, label]) => {
-									return (
-										<M3.ChipFilter key={value}>
-											<M3.ChipFilterCheckbox name="progress" value={value} />
-											{label}
-										</M3.ChipFilter>
-									)
-								})}
-							</div>
-						</Group>
-					</CheckboxProvider>
+							<M3.TabsPanel
+								tabId={params.selected}
+								className="flex flex-col gap-4"
+							>
+								<Outlet />
+							</M3.TabsPanel>
+						</M3.Tabs>
+					</div>
+				</Card>
+				<Filter />
+			</M3.LayoutPane>
+			<M3.LayoutPane variant="fixed" className="max-xl:hidden">
+				<Card variant="elevated">
+					<Form
+						action={pathname}
+						replace
+						onChange={(e) => submit(e.currentTarget)}
+						className="grid grid-cols-2 gap-2"
+					>
+						<CheckboxProvider value={searchParams.getAll("status")}>
+							<Group className="col-span-2" render={<fieldset />}>
+								<GroupLabel render={<legend />}>Status</GroupLabel>
+								<div className="flex flex-wrap gap-2">
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_STATUS_OPTIONS
+											: MANGA_STATUS_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<M3.ChipFilter key={value}>
+												<M3.ChipFilterCheckbox name="status" value={value} />
+												{label}
+											</M3.ChipFilter>
+										)
+									})}
+								</div>
+							</Group>
+						</CheckboxProvider>
+						<CheckboxProvider value={searchParams.getAll("format")}>
+							<Group className="col-span-2" render={<fieldset />}>
+								<GroupLabel render={<legend />}>Format</GroupLabel>
+								<div className="flex flex-wrap gap-2">
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_FORMAT_OPTIONS
+											: MANGA_FORMAT_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<M3.ChipFilter key={value}>
+												<M3.ChipFilterCheckbox name="format" value={value} />
+												{label}
+											</M3.ChipFilter>
+										)
+									})}
+								</div>
+							</Group>
+						</CheckboxProvider>
+						<CheckboxProvider value={searchParams.getAll("progress")}>
+							<Group className="col-span-2" render={<fieldset />}>
+								<GroupLabel render={<legend />}>Progress</GroupLabel>
+								<div className="flex flex-wrap gap-2">
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_PROGRESS_OPTIONS
+											: MANGA_PROGRESS_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<M3.ChipFilter key={value}>
+												<M3.ChipFilterCheckbox name="progress" value={value} />
+												{label}
+											</M3.ChipFilter>
+										)
+									})}
+								</div>
+							</Group>
+						</CheckboxProvider>
 
-					<RadioProvider value={searchParams.get("sort")}>
-						<Group className="col-span-2" render={<fieldset />}>
-							<GroupLabel render={<legend />}>Sort</GroupLabel>
-							<div className="flex flex-wrap gap-2">
-								{Object.entries(
-									params.typelist === "animelist"
-										? ANIME_SORT_OPTIONS
-										: MANGA_SORT_OPTIONS
-								).map(([value, label]) => {
-									return (
-										<M3.ChipFilter key={value}>
-											<M3.ChipFilterRadio name="sort" value={value} />
-											{label}
-										</M3.ChipFilter>
-									)
-								})}
-							</div>
-						</Group>
-					</RadioProvider>
+						<RadioProvider value={searchParams.get("sort")}>
+							<Group className="col-span-2" render={<fieldset />}>
+								<GroupLabel render={<legend />}>Sort</GroupLabel>
+								<div className="flex flex-wrap gap-2">
+									{Object.entries(
+										params.typelist === "animelist"
+											? ANIME_SORT_OPTIONS
+											: MANGA_SORT_OPTIONS
+									).map(([value, label]) => {
+										return (
+											<M3.ChipFilter key={value}>
+												<M3.ChipFilterRadio name="sort" value={value} />
+												{label}
+											</M3.ChipFilter>
+										)
+									})}
+								</div>
+							</Group>
+						</RadioProvider>
 
-					<ButtonText type="submit">Filter</ButtonText>
-					<ButtonText type="reset">Reset</ButtonText>
-				</Form>
-			</Card>
-
-			<Card variant="elevated" className="max-sm:contents">
-				<div className="flex flex-col gap-4">
-					<M3.Tabs selectedId={String(params.selected)}>
-						<div className="sticky top-0 z-50 -mx-4 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
-							<AppBar variant="large" className="sm:bg-surface-container-low">
-								<Icon>
-									<MaterialSymbolsSearch />
-								</Icon>
-								<AppBarTitle>
-									{params.typelist === "animelist"
-										? "Anime list"
-										: "Manga list"}
-								</AppBarTitle>
-								<div className="flex-1" />
-								<Icon>
-									<MaterialSymbolsSearch />
-								</Icon>
-								<FilterButton />
-								<Icon>
-									<MaterialSymbolsMoreHoriz />
-								</Icon>
-							</AppBar>
-							<ListTabs />
-						</div>
-						<M3.TabsPanel
-							tabId={params.selected}
-							className="flex flex-col gap-4"
-						>
-							<Outlet />
-						</M3.TabsPanel>
-					</M3.Tabs>
-				</div>
-			</Card>
-			<Filter />
+						<ButtonText type="submit">Filter</ButtonText>
+						<ButtonText type="reset">Reset</ButtonText>
+					</Form>
+				</Card>
+			</M3.LayoutPane>
 		</>
 	)
 }
@@ -304,26 +311,29 @@ function FilterButton() {
 	let { pathname } = useLocation()
 
 	const searchParams = useOptimisticSearchParams()
-
-	searchParams.delete("filter")
-
 	const filterParams = copySearchParams(searchParams)
-	filterParams.append("sheet", "filter")
+	filterParams.set("sheet", "filter")
 
 	return (
-		<Icon
-			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
-			render={
-				<Link
-					to={{
-						search: `?${filterParams}`,
-						pathname,
-					}}
-				/>
-			}
-		>
-			<MaterialSymbolsFilterList />
-		</Icon>
+		<M3.TooltipPlain>
+			<M3.TooltipPlainTrigger
+				render={
+					<Link
+						className={btnIcon({
+							className: `xl:hidden ${searchParams.size > 0 ? "text-tertiary" : ""}`,
+						})}
+						to={{
+							search: `?${filterParams}`,
+							pathname,
+						}}
+					>
+						<span className="sr-only">Filter</span>
+						<MaterialSymbolsFilterList />
+					</Link>
+				}
+			/>
+			<M3.TooltipPlainContainer>Filter</M3.TooltipPlainContainer>
+		</M3.TooltipPlain>
 	)
 }
 
@@ -510,29 +520,29 @@ export type ReadonlyURLSearchParams = Omit<
 >
 
 const ANIME_STATUS_OPTIONS = {
-	"MediaStatus.Finished": m.media_status_finished(),
-	"MediaStatus.Releasing": m.media_status_releasing(),
-	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
-	"MediaStatus.Cancelled": m.media_status_cancelled(),
-}
+	FINISHED: m.media_status_finished(),
+	RELEASING: m.media_status_releasing(),
+	NOT_YET_RELEASED: m.media_status_not_yet_released(),
+	CANCELLED: m.media_status_cancelled(),
+} satisfies Partial<Record<MediaStatus, ReactNode>>
 
 const MANGA_STATUS_OPTIONS = {
-	"MediaStatus.Finished": m.media_status_finished(),
-	"MediaStatus.Releasing": m.media_status_releasing(),
-	"MediaStatus.Hiatus": m.media_status_hiatus(),
-	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
-	"MediaStatus.Cancelled": m.media_status_cancelled(),
-}
+	FINISHED: m.media_status_finished(),
+	RELEASING: m.media_status_releasing(),
+	HIATUS: m.media_status_hiatus(),
+	NOT_YET_RELEASED: m.media_status_not_yet_released(),
+	CANCELLED: m.media_status_cancelled(),
+} satisfies Partial<Record<MediaStatus, ReactNode>>
 
 const ANIME_FORMAT_OPTIONS = {
-	"MediaFormat.Tv": m.media_format_tv(),
-	"MediaFormat.TvShort": m.media_format_tv_short(),
-	"MediaFormat.Movie": m.media_format_movie(),
-	"MediaFormat.Special": m.media_format_special(),
-	"MediaFormat.Ova": m.media_format_ova(),
-	"MediaFormat.Ona": m.media_format_ona(),
-	"MediaFormat.Music": m.media_format_music(),
-}
+	TV: m.media_format_tv(),
+	TV_SHORT: m.media_format_tv_short(),
+	MOVIE: m.media_format_movie(),
+	SPECIAL: m.media_format_special(),
+	OVA: m.media_format_ova(),
+	ONA: m.media_format_ona(),
+	MUSIC: m.media_format_music(),
+} satisfies Partial<Record<MediaFormat, ReactNode>>
 
 const ANIME_PROGRESS_OPTIONS = {
 	UNSEEN: "Unwatched",
@@ -560,10 +570,10 @@ const ANIME_SORT_OPTIONS = {
 const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
 
 const MANGA_FORMAT_OPTIONS = {
-	"MediaFormat.Manga": m.media_format_manga(),
-	"MediaFormat.Novel": m.media_format_novel(),
-	"MediaFormat.OneShot": m.media_format_one_shot(),
-}
+	MANGA: m.media_format_manga(),
+	NOVEL: m.media_format_novel(),
+	ONE_SHOT: m.media_format_one_shot(),
+} satisfies Partial<Record<MediaFormat, ReactNode>>
 
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
@@ -598,7 +608,6 @@ export function ErrorBoundary(): ReactNode {
 			<LayoutPane>
 				<Card
 					variant="elevated"
-					className="m-4 force:bg-error-container force:text-on-error-container"
 				>
 					<Ariakit.Heading className="text-balance text-headline-md">
 						Uh oh ...

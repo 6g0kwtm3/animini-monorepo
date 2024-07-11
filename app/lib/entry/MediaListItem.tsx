@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react"
+import { Link, useParams, useRouteLoaderData } from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -36,6 +36,11 @@ import { M3 } from "../components"
 import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
 import { useFragment } from "../Network"
+
+import type { clientLoader as rootLoader } from "~/root"
+
+import MaterialSymbolsEditSquareOutline from "~icons/material-symbols/edit-square-outline"
+import MaterialSymbolsInfoOutline from "~icons/material-symbols/info-outline"
 
 const { graphql } = ReactRelay
 
@@ -78,15 +83,57 @@ export function MediaListItem({
 					<ListItemContentTitle>
 						<MediaListItemTitle entry={data} />
 					</ListItemContentTitle>
-					<ListItemContentSubtitle className="flex flex-wrap gap-1">
-						<MediaListItemSubtitle entry={data} />
-					</ListItemContentSubtitle>
+					<MediaListItemSubtitle entry={data} />
 				</Link>
-
-				<ProgressIncrement entry={data} />
+				<div className="flex">
+					<ProgressIncrement entry={data} />
+					<Info />
+				</div>
 				{/* <MoreMenu entry={data} /> */}
 			</ListItem>
 		)
+	)
+}
+
+function Info(): ReactNode {
+	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const params = useParams()
+
+	return Predicate.isString(data?.Viewer?.name) &&
+		data.Viewer.name === params.userName ? (
+		<>
+			<div className="hidden @lg:block">
+				<M3.Button>
+					Edit
+					<M3.ButtonIcon>
+						<MaterialSymbolsEditSquareOutline />
+					</M3.ButtonIcon>
+				</M3.Button>
+			</div>
+			<div className="@lg:hidden">
+				<M3.Icon>
+					<span className="sr-only">Edit</span>
+					<MaterialSymbolsEditSquareOutline />
+				</M3.Icon>
+			</div>
+		</>
+	) : (
+		<>
+			<div className="hidden @lg:block">
+				<M3.Button>
+					Info
+					<M3.ButtonIcon>
+						<MaterialSymbolsInfoOutline />
+					</M3.ButtonIcon>
+				</M3.Button>
+			</div>
+			<div className="@lg:hidden">
+				<M3.Icon>
+					<span className="sr-only">Info</span>
+					<MaterialSymbolsInfoOutline />
+				</M3.Icon>
+			</div>
+		</>
 	)
 }
 
@@ -103,7 +150,7 @@ export function MockMediaListItem({
 					<Skeleton />
 				</ListItemContentTitle>
 				<ListItemContentSubtitle className="flex flex-wrap gap-1">
-					<Skeleton className="force:max-w-[21.666666666666668ch]" />
+					<Skeleton className="max-w-[21.666666666666668ch]" />
 				</ListItemContentSubtitle>
 			</ListItemContent>
 			<Skeleton />
@@ -172,14 +219,14 @@ function MediaListItemSubtitle(props: {
 
 	const watch = entry.toWatch
 	return (
-		<>
+		<ListItemContentSubtitle className="flex flex-wrap gap-x-2">
 			<div>
-				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
+				<MaterialSymbolsStarOutline className="i-inline inline" />{" "}
+				<div className="inline-block w-[3ch]">{entry.score}</div>
 			</div>
 
 			<M3.TooltipPlain>
 				<M3.TooltipPlainTrigger className="contents @lg:hidden">
-					&middot;
 					<div>
 						<MaterialSymbolsPlayArrow className="i-inline inline" />{" "}
 						<Progress entry={entry} />
@@ -190,16 +237,13 @@ function MediaListItemSubtitle(props: {
 
 			{entry.media?.type === ("ANIME" satisfies MediaType) &&
 				Predicate.isNumber(watch) && (
-					<>
-						&middot;
-						<div>
-							<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
-							{watch > 0
-								? m.time_to_watch({ time: formatWatch(watch) })
-								: m.nothing_to_watch()}
-						</div>
-					</>
+					<div>
+						<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
+						{watch > 0
+							? m.time_to_watch({ time: formatWatch(watch) })
+							: m.nothing_to_watch()}
+					</div>
 				)}
-		</>
+		</ListItemContentSubtitle>
 	)
 }

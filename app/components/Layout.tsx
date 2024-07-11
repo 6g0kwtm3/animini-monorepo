@@ -1,9 +1,14 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
-import { createContext, use } from "react"
+import type {
+	ComponentPropsWithRef,
+	ComponentRef,
+	ReactNode,
+	Ref,
+	RefObject,
+} from "react"
+import { createContext, use, useRef } from "react"
+import type { VariantProps } from "tailwind-variants"
 
-import { createTV, type VariantProps } from "tailwind-variants"
-
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const createLayout = tv(
 	{
@@ -42,36 +47,70 @@ export function Layout({
 	const styles = createLayout({ navigation })
 
 	return (
-		<LayoutContext.Provider value={styles}>
-			<div className={styles.root({ className: props.className })}>
-				{props.children}
-			</div>
-		</LayoutContext.Provider>
+		<LayoutNavigationContext value={navigation}>
+			<LayoutContext.Provider value={styles}>
+				<div className={styles.root({ className: props.className })}>
+					{props.children}
+				</div>
+			</LayoutContext.Provider>
+		</LayoutNavigationContext>
 	)
 }
+
+export const LayoutNavigationContext =
+	createContext<VariantProps<typeof createLayout>["navigation"]>("none")
+
 export function LayoutBody(props: ComponentPropsWithRef<"main">): ReactNode {
 	const { body } = use(LayoutContext)
 	return <main {...props} className={body({ className: props.className })} />
 }
 
-const pane = tv({
-	base: "block",
-	variants: {
-		variant: {
-			fixed: "w-[22.5rem]",
-			flexible: "w-full flex-grow",
+export const PaneContext = createContext<RefObject<ComponentRef<"div"> | null>>(
+	{
+		current: null,
+	}
+)
+
+const pane = tv(
+	{
+		base: "block overflow-y-auto overflow-x-hidden rounded-md",
+		variants: {
+			variant: {
+				fixed: "w-[22.5rem] shrink-0",
+				flexible: "w-full flex-grow",
+			},
+			navigation: {
+				none: "max-h-svh",
+				bar: "max-h-[calc(100svh-5rem)]",
+				rail: "max-h-svh",
+				drawer: "max-h-svh",
+			},
 		},
+		defaultVariants: { variant: "flexible" },
 	},
-	defaultVariants: { variant: "flexible" },
-})
+	{
+		responsiveVariants: ["sm", "lg"],
+	}
+)
+
 export function LayoutPane({
 	variant,
 	...props
 }: ComponentPropsWithRef<"div"> & VariantProps<typeof pane>): ReactNode {
+	const ref = useRef<ComponentRef<"div">>(null)
+	const ctx = use(LayoutNavigationContext)
+
 	return (
-		<section
-			{...props}
-			className={pane({ className: props.className, variant })}
-		/>
+		<PaneContext value={ref}>
+			<section
+				{...props}
+				ref={ref}
+				className={pane({
+					className: props.className,
+					variant,
+					navigation: ctx,
+				})}
+			/>
+		</PaneContext>
 	)
 }
