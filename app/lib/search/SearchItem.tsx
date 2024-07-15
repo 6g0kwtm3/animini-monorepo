@@ -31,7 +31,7 @@ const SearchItem_media = graphql`
 export function SearchItem({
 	media,
 	...props
-}: Omit<LinkProps, "to"|'media'> & {
+}: Omit<LinkProps, "to" | "media"> & {
 	media: SearchItem_media$key
 }): ReactNode {
 	const data = useFragment(SearchItem_media, media)
