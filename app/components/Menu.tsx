@@ -24,20 +24,16 @@ export function Menu(props: Ariakit.MenuProviderProps): ReactNode {
 	)
 }
 
-export const MenuTrigger = forwardRef<
-	HTMLButtonElement,
-	Ariakit.MenuButtonProps
->(function MenuTrigger(props, ref): ReactNode {
+export function MenuTrigger(props: Ariakit.MenuButtonProps): ReactNode {
 	const { button } = use(Context)
 
 	return (
 		<Ariakit.MenuButton
 			{...props}
 			className={button({ className: props.className })}
-			ref={ref}
 		/>
 	)
-})
+}
 
 const createMenu = tv({
 	slots: {

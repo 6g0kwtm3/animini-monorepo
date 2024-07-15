@@ -39,8 +39,16 @@ import { useFragment } from "../Network"
 
 import type { clientLoader as rootLoader } from "~/root"
 
+import type { MediaListItemSort_entry$key } from "~/gql/MediaListItemSort_entry.graphql"
+
+import type { MediaListItemSort_user$key } from "~/gql/MediaListItemSort_user.graphql"
+import { sourceLanguageTag } from "~/paraglide/runtime"
+import type { clientLoader } from "~/routes/_nav.user.$userName.$typelist/route"
+import MaterialSymbolsArrowDownward from "~icons/material-symbols/arrow-downward"
 import MaterialSymbolsEditSquareOutline from "~icons/material-symbols/edit-square-outline"
 import MaterialSymbolsInfoOutline from "~icons/material-symbols/info-outline"
+import { MediaListSort } from "../MediaListSort"
+import { useOptimisticSearchParams } from "../search/useOptimisticSearchParams"
 
 const { graphql } = ReactRelay
 
@@ -209,8 +217,10 @@ const MediaListItemSubtitle_entry = graphql`
 		}
 		toWatch
 		...Progress_entry
+		...MediaListItemSort_entry
 	}
 `
+
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
 }): ReactNode {
@@ -218,6 +228,11 @@ function MediaListItemSubtitle(props: {
 	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
 	const watch = entry.toWatch
+
+	const data = useRouteLoaderData<typeof rootLoader>("root")
+
+	const params = useParams()
+
 	return (
 		<ListItemContentSubtitle className="flex flex-wrap gap-x-2">
 			<div>
@@ -226,7 +241,14 @@ function MediaListItemSubtitle(props: {
 			</div>
 
 			<M3.TooltipPlain>
-				<M3.TooltipPlainTrigger className="contents @lg:hidden">
+				<M3.TooltipPlainTrigger
+					className={
+						Predicate.isString(data?.Viewer?.name) &&
+						data.Viewer.name === params.userName
+							? "contents @lg:hidden"
+							: "contents"
+					}
+				>
 					<div>
 						<MaterialSymbolsPlayArrow className="i-inline inline" />{" "}
 						<Progress entry={entry} />
@@ -244,6 +266,118 @@ function MediaListItemSubtitle(props: {
 							: m.nothing_to_watch()}
 					</div>
 				)}
+
+			<MediaListItemSort entry={entry} />
 		</ListItemContentSubtitle>
 	)
+}
+
+const MediaListItemSort_user = graphql`
+	fragment MediaListItemSort_user on User {
+		id
+		mediaListOptions {
+			rowOrder
+		}
+	}
+`
+
+const MediaListItemSort_entry = graphql`
+	fragment MediaListItemSort_entry on MediaList {
+		id
+		startedAt {
+			local
+		}
+		completedAt {
+			local
+		}
+		updatedAt
+		media {
+			id
+			averageScore
+			popularity
+			startDate {
+				local
+			}
+		}
+	}
+`
+
+function MediaListItemSort(props: {
+	entry: MediaListItemSort_entry$key
+}): ReactNode {
+	const entry = useFragment(MediaListItemSort_entry, props.entry)
+	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
+
+	const query = useRouteLoaderData<typeof clientLoader>(
+		"routes/_nav.user.$userName.$typelist"
+	)
+
+	const key: MediaListItemSort_user$key | null | undefined =
+		query?.data?.MediaListCollection?.user
+	const user = useFragment(MediaListItemSort_user, key)
+
+	const searchParams = useOptimisticSearchParams()
+
+	const sort =
+		searchParams.get("sort") ??
+		{
+			score: MediaListSort.ScoreDesc,
+			title: MediaListSort.TitleEnglish,
+		}[String(user?.mediaListOptions?.rowOrder)]
+
+	const children = {
+		[MediaListSort.StartedOnDesc]: entry.startedAt?.local,
+		[MediaListSort.StartDateDesc]: entry.media?.startDate?.local,
+		[MediaListSort.FinishedOnDesc]: entry.completedAt?.local,
+		[MediaListSort.UpdatedTimeDesc]: entry.updatedAt
+			? format(entry.updatedAt - Date.now() / 1000)
+			: null,
+		[MediaListSort.AvgScore]: entry.media?.averageScore,
+		[MediaListSort.PopularityDesc]: entry.media?.popularity
+			? bigNumberformat(entry.media.popularity)
+			: null,
+	}[String(sort)]
+
+	return (
+		children && (
+			<div>
+				<MaterialSymbolsArrowDownward className="i-inline inline" /> {children}
+			</div>
+		)
+	)
+}
+
+function bigNumberformat(number: number) {
+	const rtf = new Intl.NumberFormat(sourceLanguageTag, {
+		notation: "compact",
+		maximumSignificantDigits: 3,
+	})
+
+	return rtf.format(number)
+}
+
+function format(seconds: number) {
+	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+
+	if (Math.abs(seconds) < 60) {
+		return rtf.format(Math.trunc(seconds), "seconds")
+	}
+
+	if (Math.abs(seconds) < 60 * 60) {
+		return rtf.format(Math.trunc(seconds / 60), "minutes")
+	}
+
+	if (Math.abs(seconds) < 60 * 60 * 24) {
+		return rtf.format(Math.trunc(seconds / (60 * 60)), "hours")
+	}
+
+	if (Math.abs(seconds) < 60 * 60 * 24 * 7) {
+		return rtf.format(Math.trunc(seconds / (60 * 60 * 24)), "days")
+	}
+
+	if (Math.abs(seconds) < 60 * 60 * 24 * 365) {
+		return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 7)), "weeks")
+	}
+
+	return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 365)), "years")
 }

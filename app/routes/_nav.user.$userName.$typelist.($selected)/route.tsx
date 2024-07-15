@@ -6,7 +6,6 @@ import {
 	useLocation,
 	useRouteError,
 	type ClientActionFunction,
-	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import type { MetaFunction } from "@remix-run/node"
@@ -63,6 +62,7 @@ import type {
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { PaneContext } from "~/components/Layout"
+import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
 
 const { graphql } = ReactRelay
@@ -113,13 +113,18 @@ const NavUserListEntriesFilter_entries = graphql`
 
 const NavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!) {
-		MediaListCollection(userName: $userName, type: $type) {
-			lists {
-				name
+		MediaListCollection(userName: $userName, type: $type)
+			@required(action: LOG) {
+			lists @required(action: LOG) {
+				name @required(action: LOG)
 				entries {
 					id
 					...routeNavUserListEntriesFilter_entries
 				}
+			}
+			user {
+				id
+				...routeNavUserListEntriesSort_user
 			}
 		}
 	}
@@ -222,17 +227,23 @@ async function fetchSelectedList(
 		}
 	)
 
+	if (!data?.MediaListCollection) {
+		throw json("List not found", {
+			status: 404,
+		})
+	}
+
 	let selectedList =
 		typeof params.selected !== "string"
 			? Object.values(
 					Object.fromEntries(
-						data?.MediaListCollection?.lists
-							?.flatMap((list) => list?.entries)
+						data.MediaListCollection.lists
+							.flatMap((list) => list?.entries)
 							.filter((entry) => entry != null)
-							.map((entry) => [entry.id, entry]) ?? []
+							.map((entry) => [entry.id, entry])
 					)
 				)
-			: data?.MediaListCollection?.lists?.find(
+			: data.MediaListCollection.lists.find(
 					(list) => list?.name === params.selected
 				)?.entries
 
@@ -250,7 +261,7 @@ async function fetchSelectedList(
 				selectedList.filter((el) => el != null),
 				search
 			),
-			search
+			{ search, user: data.MediaListCollection.user }
 		),
 	}
 }
@@ -281,14 +292,37 @@ const OrderFuzzyDate = Order.combineAll([
 	),
 ])
 
+const NavUserListEntriesSort_user = graphql`
+	fragment routeNavUserListEntriesSort_user on User @inline {
+		id
+		mediaListOptions {
+			rowOrder
+		}
+	}
+`
+
 function sortEntries(
-	data: readonly NavUserListEntriesSort_entries$key[],
-	searchParams: URLSearchParams
+	entryKeys: readonly NavUserListEntriesSort_entries$key[],
+	{
+		search: searchParams,
+		user: userKey,
+	}: {
+		search: URLSearchParams
+		user: routeNavUserListEntriesSort_user$key | null | undefined
+	}
 ): routeNavUserListEntriesSort_entries$data[] {
-	let entries = data.map((key) =>
-		readInlineData(NavUserListEntriesSort_entries, key)
+	let entries = entryKeys.map((entryKey) =>
+		readInlineData(NavUserListEntriesSort_entries, entryKey)
 	)
-	const sorts = searchParams.getAll("sort")
+	const user = readInlineData(NavUserListEntriesSort_user, userKey)
+
+	const sorts =
+		searchParams.getAll("sort").length > 0
+			? searchParams.getAll("sort")
+			: ({
+					title: [MediaListSort.TitleEnglish],
+					score: [MediaListSort.ScoreDesc],
+				}[String(user?.mediaListOptions?.rowOrder)] ?? [])
 
 	const order: Order.Order<(typeof entries)[number]>[] = []
 
@@ -296,6 +330,7 @@ function sortEntries(
 		if (!Schema.is(Schema.Enums(MediaListSort))(sort)) {
 			continue
 		}
+
 		if (sort === MediaListSort.TitleEnglish) {
 			order.push(
 				Order.reverse(
@@ -418,23 +453,6 @@ function filterEntries(
 	}
 
 	return entries
-}
-
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	currentParams,
-	nextParams,
-	formMethod,
-	defaultShouldRevalidate,
-}) => {
-	if (
-		formMethod?.toLocaleUpperCase() === "GET" &&
-		currentParams.userName === nextParams.userName &&
-		currentParams.typelist === nextParams.typelist &&
-		currentParams.selected === nextParams.selected
-	) {
-		return false
-	}
-	return defaultShouldRevalidate
 }
 
 const Params = Schema.Struct({

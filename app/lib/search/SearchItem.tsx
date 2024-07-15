@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react"
+import { Link, type LinkProps } from "@remix-run/react"
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 
@@ -31,7 +31,7 @@ const SearchItem_media = graphql`
 export function SearchItem({
 	media,
 	...props
-}: {
+}: Omit<LinkProps, "to"|'media'> & {
 	media: SearchItem_media$key
 }): ReactNode {
 	const data = useFragment(SearchItem_media, media)
@@ -40,7 +40,11 @@ export function SearchItem({
 
 	return (
 		data && (
-			<Link to={route_media({ id: data.id })} className={list.item()}>
+			<Link
+				{...props}
+				to={route_media({ id: data.id })}
+				className={list.item()}
+			>
 				<>
 					<ListItemAvatar>
 						<MediaCover media={data} />

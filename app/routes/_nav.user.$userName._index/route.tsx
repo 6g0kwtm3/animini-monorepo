@@ -94,9 +94,9 @@ export default function Page(): ReactNode {
 									type="hidden"
 									name="isFollowing"
 									value={
-										follow.formData?.get("isFollowing") ??
+										(follow.formData?.get("isFollowing") ??
 										follow.data?.ToggleFollow.isFollowing ??
-										data.user.isFollowing
+										data.user.isFollowing)
 											? ""
 											: "true"
 									}
@@ -104,9 +104,9 @@ export default function Page(): ReactNode {
 								/>
 
 								<Button type="submit" aria-disabled={!data.user.id}>
-									{follow.formData?.get("isFollowing") ??
+									{(follow.formData?.get("isFollowing") ??
 									follow.data?.ToggleFollow.isFollowing ??
-									data.user.isFollowing
+									data.user.isFollowing)
 										? m.unfollow_button()
 										: m.follow_button()}
 								</Button>

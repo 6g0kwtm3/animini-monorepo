@@ -3,13 +3,11 @@ import {
 	Await,
 	Form,
 	useFetcher,
-	useLocation,
 	useNavigate,
-	useNavigation,
 	useRouteLoaderData,
 } from "@remix-run/react"
 
-import type { ComponentRef, ReactNode } from "react"
+import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 import ReactRelay from "react-relay"
 import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
@@ -21,7 +19,6 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { NavigationItemIcon } from "~/components/Navigation"
 import {
 	SearchView,
 	SearchViewBody,
@@ -31,31 +28,14 @@ import {
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
 import type { clientLoader as navLoader } from "~/routes/_nav/route"
-import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { M3 } from "../components"
 
-import { NavigationItem } from "~/routes/_nav/NavigationItem"
 import { createList, ListContext } from "../list"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
+import { useOptimisticSearchParams } from "./useOptimisticSearchParams"
 
 const { graphql } = ReactRelay
-
-function useOptimisticSearchParams() {
-	const { search } = useOptimisticLocation()
-
-	return new URLSearchParams(search)
-}
-
-function useOptimisticLocation() {
-	let location = useLocation()
-	const navigation = useNavigation()
-
-	// if (navigation.location?.pathname === location.pathname) {
-	location = navigation.location ?? location
-	// }
-	return location
-}
 
 export function Search(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
@@ -74,7 +54,10 @@ export function Search(): ReactNode {
 	// bind command + k
 	useEffect(() => {
 		let listener = (event: KeyboardEvent) => {
-			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+			if (
+				(event.metaKey || event.ctrlKey) &&
+				event.key.toLocaleLowerCase() === "k"
+			) {
 				event.preventDefault()
 				navigate({ search: `?${sheetParams}` })
 			}
@@ -93,7 +76,7 @@ export function Search(): ReactNode {
 		<SearchView
 			aria-label="Search anime or manga"
 			open={show}
-			onClose={(state) => {
+			onClose={() => {
 				navigate({ search: `?${searchParams}` })
 			}}
 			initialFocus={ref.current}
@@ -149,26 +132,12 @@ export function Search(): ReactNode {
 	)
 }
 
-export function SearchButton(): ReactNode {
+export function SearchButton(
+	props: ComponentProps<typeof TooltipPlainTrigger>
+): ReactNode {
 	return (
 		<TooltipPlain>
-			<TooltipPlainTrigger
-				render={
-					<NavigationItem
-						activeId="search"
-						to={{
-							search: `?q=`,
-						}}
-					>
-						<NavigationItemIcon>
-							<MaterialSymbolsTravelExplore />
-							<MaterialSymbolsTravelExplore />
-						</NavigationItemIcon>
-
-						<div className="max-w-full break-words">Explore</div>
-					</NavigationItem>
-				}
-			/>
+			<TooltipPlainTrigger {...props} />
 			<TooltipPlainContainer>
 				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
 			</TooltipPlainContainer>

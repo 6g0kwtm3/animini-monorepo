@@ -1,6 +1,5 @@
 import * as Ariakit from "@ariakit/react"
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
-import { forwardRef } from "react"
 import { tv } from "~/lib/tailwind-variants"
 
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
@@ -56,16 +55,12 @@ export function TooltipRichActions(props: ComponentProps<"div">): ReactNode {
 export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
 	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
-export const TooltipPlainTrigger = forwardRef<
-	HTMLDivElement,
-	PropsWithChildren<Ariakit.TooltipAnchorProps>
->(function TooltipPlainTrigger({ children, ...props }, ref): ReactNode {
-	return (
-		<Ariakit.TooltipAnchor ref={ref} {...props}>
-			{children}
-		</Ariakit.TooltipAnchor>
-	)
-})
+export function TooltipPlainTrigger(
+	props: Ariakit.TooltipAnchorProps
+): ReactNode {
+	return <Ariakit.TooltipAnchor {...props} />
+}
+
 export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
 	if (!tooltip) {

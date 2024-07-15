@@ -8,6 +8,8 @@ import MaterialSymbolsAdd from "~icons/material-symbols/add"
 const meta = {
 	title: "Example/Button",
 	component: Button,
+	// @ts-expect-error
+	subcomponents: { ButtonIcon },
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
 		layout: "centered",
@@ -15,7 +17,15 @@ const meta = {
 	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
 	tags: ["autodocs"],
 	// More on argTypes: https://storybook.js.org/docs/api/argtypes
-	argTypes: {},
+	argTypes: {
+		"aria-disabled": {
+			control: "boolean",
+		},
+		variant: {
+			control: "select",
+			options: ["elevated", "filled", "outlined", "tonal", "text"],
+		},
+	},
 	// Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
 	args: { onClick: fn() },
 } satisfies Meta<typeof Button>
@@ -30,37 +40,31 @@ export const Text: Story = {
 	},
 }
 
-export const Elevated: Story = {
+export const Variants: Story = {
 	args: {
-		variant: "elevated",
 		children: "Button",
 	},
+	render: (args) => (
+		<>
+			<Button {...args} />
+			<Button {...args} variant="elevated" />
+			<Button {...args} variant="filled" />
+			<Button {...args} variant="outlined" />
+			<Button {...args} variant="tonal" />
+		</>
+	),
+	decorators: [
+		(Story) => (
+			<div className="flex flex-wrap gap-2 rtl:flex-row-reverse">
+				<Story />
+			</div>
+		),
+	],
 }
 
-export const Filled: Story = {
+export const VariantsIcon: Story = {
+	...Variants,
 	args: {
-		variant: "filled",
-		children: "Button",
-	},
-}
-
-export const Outlined: Story = {
-	args: {
-		variant: "outlined",
-		children: "Button",
-	},
-}
-
-export const Tonal: Story = {
-	args: {
-		variant: "tonal",
-		children: "Button",
-	},
-}
-
-export const TextIcon: Story = {
-	args: {
-		...Text.args,
 		children: (
 			<>
 				<ButtonIcon>
@@ -72,65 +76,17 @@ export const TextIcon: Story = {
 	},
 }
 
-export const ElevatedIcon: Story = {
+export const VariantsIconDisabled: Story = {
+	...VariantsIcon,
 	args: {
-		...TextIcon.args,
-		variant: "elevated",
+		...VariantsIcon.args,
+		"aria-disabled": true,
 	},
 }
 
-export const FilledIcon: Story = {
-	args: {
-		...TextIcon.args,
-		variant: "filled",
-	},
-}
-
-export const OutlinedIcon: Story = {
-	args: {
-		...TextIcon.args,
-		variant: "outlined",
-	},
-}
-
-export const TonalIcon: Story = {
-	args: {
-		...TextIcon.args,
-		variant: "tonal",
-	},
-}
-
-export const TextIconRtl: Story = {
-	...TextIcon,
+export const VariantsIconRtl: Story = {
+	...VariantsIcon,
 	parameters: {
 		dir: "rtl",
-	},
-}
-
-export const ElevatedIconRtl: Story = {
-	...ElevatedIcon,
-	parameters: {
-		...TextIconRtl.parameters,
-	},
-}
-
-export const FilledIconRtl: Story = {
-	...FilledIcon,
-	parameters: {
-		...TextIconRtl.parameters,
-	},
-}
-
-export const OutlinedIconRtl: Story = {
-	...OutlinedIcon,
-	parameters: {
-		...TextIconRtl.parameters,
-	},
-}
-
-export const TonalIconRtl: Story = {
-	...TonalIcon,
-	parameters: {
-		...TextIconRtl.parameters,
 	},
 }

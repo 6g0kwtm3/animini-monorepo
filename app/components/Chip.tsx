@@ -62,7 +62,7 @@ export function ChipFilterRadio(props: Ariakit.RadioProps): ReactNode {
 
 export function ChipFilterIcon(): ReactNode {
 	return (
-		<div className="-ms-2 w-0 opacity-0 transition-all ease-standard-accelerate i-[1.125rem] peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
+		<div className="-ms-2 w-0 opacity-0 transition-all duration-3sm ease-standard-accelerate i-[1.125rem] peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
 			<MaterialSymbolsCheck />
 		</div>
 	)

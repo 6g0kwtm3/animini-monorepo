@@ -1,5 +1,6 @@
 import {
 	Await,
+	Link,
 	Outlet,
 	unstable_defineClientLoader,
 	useLoaderData,
@@ -38,12 +39,15 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
+import { fab } from "~/lib/button"
 import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import MaterialSymbolsHome from "~icons/material-symbols/home"
 import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
-import { ActiveId, NavigationItem } from "./NavigationItem"
+import { NavigationItem } from "./NavigationItem"
+
+import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
 
@@ -97,130 +101,124 @@ export default function NavRoute(): ReactNode {
 			navigation={{
 				initial: "bar",
 				sm: "rail",
-				lg: "drawer",
 			}}
 		>
-			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
-      {data?.Viewer ? (
-        <>
+			<Navigation
+				variant={{
+					initial: "bar",
+					sm: "rail",
+				}}
+			>
+				<SearchButton
+					render={
+						<Link
+							className={fab({ className: "mx-3 max-sm:hidden" })}
+							to={{
+								search: `?sheet=search`,
+							}}
+						>
+							<MaterialSymbolsTravelExplore />
+						</Link>
+					}
+				/>
 
-        </>
-      ) : (
-        <>
-          <Link
-             to={route_login(({
-              redirect: pathname
-            }))}
-            className={button()}
-          >
-            Login
-          </Link>
-        </>
-      )}
-
-      <div className="self-end">
-        <Search></Search>
-      </div>
-    </nav> */}
-
-			<ActiveId value="notifications">
-				<Navigation
-					variant={{
-						initial: "bar",
-						sm: "rail",
-						lg: "drawer",
-					}}
-				>
-					<NavigationItem to="/" activeId="home">
-						<NavigationItemIcon>
-							<MaterialSymbolsHomeOutline />
-							<MaterialSymbolsHome />
-						</NavigationItemIcon>
-						<div className="max-w-full break-words">Home</div>
-					</NavigationItem>
-					<NavigationItem to="/feed" activeId="feed" className="max-sm:hidden">
-						<NavigationItemIcon>
-							<MaterialSymbolsFeedOutline />
-							<MaterialSymbolsFeed />
-						</NavigationItemIcon>
-						<div className="max-w-full break-words">Feed</div>
-					</NavigationItem>
-					{rootData?.Viewer ? (
-						<>
-							<NavigationItem
-								to={route_user({ userName: rootData.Viewer.name })}
-								activeId="viewer"
-							>
-								<NavigationItemIcon>
-									<MaterialSymbolsPersonOutline />
-									<MaterialSymbolsPerson />
-								</NavigationItemIcon>
-								<div className="max-w-full break-words">Profile</div>
-							</NavigationItem>
-							<NavigationItem
-								activeId="animelist"
-								className="max-sm:hidden"
-								to={route_user_list({
-									userName: rootData.Viewer.name,
-									typelist: "animelist",
-								})}
-							>
-								<NavigationItemIcon>
-									<MaterialSymbolsPlayArrowOutline />
-									<MaterialSymbolsPlayArrow />
-								</NavigationItemIcon>
-								<div className="max-w-full break-words">Anime List</div>
-							</NavigationItem>
-							<NavigationItem
-								activeId="mangalist"
-								to={route_user_list({
-									userName: rootData.Viewer.name,
-									typelist: "mangalist",
-								})}
-								className="max-sm:hidden"
-							>
-								<NavigationItemIcon>
-									<MaterialSymbolsMenuBookOutline />
-									<MaterialSymbolsMenuBook />
-								</NavigationItemIcon>
-								<div className="max-w-full break-words">Manga List</div>
-							</NavigationItem>
-						</>
-					) : (
+				<NavigationItem to="/">
+					<NavigationItemIcon>
+						<MaterialSymbolsHomeOutline />
+						<MaterialSymbolsHome />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Home</div>
+				</NavigationItem>
+				<NavigationItem to="/feed" className="max-sm:hidden">
+					<NavigationItemIcon>
+						<MaterialSymbolsFeedOutline />
+						<MaterialSymbolsFeed />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Feed</div>
+				</NavigationItem>
+				{rootData?.Viewer ? (
+					<>
 						<NavigationItem
-							activeId="login"
-							to={route_login({
-								redirect: pathname,
-							})}
+							to={route_user({ userName: rootData.Viewer.name })}
+							end
 						>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
 							</NavigationItemIcon>
-							<div className="max-w-full break-words">Login</div>
+							<div className="max-w-full break-words">Profile</div>
 						</NavigationItem>
-					)}
-					<NavigationItem to="/notifications" activeId="notifications">
+						<NavigationItem
+							className="max-sm:hidden"
+							to={route_user_list({
+								userName: rootData.Viewer.name,
+								typelist: "animelist",
+							})}
+						>
+							<NavigationItemIcon>
+								<MaterialSymbolsPlayArrowOutline />
+								<MaterialSymbolsPlayArrow />
+							</NavigationItemIcon>
+							<div className="max-w-full break-words">Anime List</div>
+						</NavigationItem>
+						<NavigationItem
+							to={route_user_list({
+								userName: rootData.Viewer.name,
+								typelist: "mangalist",
+							})}
+							className="max-sm:hidden"
+						>
+							<NavigationItemIcon>
+								<MaterialSymbolsMenuBookOutline />
+								<MaterialSymbolsMenuBook />
+							</NavigationItemIcon>
+							<div className="max-w-full break-words">Manga List</div>
+						</NavigationItem>
+					</>
+				) : (
+					<NavigationItem
+						to={route_login({
+							redirect: pathname,
+						})}
+					>
 						<NavigationItemIcon>
-							<MaterialSymbolsNotificationsOutline />
-							<MaterialSymbolsNotifications />
+							<MaterialSymbolsPersonOutline />
+							<MaterialSymbolsPerson />
 						</NavigationItemIcon>
-						<div className="max-w-full break-words">Notifications</div>
-						<Suspense>
-							<Await resolve={data.trending} errorElement={<></>}>
-								{(data) =>
-									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-										<NavigationItemLargeBadge>
-											{data?.Viewer?.unreadNotificationCount}
-										</NavigationItemLargeBadge>
-									)
-								}
-							</Await>
-						</Suspense>
+						<div className="max-w-full break-words">Login</div>
 					</NavigationItem>
-					<SearchButton />
-				</Navigation>
-			</ActiveId>
+				)}
+				<NavigationItem to="/notifications">
+					<NavigationItemIcon>
+						<MaterialSymbolsNotificationsOutline />
+						<MaterialSymbolsNotifications />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Notifications</div>
+					<Suspense>
+						<Await resolve={data.trending} errorElement={<></>}>
+							{(data) =>
+								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+									<NavigationItemLargeBadge>
+										{data?.Viewer?.unreadNotificationCount}
+									</NavigationItemLargeBadge>
+								)
+							}
+						</Await>
+					</Suspense>
+				</NavigationItem>
+				<SearchButton
+					render={
+						<NavigationItem to={"/search"} className={"sm:hidden"}>
+							<NavigationItemIcon>
+								<MaterialSymbolsTravelExplore />
+								<MaterialSymbolsTravelExplore />
+							</NavigationItemIcon>
+
+							<div className="max-w-full break-words">Explore</div>
+						</NavigationItem>
+					}
+				/>
+			</Navigation>
 
 			<Outlet />
 			<Search />

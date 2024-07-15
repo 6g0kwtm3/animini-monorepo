@@ -4,7 +4,7 @@ import { tv } from "./tailwind-variants"
 export const createList = tv(
 	{
 		slots: {
-			root: "",
+			root: "py-2",
 			item: "group flex gap-x-4 px-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
 			itemAvatar:
 				"h-10 w-10 shrink-0 overflow-hidden rounded-full *:h-full *:w-full",

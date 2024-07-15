@@ -70,7 +70,10 @@ export default function Page(): ReactNode {
 		>
 			<M3.LayoutPane variant="fixed" className="max-md:hidden">
 				<User user={data.user} />
-				<M3.Card className="" variant="elevated">
+				<M3.Card
+					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+					variant="elevated"
+				>
 					<Ariakit.Heading>About me</Ariakit.Heading>
 					{data.user.about && (
 						<Markdown options={options}>{data.user.about}</Markdown>
@@ -188,17 +191,21 @@ function User({
 	return (
 		<div {...props}>
 			<div className="relative">
-				{data.bannerImage && (
-					<img src={data.bannerImage} alt="" className="w-full object-cover" />
-				)}
 				{data.avatar && src && (
 					<img
 						src={src}
 						alt=""
-						className="absolute bottom-0 h-full translate-y-1/2 rounded-full bg-cover object-cover"
+						className="bg-cover object-cover"
 						style={{
 							backgroundImage: `url(${data.avatar.medium})`,
 						}}
+					/>
+				)}
+				{data.bannerImage && (
+					<img
+						src={data.bannerImage}
+						alt=""
+						className="absolute inset-0 -z-50 h-full w-full object-cover"
 					/>
 				)}
 			</div>

@@ -14,7 +14,6 @@ import {
 	useLoaderData,
 	useLocation,
 	useNavigate,
-	useNavigation,
 	useOutletContext,
 	useParams,
 	useRouteError,
@@ -29,7 +28,7 @@ import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
+import { LayoutPane } from "~/components/Layout"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
@@ -54,6 +53,7 @@ import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUs
 import { btnIcon, button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { createList } from "~/lib/list"
+import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -100,25 +100,21 @@ const routeNavUserListQuery = graphql`
 			lists {
 				name
 			}
+			user {
+				mediaListOptions {
+					rowOrder
+					animeList {
+						sectionOrder
+					}
+					mangaList {
+						sectionOrder
+					}
+				}
+				...MediaListItemSort_user
+			}
 		}
 	}
 `
-
-function useOptimisticSearchParams(): URLSearchParams {
-	const { search } = useOptimisticLocation()
-
-	return new URLSearchParams(search)
-}
-
-function useOptimisticLocation() {
-	let location = useLocation()
-	const navigation = useNavigation()
-
-	if (navigation.location?.pathname === location.pathname) {
-		location = navigation.location
-	}
-	return location
-}
 
 export default function Filters(): ReactNode {
 	const submit = useSubmit()
@@ -132,13 +128,18 @@ export default function Filters(): ReactNode {
 		store: Ariakit.TabStore
 	}>()
 
+	const { data } = useLoaderData<typeof clientLoader>()
+
 	return (
 		<>
 			<M3.LayoutPane>
 				<M3.Tabs store={store} selectedId={params.typelist}>
 					{children}
 					<M3.TabsPanel tabId={params.typelist}>
-						<Card variant="elevated" className="px-0 max-sm:contents">
+						<Card
+							variant="elevated"
+							className="px-0 contrast-standard theme-light contrast-more:contrast-high max-sm:contents dark:theme-dark"
+						>
 							<div className="flex flex-col gap-4">
 								<M3.Tabs selectedId={String(params.selected)}>
 									<div className="sticky top-0 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
@@ -179,10 +180,12 @@ export default function Filters(): ReactNode {
 						</Card>
 					</M3.TabsPanel>
 				</M3.Tabs>
-				<Filter />
 			</M3.LayoutPane>
 			<M3.LayoutPane variant="fixed" className="max-xl:hidden">
-				<Card variant="elevated">
+				<Card
+					variant="elevated"
+					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+				>
 					<Form
 						action={pathname}
 						replace
@@ -247,7 +250,19 @@ export default function Filters(): ReactNode {
 							</Group>
 						</CheckboxProvider>
 
-						<RadioProvider value={searchParams.get("sort")}>
+						<RadioProvider
+							value={
+								searchParams.get("sort") ??
+								{
+									title: MediaListSort.TitleEnglish,
+									score: MediaListSort.ScoreDesc,
+								}[
+									String(
+										data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
+									)
+								]
+							}
+						>
 							<Group className="col-span-2" render={<fieldset />}>
 								<GroupLabel render={<legend />}>Sort</GroupLabel>
 								<div className="flex flex-wrap gap-2">
@@ -272,6 +287,7 @@ export default function Filters(): ReactNode {
 					</Form>
 				</Card>
 			</M3.LayoutPane>
+			<Filter />
 		</>
 	)
 }
@@ -279,10 +295,24 @@ export default function Filters(): ReactNode {
 function ListTabs() {
 	const { data, params } = useLoaderData<typeof clientLoader>()
 
+	const options = Object.fromEntries(
+		data?.MediaListCollection?.user?.mediaListOptions?.[
+			(
+				{
+					animelist: "animeList",
+					mangalist: "mangaList",
+				} as const
+			)[params.typelist]
+		]?.sectionOrder?.map((key, index) => [key, index]) ?? []
+	)
+
 	const lists = data?.MediaListCollection?.lists
 		?.filter((el) => el != null)
 		.sort(
-			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
+			Order.mapInput(
+				Order.number,
+				(list) => options[list.name ?? ""] ?? Infinity
+			)
 		)
 
 	const [searchParams] = useSearchParams()
@@ -415,13 +445,28 @@ function SheetSort() {
 	const lines = "one"
 	const list = createList({ lines })
 
+	const { data } = useLoaderData<typeof clientLoader>()
+
 	return (
 		<Group>
 			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
 				Sort
 			</M3.Subheader>
 			<div className={list.root()}>
-				<CheckboxProvider value={searchParams.getAll("sort")}>
+				<CheckboxProvider
+					value={
+						searchParams.getAll("sort").length > 0
+							? searchParams.getAll("sort")
+							: ({
+									title: [MediaListSort.TitleEnglish],
+									score: [MediaListSort.ScoreDesc],
+								}[
+									String(
+										data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
+									)
+								] ?? [])
+					}
+				>
 					{Object.entries(
 						params.typelist === "animelist"
 							? ANIME_SORT_OPTIONS

@@ -25,14 +25,25 @@ import { faker as en } from "@faker-js/faker/locale/en"
 import { faker as ja } from "@faker-js/faker/locale/ja"
 import { addMocksToSchema, type Ref } from "@graphql-tools/mock"
 
-function operation<Q, V>(resolver: ResponseResolver<any, null, any>): any {
+export function operation<Q, V>(resolver: any): any {
 	return async (args: any) =>
 		HttpResponse.json(
 			await execute({
 				document: parse(args.query),
-				schema,
+				schema: schema,
 				variableValues: args.variables,
 				rootValue: resolver(args),
+			})
+		)
+}
+
+export function mock<Q, V>(): any {
+	return async (args: any) =>
+		HttpResponse.json(
+			await execute({
+				document: parse(args.query),
+				schema: mocked,
+				variableValues: args.variables,
 			})
 		)
 }
@@ -109,7 +120,8 @@ export const routeNavFeedQuery = query("routeNavNotificationsQuery", () => ({
 }))
 
 let schema = buildSchema(raw)
-addMocksToSchema({
+
+const mocked = addMocksToSchema({
 	schema,
 	mocks: {
 		Int: () => en.number.int({ max: 256 }),

@@ -13,7 +13,7 @@ export const cardFooter = tv({
 })
 
 export const card = tv({
-	base: "relative flex h-auto flex-col gap-4 rounded-md p-4 contrast-standard theme-light contrast-more:contrast-high dark:theme-dark",
+	base: "relative flex h-auto flex-col gap-4 rounded-md p-4",
 	variants: {
 		variant: {
 			outlined:

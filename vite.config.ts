@@ -1,4 +1,4 @@
-import { paraglide } from "@inlang/paraglide-js-adapter-vite"
+import { paraglide } from "@inlang/paraglide-vite"
 import MillionLint from "@million/lint"
 
 import { vitePlugin as remix } from "@remix-run/dev"
@@ -10,9 +10,9 @@ const isStorybook = process.argv[1]?.includes("storybook")
 
 export default defineConfig({
 	plugins: [
-		MillionLint.vite({
-			optimizeDOM: true,
-		}),
+		// MillionLint.vite({
+		// 	optimizeDOM: true,
+		// }),
 		paraglide({
 			project: "./project.inlang",
 			outdir: "./app/paraglide",

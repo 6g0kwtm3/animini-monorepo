@@ -185,6 +185,9 @@ export const config = {
 					i: (value) => {
 						return {
 							"font-size": value,
+							'[dir="rtl"] &': {
+								transform: `scaleX(-1)`,
+							},
 						}
 					},
 				},

@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import { createContext, forwardRef, use } from "react"
+import { createContext, forwardRef, use, type ReactNode } from "react"
 import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import MaterialSymbolsClose from "~icons/material-symbols/close"
@@ -83,10 +83,7 @@ export const SearchView = forwardRef<
 
 export const SearchViewBodyGroup = Ariakit.ComboboxGroup
 export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
-export const SearchViewInput = forwardRef<
-	HTMLInputElement,
-	Ariakit.ComboboxProps
->(function SearchViewInput(props, ref) {
+export function SearchViewInput(props: Ariakit.ComboboxProps): ReactNode {
 	const { input } = use(SearchViewContext)
 
 	return (
@@ -97,7 +94,6 @@ export const SearchViewInput = forwardRef<
 					<MaterialSymbolsArrowBack />
 				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
-					ref={ref}
 					autoSelect={"always"}
 					{...props}
 					className={input({ className: props.className })}
@@ -114,19 +110,15 @@ export const SearchViewInput = forwardRef<
 			<div className="border-b border-outline-variant sm:last:hidden" />
 		</>
 	)
-})
+}
 
-export const SearchViewItem = forwardRef<
-	HTMLDivElement,
-	Ariakit.ComboboxItemProps
->(function SearchViewItem(props, ref) {
+export function SearchViewItem(props: Ariakit.ComboboxItemProps): ReactNode {
 	return (
 		<Ariakit.ComboboxItem
-			ref={ref}
 			hideOnClick
 			focusOnHover
 			blurOnHoverEnd={false}
 			{...props}
 		/>
 	)
-})
+}

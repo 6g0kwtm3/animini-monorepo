@@ -103,9 +103,9 @@ export function UserLink(props: {
 									type="hidden"
 									name="isFollowing"
 									value={
-										follow.formData?.get("isFollowing") ??
+										(follow.formData?.get("isFollowing") ??
 										follow.data?.ToggleFollow.isFollowing ??
-										fetcher.data?.User?.isFollowing
+										fetcher.data?.User?.isFollowing)
 											? ""
 											: "true"
 									}
@@ -116,9 +116,9 @@ export function UserLink(props: {
 									type="submit"
 									aria-disabled={!fetcher.data?.User?.id}
 								>
-									{follow.formData?.get("isFollowing") ??
+									{(follow.formData?.get("isFollowing") ??
 									follow.data?.ToggleFollow.isFollowing ??
-									fetcher.data?.User?.isFollowing
+									fetcher.data?.User?.isFollowing)
 										? m.unfollow_button()
 										: m.follow_button()}
 								</M3.Button>

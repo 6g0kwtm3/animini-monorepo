@@ -70,33 +70,25 @@ export function ProgressIncrement(props: {
 				<input type="hidden" name="progress" value={progress + 1} />
 				<input type="hidden" name="id" value={entry.id} />
 				<input type="hidden" name="intent" value="increment" />
-				<div className="hidden @lg:block">
-					<M3.TooltipPlain>
-						<M3.TooltipPlainTrigger
-							render={<button type="submit" />}
-							className={button({})}
-						>
-							<Progress entry={entry} />
-							<M3.ButtonIcon>
-								<MaterialSymbolsAdd />
-							</M3.ButtonIcon>
-						</M3.TooltipPlainTrigger>
-						{entry.media && <ProgressTooltip media={entry.media} />}
-					</M3.TooltipPlain>
-				</div>
-
-				<div className="@lg:hidden">
-					<M3.TooltipPlain>
-						<M3.TooltipPlainTrigger
-							render={<button type="submit" />}
-							className={btnIcon({})}
-						>
-							<span className="sr-only">Increment progress</span>
+				<M3.TooltipPlain>
+					<M3.TooltipPlainTrigger
+						render={<button type="submit" />}
+						className={button({ className: "hidden @lg:block" })}
+					>
+						<Progress entry={entry} />
+						<M3.ButtonIcon>
 							<MaterialSymbolsAdd />
-						</M3.TooltipPlainTrigger>
-						{entry.media && <ProgressTooltip media={entry.media} />}
-					</M3.TooltipPlain>
-				</div>
+						</M3.ButtonIcon>
+					</M3.TooltipPlainTrigger>
+					<M3.TooltipPlainTrigger
+						render={<button type="submit" />}
+						className={btnIcon({ className: "@lg:hidden" })}
+					>
+						<span className="sr-only">Increment progress</span>
+						<MaterialSymbolsAdd />
+					</M3.TooltipPlainTrigger>
+					{entry.media && <ProgressTooltip media={entry.media} />}
+				</M3.TooltipPlain>
 			</Form>
 		)
 	)

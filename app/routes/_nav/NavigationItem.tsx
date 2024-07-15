@@ -1,24 +1,33 @@
-import { Link, type LinkProps } from "@remix-run/react"
-import { createContext, type ReactNode, use } from "react"
-import { NavigationContext } from "~/components"
+import { NavLink, type NavLinkProps } from "@remix-run/react"
+import { use, type ReactNode } from "react"
+import {
+	NavigationItemActiveIndicator,
+	NavigationStyles,
+	TouchTarget,
+} from "~/components"
 
-export const ActiveId = createContext<string | undefined>(undefined)
-
-export function NavigationItem({
-	activeId: itemId,
-	...props
-}: LinkProps & {
-	activeId: string
-}): ReactNode {
-	const { label } = use(NavigationContext)
+export function NavigationItem(props: NavLinkProps): ReactNode {
+	const styles = use(NavigationStyles)
 
 	return (
-		<Link
+		<NavLink
 			{...props}
-			className={label({
-				className: props.className,
-			})}
-			data-current={itemId === use(ActiveId)}
-		/>
+			className={(args) =>
+				styles.label({
+					className:
+						typeof props.className === "function"
+							? props.className(args)
+							: props.className,
+				})
+			}
+		>
+			{({ isActive }) => (
+				<>
+					{isActive && <NavigationItemActiveIndicator />}
+					{props.children}
+					<TouchTarget />
+				</>
+			)}
+		</NavLink>
 	)
 }
