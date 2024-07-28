@@ -83,6 +83,7 @@
 		"@svgr/plugin-jsx": "^8.1.0",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/typography": "^0.5.13",
+		"@types/bun": "^1.1.6",
 		"@types/cookie": "^0.6.0",
 		"@types/dompurify": "^3.0.5",
 		"@types/eslint": "^8.56.10",

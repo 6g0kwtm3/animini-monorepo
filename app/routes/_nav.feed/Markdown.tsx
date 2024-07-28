@@ -259,6 +259,8 @@ class HtmlTag implements HtmlNode {
 	}
 }
 
+import type { JSX } from "react"
+
 export interface Options {
 	replace: Partial<{
 		[K in keyof JSX.IntrinsicElements]: (props: ComponentProps<K>) => ReactNode

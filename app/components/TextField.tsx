@@ -1,4 +1,5 @@
 import * as Ariakit from "@ariakit/react"
+import type { JSX } from "react"
 import { forwardRef, type ComponentProps, type ReactNode } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -93,7 +94,6 @@ export function TextFieldOutlinedFactory({
 }
 
 TextFieldOutlined.Label = OutlinedLabel
-
 export function TextFieldFilled(props: ComponentProps<"label">): JSX.Element {
 	return (
 		<label
