@@ -16,14 +16,12 @@ jobs:
     name: Test E2E
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.45.3-noble
+      image: mcr.microsoft.com/playwright:v1.43.1-jammy
 
     steps:
       - uses: actions/checkout@v3
       - name: Install bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: "package.json"
+        run: curl -fsSL https://bun.sh/install | bash -s "bun-v1.1.20"
 
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
