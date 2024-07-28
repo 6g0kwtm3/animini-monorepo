@@ -13,7 +13,7 @@ export default defineConfig({
 		// MillionLint.vite({
 		// 	optimizeDOM: true,
 		// }),
-		paraglide({
+		globalThis.Bun || paraglide({
 			project: "./project.inlang",
 			outdir: "./app/paraglide",
 		}),
