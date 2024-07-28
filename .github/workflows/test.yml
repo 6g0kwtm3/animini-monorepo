@@ -42,7 +42,6 @@ jobs:
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
           BASE_URL: ${{ steps.cf-pages.outputs.url }}
-          HOME: /root
 
   typecheck:
     runs-on: ubuntu-latest
