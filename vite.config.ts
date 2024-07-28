@@ -13,10 +13,11 @@ export default defineConfig({
 		// MillionLint.vite({
 		// 	optimizeDOM: true,
 		// }),
-		globalThis.Bun || paraglide({
-			project: "./project.inlang",
-			outdir: "./app/paraglide",
-		}),
+		globalThis.Bun ||
+			paraglide({
+				project: "./project.inlang",
+				outdir: "./app/paraglide",
+			}),
 
 		// remixDevTools(),
 		// cloudflareDevProxy(),
