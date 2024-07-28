@@ -1,6 +1,11 @@
 import * as Ariakit from "@ariakit/react"
-import type { JSX } from "react"
-import { forwardRef, type ComponentProps, type ReactNode } from "react"
+
+import {
+	forwardRef,
+	type ComponentProps,
+	type JSX,
+	type ReactNode,
+} from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
 

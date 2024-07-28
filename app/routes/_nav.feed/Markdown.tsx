@@ -1,15 +1,15 @@
 import createDOMPurify from "dompurify"
+import { Parser } from "htmlparser2"
 import marked from "marked"
 import {
 	createElement,
 	Fragment,
 	useMemo,
 	type ComponentProps,
+	type JSX,
 	type ReactNode,
 } from "react"
 import { route_media, route_user } from "~/lib/route"
-
-import { Parser } from "htmlparser2"
 
 function getAttributes(attributes: any) {
 	const {
@@ -258,8 +258,6 @@ class HtmlTag implements HtmlNode {
 		this._children.push(node)
 	}
 }
-
-import type { JSX } from "react"
 
 export interface Options {
 	replace: Partial<{

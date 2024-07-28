@@ -8,12 +8,14 @@ import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 const isStorybook = process.argv[1]?.includes("storybook")
 
+const isBun = (): boolean => !!globalThis.Bun
+
 export default defineConfig({
 	plugins: [
 		// MillionLint.vite({
 		// 	optimizeDOM: true,
 		// }),
-		globalThis.Bun
+		isBun()
 			? null
 			: paraglide({
 					project: "./project.inlang",
