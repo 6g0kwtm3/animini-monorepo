@@ -16,18 +16,21 @@ jobs:
     name: Test E2E
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.43.1-jammy
-
+      image: mcr.microsoft.com/playwright:v1.45.3-jammy
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - name: Install unzip
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y unzip
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: "pnpm"
+          bun-version-file: "package.json"
 
       - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Await CF Pages
         uses: WalshyDev/cf-pages-await@v1
@@ -38,7 +41,7 @@ jobs:
           project: "animini-pwa"
 
       - name: Test E2E
-        run: pnpm run test
+        run: bun run test
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
           BASE_URL: ${{ steps.cf-pages.outputs.url }}
@@ -50,19 +53,18 @@ jobs:
     name: Typecheck
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: "pnpm"
+          bun-version-file: "package.json"
 
       - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
+        run: bun install --frozen-lockfile
 
-      - run: pnpm run paraglide
+      - run: bun run paraglide
 
       - name: Typecheck
-        run: pnpm run check
+        run: bun run --bun check
 
   format:
     runs-on: ubuntu-latest
@@ -74,20 +76,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.PAT }}
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: "pnpm"
+          bun-version-file: "package.json"
 
       - name: Install dependencies 📦
-        run: pnpm i --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Lint
-        run: pnpm run lint --fix
+        run: bun run --bun lint --fix
 
       - name: Format
-        run: pnpm run format
+        run: bun run --bun format
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4

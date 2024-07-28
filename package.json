@@ -7,9 +7,9 @@
 	"scripts": {
 		"deploy": "wrangler pages deploy ./build/client",
 		"build": "remix vite:build",
-		"dev": "pnpm run \"/dev:/\"",
+		"dev": "bun run \"/dev:/\"",
 		"dev:vite": "remix vite:dev",
-		"dev:codegen": "pnpm run codegen",
+		"dev:codegen": "bun run codegen",
 		"start": "wrangler pages dev ./build/client --port 3000",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
@@ -18,7 +18,7 @@
 		"knip": "knip",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "prettier . -w",
-		"prepare": "pnpm run codegen",
+		"prepare": "bun run codegen",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
 		"test": "playwright test"
 	},
@@ -52,7 +52,7 @@
 		"@iconify-json/material-symbols": "^1.1.82",
 		"@inlang/paraglide-js": "^1.9.1",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.40",
-		"@playwright/test": "^1.43.1",
+		"@playwright/test": "1.45.3",
 		"@remix-run/dev": "^2.9.2",
 		"@remix-run/eslint-config": "^2.9.2",
 		"@svgr/core": "^8.1.0",
@@ -95,15 +95,13 @@
 	"engines": {
 		"node": ">=18.0.0"
 	},
-	"packageManager": "pnpm@8.14.1",
+	"packageManager": "bun@1.1.21",
 	"browserslist": [
 		"defaults and fully supports es6-module",
 		"maintained node versions"
 	],
-	"pnpm": {
-		"patchedDependencies": {
-			"wrangler@3.34.2": "patches/wrangler@3.34.2.patch",
-			"relay-runtime@16.2.0": "patches/relay-runtime@16.2.0.patch"
-		}
+	"patchedDependencies": {
+		"wrangler@3.34.2": "patches/wrangler@3.34.2.patch",
+		"relay-runtime@16.2.0": "patches/relay-runtime@16.2.0.patch"
 	}
 }
