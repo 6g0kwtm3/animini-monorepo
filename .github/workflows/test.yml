@@ -88,9 +88,11 @@ jobs:
         run: bun run --bun lint --fix
 
       - name: Format
+        if: "!cancelled()"
         run: bun run --bun format
 
       - name: Commit changes
+        if: "!cancelled()"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "refactor: run format"
