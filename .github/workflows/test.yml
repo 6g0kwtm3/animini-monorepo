@@ -27,7 +27,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install Playwright
-        run: bunx playwright install --with-deps
+        run: bunx --bun playwright install --with-deps
 
       - name: Await CF Pages
         uses: WalshyDev/cf-pages-await@v1
