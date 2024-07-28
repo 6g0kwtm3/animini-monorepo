@@ -20,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install unzip
+        shell: bash
         run: |
           sudo apt-get update
           sudo apt-get install unzip
