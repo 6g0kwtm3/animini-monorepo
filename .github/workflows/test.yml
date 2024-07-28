@@ -16,7 +16,7 @@ jobs:
     name: Test E2E
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.43.1-noble
+      image: mcr.microsoft.com/playwright:v1.45.3-noble
 
     steps:
       - uses: actions/checkout@v3
@@ -41,6 +41,7 @@ jobs:
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
           BASE_URL: ${{ steps.cf-pages.outputs.url }}
+          HOME: /root
 
   typecheck:
     runs-on: ubuntu-latest
