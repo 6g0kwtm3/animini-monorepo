@@ -52,7 +52,7 @@
 		"@iconify-json/material-symbols": "^1.1.82",
 		"@inlang/paraglide-js": "^1.9.1",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.40",
-		"@playwright/test": "^1.43.1",
+		"@playwright/test": "1.45.3",
 		"@remix-run/dev": "^2.9.2",
 		"@remix-run/eslint-config": "^2.9.2",
 		"@svgr/core": "^8.1.0",
