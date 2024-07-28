@@ -4,7 +4,12 @@ import { createContext, use } from "react"
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton } from "~/lib/button"
-import { TouchTarget } from "./Tooltip"
+import {
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
+	TouchTarget,
+} from "./Tooltip"
 
 interface ButtonProps
 	extends Ariakit.ButtonProps,
@@ -38,12 +43,27 @@ export function Icon({
 	children,
 	variant,
 	className,
+	label,
 	...props
-}: VariantProps<typeof btnIcon> & Ariakit.ButtonProps): ReactNode {
-	return (
+}: VariantProps<typeof btnIcon> &
+	Ariakit.ButtonProps & {
+		label: string
+	}): ReactNode {
+	const btn = (
 		<Ariakit.Button {...props} className={btnIcon({ variant, className })}>
+			<span className="sr-only">{label}</span>
 			{children}
 			<TouchTarget />
 		</Ariakit.Button>
+	)
+	if (!label) {
+		return btn
+	}
+
+	return (
+		<TooltipPlain>
+			<TooltipPlainTrigger render={btn} />
+			<TooltipPlainContainer>{label}</TooltipPlainContainer>
+		</TooltipPlain>
 	)
 }

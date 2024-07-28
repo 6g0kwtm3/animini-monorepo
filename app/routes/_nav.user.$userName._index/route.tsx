@@ -2,39 +2,33 @@ import { Schema } from "@effect/schema"
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import {
-	Form,
-	unstable_defineClientLoader,
-	useFetcher,
-	useLocation,
-	useOutletContext,
-	useRouteLoaderData,
-} from "@remix-run/react"
+import { unstable_defineClientLoader, useLoaderData } from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { Button, Button as ButtonText } from "~/components/Button"
 
 import { client_operation } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
-import type { clientLoader as rootLoader } from "~/root"
 
-import type { routeNavUserIndexQuery as NavUserQuery } from "~/gql/routeNavUserIndexQuery.graphql"
+import type { routeNavUserIndexQuery } from "~/gql/routeNavUserIndexQuery.graphql"
+import { Ariakit } from "~/lib/ariakit"
 import { M3 } from "~/lib/components"
-import { m } from "~/lib/paraglide"
-import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
-import type { Ariakit } from "~/lib/ariakit"
+
+import { Markdown, type Options } from "../_nav.feed/Markdown"
+
+import { MediaLink } from "../_nav.feed/MediaLink"
+import { UserLink } from "../_nav.feed/UserLink"
+import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+
 const { graphql } = ReactRelay
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
-	const data = await client_operation<NavUserQuery>(
+	const data = await client_operation<routeNavUserIndexQuery>(
 		graphql`
 			query routeNavUserIndexQuery($userName: String!) {
 				User(name: $userName) {
-					id
-					name
-					isFollowing
+					about
 				}
 			}
 		`,
@@ -58,72 +52,74 @@ export const meta = (({ params }) => {
 	]
 }) satisfies MetaFunction<typeof clientLoader>
 
+function SidePanel(): ReactNode {
+	const data = useLoaderData<typeof clientLoader>()
+
+	return (
+		<M3.LayoutPane variant={"fixed"} className="max-xl:hidden">
+			<M3.Card
+				variant="elevated"
+				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+			>
+				<Ariakit.Heading>About me</Ariakit.Heading>
+				{data.user.about && (
+					<Markdown options={options}>{data.user.about}</Markdown>
+				)}
+			</M3.Card>
+		</M3.LayoutPane>
+	)
+}
+
 function params() {
 	return Schema.Struct({
 		userName: Schema.String,
 	})
 }
 
-export default function Page(): ReactNode {
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+export default function Route(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
 
-	const { pathname } = useLocation()
-
-	const follow = useFetcher<typeof userFollowAction>({
-		key: `${data.user.name}-follow`,
-	})
-
-	const { children, store } = useOutletContext<{
-		children: ReactNode
-		store: Ariakit.TabStore
-	}>()
-
 	return (
-		<M3.LayoutPane>
-			<M3.Tabs store={store} selectedId={"undefined"}>
-				{children}
-				<M3.TabsPanel tabId={"undefined"}>
-					{rootData?.Viewer?.name &&
-						rootData.Viewer.name !== data.user.name && (
-							<follow.Form
-								method="post"
-								action={`/user/${data.user.id}/follow`}
-							>
-								<input
-									type="hidden"
-									name="isFollowing"
-									value={
-										(follow.formData?.get("isFollowing") ??
-										follow.data?.ToggleFollow.isFollowing ??
-										data.user.isFollowing)
-											? ""
-											: "true"
-									}
-									id=""
-								/>
-
-								<Button type="submit" aria-disabled={!data.user.id}>
-									{(follow.formData?.get("isFollowing") ??
-									follow.data?.ToggleFollow.isFollowing ??
-									data.user.isFollowing)
-										? m.unfollow_button()
-										: m.follow_button()}
-								</Button>
-							</follow.Form>
-						)}
-					{rootData?.Viewer?.name === data.user.name && (
-						<Form
-							method="post"
-							action={`/logout/?${new URLSearchParams({
-								redirect: pathname,
-							})}`}
-						>
-							<ButtonText type="submit">Logout</ButtonText>
-						</Form>
-					)}
-				</M3.TabsPanel>
-			</M3.Tabs>
-		</M3.LayoutPane>
+		<ExtraOutlets side={<SidePanel />} title=" | Overview" actions={<></>}>
+			<>{JSON.stringify(data)}</>
+		</ExtraOutlets>
 	)
 }
+
+const options = {
+	replace: {
+		center(props) {
+			return <center {...props} />
+		},
+		p(props) {
+			return <div {...props} />
+		},
+		a(props) {
+			if (!props.href?.trim()) {
+				return <span className="text-primary">{props.children}</span>
+			}
+
+			// @ts-ignore
+			if (props.className === "media-link" && props["data-id"]) {
+				// @ts-ignore
+				return <MediaLink mediaId={props["data-id"]} />
+			}
+
+			// @ts-ignore
+			if (props["data-user-name"]) {
+				return (
+					// @ts-ignore
+					<UserLink userName={props["data-user-name"]}>
+						{props.children}
+					</UserLink>
+				)
+			}
+
+			return (
+				<a {...props} rel="noopener noreferrer" target="_blank">
+					{props.children}
+				</a>
+			)
+		},
+	},
+} satisfies Options

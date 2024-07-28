@@ -1,28 +1,38 @@
+import { Schema } from "@effect/schema"
+import { json } from "@remix-run/node"
 import {
-	json,
+	Form,
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
-	useLoaderData,
+	useFetcher,
+	useLocation,
+	useMatches,
+	useParams,
+	useRouteLoaderData,
 } from "@remix-run/react"
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import { type ReactNode } from "react"
+
+import ReactRelay from "react-relay"
+import { Icon } from "~/components/Button"
 
 import { client_operation } from "~/lib/client"
-import { M3 } from "~/lib/components"
+import { useRawLoaderData } from "~/lib/data"
+import type { clientLoader as rootLoader } from "~/root"
 
-import { Schema } from "@effect/schema"
-import ReactRelay from "react-relay"
+import { AppBar, AppBarTitle } from "~/components"
+import { M3 } from "~/lib/components"
+import { m } from "~/lib/paraglide"
+import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+
+import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
+import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-remove-outline"
+import { User } from "../_nav.user.$userName/User"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
-import { Ariakit } from "~/lib/ariakit"
-import { Markdown, type Options } from "../_nav.feed/Markdown"
-
-import type { routeUser_user$key } from "~/gql/routeUser_user.graphql"
-import { useFragment } from "~/lib/Network"
-import { route_user, route_user_list } from "~/lib/route"
-import { MediaLink } from "../_nav.feed/MediaLink"
-import { UserLink } from "../_nav.feed/UserLink"
-
+import MaterialSymbolsLogout from "~icons/material-symbols/logout"
+import { ExtraOutlet } from "./ExtraOutlet"
+import { useExtraOutlet } from "./useExtraOutlet"
 const { graphql } = ReactRelay
 
 const Params = Schema.Struct({
@@ -37,12 +47,13 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			query routeNavUserQuery($userName: String!) {
 				User(name: $userName) {
 					id
+					isFollowing
 					about
 					name
 					options {
 						profileTheme
 					}
-					...routeUser_user
+					...User_user
 				}
 			}
 		`,
@@ -59,161 +70,93 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 })
 
 export default function Page(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
+	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+	const data = useRawLoaderData<typeof clientLoader>()
 
-	const tabs = Ariakit.useTabStore()
+	const { pathname } = useLocation()
 
+	const follow = useFetcher<typeof userFollowAction>({
+		key: `${data.user.name}-follow`,
+	})
+
+	const params = useParams()
+
+	const isFollow =
+		follow.formData?.get("isFollowing") ??
+		follow.data?.ToggleFollow.isFollowing ??
+		data.user.isFollowing
 	return (
 		<M3.LayoutBody
 			style={data.user.options?.profileTheme ?? undefined}
 			className="max-sm:pe-0 max-sm:ps-0"
 		>
-			<M3.LayoutPane variant="fixed" className="max-md:hidden">
-				<User user={data.user} />
+			<M3.LayoutPane>
 				<M3.Card
-					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 					variant="elevated"
+					className="p-0 contrast-standard theme-light contrast-more:contrast-high max-sm:contents dark:theme-dark"
 				>
-					<Ariakit.Heading>About me</Ariakit.Heading>
-					{data.user.about && (
-						<Markdown options={options}>{data.user.about}</Markdown>
-					)}
+					<M3.Tabs selectedId={params.typelist ?? "undefined"}>
+						<div className="sticky top-0 z-50">
+							<AppBar variant="large" className="sm:bg-surface-container-low">
+								<AppBarTitle>
+									<span>
+										<Link to="..">{data.user.name}</Link>
+										<ExtraOutlet id="title" />
+									</span>
+								</AppBarTitle>
+								<div className="flex-1" />
+								{rootData?.Viewer?.name &&
+									rootData.Viewer.name !== data.user.name && (
+										<follow.Form
+											method="post"
+											action={`/user/${data.user.id}/follow`}
+										>
+											<input
+												type="hidden"
+												name="isFollowing"
+												value={isFollow ? "" : "true"}
+												id=""
+											/>
+
+											<M3.Icon
+												type="submit"
+												label={
+													isFollow ? m.unfollow_button() : m.follow_button()
+												}
+											>
+												{isFollow ? (
+													<MaterialSymbolsPersonRemoveOutline />
+												) : (
+													<MaterialSymbolsPersonAddOutline />
+												)}
+											</M3.Icon>
+										</follow.Form>
+									)}
+								{rootData?.Viewer?.name === data.user.name && (
+									<Form
+										method="post"
+										action={`/logout/?${new URLSearchParams({
+											redirect: pathname,
+										})}`}
+									>
+										<Icon type="submit" label="Logout">
+											<span className="sr-only">Logout</span>
+											<MaterialSymbolsLogout />
+										</Icon>
+									</Form>
+								)}
+								<ExtraOutlet id="actions" />
+							</AppBar>
+						</div>
+
+						<User user={data.user} />
+						<M3.TabsPanel tabId={params.typelist ?? "undefined"}>
+							<Outlet />
+						</M3.TabsPanel>
+					</M3.Tabs>
 				</M3.Card>
 			</M3.LayoutPane>
-
-			<Outlet
-				context={{
-					store: tabs,
-					children: (
-						<>
-							<User user={data.user} className="md:hidden" />
-							<M3.TabsList grow={true}>
-								<M3.TabsListItem
-									id="undefined"
-									render={
-										<Link to={route_user({ userName: data.user.name })} />
-									}
-								>
-									Overview
-								</M3.TabsListItem>
-								<M3.TabsListItem
-									id="animelist"
-									render={
-										<Link
-											to={route_user_list({
-												userName: data.user.name,
-												typelist: "animelist",
-											})}
-										/>
-									}
-								>
-									Anime List
-								</M3.TabsListItem>
-								<M3.TabsListItem
-									id="mangalist"
-									render={
-										<Link
-											to={route_user_list({
-												userName: data.user.name,
-												typelist: "mangalist",
-											})}
-										/>
-									}
-								>
-									Manga List
-								</M3.TabsListItem>
-							</M3.TabsList>
-						</>
-					),
-				}}
-			/>
+			<ExtraOutlet id="side" />
 		</M3.LayoutBody>
-	)
-}
-
-const options = {
-	replace: {
-		center(props) {
-			return <center {...props} />
-		},
-		p(props) {
-			return <div {...props} />
-		},
-		a(props) {
-			if (!props.href?.trim()) {
-				return <span className="text-primary">{props.children}</span>
-			}
-
-			// @ts-ignore
-			if (props.className === "media-link" && props["data-id"]) {
-				// @ts-ignore
-				return <MediaLink mediaId={props["data-id"]} />
-			}
-
-			// @ts-ignore
-			if (props["data-user-name"]) {
-				return (
-					// @ts-ignore
-					<UserLink userName={props["data-user-name"]}>
-						{props.children}
-					</UserLink>
-				)
-			}
-
-			return (
-				<a {...props} rel="noopener noreferrer" target="_blank">
-					{props.children}
-				</a>
-			)
-		},
-	},
-} satisfies Options
-
-const routeUser_user = graphql`
-	fragment routeUser_user on User {
-		id
-		name
-		bannerImage
-		avatar {
-			large
-			medium
-		}
-	}
-`
-
-function User({
-	user,
-	...props
-}: ComponentPropsWithRef<"div"> & { user: routeUser_user$key }) {
-	const data = useFragment(routeUser_user, user)
-	const src = data.avatar?.large ?? data.avatar?.medium
-
-	return (
-		<div {...props}>
-			<div className="relative">
-				{data.avatar && src && (
-					<img
-						src={src}
-						alt=""
-						className="bg-cover object-cover"
-						style={{
-							backgroundImage: `url(${data.avatar.medium})`,
-						}}
-					/>
-				)}
-				{data.bannerImage && (
-					<img
-						src={data.bannerImage}
-						alt=""
-						className="absolute inset-0 -z-50 h-full w-full object-cover"
-					/>
-				)}
-			</div>
-			<div>
-				<Ariakit.Heading className="truncate text-headline-lg">
-					{data.name}
-				</Ariakit.Heading>
-			</div>
-		</div>
 	)
 }

@@ -33,7 +33,9 @@ export const Focus = {
 	args: {
 		children: (
 			<>
-				<TooltipPlainTrigger render={<Icon {...IconStories.Default.args} />} />
+				<TooltipPlainTrigger
+					render={<Icon {...IconStories.Default.args} label="" />}
+				/>
 				<TooltipPlainContainer>Present now</TooltipPlainContainer>
 			</>
 		),

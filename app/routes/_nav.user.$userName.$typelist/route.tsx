@@ -14,7 +14,6 @@ import {
 	useLoaderData,
 	useLocation,
 	useNavigate,
-	useOutletContext,
 	useParams,
 	useRouteError,
 	useSearchParams,
@@ -24,11 +23,9 @@ import {
 
 import { Order } from "effect"
 import type { ReactNode } from "react"
-import { AppBar, AppBarTitle } from "~/components/AppBar"
-import { Button as ButtonText, Icon } from "~/components/Button"
+import { Button as ButtonText } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
-import { LayoutPane } from "~/components/Layout"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
@@ -54,6 +51,8 @@ import { btnIcon, button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
+
+import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -101,6 +100,7 @@ const routeNavUserListQuery = graphql`
 				name
 			}
 			user {
+				name
 				mediaListOptions {
 					rowOrder
 					animeList {
@@ -110,77 +110,23 @@ const routeNavUserListQuery = graphql`
 						sectionOrder
 					}
 				}
+				...User_user
 				...MediaListItemSort_user
 			}
 		}
 	}
 `
 
-export default function Filters(): ReactNode {
+function SidePanel(): ReactNode {
 	const submit = useSubmit()
 
 	const searchParams = useOptimisticSearchParams()
 	const { pathname } = useLocation()
-	const params = useParams()
 
-	const { children, store } = useOutletContext<{
-		children: ReactNode
-		store: Ariakit.TabStore
-	}>()
-
-	const { data } = useLoaderData<typeof clientLoader>()
+	const { data, params } = useLoaderData<typeof clientLoader>()!
 
 	return (
 		<>
-			<M3.LayoutPane>
-				<M3.Tabs store={store} selectedId={params.typelist}>
-					{children}
-					<M3.TabsPanel tabId={params.typelist}>
-						<Card
-							variant="elevated"
-							className="px-0 contrast-standard theme-light contrast-more:contrast-high max-sm:contents dark:theme-dark"
-						>
-							<div className="flex flex-col gap-4">
-								<M3.Tabs selectedId={String(params.selected)}>
-									<div className="sticky top-0 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
-										<AppBar
-											variant="large"
-											className="sm:bg-surface-container-low"
-										>
-											<Icon>
-												<span className="sr-only">Search</span>
-												<MaterialSymbolsSearch />
-											</Icon>
-											<AppBarTitle>
-												{params.typelist === "animelist"
-													? "Anime list"
-													: "Manga list"}
-											</AppBarTitle>
-											<div className="flex-1" />
-											<Icon>
-												<span className="sr-only">Filter</span>
-												<MaterialSymbolsSearch />
-											</Icon>
-											<FilterButton />
-											<Icon>
-												<span className="sr-only">More</span>
-												<MaterialSymbolsMoreHoriz />
-											</Icon>
-										</AppBar>
-										<ListTabs />
-									</div>
-									<M3.TabsPanel
-										tabId={params.selected}
-										className="flex flex-col gap-4"
-									>
-										<Outlet />
-									</M3.TabsPanel>
-								</M3.Tabs>
-							</div>
-						</Card>
-					</M3.TabsPanel>
-				</M3.Tabs>
-			</M3.LayoutPane>
 			<M3.LayoutPane variant="fixed" className="max-xl:hidden">
 				<Card
 					variant="elevated"
@@ -292,6 +238,50 @@ export default function Filters(): ReactNode {
 	)
 }
 
+function Actions(): ReactNode {
+	return (
+		<>
+			<M3.Icon label="Filter">
+				<MaterialSymbolsSearch />
+			</M3.Icon>
+			<FilterButton />
+			<M3.Icon label="More">
+				<MaterialSymbolsMoreHoriz />
+			</M3.Icon>
+		</>
+	)
+}
+
+function Title(): ReactNode {
+	const { params } = useLoaderData<typeof clientLoader>()!
+
+	return (
+		<>
+			{" | "}
+			{params.typelist === "animelist" ? "Anime list" : "Manga list"}
+		</>
+	)
+}
+
+export default function Route(): ReactNode {
+	const params = useParams()
+
+	return (
+		<ExtraOutlets title={<Title />} actions={<Actions />} side={<SidePanel />}>
+			<div className="flex flex-col gap-4">
+				<M3.Tabs selectedId={String(params.selected)}>
+					<div className="sticky top-16 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
+						<ListTabs />
+					</div>
+					<M3.TabsPanel tabId={params.selected} className="flex flex-col gap-4">
+						<Outlet />
+					</M3.TabsPanel>
+				</M3.Tabs>
+			</div>
+		</ExtraOutlets>
+	)
+}
+
 function ListTabs() {
 	const { data, params } = useLoaderData<typeof clientLoader>()
 
@@ -398,20 +388,20 @@ function Filter() {
 	sortParams.set("sheet", "sort")
 
 	return (
-		<Form
-			replace
-			action={pathname}
-			onChange={(e) => submit(e.currentTarget, {})}
+		<Sheet
+			open={filter || sort}
+			onClose={() => {
+				navigate({
+					search: `?${searchParams}`,
+				})
+			}}
 		>
-			{sheet && <input type="hidden" name="sheet" value={sheet} />}
-			<Sheet
-				open={filter || sort}
-				onClose={() => {
-					navigate({
-						search: `?${searchParams}`,
-					})
-				}}
+			<Form
+				replace
+				action={pathname}
+				onChange={(e) => submit(e.currentTarget, {})}
 			>
+				{sheet && <input type="hidden" name="sheet" value={sheet} />}
 				<M3.Tabs selectedId={sheet}>
 					<TabsList
 						grow
@@ -432,8 +422,8 @@ function Filter() {
 						</SheetBody>
 					</M3.TabsPanel>
 				</M3.Tabs>
-			</Sheet>
-		</Form>
+			</Form>
+		</Sheet>
 	)
 }
 
@@ -639,16 +629,14 @@ export function ErrorBoundary(): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<LayoutPane>
-				<div>
-					<Ariakit.Heading>Oops</Ariakit.Heading>
-					<p>Status: {error.status}</p>
-					<p>{error.data}</p>
-					<Link to={location} className={button()}>
-						Try again
-					</Link>
-				</div>
-			</LayoutPane>
+			<div>
+				<Ariakit.Heading>Oops</Ariakit.Heading>
+				<p>Status: {error.status}</p>
+				<p>{error.data}</p>
+				<Link to={location} className={button()}>
+					Try again
+				</Link>
+			</div>
 		)
 	}
 
@@ -660,17 +648,15 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<LayoutPane>
-			<Card variant="elevated">
-				<Ariakit.Heading className="text-balance text-headline-md">
-					Uh oh ...
-				</Ariakit.Heading>
-				<p className="text-headline-sm">Something went wrong.</p>
-				<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
-				<Link to={location} className={button()}>
-					Try again
-				</Link>
-			</Card>
-		</LayoutPane>
+		<Card variant="elevated">
+			<Ariakit.Heading className="text-balance text-headline-md">
+				Uh oh ...
+			</Ariakit.Heading>
+			<p className="text-headline-sm">Something went wrong.</p>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
+			<Link to={location} className={button()}>
+				Try again
+			</Link>
+		</Card>
 	)
 }

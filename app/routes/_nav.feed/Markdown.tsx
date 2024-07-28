@@ -4,7 +4,7 @@ import {
 	createElement,
 	Fragment,
 	useMemo,
-	type ComponentPropsWithRef,
+	type ComponentProps,
 	type ReactNode,
 } from "react"
 import { route_media, route_user } from "~/lib/route"
@@ -261,9 +261,7 @@ class HtmlTag implements HtmlNode {
 
 export interface Options {
 	replace: Partial<{
-		[K in keyof JSX.IntrinsicElements]: (
-			props: ComponentPropsWithRef<K>
-		) => ReactNode
+		[K in keyof JSX.IntrinsicElements]: (props: ComponentProps<K>) => ReactNode
 	}>
 }
 

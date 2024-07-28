@@ -119,8 +119,7 @@ function Info(): ReactNode {
 				</M3.Button>
 			</div>
 			<div className="@lg:hidden">
-				<M3.Icon>
-					<span className="sr-only">Edit</span>
+				<M3.Icon label="Edit">
 					<MaterialSymbolsEditSquareOutline />
 				</M3.Icon>
 			</div>
@@ -136,8 +135,7 @@ function Info(): ReactNode {
 				</M3.Button>
 			</div>
 			<div className="@lg:hidden">
-				<M3.Icon>
-					<span className="sr-only">Info</span>
+				<M3.Icon label="Info">
 					<MaterialSymbolsInfoOutline />
 				</M3.Icon>
 			</div>

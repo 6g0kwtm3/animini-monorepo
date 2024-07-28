@@ -1,11 +1,10 @@
 import * as Ariakit from "@ariakit/react"
 import { createContext, forwardRef, use, type ReactNode } from "react"
+import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import MaterialSymbolsClose from "~icons/material-symbols/close"
 import { Icon } from "./Button"
-import type { VariantProps } from "tailwind-variants"
-import { btnIcon } from "~/lib/button"
 
 const createSearchView = tv(
 	{
@@ -89,10 +88,13 @@ export function SearchViewInput(props: Ariakit.ComboboxProps): ReactNode {
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss className={btnIcon()}>
-					<span className="sr-only">Close</span>
-					<MaterialSymbolsArrowBack />
-				</Ariakit.DialogDismiss>
+				<Ariakit.DialogDismiss
+					render={
+						<Icon label={"Close"}>
+							<MaterialSymbolsArrowBack />
+						</Icon>
+					}
+				/>
 				<Ariakit.Combobox
 					autoSelect={"always"}
 					{...props}
@@ -100,8 +102,7 @@ export function SearchViewInput(props: Ariakit.ComboboxProps): ReactNode {
 				/>
 				<Ariakit.ComboboxCancel
 					render={
-						<Icon>
-							<span className="sr-only">Clear</span>
+						<Icon label={"Clear"}>
 							<MaterialSymbolsClose />
 						</Icon>
 					}

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { expect, userEvent, within } from "@storybook/test"
+import { expect, userEvent, waitFor, within } from "@storybook/test"
 import { SearchView } from "~/components"
 
 import { Search } from "~/lib/search/Search"
@@ -85,13 +85,12 @@ export const Text: Story = {
 		},
 	},
 	async play({ canvasElement }) {
-		const main = within(canvasElement.parentElement!)
+		const body = within(canvasElement.parentElement!)
 
-		const search = main.getByPlaceholderText("Search anime or manga")
 		//when
 		await userEvent.keyboard("{Control>}k{/Control}")
 		//then
-		await expect(search.checkVisibility()).toBe(true)
+		await body.findByRole("combobox")
 	},
 }
 
@@ -105,9 +104,8 @@ export const Open: Story = {
 	},
 	async play({ canvasElement }) {
 		const body = within(canvasElement.parentElement!)
-		const search = body.getByPlaceholderText("Search anime or manga")
 		//then
-		await expect(search.checkVisibility()).toBeTruthy()
+		await body.findByRole("combobox")
 	},
 }
 
@@ -115,10 +113,10 @@ export const Close: Story = {
 	...Open,
 	async play({ canvasElement }) {
 		const body = within(canvasElement.parentElement!)
-		const search = body.getByPlaceholderText("Search anime or manga")
+		const search = await body.findByRole("combobox")
 		//when
-		await userEvent.keyboard("{Escape}")
+		await userEvent.keyboard("{Escape}{Escape}")
 		//then
-		await expect(search.checkVisibility()).toBeFalsy()
+		await waitFor(async () => expect(search).not.toBeVisible())
 	},
 }

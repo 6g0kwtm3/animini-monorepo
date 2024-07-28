@@ -4,7 +4,7 @@ import {
 	createContext,
 	Suspense,
 	useContext,
-	type ComponentPropsWithRef,
+	type ComponentProps,
 	type ReactNode,
 } from "react"
 import { ListItemContent, ListItemImg } from "~/components"
@@ -76,7 +76,7 @@ function Media(props: { media: MediaLink_media$key }) {
 export function MediaLink({
 	mediaId,
 	...props
-}: Omit<ComponentPropsWithRef<typeof Link>, "to"> & {
+}: Omit<ComponentProps<typeof Link>, "to"> & {
 	mediaId: number
 }): ReactNode {
 	const ctx = useContext(MediaLinkContext)

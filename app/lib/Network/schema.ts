@@ -15,9 +15,11 @@ const PayloadErrors = Schema.mutable(
 	)
 )
 
-const PayloadData = Schema.mutable(Schema.Record(Schema.String, Schema.Any))
+const PayloadData = Schema.mutable(
+	Schema.Record({ key: Schema.String, value: Schema.Any })
+)
 const PayloadExtensions = Schema.mutable(
-	Schema.Record(Schema.String, Schema.Any)
+	Schema.Record({ key: Schema.String, value: Schema.Any })
 )
 
 const GraphQLResponseWithData = Schema.mutable(

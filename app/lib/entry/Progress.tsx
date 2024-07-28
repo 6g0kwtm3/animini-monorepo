@@ -73,7 +73,7 @@ export function ProgressIncrement(props: {
 				<M3.TooltipPlain>
 					<M3.TooltipPlainTrigger
 						render={<button type="submit" />}
-						className={button({ className: "hidden @lg:block" })}
+						className={button({ className: "hidden @lg:inline-flex" })}
 					>
 						<Progress entry={entry} />
 						<M3.ButtonIcon>

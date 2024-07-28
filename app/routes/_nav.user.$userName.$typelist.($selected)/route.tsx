@@ -195,6 +195,9 @@ async function setStatus(formData: FormData) {
 	return { SaveMediaListEntry: data.SaveMediaListEntry }
 }
 
+// import {type} from 'arktype'
+// const action = type('parse.formData')
+
 export const clientAction = (async (args) => {
 	const formData = await args.request.formData()
 	if (formData.get("intent") === "increment") {
@@ -574,7 +577,7 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<Card variant="elevated" className="m-4">
+		<>
 			<Ariakit.Heading className="text-balance text-headline-md">
 				Uh oh ...
 			</Ariakit.Heading>
@@ -583,6 +586,6 @@ export function ErrorBoundary(): ReactNode {
 			<Link to={location} className={button()}>
 				Try again
 			</Link>
-		</Card>
+		</>
 	)
 }
