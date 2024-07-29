@@ -11,7 +11,7 @@ import { m } from "~/lib/paraglide"
 const { graphql } = ReactRelay
 
 const UserFollow = graphql`
-	mutation routeUserFollowMutation($userId: Int!) {
+	mutation routeUserFollowMutation($userId: Int!) @raw_response_type {
 		ToggleFollow(userId: $userId) {
 			id
 			name @required(action: LOG)

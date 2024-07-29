@@ -7,7 +7,6 @@ import {
 	unstable_defineClientLoader,
 	useFetcher,
 	useLocation,
-	useMatches,
 	useParams,
 	useRouteLoaderData,
 } from "@remix-run/react"
@@ -32,7 +31,6 @@ import { User } from "../_nav.user.$userName/User"
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import { ExtraOutlet } from "./ExtraOutlet"
-import { useExtraOutlet } from "./useExtraOutlet"
 const { graphql } = ReactRelay
 
 const Params = Schema.Struct({
@@ -44,7 +42,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	const data = await client_operation<routeNavUserQuery>(
 		graphql`
-			query routeNavUserQuery($userName: String!) {
+			query routeNavUserQuery($userName: String!) @raw_response_type {
 				User(name: $userName) {
 					id
 					isFollowing

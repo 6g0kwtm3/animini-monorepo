@@ -1,5 +1,4 @@
 import {
-	Await,
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
@@ -10,9 +9,9 @@ import {
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
 
-import { Effect, Option, pipe } from "effect"
+import { Effect, pipe } from "effect"
 
-import { Remix, Viewer } from "~/lib/Remix"
+import { Remix } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
 
 import {
@@ -21,7 +20,7 @@ import {
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
-import { Suspense, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
 
@@ -59,7 +58,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 				const data = yield* client.query<NavQuery>(
 					graphql`
-						query routeNavQuery {
+						query routeNavQuery @raw_response_type {
 							...SearchTrending_query
 						}
 					`,

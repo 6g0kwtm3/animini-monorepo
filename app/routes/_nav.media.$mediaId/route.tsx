@@ -64,7 +64,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	const data = await client.operation<routeNavMediaQuery>(
 		graphql`
-			query routeNavMediaQuery($id: Int!) {
+			query routeNavMediaQuery($id: Int!) @raw_response_type {
 				Media(id: $id) {
 					id
 					coverImage {

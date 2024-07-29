@@ -7,7 +7,7 @@ import { card, cardBody, cardFooter, cardHeader } from "~/lib/card"
 export function Card({
 	variant,
 	...props
-}: ComponentProps<"section"> & VariantProps<typeof card>): ReactNode {
+}: ComponentProps<"article"> & VariantProps<typeof card>): ReactNode {
 	return (
 		<Ariakit.HeadingLevel>
 			<article

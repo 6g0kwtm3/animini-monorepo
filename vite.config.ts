@@ -18,8 +18,8 @@ export default defineConfig({
 		babel({
 			filter: /\.[jt]sx?$/,
 			include: [
-				"app/routes/_nav.user.$userName/route.tsx",
-				"app/routes/_nav.user.$userName.$typelist/route.tsx",
+				"app/routes/_nav.user.$userName/*.tsx",
+				"app/routes/_nav.user.$userName.$typelist/*.tsx",
 				"app/components/**/*.tsx",
 				"app/lib/**/*.tsx",
 			],
@@ -32,16 +32,17 @@ export default defineConfig({
 			},
 		}),
 
-		MillionLint.vite({
-			filter: {
-				include: [
-					"app/routes/_nav.user.$userName/route.tsx",
-					"app/routes/_nav.user.$userName.$typelist/route.tsx",
-					"app/components/**/*.tsx",
-					"app/lib/**/*.tsx",
-				],
-			},
-		}),
+		!isStorybook &&
+			MillionLint.vite({
+				filter: {
+					include: [
+						"app/routes/_nav.user.$userName/*.tsx",
+						"app/routes/_nav.user.$userName.$typelist/*.tsx",
+						"app/components/**/*.tsx",
+						"app/lib/**/*.tsx",
+					],
+				},
+			}),
 		isBun()
 			? null
 			: paraglide({

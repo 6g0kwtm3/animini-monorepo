@@ -44,7 +44,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 			const data = yield* client.query<NavNotificationsQuery>(
 				graphql`
-					query routeNavNotificationsQuery {
+					query routeNavNotificationsQuery @raw_response_type {
 						Viewer {
 							id
 							unreadNotificationCount
@@ -68,7 +68,7 @@ export const clientAction = (async (args) => {
 			const client = yield* EffectUrql
 			yield* client.query(
 				graphql`
-					query routeNavNotificationsReadQuery {
+					query routeNavNotificationsReadQuery @raw_response_type {
 						Page(perPage: 0) {
 							notifications(resetNotificationCount: true) {
 								__typename

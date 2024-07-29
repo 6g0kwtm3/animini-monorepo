@@ -43,7 +43,7 @@ function MediaCarouselItem(props: { media: routeMediaCarouselItem_media$key }) {
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const data = await client_operation<routeNavIndexQuery>(
 		graphql`
-			query routeNavIndexQuery {
+			query routeNavIndexQuery @raw_response_type {
 				Page {
 					media {
 						id

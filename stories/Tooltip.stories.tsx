@@ -14,6 +14,11 @@ const meta = {
 	component: TooltipPlain,
 	parameters: {
 		layout: "centered",
+		docs: {
+			story: {
+				inline: false,
+			},
+		},
 	},
 	tags: ["autodocs"],
 } satisfies Meta<typeof TooltipPlain>

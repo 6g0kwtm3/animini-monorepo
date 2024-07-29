@@ -47,7 +47,7 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 			const data = yield* client.query<NavLoginQuery>(
 				graphql`
-					query routeNavLoginQuery {
+					query routeNavLoginQuery @raw_response_type {
 						Viewer {
 							id
 							name
@@ -87,6 +87,16 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 		Remix.runLoader
 	)
 })
+
+export const clientLoader = () => {
+	sessionStorage.removeItem("anilist-token")
+
+	commitLocalUpdate(environment, (store) => {
+		store.invalidateStore()
+	})
+
+	return null
+}
 
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()

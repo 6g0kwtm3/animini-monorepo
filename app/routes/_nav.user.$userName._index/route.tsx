@@ -14,10 +14,10 @@ import { M3 } from "~/lib/components"
 
 import { Markdown, type Options } from "../_nav.feed/Markdown"
 
+import { Schema } from "@effect/schema"
 import { MediaLink } from "../_nav.feed/MediaLink"
 import { UserLink } from "../_nav.feed/UserLink"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
-import { Schema } from "@effect/schema"
 
 const { graphql } = ReactRelay
 
@@ -26,8 +26,9 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	const data = await client_operation<routeNavUserIndexQuery>(
 		graphql`
-			query routeNavUserIndexQuery($userName: String!) {
+			query routeNavUserIndexQuery($userName: String!) @raw_response_type {
 				User(name: $userName) {
+					id
 					about
 				}
 			}

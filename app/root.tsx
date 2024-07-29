@@ -67,7 +67,7 @@ export const links: LinksFunction = () => {
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const data = await client_operation<rootQuery>(
 		graphql`
-			query rootQuery {
+			query rootQuery @raw_response_type {
 				Viewer {
 					id
 					name

@@ -4,8 +4,9 @@ import { Card, CardBody } from "~/components/Card"
 import { Ariakit } from "~/lib/ariakit"
 import { M3 } from "~/lib/components"
 
-import favicon from "~/../public/favicon.ico?url"
 import { fn } from "@storybook/test"
+import favicon from "~/../public/favicon.ico?url"
+import MaterialSymbolsOpenInNew from "~icons/material-symbols/open-in-new"
 
 const meta = {
 	title: "Example/Card",
@@ -45,12 +46,12 @@ export const WithDivider: Story = {
 		children: (
 			<>
 				<M3.CardHeader>
-					<M3.List lines={"two"} className="force:p-0">
-						<M3.ListItem className="hover:state-none force:p-0">
+					<M3.List lines={"two"} className="p-0">
+						<M3.ListItem className="p-0 hover:state-none">
 							<M3.ListItemImg>
 								<img src={favicon} alt="" className="" />
 							</M3.ListItemImg>
-							<M3.ListItemContent className="force:p-0">
+							<M3.ListItemContent className="">
 								<M3.ListItemContentTitle>
 									<Ariakit.Heading>Remix</Ariakit.Heading>
 								</M3.ListItemContentTitle>
@@ -71,8 +72,10 @@ export const WithDivider: Story = {
 							e.preventDefault()
 							click(e)
 						}}
+						className="underline"
 					>
-						Visit source code on GitHub.
+						Visit source code on GitHub.{" "}
+						<MaterialSymbolsOpenInNew className="i-inline inline" />
 					</a>
 				</M3.CardFooter>
 			</>

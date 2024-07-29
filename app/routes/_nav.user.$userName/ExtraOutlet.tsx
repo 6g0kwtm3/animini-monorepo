@@ -10,9 +10,7 @@ export function ExtraOutlet(props: {
 	return useExtraOutlet(props.id, props.context)
 }
 
-export function ExtraOutlets(
-	props: Record<"children" | (string & {}), ReactNode>
-): ReactNode {
+export function ExtraOutlets(props: Record<string, ReactNode>): ReactNode {
 	const id = use(ExtraOutletContext)
 
 	return props[id]

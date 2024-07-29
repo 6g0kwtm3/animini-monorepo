@@ -48,7 +48,7 @@ function matchMediaId(s: string) {
 async function getPage() {
 	const data = await client_operation<routeNavFeedQuery>(
 		graphql`
-			query routeNavFeedQuery {
+			query routeNavFeedQuery @raw_response_type {
 				Page(perPage: 10) {
 					activities(sort: [ID_DESC], type_in: [TEXT]) {
 						__typename
@@ -76,7 +76,7 @@ async function getPage() {
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await client_operation<routeNavFeedMediaQuery>(
 		graphql`
-			query routeNavFeedMediaQuery($ids: [Int]) {
+			query routeNavFeedMediaQuery($ids: [Int]) @raw_response_type {
 				Page {
 					media(id_in: $ids) {
 						id

@@ -12,6 +12,8 @@ import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
 import {
+	ANIME_FORMAT_OPTIONS,
+	ANIME_PROGRESS_OPTIONS,
 	ANIME_STATUS_OPTIONS,
 	MANGA_FORMAT_OPTIONS,
 	MANGA_PROGRESS_OPTIONS,

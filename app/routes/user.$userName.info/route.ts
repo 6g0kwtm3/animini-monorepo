@@ -14,7 +14,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	const data = await client_operation<routeUserInfoQuery>(
 		graphql`
-			query routeUserInfoQuery($userName: String!) {
+			query routeUserInfoQuery($userName: String!) @raw_response_type {
 				User(name: $userName) {
 					id
 					isFollower

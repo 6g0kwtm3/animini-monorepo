@@ -28,7 +28,6 @@ import { unstable_defineClientLoader } from "@remix-run/react"
 import type { ComponentRef, ReactNode } from "react"
 import { Suspense, use, useRef } from "react"
 
-import { Card } from "~/components/Card"
 import { List } from "~/components/List"
 import { Skeleton } from "~/components/Skeleton"
 import { Ariakit } from "~/lib/ariakit"
@@ -112,7 +111,8 @@ const NavUserListEntriesFilter_entries = graphql`
 `
 
 const NavUserListEntriesQuery = graphql`
-	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!) {
+	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
+	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {
 			lists @required(action: LOG) {
@@ -148,10 +148,8 @@ export const meta = (({ params }) => {
 }) satisfies MetaFunction<typeof clientLoader>
 
 const UserSetStatus = graphql`
-	mutation routeUserSetStatusMutation(
-		$mediaId: Int!
-		$status: MediaListStatus!
-	) {
+	mutation routeUserSetStatusMutation($mediaId: Int!, $status: MediaListStatus!)
+	@raw_response_type {
 		SaveMediaListEntry(mediaId: $mediaId, status: $status) {
 			id
 			progress

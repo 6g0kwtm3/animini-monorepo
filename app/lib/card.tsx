@@ -1,7 +1,7 @@
 import { tv } from "./tailwind-variants"
 
 export const cardBody = tv({
-	base: "overflow-y-auto text-body-md",
+	base: "overflow-y-auto",
 })
 
 export const cardHeader = tv({
@@ -13,7 +13,7 @@ export const cardFooter = tv({
 })
 
 export const card = tv({
-	base: "relative flex h-auto flex-col gap-4 rounded-md p-4",
+	base: "relative flex h-auto flex-col gap-4 rounded-md p-4 text-body-md",
 	variants: {
 		variant: {
 			outlined:

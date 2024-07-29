@@ -74,7 +74,8 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 })
 
 const routeNavUserListQuery = graphql`
-	query routeNavUserListQuery($userName: String!, $type: MediaType!) {
+	query routeNavUserListQuery($userName: String!, $type: MediaType!)
+	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type) {
 			lists {
 				name
