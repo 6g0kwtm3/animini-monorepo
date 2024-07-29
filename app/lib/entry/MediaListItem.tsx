@@ -119,7 +119,7 @@ function Info(): ReactNode {
 				</M3.Button>
 			</div>
 			<div className="@lg:hidden">
-				<M3.Icon label="Edit">
+				<M3.Icon label="Edit" tooltip={false}>
 					<MaterialSymbolsEditSquareOutline />
 				</M3.Icon>
 			</div>
@@ -135,7 +135,7 @@ function Info(): ReactNode {
 				</M3.Button>
 			</div>
 			<div className="@lg:hidden">
-				<M3.Icon label="Info">
+				<M3.Icon label="Info" tooltip={false}>
 					<MaterialSymbolsInfoOutline />
 				</M3.Icon>
 			</div>
@@ -238,22 +238,19 @@ function MediaListItemSubtitle(props: {
 				<div className="inline-block w-[3ch]">{entry.score}</div>
 			</div>
 
-			<M3.TooltipPlain>
-				<M3.TooltipPlainTrigger
-					className={
-						Predicate.isString(data?.Viewer?.name) &&
-						data.Viewer.name === params.userName
-							? "contents @lg:hidden"
-							: "contents"
-					}
-				>
-					<div>
-						<MaterialSymbolsPlayArrow className="i-inline inline" />{" "}
-						<Progress entry={entry} />
-					</div>
-				</M3.TooltipPlainTrigger>
-				{entry.media && <ProgressTooltip media={entry.media} />}
-			</M3.TooltipPlain>
+			<div
+				className={
+					Predicate.isString(data?.Viewer?.name) &&
+					data.Viewer.name === params.userName
+						? "contents @lg:hidden"
+						: "contents"
+				}
+			>
+				<div>
+					<MaterialSymbolsPlayArrow className="i-inline inline" />{" "}
+					<Progress entry={entry} />
+				</div>
+			</div>
 
 			{entry.media?.type === ("ANIME" satisfies MediaType) &&
 				Predicate.isNumber(watch) && (

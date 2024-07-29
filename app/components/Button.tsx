@@ -43,11 +43,13 @@ export function Icon({
 	children,
 	variant,
 	className,
+	tooltip = true,
 	label,
 	...props
 }: VariantProps<typeof btnIcon> &
 	Ariakit.ButtonProps & {
 		label: string
+		tooltip?: boolean
 	}): ReactNode {
 	const btn = (
 		<Ariakit.Button {...props} className={btnIcon({ variant, className })}>
@@ -56,7 +58,8 @@ export function Icon({
 			<TouchTarget />
 		</Ariakit.Button>
 	)
-	if (!label) {
+
+	if (!tooltip) {
 		return btn
 	}
 

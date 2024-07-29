@@ -57,8 +57,8 @@ const makeClientLive = Effect.sync(() => {
 		) =>
 			Effect.promise(async () =>
 				fetchQuery<T>(environment, taggedNode, variables, {
-					...cacheConfig,
 					fetchPolicy: "store-or-network",
+					...cacheConfig,
 				}).toPromise()
 			),
 		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>

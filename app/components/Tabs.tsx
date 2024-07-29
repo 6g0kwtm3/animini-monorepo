@@ -1,9 +1,7 @@
-import { motion } from "framer-motion"
-
 import type { ReactNode } from "react"
 import { createContext, use, useId } from "react"
-import { Ariakit } from "~/lib/ariakit"
 import type { VariantProps } from "tailwind-variants"
+import { Ariakit } from "~/lib/ariakit"
 import { tv } from "~/lib/tailwind-variants"
 
 const TabsContext = createContext<string | undefined>(undefined)
@@ -73,9 +71,11 @@ export function TabsListItem({
 				{children}
 
 				{selectedId === props.id && (
-					<motion.div
-						layoutId={layoutId}
+					<div
 						className="absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem] bg-primary"
+						style={{
+							viewTransitionName: layoutId?.replaceAll(":", "-"),
+						}}
 					/>
 				)}
 			</div>

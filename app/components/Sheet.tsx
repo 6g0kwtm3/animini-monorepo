@@ -1,6 +1,5 @@
 import * as Ariakit from "@ariakit/react"
 
-import { useMotionValue, useTransform } from "framer-motion"
 import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, use } from "react"
 import type { VariantProps } from "tailwind-variants"
@@ -38,10 +37,6 @@ export function Sheet({
 	...props
 }: VariantProps<typeof sheet> & Ariakit.DialogProps): JSX.Element {
 	const styles = sheet({ modal: modal, variant })
-
-	const y = useMotionValue(0)
-	const h = window.innerHeight
-	let opacity = useTransform(y, [0, h], [0.4, 0])
 
 	return (
 		<Context value={styles}>

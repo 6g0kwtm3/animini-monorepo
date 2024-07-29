@@ -2,6 +2,7 @@ import { Schema } from "@effect/schema"
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String,
+	cause: Schema.instanceOf(Error),
 }) {}
 
 const PayloadErrors = Schema.mutable(

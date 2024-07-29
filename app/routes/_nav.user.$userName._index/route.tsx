@@ -1,4 +1,3 @@
-import { Schema } from "@effect/schema"
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
@@ -18,6 +17,7 @@ import { Markdown, type Options } from "../_nav.feed/Markdown"
 import { MediaLink } from "../_nav.feed/MediaLink"
 import { UserLink } from "../_nav.feed/UserLink"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import { Schema } from "@effect/schema"
 
 const { graphql } = ReactRelay
 

@@ -7,8 +7,7 @@ import {
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
-import { Schema } from "@effect/schema"
-import cookie from "cookie"
+
 import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
@@ -18,9 +17,10 @@ import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
+import environment, { commitLocalUpdate } from "~/lib/Network"
 import { route_user_list } from "~/lib/route"
 import { EffectUrql } from "~/lib/urql"
-import { JsonToToken } from "~/lib/viewer"
+
 const { graphql } = ReactRelay
 
 export const meta = (() => {
@@ -56,6 +56,7 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				`,
 				{},
 				{
+					fetchPolicy: "network-only",
 					networkCacheConfig: {
 						metadata: {
 							headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
@@ -68,30 +69,18 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				return {}
 			}
 
-			const encoded = Schema.encodeSync(JsonToToken)({
-				token: token,
-				viewer: data.Viewer,
-			})
+			sessionStorage.setItem("anilist-token", token.trim())
 
-			const setCookie = cookie.serialize(`anilist-token`, encoded, {
-				sameSite: "lax",
-				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-				path: "/",
+			commitLocalUpdate(environment, (store) => {
+				store.invalidateStore()
 			})
-
-			document.cookie = setCookie
 
 			return redirect(
 				searchParams.get("redirect") ??
 					route_user_list({
 						typelist: "animelist",
 						userName: data.Viewer.name,
-					}),
-				{
-					headers: {
-						"Set-Cookie": setCookie,
-					},
-				}
+					})
 			)
 		}),
 		Effect.provide(EffectUrql.Live),

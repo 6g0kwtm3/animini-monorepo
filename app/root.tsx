@@ -33,6 +33,14 @@ import environment from "./lib/Network"
 import { RelayEnvironmentProvider as RelayEnvironmentProvider_ } from "./lib/Network/components"
 import { button } from "./lib/button"
 
+import type { rootQuery } from "~/gql/rootQuery.graphql"
+
+import ReactRelay from "react-relay"
+
+import { client_operation } from "~/lib/client"
+
+const { graphql } = ReactRelay
+
 const RelayEnvironmentProvider = RelayEnvironmentProvider_ as unknown as FC<{
 	environment: Environment
 	children?: ReactNode
@@ -56,13 +64,23 @@ export const links: LinksFunction = () => {
 		},
 	]
 }
-
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const viewer = Option.getOrNull(Viewer())
+	const data = await client_operation<rootQuery>(
+		graphql`
+			query rootQuery {
+				Viewer {
+					id
+					name
+					unreadNotificationCount
+				}
+			}
+		`,
+		{}
+	)
 
 	return {
-		Viewer: viewer,
-		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+		Viewer: data?.Viewer,
+		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}
 })

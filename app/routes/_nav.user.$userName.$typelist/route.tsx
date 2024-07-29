@@ -1,59 +1,41 @@
 import {
-	CheckboxProvider,
-	Group,
-	GroupLabel,
-	RadioProvider,
-} from "@ariakit/react"
-import { Schema } from "@effect/schema"
-import {
-	Form,
 	isRouteErrorResponse,
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
 	useLoaderData,
 	useLocation,
-	useNavigate,
 	useParams,
 	useRouteError,
 	useSearchParams,
-	useSubmit,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import { Order } from "effect"
 import type { ReactNode } from "react"
-import { Button as ButtonText } from "~/components/Button"
 import { Card } from "~/components/Card"
-import { Checkbox, Radio } from "~/components/Checkbox"
-import { ListItemContent, ListItemContentTitle } from "~/components/List"
-import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
 import { Ariakit } from "~/lib/ariakit"
 
 import { M3 } from "~/lib/components"
-import { m } from "~/lib/paraglide"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
-
-import { MediaListSort } from "~/lib/MediaListSort"
 
 import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
-import type { MediaStatus } from "~/gql/Avalible_media.graphql"
-import type { MediaFormat } from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
-import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
+import { Schema } from "@effect/schema"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
-
+import { SidePanel } from "./SidePanel"
+const { graphql } = ReactRelay
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
 	nextParams,
@@ -91,8 +73,6 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return { data, params }
 })
 
-const { graphql } = ReactRelay
-
 const routeNavUserListQuery = graphql`
 	query routeNavUserListQuery($userName: String!, $type: MediaType!) {
 		MediaListCollection(userName: $userName, type: $type) {
@@ -116,127 +96,6 @@ const routeNavUserListQuery = graphql`
 		}
 	}
 `
-
-function SidePanel(): ReactNode {
-	const submit = useSubmit()
-
-	const searchParams = useOptimisticSearchParams()
-	const { pathname } = useLocation()
-
-	const { data, params } = useLoaderData<typeof clientLoader>()!
-
-	return (
-		<>
-			<M3.LayoutPane variant="fixed" className="max-xl:hidden">
-				<Card
-					variant="elevated"
-					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
-				>
-					<Form
-						action={pathname}
-						replace
-						onChange={(e) => submit(e.currentTarget)}
-						className="grid grid-cols-2 gap-2"
-					>
-						<CheckboxProvider value={searchParams.getAll("status")}>
-							<Group className="col-span-2" render={<fieldset />}>
-								<GroupLabel render={<legend />}>Status</GroupLabel>
-								<div className="flex flex-wrap gap-2">
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_STATUS_OPTIONS
-											: MANGA_STATUS_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<M3.ChipFilter key={value}>
-												<M3.ChipFilterCheckbox name="status" value={value} />
-												{label}
-											</M3.ChipFilter>
-										)
-									})}
-								</div>
-							</Group>
-						</CheckboxProvider>
-						<CheckboxProvider value={searchParams.getAll("format")}>
-							<Group className="col-span-2" render={<fieldset />}>
-								<GroupLabel render={<legend />}>Format</GroupLabel>
-								<div className="flex flex-wrap gap-2">
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_FORMAT_OPTIONS
-											: MANGA_FORMAT_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<M3.ChipFilter key={value}>
-												<M3.ChipFilterCheckbox name="format" value={value} />
-												{label}
-											</M3.ChipFilter>
-										)
-									})}
-								</div>
-							</Group>
-						</CheckboxProvider>
-						<CheckboxProvider value={searchParams.getAll("progress")}>
-							<Group className="col-span-2" render={<fieldset />}>
-								<GroupLabel render={<legend />}>Progress</GroupLabel>
-								<div className="flex flex-wrap gap-2">
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_PROGRESS_OPTIONS
-											: MANGA_PROGRESS_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<M3.ChipFilter key={value}>
-												<M3.ChipFilterCheckbox name="progress" value={value} />
-												{label}
-											</M3.ChipFilter>
-										)
-									})}
-								</div>
-							</Group>
-						</CheckboxProvider>
-
-						<RadioProvider
-							value={
-								searchParams.get("sort") ??
-								{
-									title: MediaListSort.TitleEnglish,
-									score: MediaListSort.ScoreDesc,
-								}[
-									String(
-										data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
-									)
-								]
-							}
-						>
-							<Group className="col-span-2" render={<fieldset />}>
-								<GroupLabel render={<legend />}>Sort</GroupLabel>
-								<div className="flex flex-wrap gap-2">
-									{Object.entries(
-										params.typelist === "animelist"
-											? ANIME_SORT_OPTIONS
-											: MANGA_SORT_OPTIONS
-									).map(([value, label]) => {
-										return (
-											<M3.ChipFilter key={value}>
-												<M3.ChipFilterRadio name="sort" value={value} />
-												{label}
-											</M3.ChipFilter>
-										)
-									})}
-								</div>
-							</Group>
-						</RadioProvider>
-
-						<ButtonText type="submit">Filter</ButtonText>
-						<ButtonText type="reset">Reset</ButtonText>
-					</Form>
-				</Card>
-			</M3.LayoutPane>
-			<Filter />
-		</>
-	)
-}
 
 function Actions(): ReactNode {
 	return (
@@ -313,6 +172,7 @@ function ListTabs() {
 				id={"undefined"}
 				render={
 					<Link
+						unstable_viewTransition
 						to={`${route_user_list(params)}?${searchParams}`}
 						preventScrollReset
 					/>
@@ -327,7 +187,11 @@ function ListTabs() {
 							key={list.name}
 							id={list.name}
 							render={
-								<Link to={`${list.name}?${searchParams}`} preventScrollReset />
+								<Link
+									unstable_viewTransition
+									to={`${list.name}?${searchParams}`}
+									preventScrollReset
+								/>
 							}
 						>
 							{list.name}
@@ -369,258 +233,10 @@ function FilterButton() {
 	)
 }
 
-function Filter() {
-	let { pathname } = useLocation()
-
-	const navigate = useNavigate()
-	const searchParams = useOptimisticSearchParams()
-	const submit = useSubmit()
-
-	const sheet = searchParams.get("sheet")
-	const filter = sheet === "filter"
-	const sort = sheet === "sort"
-	searchParams.delete("sheet")
-
-	const filterParams = copySearchParams(searchParams)
-	filterParams.set("sheet", "filter")
-
-	const sortParams = copySearchParams(searchParams)
-	sortParams.set("sheet", "sort")
-
-	return (
-		<Sheet
-			open={filter || sort}
-			onClose={() => {
-				navigate({
-					search: `?${searchParams}`,
-				})
-			}}
-		>
-			<Form
-				replace
-				action={pathname}
-				onChange={(e) => submit(e.currentTarget, {})}
-			>
-				{sheet && <input type="hidden" name="sheet" value={sheet} />}
-				<M3.Tabs selectedId={sheet}>
-					<TabsList
-						grow
-						className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
-					>
-						<TabsListItem id="filter" render={<Link to={`?${filterParams}`} />}>
-							Filter
-						</TabsListItem>
-						<TabsListItem id="sort" render={<Link to={`?${sortParams}`} />}>
-							Sort
-						</TabsListItem>
-					</TabsList>
-
-					<M3.TabsPanel tabId={sheet}>
-						<SheetBody>
-							{filter && <SheetFilter />}
-							{sort && <SheetSort />}
-						</SheetBody>
-					</M3.TabsPanel>
-				</M3.Tabs>
-			</Form>
-		</Sheet>
-	)
-}
-
-function SheetSort() {
-	const searchParams = useOptimisticSearchParams()
-
-	const params = useParams<"typelist">()
-
-	const lines = "one"
-	const list = createList({ lines })
-
-	const { data } = useLoaderData<typeof clientLoader>()
-
-	return (
-		<Group>
-			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
-				Sort
-			</M3.Subheader>
-			<div className={list.root()}>
-				<CheckboxProvider
-					value={
-						searchParams.getAll("sort").length > 0
-							? searchParams.getAll("sort")
-							: ({
-									title: [MediaListSort.TitleEnglish],
-									score: [MediaListSort.ScoreDesc],
-								}[
-									String(
-										data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
-									)
-								] ?? [])
-					}
-				>
-					{Object.entries(
-						params.typelist === "animelist"
-							? ANIME_SORT_OPTIONS
-							: MANGA_SORT_OPTIONS
-					).map(([value, label]) => {
-						return (
-							<label className={list.item()} key={value}>
-								<Radio name="sort" value={value} />
-								<ListItemContent>
-									<ListItemContentTitle>{label}</ListItemContentTitle>
-								</ListItemContent>
-							</label>
-						)
-					})}
-				</CheckboxProvider>
-			</div>
-		</Group>
-	)
-}
-
-function SheetFilter() {
-	const searchParams = useOptimisticSearchParams()
-
-	const params = useParams<"typelist">()
-
-	const lines = "one"
-
-	const list = createList({ lines })
-
-	return (
-		<>
-			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
-					Status
-				</M3.Subheader>
-				<div className={list.root({ className: "-mt-2" })}>
-					<CheckboxProvider value={searchParams.getAll("status")}>
-						{Object.entries(
-							params.typelist === "animelist"
-								? ANIME_STATUS_OPTIONS
-								: MANGA_STATUS_OPTIONS
-						).map(([value, label]) => {
-							return (
-								<label className={list.item()} key={value}>
-									<Checkbox name="status" value={value} />
-									<div className="col-span-2 col-start-2">
-										<ListItemContentTitle>{label}</ListItemContentTitle>
-									</div>
-								</label>
-							)
-						})}
-					</CheckboxProvider>
-				</div>
-			</Group>
-			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
-					Format
-				</M3.Subheader>
-				<div className={list.root({ className: "-mt-2" })}>
-					<CheckboxProvider value={searchParams.getAll("format")}>
-						{Object.entries(
-							params.typelist === "animelist"
-								? ANIME_FORMAT_OPTIONS
-								: MANGA_FORMAT_OPTIONS
-						).map(([value, label]) => {
-							return (
-								<label className={list.item()} key={value}>
-									<Checkbox name="format" value={value} />
-									<ListItemContent>
-										<ListItemContentTitle>{label}</ListItemContentTitle>
-									</ListItemContent>
-								</label>
-							)
-						})}
-					</CheckboxProvider>
-				</div>
-			</Group>
-			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
-					Progress
-				</M3.Subheader>
-				<div className={list.root({ className: "-mt-2" })}>
-					<CheckboxProvider value={searchParams.getAll("progress")}>
-						{Object.entries(
-							params.typelist === "animelist"
-								? ANIME_PROGRESS_OPTIONS
-								: MANGA_PROGRESS_OPTIONS
-						).map(([value, label]) => {
-							return (
-								<label className={list.item()} key={value}>
-									<Checkbox name="progress" value={value} />
-									<ListItemContent>
-										<ListItemContentTitle>{label}</ListItemContentTitle>
-									</ListItemContent>
-								</label>
-							)
-						})}
-					</CheckboxProvider>
-				</div>
-			</Group>
-		</>
-	)
-}
-
 export type ReadonlyURLSearchParams = Omit<
 	URLSearchParams,
 	"set" | "append" | "delete" | "sort"
 >
-
-const ANIME_STATUS_OPTIONS = {
-	FINISHED: m.media_status_finished(),
-	RELEASING: m.media_status_releasing(),
-	NOT_YET_RELEASED: m.media_status_not_yet_released(),
-	CANCELLED: m.media_status_cancelled(),
-} satisfies Partial<Record<MediaStatus, ReactNode>>
-
-const MANGA_STATUS_OPTIONS = {
-	FINISHED: m.media_status_finished(),
-	RELEASING: m.media_status_releasing(),
-	HIATUS: m.media_status_hiatus(),
-	NOT_YET_RELEASED: m.media_status_not_yet_released(),
-	CANCELLED: m.media_status_cancelled(),
-} satisfies Partial<Record<MediaStatus, ReactNode>>
-
-const ANIME_FORMAT_OPTIONS = {
-	TV: m.media_format_tv(),
-	TV_SHORT: m.media_format_tv_short(),
-	MOVIE: m.media_format_movie(),
-	SPECIAL: m.media_format_special(),
-	OVA: m.media_format_ova(),
-	ONA: m.media_format_ona(),
-	MUSIC: m.media_format_music(),
-} satisfies Partial<Record<MediaFormat, ReactNode>>
-
-const ANIME_PROGRESS_OPTIONS = {
-	UNSEEN: "Unwatched",
-	STARTED: "Started",
-}
-
-const MANGA_PROGRESS_OPTIONS = {
-	UNSEEN: "Unread",
-	STARTED: "Started",
-}
-
-const ANIME_SORT_OPTIONS = {
-	[MediaListSort.TitleEnglish]: m.media_sort_title(),
-	[MediaListSort.ScoreDesc]: m.media_sort_score(),
-	[MediaListSort.ProgressDesc]: m.media_sort_progress(),
-	[MediaListSort.UpdatedTimeDesc]: m.media_sort_last_updated(),
-	[MediaListSort.IdDesc]: m.media_sort_last_added(),
-	[MediaListSort.StartedOnDesc]: m.media_sort_start_date(),
-	[MediaListSort.FinishedOnDesc]: m.media_sort_completed_date(),
-	[MediaListSort.StartDateDesc]: m.media_sort_release_date(),
-	[MediaListSort.AvgScore]: m.media_sort_avg_score(),
-	[MediaListSort.PopularityDesc]: m.media_sort_popularity(),
-}
-
-const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
-
-const MANGA_FORMAT_OPTIONS = {
-	MANGA: m.media_format_manga(),
-	NOVEL: m.media_format_novel(),
-	ONE_SHOT: m.media_format_one_shot(),
-} satisfies Partial<Record<MediaFormat, ReactNode>>
 
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
@@ -629,14 +245,16 @@ export function ErrorBoundary(): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<div>
-				<Ariakit.Heading>Oops</Ariakit.Heading>
-				<p>Status: {error.status}</p>
-				<p>{error.data}</p>
-				<Link to={location} className={button()}>
-					Try again
-				</Link>
-			</div>
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+					<Link to={location} className={button()}>
+						Try again
+					</Link>
+				</div>
+			</ExtraOutlets>
 		)
 	}
 
@@ -648,15 +266,17 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<Card variant="elevated">
-			<Ariakit.Heading className="text-balance text-headline-md">
-				Uh oh ...
-			</Ariakit.Heading>
-			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
-			<Link to={location} className={button()}>
-				Try again
-			</Link>
-		</Card>
+		<ExtraOutlets>
+			<Card variant="elevated">
+				<Ariakit.Heading className="text-balance text-headline-md">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
+				<Link to={location} className={button()}>
+					Try again
+				</Link>
+			</Card>
+		</ExtraOutlets>
 	)
 }

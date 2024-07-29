@@ -42,15 +42,7 @@ const fetchQuery_: FetchFunction = async function (
 	cacheConfig,
 	uploadables
 ) {
-	const cookies = cookie.parse(document.cookie)
-
-	const token = pipe(
-		cookies["anilist-token"],
-		Option.fromNullable,
-		Option.flatMap(Schema.decodeOption(JsonToToken)),
-		Option.map(({ token }) => token),
-		Option.getOrUndefined
-	)
+	const token = sessionStorage.getItem("anilist-token")
 
 	return pipe(
 		Effect.gen(function* () {
@@ -77,7 +69,24 @@ const fetchQuery_: FetchFunction = async function (
 				headers,
 			})
 
-			const response = yield* HttpClient.fetchOk(request)
+			const response = yield* Effect.catchTag(
+				HttpClient.fetchOk(request),
+				"ResponseError",
+				(error) => {
+					if (error.response.status === 429) {
+						return new Timeout({
+							cause: error,
+							reset: pipe(
+								error.response.headers,
+								HttpHeaders.get("retry-after"),
+								Option.getOrElse(() => "60")
+							),
+						})
+					}
+
+					return Effect.succeed(error.response)
+				}
+			)
 
 			const result =
 				yield* HttpClientResponse.schemaBodyJson(GraphQLResponse)(response)
@@ -93,24 +102,6 @@ const fetchQuery_: FetchFunction = async function (
 			RequestError: Effect.die,
 			HttpBodyError: Effect.die,
 			ParseError: Effect.die,
-			ResponseError: (error) => {
-				if (error.response.status === 429) {
-					return new Timeout({
-						reset: pipe(
-							error.response.headers,
-							HttpHeaders.get("retry-after"),
-							Option.getOrElse(() => "60")
-						),
-					})
-				}
-
-				return new Remix.ResponseError({
-					response: json(null, {
-						status: error.response.status,
-						statusText: "",
-					}),
-				})
-			},
 		}),
 		Effect.scoped,
 		Effect.retry({

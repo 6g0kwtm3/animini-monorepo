@@ -60,7 +60,12 @@ export function User({
 			<M3.TabsList grow={true}>
 				<M3.TabsListItem
 					id="undefined"
-					render={<Link to={route_user({ userName: data.name })} />}
+					render={
+						<Link
+							unstable_viewTransition
+							to={route_user({ userName: data.name })}
+						/>
+					}
 				>
 					Overview
 				</M3.TabsListItem>
@@ -68,6 +73,7 @@ export function User({
 					id="animelist"
 					render={
 						<Link
+							unstable_viewTransition
 							to={route_user_list({
 								userName: data.name,
 								typelist: "animelist",
@@ -81,6 +87,7 @@ export function User({
 					id="mangalist"
 					render={
 						<Link
+							unstable_viewTransition
 							to={route_user_list({
 								userName: data.name,
 								typelist: "mangalist",

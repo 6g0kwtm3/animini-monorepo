@@ -56,19 +56,14 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		trending: pipe(
 			Effect.gen(function* () {
 				const client = yield* EffectUrql
-				const viewer = Viewer()
 
 				const data = yield* client.query<NavQuery>(
 					graphql`
-						query routeNavQuery($isToken: Boolean = false) {
-							Viewer @include(if: $isToken) {
-								id
-								unreadNotificationCount
-							}
+						query routeNavQuery {
 							...SearchTrending_query
 						}
 					`,
-					{ isToken: Option.isSome(viewer) }
+					{}
 				)
 
 				return data
@@ -194,17 +189,12 @@ export default function NavRoute(): ReactNode {
 						<MaterialSymbolsNotifications />
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
-					<Suspense>
-						<Await resolve={data.trending} errorElement={<></>}>
-							{(data) =>
-								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-									<NavigationItemLargeBadge>
-										{data?.Viewer?.unreadNotificationCount}
-									</NavigationItemLargeBadge>
-								)
-							}
-						</Await>
-					</Suspense>
+
+					{(rootData?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+						<NavigationItemLargeBadge>
+							{rootData?.Viewer?.unreadNotificationCount}
+						</NavigationItemLargeBadge>
+					)}
 				</NavigationItem>
 				<SearchButton
 					render={

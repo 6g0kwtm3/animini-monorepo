@@ -1,20 +1,47 @@
 import { paraglide } from "@inlang/paraglide-vite"
 import MillionLint from "@million/lint"
-
+import babel from "vite-plugin-babel"
 import { vitePlugin as remix } from "@remix-run/dev"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
+import Inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 const isStorybook = process.argv[1]?.includes("storybook")
 
 const isBun = (): boolean => !!globalThis.Bun
 
+const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
-		// MillionLint.vite({
-		// 	optimizeDOM: true,
-		// }),
+		Inspect(),
+		babel({
+			filter: /\.[jt]sx?$/,
+			include: [
+				"app/routes/_nav.user.$userName/route.tsx",
+				"app/routes/_nav.user.$userName.$typelist/route.tsx",
+				"app/components/**/*.tsx",
+				"app/lib/**/*.tsx",
+			],
+			babelConfig: {
+				presets: ["@babel/preset-typescript"], // if you use TypeScript
+				plugins: [
+					// ["@babel/plugin-syntax-jsx"],
+					["babel-plugin-react-compiler", ReactCompilerConfig],
+				],
+			},
+		}),
+
+		MillionLint.vite({
+			filter: {
+				include: [
+					"app/routes/_nav.user.$userName/route.tsx",
+					"app/routes/_nav.user.$userName.$typelist/route.tsx",
+					"app/components/**/*.tsx",
+					"app/lib/**/*.tsx",
+				],
+			},
+		}),
 		isBun()
 			? null
 			: paraglide({
@@ -61,6 +88,9 @@ export default defineConfig({
 	],
 	server: {
 		port: 3000,
+	},
+	optimizeDeps: {
+		exclude: [],
 	},
 	define: {
 		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,

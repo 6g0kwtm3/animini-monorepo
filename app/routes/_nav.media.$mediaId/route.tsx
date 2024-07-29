@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import {
 	Link,
+	Outlet,
 	useLocation,
 	useOutlet,
 	useParams,
@@ -10,10 +11,7 @@ import {
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
-import { AnimatePresence, motion } from "framer-motion"
-
 import { useTooltipStore } from "@ariakit/react"
-import { cloneElement } from "react"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
@@ -246,13 +244,7 @@ export default function Page(): ReactNode {
 
 				<Edit />
 
-				{outlet && (
-					<AnimatePresence mode="wait">
-						{cloneElement(outlet, {
-							key: pathname,
-						})}
-					</AnimatePresence>
-				)}
+				<Outlet />
 			</PaneFlexible>
 		</LayoutBody>
 	)
@@ -275,7 +267,12 @@ function Edit() {
 	const root = useRouteLoaderData<typeof rootLoader>("root")
 
 	return (
-		<motion.div layoutId="edit" className="fixed bottom-24 end-4 sm:bottom-4">
+		<div
+			style={{
+				viewTransitionName: "edit",
+			}}
+			className="fixed bottom-24 end-4 sm:bottom-4"
+		>
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger
@@ -299,6 +296,6 @@ function Edit() {
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
 				</TooltipPlain>
 			</div>
-		</motion.div>
+		</div>
 	)
 }
