@@ -88,15 +88,15 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 	)
 })
 
-export const clientLoader = () => {
-	sessionStorage.removeItem("anilist-token")
+export const clientLoader = unstable_defineClientLoader(() => {
+	const token = sessionStorage.getItem("anilist-token")
 
-	commitLocalUpdate(environment, (store) => {
-		store.invalidateStore()
-	})
+	if (token) {
+		return redirect("/")
+	}
 
 	return null
-}
+})
 
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()

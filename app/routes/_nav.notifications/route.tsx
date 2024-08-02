@@ -201,6 +201,9 @@ export default function Notifications(): ReactNode {
 											/>
 										)
 									}
+
+									notification.__typename satisfies "%other"
+
 									return null
 								})}
 						</List>

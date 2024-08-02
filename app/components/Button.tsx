@@ -12,7 +12,7 @@ import {
 } from "./Tooltip"
 
 interface ButtonProps
-	extends Ariakit.ButtonProps,
+	extends Omit<Ariakit.ButtonProps, "render">,
 		VariantProps<typeof createButton> {
 	invoketarget?: string
 	invokeaction?: string
@@ -47,7 +47,7 @@ export function Icon({
 	label,
 	...props
 }: VariantProps<typeof btnIcon> &
-	Ariakit.ButtonProps & {
+	Omit<Ariakit.ButtonProps, "render"> & {
 		label: string
 		tooltip?: boolean
 	}): ReactNode {
