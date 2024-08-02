@@ -505,6 +505,7 @@ export default function Page(): ReactNode {
 function AwaitQuery(props: {
 	entries: routeNavUserListEntriesSort_entries$data[]
 }) {
+	"use no memo"
 	const mediaList = props.entries
 
 	const ref = useRef<ComponentRef<"div">>(null)

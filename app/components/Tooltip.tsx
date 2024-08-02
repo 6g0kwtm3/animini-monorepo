@@ -78,7 +78,7 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 			gutter={4}
 			{...props}
 			style={{ "--y": `${y}px` }}
-			className="flex min-h-6 translate-y-[--y] items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface opacity-0 duration-4sm ease-emphasized-accelerate data-[open]:translate-y-0 data-[open]:opacity-100 starting:data-[open]:translate-y-[--y] starting:data-[open]:opacity-0 motion-safe:transition-all"
+			className="z-50 flex min-h-6 translate-y-[--y] items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface opacity-0 duration-4sm ease-emphasized-accelerate data-[open]:translate-y-0 data-[open]:opacity-100 starting:data-[open]:translate-y-[--y] starting:data-[open]:opacity-0 motion-safe:transition-all"
 		/>
 	)
 }

@@ -52,7 +52,11 @@ export function Icon({
 		tooltip?: boolean
 	}): ReactNode {
 	const btn = (
-		<Ariakit.Button {...props} className={btnIcon({ variant, className })}>
+		<Ariakit.Button
+			{...props}
+			className={btnIcon({ variant, className })}
+			title={label}
+		>
 			<span className="sr-only">{label}</span>
 			{children}
 			<TouchTarget />
@@ -65,8 +69,8 @@ export function Icon({
 
 	return (
 		<TooltipPlain>
-			<TooltipPlainTrigger render={btn} />
-			<TooltipPlainContainer>{label}</TooltipPlainContainer>
+			<TooltipPlainTrigger render={btn} showOnHover={false} />
+			<TooltipPlainContainer >{label}</TooltipPlainContainer>
 		</TooltipPlain>
 	)
 }

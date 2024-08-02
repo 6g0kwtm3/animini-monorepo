@@ -169,6 +169,10 @@ export const config = {
 				":merge(.group)[data-focus-visible] &",
 				":merge(.group):focus-visible &",
 			])
+			addVariant("group-has-focused", [
+				":merge(.group):has([data-focus-visible]) &",
+				":merge(.group):has(:focus-visible) &",
+			])
 			addVariant("group-pressed", [
 				":merge(.group)[data-active] &",
 				":merge(.group):active &",

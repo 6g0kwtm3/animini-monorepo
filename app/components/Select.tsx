@@ -1,82 +1,45 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentProps, ComponentPropsWithoutRef, ReactNode } from "react"
 
-import { createTextField } from "~/lib/textField"
-import { TextFieldOutlined } from "./TextField"
+import type { ReactNode } from "react"
 
-// const onClient = Promise.resolve(null)
-import { Suspense, lazy } from "react"
-import { ClientOnly } from "remix-utils/client-only"
+import { createMenu } from "~/lib/menu"
+import { createTextFieldInput } from "~/lib/textField"
 
-const { input } = createTextField({})
+const { input } = createTextFieldInput({})
+const { root } = createMenu()
 
-const LazySelectFactory = lazy(async () => import("./LazySelectFactory"))
-
-const LazySelect = lazy(async () => import("./LazySelect"))
-export function SelectFactory({
-	label,
-
+export function FieldSelect({
+	children,
 	...props
-}: (Omit<Ariakit.SelectProps, "ref"> & ComponentProps<"select">) & {
-	children: ReactNode
-	label: ReactNode
-	name: string
-}): ReactNode {
-	const form = Ariakit.useFormContext()
-	if (!form) throw new Error("FormSelect must be used within a Form")
-	// eslint-disable-next-line react-compiler/react-compiler
-	const value = form.useValue(props.name)
-
-	const fallback = (
-		<TextFieldOutlined>
-			<Ariakit.FormControl
-				name={props.name}
-				render={
-					<select
-						{...props}
-						value={value}
-						onChange={(e) => form.setValue(props.name, e.currentTarget.value)}
-						className={input({ className: "appearance-none" })}
-					/>
-				}
-			/>
-			<TextFieldOutlined.Label name={props.name}>
-				{label}
-			</TextFieldOutlined.Label>
-			<TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">
-				expand_more
-			</TextFieldOutlined.TrailingIcon>
-		</TextFieldOutlined>
-	)
-
+}: Ariakit.SelectProps): ReactNode {
 	return (
-		<ClientOnly fallback={fallback}>
-			{() => (
-				<Suspense fallback={fallback}>
-					<LazySelectFactory {...props} label={label} />
-				</Suspense>
-			)}
-		</ClientOnly>
+		<>
+			<Ariakit.Select
+				{...props}
+				className={input({ className: "cursor-default" })}
+			/>
+			<Ariakit.SelectPopover
+				sameWidth
+				className={root({
+					className:
+						"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
+				})}
+			>
+				{children}
+			</Ariakit.SelectPopover>
+		</>
 	)
 }
 
-export function Select({
-	...props
-}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
-	children: ReactNode
-	name: string
-}): ReactNode {
-	const fallback = (
-		<select {...props} className={input({ className: "appearance-none" })} />
-	)
+const { item } = createMenu({})
 
+export function FieldSelectOption(props: Ariakit.SelectItemProps): ReactNode {
 	return (
-		<ClientOnly fallback={fallback}>
-			{() => (
-				<Suspense fallback={fallback}>
-					<LazySelect {...props} />
-				</Suspense>
-			)}
-		</ClientOnly>
+		<Ariakit.SelectItem
+			{...props}
+			className={item({
+				className: "data-[active-item]:state-focus",
+			})}
+		/>
 	)
 }

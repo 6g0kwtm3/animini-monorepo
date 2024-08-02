@@ -6,7 +6,6 @@ import {
 	passthrough,
 	type GraphQLHandler,
 	type GraphQLQuery,
-	type GraphQLResponseResolver,
 	type GraphQLVariables,
 	type ResponseResolver,
 } from "msw"
@@ -16,14 +15,37 @@ import {
 	mockActivityLikeNotification,
 	mockAiringNotification,
 	mockList,
-	mockMediaListCollection,
 	mockRelatedMediaAdditionNotification,
 	mockUser,
 } from "./entities"
 
 import { faker as en } from "@faker-js/faker/locale/en"
 import { faker as ja } from "@faker-js/faker/locale/ja"
-import { addMocksToSchema, type Ref } from "@graphql-tools/mock"
+import {
+	addMocksToSchema,
+	createMockStore,
+	type Ref,
+} from "@graphql-tools/mock"
+import type {
+	rootQuery$rawResponse,
+	rootQuery$variables,
+} from "~/gql/rootQuery.graphql"
+import type { Resolvers } from "./resolvers"
+
+import * as jose from "jose"
+import type {
+	routeNavUserQuery$rawResponse,
+	routeNavUserQuery$variables,
+} from "~/gql/routeNavUserQuery.graphql"
+
+import type {
+	routeNavUserListEntriesQuery$rawResponse,
+	routeNavUserListEntriesQuery$variables,
+} from "~/gql/routeNavUserListEntriesQuery.graphql"
+import type {
+	routeNavUserListQuery$rawResponse,
+	routeNavUserListQuery$variables,
+} from "~/gql/routeNavUserListQuery.graphql"
 
 export function operation<Q, V>(resolver: any): any {
 	return async (args: any) =>
@@ -121,14 +143,21 @@ export const routeNavFeedQuery = query("routeNavNotificationsQuery", () => ({
 
 let schema = buildSchema(raw)
 
-const mocked = addMocksToSchema({
+const store = createMockStore({
 	schema,
 	mocks: {
 		Int: () => en.number.int({ max: 256 }),
 		Float: () => en.number.float({ fractionDigits: 2 }),
 	},
+	typePolicies: {
+		User: { keyFieldName: "name" },
+	},
+})
 
-	resolvers: (store): any => ({
+const mocked = addMocksToSchema<Resolvers>({
+	schema,
+	store,
+	resolvers: {
 		User: {
 			name: () => en.internet.userName(),
 			avatar: () => {
@@ -138,6 +167,9 @@ const mocked = addMocksToSchema({
 					large: url,
 				}
 			},
+			bannerImage: () => {
+				return en.image.url({ width: 1900, height: 400 })
+			},
 		},
 		MediaListGroup: {
 			name: () => en.lorem.words(2),
@@ -146,7 +178,7 @@ const mocked = addMocksToSchema({
 			media: (_: Ref) => {
 				return store.get("Media", Number(store.get(_, "mediaId")))
 			},
-			score: (_: Ref, args: any) => {
+			score: (_: Ref, args) => {
 				const score = Number(store.get(_, "score"))
 
 				args.format ??= store.get<any>("User", store.get(_, "userId"), [
@@ -202,7 +234,7 @@ const mocked = addMocksToSchema({
 			name: () => ja.person.fullName(),
 		},
 		Page: {
-			notifications: (_: Ref, args: any) => {
+			notifications: (_: Ref, args) => {
 				if (args.resetNotificationCount) {
 					store.set("Query", "ROOT", "Viewer", { unreadNotificationCount: 0 })
 				}
@@ -217,10 +249,13 @@ const mocked = addMocksToSchema({
 			},
 		},
 		Query: {
-			Media: (_: Ref, { id }: any) => store.get("Media", id),
-			MediaListCollection: (_: Ref, { userName, type }: any) =>
+			Media: (_: Ref, { id }) => store.get("Media", id),
+			MediaListCollection: (_: Ref, { userName, type }) =>
 				store.get("MediaListCollection", userName),
 			// Viewer: () => ({}),
+			User: (_: Ref, { name }) => {
+				return store.get("User", name)
+			},
 		},
 
 		// MediaListCollection: {
@@ -228,15 +263,16 @@ const mocked = addMocksToSchema({
 		// },
 
 		Mutation: {
-			SaveMediaListEntry(_: Ref, { id, ...args }: any) {
+			SaveMediaListEntry(_: Ref, { id, ...args }) {
 				for (const [key, value] of Object.entries(args)) {
 					store.set("MediaList", id, key, value)
 				}
 				return store.get("MediaList", id)
 			},
 		},
-	}),
+	},
 })
+
 function hashCode(str: string) {
 	var hash = 0,
 		i,
@@ -251,68 +287,117 @@ function hashCode(str: string) {
 }
 
 export const handlers = [
+	graphql.query<
+		routeNavUserListQuery$rawResponse,
+		routeNavUserListQuery$variables
+	>("routeNavUserListQuery", ({ variables }) => {
+		const user = {
+			id: hashCode(variables.userName),
+			avatar: null,
+			bannerImage: null,
+			mediaListOptions: null,
+			name: variables.userName,
+		}
+
+		if (variables.type === "ANIME")
+			return HttpResponse.json({
+				data: {
+					MediaListCollection: {
+						lists: [{ name: "Watching" }],
+						user: user,
+					},
+				},
+			})
+
+		return HttpResponse.json({
+			data: {
+				MediaListCollection: {
+					lists: [{ name: "Reading" }],
+					user: user,
+				},
+			},
+		})
+	}),
+
+	graphql.query<
+		routeNavUserListEntriesQuery$rawResponse,
+		routeNavUserListEntriesQuery$variables
+	>("routeNavUserListEntriesQuery", ({ variables }) => {
+		const user = {
+			id: hashCode(variables.userName),
+			mediaListOptions: null,
+		}
+		if (variables.type === "ANIME")
+			return HttpResponse.json({
+				data: {
+					MediaListCollection: {
+						lists: [{ name: "Watching", entries: [] }],
+						user: user,
+					},
+				},
+			})
+
+		return HttpResponse.json({
+			data: {
+				MediaListCollection: {
+					lists: [{ name: "Reading", entries: [] }],
+					user: user,
+				},
+			},
+		})
+	}),
+	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+		"routeNavUserQuery",
+		({ variables }) => {
+			return HttpResponse.json({
+				data: {
+					User: {
+						id: hashCode(variables.userName),
+						name: variables.userName,
+						about: null,
+						avatar: null,
+						bannerImage: null,
+						isFollowing: null,
+						options: null,
+					},
+				},
+			})
+		}
+	),
+	graphql.query<rootQuery$rawResponse, rootQuery$variables>(
+		"rootQuery",
+		({ request }) => {
+			const auth = request.headers.get("Authorization")?.replace("Bearer ", "")
+
+			if (!auth)
+				return HttpResponse.json({
+					data: { Viewer: null },
+				})
+
+			const claims = jose.decodeJwt(auth)
+
+			if (!claims.sub)
+				return HttpResponse.json({
+					data: { Viewer: null },
+				})
+
+			return HttpResponse.json({
+				data: {
+					Viewer: {
+						id: hashCode(claims.sub),
+						name: claims.sub,
+						unreadNotificationCount: 0,
+					},
+				},
+			})
+		}
+	),
 	graphql.operation<any, any>(async ({ query, variables }) => {
 		return HttpResponse.json(
 			await execute({
 				document: parse(query),
-				schema,
+				schema: mocked,
 				variableValues: variables,
-				rootValue: {
-					MediaListCollection(args: any) {
-						en.seed(hashCode(args.userName + ":" + args.type))
-						return mockMediaListCollection(args)
-					},
-				},
-				// rootValue: {
-				// 	Viewer(args: any) {
-				// 		return Option.getOrNull(Viewer())
-				// 	},
-				// 	Media(args: any) {
-				// 		return args.id
-				// 			? mockSeasonalMedia({
-				// 					id: args.id,
-				// 				})
-				// 			: null
-				// 	},
-				// 	Page(args: any) {
-				// 		return {
-				// 			activities: mockList(0, mockTextActivity()),
-				// 			notifications: [],
-				// 			media(args: any) {
-				// 				if (args.search) {
-				// 					return mockList(
-				// 						256,
-				// 						mockMedia({
-				// 							title: {
-				// 								userPreferred: args.search,
-				// 							},
-				// 							type: "MANGA",
-				// 						}),
-				// 						mockSeasonalMedia({
-				// 							title: {
-				// 								userPreferred: args.search,
-				// 							},
-				// 						})
-				// 					)
-				// 				}
-
-				// 				return mockList(
-				// 					0,
-				// 					mockMedia({
-				// 						title: {
-				// 							userPreferred: "Foo",
-				// 						},
-				// 					}),
-				// 					mockMedia({
-				// 						title: {
-				// 							userPreferred: "Bar",
-				// 						},
-				// 					})
-				// 				)
-				// 			},
-				// 		}
-				// 	},
-				// },
 			})
 		)
 	}),

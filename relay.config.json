@@ -6,8 +6,10 @@
 	"artifactDirectory": "./app/gql",
 	"excludes": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
 	"featureFlags": {
-		"enable_relay_resolver_transform": true
+		"enable_relay_resolver_transform": true,
+		"enable_fragment_aliases": { "kind": "enabled" }
 	},
+
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",
 		"Json": { "name": "JSONValue", "path": "./app/lib/urql" },

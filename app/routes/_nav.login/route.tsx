@@ -1,23 +1,23 @@
 import type { MetaFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
-import { unstable_defineClientAction, useFetcher } from "@remix-run/react"
 import {
-	TextFieldOutlined as Outlined,
-	TextFieldOutlinedInput,
-} from "~/components/TextField"
-
-import * as Ariakit from "@ariakit/react"
+	Form,
+	unstable_defineClientAction,
+	unstable_defineClientLoader,
+	useFetcher,
+} from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
+import { Button, ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import environment, { commitLocalUpdate } from "~/lib/Network"
+import { M3 } from "~/lib/components"
 import { route_user_list } from "~/lib/route"
 import { EffectUrql } from "~/lib/urql"
 
@@ -100,27 +100,21 @@ export const clientLoader = unstable_defineClientLoader(() => {
 
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()
-	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
-	store.onSubmit((state) => {
-		fetcher.submit(state.values, {
-			method: "post",
-		})
-	})
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<Ariakit.Form store={store} method="post" className="grid gap-2">
-					<Outlined>
-						<TextFieldOutlinedInput
-							name={store.names.token}
+				<Form method="post" className="grid gap-2">
+					<M3.Field>
+						<M3.FieldText
+							name="token"
 							required
 							type="password"
 							autoComplete="current-password"
+							label="Token"
 						/>
-						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
-					</Outlined>
+					</M3.Field>
 
 					<footer className="flex justify-end gap-2">
 						<a
@@ -132,6 +126,7 @@ export default function Login(): ReactNode {
 								}
 							)}`}
 							rel="noreferrer"
+							defaultValue={import.meta.env.VITE_TEST_TOKEN}
 							className={button({})}
 						>
 							<ButtonTextIcon>
@@ -144,11 +139,11 @@ export default function Login(): ReactNode {
 							<span>Get token</span>
 						</a>
 
-						<Ariakit.FormSubmit className={button({ variant: "filled" })}>
+						<Button variant="filled" type="submit">
 							Login
-						</Ariakit.FormSubmit>
+						</Button>
 					</footer>
-				</Ariakit.Form>
+				</Form>
 			</LayoutPane>
 		</LayoutBody>
 	)

@@ -15,18 +15,14 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import { type LinksFunction } from "@remix-run/node"
 
-import { Option } from "effect"
-
 import { useEffect, type FC, type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import { useRevalidator } from "@remix-run/react"
 import type { Environment } from "react-relay"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import environment from "./lib/Network"
@@ -153,13 +149,13 @@ function useOnFocus(callback: () => void) {
 }
 
 export default function App(): ReactNode {
-	const revalidator = useRevalidator()
+	// const revalidator = useRevalidator()
 
-	useOnFocus(() => {
-		if (revalidator.state === "idle") {
-			revalidator.revalidate()
-		}
-	})
+	// useOnFocus(() => {
+	// 	if (revalidator.state === "idle") {
+	// 		revalidator.revalidate()
+	// 	}
+	// })
 
 	return <Outlet />
 }
