@@ -63,6 +63,7 @@ import { useVirtualizer } from "@tanstack/react-virtual"
 import { PaneContext } from "~/components/Layout"
 import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
+import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 const { graphql } = ReactRelay
 
@@ -466,7 +467,7 @@ export default function Page(): ReactNode {
 	const entries = useRawLoaderData<typeof clientLoader>().query
 
 	return (
-		<>
+		<ExtraOutlets>
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
@@ -498,7 +499,7 @@ export default function Page(): ReactNode {
 				</Suspense>
 			</div>
 			<Outlet />
-		</>
+		</ExtraOutlets>
 	)
 }
 
@@ -557,14 +558,16 @@ export function ErrorBoundary(): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<div>
-				<Ariakit.Heading>Oops</Ariakit.Heading>
-				<p>Status: {error.status}</p>
-				<p>{error.data}</p>
-				<Link to={location} className={button()}>
-					Try again
-				</Link>
-			</div>
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+					<Link to={location} className={button()}>
+						Try again
+					</Link>
+				</div>
+			</ExtraOutlets>
 		)
 	}
 
@@ -576,15 +579,15 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<>
-			<Ariakit.Heading className="text-balance text-headline-md">
-				Uh oh ...
-			</Ariakit.Heading>
-			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
-			<Link to={location} className={button()}>
-				Try again
-			</Link>
-		</>
+		<ExtraOutlets>
+				<Ariakit.Heading className="text-balance text-headline-md">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+				<Link to={location} className={button()}>
+					Try again
+				</Link>
+			</ExtraOutlets>
 	)
 }

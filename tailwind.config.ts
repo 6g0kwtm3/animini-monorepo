@@ -158,6 +158,8 @@ export const config = {
 				":merge(.group):has([aria-invalid='true']) &",
 			])
 			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
+			addVariant("read-write", ["&:read-write"])
+
 			addVariant("has-focused", [
 				"&:has([data-focus-visible])",
 				"&:has(:focus-visible)",
@@ -169,6 +171,7 @@ export const config = {
 				":merge(.group)[data-focus-visible] &",
 				":merge(.group):focus-visible &",
 			])
+			addVariant("group-has-read-write", [":merge(.group):has(:read-write) &"])
 			addVariant("group-has-focused", [
 				":merge(.group):has([data-focus-visible]) &",
 				":merge(.group):has(:focus-visible) &",

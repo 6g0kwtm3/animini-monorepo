@@ -13,5 +13,9 @@ export function ExtraOutlet(props: {
 export function ExtraOutlets(props: Record<string, ReactNode>): ReactNode {
 	const id = use(ExtraOutletContext)
 
-	return props[id]
+	const outlet = props[id]
+
+	if (outlet !== undefined) return outlet
+
+	return <ExtraOutlet id={id} />
 }

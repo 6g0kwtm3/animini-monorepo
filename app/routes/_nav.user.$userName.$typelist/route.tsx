@@ -34,7 +34,6 @@ import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParam
 
 import { Schema } from "@effect/schema"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
-import { SidePanel } from "./SidePanel"
 const { graphql } = ReactRelay
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -127,7 +126,7 @@ export default function Route(): ReactNode {
 	const params = useParams()
 
 	return (
-		<ExtraOutlets title={<Title />} actions={<Actions />} side={<SidePanel />}>
+		<ExtraOutlets title={<Title />} actions={<Actions />}>
 			<div className="flex flex-col gap-4">
 				<M3.Tabs selectedId={String(params.selected)}>
 					<div className="sticky top-16 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">

@@ -22,7 +22,7 @@ import { formatWatch } from "./ToWatch"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
-import { Progress, ProgressIncrement, ProgressTooltip } from "./Progress"
+import { Progress, ProgressIncrement } from "./Progress"
 
 import { Predicate } from "effect"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
@@ -41,12 +41,14 @@ import type { clientLoader as rootLoader } from "~/root"
 
 import type { MediaListItemSort_entry$key } from "~/gql/MediaListItemSort_entry.graphql"
 
+import { TouchTarget } from "~/components"
+import type { MediaListItemInfo_entry$key } from "~/gql/MediaListItemInfo_entry.graphql"
 import type { MediaListItemSort_user$key } from "~/gql/MediaListItemSort_user.graphql"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import type { clientLoader } from "~/routes/_nav.user.$userName.$typelist/route"
 import MaterialSymbolsArrowDownward from "~icons/material-symbols/arrow-downward"
-import MaterialSymbolsEditSquareOutline from "~icons/material-symbols/edit-square-outline"
 import MaterialSymbolsInfoOutline from "~icons/material-symbols/info-outline"
+import { btnIcon, button } from "../button"
 import { MediaListSort } from "../MediaListSort"
 import { useOptimisticSearchParams } from "../search/useOptimisticSearchParams"
 
@@ -64,6 +66,7 @@ const MediaListItem_entry = graphql`
 		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
 		...ProgressMoreMenu_entry
+		...MediaListItemInfo_entry
 	}
 `
 
@@ -95,7 +98,7 @@ export function MediaListItem({
 				</Link>
 				<div className="flex">
 					<ProgressIncrement entry={data} />
-					<Info />
+					<Info entry={data} />
 				</div>
 				{/* <MoreMenu entry={data} /> */}
 			</ListItem>
@@ -103,42 +106,45 @@ export function MediaListItem({
 	)
 }
 
-function Info(): ReactNode {
+const MediaListItemInfo_entry = graphql`
+	fragment MediaListItemInfo_entry on MediaList {
+		id
+	}
+`
+
+function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
+	const entry = useFragment(MediaListItemInfo_entry, props.entry)
 	const data = useRouteLoaderData<typeof rootLoader>("root")
 	const params = useParams()
 
-	return Predicate.isString(data?.Viewer?.name) &&
-		data.Viewer.name === params.userName ? (
+	const viewerIsUser =
+		Predicate.isString(data?.Viewer?.name) &&
+		data.Viewer.name === params.userName
+	const label = viewerIsUser ? "Edit" : "Info"
+
+	return (
 		<>
-			<div className="hidden @lg:block">
-				<M3.Button>
-					Edit
-					<M3.ButtonIcon>
-						<MaterialSymbolsEditSquareOutline />
-					</M3.ButtonIcon>
-				</M3.Button>
-			</div>
-			<div className="@lg:hidden">
-				<M3.Icon label="Edit" tooltip={false}>
-					<MaterialSymbolsEditSquareOutline />
-				</M3.Icon>
-			</div>
-		</>
-	) : (
-		<>
-			<div className="hidden @lg:block">
-				<M3.Button>
-					Info
-					<M3.ButtonIcon>
-						<MaterialSymbolsInfoOutline />
-					</M3.ButtonIcon>
-				</M3.Button>
-			</div>
-			<div className="@lg:hidden">
-				<M3.Icon label="Info" tooltip={false}>
+			<Link
+				to={`entry/${entry.id}`}
+				className={button({
+					className: "hidden @lg:inline-flex",
+				})}
+			>
+				{label}
+				<M3.ButtonIcon>
 					<MaterialSymbolsInfoOutline />
-				</M3.Icon>
-			</div>
+				</M3.ButtonIcon>
+			</Link>
+			<Link
+				to={`entry/${entry.id}`}
+				className={btnIcon({
+					className: "@lg:hidden",
+				})}
+			>
+				<span className="sr-only">{label}</span>
+				<MaterialSymbolsInfoOutline />
+				<TouchTarget />
+			</Link>
 		</>
 	)
 }
