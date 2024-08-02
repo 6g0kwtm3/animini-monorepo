@@ -101,7 +101,6 @@ export const clientLoader = unstable_defineClientLoader(() => {
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()
 
-
 	return (
 		<LayoutBody>
 			<LayoutPane>

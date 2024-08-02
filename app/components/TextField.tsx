@@ -100,7 +100,7 @@ export function FieldText({
 										}}
 										aria-disabled={props["aria-disabled"]}
 										disabled={props.disabled}
-										type="button" 
+										type="button"
 										label="Clear"
 									>
 										<MaterialSymbolsCancelOutline />

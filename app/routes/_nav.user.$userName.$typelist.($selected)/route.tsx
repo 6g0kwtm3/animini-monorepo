@@ -580,14 +580,14 @@ export function ErrorBoundary(): ReactNode {
 
 	return (
 		<ExtraOutlets>
-				<Ariakit.Heading className="text-balance text-headline-md">
-					Uh oh ...
-				</Ariakit.Heading>
-				<p className="text-headline-sm">Something went wrong.</p>
-				<pre className="overflow-auto text-body-md">{errorMessage}</pre>
-				<Link to={location} className={button()}>
-					Try again
-				</Link>
-			</ExtraOutlets>
+			<Ariakit.Heading className="text-balance text-headline-md">
+				Uh oh ...
+			</Ariakit.Heading>
+			<p className="text-headline-sm">Something went wrong.</p>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<Link to={location} className={button()}>
+				Try again
+			</Link>
+		</ExtraOutlets>
 	)
 }

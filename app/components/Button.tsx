@@ -70,7 +70,7 @@ export function Icon({
 	return (
 		<TooltipPlain>
 			<TooltipPlainTrigger render={btn} showOnHover={false} />
-			<TooltipPlainContainer >{label}</TooltipPlainContainer>
+			<TooltipPlainContainer>{label}</TooltipPlainContainer>
 		</TooltipPlain>
 	)
 }

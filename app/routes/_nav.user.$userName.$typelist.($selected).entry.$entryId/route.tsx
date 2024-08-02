@@ -72,7 +72,7 @@ function SidePanel(): ReactNode {
 				</div>
 				<M3.Field>
 					<M3.FieldText
-					variant="outlined"
+						variant="outlined"
 						label="Score"
 						readOnly
 						type="number"
@@ -81,7 +81,7 @@ function SidePanel(): ReactNode {
 				</M3.Field>
 				<M3.Field>
 					<M3.FieldText
-					variant="outlined"
+						variant="outlined"
 						label="Progress"
 						readOnly
 						type="number"
