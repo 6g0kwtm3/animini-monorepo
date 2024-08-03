@@ -10,9 +10,6 @@ import { Effect, Option, pipe, Schedule } from "effect"
 
 import { Schema } from "@effect/schema"
 
-
-
-
 import {
 	HttpBody,
 	HttpClient,

@@ -4,10 +4,9 @@ import {
 	unstable_defineClientLoader,
 	useLocation,
 	useRouteLoaderData,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
-
 
 import { RootQuery, type clientLoader as rootLoader } from "~/root"
 
@@ -47,8 +46,6 @@ import { searchTrendingQuery } from "~/lib/search/SearchTrendingQuery"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
-
-
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const data = loadQuery<NavQuery>(environment, searchTrendingQuery, {})
@@ -118,10 +115,7 @@ export default function NavRoute(): ReactNode {
 				</NavigationItem>
 				{root.Viewer ? (
 					<>
-						<NavigationItem
-							to={route_user({ userName: root.Viewer.name })}
-							end
-						>
+						<NavigationItem to={route_user({ userName: root.Viewer.name })} end>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
