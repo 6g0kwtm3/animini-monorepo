@@ -85,7 +85,7 @@ export default function Page(): ReactNode {
 		follow.formData?.get("isFollowing") ??
 		follow.data?.ToggleFollow.isFollowing ??
 		data.user.isFollowing
-		
+
 	return (
 		<M3.LayoutBody
 			style={data.user.options?.profileTheme ?? undefined}

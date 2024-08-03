@@ -252,7 +252,7 @@ function MediaListItemSubtitle(props: {
 
 			<div
 				className={
-					Predicate.isString(data?.Viewer?.name) &&
+					Predicate.isString(data.Viewer?.name) &&
 					data.Viewer.name === params.userName
 						? "contents @lg:hidden"
 						: "contents"

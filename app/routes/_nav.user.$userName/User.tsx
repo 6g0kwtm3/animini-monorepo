@@ -60,9 +60,8 @@ export function User({
 			<M3.TabsList
 				grow={{
 					initial: false,
-					"md": true,
+					md: true,
 				}}
-
 			>
 				<M3.TabsListItem
 					id="undefined"
