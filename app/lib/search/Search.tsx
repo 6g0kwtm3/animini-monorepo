@@ -122,9 +122,7 @@ export function Search(): ReactNode {
 					</SearchViewBody>
 				) : data ? (
 					<Suspense fallback="">
-						<Await resolve={data.trending} errorElement={<></>}>
-							{(data) => data && <SearchTrending query={data} />}
-						</Await>
+						<SearchTrending query={data.trending} />
 					</Suspense>
 				) : null}
 			</Form>

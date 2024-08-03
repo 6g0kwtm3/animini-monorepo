@@ -10,7 +10,7 @@ import { Predicate } from "effect"
 import type { ComponentProps, ReactNode } from "react"
 import ReactRelay from "react-relay"
 
-import type { clientLoader as rootLoader } from "~/root"
+import { RootQuery, type clientLoader as rootLoader } from "~/root"
 import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist.($selected)/route"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
@@ -18,7 +18,7 @@ import MaterialSymbolsForward from "~icons/material-symbols/forward"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsPlaylistAdd from "~icons/material-symbols/playlist-add"
 import { M3 } from "../components"
-import { useFragment } from "../Network"
+import { useFragment, usePreloadedQuery } from "../Network"
 
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
@@ -26,7 +26,7 @@ import type { ProgressMoreMenu_entry$key } from "~/gql/ProgressMoreMenu_entry.gr
 import type { ProgressShareMedia_media$key } from "~/gql/ProgressShareMedia_media.graphql"
 import type { ProgressTooltip_media$key } from "~/gql/ProgressTooltip_media.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
-import { btnIcon, button } from "../button"
+import { btnIcon } from "../button"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
@@ -45,7 +45,10 @@ export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
-	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const data = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 	const params = useParams()
 	const actionData = useActionData<typeof selectedAction>()
 	const navigation = useNavigation()
@@ -64,7 +67,7 @@ export function ProgressIncrement(props: {
 	search.set("sheet", String(entry.id))
 
 	return (
-		Predicate.isString(data?.Viewer?.name) &&
+		Predicate.isString(data.Viewer?.name) &&
 		data.Viewer.name === params.userName && (
 			<Form className="" method="post">
 				<input type="hidden" name="progress" value={progress + 1} />

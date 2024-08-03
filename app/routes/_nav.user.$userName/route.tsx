@@ -17,7 +17,7 @@ import { Icon } from "~/components/Button"
 
 import { client_operation } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
-import type { clientLoader as rootLoader } from "~/root"
+import { RootQuery, type clientLoader as rootLoader } from "~/root"
 
 import { AppBar, AppBarTitle } from "~/components"
 import { M3 } from "~/lib/components"
@@ -29,6 +29,7 @@ import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-r
 import { User } from "../_nav.user.$userName/User"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
+import { usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import { ExtraOutlet } from "./ExtraOutlet"
 const { graphql } = ReactRelay
@@ -68,10 +69,11 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 })
 
 export default function Page(): ReactNode {
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+	const root = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 	const data = useRawLoaderData<typeof clientLoader>()
-
-	const { pathname } = useLocation()
 
 	const follow = useFetcher<typeof userFollowAction>({
 		key: `${data.user.name}-follow`,
@@ -83,6 +85,7 @@ export default function Page(): ReactNode {
 		follow.formData?.get("isFollowing") ??
 		follow.data?.ToggleFollow.isFollowing ??
 		data.user.isFollowing
+		
 	return (
 		<M3.LayoutBody
 			style={data.user.options?.profileTheme ?? undefined}
@@ -103,46 +106,31 @@ export default function Page(): ReactNode {
 									</span>
 								</AppBarTitle>
 								<div className="flex-1" />
-								{rootData?.Viewer?.name &&
-									rootData.Viewer.name !== data.user.name && (
-										<follow.Form
-											method="post"
-											action={`/user/${data.user.id}/follow`}
-										>
-											<input
-												type="hidden"
-												name="isFollowing"
-												value={isFollow ? "" : "true"}
-												id=""
-											/>
-
-											<M3.Icon
-												type="submit"
-												label={
-													isFollow ? m.unfollow_button() : m.follow_button()
-												}
-											>
-												{isFollow ? (
-													<MaterialSymbolsPersonRemoveOutline />
-												) : (
-													<MaterialSymbolsPersonAddOutline />
-												)}
-											</M3.Icon>
-										</follow.Form>
-									)}
-								{rootData?.Viewer?.name === data.user.name && (
-									<Form
+								{root.Viewer?.name && root.Viewer.name !== data.user.name && (
+									<follow.Form
 										method="post"
-										action={`/logout/?${new URLSearchParams({
-											redirect: pathname,
-										})}`}
+										action={`/user/${data.user.id}/follow`}
 									>
-										<Icon type="submit" label="Logout">
-											<span className="sr-only">Logout</span>
-											<MaterialSymbolsLogout />
-										</Icon>
-									</Form>
+										<input
+											type="hidden"
+											name="isFollowing"
+											value={isFollow ? "" : "true"}
+											id=""
+										/>
+
+										<M3.Icon
+											type="submit"
+											label={isFollow ? m.unfollow_button() : m.follow_button()}
+										>
+											{isFollow ? (
+												<MaterialSymbolsPersonRemoveOutline />
+											) : (
+												<MaterialSymbolsPersonAddOutline />
+											)}
+										</M3.Icon>
+									</follow.Form>
 								)}
+								{root.Viewer?.name === data.user.name && <Logout />}
 								<ExtraOutlet id="actions" />
 							</AppBar>
 						</div>
@@ -156,5 +144,22 @@ export default function Page(): ReactNode {
 			</M3.LayoutPane>
 			<ExtraOutlet id="side" />
 		</M3.LayoutBody>
+	)
+}
+function Logout(): ReactNode {
+	const { pathname } = useLocation()
+
+	return (
+		<Form
+			method="post"
+			action={`/logout/?${new URLSearchParams({
+				redirect: pathname,
+			})}`}
+		>
+			<Icon type="submit" label="Logout">
+				<span className="sr-only">Logout</span>
+				<MaterialSymbolsLogout />
+			</Icon>
+		</Form>
 	)
 }

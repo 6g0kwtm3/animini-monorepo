@@ -35,9 +35,9 @@ import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
 import { M3 } from "../components"
 import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
-import { useFragment } from "../Network"
+import { useFragment, usePreloadedQuery } from "../Network"
 
-import type { clientLoader as rootLoader } from "~/root"
+import { RootQuery, type clientLoader as rootLoader } from "~/root"
 
 import type { MediaListItemSort_entry$key } from "~/gql/MediaListItemSort_entry.graphql"
 
@@ -114,11 +114,14 @@ const MediaListItemInfo_entry = graphql`
 
 function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
-	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const data = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 	const params = useParams()
 
 	const viewerIsUser =
-		Predicate.isString(data?.Viewer?.name) &&
+		Predicate.isString(data.Viewer?.name) &&
 		data.Viewer.name === params.userName
 	const label = viewerIsUser ? "Edit" : "Info"
 
@@ -233,7 +236,10 @@ function MediaListItemSubtitle(props: {
 
 	const watch = entry.toWatch
 
-	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const data = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 
 	const params = useParams()
 

@@ -9,7 +9,8 @@
 		"enable_relay_resolver_transform": true,
 		"enable_fragment_aliases": { "kind": "enabled" }
 	},
-
+	"requireCustomScalarTypes": true,
+	"useImportTypeSyntax": true,
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",
 		"Json": { "name": "JSONValue", "path": "./app/lib/urql" },

@@ -25,15 +25,13 @@ import tailwind from "./tailwind.css?url"
 
 import type { Environment } from "react-relay"
 import { useIsHydrated } from "~/lib/useIsHydrated"
-import environment from "./lib/Network"
+import environment, { loadQuery } from "./lib/Network"
 import { RelayEnvironmentProvider as RelayEnvironmentProvider_ } from "./lib/Network/components"
 import { button } from "./lib/button"
 
 import type { rootQuery } from "~/gql/rootQuery.graphql"
 
 import ReactRelay from "react-relay"
-
-import { client_operation } from "~/lib/client"
 
 const { graphql } = ReactRelay
 
@@ -60,22 +58,22 @@ export const links: LinksFunction = () => {
 		},
 	]
 }
+
+export const RootQuery = graphql`
+	query rootQuery @raw_response_type {
+		Viewer {
+			id
+			name
+			unreadNotificationCount
+		}
+	}
+`
+
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const data = await client_operation<rootQuery>(
-		graphql`
-			query rootQuery @raw_response_type {
-				Viewer {
-					id
-					name
-					unreadNotificationCount
-				}
-			}
-		`,
-		{}
-	)
+	const query = loadQuery<rootQuery>(environment, RootQuery, {})
 
 	return {
-		Viewer: data?.Viewer,
+		query: query,
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}
@@ -98,14 +96,11 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// const { nonce } = useRawLoaderData()
 	// setLanguageTag(locale)
 
-	const isHydrated = useIsHydrated()
-
 	return (
 		<html
 			// lang={locale}
 			// dir={dir}
 			style={theme}
-			data-testid={isHydrated && "hydrated"}
 			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>

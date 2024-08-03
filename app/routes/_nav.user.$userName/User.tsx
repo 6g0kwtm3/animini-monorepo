@@ -57,7 +57,13 @@ export function User({
 				</Ariakit.Heading>
 			</div> */}
 			</div>
-			<M3.TabsList grow={true}>
+			<M3.TabsList
+				grow={{
+					initial: false,
+					"md": true,
+				}}
+
+			>
 				<M3.TabsListItem
 					id="undefined"
 					render={
@@ -96,6 +102,21 @@ export function User({
 					}
 				>
 					Manga List
+				</M3.TabsListItem>
+				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+					Favorites
+				</M3.TabsListItem>
+				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+					Stats
+				</M3.TabsListItem>
+				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+					Social
+				</M3.TabsListItem>
+				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+					Reviews
+				</M3.TabsListItem>
+				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+					Submissions
 				</M3.TabsListItem>
 			</M3.TabsList>
 		</>

@@ -31,7 +31,7 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
-import type { clientLoader as rootLoader } from "~/root"
+import { RootQuery, type clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
 import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
@@ -55,6 +55,7 @@ import { unstable_defineClientLoader } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
+import { usePreloadedQuery } from "~/lib/Network"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 const { graphql } = ReactRelay
@@ -264,7 +265,10 @@ function Edit() {
 
 	const store = useTooltipStore()
 
-	const root = useRouteLoaderData<typeof rootLoader>("root")
+	const root = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 
 	return (
 		<div
@@ -279,7 +283,7 @@ function Edit() {
 						render={
 							<Link
 								to={
-									root?.Viewer
+									root.Viewer
 										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
 												redirect: route_media_edit({ id: Number(mediaId) }),

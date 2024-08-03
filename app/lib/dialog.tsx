@@ -9,6 +9,7 @@ export const createDialog = tv(
 			headline: "text-on-surface",
 			body: "overflow-auto overscroll-contain px-6 text-body-md text-on-surface",
 			actions: "flex justify-end gap-2 px-6",
+			icon: "",
 		},
 		variants: {
 			variant: {
@@ -21,14 +22,16 @@ export const createDialog = tv(
 						"-mb-2 h-auto px-6 text-center text-headline-sm first:text-start",
 					body: "pt-0",
 					actions: "h-auto",
+					icon: "mx-auto -mb-2 px-6 text-secondary i-6",
 				},
 				fullscreen: {
 					root: "inset-0",
 					content: "",
 					headline:
 						"flex h-14 shrink-0 items-center gap-4 truncate px-4 text-title-lg",
-					body: "pt-6",
+					body: "flex-1 pt-6",
 					actions: "h-14",
+					icon: "hidden",
 				},
 			},
 		},

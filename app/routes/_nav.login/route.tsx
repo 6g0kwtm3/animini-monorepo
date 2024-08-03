@@ -112,6 +112,7 @@ export default function Login(): ReactNode {
 							type="password"
 							autoComplete="current-password"
 							label="Token"
+							defaultValue={import.meta.env.VITE_TEST_TOKEN}
 						/>
 					</M3.Field>
 

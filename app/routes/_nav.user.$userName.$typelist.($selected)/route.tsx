@@ -40,7 +40,7 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
-import { readInlineData } from "~/lib/Network"
+import { readInlineData, useFragment } from "~/lib/Network"
 
 import type {
 	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
@@ -61,8 +61,11 @@ import type {
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { PaneContext } from "~/components/Layout"
+import type { routeAwaitQuery_lists$key } from "~/gql/routeAwaitQuery_lists.graphql"
 import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
+import { M3 } from "~/lib/components"
+import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 const { graphql } = ReactRelay
@@ -122,6 +125,7 @@ const NavUserListEntriesQuery = graphql`
 					id
 					...routeNavUserListEntriesFilter_entries
 				}
+				...routeAwaitQuery_lists
 			}
 			user {
 				id
@@ -235,21 +239,16 @@ async function fetchSelectedList(
 		})
 	}
 
-	let selectedList =
+	let selectedLists =
 		typeof params.selected !== "string"
-			? Object.values(
-					Object.fromEntries(
-						data.MediaListCollection.lists
-							.flatMap((list) => list?.entries)
-							.filter((entry) => entry != null)
-							.map((entry) => [entry.id, entry])
-					)
-				)
-			: data.MediaListCollection.lists.find(
-					(list) => list?.name === params.selected
-				)?.entries
+			? data.MediaListCollection.lists
+			: [
+					data.MediaListCollection.lists.find(
+						(list) => list?.name === params.selected
+					),
+				]
 
-	if (!selectedList) {
+	if (!ReadonlyArray.isNonEmptyReadonlyArray(selectedLists)) {
 		throw json("List not found", {
 			status: 404,
 		})
@@ -257,15 +256,16 @@ async function fetchSelectedList(
 
 	const search = new URL(args.request.url).searchParams
 
-	return {
-		entries: sortEntries(
-			filterEntries(
-				selectedList.filter((el) => el != null),
-				search
-			),
-			{ search, user: data.MediaListCollection.user }
-		),
-	}
+	return selectedLists.map(
+		(list) =>
+			list && {
+				...list,
+				entries: sortEntries(
+					filterEntries(list.entries?.filter((el) => el != null) ?? [], search),
+					{ search, user: data.MediaListCollection.user }
+				),
+			}
+	)
 }
 
 const FuzzyDate = graphql`
@@ -464,21 +464,25 @@ const Params = Schema.Struct({
 })
 
 export default function Page(): ReactNode {
-	const entries = useRawLoaderData<typeof clientLoader>().query
+	const lists = useRawLoaderData<typeof clientLoader>().query
 
 	return (
 		<ExtraOutlets>
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-						<Await resolve={entries}>
-							{({ entries }) => <MediaListHeaderToWatch entries={entries} />}
+						<Await resolve={lists}>
+							{(lists) => (
+								<MediaListHeaderToWatch
+									entries={lists.flatMap((list) => list?.entries ?? [])}
+								/>
+							)}
 						</Await>
 					</Suspense>
 				</MediaListHeaderItem>
 				<MediaListHeaderItem subtitle={m.total_entries()}>
 					<Suspense fallback={<Skeleton>80</Skeleton>}>
-						<Await resolve={entries}>{({ entries }) => entries.length}</Await>
+						<Await resolve={lists}>{({ entries }) => entries.length}</Await>
 					</Suspense>
 				</MediaListHeaderItem>
 			</MediaListHeader>
@@ -493,8 +497,8 @@ export default function Page(): ReactNode {
 						</List>
 					}
 				>
-					<Await resolve={entries}>
-						{({ entries }) => <AwaitQuery entries={entries} />}
+					<Await resolve={lists}>
+						{(lists) => <AwaitQuery lists={lists} />}
 					</Await>
 				</Suspense>
 			</div>
@@ -503,11 +507,48 @@ export default function Page(): ReactNode {
 	)
 }
 
-function AwaitQuery(props: {
-	entries: routeNavUserListEntriesSort_entries$data[]
-}) {
-	"use no memo"
-	const mediaList = props.entries
+const routeAwaitQuery_lists = graphql`
+	fragment routeAwaitQuery_lists on MediaListGroup @relay(plural: true) {
+		name
+		entries {
+			id
+			...routeNavUserListEntriesFilter_entries
+			...MediaListItem_entry
+		}
+	}
+`
+
+function accumulate<T>(entries: [number, T][]): [number, T][] {
+	for (let i = entries.length - 1; i >= 0; i--) {
+		entries[i]![0] = entries[i - 1]?.[0] ?? 0
+	}
+
+	for (let i = 1; i < entries.length; i++) {
+		entries[i]![0] += entries[i - 1]![0]
+	}
+	return entries
+}
+
+function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
+	const lists = useFragment(routeAwaitQuery_lists, props.lists)
+
+	const search = useOptimisticSearchParams()
+
+	const counts = accumulate(
+		lists
+			.map((list) => ({
+				...list,
+				entries: sortEntries(
+					filterEntries(list.entries?.filter((el) => el != null) ?? [], search),
+					{ search, user: null && data?.MediaListCollection.user }
+				),
+			}))
+			.flatMap((list) =>
+				list.entries.length ? [[list.entries.length + 1, list]] : []
+			)
+	)
+
+	console.log({ counts })
 
 	const ref = useRef<ComponentRef<"div">>(null)
 
@@ -515,11 +556,21 @@ function AwaitQuery(props: {
 
 	const virtualizer = useVirtualizer({
 		getScrollElement: () => pane.current,
-		count: mediaList.length,
+		count: counts.at(-1)?.[0] ?? 0,
 		scrollMargin: ref.current?.offsetTop ?? 0,
-		estimateSize: () => 72,
+		estimateSize: (index) => {
+			const result = counts.findLast(([count]) => index >= count)
+
+			if (!result) return 0
+
+			const [count, list] = result
+
+			if (count === index) {
+				return 36
+			}
+			return 72
+		},
 		overscan: 10,
-		getItemKey: (item) => mediaList[item]?.id ?? item,
 	})
 
 	return (
@@ -529,13 +580,38 @@ function AwaitQuery(props: {
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
 				{virtualizer.getVirtualItems().map((item) => {
-					const entry = mediaList[item.index]
+					const result = counts.findLast(([count]) => item.index >= count)
+
+					if (!result) {
+						return null
+					}
+					const [count, list] = result
+
+					if (count === item.index) {
+						console.log(list.name)
+
+						return (
+							<li key={list.name}>
+								<M3.Subheader
+									style={{
+										transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
+										height: `${item.size}px`,
+									}}
+									className="absolute left-0 top-0 w-full"
+								>
+									{list.name}
+								</M3.Subheader>
+							</li>
+						)
+					}
+
+					const entry = list.entries[-count - 1 + item.index]
 
 					return (
 						entry && (
 							<MediaListItem
 								data-id={entry.id}
-								key={item.key}
+								key={`${list.name}:${entry.id}`}
 								entry={entry}
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,

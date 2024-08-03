@@ -1,4 +1,3 @@
-import cookie from "cookie"
 import ReactRelay from "react-relay"
 import RelayRuntime, {
 	Environment,
@@ -11,11 +10,8 @@ import { Effect, Option, pipe, Schedule } from "effect"
 
 import { Schema } from "@effect/schema"
 
-import { JsonToToken } from "../viewer"
 
-import { json } from "@remix-run/node"
 
-import { Remix } from "../Remix"
 
 import {
 	HttpBody,
@@ -179,7 +175,8 @@ export const { readFragment } = ResolverFragments
 export const {
 	commitMutation,
 	fetchQuery,
-
+	loadQuery,
+	usePreloadedQuery,
 	useFragment,
 	readInlineData,
 	commitLocalUpdate,

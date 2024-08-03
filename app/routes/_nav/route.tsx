@@ -2,17 +2,14 @@ import {
 	Link,
 	Outlet,
 	unstable_defineClientLoader,
-	useLoaderData,
 	useLocation,
 	useRouteLoaderData,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
 
-import { Effect, pipe } from "effect"
 
-import { Remix } from "~/lib/Remix"
-import type { clientLoader as rootLoader } from "~/root"
+import { RootQuery, type clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
@@ -39,38 +36,25 @@ import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
 import { fab } from "~/lib/button"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
 import MaterialSymbolsHome from "~icons/material-symbols/home"
 import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import { NavigationItem } from "./NavigationItem"
 
+import environment, { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { searchTrendingQuery } from "~/lib/search/SearchTrendingQuery"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
 
+
+
 export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const data = loadQuery<NavQuery>(environment, searchTrendingQuery, {})
+
 	return {
-		trending: pipe(
-			Effect.gen(function* () {
-				const client = yield* EffectUrql
-
-				const data = yield* client.query<NavQuery>(
-					graphql`
-						query routeNavQuery @raw_response_type {
-							...SearchTrending_query
-						}
-					`,
-					{}
-				)
-
-				return data
-			}),
-			Effect.provide(LoaderLive),
-			Effect.provideService(LoaderArgs, args),
-			Remix.runLoader
-		),
+		trending: data,
 	}
 })
 
@@ -85,8 +69,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 export default function NavRoute(): ReactNode {
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
-	const data = useLoaderData<typeof clientLoader>()
+	const root = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 
 	const { pathname } = useLocation()
 
@@ -130,10 +116,10 @@ export default function NavRoute(): ReactNode {
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Feed</div>
 				</NavigationItem>
-				{rootData?.Viewer ? (
+				{root.Viewer ? (
 					<>
 						<NavigationItem
-							to={route_user({ userName: rootData.Viewer.name })}
+							to={route_user({ userName: root.Viewer.name })}
 							end
 						>
 							<NavigationItemIcon>
@@ -145,7 +131,7 @@ export default function NavRoute(): ReactNode {
 						<NavigationItem
 							className="max-sm:hidden"
 							to={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: root.Viewer.name,
 								typelist: "animelist",
 							})}
 						>
@@ -157,7 +143,7 @@ export default function NavRoute(): ReactNode {
 						</NavigationItem>
 						<NavigationItem
 							to={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: root.Viewer.name,
 								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
@@ -189,9 +175,9 @@ export default function NavRoute(): ReactNode {
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
 
-					{(rootData?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+					{(root.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 						<NavigationItemLargeBadge>
-							{rootData?.Viewer?.unreadNotificationCount}
+							{root.Viewer?.unreadNotificationCount}
 						</NavigationItemLargeBadge>
 					)}
 				</NavigationItem>

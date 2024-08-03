@@ -13,10 +13,11 @@ import {
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
-import type { clientLoader as rootLoader } from "~/root"
+import { RootQuery, type clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
 
 import { M3 } from "~/lib/components"
+import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 
@@ -42,7 +43,10 @@ export function UserLink(props: {
 		}
 	}, [open, fetcher, props.userName])
 
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+	const root = usePreloadedQuery(
+		RootQuery,
+		useRouteLoaderData<typeof rootLoader>("root")!.query
+	)
 
 	return (
 		<TooltipRich placement="top" store={store}>
@@ -93,8 +97,8 @@ export function UserLink(props: {
 				</div>
 
 				<TooltipRichActions>
-					{rootData?.Viewer?.name &&
-						rootData.Viewer.name !== props.userName && (
+					{root.Viewer?.name &&
+						root.Viewer.name !== props.userName && (
 							<follow.Form
 								method="post"
 								action={`/user/${fetcher.data?.User?.id}/follow`}

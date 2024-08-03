@@ -6,22 +6,27 @@ import { tv } from "~/lib/tailwind-variants"
 
 const TabsContext = createContext<string | undefined>(undefined)
 
-const tabs = tv({
-	slots: {
-		root: "border-b border-surface-container-highest",
-	},
-	variants: {
-		variant: {
-			primary: {},
-			secondary: {},
+const tabs = tv(
+	{
+		slots: {
+			root: "border-b border-surface-container-highest",
 		},
-		grow: {
-			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
-			false: { root: "flex overflow-x-auto" },
+		variants: {
+			variant: {
+				primary: {},
+				secondary: {},
+			},
+			grow: {
+				true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
+				false: { root: "flex overflow-x-auto" },
+			},
 		},
+		defaultVariants: { primary: true, grow: false },
 	},
-	defaultVariants: { primary: true, grow: false },
-})
+	{
+		responsiveVariants: ["md"],
+	}
+)
 
 export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
 	return <Ariakit.TabProvider selectOnMove={false} {...props} />
