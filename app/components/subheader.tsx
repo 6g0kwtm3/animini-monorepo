@@ -1,4 +1,4 @@
-import { tv } from "~/lib/tailwind-variants";
+import { tv } from "~/lib/tailwind-variants"
 
 export const subheader = tv({
 	base: "truncate px-4 text-body-md text-on-surface-variant",
@@ -12,4 +12,4 @@ export const subheader = tv({
 	defaultVariants: {
 		lines: "two",
 	},
-});
+})

@@ -5,7 +5,6 @@ import { useParams } from "@remix-run/react"
 import { Checkbox } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 
-
 import ReactRelay from "react-relay"
 import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
