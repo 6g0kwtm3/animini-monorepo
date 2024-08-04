@@ -50,7 +50,10 @@ import MaterialSymbolsArrowDownward from "~icons/material-symbols/arrow-downward
 import MaterialSymbolsInfoOutline from "~icons/material-symbols/info-outline"
 import { btnIcon, button } from "../button"
 import { MediaListSort } from "../MediaListSort"
-import { useOptimisticSearchParams } from "../search/useOptimisticSearchParams"
+import {
+	useOptimisticLocation,
+	useOptimisticSearchParams,
+} from "../search/useOptimisticSearchParams"
 
 const { graphql } = ReactRelay
 
@@ -125,10 +128,15 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 		data.Viewer.name === params.userName
 	const label = viewerIsUser ? "Edit" : "Info"
 
+	const { search } = useOptimisticLocation()
+
 	return (
 		<>
 			<Link
-				to={`entry/${entry.id}`}
+				to={{
+					pathname: `entry/${entry.id}`,
+					search: search,
+				}}
 				className={button({
 					className: "hidden @lg:inline-flex",
 				})}
@@ -139,7 +147,10 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 				</M3.ButtonIcon>
 			</Link>
 			<Link
-				to={`entry/${entry.id}`}
+				to={{
+					pathname: `entry/${entry.id}`,
+					search: search,
+				}}
 				className={btnIcon({
 					className: "@lg:hidden",
 				})}

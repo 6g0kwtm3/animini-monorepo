@@ -7,8 +7,7 @@ import {
 	useLocation,
 	useParams,
 	useRouteError,
-	useSearchParams,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "@remix-run/react"
 
 import { Order } from "effect"
@@ -30,7 +29,7 @@ import ReactRelay from "react-relay"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
-import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
+import { useOptimisticLocation, useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
 import { Schema } from "@effect/schema"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
@@ -166,7 +165,7 @@ function ListTabs() {
 			)
 		)
 
-	const [searchParams] = useSearchParams()
+	const { search } = useOptimisticLocation()
 
 	return (
 		<TabsList>
@@ -175,7 +174,10 @@ function ListTabs() {
 				render={
 					<Link
 						unstable_viewTransition
-						to={`${route_user_list(params)}?${searchParams}`}
+						to={{
+							pathname: route_user_list(params),
+							search,
+						}}
 						preventScrollReset
 					/>
 				}
@@ -191,7 +193,10 @@ function ListTabs() {
 							render={
 								<Link
 									unstable_viewTransition
-									to={`${list.name}?${searchParams}`}
+									to={{
+										pathname: list.name,
+										search,
+									}}
 									preventScrollReset
 								/>
 							}

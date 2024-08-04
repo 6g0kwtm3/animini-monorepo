@@ -5,10 +5,10 @@ import { useParams } from "@remix-run/react"
 import { Checkbox } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 
-import ReactRelay from "react-relay"
 import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
+import type { ReactNode } from "react"
 import { subheader } from "~/components/subheader"
 import {
 	ANIME_FORMAT_OPTIONS,
@@ -18,9 +18,8 @@ import {
 	MANGA_PROGRESS_OPTIONS,
 	MANGA_STATUS_OPTIONS,
 } from "./options"
-const { graphql } = ReactRelay
 
-export function SheetFilter() {
+export function SheetFilter(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
 	const params = useParams<"typelist">()
@@ -34,7 +33,7 @@ export function SheetFilter() {
 			<Group>
 				<GroupLabel className={subheader({ lines })}>Status</GroupLabel>
 				<div className={list.root({ className: "-mt-2" })}>
-					<CheckboxProvider value={searchParams.getAll("status")}>
+					<CheckboxProvider defaultValue={searchParams.getAll("status")}>
 						{Object.entries(
 							params.typelist === "animelist"
 								? ANIME_STATUS_OPTIONS

@@ -16,8 +16,6 @@ const Theme_userOptions = graphql`
 export function profileTheme(key: Theme_userOptions$key): Theme | null {
 	const options = readFragment(Theme_userOptions, key)
 
-	console.log(options)
-
 	const color = options.profileColor
 		? {
 				blue: "#3db4f2",

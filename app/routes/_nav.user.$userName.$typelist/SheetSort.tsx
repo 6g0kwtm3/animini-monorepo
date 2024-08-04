@@ -18,6 +18,7 @@ import type { clientLoader } from "./route"
 
 export function SheetSort(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
+ 
 
 	const params = useParams<"typelist">()
 
@@ -33,7 +34,7 @@ export function SheetSort(): ReactNode {
 			</M3.Subheader>
 			<div className={list.root()}>
 				<Ariakit.RadioProvider
-					value={
+					defaultValue={
 						searchParams.get("sort") ??
 						{
 							title: MediaListSort.TitleEnglish,

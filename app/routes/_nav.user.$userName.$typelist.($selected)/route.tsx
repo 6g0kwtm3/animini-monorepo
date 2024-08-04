@@ -518,37 +518,28 @@ const routeAwaitQuery_lists = graphql`
 	}
 `
 
-function accumulate<T>(entries: [number, T][]): [number, T][] {
-	for (let i = entries.length - 1; i >= 0; i--) {
-		entries[i]![0] = entries[i - 1]?.[0] ?? 0
-	}
-
-	for (let i = 1; i < entries.length; i++) {
-		entries[i]![0] += entries[i - 1]![0]
-	}
-	return entries
-}
-
 function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 	const lists = useFragment(routeAwaitQuery_lists, props.lists)
 
 	const search = useOptimisticSearchParams()
 
-	const counts = accumulate(
-		lists
-			.map((list) => ({
-				...list,
-				entries: sortEntries(
-					filterEntries(list.entries?.filter((el) => el != null) ?? [], search),
-					{ search, user: null && data?.MediaListCollection.user }
-				),
-			}))
-			.flatMap((list) =>
-				list.entries.length ? [[list.entries.length + 1, list]] : []
-			)
-	)
+	const elements = lists.flatMap((list) => {
+		const entries = sortEntries(
+			filterEntries(list.entries?.filter((el) => el != null) ?? [], search),
+			{ search, user: null && data?.MediaListCollection.user }
+		)
 
-	console.log({ counts })
+		return ReadonlyArray.isNonEmptyReadonlyArray(entries)
+			? [
+					{ type: "MediaListGroup" as const, list },
+					...entries.map((entry) => ({
+						type: "MediaList" as const,
+						entry,
+						name: list.name,
+					})),
+				]
+			: []
+	})
 
 	const ref = useRef<ComponentRef<"div">>(null)
 
@@ -556,19 +547,22 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 
 	const virtualizer = useVirtualizer({
 		getScrollElement: () => pane.current,
-		count: counts.at(-1)?.[0] ?? 0,
+		count: elements.length,
 		scrollMargin: ref.current?.offsetTop ?? 0,
 		estimateSize: (index) => {
-			const result = counts.findLast(([count]) => index >= count)
+			const element = elements[index]
 
-			if (!result) return 0
-
-			const [count, list] = result
-
-			if (count === index) {
+			if (element?.type === "MediaListGroup") {
 				return 36
 			}
-			return 72
+
+			if (element?.type === "MediaList") {
+				return 72
+			}
+
+			element satisfies undefined
+
+			return 0
 		},
 		overscan: 10,
 	})
@@ -580,18 +574,11 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
 				{virtualizer.getVirtualItems().map((item) => {
-					const result = counts.findLast(([count]) => item.index >= count)
+					const element = elements[item.index]
 
-					if (!result) {
-						return null
-					}
-					const [count, list] = result
-
-					if (count === item.index) {
-						console.log(list.name)
-
+					if (element?.type === "MediaListGroup") {
 						return (
-							<li key={list.name}>
+							<li key={element.list.name}>
 								<M3.Subheader
 									style={{
 										transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
@@ -599,20 +586,18 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 									}}
 									className="absolute left-0 top-0 w-full"
 								>
-									{list.name}
+									{element.list.name}
 								</M3.Subheader>
 							</li>
 						)
 					}
 
-					const entry = list.entries[-count - 1 + item.index]
-
-					return (
-						entry && (
+					if (element?.type === "MediaList") {
+						return (
 							<MediaListItem
-								data-id={entry.id}
-								key={`${list.name}:${entry.id}`}
-								entry={entry}
+								data-id={element.entry.id}
+								key={`${element.name}:${element.entry.id}`}
+								entry={element.entry}
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 									height: `${item.size}px`,
@@ -620,7 +605,10 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 								className="absolute left-0 top-0 w-full"
 							/>
 						)
-					)
+					}
+
+					element satisfies undefined
+					return null
 				})}
 			</List>
 		</div>
