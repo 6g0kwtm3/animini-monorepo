@@ -1,6 +1,4 @@
-import type {
-	ReactNode
-} from "react"
+import type { ReactNode } from "react"
 import { createContext, use, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
