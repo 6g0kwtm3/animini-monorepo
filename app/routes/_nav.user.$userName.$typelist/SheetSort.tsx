@@ -18,7 +18,6 @@ import type { clientLoader } from "./route"
 
 export function SheetSort(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
- 
 
 	const params = useParams<"typelist">()
 

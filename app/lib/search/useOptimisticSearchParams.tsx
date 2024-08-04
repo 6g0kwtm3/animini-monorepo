@@ -1,5 +1,5 @@
-import type { Location } from "@remix-run/react";
-import { useLocation, useNavigation } from "@remix-run/react";
+import type { Location } from "@remix-run/react"
+import { useLocation, useNavigation } from "@remix-run/react"
 
 export function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()
