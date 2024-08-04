@@ -45,6 +45,10 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 			const client = yield* EffectUrql
 
+			commitLocalUpdate(environment, (store) => {
+				store.invalidateStore()
+			})
+
 			const data = yield* client.query<NavLoginQuery>(
 				graphql`
 					query routeNavLoginQuery @raw_response_type {
@@ -56,7 +60,6 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				`,
 				{},
 				{
-					fetchPolicy: "network-only",
 					networkCacheConfig: {
 						metadata: {
 							headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
@@ -70,10 +73,6 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 			}
 
 			sessionStorage.setItem("anilist-token", token.trim())
-
-			commitLocalUpdate(environment, (store) => {
-				store.invalidateStore()
-			})
 
 			return redirect(
 				searchParams.get("redirect") ??
