@@ -58,7 +58,7 @@ function SidePanel(): ReactNode {
 	const entry = data.MediaList
 
 	return (
-		<M3.LayoutPane variant="fixed" className="max-xl:hidden">
+		<M3.LayoutPane variant="fixed" className="max-xl:hidden starting:w-0 ease-emphasized duration-2sm">
 			<M3.Card
 				variant="elevated"
 				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"

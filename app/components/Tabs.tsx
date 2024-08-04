@@ -1,4 +1,6 @@
-import type { ReactNode } from "react"
+import type {
+	ReactNode
+} from "react"
 import { createContext, use, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
@@ -10,6 +12,7 @@ const tabs = tv(
 	{
 		slots: {
 			root: "border-b border-surface-container-highest",
+			item: "flex justify-center px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed",
 		},
 		variants: {
 			variant: {
@@ -35,6 +38,7 @@ export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
 export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
 	return <Ariakit.TabPanel {...props} />
 }
+const Styles = createContext(tabs())
 
 export function TabsList({
 	grow,
@@ -43,13 +47,15 @@ export function TabsList({
 	const styles = tabs({ grow })
 	return (
 		<TabsContext.Provider value={useId()}>
-			<Ariakit.TabList
-				{...props}
-				className={styles.root({
-					className: props.className,
-				})}
-				render={<nav />}
-			/>
+			<Styles value={styles}>
+				<Ariakit.TabList
+					{...props}
+					className={styles.root({
+						className: props.className,
+					})}
+					render={<nav />}
+				/>
+			</Styles>
 		</TabsContext.Provider>
 	)
 }
@@ -67,11 +73,10 @@ export function TabsListItem({
 	// eslint-disable-next-line react-compiler/react-compiler
 	const selectedId = context.useState("selectedId")
 
+	const { item } = use(Styles)
+
 	return (
-		<Ariakit.Tab
-			{...props}
-			className="flex justify-center px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed"
-		>
+		<Ariakit.Tab {...props} className={item({ className: props.className })}>
 			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
 				{children}
 

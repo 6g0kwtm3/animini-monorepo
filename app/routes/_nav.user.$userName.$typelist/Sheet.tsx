@@ -53,12 +53,14 @@ export function Sheet(): ReactNode {
 				<TabsList grow className="">
 					<TabsListItem
 						id="filter"
+						className="rounded-ss-xl"
 						render={<Link unstable_viewTransition to={`?${filterParams}`} />}
 					>
 						Filter
 					</TabsListItem>
 					<TabsListItem
 						id="sort"
+						className="rounded-se-xl xl:rounded-none"
 						render={<Link unstable_viewTransition to={`?${sortParams}`} />}
 					>
 						Sort
