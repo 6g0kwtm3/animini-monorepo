@@ -1,4 +1,4 @@
-import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
+import { Group, GroupLabel } from "@ariakit/react"
 
 import { useLoaderData, useParams } from "@remix-run/react"
 
@@ -10,6 +10,7 @@ import { M3 } from "~/lib/components"
 
 import { MediaListSort } from "~/lib/MediaListSort"
 
+import { Ariakit } from "~/lib/ariakit"
 import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
@@ -31,18 +32,18 @@ export function SheetSort(): ReactNode {
 				Sort
 			</M3.Subheader>
 			<div className={list.root()}>
-				<CheckboxProvider
+				<Ariakit.RadioProvider
 					value={
-						searchParams.getAll("sort").length > 0
-							? searchParams.getAll("sort")
-							: ({
-									title: [MediaListSort.TitleEnglish],
-									score: [MediaListSort.ScoreDesc],
-								}[
-									String(
-										data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
-									)
-								] ?? [])
+						searchParams.get("sort") ??
+						{
+							title: MediaListSort.TitleEnglish,
+							score: MediaListSort.ScoreDesc,
+						}[
+							String(
+								data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
+							)
+						] ??
+						null
 					}
 				>
 					{Object.entries(
@@ -59,7 +60,7 @@ export function SheetSort(): ReactNode {
 							</label>
 						)
 					})}
-				</CheckboxProvider>
+				</Ariakit.RadioProvider>
 			</div>
 		</Group>
 	)
