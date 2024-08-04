@@ -5,12 +5,12 @@ import { useParams } from "@remix-run/react"
 import { Checkbox } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 
-import { M3 } from "~/lib/components"
 
 import ReactRelay from "react-relay"
 import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
+import { subheader } from "~/components/subheader"
 import {
 	ANIME_FORMAT_OPTIONS,
 	ANIME_PROGRESS_OPTIONS,
@@ -33,9 +33,7 @@ export function SheetFilter() {
 	return (
 		<>
 			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
-					Status
-				</M3.Subheader>
+				<GroupLabel className={subheader({ lines })}>Status</GroupLabel>
 				<div className={list.root({ className: "-mt-2" })}>
 					<CheckboxProvider value={searchParams.getAll("status")}>
 						{Object.entries(
@@ -56,9 +54,7 @@ export function SheetFilter() {
 				</div>
 			</Group>
 			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
-					Format
-				</M3.Subheader>
+				<GroupLabel className={subheader({ lines })}>Format</GroupLabel>
 				<div className={list.root({ className: "-mt-2" })}>
 					<CheckboxProvider value={searchParams.getAll("format")}>
 						{Object.entries(
@@ -79,9 +75,7 @@ export function SheetFilter() {
 				</div>
 			</Group>
 			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
-					Progress
-				</M3.Subheader>
+				<GroupLabel className={subheader({ lines })}>Progress</GroupLabel>
 				<div className={list.root({ className: "-mt-2" })}>
 					<CheckboxProvider value={searchParams.getAll("progress")}>
 						{Object.entries(

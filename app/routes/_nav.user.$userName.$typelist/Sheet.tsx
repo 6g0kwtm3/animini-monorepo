@@ -38,6 +38,10 @@ export function Sheet(): ReactNode {
 
 	return (
 		<M3.Sheet
+			variant={{
+				initial: "bottom",
+				xl: "side",
+			}}
 			open={filter || sort}
 			onClose={() => {
 				navigate({
@@ -45,39 +49,36 @@ export function Sheet(): ReactNode {
 				})
 			}}
 		>
-			<Form
-				replace
-				action={pathname}
-				onChange={(e) => submit(e.currentTarget, {})}
-			>
-				{sheet && <input type="hidden" name="sheet" value={sheet} />}
-				<M3.Tabs selectedId={sheet}>
-					<TabsList
-						grow
-						className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
+			<M3.Tabs selectedId={sheet}>
+				<TabsList grow className="">
+					<TabsListItem
+						id="filter"
+						render={<Link unstable_viewTransition to={`?${filterParams}`} />}
 					>
-						<TabsListItem
-							id="filter"
-							render={<Link unstable_viewTransition to={`?${filterParams}`} />}
-						>
-							Filter
-						</TabsListItem>
-						<TabsListItem
-							id="sort"
-							render={<Link unstable_viewTransition to={`?${sortParams}`} />}
-						>
-							Sort
-						</TabsListItem>
-					</TabsList>
+						Filter
+					</TabsListItem>
+					<TabsListItem
+						id="sort"
+						render={<Link unstable_viewTransition to={`?${sortParams}`} />}
+					>
+						Sort
+					</TabsListItem>
+				</TabsList>
 
-					<M3.TabsPanel tabId={sheet}>
-						<SheetBody>
+				<SheetBody>
+					<Form
+						replace
+						action={pathname}
+						onChange={(e) => submit(e.currentTarget, {})}
+					>
+						{sheet && <input type="hidden" name="sheet" value={sheet} />}
+						<M3.TabsPanel tabId={sheet}>
 							{filter && <SheetFilter />}
 							{sort && <SheetSort />}
-						</SheetBody>
-					</M3.TabsPanel>
-				</M3.Tabs>
-			</Form>
+						</M3.TabsPanel>
+					</Form>
+				</SheetBody>
+			</M3.Tabs>
 		</M3.Sheet>
 	)
 }

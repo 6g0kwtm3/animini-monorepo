@@ -1,9 +1,8 @@
 import { paraglide } from "@inlang/paraglide-vite"
-import MillionLint from "@million/lint"
-import babel from "vite-plugin-babel"
 import { vitePlugin as remix } from "@remix-run/dev"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
+import babel from "vite-plugin-babel"
 import Inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
@@ -32,17 +31,17 @@ export default defineConfig({
 			},
 		}),
 
-		!isStorybook &&
-			MillionLint.vite({
-				filter: {
-					include: [
-						"app/routes/_nav.user.$userName/*.tsx",
-						"app/routes/_nav.user.$userName.$typelist/*.tsx",
-						"app/components/**/*.tsx",
-						"app/lib/**/*.tsx",
-					],
-				},
-			}),
+		// !isStorybook &&
+		// 	MillionLint.vite({
+		// 		filter: {
+		// 			include: [
+		// 				"app/routes/_nav.user.$userName/*.tsx",
+		// 				"app/routes/_nav.user.$userName.$typelist/*.tsx",
+		// 				"app/components/**/*.tsx",
+		// 				"app/lib/**/*.tsx",
+		// 			],
+		// 		},
+		// 	}),
 		isBun()
 			? null
 			: paraglide({

@@ -34,6 +34,7 @@ import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParam
 
 import { Schema } from "@effect/schema"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import { Sheet } from "./Sheet"
 const { graphql } = ReactRelay
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -137,6 +138,7 @@ export default function Route(): ReactNode {
 					</M3.TabsPanel>
 				</M3.Tabs>
 			</div>
+			<Sheet />
 		</ExtraOutlets>
 	)
 }
@@ -216,7 +218,7 @@ function FilterButton() {
 				render={
 					<Link
 						className={btnIcon({
-							className: `xl:hidden ${searchParams.size > 0 ? "text-tertiary" : ""}`,
+							className: [searchParams.size && "text-tertiary"],
 						})}
 						to={{
 							search: `?${filterParams}`,

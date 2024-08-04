@@ -4,7 +4,7 @@ import type { VariantProps } from "tailwind-variants"
 
 import { Ariakit } from "~/lib/ariakit"
 import { createList, ListContext } from "~/lib/list"
-import { tv } from "~/lib/tailwind-variants"
+import { subheader } from "./subheader"
 
 interface ListVariantProps
 	extends ComponentProps<"li">,
@@ -58,20 +58,6 @@ export function ListItemIcon(props: ComponentProps<"div">): ReactNode {
 
 	return <div {...props} className={itemIcon({ className: props.className })} />
 }
-
-const subheader = tv({
-	base: "truncate px-4 text-body-md text-on-surface-variant",
-	variants: {
-		lines: {
-			one: "py-2",
-			two: "py-2",
-			three: "py-3",
-		},
-	},
-	defaultVariants: {
-		lines: "two",
-	},
-})
 
 export function Subheader({
 	lines,
