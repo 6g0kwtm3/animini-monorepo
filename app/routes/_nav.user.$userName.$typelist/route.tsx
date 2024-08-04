@@ -7,7 +7,7 @@ import {
 	useLocation,
 	useParams,
 	useRouteError,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import { Order } from "effect"
@@ -29,7 +29,10 @@ import ReactRelay from "react-relay"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
-import { useOptimisticLocation, useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
+import {
+	useOptimisticLocation,
+	useOptimisticSearchParams,
+} from "~/lib/search/useOptimisticSearchParams"
 
 import { Schema } from "@effect/schema"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
