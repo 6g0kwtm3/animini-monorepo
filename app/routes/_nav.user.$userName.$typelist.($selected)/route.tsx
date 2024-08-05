@@ -99,8 +99,6 @@ const NavUserListEntriesSort_entries = graphql`
 	}
 `
 
-
-
 const navUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
@@ -535,7 +533,7 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 		<div ref={ref} className="">
 			<List
 				className="relative @container"
-				lines={'two'}
+				lines={"two"}
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
 				{virtualizer.getVirtualItems().map((item) => {

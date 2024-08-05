@@ -26,7 +26,7 @@ export const createList = tv(
 				two: {
 					root: "",
 					item: "min-h-[4.5rem] items-center",
-					itemSubtitle: "flex line-clamp-1",
+					itemSubtitle: "line-clamp-1 flex",
 					itemContent: "justify-center py-2",
 				},
 				three: {
