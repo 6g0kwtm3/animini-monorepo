@@ -20,7 +20,6 @@ import { route_media } from "../route"
 import { MediaCover } from "./MediaCover"
 import { formatWatch } from "./ToWatch"
 
-import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { Progress, ProgressIncrement } from "./Progress"
 
@@ -31,7 +30,6 @@ import type {
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
-import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
 import { M3 } from "../components"
 import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
@@ -61,11 +59,14 @@ export type ListItem_EntryFragment = typeof MediaListItem_entry
 
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
+		id
+		score
 		media @required(action: LOG) {
 			id
 			...MediaCover_media
 		}
 		...ProgressIncrement_entry
+		...Progress_entry
 		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
 		...ProgressMoreMenu_entry
@@ -92,13 +93,26 @@ export function MediaListItem({
 
 				<Link
 					to={route_media({ id: data.media.id })}
-					className={list.itemContent()}
+					className={list.itemContent({ className: "flex-[5]" })}
 				>
 					<ListItemContentTitle>
 						<MediaListItemTitle entry={data} />
 					</ListItemContentTitle>
 					<MediaListItemSubtitle entry={data} />
 				</Link>
+
+				<M3.ListItemContent className="hidden flex-1 @xl:block">
+					<M3.ListItemContentSubtitle className="justify-center font-mono">
+						{data.score}
+					</M3.ListItemContentSubtitle>
+				</M3.ListItemContent>
+
+				<M3.ListItemContent className="hidden flex-1 @lg:block">
+					<M3.ListItemContentSubtitle className="justify-center font-mono">
+						<Progress entry={data} />
+					</M3.ListItemContentSubtitle>
+				</M3.ListItemContent>
+
 				<div className="flex">
 					<ProgressIncrement entry={data} />
 					<Info entry={data} />
@@ -171,10 +185,22 @@ export function MockMediaListItem({
 			<ListItemImg>
 				<Skeleton full />
 			</ListItemImg>
-			<ListItemContent>
+			<ListItemContent className="flex-[5]">
 				<ListItemContentTitle>
 					<Skeleton />
 				</ListItemContentTitle>
+				<ListItemContentSubtitle className="flex flex-wrap gap-1">
+					<Skeleton className="max-w-[21.666666666666668ch]" />
+				</ListItemContentSubtitle>
+			</ListItemContent>
+
+			<ListItemContent className="hidden flex-1 @xl:block">
+				<ListItemContentSubtitle className="flex flex-wrap gap-1">
+					<Skeleton className="max-w-[21.666666666666668ch]" />
+				</ListItemContentSubtitle>
+			</ListItemContent>
+
+			<ListItemContent className="hidden flex-1 @lg:block">
 				<ListItemContentSubtitle className="flex flex-wrap gap-1">
 					<Skeleton className="max-w-[21.666666666666668ch]" />
 				</ListItemContentSubtitle>
@@ -235,7 +261,6 @@ const MediaListItemSubtitle_entry = graphql`
 		}
 		toWatch
 		...Progress_entry
-		...MediaListItemSort_entry
 	}
 `
 
@@ -243,7 +268,6 @@ function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
 }): ReactNode {
 	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
-	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
 	const watch = entry.toWatch
 
@@ -255,10 +279,9 @@ function MediaListItemSubtitle(props: {
 	const params = useParams()
 
 	return (
-		<ListItemContentSubtitle className="flex flex-wrap gap-x-2">
-			<div>
-				<MaterialSymbolsStarOutline className="i-inline inline" />{" "}
-				<div className="inline-block w-[3ch]">{entry.score}</div>
+		<ListItemContentSubtitle className="flex justify-between gap-x-2 @lg:justify-start">
+			<div className="@xl:hidden">
+				Score: <div className="inline-block font-mono">{entry.score}</div>
 			</div>
 
 			<div
@@ -269,23 +292,19 @@ function MediaListItemSubtitle(props: {
 						: "contents"
 				}
 			>
-				<div>
-					<MaterialSymbolsPlayArrow className="i-inline inline" />{" "}
-					<Progress entry={entry} />
+				<div className="@lg:hidden">
+					Progress: <Progress className="font-mono" entry={entry} />
 				</div>
 			</div>
-
 			{entry.media?.type === ("ANIME" satisfies MediaType) &&
 				Predicate.isNumber(watch) && (
-					<div>
+					<div className="hidden @xl:block">
 						<MaterialSymbolsTimerOutline className="i-inline inline" />{" "}
 						{watch > 0
 							? m.time_to_watch({ time: formatWatch(watch) })
 							: m.nothing_to_watch()}
 					</div>
 				)}
-
-			<MediaListItemSort entry={entry} />
 		</ListItemContentSubtitle>
 	)
 }

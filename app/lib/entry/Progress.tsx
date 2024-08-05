@@ -300,24 +300,26 @@ export function Progress({
 
 	return (
 		<span {...props}>
-			{progress}
-			{episodes === progress ? null : Predicate.isNumber(
-					data.media?.avalible
-			  ) ? (
+			<span className="">{progress}</span>
+			{episodes === progress ? null : (
 				<>
-					/
-					<span
-						className={
-							data.media.avalible !== episodes
-								? "underline decoration-dotted"
-								: ""
-						}
-					>
-						{data.media.avalible}
+					<span>/</span>
+					<span className="">
+						{Predicate.isNumber(data.media?.avalible) ? (
+							<span
+								className={
+									data.media.avalible !== episodes
+										? "underline decoration-dotted"
+										: ""
+								}
+							>
+								{data.media.avalible}
+							</span>
+						) : (
+							`${episodes ?? "-"}`
+						)}
 					</span>
 				</>
-			) : (
-				`/${episodes ?? "-"}`
 			)}
 		</span>
 	)

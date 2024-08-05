@@ -12,6 +12,9 @@ export const config = {
 	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
+		fontFamily: {
+			mono: ["'Noto Sans Mono'", "monospace"],
+		},
 		screens: {
 			sm: "600px",
 			md: "840px",

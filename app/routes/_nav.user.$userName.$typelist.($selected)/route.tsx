@@ -42,11 +42,10 @@ import { m } from "~/lib/paraglide"
 import ReactRelay from "react-relay"
 import { readInlineData, useFragment } from "~/lib/Network"
 
-import type {
-	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
-	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
-} from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
-import { type routeNavUserListEntriesQuery as NavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
+import {
+	type routeNavUserListEntriesQuery as navUserListEntriesQuery,
+	type routeNavUserListEntriesQuery,
+} from "~/gql/routeNavUserListEntriesQuery.graphql"
 import type {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
@@ -67,6 +66,7 @@ import { button } from "~/lib/button"
 import { M3 } from "~/lib/components"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import { isVisible } from "./isVisible"
 
 const { graphql } = ReactRelay
 
@@ -96,25 +96,12 @@ const NavUserListEntriesSort_entries = graphql`
 		updatedAt
 		toWatch
 		...MediaListItem_entry
-		...MediaListHeaderToWatch_entries
 	}
 `
 
-const NavUserListEntriesFilter_entries = graphql`
-	fragment routeNavUserListEntriesFilter_entries on MediaList @inline {
-		id
-		progress
-		media {
-			id
-			status(version: 2)
-			format
-		}
-		toWatch
-		...routeNavUserListEntriesSort_entries
-	}
-`
 
-const NavUserListEntriesQuery = graphql`
+
+const navUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type)
@@ -123,7 +110,7 @@ const NavUserListEntriesQuery = graphql`
 				name @required(action: LOG)
 				entries {
 					id
-					...routeNavUserListEntriesFilter_entries
+					...MediaListHeaderToWatch_entries
 				}
 				...routeAwaitQuery_lists
 			}
@@ -220,8 +207,8 @@ async function fetchSelectedList(
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 	const client = await client_get_client()
 
-	const data = await client.operation<NavUserListEntriesQuery>(
-		NavUserListEntriesQuery,
+	const data = await client.operation<routeNavUserListEntriesQuery>(
+		navUserListEntriesQuery,
 		{
 			userName: params.userName,
 			type: (
@@ -254,6 +241,8 @@ async function fetchSelectedList(
 		})
 	}
 
+	return selectedLists
+
 	const search = new URL(args.request.url).searchParams
 
 	return selectedLists.map(
@@ -261,7 +250,9 @@ async function fetchSelectedList(
 			list && {
 				...list,
 				entries: sortEntries(
-					filterEntries(list.entries?.filter((el) => el != null) ?? [], search),
+					list.entries?.flatMap((el) =>
+						el != null && isVisible(el, search) ? [el] : []
+					) ?? [],
 					{ search, user: data.MediaListCollection.user }
 				),
 			}
@@ -316,6 +307,7 @@ function sortEntries(
 	let entries = entryKeys.map((entryKey) =>
 		readInlineData(NavUserListEntriesSort_entries, entryKey)
 	)
+	// return entries
 	const user = readInlineData(NavUserListEntriesSort_user, userKey)
 
 	const sorts =
@@ -396,6 +388,10 @@ function sortEntries(
 			continue
 		}
 
+		// Order.struct({
+
+		// })
+
 		sort satisfies never
 	}
 
@@ -420,41 +416,6 @@ function sortEntries(
 		entries,
 		ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))
 	)
-}
-
-function filterEntries(
-	data: readonly NavUserListEntriesFilter_entries$key[],
-	searchParams: URLSearchParams
-): NavUserListEntriesFilter_entries$data[] {
-	let entries = data.map((key) =>
-		readInlineData(NavUserListEntriesFilter_entries, key)
-	)
-	const status = searchParams.getAll("status")
-	const format = searchParams.getAll("format")
-	const progresses = searchParams.getAll("progress")
-
-	if (status.length) {
-		entries = entries.filter((entry) =>
-			status.includes(entry.media?.status ?? "")
-		)
-	}
-
-	if (format.length) {
-		entries = entries.filter((entry) =>
-			format.includes(entry.media?.format ?? "")
-		)
-	}
-
-	for (const progress of progresses) {
-		if (progress === "UNSEEN") {
-			entries = entries.filter((entry) => (entry.toWatch ?? 1) > 0)
-		}
-		if (progress === "STARTED") {
-			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
-		}
-	}
-
-	return entries
 }
 
 const Params = Schema.Struct({
@@ -512,7 +473,8 @@ const routeAwaitQuery_lists = graphql`
 		name
 		entries {
 			id
-			...routeNavUserListEntriesFilter_entries
+			...isVisible_entry
+			...routeNavUserListEntriesSort_entries
 			...MediaListItem_entry
 		}
 	}
@@ -525,7 +487,9 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 
 	const elements = lists.flatMap((list) => {
 		const entries = sortEntries(
-			filterEntries(list.entries?.filter((el) => el != null) ?? [], search),
+			list.entries?.flatMap((el) =>
+				el != null && isVisible(el, search) ? [el] : []
+			) ?? [],
 			{ search, user: null && data?.MediaListCollection.user }
 		)
 
@@ -571,6 +535,7 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 		<div ref={ref} className="">
 			<List
 				className="relative @container"
+				lines={'two'}
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
 				{virtualizer.getVirtualItems().map((item) => {
@@ -578,16 +543,15 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 
 					if (element?.type === "MediaListGroup") {
 						return (
-							<li key={element.list.name}>
-								<M3.Subheader
-									style={{
-										transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
-										height: `${item.size}px`,
-									}}
-									className="absolute left-0 top-0 w-full"
-								>
-									{element.list.name}
-								</M3.Subheader>
+							<li
+								key={element.list.name}
+								style={{
+									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
+								}}
+								className="absolute left-0 top-0 w-full"
+								ref={item.measureElement}
+							>
+								<M3.Subheader>{element.list.name}</M3.Subheader>
 							</li>
 						)
 					}
@@ -595,12 +559,12 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 					if (element?.type === "MediaList") {
 						return (
 							<MediaListItem
+								ref={item.measureElement}
 								data-id={element.entry.id}
 								key={`${element.name}:${element.entry.id}`}
 								entry={element.entry}
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
-									height: `${item.size}px`,
 								}}
 								className="absolute left-0 top-0 w-full"
 							/>

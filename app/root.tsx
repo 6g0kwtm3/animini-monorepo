@@ -24,7 +24,6 @@ import theme from "~/../fallback.json"
 import tailwind from "./tailwind.css?url"
 
 import type { Environment } from "react-relay"
-import { useIsHydrated } from "~/lib/useIsHydrated"
 import environment, { loadQuery } from "./lib/Network"
 import { RelayEnvironmentProvider as RelayEnvironmentProvider_ } from "./lib/Network/components"
 import { button } from "./lib/button"
@@ -54,7 +53,7 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: "stylesheet",
-			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap",
+			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&family=Noto+Sans+Mono&display=swap",
 		},
 	]
 }
