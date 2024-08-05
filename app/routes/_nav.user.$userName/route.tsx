@@ -17,7 +17,7 @@ import { Icon } from "~/components/Button"
 
 import { client_operation } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
-import { RootQuery, type clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 
 import { AppBar, AppBarTitle } from "~/components"
 import { M3 } from "~/lib/components"
@@ -70,8 +70,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 export default function Page(): ReactNode {
 	const root = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 	const data = useRawLoaderData<typeof clientLoader>()
 

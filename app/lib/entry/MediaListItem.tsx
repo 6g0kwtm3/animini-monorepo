@@ -35,7 +35,7 @@ import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
 import { useFragment, usePreloadedQuery } from "../Network"
 
-import { RootQuery, type clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 
 import type { MediaListItemSort_entry$key } from "~/gql/MediaListItemSort_entry.graphql"
 
@@ -132,8 +132,7 @@ const MediaListItemInfo_entry = graphql`
 function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
 	const data = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 	const params = useParams()
 
@@ -272,8 +271,7 @@ function MediaListItemSubtitle(props: {
 	const watch = entry.toWatch
 
 	const data = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 
 	const params = useParams()

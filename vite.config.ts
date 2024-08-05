@@ -1,47 +1,50 @@
 import { paraglide } from "@inlang/paraglide-vite"
+import MillionLint from "@million/lint"
 import { vitePlugin as remix } from "@remix-run/dev"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
-import babel from "vite-plugin-babel"
 import Inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 const isStorybook = process.argv[1]?.includes("storybook")
-
 const isBun = (): boolean => !!globalThis.Bun
 
 const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
 		Inspect(),
-		babel({
-			filter: /\.[jt]sx?$/,
-			include: [
-				"app/routes/_nav.user.$userName/*.tsx",
-				"app/routes/_nav.user.$userName.$typelist/*.tsx",
-				"app/components/**/*.tsx",
-				"app/lib/**/*.tsx",
-			],
-			babelConfig: {
-				presets: ["@babel/preset-typescript"], // if you use TypeScript
-				plugins: [
-					// ["@babel/plugin-syntax-jsx"],
-					["babel-plugin-react-compiler", ReactCompilerConfig],
-				],
-			},
-		}),
+		// babel({
+		// 	filter: /\.[jt]sx?$/,
+		// 	include: [
+		// 		"app/routes/_nav.user.$userName/*.tsx",
+		// 		"app/routes/_nav.user.$userName.$typelist/*.tsx",
+		// 		"app/components/**/*.tsx",
+		// 		"app/lib/**/*.tsx",
+		// 	],
+		// 	babelConfig: {
+		// 		presets: ["@babel/preset-typescript"], // if you use TypeScript
+		// 		plugins: [
+		// 			// ["@babel/plugin-syntax-jsx"],
+		// 			["babel-plugin-react-compiler", ReactCompilerConfig],
+		// 		],
+		// 	},
+		// }),
 
-		// !isStorybook &&
-		// 	MillionLint.vite({
-		// 		filter: {
-		// 			include: [
-		// 				"app/routes/_nav.user.$userName/*.tsx",
-		// 				"app/routes/_nav.user.$userName.$typelist/*.tsx",
-		// 				"app/components/**/*.tsx",
-		// 				"app/lib/**/*.tsx",
-		// 			],
-		// 		},
-		// 	}),
+		!isStorybook &&
+			MillionLint.vite({
+				babel: {
+					plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
+				},
+				lite: true,
+				filter: {
+					include: [
+						"app/routes/_nav.user.$userName/*.tsx",
+						"app/routes/_nav.user.$userName.$typelist/*.tsx",
+						"app/components/**/*.tsx",
+						"app/lib/**/*.tsx",
+					],
+				},
+			}),
 		isBun()
 			? null
 			: paraglide({

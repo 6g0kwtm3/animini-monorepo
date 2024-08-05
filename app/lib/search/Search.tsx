@@ -1,6 +1,5 @@
 import * as Ariakit from "@ariakit/react"
 import {
-	Await,
 	Form,
 	useFetcher,
 	useNavigate,
@@ -34,8 +33,6 @@ import { createList, ListContext } from "../list"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 import { useOptimisticSearchParams } from "./useOptimisticSearchParams"
-
-const { graphql } = ReactRelay
 
 export function Search(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
@@ -122,7 +119,7 @@ export function Search(): ReactNode {
 					</SearchViewBody>
 				) : data ? (
 					<Suspense fallback="">
-						<SearchTrending query={data.trending} />
+						<SearchTrending query={data.RouteNavTrendingQuery} />
 					</Suspense>
 				) : null}
 			</Form>

@@ -58,7 +58,7 @@ export const links: LinksFunction = () => {
 	]
 }
 
-export const RootQuery = graphql`
+const RootQuery = graphql`
 	query rootQuery @raw_response_type {
 		Viewer {
 			id
@@ -69,10 +69,10 @@ export const RootQuery = graphql`
 `
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const query = loadQuery<rootQuery>(environment, RootQuery, {})
+	const query = loadQuery<rootQuery>(RootQuery, {})
 
 	return {
-		query: query,
+		RootQuery: query,
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}

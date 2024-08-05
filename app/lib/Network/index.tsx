@@ -1,4 +1,7 @@
-import ReactRelay from "react-relay"
+import ReactRelay, {
+	type LoadQueryOptions,
+	type PreloadedQuery,
+} from "react-relay"
 import RelayRuntime, {
 	Environment,
 	Network,
@@ -32,8 +35,7 @@ const API_URL = "https://graphql.anilist.co"
 const fetchQuery_: FetchFunction = async function (
 	operation,
 	variables,
-	cacheConfig,
-	uploadables
+	cacheConfig
 ) {
 	const token = sessionStorage.getItem("anilist-token")
 
@@ -169,14 +171,31 @@ const environment = new Environment({
 
 export const { readFragment } = ResolverFragments
 
-export const {
+const {
 	commitMutation,
 	fetchQuery,
-	loadQuery,
+	loadQuery: loadQuery_,
 	usePreloadedQuery,
 	useFragment,
 	readInlineData,
 	commitLocalUpdate,
 } = ReactRelay
+
+export {
+	commitMutation,
+	fetchQuery,
+	usePreloadedQuery,
+	useFragment,
+	readInlineData,
+	commitLocalUpdate,
+}
+
+export function loadQuery<T extends RelayRuntime.OperationType>(
+	query: ReactRelay.GraphQLTaggedNode,
+	variables: ReactRelay.VariablesOf<T>,
+	options?: LoadQueryOptions
+): [ReactRelay.GraphQLTaggedNode, PreloadedQuery<T>] {
+	return [query, loadQuery_<T>(environment, query, variables, options)]
+}
 
 export default environment

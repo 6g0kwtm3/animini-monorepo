@@ -13,7 +13,7 @@ import {
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
-import { RootQuery, type clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
 
 import { M3 } from "~/lib/components"
@@ -44,8 +44,7 @@ export function UserLink(props: {
 	}, [open, fetcher, props.userName])
 
 	const root = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 
 	return (

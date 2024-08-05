@@ -5,7 +5,7 @@ import { m } from "~/lib/paraglide"
 import { MediaListSort } from "~/lib/MediaListSort"
 
 import type { MediaStatus } from "~/gql/Avalible_media.graphql"
-import type { MediaFormat } from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
+import type { MediaFormat } from "~/gql/isVisible_entry.graphql"
 
 export const ANIME_STATUS_OPTIONS = {
 	FINISHED: m.media_status_finished(),

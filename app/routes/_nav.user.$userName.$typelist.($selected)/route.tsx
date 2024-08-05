@@ -240,21 +240,6 @@ async function fetchSelectedList(
 	}
 
 	return selectedLists
-
-	const search = new URL(args.request.url).searchParams
-
-	return selectedLists.map(
-		(list) =>
-			list && {
-				...list,
-				entries: sortEntries(
-					list.entries?.flatMap((el) =>
-						el != null && isVisible(el, search) ? [el] : []
-					) ?? [],
-					{ search, user: data.MediaListCollection.user }
-				),
-			}
-	)
 }
 
 const FuzzyDate = graphql`

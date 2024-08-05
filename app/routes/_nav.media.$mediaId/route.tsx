@@ -31,7 +31,7 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
-import { RootQuery, type clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
 import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
@@ -266,8 +266,7 @@ function Edit() {
 	const store = useTooltipStore()
 
 	const root = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 
 	return (

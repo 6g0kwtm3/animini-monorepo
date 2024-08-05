@@ -10,7 +10,7 @@ import { Predicate } from "effect"
 import type { ComponentProps, ReactNode } from "react"
 import ReactRelay from "react-relay"
 
-import { RootQuery, type clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist.($selected)/route"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
@@ -46,8 +46,7 @@ export function ProgressIncrement(props: {
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
 	const data = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 	const params = useParams()
 	const actionData = useActionData<typeof selectedAction>()

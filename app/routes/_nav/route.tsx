@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
 
-import { RootQuery, type clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 
 import {
 	Navigation,
@@ -33,7 +33,6 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 
 import { Layout } from "~/components/Layout"
 
-import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
 import { fab } from "~/lib/button"
 import MaterialSymbolsHome from "~icons/material-symbols/home"
 import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
@@ -41,17 +40,24 @@ import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import { NavigationItem } from "./NavigationItem"
 
-import environment, { loadQuery, usePreloadedQuery } from "~/lib/Network"
-import { searchTrendingQuery } from "~/lib/search/SearchTrendingQuery"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+
+import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
 
+const RouteNavTrendingQuery = graphql`
+	query routeNavTrendingQuery @raw_response_type {
+		...SearchTrending_query
+	}
+`
+
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const data = loadQuery<NavQuery>(environment, searchTrendingQuery, {})
+	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
 
 	return {
-		trending: data,
+		RouteNavTrendingQuery: data,
 	}
 })
 
@@ -67,8 +73,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export default function NavRoute(): ReactNode {
 	const root = usePreloadedQuery(
-		RootQuery,
-		useRouteLoaderData<typeof rootLoader>("root")!.query
+		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 
 	const { pathname } = useLocation()

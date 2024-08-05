@@ -17,8 +17,9 @@ import { createList, ListContext } from "../list"
 
 import ReactRelay, { type PreloadedQuery } from "react-relay"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
-import type { SearchTrendingQuery } from "~/gql/SearchTrendingQuery.graphql"
-import { searchTrendingQuery } from "./SearchTrendingQuery"
+import type {} from "~/gql/SearchTrendingQuery.graphql"
+import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
+
 const { graphql } = ReactRelay
 
 const SearchTrending_query = graphql`
@@ -33,12 +34,9 @@ const SearchTrending_query = graphql`
 `
 
 export function SearchTrending(props: {
-	query: PreloadedQuery<SearchTrendingQuery>
+	query: [ReactRelay.GraphQLTaggedNode, PreloadedQuery<routeNavTrendingQuery>]
 }): ReactNode {
-	const query: SearchTrending_query$key = usePreloadedQuery(
-		searchTrendingQuery,
-		props.query
-	)
+	const query: SearchTrending_query$key = usePreloadedQuery(...props.query)
 	const data = useFragment(SearchTrending_query, query)
 
 	const list = createList({ lines: "one" })
