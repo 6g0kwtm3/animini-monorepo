@@ -70,7 +70,7 @@ const makeClientLive = Effect.sync(() => {
 			} | null
 		) =>
 			Effect.promise(async () =>
-				loadQuery<T>(environment, taggedNode, variables, {
+				loadQuery<T>(taggedNode, variables, {
 					fetchPolicy: "store-or-network",
 					...cacheConfig,
 				})
