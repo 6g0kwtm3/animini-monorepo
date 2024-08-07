@@ -1,12 +1,15 @@
-import ReactRelay, {
-	type LoadQueryOptions,
-	type PreloadedQuery,
-} from "react-relay"
+import type { PreloadedQuery } from "react-relay"
+import ReactRelay from "react-relay"
+
 import RelayRuntime, {
 	Environment,
 	Network,
 	RecordSource,
+	type Disposable,
 	type FetchFunction,
+	type MutationParameters,
+	type Observable,
+	type OperationType,
 } from "relay-runtime"
 
 import { Effect, Option, pipe, Schedule } from "effect"
@@ -144,16 +147,6 @@ const environment = new Environment({
 			kind: "linked",
 		},
 	],
-	requiredFieldLogger(event) {
-		if (event.kind === "relay_resolver.error") {
-			// Log this somewhere!
-			console.warn(
-				`Resolver error encountered in ${event.owner}.${event.fieldPath}`
-			)
-			console.warn(event.error)
-		}
-	},
-	//@ts-expect-error
 	relayFieldLogger(event) {
 		if (event.kind === "relay_resolver.error") {
 			// Log this somewhere!
@@ -172,30 +165,44 @@ const environment = new Environment({
 export const { readFragment } = ResolverFragments
 
 const {
-	commitMutation,
-	fetchQuery,
+	commitMutation: commitMutation_,
+	fetchQuery: fetchQuery__,
 	loadQuery: loadQuery_,
-	usePreloadedQuery,
-	useFragment,
-	readInlineData,
-	commitLocalUpdate,
+	commitLocalUpdate: commitLocalUpdate_,
 } = ReactRelay
 
-export {
-	commitMutation,
-	fetchQuery,
-	usePreloadedQuery,
-	useFragment,
+export const {
 	readInlineData,
-	commitLocalUpdate,
-}
+	useFragment,
+	usePreloadedQuery,
+	useRelayEnvironment,
+} = ReactRelay
 
 export function loadQuery<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode,
-	variables: ReactRelay.VariablesOf<T>,
-	options?: LoadQueryOptions
+	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
 ): [ReactRelay.GraphQLTaggedNode, PreloadedQuery<T>] {
-	return [query, loadQuery_<T>(environment, query, variables, options)]
+	return [query, loadQuery_<T>(environment, query, ...args)]
+}
+
+export function commitLocalUpdate(
+	...args: Shift<Parameters<typeof commitLocalUpdate_>>
+): void {
+	return commitLocalUpdate_(environment, ...args)
+}
+
+export function commitMutation<P extends MutationParameters>(
+	...args: Shift<Parameters<typeof commitMutation_<P>>>
+): Disposable {
+	return commitMutation_<P>(environment, ...args)
+}
+
+type Shift<T> = T extends [any, ...infer U] ? U : []
+
+export function fetchQuery<O extends OperationType>(
+	...args: Shift<Parameters<typeof fetchQuery__<O>>>
+): Observable<O["response"]> {
+	return fetchQuery__<O>(environment, ...args)
 }
 
 export default environment

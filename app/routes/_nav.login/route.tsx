@@ -16,7 +16,7 @@ import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
-import environment, { commitLocalUpdate } from "~/lib/Network"
+import { commitLocalUpdate } from "~/lib/Network"
 import { M3 } from "~/lib/components"
 import { route_user_list } from "~/lib/route"
 import { EffectUrql } from "~/lib/urql"
@@ -45,7 +45,7 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 			const client = yield* EffectUrql
 
-			commitLocalUpdate(environment, (store) => {
+			commitLocalUpdate( (store) => {
 				store.invalidateStore()
 			})
 

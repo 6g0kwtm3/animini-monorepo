@@ -14,7 +14,7 @@ import type {
 	Variables,
 } from "relay-runtime"
 
-import environment, { commitMutation, fetchQuery, loadQuery } from "./Network"
+import { commitMutation, fetchQuery, loadQuery } from "./Network"
 
 const API_URL = "https://graphql.anilist.co"
 
@@ -56,7 +56,7 @@ const makeClientLive = Effect.sync(() => {
 			} | null
 		) =>
 			Effect.promise(async () =>
-				fetchQuery<T>(environment, taggedNode, variables, {
+				fetchQuery<T>(taggedNode, variables, {
 					fetchPolicy: "store-or-network",
 					...cacheConfig,
 				}).toPromise()
@@ -77,7 +77,7 @@ const makeClientLive = Effect.sync(() => {
 			),
 		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>
 			Effect.async<T["response"], Error>((resume) => {
-				commitMutation<T>(environment, {
+				commitMutation<T>({
 					...config,
 					onCompleted: (value) => resume(Effect.succeed(value)),
 					onError: (error) => resume(Effect.fail(error)),

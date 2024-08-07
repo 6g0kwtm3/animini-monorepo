@@ -8,6 +8,7 @@ import {
 	ScrollRestoration,
 	unstable_defineClientLoader,
 	useLocation,
+	useRevalidator,
 	useRouteError,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
@@ -15,7 +16,7 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import { type LinksFunction } from "@remix-run/node"
 
-import { useEffect, type FC, type ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Ariakit } from "./lib/ariakit"
 
@@ -23,9 +24,8 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import type { Environment } from "react-relay"
-import environment, { loadQuery } from "./lib/Network"
-import { RelayEnvironmentProvider as RelayEnvironmentProvider_ } from "./lib/Network/components"
+import environment, { commitLocalUpdate, loadQuery } from "./lib/Network"
+import { RelayEnvironmentProvider } from "./lib/Network/components"
 import { button } from "./lib/button"
 
 import type { rootQuery } from "~/gql/rootQuery.graphql"
@@ -33,11 +33,6 @@ import type { rootQuery } from "~/gql/rootQuery.graphql"
 import ReactRelay from "react-relay"
 
 const { graphql } = ReactRelay
-
-const RelayEnvironmentProvider = RelayEnvironmentProvider_ as unknown as FC<{
-	environment: Environment
-	children?: ReactNode
-}>
 
 export const links: LinksFunction = () => {
 	return [
@@ -143,13 +138,16 @@ function useOnFocus(callback: () => void) {
 }
 
 export default function App(): ReactNode {
-	// const revalidator = useRevalidator()
+	const revalidator = useRevalidator()
 
-	// useOnFocus(() => {
-	// 	if (revalidator.state === "idle") {
-	// 		revalidator.revalidate()
-	// 	}
-	// })
+	useOnFocus(() => {
+		commitLocalUpdate((store) => {
+			store.invalidateStore()
+		})
+		if (revalidator.state === "idle") {
+			revalidator.revalidate()
+		}
+	})
 
 	return <Outlet />
 }

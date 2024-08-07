@@ -26,7 +26,7 @@ import { sourceLanguageTag } from "~/paraglide/runtime"
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
-import environment, { commitLocalUpdate, useFragment } from "~/lib/Network"
+import { commitLocalUpdate, useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
@@ -79,7 +79,7 @@ export const clientAction = (async (args) => {
 				{}
 			)
 
-			commitLocalUpdate(environment, (store) => {
+			commitLocalUpdate( (store) => {
 				const { updatableData } =
 					store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
 						graphql`
