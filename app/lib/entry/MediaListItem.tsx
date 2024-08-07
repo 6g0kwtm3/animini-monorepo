@@ -163,13 +163,13 @@ function MediaListScore(props: {
 	if (user?.mediaListOptions?.scoreFormat === "POINT_3") {
 		return {
 			1: (
-				<MaterialSymbolsSentimentDissatisfiedOutline className="i-inline @xl:i inline text-error" />
+				<MaterialSymbolsSentimentDissatisfiedOutline className="i-inline inline text-error @xl:i" />
 			),
 			2: (
-				<MaterialSymbolsSentimentNeutralOutline className="i-inline @xl:i inline text-tertiary" />
+				<MaterialSymbolsSentimentNeutralOutline className="i-inline inline text-tertiary @xl:i" />
 			),
 			3: (
-				<MaterialSymbolsSentimentSatisfiedOutline className="i-inline @xl:i inline text-primary" />
+				<MaterialSymbolsSentimentSatisfiedOutline className="i-inline inline text-primary @xl:i" />
 			),
 		}[entry.score]
 	}
