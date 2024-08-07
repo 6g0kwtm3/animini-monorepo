@@ -24,7 +24,7 @@ const createNavigation = tv(
 			variant: {
 				none: { root: "hidden" },
 				bar: {
-					root: "end-0 my-3 grid h-20 grid-flow-col gap-2 bg-surface-container [grid-auto-columns:minmax(0,1fr)]",
+					root: "end-0 my-0 grid h-20 grid-flow-col gap-2 bg-surface-container [grid-auto-columns:minmax(0,1fr)]",
 					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md aria-[current='page']:text-on-surface`,
 					activeIndicator:
 						"h-8 w-16 scale-x-0 rounded-lg transition-transform duration-sm ease-emphasized-accelerate group-aria-[current='page']:scale-x-100",
@@ -32,7 +32,7 @@ const createNavigation = tv(
 					largeBadge: "absolute left-1/2",
 				},
 				rail: {
-					root: "top-0 flex h-full w-20 shrink-0 flex-col gap-3 bg-surface",
+					root: "top-0 flex h-full my-3 w-20 shrink-0 flex-col gap-3 bg-surface",
 					label:
 						"grow-0 flex-col items-center gap-1 px-2 py-0 text-label-md aria-[current='page']:text-on-surface",
 					activeIndicator:
@@ -41,7 +41,7 @@ const createNavigation = tv(
 					largeBadge: "absolute left-1/2",
 				},
 				drawer: {
-					root: "top-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-surface p-3",
+					root: "top-0 flex h-full my-0 w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-surface p-3",
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed`,
 					activeIndicator:
 						"inset-0 -z-10 hidden h-full w-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
