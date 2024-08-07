@@ -112,7 +112,7 @@ export function MediaListItem({
 				</Link>
 
 				<M3.ListItemContent className="hidden flex-1 @xl:block">
-					<M3.ListItemContentSubtitle className="justify-center font-mono i">
+					<M3.ListItemContentSubtitle className="justify-center font-mono">
 						<MediaListScore entry={data} user={user} />
 					</M3.ListItemContentSubtitle>
 				</M3.ListItemContent>
@@ -163,13 +163,13 @@ function MediaListScore(props: {
 	if (user?.mediaListOptions?.scoreFormat === "POINT_3") {
 		return {
 			1: (
-				<MaterialSymbolsSentimentDissatisfiedOutline className="inline text-error" />
+				<MaterialSymbolsSentimentDissatisfiedOutline className="i-inline @xl:i inline text-error" />
 			),
 			2: (
-				<MaterialSymbolsSentimentNeutralOutline className="inline text-tertiary" />
+				<MaterialSymbolsSentimentNeutralOutline className="i-inline @xl:i inline text-tertiary" />
 			),
 			3: (
-				<MaterialSymbolsSentimentSatisfiedOutline className="inline text-primary" />
+				<MaterialSymbolsSentimentSatisfiedOutline className="i-inline @xl:i inline text-primary" />
 			),
 		}[entry.score]
 	}
@@ -334,7 +334,7 @@ function MediaListItemSubtitle(props: {
 		<ListItemContentSubtitle className="flex justify-between gap-x-2 @lg:justify-start">
 			<div className="@xl:hidden">
 				Score:{" "}
-				<div className="i-inline inline-block font-mono">
+				<div className="inline-block font-mono">
 					<MediaListScore entry={entry} user={props.user} />
 				</div>
 			</div>
