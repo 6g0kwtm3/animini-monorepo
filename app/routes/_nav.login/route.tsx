@@ -45,7 +45,7 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 			const client = yield* EffectUrql
 
-			commitLocalUpdate( (store) => {
+			commitLocalUpdate((store) => {
 				store.invalidateStore()
 			})
 

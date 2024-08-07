@@ -79,7 +79,7 @@ export const clientAction = (async (args) => {
 				{}
 			)
 
-			commitLocalUpdate( (store) => {
+			commitLocalUpdate((store) => {
 				const { updatableData } =
 					store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
 						graphql`

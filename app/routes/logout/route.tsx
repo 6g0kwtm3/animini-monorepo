@@ -7,7 +7,7 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 	sessionStorage.removeItem("anilist-token")
 
-	commitLocalUpdate( (store) => {
+	commitLocalUpdate((store) => {
 		store.invalidateStore()
 	})
 
