@@ -1,22 +1,16 @@
 import {
-	Await,
 	isRouteErrorResponse,
 	Link,
 	Outlet,
+	useLoaderData,
 	useLocation,
+	useParams,
 	useRouteError,
 	type ClientActionFunction,
 } from "@remix-run/react"
 
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
-import { useRawLoaderData } from "~/lib/data"
-
-import {
-	MediaListHeader,
-	MediaListHeaderItem,
-	MediaListHeaderToWatch,
-} from "~/lib/list/MediaList"
 
 import { Order, pipe, Array as ReadonlyArray } from "effect"
 
@@ -29,7 +23,6 @@ import type { ComponentRef, ReactNode } from "react"
 import { Suspense, use, useRef } from "react"
 
 import { List } from "~/components/List"
-import { Skeleton } from "~/components/Skeleton"
 import { Ariakit } from "~/lib/ariakit"
 
 import { client_get_client } from "~/lib/client"
@@ -37,10 +30,14 @@ import { client_get_client } from "~/lib/client"
 import { MediaListItem, MockMediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 import { MediaListSort } from "~/lib/MediaListSort"
-import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
-import { readInlineData, useFragment } from "~/lib/Network"
+import {
+	loadQuery,
+	readInlineData,
+	useFragment,
+	usePreloadedQuery,
+} from "~/lib/Network"
 
 import {
 	type routeNavUserListEntriesQuery as navUserListEntriesQuery,
@@ -60,7 +57,7 @@ import type {
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { PaneContext } from "~/components/Layout"
-import type { routeAwaitQuery_lists$key } from "~/gql/routeAwaitQuery_lists.graphql"
+import type { routeAwaitQuery_query$key } from "~/gql/routeAwaitQuery_query.graphql"
 import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
 import { M3 } from "~/lib/components"
@@ -102,27 +99,28 @@ const NavUserListEntriesSort_entries = graphql`
 const navUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
-		MediaListCollection(userName: $userName, type: $type)
-			@required(action: LOG) {
-			lists @required(action: LOG) {
-				name @required(action: LOG)
-				entries {
-					id
-					...MediaListHeaderToWatch_entries
-				}
-				...routeAwaitQuery_lists
-			}
-			user {
-				id
-				...routeNavUserListEntriesSort_user
-			}
-		}
+		...routeAwaitQuery_query
 	}
 `
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const params = Schema.decodeUnknownSync(Params)(args.params)
+
+	const data = loadQuery<routeNavUserListEntriesQuery>(
+		navUserListEntriesQuery,
+		{
+			userName: params.userName,
+			type: (
+				{
+					animelist: "ANIME",
+					mangalist: "MANGA",
+				} as const
+			)[params.typelist],
+		}
+	)
+
 	return {
-		query: fetchSelectedList(args),
+		NavUserListEntriesQuery: data,
 	}
 })
 
@@ -201,46 +199,7 @@ export const clientAction = (async (args) => {
 
 async function fetchSelectedList(
 	args: Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
-) {
-	const params = Schema.decodeUnknownSync(Params)(args.params)
-	const client = await client_get_client()
-
-	const data = await client.operation<routeNavUserListEntriesQuery>(
-		navUserListEntriesQuery,
-		{
-			userName: params.userName,
-			type: (
-				{
-					animelist: "ANIME",
-					mangalist: "MANGA",
-				} as const
-			)[params.typelist],
-		}
-	)
-
-	if (!data?.MediaListCollection) {
-		throw json("List not found", {
-			status: 404,
-		})
-	}
-
-	let selectedLists =
-		typeof params.selected !== "string"
-			? data.MediaListCollection.lists
-			: [
-					data.MediaListCollection.lists.find(
-						(list) => list?.name === params.selected
-					),
-				]
-
-	if (!ReadonlyArray.isNonEmptyReadonlyArray(selectedLists)) {
-		throw json("List not found", {
-			status: 404,
-		})
-	}
-
-	return selectedLists
-}
+) {}
 
 const FuzzyDate = graphql`
 	fragment routeFuzzyDateOrder_fuzzyDate on FuzzyDate @inline {
@@ -408,11 +367,9 @@ const Params = Schema.Struct({
 })
 
 export default function Page(): ReactNode {
-	const lists = useRawLoaderData<typeof clientLoader>().query
-
 	return (
 		<ExtraOutlets>
-			<MediaListHeader>
+			{/* <MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
 						<Await resolve={lists}>
@@ -429,7 +386,7 @@ export default function Page(): ReactNode {
 						<Await resolve={lists}>{({ entries }) => entries.length}</Await>
 					</Suspense>
 				</MediaListHeaderItem>
-			</MediaListHeader>
+			</MediaListHeader> */}
 
 			<div className="">
 				<Suspense
@@ -441,9 +398,7 @@ export default function Page(): ReactNode {
 						</List>
 					}
 				>
-					<Await resolve={lists}>
-						{(lists) => <AwaitQuery lists={lists} />}
-					</Await>
+					<AwaitQuery />
 				</Suspense>
 			</div>
 			<Outlet />
@@ -451,20 +406,53 @@ export default function Page(): ReactNode {
 	)
 }
 
-const routeAwaitQuery_lists = graphql`
-	fragment routeAwaitQuery_lists on MediaListGroup @relay(plural: true) {
-		name
-		entries {
-			id
-			...isVisible_entry
-			...routeNavUserListEntriesSort_entries
-			...MediaListItem_entry
+const routeAwaitQuery_query = graphql`
+	fragment routeAwaitQuery_query on Query {
+		MediaListCollection(userName: $userName, type: $type)
+			@required(action: LOG) {
+			user {
+				id
+				...routeNavUserListEntriesSort_user
+				...MediaListItemScore_user
+			}
+			lists @required(action: LOG) {
+				name @required(action: LOG)
+				entries {
+					id
+					...isVisible_entry
+					...routeNavUserListEntriesSort_entries
+					...MediaListItem_entry
+				}
+			}
 		}
 	}
 `
 
-function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
-	const lists = useFragment(routeAwaitQuery_lists, props.lists)
+function AwaitQuery() {
+	const query: routeAwaitQuery_query$key = usePreloadedQuery(
+		...useLoaderData<typeof clientLoader>().NavUserListEntriesQuery
+	)
+	const data = useFragment(routeAwaitQuery_query, query)
+
+	const params = useParams()
+
+	if (!data?.MediaListCollection) {
+		throw new Error("No list collection found")
+	}
+
+	const lists = (
+		typeof params.selected === "string"
+			? [
+					data.MediaListCollection.lists.find(
+						(list) => list?.name === params.selected
+					),
+				]
+			: data.MediaListCollection.lists
+	).filter((el) => el != null)
+
+	if (!ReadonlyArray.isNonEmptyReadonlyArray(lists)) {
+		throw new Error("No list selected")
+	}
 
 	const search = useOptimisticSearchParams()
 
@@ -473,7 +461,7 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 			list.entries?.flatMap((el) =>
 				el != null && isVisible(el, search) ? [el] : []
 			) ?? [],
-			{ search, user: null && data?.MediaListCollection.user }
+			{ search, user: data.MediaListCollection.user }
 		)
 
 		return ReadonlyArray.isNonEmptyReadonlyArray(entries)
@@ -549,6 +537,7 @@ function AwaitQuery(props: { lists: routeAwaitQuery_lists$key }) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
+								user={data.MediaListCollection.user}
 								className="absolute left-0 top-0 w-full"
 							/>
 						)

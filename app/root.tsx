@@ -16,7 +16,7 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import { type LinksFunction } from "@remix-run/node"
 
-import { useEffect, type ReactNode } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Ariakit } from "./lib/ariakit"
 
@@ -139,14 +139,21 @@ function useOnFocus(callback: () => void) {
 
 export default function App(): ReactNode {
 	const revalidator = useRevalidator()
+	const [, setTimeout] = useState(Date.now())
 
 	useOnFocus(() => {
-		commitLocalUpdate((store) => {
-			store.invalidateStore()
-		})
-		if (revalidator.state === "idle") {
+		setTimeout((timeout) => {
+			if (timeout > Date.now() || revalidator.state !== "idle") {
+				return timeout
+			}
+
+			commitLocalUpdate((store) => {
+				store.invalidateStore()
+			})
 			revalidator.revalidate()
-		}
+
+			return Date.now() + 15_000
+		})
 	})
 
 	return <Outlet />

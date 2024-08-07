@@ -41,6 +41,8 @@ import type { MediaListItemSort_entry$key } from "~/gql/MediaListItemSort_entry.
 
 import { TouchTarget } from "~/components"
 import type { MediaListItemInfo_entry$key } from "~/gql/MediaListItemInfo_entry.graphql"
+import type { MediaListItemScore_entry$key } from "~/gql/MediaListItemScore_entry.graphql"
+import type { MediaListItemScore_user$key } from "~/gql/MediaListItemScore_user.graphql"
 import type { MediaListItemSort_user$key } from "~/gql/MediaListItemSort_user.graphql"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import type { clientLoader } from "~/routes/_nav.user.$userName.$typelist/route"
@@ -52,6 +54,11 @@ import {
 	useOptimisticLocation,
 	useOptimisticSearchParams,
 } from "../search/useOptimisticSearchParams"
+
+import MaterialSymbolsSentimentNeutralOutline from "~icons/material-symbols/sentiment-neutral-outline"
+import MaterialSymbolsSentimentSatisfiedOutline from "~icons/material-symbols/sentiment-satisfied-outline"
+
+import MaterialSymbolsSentimentDissatisfiedOutline from "~icons/material-symbols/sentiment-dissatisfied-outline"
 
 const { graphql } = ReactRelay
 
@@ -71,14 +78,17 @@ const MediaListItem_entry = graphql`
 		...MediaListItemSubtitle_entry
 		...ProgressMoreMenu_entry
 		...MediaListItemInfo_entry
+		...MediaListItemScore_entry
 	}
 `
 
 export function MediaListItem({
 	entry,
+	user,
 	...props
 }: ComponentProps<"li"> & {
 	entry: MediaListItem_entry$key
+	user: MediaListItemScore_user$key | null | undefined
 }): ReactNode {
 	const data = useFragment(MediaListItem_entry, entry)
 
@@ -98,12 +108,12 @@ export function MediaListItem({
 					<ListItemContentTitle>
 						<MediaListItemTitle entry={data} />
 					</ListItemContentTitle>
-					<MediaListItemSubtitle entry={data} />
+					<MediaListItemSubtitle entry={data} user={user} />
 				</Link>
 
 				<M3.ListItemContent className="hidden flex-1 @xl:block">
-					<M3.ListItemContentSubtitle className="justify-center font-mono">
-						{data.score}
+					<M3.ListItemContentSubtitle className="justify-center font-mono i">
+						<MediaListScore entry={data} user={user} />
 					</M3.ListItemContentSubtitle>
 				</M3.ListItemContent>
 
@@ -123,6 +133,49 @@ export function MediaListItem({
 	)
 }
 
+const MediaListItemScore_entry = graphql`
+	fragment MediaListItemScore_entry on MediaList {
+		id
+		score
+	}
+`
+
+const MediaListItemScore_user = graphql`
+	fragment MediaListItemScore_user on User {
+		id
+		mediaListOptions {
+			scoreFormat
+		}
+	}
+`
+
+function MediaListScore(props: {
+	entry: MediaListItemScore_entry$key
+	user: MediaListItemScore_user$key | null | undefined
+}): ReactNode {
+	const entry = useFragment(MediaListItemScore_entry, props.entry)
+	const user = useFragment(MediaListItemScore_user, props.user)
+
+	if (typeof entry.score !== "number") {
+		return null
+	}
+
+	if (user?.mediaListOptions?.scoreFormat === "POINT_3") {
+		return {
+			1: (
+				<MaterialSymbolsSentimentDissatisfiedOutline className="inline text-error" />
+			),
+			2: (
+				<MaterialSymbolsSentimentNeutralOutline className="inline text-tertiary" />
+			),
+			3: (
+				<MaterialSymbolsSentimentSatisfiedOutline className="inline text-primary" />
+			),
+		}[entry.score]
+	}
+
+	return entry.score
+}
 const MediaListItemInfo_entry = graphql`
 	fragment MediaListItemInfo_entry on MediaList {
 		id
@@ -131,14 +184,14 @@ const MediaListItemInfo_entry = graphql`
 
 function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
-	const data = usePreloadedQuery(
+	const root = usePreloadedQuery(
 		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 	const params = useParams()
 
 	const viewerIsUser =
-		Predicate.isString(data.Viewer?.name) &&
-		data.Viewer.name === params.userName
+		Predicate.isString(root.Viewer?.name) &&
+		root.Viewer.name === params.userName
 	const label = viewerIsUser ? "Edit" : "Info"
 
 	const { search } = useOptimisticLocation()
@@ -260,17 +313,18 @@ const MediaListItemSubtitle_entry = graphql`
 		}
 		toWatch
 		...Progress_entry
+		...MediaListItemScore_entry
 	}
 `
-
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
+	user: MediaListItemScore_user$key | null | undefined
 }): ReactNode {
 	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
 
 	const watch = entry.toWatch
 
-	const data = usePreloadedQuery(
+	const root = usePreloadedQuery(
 		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
 	)
 
@@ -279,13 +333,16 @@ function MediaListItemSubtitle(props: {
 	return (
 		<ListItemContentSubtitle className="flex justify-between gap-x-2 @lg:justify-start">
 			<div className="@xl:hidden">
-				Score: <div className="inline-block font-mono">{entry.score}</div>
+				Score:{" "}
+				<div className="i-inline inline-block font-mono">
+					<MediaListScore entry={entry} user={props.user} />
+				</div>
 			</div>
 
 			<div
 				className={
-					Predicate.isString(data.Viewer?.name) &&
-					data.Viewer.name === params.userName
+					Predicate.isString(root.Viewer?.name) &&
+					root.Viewer.name === params.userName
 						? "contents @lg:hidden"
 						: "contents"
 				}
