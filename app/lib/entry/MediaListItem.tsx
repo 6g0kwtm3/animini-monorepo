@@ -11,11 +11,7 @@ import { m } from "~/lib/paraglide"
 import ReactRelay from "react-relay"
 
 import type { ComponentProps, ReactNode, RefObject } from "react"
-import {
-	use,
-	useEffect,
-	useSyncExternalStore
-} from "react"
+import { use, useEffect, useSyncExternalStore } from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -248,7 +244,7 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 					search: search,
 				}}
 				className={button({
-					className: "xl:pointer-fine:hidden hidden @lg:inline-flex",
+					className: "hidden @lg:inline-flex xl:pointer-fine:hidden",
 				})}
 			>
 				{label}
@@ -262,7 +258,7 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 					search: search,
 				}}
 				className={btnIcon({
-					className: "xl:pointer-fine:hidden @lg:hidden",
+					className: "@lg:hidden xl:pointer-fine:hidden",
 				})}
 			>
 				<span className="sr-only">{label}</span>
