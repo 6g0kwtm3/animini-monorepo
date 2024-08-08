@@ -183,6 +183,14 @@ export const config = {
 				":merge(.group)[data-active] &",
 				":merge(.group):active &",
 			])
+			matchVariant("pointer", (value) => `@media(pointer: ${value}) {&}`, {
+				values: {
+					none: "none",
+					coarse: "coarse",
+					fine: "fine",
+				},
+			})
+
 			// addVariant("dragged", [])
 		}),
 		plugin(({ addVariant }) => {

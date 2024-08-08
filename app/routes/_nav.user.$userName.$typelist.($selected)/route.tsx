@@ -106,17 +106,37 @@ const navUserListEntriesQuery = graphql`
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 
+	const variables = {
+		userName: params.userName,
+		type: (
+			{
+				animelist: "ANIME",
+				mangalist: "MANGA",
+			} as const
+		)[params.typelist],
+	}
 	const data = loadQuery<routeNavUserListEntriesQuery>(
 		navUserListEntriesQuery,
-		{
-			userName: params.userName,
-			type: (
-				{
-					animelist: "ANIME",
-					mangalist: "MANGA",
-				} as const
-			)[params.typelist],
-		}
+		variables
+	)
+
+	loadQuery(
+		graphql`
+			query routeNavUserListEntryPreloadQuery(
+				$userName: String!
+				$type: MediaType!
+			) {
+				MediaListCollection(userName: $userName, type: $type) {
+					lists {
+						entries {
+							id
+							...routeSidePanel_entry
+						}
+					}
+				}
+			}
+		`,
+		variables
 	)
 
 	return {
@@ -521,6 +541,7 @@ function AwaitQuery() {
 								}}
 								className="absolute left-0 top-0 w-full"
 								ref={item.measureElement}
+								data-index={item.index}
 							>
 								<M3.Subheader>{element.list.name}</M3.Subheader>
 							</li>
@@ -539,6 +560,7 @@ function AwaitQuery() {
 								}}
 								user={data.MediaListCollection.user}
 								className="absolute left-0 top-0 w-full"
+								data-index={item.index}
 							/>
 						)
 					}

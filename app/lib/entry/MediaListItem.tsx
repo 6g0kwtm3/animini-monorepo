@@ -1,12 +1,21 @@
-import { Link, useParams, useRouteLoaderData } from "@remix-run/react"
+import {
+	Link,
+	useNavigate,
+	useParams,
+	useRouteLoaderData,
+} from "@remix-run/react"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-import type { ComponentProps, ReactNode } from "react"
-import { use } from "react"
+import type { ComponentProps, ReactNode, RefObject } from "react"
+import {
+	use,
+	useEffect,
+	useSyncExternalStore
+} from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -82,9 +91,35 @@ const MediaListItem_entry = graphql`
 	}
 `
 
+// function useMedia(query: string) {
+// 	const media = window.matchMedia(query)
+// 	return useSyncExternalStore(
+// 		(cb) => {
+// 			media.addEventListener("change", cb)
+// 			return () => media.removeEventListener("change", cb)
+// 		},
+// 		() => media.matches,
+// 		() => media.matches
+// 	)
+// }
+
+function useResizeObserver(ref: RefObject<HTMLElement | null>) {
+	useEffect(() => {
+		if (!ref.current) return
+		const observer = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				console.log(entry.borderBoxSize[0]?.inlineSize)
+			}
+		})
+		observer.observe(ref.current)
+		return () => observer.disconnect()
+	}, [ref])
+}
+
 export function MediaListItem({
 	entry,
 	user,
+
 	...props
 }: ComponentProps<"li"> & {
 	entry: MediaListItem_entry$key
@@ -93,10 +128,19 @@ export function MediaListItem({
 	const data = useFragment(MediaListItem_entry, entry)
 
 	const list = use(ListContext)
+	const navigate = useNavigate()
+
+	const loadSidePanel = () => {
+		window.innerWidth >= 1600 &&
+			data &&
+			navigate(`entry/${data.id}`, {
+				replace: true,
+			})
+	}
 
 	return (
 		data && (
-			<ListItem {...props}>
+			<ListItem {...props} onMouseEnter={loadSidePanel} onFocus={loadSidePanel}>
 				<ListItemImg>
 					<MediaCover media={data.media} />
 				</ListItemImg>
@@ -204,7 +248,7 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 					search: search,
 				}}
 				className={button({
-					className: "hidden @lg:inline-flex",
+					className: "xl:pointer-fine:hidden hidden @lg:inline-flex",
 				})}
 			>
 				{label}
@@ -218,7 +262,7 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 					search: search,
 				}}
 				className={btnIcon({
-					className: "@lg:hidden",
+					className: "xl:pointer-fine:hidden @lg:hidden",
 				})}
 			>
 				<span className="sr-only">{label}</span>

@@ -139,7 +139,7 @@ function useOnFocus(callback: () => void) {
 
 export default function App(): ReactNode {
 	const revalidator = useRevalidator()
-	const [, setTimeout] = useState(Date.now())
+	const [, setTimeout] = useState(Date.now() + 15_000)
 
 	useOnFocus(() => {
 		setTimeout((timeout) => {

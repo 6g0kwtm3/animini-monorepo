@@ -3,59 +3,80 @@ import {
 	unstable_defineClientLoader,
 	useLoaderData,
 } from "@remix-run/react"
-import type { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 import type { routeNavUserListEntryQuery } from "~/gql/routeNavUserListEntryQuery.graphql"
-import { client_get_client } from "~/lib/client"
 import { M3 } from "~/lib/components"
 import { MediaCover } from "~/lib/entry/MediaCover"
 
+import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
+import type { routeSidePanel_entry$key } from "~/gql/routeSidePanel_entry.graphql"
 import { Ariakit } from "~/lib/ariakit"
+import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const client = client_get_client()
+const Params = Schema.Struct({
+	selected: Schema.optional(Schema.String),
+	userName: Schema.String,
+	typelist: Schema.Literal("animelist", "mangalist"),
+	entryId: Schema.NumberFromString,
+})
 
-	const data = await client.operation<routeNavUserListEntryQuery>(
+export const clientLoader = unstable_defineClientLoader(async (args) => {
+	const params = Schema.decodeUnknownSync(Params)(args.params)
+
+	const variables = {
+		userName: params.userName,
+		id: params.entryId,
+	}
+
+	const data = await loadQuery<routeNavUserListEntryQuery>(
 		graphql`
-			query routeNavUserListEntryQuery($userName: String!, $entryId: Int!) {
-				MediaList(userName: $userName, id: $entryId) @required(action: LOG) {
-					id
-					status
-					score
-					progress
-					media {
-						id
-						title {
-							userPreferred
-						}
-						episodes
-						avalible
-						...MediaCover_media
-					}
-					...Progress_entry
+			query routeNavUserListEntryQuery($userName: String!, $id: Int!) {
+				MediaList(userName: $userName, id: $id) @required(action: LOG) {
+					...routeSidePanel_entry
 				}
 			}
 		`,
-		{
-			userName: args.params.userName,
-			entryId: Number(args.params.entryId),
+		variables
+	)
+
+	return { routeNavUserListEntryQuery: data }
+})
+
+const SidePanel_entry = graphql`
+	fragment routeSidePanel_entry on MediaList {
+		id
+		status
+		score
+		progress
+		media {
+			id
+			title {
+				userPreferred
+			}
+			episodes
+			avalible
+			...MediaCover_media
 		}
+		...Progress_entry
+	}
+`
+
+function SidePanel(): ReactNode {
+	const data = usePreloadedQuery(
+		...useLoaderData<typeof clientLoader>().routeNavUserListEntryQuery
 	)
 
 	if (!data?.MediaList) {
 		throw json("Data not found", { status: 404 })
 	}
 
-	return data
-})
-
-function SidePanel(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-	const entry = data.MediaList
+	const mediaList: routeSidePanel_entry$key = data.MediaList
+	const entry = useFragment(SidePanel_entry, mediaList)
 
 	return (
 		<M3.LayoutPane

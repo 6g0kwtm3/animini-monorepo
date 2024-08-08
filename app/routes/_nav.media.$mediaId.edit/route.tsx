@@ -81,7 +81,7 @@
 // 			return yield* (
 // 				client.query(
 // 					graphql`
-// 						query MediaEditQuery($mediaId: Int!, $format: ScoreFormat) {
+// 						query MediaEditQuery($id: Int!, $format: ScoreFormat) {
 // 							Viewer {
 // 								id
 // 								mediaListOptions {
@@ -98,7 +98,7 @@
 // 									}
 // 								}
 // 							}
-// 							Media(id: $mediaId) {
+// 							Media(id: $id) {
 // 								id
 // 								episodes
 // 								type
@@ -128,7 +128,7 @@
 // 					`,
 // 					{
 // 						format,
-// 						mediaId
+// 						id
 // 					}
 // 				)
 // 			)
