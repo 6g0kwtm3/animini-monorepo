@@ -10,12 +10,8 @@ import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-import type { ComponentProps, ReactNode, RefObject } from "react"
-import {
-	use,
-	useEffect,
-	useSyncExternalStore
-} from "react"
+import type { ComponentProps, ReactNode } from "react"
+import { use } from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -103,19 +99,6 @@ const MediaListItem_entry = graphql`
 // 	)
 // }
 
-function useResizeObserver(ref: RefObject<HTMLElement | null>) {
-	useEffect(() => {
-		if (!ref.current) return
-		const observer = new ResizeObserver((entries) => {
-			for (const entry of entries) {
-				console.log(entry.borderBoxSize[0]?.inlineSize)
-			}
-		})
-		observer.observe(ref.current)
-		return () => observer.disconnect()
-	}, [ref])
-}
-
 export function MediaListItem({
 	entry,
 	user,
@@ -131,7 +114,8 @@ export function MediaListItem({
 	const navigate = useNavigate()
 
 	const loadSidePanel = () => {
-		window.innerWidth >= 1600 &&
+		const xl = window.innerWidth >= 1600
+		xl &&
 			data &&
 			navigate(`entry/${data.id}`, {
 				replace: true,
