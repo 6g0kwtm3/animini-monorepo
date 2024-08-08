@@ -138,25 +138,12 @@ function useOnFocus(callback: () => void) {
 }
 
 export default function App(): ReactNode {
-	const revalidator = useRevalidator()
-	const [, setTimeout] = useState(Date.now() + 15_000)
-
-	useOnFocus(() => {
-		setTimeout((timeout) => {
-			if (timeout > Date.now() || revalidator.state !== "idle") {
-				return timeout
-			}
-
-			commitLocalUpdate((store) => {
-				store.invalidateStore()
-			})
-			revalidator.revalidate()
-
-			return Date.now() + 15_000
-		})
-	})
-
-	return <Outlet />
+	return (
+		<>
+			{import.meta.env.PROD && <RevalidateOnFocus />}
+			<Outlet />
+		</>
+	)
 }
 
 export function ErrorBoundary(): ReactNode {
@@ -196,4 +183,26 @@ export function ErrorBoundary(): ReactNode {
 			</Link>
 		</Card>
 	)
+}
+
+function RevalidateOnFocus() {
+	const revalidator = useRevalidator()
+	const [, setTimeout] = useState(Date.now() + 15_000)
+
+	useOnFocus(() => {
+		setTimeout((timeout) => {
+			if (timeout > Date.now() || revalidator.state !== "idle") {
+				return timeout
+			}
+
+			commitLocalUpdate((store) => {
+				store.invalidateStore()
+			})
+			revalidator.revalidate()
+
+			return Date.now() + 15_000
+		})
+	})
+
+	return null
 }

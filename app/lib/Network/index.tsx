@@ -104,7 +104,7 @@ const fetchQuery_: FetchFunction = async function (
 		Effect.scoped,
 		Effect.retry({
 			schedule: Schedule.intersect(
-				Schedule.jittered(Schedule.exponential("5 seconds")),
+				Schedule.jittered(Schedule.exponential("60 seconds")),
 				Schedule.recurs(10)
 			),
 			while: (error) => error instanceof Timeout,

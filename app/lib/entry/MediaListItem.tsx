@@ -1,5 +1,6 @@
 import {
 	Link,
+	useLocation,
 	useNavigate,
 	useParams,
 	useRouteLoaderData,
@@ -114,13 +115,21 @@ export function MediaListItem({
 	const list = use(ListContext)
 	const navigate = useNavigate()
 
+	const { search } = useLocation()
+
 	const loadSidePanel = () => {
 		const xl = window.innerWidth >= 1600
 		xl &&
 			data &&
-			navigate(`entry/${data.id}`, {
-				replace: true,
-			})
+			navigate(
+				{
+					pathname: `entry/${data.id}`,
+					search: search,
+				},
+				{
+					replace: true,
+				}
+			)
 	}
 
 	return (
