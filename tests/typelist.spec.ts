@@ -21,7 +21,7 @@ class UserPage {
 }
 
 test.describe("fullscreen", () => {
-	test("anime list", async ({ page, isMobile }) => {
+	test("navigates to anime list", async ({ page, isMobile }) => {
 		test.skip(isMobile)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
@@ -32,7 +32,7 @@ test.describe("fullscreen", () => {
 		await TypelistPage.new(page)
 	})
 
-	test("manga list", async ({ page, isMobile }) => {
+	test("navigates to navigates to manga list", async ({ page, isMobile }) => {
 		test.skip(isMobile)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
@@ -44,7 +44,7 @@ test.describe("fullscreen", () => {
 	})
 })
 
-test("anime list", async ({ page }) => {
+test("navigates to anime list", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	let indexPage = await FeedPage.new(page)
@@ -56,7 +56,7 @@ test("anime list", async ({ page }) => {
 	await TypelistPage.new(page)
 })
 
-test("manga list", async ({ page }) => {
+test("navigates to manga list", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	let indexPage = await FeedPage.new(page)

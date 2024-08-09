@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test"
 import { MediaPage } from "./pages/MediaPage"
 import { SearchPage } from "./pages/SearchPage"
 
-test("when search, ArrowDown should change focus", async ({ page }) => {
+test("changes focus", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	await page.keyboard.press("Control+k")
@@ -17,7 +17,7 @@ test("when search, ArrowDown should change focus", async ({ page }) => {
 	)
 })
 
-test("search", async ({ page }) => {
+test("navigates to media page", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	await page.keyboard.press("Control+k")
