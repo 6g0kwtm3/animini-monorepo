@@ -1,7 +1,11 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { unstable_defineClientLoader, useLoaderData, type ShouldRevalidateFunction } from "@remix-run/react"
+import {
+	unstable_defineClientLoader,
+	useLoaderData,
+	type ShouldRevalidateFunction,
+} from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 
