@@ -9,6 +9,7 @@ import {
 	useLocation,
 	useParams,
 	useRouteLoaderData,
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import { type ReactNode } from "react"
 
@@ -67,6 +68,18 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	return { user: data.User }
 })
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod,
+	currentParams,
+	nextParams,
+}) => {
+	if (formMethod === "GET" && currentParams.userName === nextParams.userName) {
+		return false
+	}
+	return defaultShouldRevalidate
+}
 
 export default function Page(): ReactNode {
 	const root = usePreloadedQuery(

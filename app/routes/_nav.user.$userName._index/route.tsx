@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { unstable_defineClientLoader, useLoaderData } from "@remix-run/react"
+import { unstable_defineClientLoader, useLoaderData, type ShouldRevalidateFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 
@@ -52,6 +52,18 @@ export const meta = (({ params }) => {
 		},
 	]
 }) satisfies MetaFunction<typeof clientLoader>
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod,
+	currentParams,
+	nextParams,
+}) => {
+	if (formMethod === "GET" && currentParams.userName === nextParams.userName) {
+		return false
+	}
+	return defaultShouldRevalidate
+}
 
 function SidePanel(): ReactNode {
 	const data = useLoaderData<typeof clientLoader>()

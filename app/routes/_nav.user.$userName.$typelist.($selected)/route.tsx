@@ -7,6 +7,7 @@ import {
 	useParams,
 	useRouteError,
 	type ClientActionFunction,
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import type { MetaFunction } from "@remix-run/node"
@@ -143,6 +144,18 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		NavUserListEntriesQuery: data,
 	}
 })
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod,
+	currentParams,
+	nextParams,
+}) => {
+	if (formMethod === "GET" && currentParams.userName === nextParams.userName) {
+		return false
+	}
+	return defaultShouldRevalidate
+}
 
 export const meta = (({ params }) => {
 	return [

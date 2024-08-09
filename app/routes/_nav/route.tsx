@@ -65,7 +65,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 	formMethod,
 }) => {
-	if (formMethod?.toLocaleUpperCase() === "GET") {
+	if (formMethod === "GET") {
 		return false
 	}
 	return defaultShouldRevalidate

@@ -2,6 +2,7 @@ import {
 	json,
 	unstable_defineClientLoader,
 	useLoaderData,
+	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import { type ReactNode } from "react"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
@@ -46,6 +47,22 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	return { routeNavUserListEntryQuery: data }
 })
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod,
+	currentParams,
+	nextParams,
+}) => {
+	if (
+		formMethod === "GET" &&
+		currentParams.userName === nextParams.userName &&
+		currentParams.entryId === nextParams.entryId
+	) {
+		return false
+	}
+	return defaultShouldRevalidate
+}
 
 const SidePanel_entry = graphql`
 	fragment routeSidePanel_entry on MediaList {

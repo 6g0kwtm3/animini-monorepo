@@ -56,10 +56,7 @@ const makeClientLive = Effect.sync(() => {
 			} | null
 		) =>
 			Effect.promise(async () =>
-				fetchQuery<T>(taggedNode, variables, {
-					fetchPolicy: "store-or-network",
-					...cacheConfig,
-				}).toPromise()
+				fetchQuery<T>(taggedNode, variables, cacheConfig).toPromise()
 			),
 		loadQuery: <T extends OperationType>(
 			taggedNode: GraphQLTaggedNode,
@@ -67,13 +64,10 @@ const makeClientLive = Effect.sync(() => {
 			cacheConfig?: {
 				networkCacheConfig?: CacheConfig | null | undefined
 				fetchPolicy?: FetchQueryFetchPolicy | null | undefined
-			} | null
+			} | undefined
 		) =>
 			Effect.promise(async () =>
-				loadQuery<T>(taggedNode, variables, {
-					fetchPolicy: "store-or-network",
-					...cacheConfig,
-				})
+				loadQuery<T>(taggedNode, variables, cacheConfig)
 			),
 		mutation: <T extends MutationParameters>(config: MutationConfig<T>) =>
 			Effect.async<T["response"], Error>((resume) => {

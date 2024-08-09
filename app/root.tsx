@@ -187,7 +187,8 @@ export function ErrorBoundary(): ReactNode {
 
 function RevalidateOnFocus() {
 	const revalidator = useRevalidator()
-	const [, setTimeout] = useState(Date.now() + 15_000)
+	const TIMEOUT = 3 * 60_000 //3min
+	const [, setTimeout] = useState(Date.now() + TIMEOUT)
 
 	useOnFocus(() => {
 		setTimeout((timeout) => {
@@ -200,7 +201,7 @@ function RevalidateOnFocus() {
 			})
 			revalidator.revalidate()
 
-			return Date.now() + 15_000
+			return Date.now() + TIMEOUT
 		})
 	})
 
