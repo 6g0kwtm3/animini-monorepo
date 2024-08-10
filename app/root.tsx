@@ -92,6 +92,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 
 	return (
 		<html
+			lang="en"
 			// lang={locale}
 			// dir={dir}
 			style={theme}

@@ -61,10 +61,12 @@ const makeClientLive = Effect.sync(() => {
 		loadQuery: <T extends OperationType>(
 			taggedNode: GraphQLTaggedNode,
 			variables: Variables,
-			cacheConfig?: {
-				networkCacheConfig?: CacheConfig | null | undefined
-				fetchPolicy?: FetchQueryFetchPolicy | null | undefined
-			} | undefined
+			cacheConfig?:
+				| {
+						networkCacheConfig?: CacheConfig | null | undefined
+						fetchPolicy?: FetchQueryFetchPolicy | null | undefined
+				  }
+				| undefined
 		) =>
 			Effect.promise(async () =>
 				loadQuery<T>(taggedNode, variables, cacheConfig)

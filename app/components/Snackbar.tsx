@@ -186,7 +186,7 @@ export function SnackbarAction(props: ComponentProps<"button">): ReactNode {
 	const [supportsPopover, setSupportsPopover] = useState(true)
 
 	useEffect(() => {
-		setSupportsPopover(HTMLElement.prototype.hasOwnProperty("popover"))
+		setSupportsPopover(Object.hasOwn(HTMLElement.prototype, "popover"))
 	}, [])
 
 	return (

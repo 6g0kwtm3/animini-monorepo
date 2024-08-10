@@ -8,7 +8,7 @@ const meta = {
 	title: "Example/Navigation",
 	component: Navigation,
 	subcomponents: {
-		//@ts-expect-error
+		//@ts-expect-error react 19 not compatible with storybook
 		NavigationItem,
 	},
 	parameters: {

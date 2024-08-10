@@ -1,8 +1,5 @@
 import type { Config } from "tailwindcss"
-//@ts-ignore
-//@ts-ignore
 import { withTV } from "tailwind-variants/transformer"
-//@ts-ignore
 import { Predicate } from "effect"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"

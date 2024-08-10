@@ -138,7 +138,7 @@ const environment = new Environment({
 						field.name === "Thread" ||
 						field.name === "ThreadComment" ||
 						field.name === "Recommendation") &&
-					argValues.hasOwnProperty("id")
+					Object.hasOwn(argValues, "id")
 				) {
 					return `${field.name}:${argValues.id}`
 				}

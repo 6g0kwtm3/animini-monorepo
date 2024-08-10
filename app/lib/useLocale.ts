@@ -75,7 +75,7 @@ export function useLocale(): {
 		useRawRouteLoaderData<typeof rootLoader>("root")?.language
 
 	const locales =
-		acceptLanguage?.split(",")?.map((lang) => lang.split(";")[0]?.trim()) ?? []
+		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []
 
 	for (const locale of locales) {
 		if (isAvailableLanguageTag(locale)) {

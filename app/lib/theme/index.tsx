@@ -43,7 +43,7 @@ export function getThemeFromHex(hex: string): Theme {
 
 					return [
 						`--${key}-${theme}-${contrast}`,
-						// @ts-ignore
+						// @ts-expect-error this is fine
 						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot)),
 					]
 				})

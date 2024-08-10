@@ -113,7 +113,7 @@ function markdownHtml(t: string) {
 		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
 		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
 		(t = sanitizeHtml(
-			// @ts-ignore
+			// @ts-expect-error marked types are not correct
 			marked(t, {
 				renderer: d,
 				lexer: u,

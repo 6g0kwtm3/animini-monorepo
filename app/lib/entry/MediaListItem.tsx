@@ -74,7 +74,6 @@ export type ListItem_EntryFragment = typeof MediaListItem_entry
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
 		id
-		score
 		media @required(action: LOG) {
 			id
 			...MediaCover_media
@@ -83,7 +82,6 @@ const MediaListItem_entry = graphql`
 		...Progress_entry
 		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
-		...ProgressMoreMenu_entry
 		...MediaListItemInfo_entry
 		...MediaListItemScore_entry
 	}

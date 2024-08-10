@@ -15,7 +15,7 @@ const ToWatch_entry = graphql`
 	}
 `
 
-export type ToWatch_entry = typeof ToWatch_entry
+
 
 /**
  * @RelayResolver MediaList.toWatch: Int

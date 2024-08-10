@@ -12,7 +12,7 @@ import * as searchRoute from "~/routes/_nav.search/route"
 const meta = {
 	title: "Example/Site/Search",
 	component: Search,
-	// @ts-expect-error
+	// @ts-expect-error react 19 not compatible with storybook
 	subcomponents: { SearchView },
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout

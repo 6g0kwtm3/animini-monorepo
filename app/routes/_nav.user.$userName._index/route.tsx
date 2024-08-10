@@ -1,7 +1,11 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { unstable_defineClientLoader, useLoaderData, type ShouldRevalidateFunction } from "@remix-run/react"
+import {
+	unstable_defineClientLoader,
+	useLoaderData,
+	type ShouldRevalidateFunction,
+} from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 
@@ -112,16 +116,16 @@ const options = {
 				return <span className="text-primary">{props.children}</span>
 			}
 
-			// @ts-ignore
+			// @ts-expect-error dataset properties are not typed
 			if (props.className === "media-link" && props["data-id"]) {
-				// @ts-ignore
+				// @ts-expect-error dataset properties are not typed
 				return <MediaLink mediaId={props["data-id"]} />
 			}
 
-			// @ts-ignore
+			// @ts-expect-error dataset properties are not typed
 			if (props["data-user-name"]) {
 				return (
-					// @ts-ignore
+					// @ts-expect-error dataset properties are not typed
 					<UserLink userName={props["data-user-name"]}>
 						{props.children}
 					</UserLink>
