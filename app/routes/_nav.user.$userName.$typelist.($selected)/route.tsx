@@ -151,7 +151,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
 	nextParams,
 }) => {
-	if (formMethod === "GET" && currentParams.userName === nextParams.userName) {
+	if (
+		formMethod === "GET" &&
+		currentParams.userName === nextParams.userName &&
+		currentParams.typelist === nextParams.typelist
+	) {
 		return false
 	}
 	return defaultShouldRevalidate
