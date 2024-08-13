@@ -1,10 +1,10 @@
 import {
-    Form,
-    useActionData,
-    useNavigation,
-    useParams,
-    useRouteLoaderData,
-    useSearchParams,
+	Form,
+	useActionData,
+	useNavigation,
+	useParams,
+	useRouteLoaderData,
+	useSearchParams,
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ComponentProps, ReactNode } from "react"
