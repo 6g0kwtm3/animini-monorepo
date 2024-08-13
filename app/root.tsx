@@ -51,9 +51,9 @@ export const links: LinksFunction = () => {
 			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&family=Noto+Sans+Mono&display=swap",
 		},
 		{
-			rel:'dns-prefetch',
-			href:'https://graphql.anilist.co'
-		}
+			rel: "dns-prefetch",
+			href: "https://graphql.anilist.co",
+		},
 	]
 }
 
