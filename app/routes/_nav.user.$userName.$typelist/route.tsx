@@ -11,7 +11,7 @@ import {
 } from "@remix-run/react"
 
 import { Order } from "effect"
-import type { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { Card } from "~/components/Card"
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
@@ -26,15 +26,17 @@ import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
-import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
+import type {
+	routeNavUserListQuery
+} from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
-import { client_operation } from "~/lib/client"
 import {
 	useOptimisticLocation,
 	useOptimisticSearchParams,
 } from "~/lib/search/useOptimisticSearchParams"
 
 import { Schema } from "@effect/schema"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 import { Sheet } from "./Sheet"
 const { graphql } = ReactRelay
@@ -54,15 +56,15 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const params = await Schema.decodeUnknownSync(
+export const clientLoader = unstable_defineClientLoader((args) => {
+	const params = Schema.decodeUnknownSync(
 		Schema.Struct({
 			userName: Schema.String,
 			typelist: Schema.Literal("animelist", "mangalist"),
 		})
 	)(args.params)
 
-	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
+	const data = loadQuery<routeNavUserListQuery>(RouteNavUserListQuery, {
 		userName: params.userName,
 		type: (
 			{
@@ -72,10 +74,10 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		)[params.typelist],
 	})
 
-	return { data, params }
+	return { routeNavUserListQuery: data, params }
 })
 
-const routeNavUserListQuery = graphql`
+const RouteNavUserListQuery = graphql`
 	query routeNavUserListQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type) {
@@ -146,7 +148,10 @@ export default function Route(): ReactNode {
 }
 
 function ListTabs() {
-	const { data, params } = useLoaderData<typeof clientLoader>()
+	const { params } = useLoaderData<typeof clientLoader>()
+	const data = usePreloadedQuery(
+		...useLoaderData<typeof clientLoader>().routeNavUserListQuery
+	)
 
 	const options = Object.fromEntries(
 		data?.MediaListCollection?.user?.mediaListOptions?.[

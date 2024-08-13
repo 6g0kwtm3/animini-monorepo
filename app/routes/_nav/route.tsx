@@ -53,7 +53,7 @@ const RouteNavTrendingQuery = graphql`
 	}
 `
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = unstable_defineClientLoader((args) => {
 	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
 
 	return {
@@ -73,7 +73,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export default function NavRoute(): ReactNode {
 	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
+		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
 	)
 
 	const { pathname } = useLocation()

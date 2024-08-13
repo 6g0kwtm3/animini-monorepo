@@ -6,6 +6,7 @@ import {
 	Outlet,
 	unstable_defineClientLoader,
 	useFetcher,
+	useLoaderData,
 	useLocation,
 	useParams,
 	useRouteLoaderData,
@@ -16,8 +17,6 @@ import { type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
 
-import { client_operation } from "~/lib/client"
-import { useRawLoaderData } from "~/lib/data"
 import { type clientLoader as rootLoader } from "~/root"
 
 import { AppBar, AppBarTitle } from "~/components"
@@ -30,7 +29,7 @@ import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-r
 import { User } from "../_nav.user.$userName/User"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
-import { usePreloadedQuery } from "~/lib/Network"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import { ExtraOutlet } from "./ExtraOutlet"
 const { graphql } = ReactRelay
@@ -39,13 +38,13 @@ const Params = Schema.Struct({
 	userName: Schema.String,
 })
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = unstable_defineClientLoader((args) => {
 	const { userName } = Schema.decodeUnknownSync(Params)(args.params)
 
-	const data = await client_operation<routeNavUserQuery>(
+	const data = loadQuery<routeNavUserQuery>(
 		graphql`
 			query routeNavUserQuery($userName: String!) @raw_response_type {
-				User(name: $userName) {
+				user: User(name: $userName) {
 					id
 					isFollowing
 					about
@@ -60,13 +59,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		{ userName }
 	)
 
-	if (!data?.User) {
-		throw json("User not found", {
-			status: 404,
-		})
-	}
-
-	return { user: data.User }
+	return { routeNavUserQuery: data }
 })
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -83,9 +76,17 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export default function Page(): ReactNode {
 	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
+		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
 	)
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = usePreloadedQuery(
+		...useLoaderData<typeof clientLoader>().routeNavUserQuery
+	)
+
+	if (!data?.user) {
+		throw json("User not found", {
+			status: 404,
+		})
+	}
 
 	const follow = useFetcher<typeof userFollowAction>({
 		key: `${data.user.name}-follow`,

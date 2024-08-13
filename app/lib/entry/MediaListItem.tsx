@@ -221,7 +221,7 @@ const MediaListItemInfo_entry = graphql`
 function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
 	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
+		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
 	)
 	const params = useParams()
 
@@ -361,7 +361,7 @@ function MediaListItemSubtitle(props: {
 	const watch = entry.toWatch
 
 	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
+		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
 	)
 
 	const params = useParams()
@@ -436,12 +436,14 @@ function MediaListItemSort(props: {
 	const entry = useFragment(MediaListItemSort_entry, props.entry)
 	// const root = useRawRouteLoaderData<typeof rootLoader>("root")
 
-	const query = useRouteLoaderData<typeof clientLoader>(
-		"routes/_nav.user.$userName.$typelist"
+	const query = usePreloadedQuery(
+		...useRouteLoaderData<typeof clientLoader>(
+			"routes/_nav.user.$userName.$typelist"
+		)!.routeNavUserListQuery
 	)
 
 	const key: MediaListItemSort_user$key | null | undefined =
-		query?.data?.MediaListCollection?.user
+		query?.MediaListCollection?.user
 	const user = useFragment(MediaListItemSort_user, key)
 
 	const searchParams = useOptimisticSearchParams()

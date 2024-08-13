@@ -51,9 +51,9 @@ export const links: LinksFunction = () => {
 			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&family=Noto+Sans+Mono&display=swap",
 		},
 		{
-			rel:'dns-prefetch',
-			href:'https://graphql.anilist.co'
-		}
+			rel: "dns-prefetch",
+			href: "https://graphql.anilist.co",
+		},
 	]
 }
 
@@ -67,11 +67,11 @@ const RootQuery = graphql`
 	}
 `
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const query = loadQuery<rootQuery>(RootQuery, {})
+export const clientLoader = unstable_defineClientLoader((args) => {
+	const rootQuery = loadQuery<rootQuery>(RootQuery, {})
 
 	return {
-		RootQuery: query,
+		rootQuery: rootQuery,
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}

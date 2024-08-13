@@ -44,7 +44,7 @@ export function UserLink(props: {
 	}, [open, fetcher, props.userName])
 
 	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
+		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
 	)
 
 	return (

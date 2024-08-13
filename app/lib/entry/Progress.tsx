@@ -1,10 +1,10 @@
 import {
-	Form,
-	useActionData,
-	useNavigation,
-	useParams,
-	useRouteLoaderData,
-	useSearchParams,
+    Form,
+    useActionData,
+    useNavigation,
+    useParams,
+    useRouteLoaderData,
+    useSearchParams,
 } from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ComponentProps, ReactNode } from "react"
@@ -46,7 +46,7 @@ export function ProgressIncrement(props: {
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
 	const data = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.RootQuery
+		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
 	)
 	const params = useParams()
 	const actionData = useActionData<typeof selectedAction>()

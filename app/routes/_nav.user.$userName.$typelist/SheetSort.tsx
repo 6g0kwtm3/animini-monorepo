@@ -15,6 +15,7 @@ import { createList } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
 import type { clientLoader } from "./route"
+import { usePreloadedQuery } from "~/lib/Network"
 
 export function SheetSort(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
@@ -24,7 +25,9 @@ export function SheetSort(): ReactNode {
 	const lines = "one"
 	const list = createList({ lines })
 
-	const { data } = useLoaderData<typeof clientLoader>()
+	const data = usePreloadedQuery(
+		...useLoaderData<typeof clientLoader>().routeNavUserListQuery
+	)
 
 	return (
 		<Group>

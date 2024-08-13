@@ -17,6 +17,7 @@ import { MediaListSort } from "~/lib/MediaListSort"
 
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
+import { usePreloadedQuery } from "~/lib/Network"
 import {
 	ANIME_FORMAT_OPTIONS,
 	ANIME_PROGRESS_OPTIONS,
@@ -35,7 +36,11 @@ export function SidePanel(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 	const { pathname } = useLocation()
 
-	const { data, params } = useLoaderData<typeof clientLoader>()!
+	const { params } = useLoaderData<typeof clientLoader>()
+
+	const data = usePreloadedQuery(
+		...useLoaderData<typeof clientLoader>().routeNavUserListQuery
+	)
 
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">
