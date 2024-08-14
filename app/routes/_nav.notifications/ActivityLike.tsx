@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react"
 
-import { use } from "react"
+import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
 	ListItemContent,
@@ -20,7 +20,7 @@ const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
 	notification: ActivityLike_notification$key
-}) {
+}): ReactNode {
 	const notification = useFragment(
 		graphql`
 			fragment ActivityLike_notification on ActivityLikeNotification {

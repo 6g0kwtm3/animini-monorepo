@@ -113,7 +113,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 }
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = unstable_defineClientLoader(async () => {
 	const page = await getPage()
 
 	const ids =

@@ -94,7 +94,6 @@ const RouteNavUserListQuery = graphql`
 					}
 				}
 				...User_user
-				...MediaListItemSort_user
 			}
 		}
 	}
@@ -152,7 +151,7 @@ function ListTabs() {
 	)
 
 	const options = Object.fromEntries(
-		data?.MediaListCollection?.user?.mediaListOptions?.[
+		data.MediaListCollection?.user?.mediaListOptions?.[
 			(
 				{
 					animelist: "animeList",
@@ -162,7 +161,7 @@ function ListTabs() {
 		]?.sectionOrder?.map((key, index) => [key, index]) ?? []
 	)
 
-	const lists = data?.MediaListCollection?.lists
+	const lists = data.MediaListCollection?.lists
 		?.filter((el) => el != null)
 		.sort(
 			Order.mapInput(

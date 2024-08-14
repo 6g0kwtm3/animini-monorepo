@@ -37,7 +37,7 @@ import type { routeNavNotificationsUpdateQuery } from "~/gql/routeNavNotificatio
 
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = unstable_defineClientLoader(async () => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql
@@ -62,7 +62,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	)
 })
 
-export const clientAction = (async (args) => {
+export const clientAction = (async () => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql

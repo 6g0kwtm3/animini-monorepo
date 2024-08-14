@@ -5,7 +5,9 @@ let electron: typeof Electron | string | undefined
 
 try {
 	electron = createRequire(import.meta.url)("electron")
-} catch {}
+} catch {
+	//
+}
 
 export * as anitomy from "anitomy"
 export * as fs from "fs"

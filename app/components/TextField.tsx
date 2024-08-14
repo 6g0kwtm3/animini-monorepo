@@ -94,7 +94,7 @@ export function FieldText({
 								{(!props.type || props.type === "search") && (
 									<Icon
 										className="cursor-default group-has-[:placeholder-shown]:hidden group-error:hidden group-has-focused:block group-has-focused:group-error:hidden"
-										onClick={(props) => {
+										onClick={() => {
 											if (ref.current && !ref.current.disabled)
 												ref.current.value = ""
 										}}

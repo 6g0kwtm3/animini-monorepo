@@ -124,9 +124,6 @@ export const meta = ({
 export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
 
-	const outlet = useOutlet()
-	const { pathname } = useLocation()
-
 	return (
 		<LayoutBody
 			style={data.theme}

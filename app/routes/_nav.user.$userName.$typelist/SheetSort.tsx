@@ -42,9 +42,7 @@ export function SheetSort(): ReactNode {
 							title: MediaListSort.TitleEnglish,
 							score: MediaListSort.ScoreDesc,
 						}[
-							String(
-								data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
-							)
+							String(data.MediaListCollection?.user?.mediaListOptions?.rowOrder)
 						] ??
 						null
 					}

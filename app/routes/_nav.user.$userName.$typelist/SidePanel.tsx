@@ -120,7 +120,7 @@ export function SidePanel(): ReactNode {
 								score: MediaListSort.ScoreDesc,
 							}[
 								String(
-									data?.MediaListCollection?.user?.mediaListOptions?.rowOrder
+									data.MediaListCollection?.user?.mediaListOptions?.rowOrder
 								)
 							]
 						}

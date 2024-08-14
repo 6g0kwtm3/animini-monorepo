@@ -39,7 +39,7 @@ export const config = {
 		fontSize: fontSize as any,
 		colors: Object.assign(
 			Object.fromEntries(
-				Object.entries(colors.dark).map(([key, value]) => {
+				Object.keys(colors.dark).map((key) => {
 					return [`${key}`, `rgb(var(--${key}) / <alpha-value>)`]
 				})
 			),
@@ -91,62 +91,58 @@ export const config = {
 		require("@tailwindcss/container-queries"),
 		require("@tailwindcss/typography"),
 
-		plugin(
-			({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
-				addBase({
-					":root": Object.assign({
-						fontSize: "16px",
-					}),
-					"::backdrop": Object.assign({
-						fontSize: "16px",
-					}),
-				})
+		plugin(({ addBase, matchUtilities, theme }) => {
+			addBase({
+				":root": Object.assign({
+					fontSize: "16px",
+				}),
+				"::backdrop": Object.assign({
+					fontSize: "16px",
+				}),
+			})
 
-				matchUtilities(
-					{
-						state: (opacity: string | number) => {
-							const stateColor = `color-mix(in oklab, currentColor, transparent ${
-								100 -
-								Number(
-									Predicate.isString(opacity)
-										? opacity.replace("%", "")
-										: Number(opacity) * 100
-								)
-							}%)`
+			matchUtilities(
+				{
+					state: (opacity: string | number) => {
+						const stateColor = `color-mix(in oklab, currentColor, transparent ${
+							100 -
+							Number(
+								Predicate.isString(opacity)
+									? opacity.replace("%", "")
+									: Number(opacity) * 100
+							)
+						}%)`
 
-							return {
-								backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
-							}
-						},
+						return {
+							backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
+						}
 					},
-					{
-						values: theme("state") || {},
-						type: ["percentage"],
-					}
-				)
+				},
+				{
+					values: theme("state") || {},
+					type: ["percentage"],
+				}
+			)
 
-				// matchUtilities(
-				// 	{
-				// 		state: (color) => ({
-				// 			...withAlphaVariable({
-				// 				color: "currentColor",
-				// 				property: "--mdi-state-color",
-				// 				variable: "--mdi-state-opacity"
-				// 			}),
-				// 			"--mdi-state-opacity": undefined,
-				// 			backgroundImage
-				// 		})
-				// 	},
-				// 	{
-				// 		values: flattenColorPalette(theme("colors")),
-				// 		type: ["color", "any"]
-				// 	}
-				// )
-			}
-		),
-		plugin(({ addUtilities }) => {}),
-		plugin(({ matchVariant }) => {}),
-		plugin(({ addComponents, matchComponents, addVariant, matchVariant }) => {
+			// matchUtilities(
+			// 	{
+			// 		state: (color) => ({
+			// 			...withAlphaVariable({
+			// 				color: "currentColor",
+			// 				property: "--mdi-state-color",
+			// 				variable: "--mdi-state-opacity"
+			// 			}),
+			// 			"--mdi-state-opacity": undefined,
+			// 			backgroundImage
+			// 		})
+			// 	},
+			// 	{
+			// 		values: flattenColorPalette(theme("colors")),
+			// 		type: ["color", "any"]
+			// 	}
+			// )
+		}),
+		plugin(({ matchComponents, addVariant, matchVariant }) => {
 			matchComponents({}, {})
 
 			addVariant("error", [

@@ -14,7 +14,7 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
-import { use } from "react"
+import { use, type ReactNode } from "react"
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import { ListContext } from "~/lib/list"
 import { MediaTitle } from "~/lib/MediaTitle"
@@ -24,7 +24,9 @@ import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outli
 
 const { graphql } = ReactRelay
 
-export function Airing(props: { notification: Airing_notification$key }) {
+export function Airing(props: {
+	notification: Airing_notification$key
+}): ReactNode {
 	const notification = useFragment(
 		graphql`
 			fragment Airing_notification on AiringNotification {

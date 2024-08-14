@@ -14,7 +14,7 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
-import { use } from "react"
+import { use, type ReactNode } from "react"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import { ListContext } from "~/lib/list"
 import { MediaTitle } from "~/lib/MediaTitle"
@@ -26,7 +26,7 @@ const { graphql } = ReactRelay
 
 export function RelatedMediaAddition(props: {
 	notification: RelatedMediaAddition_notification$key
-}) {
+}): ReactNode {
 	const notification = useFragment(
 		graphql`
 			fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification {

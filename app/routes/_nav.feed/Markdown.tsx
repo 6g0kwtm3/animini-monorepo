@@ -169,7 +169,7 @@ function parse2(html: string, options: any): ReactNode {
 		ontext(text) {
 			stack.at(-1)?.appendNode({ node: text })
 		},
-		onclosetag(name) {
+		onclosetag() {
 			stack.pop()
 		},
 	})
@@ -240,7 +240,7 @@ class HtmlTag implements HtmlNode {
 
 	get children(): ReactNode {
 		return this._children.reduce<ReactNode>(
-			(acc, node, i) => (
+			(acc, node) => (
 				<>
 					{acc}
 					{node.node}

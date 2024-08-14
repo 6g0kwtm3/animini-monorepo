@@ -82,7 +82,7 @@ export default function Page(): ReactNode {
 		...useLoaderData<typeof clientLoader>().routeNavUserQuery
 	)
 
-	if (!data?.user) {
+	if (!data.user) {
 		throw json("User not found", {
 			status: 404,
 		})
