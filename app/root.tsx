@@ -16,7 +16,7 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import { type LinksFunction } from "@remix-run/node"
 
-import { useEffect, useState, type ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Ariakit } from "./lib/ariakit"
 
@@ -24,7 +24,7 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import environment, { commitLocalUpdate, loadQuery } from "./lib/Network"
+import environment, { loadQuery } from "./lib/Network"
 import { RelayEnvironmentProvider } from "./lib/Network/components"
 import { button } from "./lib/button"
 
@@ -192,22 +192,9 @@ export function ErrorBoundary(): ReactNode {
 
 function RevalidateOnFocus() {
 	const revalidator = useRevalidator()
-	const TIMEOUT = 3 * 60_000 //3min
-	const [, setTimeout] = useState(Date.now() + TIMEOUT)
 
 	useOnFocus(() => {
-		setTimeout((timeout) => {
-			if (timeout > Date.now() || revalidator.state !== "idle") {
-				return timeout
-			}
-
-			commitLocalUpdate((store) => {
-				store.invalidateStore()
-			})
-			revalidator.revalidate()
-
-			return Date.now() + TIMEOUT
-		})
+		revalidator.revalidate()
 	})
 
 	return null

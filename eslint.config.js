@@ -118,7 +118,7 @@ export default tseslint.config(
 			"@typescript-eslint/explicit-module-boundary-types": "warn",
 			"@typescript-eslint/method-signature-style": ["error", "property"],
 			"@typescript-eslint/no-explicit-any": "warn",
-			"@typescript-eslint/no-empty-object-type": "warn",
+			"@typescript-eslint/no-empty-object-type": "off",
 		},
 	},
 
