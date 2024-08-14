@@ -115,7 +115,9 @@ const fetchQuery_: FetchFunction = async function (
 
 // Create a network layer from the fetch function
 const network = Network.create(fetchQuery_)
-const store = new LiveResolverStore(new RecordSource())
+const store = new LiveResolverStore(new RecordSource(), {
+	gcReleaseBufferSize: Infinity,
+})
 
 const environment = new Environment({
 	network,
