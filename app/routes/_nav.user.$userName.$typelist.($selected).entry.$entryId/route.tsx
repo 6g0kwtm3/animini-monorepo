@@ -117,7 +117,7 @@ function SidePanel(): ReactNode {
 						label="Score"
 						readOnly
 						type="number"
-						defaultValue={entry.score ?? ""}
+						value={entry.score ?? ""}
 					/>
 				</M3.Field>
 				<M3.Field>
@@ -126,7 +126,7 @@ function SidePanel(): ReactNode {
 						label="Progress"
 						readOnly
 						type="number"
-						defaultValue={entry.progress ?? ""}
+						value={entry.progress ?? ""}
 						trailing={`/${entry.media?.avalible ?? entry.media?.episodes}`}
 					/>
 				</M3.Field>
