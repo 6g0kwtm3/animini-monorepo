@@ -26,9 +26,7 @@ import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
-import type {
-	routeNavUserListQuery
-} from "~/gql/routeNavUserListQuery.graphql"
+import type { routeNavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
 import {
 	useOptimisticLocation,
