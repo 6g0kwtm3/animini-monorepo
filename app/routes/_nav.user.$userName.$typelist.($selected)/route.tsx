@@ -40,10 +40,7 @@ import {
 	usePreloadedQuery,
 } from "~/lib/Network"
 
-import {
-	type routeNavUserListEntriesQuery as navUserListEntriesQuery,
-	type routeNavUserListEntriesQuery,
-} from "~/gql/routeNavUserListEntriesQuery.graphql"
+import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 import type {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
@@ -97,7 +94,7 @@ const NavUserListEntriesSort_entries = graphql`
 	}
 `
 
-const navUserListEntriesQuery = graphql`
+const RouteNavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
 		...routeAwaitQuery_query
@@ -117,26 +114,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		)[params.typelist],
 	}
 	const data = loadQuery<routeNavUserListEntriesQuery>(
-		navUserListEntriesQuery,
-		variables
-	)
-
-	loadQuery(
-		graphql`
-			query routeNavUserListEntryPreloadQuery(
-				$userName: String!
-				$type: MediaType!
-			) {
-				MediaListCollection(userName: $userName, type: $type) {
-					lists {
-						entries {
-							id
-							...routeSidePanel_entry
-						}
-					}
-				}
-			}
-		`,
+		RouteNavUserListEntriesQuery,
 		variables
 	)
 
@@ -459,6 +437,7 @@ const routeAwaitQuery_query = graphql`
 					...isVisible_entry
 					...routeNavUserListEntriesSort_entries
 					...MediaListItem_entry
+					...routeSidePanel_entry # @defer
 				}
 			}
 		}
