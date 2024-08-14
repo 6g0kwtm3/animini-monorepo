@@ -16,8 +16,6 @@ import type {
 
 import { commitMutation, fetchQuery, loadQuery } from "./Network"
 
-const API_URL = "https://graphql.anilist.co"
-
 export type JSONValue = string | number | boolean | JSONObject | JSONArray
 
 export interface JSONObject {

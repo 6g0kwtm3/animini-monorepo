@@ -8,7 +8,7 @@ import {
 
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
-import ReactRelay from "react-relay"
+
 import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
 import { Array as ReadonlyArray } from "effect"

@@ -1,6 +1,6 @@
-import type { Config } from "tailwindcss"
-import { withTV } from "tailwind-variants/transformer"
 import { Predicate } from "effect"
+import { withTV } from "tailwind-variants/transformer"
+import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
 import fontSize from "./font-size.json"
@@ -88,7 +88,9 @@ export const config = {
 		},
 	},
 	plugins: [
+		/* eslint-disable @typescript-eslint/no-require-imports */
 		require("@tailwindcss/container-queries"),
+		/* eslint-disable @typescript-eslint/no-require-imports */
 		require("@tailwindcss/typography"),
 
 		plugin(({ addBase, matchUtilities, theme }) => {
