@@ -34,8 +34,7 @@ export function UserLink(props: {
 
 	const store = Ariakit.useHovercardStore()
 
-	// eslint-disable-next-line react-compiler/react-compiler
-	const open = store.useState("open")
+	const open = Ariakit.useStoreState(store, "open")
 
 	useEffect(() => {
 		if (open && fetcher.state === "idle" && !fetcher.data) {

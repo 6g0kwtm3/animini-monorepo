@@ -38,8 +38,7 @@ export default defineConfig({
 				lite: true,
 				filter: {
 					include: [
-						"app/routes/_nav.user.$userName/*.tsx",
-						"app/routes/_nav.user.$userName.$typelist/*.tsx",
+						"app/routes/**/*.tsx",
 						"app/components/**/*.tsx",
 						"app/lib/**/*.tsx",
 					],

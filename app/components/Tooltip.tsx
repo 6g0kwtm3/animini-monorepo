@@ -67,8 +67,7 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 		throw new Error("Tooltip must be wrapped in TooltipProvider")
 	}
 
-	// eslint-disable-next-line react-compiler/react-compiler
-	const y = tooltip.useState((state) => {
+	const y = Ariakit.useStoreState(tooltip, (state) => {
 		const dir = state.currentPlacement.split("-")[0]!
 		return dir === "top" ? -8 : 8
 	})
