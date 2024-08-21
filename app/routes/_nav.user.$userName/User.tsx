@@ -64,7 +64,7 @@ export function User({
 				}}
 			>
 				<M3.TabsListItem
-					id="undefined"
+					id="user/undefined"
 					render={
 						<Link
 							unstable_viewTransition
@@ -74,8 +74,8 @@ export function User({
 				>
 					Overview
 				</M3.TabsListItem>
-				<M3.TabsListItem
-					id="animelist"
+				<M3.TabsListItem 
+					id="user/animelist"
 					render={
 						<Link
 							unstable_viewTransition
@@ -89,7 +89,7 @@ export function User({
 					Anime List
 				</M3.TabsListItem>
 				<M3.TabsListItem
-					id="mangalist"
+					id="user/mangalist"
 					render={
 						<Link
 							unstable_viewTransition

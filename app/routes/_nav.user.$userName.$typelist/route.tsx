@@ -130,7 +130,7 @@ export default function Route(): ReactNode {
 	return (
 		<ExtraOutlets title={<Title />} actions={<Actions />}>
 			<div className="flex flex-col gap-4">
-				<M3.Tabs selectedId={String(params.selected)}>
+				<M3.Tabs selectedId={`list/${params.selected}`}>
 					<div className="sticky top-16 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
 						<ListTabs />
 					</div>
@@ -175,7 +175,7 @@ function ListTabs() {
 	return (
 		<TabsList>
 			<TabsListItem
-				id={"undefined"}
+				id={"list/undefined"}
 				render={
 					<Link
 						unstable_viewTransition
@@ -194,7 +194,7 @@ function ListTabs() {
 					list.name && (
 						<TabsListItem
 							key={list.name}
-							id={list.name}
+							id={`list/${list.name}`}
 							render={
 								<Link
 									unstable_viewTransition
