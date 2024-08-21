@@ -30,11 +30,19 @@ const tabs = tv(
 )
 
 export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
-	return <Ariakit.TabProvider selectOnMove={false} {...props} />
+	return (
+		<Prefix value={useId()}>
+			<Ariakit.TabProvider selectOnMove={false} {...props} />
+		</Prefix>
+	)
 }
 
-export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
-	return <Ariakit.TabPanel {...props} />
+export function TabsPanel({
+	tabId,
+	...props
+}: Ariakit.TabPanelProps): ReactNode {
+	const prefix = use(Prefix)
+	return <Ariakit.TabPanel {...props} tabId={`${prefix}/${tabId}`} />
 }
 const Styles = createContext(tabs())
 
@@ -58,8 +66,11 @@ export function TabsList({
 	)
 }
 
+const Prefix = createContext<string | undefined>(undefined)
+
 export function TabsListItem({
 	children,
+	id,
 	...props
 }: Ariakit.TabProps): ReactNode {
 	const layoutId = use(TabsContext)
@@ -68,10 +79,16 @@ export function TabsListItem({
 
 	const selectedId = Ariakit.useStoreState(context, "selectedId")
 
+	const prefix = use(Prefix)
+
 	const { item } = use(Styles)
 
 	return (
-		<Ariakit.Tab {...props} className={item({ className: props.className })}>
+		<Ariakit.Tab
+			{...props}
+			id={`${prefix}/${id}`}
+			className={item({ className: props.className })}
+		>
 			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
 				{children}
 

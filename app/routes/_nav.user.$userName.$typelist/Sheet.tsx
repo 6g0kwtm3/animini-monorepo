@@ -49,17 +49,17 @@ export function Sheet(): ReactNode {
 				})
 			}}
 		>
-			<M3.Tabs selectedId={`sheet/${sheet}`}>
+			<M3.Tabs selectedId={sheet}>
 				<TabsList grow className="">
 					<TabsListItem
-						id="sheet/filter"
+						id="filter"
 						className="rounded-ss-xl"
 						render={<Link unstable_viewTransition to={`?${filterParams}`} />}
 					>
 						Filter
 					</TabsListItem>
 					<TabsListItem
-						id="sheet/sort"
+						id="sort"
 						className="rounded-se-xl xl:rounded-none"
 						render={<Link unstable_viewTransition to={`?${sortParams}`} />}
 					>

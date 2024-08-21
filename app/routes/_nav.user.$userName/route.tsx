@@ -109,7 +109,7 @@ export default function Page(): ReactNode {
 					variant="elevated"
 					className="p-0 contrast-standard theme-light contrast-more:contrast-high max-sm:contents dark:theme-dark"
 				>
-					<M3.Tabs selectedId={`user/${params.typelist}`}>
+					<M3.Tabs selectedId={params.typelist}>
 						<div className="sticky top-0 z-50">
 							<AppBar variant="large" className="sm:bg-surface-container-low">
 								<AppBarTitle>
