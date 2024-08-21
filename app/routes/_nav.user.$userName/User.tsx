@@ -74,7 +74,7 @@ export function User({
 				>
 					Overview
 				</M3.TabsListItem>
-				<M3.TabsListItem 
+				<M3.TabsListItem
 					id="user/animelist"
 					render={
 						<Link
