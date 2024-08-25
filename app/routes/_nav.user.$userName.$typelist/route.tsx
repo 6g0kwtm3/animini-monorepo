@@ -175,7 +175,7 @@ function ListTabs() {
 	return (
 		<TabsList>
 			<TabsListItem
-				id={"list/undefined"}
+				id={"undefined"}
 				render={
 					<Link
 						unstable_viewTransition

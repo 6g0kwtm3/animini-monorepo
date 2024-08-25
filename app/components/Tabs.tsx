@@ -29,10 +29,19 @@ const tabs = tv(
 	}
 )
 
-export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
+export function Tabs({
+	selectedId,
+	...props
+}: Ariakit.TabProviderProps): ReactNode {
+	const prefix = useId()
+
 	return (
-		<Prefix value={useId()}>
-			<Ariakit.TabProvider selectOnMove={false} {...props} />
+		<Prefix value={prefix}>
+			<Ariakit.TabProvider
+				selectOnMove={false}
+				{...props}
+				selectedId={`${prefix}/${selectedId}`}
+			/>
 		</Prefix>
 	)
 }
