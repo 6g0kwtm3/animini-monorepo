@@ -101,7 +101,7 @@ export function TabsListItem({
 			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
 				{children}
 
-				{selectedId === props.id && (
+				{selectedId === `${prefix}/${id}` && (
 					<div
 						className="absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem] bg-primary"
 						style={{

@@ -536,7 +536,7 @@ function AwaitQuery() {
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
 								className="absolute left-0 top-0 w-full"
-								ref={item.measureElement}
+								ref={virtualizer.measureElement}
 								data-index={item.index}
 							>
 								<M3.Subheader>{element.list.name}</M3.Subheader>
@@ -547,7 +547,7 @@ function AwaitQuery() {
 					if (element?.type === "MediaList") {
 						return (
 							<MediaListItem
-								ref={item.measureElement}
+								ref={virtualizer.measureElement}
 								data-id={element.entry.id}
 								key={`${element.name}:${element.entry.id}`}
 								entry={element.entry}
