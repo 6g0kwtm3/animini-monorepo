@@ -11,11 +11,12 @@ import { M3 } from "~/lib/components"
 import { MediaListSort } from "~/lib/MediaListSort"
 
 import { Ariakit } from "~/lib/ariakit"
-import { createList } from "~/lib/list"
+import { createList, ListContext } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
 import type { clientLoader } from "./route"
 import { usePreloadedQuery } from "~/lib/Network"
+import { LabelItem, LabelItemRadio } from "./SheetFilter"
 
 export function SheetSort(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
@@ -30,39 +31,43 @@ export function SheetSort(): ReactNode {
 	)
 
 	return (
-		<Group>
-			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
-				Sort
-			</M3.Subheader>
-			<div className={list.root()}>
-				<Ariakit.RadioProvider
-					defaultValue={
-						searchParams.get("sort") ??
-						{
-							title: MediaListSort.TitleEnglish,
-							score: MediaListSort.ScoreDesc,
-						}[
-							String(data.MediaListCollection?.user?.mediaListOptions?.rowOrder)
-						] ??
-						null
-					}
-				>
-					{Object.entries(
-						params.typelist === "animelist"
-							? ANIME_SORT_OPTIONS
-							: MANGA_SORT_OPTIONS
-					).map(([value, label]) => {
-						return (
-							<label className={list.item()} key={value}>
-								<Radio name="sort" value={value} />
-								<ListItemContent>
-									<ListItemContentTitle>{label}</ListItemContentTitle>
-								</ListItemContent>
-							</label>
-						)
-					})}
-				</Ariakit.RadioProvider>
-			</div>
-		</Group>
+		<ListContext value={list}>
+			<Group>
+				<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
+					Sort
+				</M3.Subheader>
+				<div className={list.root()}>
+					<Ariakit.RadioProvider
+						defaultValue={
+							searchParams.get("sort") ??
+							{
+								title: MediaListSort.TitleEnglish,
+								score: MediaListSort.ScoreDesc,
+							}[
+								String(
+									data.MediaListCollection?.user?.mediaListOptions?.rowOrder
+								)
+							] ??
+							null
+						}
+					>
+						{Object.entries(
+							params.typelist === "animelist"
+								? ANIME_SORT_OPTIONS
+								: MANGA_SORT_OPTIONS
+						).map(([value, label]) => {
+							return (
+								<LabelItem key={value}>
+									<LabelItemRadio name="sort" value={value} />
+									<ListItemContent>
+										<ListItemContentTitle>{label}</ListItemContentTitle>
+									</ListItemContent>
+								</LabelItem>
+							)
+						})}
+					</Ariakit.RadioProvider>
+				</div>
+			</Group>
+		</ListContext>
 	)
 }

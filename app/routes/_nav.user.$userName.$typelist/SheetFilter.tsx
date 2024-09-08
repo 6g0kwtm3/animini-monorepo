@@ -2,13 +2,20 @@ import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 
 import { useParams } from "@remix-run/react"
 
-import { Checkbox } from "~/components/Checkbox"
+import { Checkbox, Radio } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 
-import { createList } from "~/lib/list"
+import { createList, ListContext } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
-import type { ReactNode } from "react"
+import {
+	createContext,
+	use,
+	useId,
+	type ComponentProps,
+	type ReactNode,
+} from "react"
+import type { VariantProps } from "tailwind-variants"
 import { subheader } from "~/components/subheader"
 import {
 	ANIME_FORMAT_OPTIONS,
@@ -29,7 +36,7 @@ export function SheetFilter(): ReactNode {
 	const list = createList({ lines })
 
 	return (
-		<>
+		<ListContext value={list}>
 			<Group>
 				<GroupLabel className={subheader({ lines })}>Status</GroupLabel>
 				<div className={list.root({ className: "-mt-2" })}>
@@ -40,12 +47,12 @@ export function SheetFilter(): ReactNode {
 								: MANGA_STATUS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<label className={list.item()} key={value}>
-									<Checkbox name="status" value={value} />
-									<div className="col-span-2 col-start-2">
+								<LabelItem key={value}>
+									<LabelItemCheckbox name="format" value={value} />
+									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
-									</div>
-								</label>
+									</ListItemContent>
+								</LabelItem>
 							)
 						})}
 					</CheckboxProvider>
@@ -61,12 +68,12 @@ export function SheetFilter(): ReactNode {
 								: MANGA_FORMAT_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<label className={list.item()} key={value}>
-									<Checkbox name="format" value={value} />
+								<LabelItem key={value}>
+									<LabelItemCheckbox name="format" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
 									</ListItemContent>
-								</label>
+								</LabelItem>
 							)
 						})}
 					</CheckboxProvider>
@@ -82,17 +89,48 @@ export function SheetFilter(): ReactNode {
 								: MANGA_PROGRESS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<label className={list.item()} key={value}>
-									<Checkbox name="progress" value={value} />
+								<LabelItem key={value}>
+									<LabelItemCheckbox name="progress" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
 									</ListItemContent>
-								</label>
+								</LabelItem>
 							)
 						})}
 					</CheckboxProvider>
 				</div>
 			</Group>
-		</>
+		</ListContext>
 	)
+}
+
+interface LabelItemVariantProps
+	extends ComponentProps<"label">,
+		VariantProps<typeof createList> {}
+
+export function LabelItem({
+	lines,
+	...props
+}: LabelItemVariantProps): ReactNode {
+	const { item } = use(ListContext)
+	const id = useId()
+	return (
+		<label
+			htmlFor={id}
+			{...props}
+			className={item({ className: props.className, lines })}
+		/>
+	)
+}
+
+const Id = createContext("")
+
+export function LabelItemCheckbox(props: ComponentProps<typeof Checkbox>) {
+	const id = use(Id)
+	return <Checkbox id={id} {...props}></Checkbox>
+}
+
+export function LabelItemRadio(props: ComponentProps<typeof Radio>) {
+	const id = use(Id)
+	return <Radio id={id} {...props}></Radio>
 }

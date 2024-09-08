@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactNode } from "react"
+import { useId, type ReactNode } from "react"
 import MaterialSymbolsCheckBox from "~icons/material-symbols/check-box"
 import MaterialSymbolsCheckBoxOutlineBlank from "~icons/material-symbols/check-box-outline-blank"
 import MaterialSymbolsIndeterminateCheckBox from "~icons/material-symbols/indeterminate-check-box"
@@ -10,10 +10,12 @@ import MaterialSymbolsRadioButtonCheckedOutline from "~icons/material-symbols/ra
 import MaterialSymbolsCircleOutline from "~icons/material-symbols/circle-outline"
 
 export function Checkbox(props: Ariakit.CheckboxProps): ReactNode {
+	const id = useId()
+
 	return (
-		<label className="group relative">
+		<label htmlFor={props.id ?? id} className="group relative">
 			<Ariakit.VisuallyHidden>
-				<Ariakit.Checkbox {...props} />
+				<Ariakit.Checkbox {...props} id={props.id ?? id} />
 			</Ariakit.VisuallyHidden>
 			<div className="hidden text-primary i group-has-[:checked]:block">
 				<MaterialSymbolsCheckBox />
@@ -29,10 +31,11 @@ export function Checkbox(props: Ariakit.CheckboxProps): ReactNode {
 	)
 }
 export function Radio(props: Ariakit.RadioProps): ReactNode {
+	const id = useId()
 	return (
-		<label className="group relative">
+		<label className="group relative" htmlFor={props.id ?? id}>
 			<Ariakit.VisuallyHidden>
-				<Ariakit.Radio {...props} />
+				<Ariakit.Radio {...props} id={props.id ?? id} />
 			</Ariakit.VisuallyHidden>
 			<div className="hidden text-primary i group-has-[:checked]:block">
 				<MaterialSymbolsRadioButtonCheckedOutline />

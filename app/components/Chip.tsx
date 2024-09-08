@@ -2,6 +2,7 @@ import * as Ariakit from "@ariakit/react"
 import {
 	createContext,
 	use,
+	useId,
 	useState,
 	type ComponentProps,
 	type Dispatch,
@@ -11,27 +12,33 @@ import {
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 
 const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {})
+const IdContext = createContext<string>("")
 
 export function ChipFilter(props: ComponentProps<"label">): ReactNode {
 	const [focusVisible, setFocusVisible] = useState(false)
-
+	const id = useId()
 	return (
 		<FocusContext value={setFocusVisible}>
-			<label
-				{...props}
-				data-focus-visible={focusVisible || undefined}
-				className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow focused:state-focus"
-			/>
+			<IdContext value={id}>
+				<label
+					{...props}
+					htmlFor={id}
+					data-focus-visible={focusVisible || undefined}
+					className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow focused:state-focus"
+				/>
+			</IdContext>
 		</FocusContext>
 	)
 }
 
 export function ChipFilterCheckbox(props: Ariakit.CheckboxProps): ReactNode {
 	const setFocusVisible = use(FocusContext)
+	const id = use(IdContext)
 	return (
 		<>
 			<Ariakit.VisuallyHidden className="peer">
 				<Ariakit.Checkbox
+					id={id}
 					{...props}
 					clickOnEnter
 					onFocusVisible={() => setFocusVisible(true)}
@@ -45,10 +52,12 @@ export function ChipFilterCheckbox(props: Ariakit.CheckboxProps): ReactNode {
 
 export function ChipFilterRadio(props: Ariakit.RadioProps): ReactNode {
 	const setFocusVisible = use(FocusContext)
+	const id = use(IdContext)
 	return (
 		<>
 			<Ariakit.VisuallyHidden className="peer">
 				<Ariakit.Radio
+					id={id}
 					{...props}
 					clickOnEnter
 					onFocusVisible={() => setFocusVisible(true)}
