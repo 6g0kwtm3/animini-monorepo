@@ -1,4 +1,4 @@
-import { unstable_defineClientLoader, useLoaderData } from "@remix-run/react"
+import { useLoaderData, type ClientLoaderFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import type { routeMediaCarouselItem_media$key } from "~/gql/routeMediaCarouselItem_media.graphql"
@@ -40,7 +40,7 @@ function MediaCarouselItem(props: { media: routeMediaCarouselItem_media$key }) {
 	)
 }
 
-export const clientLoader = unstable_defineClientLoader(async () => {
+export const clientLoader = (async () => {
 	const data = await client_operation<routeNavIndexQuery>(
 		graphql`
 			query routeNavIndexQuery @raw_response_type {
@@ -56,7 +56,7 @@ export const clientLoader = unstable_defineClientLoader(async () => {
 	)
 
 	return data
-})
+}) satisfies ClientLoaderFunction
 
 export default function NavIndexRoute(): ReactNode {
 	const data = useLoaderData<typeof clientLoader>()

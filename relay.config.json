@@ -1,4 +1,5 @@
 {
+	"$schema": "./node_modules/relay-compiler/relay-compiler-config-schema.json",
 	"src": "./app",
 	"language": "typescript",
 	"schema": "./schema.graphql",
@@ -7,10 +8,11 @@
 	"excludes": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
 	"featureFlags": {
 		"enable_relay_resolver_transform": true,
-		"enable_fragment_aliases": { "kind": "enabled" }
+		"enable_strict_custom_scalars": true
 	},
 	"requireCustomScalarTypes": true,
 	"useImportTypeSyntax": true,
+	"isDevVariableName": "import.meta.env.DEV",
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",
 		"Json": { "name": "JSONValue", "path": "./app/lib/urql" },

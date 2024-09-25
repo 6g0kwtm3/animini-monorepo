@@ -1,9 +1,9 @@
 import {
 	Link,
 	Outlet,
-	unstable_defineClientLoader,
 	useLocation,
 	useRouteLoaderData,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
@@ -53,13 +53,13 @@ const RouteNavTrendingQuery = graphql`
 	}
 `
 
-export const clientLoader = unstable_defineClientLoader((args) => {
+export const clientLoader = ((args) => {
 	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
 
 	return {
 		RouteNavTrendingQuery: data,
 	}
-})
+}) satisfies ClientLoaderFunction
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,

@@ -2,8 +2,8 @@ import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
 import {
-	unstable_defineClientLoader,
 	useLoaderData,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import type { ReactNode } from "react"
@@ -25,7 +25,7 @@ import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = (async (args) => {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
 	const data = await client_operation<routeNavUserIndexQuery>(
@@ -47,7 +47,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	}
 
 	return { user: data.User }
-})
+}) satisfies ClientLoaderFunction
 
 export const meta = (({ params }) => {
 	return [

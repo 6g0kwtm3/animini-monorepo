@@ -5,8 +5,8 @@ import type { ActionFunction, MetaFunction } from "@remix-run/node"
 import {
 	Form,
 	redirect,
-	unstable_defineClientLoader,
 	useLoaderData,
+	type ClientLoaderFunction,
 } from "@remix-run/react"
 import { Effect, pipe } from "effect"
 import { Card } from "~/components/Card"
@@ -37,7 +37,7 @@ import type { routeNavNotificationsUpdateQuery } from "~/gql/routeNavNotificatio
 
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async () => {
+export const clientLoader = (async () => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql
@@ -60,7 +60,7 @@ export const clientLoader = unstable_defineClientLoader(async () => {
 		Effect.provide(EffectUrql.Live),
 		Remix.runLoader
 	)
-})
+}) satisfies ClientLoaderFunction
 
 export const clientAction = (async () => {
 	return pipe(

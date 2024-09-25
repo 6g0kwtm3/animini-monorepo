@@ -6,10 +6,10 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	unstable_defineClientLoader,
 	useLocation,
 	useRevalidator,
 	useRouteError,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import { SnackbarQueue } from "./components/Snackbar"
@@ -67,7 +67,7 @@ const RootQuery = graphql`
 	}
 `
 
-export const clientLoader = unstable_defineClientLoader((args) => {
+export const clientLoader = ((args) => {
 	const rootQuery = loadQuery<rootQuery>(RootQuery, {})
 
 	return {
@@ -75,7 +75,7 @@ export const clientLoader = unstable_defineClientLoader((args) => {
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}
-})
+}) satisfies ClientLoaderFunction
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	formAction,

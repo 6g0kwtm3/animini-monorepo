@@ -3,11 +3,10 @@ import { json } from "@remix-run/node"
 import {
 	Link,
 	Outlet,
-	useLocation,
-	useOutlet,
 	useParams,
 	useRouteLoaderData,
-	type MetaArgs_SingleFetch,
+	type ClientLoaderFunction,
+	type MetaArgs,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
@@ -51,7 +50,7 @@ import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
-import { unstable_defineClientLoader } from "@remix-run/react"
+import {} from "@remix-run/react"
 import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
@@ -60,7 +59,7 @@ import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = (async (args) => {
 	const client = client_get_client()
 
 	const data = await client.operation<routeNavMediaQuery>(
@@ -98,7 +97,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			? getThemeFromHex(data.Media.coverImage.color)
 			: {},
 	}
-})
+}) satisfies ClientLoaderFunction
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -115,7 +114,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export const meta = ({
 	data,
-}: MetaArgs_SingleFetch<
+}: MetaArgs<
 	() => ReturnType<typeof clientLoader>
 >): ReturnType<MetaFunction> => {
 	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]

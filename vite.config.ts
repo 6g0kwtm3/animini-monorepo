@@ -9,6 +9,12 @@ import tsconfigPaths from "vite-tsconfig-paths"
 const isStorybook = process.argv[1]?.includes("storybook")
 const isBun = (): boolean => !!globalThis.Bun
 
+declare module "@remix-run/server-runtime" {
+	interface Future {
+		unstable_singleFetch: true // 👈 enable _types_ for single-fetch
+	}
+}
+
 const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
@@ -61,6 +67,7 @@ export default defineConfig({
 					v3_relativeSplatPath: true,
 					v3_throwAbortReason: true,
 					unstable_singleFetch: true,
+					unstable_optimizeDeps: true,
 				},
 				ssr: false,
 

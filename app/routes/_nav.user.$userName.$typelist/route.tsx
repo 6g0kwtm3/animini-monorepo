@@ -1,17 +1,20 @@
 import {
+	Form,
 	isRouteErrorResponse,
 	Link,
 	Outlet,
-	unstable_defineClientLoader,
 	useLoaderData,
 	useLocation,
 	useParams,
 	useRouteError,
+	useSearchParams,
+	useSubmit,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import { Order } from "effect"
-import { type ReactNode } from "react"
+import { useId, type ReactNode } from "react"
 import { Card } from "~/components/Card"
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
@@ -54,7 +57,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export const clientLoader = unstable_defineClientLoader((args) => {
+export const clientLoader = ((args) => {
 	const params = Schema.decodeUnknownSync(
 		Schema.Struct({
 			userName: Schema.String,
@@ -73,7 +76,7 @@ export const clientLoader = unstable_defineClientLoader((args) => {
 	})
 
 	return { routeNavUserListQuery: data, params }
-})
+}) satisfies ClientLoaderFunction
 
 const RouteNavUserListQuery = graphql`
 	query routeNavUserListQuery($userName: String!, $type: MediaType!)
@@ -126,6 +129,9 @@ function Title(): ReactNode {
 
 export default function Route(): ReactNode {
 	const params = useParams()
+	const submit = useSubmit()
+	const [searchParams] = useSearchParams()
+	const { pathname } = useLocation()
 
 	return (
 		<ExtraOutlets title={<Title />} actions={<Actions />}>
@@ -134,7 +140,23 @@ export default function Route(): ReactNode {
 					<div className="sticky top-16 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
 						<ListTabs />
 					</div>
-					<M3.TabsPanel tabId={params.selected} className="flex flex-col gap-4">
+					<M3.TabsPanel
+						render={<search />}
+						tabId={params.selected}
+						className="flex flex-col gap-4"
+					>
+						<Form
+							className="px-4"
+							replace
+							action={pathname}
+							onChange={(e) => submit(e.currentTarget, {})}
+						>
+							<M3.FieldText
+								name="filter"
+								label="Filter"
+								defaultValue={searchParams.get("filter") ?? ""}
+							/>
+						</Form>
 						<Outlet />
 					</M3.TabsPanel>
 				</M3.Tabs>

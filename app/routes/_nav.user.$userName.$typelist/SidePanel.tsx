@@ -117,7 +117,7 @@ export function SidePanel(): ReactNode {
 							searchParams.get("sort") ??
 							{
 								title: MediaListSort.TitleEnglish,
-								score: MediaListSort.ScoreDesc,
+								score: MediaListSort.Score,
 							}[
 								String(
 									data.MediaListCollection?.user?.mediaListOptions?.rowOrder

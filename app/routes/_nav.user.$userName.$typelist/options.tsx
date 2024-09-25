@@ -44,15 +44,15 @@ export const MANGA_PROGRESS_OPTIONS = {
 
 export const ANIME_SORT_OPTIONS = {
 	[MediaListSort.TitleEnglish]: m.media_sort_title(),
-	[MediaListSort.ScoreDesc]: m.media_sort_score(),
-	[MediaListSort.ProgressDesc]: m.media_sort_progress(),
-	[MediaListSort.UpdatedTimeDesc]: m.media_sort_last_updated(),
+	[MediaListSort.Score]: m.media_sort_score(),
+	[MediaListSort.Progress]: m.media_sort_progress(),
+	[MediaListSort.UpdatedTime]: m.media_sort_last_updated(),
 	[MediaListSort.IdDesc]: m.media_sort_last_added(),
-	[MediaListSort.StartedOnDesc]: m.media_sort_start_date(),
-	[MediaListSort.FinishedOnDesc]: m.media_sort_completed_date(),
-	[MediaListSort.StartDateDesc]: m.media_sort_release_date(),
+	[MediaListSort.StartedOn]: m.media_sort_start_date(),
+	[MediaListSort.FinishedOn]: m.media_sort_completed_date(),
+	[MediaListSort.StartDate]: m.media_sort_release_date(),
 	[MediaListSort.AvgScore]: m.media_sort_avg_score(),
-	[MediaListSort.PopularityDesc]: m.media_sort_popularity(),
+	[MediaListSort.Popularity]: m.media_sort_popularity(),
 }
 
 export const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }

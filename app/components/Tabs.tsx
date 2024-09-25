@@ -10,7 +10,7 @@ const tabs = tv(
 	{
 		slots: {
 			root: "border-b border-surface-container-highest",
-			item: "flex justify-center px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed",
+			item: "grid h-12 items-center justify-center whitespace-nowrap px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed",
 		},
 		variants: {
 			variant: {
@@ -98,18 +98,15 @@ export function TabsListItem({
 			id={`${prefix}/${id}`}
 			className={item({ className: props.className })}
 		>
-			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
-				{children}
-
-				{selectedId === `${prefix}/${id}` && (
-					<div
-						className="absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem] bg-primary"
-						style={{
-							viewTransitionName: layoutId?.replaceAll(":", "-"),
-						}}
-					/>
-				)}
-			</div>
+			<div className="col-start-1 row-start-1">{children}</div>
+			{selectedId === `${prefix}/${id}` && (
+				<div
+					className="col-start-1 row-start-1 h-[0.1875rem] self-end rounded-t-[0.1875rem] bg-primary"
+					style={{
+						viewTransitionName: layoutId?.replaceAll(":", "-"),
+					}}
+				/>
+			)}
 		</Ariakit.Tab>
 	)
 }

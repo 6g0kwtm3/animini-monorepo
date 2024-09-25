@@ -4,7 +4,7 @@ declare module "relay-runtime/lib/store/experimental-live-resolvers/LiveResolver
 	export = Store
 }
 
-declare module "relay-runtime/store/ResolverFragments" {
+declare module "relay-runtime/lib/store/ResolverFragments" {
 	import type { useFragment } from "react-relay"
 	const ResolverFragments: {
 		readFragment: typeof useFragment

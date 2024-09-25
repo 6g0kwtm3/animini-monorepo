@@ -25,7 +25,6 @@
 		"types": [
 			"unplugin-icons/types/react",
 			"@cloudflare/workers-types",
-			"@remix-run/react/future/single-fetch.d.ts",
 			"@types/bun"
 		]
 	}

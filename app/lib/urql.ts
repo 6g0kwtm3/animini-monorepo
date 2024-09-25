@@ -1,4 +1,4 @@
-import { type Params, type unstable_defineClientLoader } from "@remix-run/react"
+import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
 
 import { Context, Effect, Layer } from "effect"
 
@@ -26,7 +26,7 @@ interface JSONArray extends Array<JSONValue> {}
 
 export class LoaderArgs extends Context.Tag("loader(args)")<
 	LoaderArgs,
-	Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
+	ClientLoaderFunctionArgs
 >() {}
 
 type Arguments = {

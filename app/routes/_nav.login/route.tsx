@@ -2,9 +2,8 @@ import type { MetaFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import {
 	Form,
-	unstable_defineClientAction,
-	unstable_defineClientLoader,
-	useFetcher,
+	type ClientActionFunction,
+	type ClientLoaderFunction,
 } from "@remix-run/react"
 
 import { Effect, pipe } from "effect"
@@ -29,7 +28,7 @@ export const meta = (() => {
 
 const ANILIST_CLIENT_ID = 3455
 
-export const clientAction = unstable_defineClientAction(async (args) => {
+export const clientAction = (async (args) => {
 	return pipe(
 		Effect.gen(function* () {
 			const formData = yield* Effect.promise(async () =>
@@ -85,9 +84,9 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 		Effect.provide(EffectUrql.Live),
 		Remix.runLoader
 	)
-})
+}) satisfies ClientActionFunction
 
-export const clientLoader = unstable_defineClientLoader(() => {
+export const clientLoader = (() => {
 	const token = sessionStorage.getItem("anilist-token")
 
 	if (token) {
@@ -95,7 +94,7 @@ export const clientLoader = unstable_defineClientLoader(() => {
 	}
 
 	return null
-})
+}) satisfies ClientLoaderFunction
 
 export default function Login(): ReactNode {
 	return (

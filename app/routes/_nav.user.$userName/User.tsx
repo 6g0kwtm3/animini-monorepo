@@ -31,23 +31,23 @@ export function User({
 
 	return (
 		<>
-			<div className="z-10" {...props}>
-				<div className="relative">
-					{data.avatar && src && (
-						<img
-							src={src}
-							alt=""
-							className="bg-cover object-cover"
-							style={{
-								backgroundImage: `url(${data.avatar.medium})`,
-							}}
-						/>
-					)}
+			<div className="" {...props}>
+				<div className="grid overflow-hidden rounded-xl">
 					{data.bannerImage && (
 						<img
 							src={data.bannerImage}
 							alt=""
-							className="absolute inset-0 -z-50 h-full w-full rounded-xl object-cover"
+							className="col-start-1 row-start-1 object-cover"
+						/>
+					)}
+					{data.avatar && src && (
+						<img
+							src={src}
+							alt=""
+							className="col-start-1 row-start-1 self-end bg-cover object-cover"
+							style={{
+								backgroundImage: `url(${data.avatar.medium})`,
+							}}
 						/>
 					)}
 				</div>

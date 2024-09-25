@@ -3,7 +3,6 @@ import { Group, GroupLabel } from "@ariakit/react"
 import { useLoaderData, useParams } from "@remix-run/react"
 
 import type { ReactNode } from "react"
-import { Radio } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 
 import { M3 } from "~/lib/components"
@@ -12,10 +11,10 @@ import { MediaListSort } from "~/lib/MediaListSort"
 
 import { Ariakit } from "~/lib/ariakit"
 import { createList, ListContext } from "~/lib/list"
+import { usePreloadedQuery } from "~/lib/Network"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
 import type { clientLoader } from "./route"
-import { usePreloadedQuery } from "~/lib/Network"
 import { LabelItem, LabelItemRadio } from "./SheetFilter"
 
 export function SheetSort(): ReactNode {
@@ -42,7 +41,7 @@ export function SheetSort(): ReactNode {
 							searchParams.get("sort") ??
 							{
 								title: MediaListSort.TitleEnglish,
-								score: MediaListSort.ScoreDesc,
+								score: MediaListSort.Score,
 							}[
 								String(
 									data.MediaListCollection?.user?.mediaListOptions?.rowOrder

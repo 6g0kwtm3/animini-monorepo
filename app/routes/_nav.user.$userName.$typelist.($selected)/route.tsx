@@ -6,20 +6,29 @@ import {
 	useLocation,
 	useParams,
 	useRouteError,
+	useSearchParams,
 	type ClientActionFunction,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { Order, pipe, Array as ReadonlyArray } from "effect"
+import {
+	Equivalence,
+	identity,
+	Order,
+	pipe,
+	Array as ReadonlyArray,
+	Record,
+} from "effect"
 
 // import {} from 'glob'
 
 import { Schema } from "@effect/schema"
 
-import { unstable_defineClientLoader } from "@remix-run/react"
+import {} from "@remix-run/react"
 import type { ComponentRef, ReactNode } from "react"
 import { Suspense, use, useRef } from "react"
 
@@ -40,8 +49,11 @@ import {
 	usePreloadedQuery,
 } from "~/lib/Network"
 
-import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
-import type {
+import {
+	type routeNavUserListEntriesQuery,
+	type routeNavUserListEntriesQuery$variables,
+} from "~/gql/routeNavUserListEntriesQuery.graphql"
+import {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
 	routeNavUserListEntriesSort_entries$data,
@@ -59,80 +71,117 @@ import type { routeAwaitQuery_query$key } from "~/gql/routeAwaitQuery_query.grap
 import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
 import { M3 } from "~/lib/components"
-import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 import { isVisible } from "./isVisible"
+
+import type { routeIsQuery_entry$key } from "~/gql/routeIsQuery_entry.graphql"
+import { parse, type SearchParserResult } from "~/lib/searchQueryParser"
 
 const { graphql } = ReactRelay
 
 const NavUserListEntriesSort_entries = graphql`
 	fragment routeNavUserListEntriesSort_entries on MediaList @inline {
 		id
-		progress
-		score
-		startedAt {
+		progress @include(if: $includeProgress)
+		score @include(if: $includeScore)
+		startedAt @include(if: $includeStartedAt) {
 			...routeFuzzyDateOrder_fuzzyDate
 		}
-		completedAt {
+		completedAt @include(if: $includeCompletedAt) {
 			...routeFuzzyDateOrder_fuzzyDate
 		}
 		media {
 			id
-			popularity
-			startDate {
+			popularity @include(if: $includePopularity)
+			startDate @include(if: $includeStartDate) {
 				...routeFuzzyDateOrder_fuzzyDate
 			}
-			averageScore
+			averageScore @include(if: $includeAvgScore)
 			status(version: 2)
-			title {
+			title @include(if: $includeTitle) {
 				userPreferred
 			}
 		}
-		updatedAt
-		toWatch
+		updatedAt @include(if: $includeUpdated)
+		toWatch @include(if: $includeToWatch)
 		...MediaListItem_entry
 	}
 `
 
 const RouteNavUserListEntriesQuery = graphql`
-	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
-	@raw_response_type {
+	query routeNavUserListEntriesQuery(
+		$userName: String!
+		$type: MediaType!
+		$includeStatus: Boolean!
+		$includeScore: Boolean!
+		$includeMediaStatus: Boolean!
+		$includeTags: Boolean!
+		$includeToWatch: Boolean!
+		$includeTitle: Boolean!
+		$includeProgress: Boolean!
+		$includeStartedAt: Boolean!
+		$includeCompletedAt: Boolean!
+		$includePopularity: Boolean!
+		$includeStartDate: Boolean!
+		$includeAvgScore: Boolean!
+		$includeUpdated: Boolean!
+	) @raw_response_type {
 		...routeAwaitQuery_query
 	}
 `
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+const keywords = [
+	"tags",
+	"status",
+	"score",
+	"to_watch",
+	"asc",
+	"desc",
+	"progress",
+] as const
+
+const eq = Equivalence.mapInput(
+	Record.getEquivalence(Equivalence.boolean),
+	getFilterParams
+)
+
+export const clientLoader = (async (args) => {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 
-	const variables = {
-		userName: params.userName,
-		type: (
-			{
-				animelist: "ANIME",
-				mangalist: "MANGA",
-			} as const
-		)[params.typelist],
-	}
+	const { searchParams } = new URL(args.request.url)
+
 	const data = loadQuery<routeNavUserListEntriesQuery>(
 		RouteNavUserListEntriesQuery,
-		variables
+		{
+			userName: params.userName,
+			type: (
+				{
+					animelist: "ANIME",
+					mangalist: "MANGA",
+				} as const
+			)[params.typelist],
+			...getFilterParams(searchParams),
+		}
 	)
 
 	return {
 		NavUserListEntriesQuery: data,
 	}
-})
+}) satisfies ClientLoaderFunction
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 	formMethod,
 	currentParams,
 	nextParams,
+	currentUrl,
+	nextUrl,
 }) => {
 	if (
 		formMethod === "GET" &&
 		currentParams.userName === nextParams.userName &&
-		currentParams.typelist === nextParams.typelist
+		currentParams.typelist === nextParams.typelist &&
+		eq(currentUrl.searchParams, nextUrl.searchParams)
 	) {
 		return false
 	}
@@ -159,6 +208,37 @@ const UserSetStatus = graphql`
 		}
 	}
 `
+
+function getFilterParams(searchParams: URLSearchParams) {
+	const { values } = parse(
+		searchParams.get("filter")?.toLocaleLowerCase() ?? "",
+		{
+			keywords: keywords,
+		}
+	)
+
+	const sort = values.desc?.concat(values.asc ?? []) ?? values.asc
+
+	return {
+		includeMediaStatus: false,
+		includeScore: !!(values.score || sort?.includes(MediaListSort.Score)),
+		includeStatus: !!values.status,
+		includeToWatch: !!(
+			values.to_watch || sort?.includes(MediaListSort.ToWatch)
+		),
+		includeTags: !!values.tags,
+		includeAvgScore: !!sort?.includes(MediaListSort.AvgScore),
+		includeTitle: !!sort?.includes(MediaListSort.TitleEnglish),
+		includeProgress: !!(
+			values.progress || sort?.includes(MediaListSort.Progress)
+		),
+		includeUpdated: !!sort?.includes(MediaListSort.UpdatedTime),
+		includeStartedAt: !!sort?.includes(MediaListSort.StartedOn),
+		includeCompletedAt: !!sort?.includes(MediaListSort.FinishedOn),
+		includeStartDate: !!sort?.includes(MediaListSort.StartDate),
+		includePopularity: !!sort?.includes(MediaListSort.Popularity),
+	} satisfies Partial<routeNavUserListEntriesQuery$variables>
+}
 
 async function setStatus(formData: FormData) {
 	const variables = Schema.decodeUnknownSync(
@@ -212,10 +292,6 @@ export const clientAction = (async (args) => {
 	})
 }) satisfies ClientActionFunction
 
-async function fetchSelectedList(
-	args: Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
-) {}
-
 const FuzzyDate = graphql`
 	fragment routeFuzzyDateOrder_fuzzyDate on FuzzyDate @inline {
 		year
@@ -264,101 +340,107 @@ function sortEntries(
 	let entries = entryKeys.map((entryKey) =>
 		readInlineData(NavUserListEntriesSort_entries, entryKey)
 	)
-	// return entries
+
 	const user = readInlineData(NavUserListEntriesSort_user, userKey)
 
-	const sorts =
-		searchParams.getAll("sort").length > 0
-			? searchParams.getAll("sort")
-			: ({
-					title: [MediaListSort.TitleEnglish],
-					score: [MediaListSort.ScoreDesc],
-				}[String(user?.mediaListOptions?.rowOrder)] ?? [])
+	const parsed = parse(searchParams.get("filter")?.toLocaleLowerCase() ?? "", {
+		keywords: keywords,
+	})
+
+	const sorts = parsed.entries.flatMap(([key, value]) =>
+		key === "asc" || key === "desc" ? ([[key, value]] as const) : []
+	)
+
+	sorts.push(
+		...((
+			{
+				title: [["desc", MediaListSort.TitleEnglish]],
+				score: [["desc", MediaListSort.Score]],
+			} as const
+		)[String(user?.mediaListOptions?.rowOrder)] ?? [])
+	)
 
 	const order: Order.Order<(typeof entries)[number]>[] = []
 
-	for (const sort of sorts) {
+	for (const [dir, sort] of sorts) {
 		if (!Schema.is(Schema.Enums(MediaListSort))(sort)) {
 			continue
 		}
 
-		if (sort === MediaListSort.TitleEnglish) {
+		function orderEntry<A>(
+			self: Order.Order<A>,
+			f: (b: (typeof entries)[number]) => A
+		) {
 			order.push(
-				Order.reverse(
-					Order.mapInput(
-						Order.string,
-						(entry) => entry.media?.title?.userPreferred ?? ""
-					)
-				)
+				(dir === "desc" ? Order.reverse : identity)(Order.mapInput(self, f))
+			)
+		}
+
+		if (sort === MediaListSort.TitleEnglish) {
+			orderEntry(
+				Order.string,
+				(entry) => entry.media?.title?.userPreferred ?? ""
 			)
 			continue
 		}
 
-		if (sort === MediaListSort.ScoreDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
+		if (sort === MediaListSort.Score) {
+			orderEntry(Order.number, (entry) => entry.score ?? 0)
 			continue
 		}
 
-		if (sort === MediaListSort.ProgressDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
+		if (sort === MediaListSort.Progress) {
+			orderEntry(Order.number, (entry) => entry.progress ?? 0)
 			continue
 		}
 
-		if (sort === MediaListSort.UpdatedTimeDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0))
+		if (sort === MediaListSort.UpdatedTime) {
+			orderEntry(Order.number, (entry) => entry.updatedAt ?? 0)
 			continue
 		}
 
 		if (sort === MediaListSort.IdDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0))
+			orderEntry(Order.number, (entry) => entry.media?.id ?? 0)
 			continue
 		}
 
-		if (sort === MediaListSort.StartedOnDesc) {
-			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
+		if (sort === MediaListSort.StartedOn) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.startedAt)
 			continue
 		}
 
-		if (sort === MediaListSort.FinishedOnDesc) {
-			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
+		if (sort === MediaListSort.FinishedOn) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.completedAt)
 			continue
 		}
 
-		if (sort === MediaListSort.StartDateDesc) {
-			order.push(
-				Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
-			)
+		if (sort === MediaListSort.StartDate) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.media?.startDate)
 			continue
 		}
 		if (sort === MediaListSort.AvgScore) {
-			order.push(
-				Order.mapInput(Order.number, (entry) => entry.media?.averageScore ?? 0)
+			orderEntry(Order.number, (entry) => entry.media?.averageScore ?? 0)
+			continue
+		}
+
+		if (sort === MediaListSort.ToWatch) {
+			orderEntry(
+				Order.number,
+				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
 			)
 			continue
 		}
 
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (sort === MediaListSort.PopularityDesc) {
-			order.push(
-				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
-			)
+		if (sort === MediaListSort.Popularity) {
+			orderEntry(Order.number, (entry) => entry.media?.popularity ?? 0)
 			continue
 		}
-
-		// Order.struct({
-
-		// })
 
 		sort satisfies never
 	}
 
 	order.push(
-		Order.reverse(
-			Order.mapInput(
-				Order.number,
-				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
-			)
-		),
 		Order.reverse(
 			Order.mapInput(Order.number, (entry) => {
 				return [
@@ -369,10 +451,7 @@ function sortEntries(
 		)
 	)
 
-	return pipe(
-		entries,
-		ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))
-	)
+	return pipe(entries, ReadonlyArray.sortBy(Order.combineAll(order)))
 }
 
 const Params = Schema.Struct({
@@ -434,6 +513,7 @@ const routeAwaitQuery_query = graphql`
 				name @required(action: LOG)
 				entries {
 					id
+					...routeIsQuery_entry
 					...isVisible_entry
 					...routeNavUserListEntriesSort_entries
 					...MediaListItem_entry
@@ -443,6 +523,57 @@ const routeAwaitQuery_query = graphql`
 		}
 	}
 `
+
+const routeIsQuery_entry = graphql`
+	fragment routeIsQuery_entry on MediaList @inline {
+		id
+		status @include(if: $includeStatus)
+		score @include(if: $includeScore)
+		progress @include(if: $includeProgress)
+		media {
+			id
+			status(version: 2) @include(if: $includeMediaStatus)
+			tags @include(if: $includeTags) {
+				id
+				name
+			}
+		}
+		toWatch @include(if: $includeToWatch)
+	}
+`
+
+function isQuery(
+	entry: routeIsQuery_entry$key,
+	{ values: query }: SearchParserResult<string>
+) {
+	const data = readInlineData(routeIsQuery_entry, entry)
+
+	return (
+		(query.status?.some(inRange(data?.status)) ?? true) &&
+		(query.tags?.every((name) =>
+			data?.media?.tags?.some((tag) => inRange(tag?.name)(name))
+		) ??
+			true) &&
+		(query.score?.every(inRange(data.score ?? 0)) ?? true) &&
+		(query.progress?.every(inRange(data.progress ?? 0)) ?? true) &&
+		(query.to_watch?.every(inRange(data.toWatch)) ?? true)
+	)
+}
+
+function inRange(b: number | string) {
+	return (a: string) =>
+		typeof b === "number"
+			? a.startsWith(">=")
+				? b >= Number(a.slice(2))
+				: a.startsWith("<=")
+					? b <= Number(a.slice(2))
+					: a.startsWith(">")
+						? b > Number(a.slice(1))
+						: a.startsWith("<")
+							? b < Number(a.slice(1))
+							: b === Number(a)
+			: b.includes(a)
+}
 
 function AwaitQuery() {
 	const query: routeAwaitQuery_query$key = usePreloadedQuery(
@@ -470,12 +601,17 @@ function AwaitQuery() {
 		throw new Error("No list selected")
 	}
 
-	const search = useOptimisticSearchParams()
+	// const search = useOptimisticSearchParams()
+	const search = new URLSearchParams(useSearchParams()[0])
+
+	const parsed = parse(search.get("filter")?.toLocaleLowerCase() ?? "", {
+		keywords: keywords,
+	})
 
 	const elements = lists.flatMap((list) => {
 		const entries = sortEntries(
 			list.entries?.flatMap((el) =>
-				el != null && isVisible(el, search) ? [el] : []
+				el != null && isVisible(el, search) && isQuery(el, parsed) ? [el] : []
 			) ?? [],
 			{ search, user: data.MediaListCollection.user }
 		)

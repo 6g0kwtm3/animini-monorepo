@@ -27,7 +27,7 @@ import {
 import { GraphQLResponse, Timeout } from "./schema"
 
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
-import ResolverFragments from "relay-runtime/store/ResolverFragments"
+import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
 const { ROOT_TYPE } = RelayRuntime
 
 const { RelayFeatureFlags } = RelayRuntime
@@ -191,7 +191,7 @@ export function loadQuery<T extends RelayRuntime.OperationType>(
 export function commitLocalUpdate(
 	...args: Shift<Parameters<typeof commitLocalUpdate_>>
 ): void {
-	return commitLocalUpdate_(environment, ...args)
+	commitLocalUpdate_(environment, ...args)
 }
 
 export function commitMutation<P extends MutationParameters>(

@@ -4,12 +4,12 @@ import {
 	Form,
 	Link,
 	Outlet,
-	unstable_defineClientLoader,
 	useFetcher,
 	useLoaderData,
 	useLocation,
 	useParams,
 	useRouteLoaderData,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import { type ReactNode } from "react"
@@ -38,7 +38,7 @@ const Params = Schema.Struct({
 	userName: Schema.String,
 })
 
-export const clientLoader = unstable_defineClientLoader((args) => {
+export const clientLoader = ((args) => {
 	const { userName } = Schema.decodeUnknownSync(Params)(args.params)
 
 	const data = loadQuery<routeNavUserQuery>(
@@ -60,7 +60,7 @@ export const clientLoader = unstable_defineClientLoader((args) => {
 	)
 
 	return { routeNavUserQuery: data }
-})
+}) satisfies ClientLoaderFunction
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,

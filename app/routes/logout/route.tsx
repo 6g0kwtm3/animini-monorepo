@@ -1,8 +1,8 @@
 import { redirect } from "@remix-run/node"
-import { unstable_defineClientAction } from "@remix-run/react"
+import { type ClientActionFunction } from "@remix-run/react"
 import { commitLocalUpdate } from "~/lib/Network"
 
-export const clientAction = unstable_defineClientAction(async (args) => {
+export const clientAction = (async (args) => {
 	const url = new URL(args.request.url)
 
 	sessionStorage.removeItem("anilist-token")
@@ -12,4 +12,4 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 	})
 
 	return redirect(url.searchParams.get("redirect") ?? "/", {})
-})
+}) satisfies ClientActionFunction

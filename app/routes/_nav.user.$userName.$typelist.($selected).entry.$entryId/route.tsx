@@ -1,7 +1,7 @@
 import {
 	json,
-	unstable_defineClientLoader,
 	useLoaderData,
+	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 import { type ReactNode } from "react"
@@ -26,7 +26,7 @@ const Params = Schema.Struct({
 	entryId: Schema.NumberFromString,
 })
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = (async (args) => {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 
 	const variables = {
@@ -46,7 +46,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	)
 
 	return { routeNavUserListEntryQuery: data }
-})
+}) satisfies ClientLoaderFunction
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,

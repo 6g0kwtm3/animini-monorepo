@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node"
-import { unstable_defineClientLoader } from "@remix-run/react"
+import { type ClientLoaderFunction } from "@remix-run/react"
 
 import {
 	Predicate,
@@ -113,7 +113,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 }
 
-export const clientLoader = unstable_defineClientLoader(async () => {
+export const clientLoader = (async () => {
 	const page = await getPage()
 
 	const ids =
@@ -130,7 +130,7 @@ export const clientLoader = unstable_defineClientLoader(async () => {
 			? getMedia({ ids: ids })
 			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
-})
+}) satisfies ClientLoaderFunction
 
 export default function Index(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()

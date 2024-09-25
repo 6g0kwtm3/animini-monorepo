@@ -1,4 +1,4 @@
-import { unstable_defineClientLoader } from "@remix-run/react"
+import { type ClientLoaderFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
 
 import ReactRelay from "react-relay"
@@ -11,7 +11,7 @@ import { useRawLoaderData } from "~/lib/data"
 import { SearchItem } from "~/lib/search/SearchItem"
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = (async (args) => {
 	const client = client_get_client()
 	const { searchParams } = new URL(args.request.url)
 
@@ -34,7 +34,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		}
 	)
 	return data
-})
+}) satisfies ClientLoaderFunction
 
 export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
