@@ -7,6 +7,7 @@ import Inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 const isStorybook = process.argv[1]?.includes("storybook")
+const isVitest = process.argv[1]?.includes("vitest")
 const isBun = (): boolean => !!globalThis.Bun
 
 declare module "@remix-run/server-runtime" {
@@ -37,6 +38,7 @@ export default defineConfig({
 		// }),
 
 		!isStorybook &&
+			!isVitest &&
 			MillionLint.vite({
 				babel: {
 					plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
@@ -61,6 +63,7 @@ export default defineConfig({
 		// cloudflareDevProxy(),
 
 		!isStorybook &&
+			!isVitest &&
 			remix({
 				future: {
 					v3_fetcherPersist: true,
@@ -97,9 +100,6 @@ export default defineConfig({
 	],
 	server: {
 		port: 3000,
-	},
-	optimizeDeps: {
-		exclude: [],
 	},
 	define: {
 		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,

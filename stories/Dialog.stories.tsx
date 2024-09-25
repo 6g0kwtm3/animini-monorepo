@@ -60,7 +60,7 @@ export const Default: Story = {
 						<M3.List lines={"one"} className="grid-cols-2 sm:grid">
 							<M3.ListItem>
 								<M3.ListItemAvatar>
-									<img src="" alt="" />
+									<img src={null!} alt="" />
 								</M3.ListItemAvatar>
 								<M3.ListItemContent>
 									<M3.ListItemContentTitle>
@@ -70,7 +70,7 @@ export const Default: Story = {
 							</M3.ListItem>
 							<M3.ListItem>
 								<M3.ListItemAvatar>
-									<img src="" alt="" />
+									<img src={null!} alt="" />
 								</M3.ListItemAvatar>
 								<M3.ListItemContent>
 									<M3.ListItemContentTitle>
@@ -80,7 +80,7 @@ export const Default: Story = {
 							</M3.ListItem>
 							<M3.ListItem>
 								<M3.ListItemAvatar>
-									<img src="" alt="" />
+									<img src={null!} alt="" />
 								</M3.ListItemAvatar>
 								<M3.ListItemContent>
 									<M3.ListItemContentTitle>

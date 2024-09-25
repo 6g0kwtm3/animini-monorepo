@@ -50,7 +50,6 @@ import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
-import {} from "@remix-run/react"
 import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
@@ -93,7 +92,7 @@ export const clientLoader = (async (args) => {
 
 	return {
 		Media: data.Media,
-		theme: Predicate.isString(data.Media.coverImage?.color)
+		theme: Predicate.isString(data.Media?.coverImage?.color)
 			? getThemeFromHex(data.Media.coverImage.color)
 			: {},
 	}
@@ -117,7 +116,7 @@ export const meta = ({
 }: MetaArgs<
 	() => ReturnType<typeof clientLoader>
 >): ReturnType<MetaFunction> => {
-	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]
+	return [{ title: `Media - ${data?.Media?.title.userPreferred}` }]
 }
 
 export default function Page(): ReactNode {

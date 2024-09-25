@@ -1,53 +1,73 @@
 import { Schema } from "@effect/schema"
 
+const mutableArray = <S extends Schema.Schema.Any>(schema: S) =>
+	Schema.mutable(Schema.Array(schema))
+
+const mutableStruct = <F extends Schema.Struct.Fields>(schema: F) =>
+	Schema.mutable(Schema.Struct<F>(schema))
+
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String,
 	cause: Schema.instanceOf(Error),
 }) {}
 
-const PayloadErrors = Schema.mutable(
-	Schema.Array(
-		Schema.mutable(
-			Schema.Struct({
-				message: Schema.String,
-				status: Schema.optional(Schema.Number),
-			})
-		)
-	)
-)
-
 const PayloadData = Schema.mutable(
 	Schema.Record({ key: Schema.String, value: Schema.Any })
 )
+
+const PayloadError = mutableStruct({
+	message: Schema.String,
+	locations: Schema.optional(
+		mutableArray(
+			mutableStruct({
+				line: Schema.Number,
+				column: Schema.Number,
+			})
+		)
+	),
+	path: Schema.optional(
+		mutableArray(Schema.Union(Schema.String, Schema.Number))
+	),
+	// Not officially part of the spec, but used at Anilist
+	status: Schema.optional(Schema.Number),
+})
+
 const PayloadExtensions = Schema.mutable(
 	Schema.Record({ key: Schema.String, value: Schema.Any })
 )
 
-const GraphQLResponseWithData = Schema.mutable(
-	Schema.Struct({
-		data: PayloadData,
-		extensions: Schema.optional(PayloadExtensions),
-		errors: Schema.optional(PayloadErrors),
-	})
-)
+const GraphQLResponseWithData = mutableStruct({
+	data: PayloadData,
+	errors: Schema.optional(mutableArray(PayloadError)),
+	extensions: Schema.optional(PayloadExtensions),
+	label: Schema.optional(Schema.String),
+	path: Schema.optional(
+		mutableArray(Schema.Union(Schema.String, Schema.Number))
+	),
+})
 
-const GraphQLResponseWithExtensionsOnly = Schema.mutable(
-	Schema.Struct({
-		data: Schema.Null,
-		extensions: PayloadExtensions,
-	})
-)
+const GraphQLResponseWithoutData = mutableStruct({
+	data: Schema.optional(PayloadData),
+	errors: mutableArray(PayloadError),
+	extensions: Schema.optional(PayloadExtensions),
+	label: Schema.optional(Schema.String),
+	path: Schema.optional(
+		mutableArray(Schema.Union(Schema.String, Schema.Number))
+	),
+})
 
-const GraphQLResponseWithoutData = Schema.mutable(
-	Schema.Struct({
-		data: Schema.optional(PayloadData),
-		extensions: Schema.optional(PayloadExtensions),
-		errors: PayloadErrors,
-	})
-)
+const GraphQLResponseWithExtensionsOnly = mutableStruct({
+	data: Schema.Null,
+	extensions: PayloadExtensions,
+})
 
-export const GraphQLResponse = Schema.Union(
+export const GraphQLSingularResponse = Schema.Union(
 	GraphQLResponseWithData,
 	GraphQLResponseWithExtensionsOnly,
 	GraphQLResponseWithoutData
+)
+
+export const GraphQLResponse = Schema.Union(
+	GraphQLSingularResponse,
+	Schema.Array(GraphQLSingularResponse)
 )
