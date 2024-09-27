@@ -751,5 +751,3 @@ export function ErrorBoundary(): ReactNode {
 		</ExtraOutlets>
 	)
 }
-
-
