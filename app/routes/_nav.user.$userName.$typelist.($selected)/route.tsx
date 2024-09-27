@@ -561,9 +561,13 @@ function isQuery(
 }
 
 function inRange(b: number | string) {
-	return (a: string) =>
-		typeof b === "number"
-			? a.startsWith(">=")
+	return (a: string) => {
+		if (typeof b === "object") {
+			return false
+		}
+
+		if (typeof b === "number") {
+			return a.startsWith(">=")
 				? b >= Number(a.slice(2))
 				: a.startsWith("<=")
 					? b <= Number(a.slice(2))
@@ -572,7 +576,9 @@ function inRange(b: number | string) {
 						: a.startsWith("<")
 							? b < Number(a.slice(1))
 							: b === Number(a)
-			: b.includes(a)
+		}
+		return b.includes(a)
+	}
 }
 
 function AwaitQuery() {
@@ -745,3 +751,5 @@ export function ErrorBoundary(): ReactNode {
 		</ExtraOutlets>
 	)
 }
+
+
