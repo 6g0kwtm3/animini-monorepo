@@ -1,4 +1,4 @@
-import { Link, useFetcher, useRouteLoaderData } from "react-router"
+import { Link, useFetcher } from "react-router"
 
 import { useEffect, type ReactNode } from "react"
 import {
@@ -13,22 +13,24 @@ import {
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
-import { type clientLoader as rootLoader } from "~/root"
-import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
 
 import { M3 } from "~/lib/components"
 import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
-import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+import { useRoot } from "~/lib/RootProvider"
+
+
+import UserFollowRoute from '../user.$userId.follow/+types.route'
+import UserInfoRoute from '../user.$userName.info/+types.route'
 
 export function UserLink(props: {
 	userName: string
 	children: ReactNode
 }): ReactNode {
-	const fetcher = useFetcher<typeof userInfoLoader>({
+	const fetcher = useFetcher<UserInfoRoute.LoaderData>({
 		key: `${props.userName}-info`,
 	})
-	const follow = useFetcher<typeof userFollowAction>({
+	const follow = useFetcher<UserFollowRoute.ActionData>({
 		key: `${props.userName}-follow`,
 	})
 
@@ -43,7 +45,7 @@ export function UserLink(props: {
 	}, [open, fetcher, props.userName])
 
 	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
+		...useRoot()!.rootQuery
 	)
 
 	return (

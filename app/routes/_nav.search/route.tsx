@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import { useLoaderData, type ClientLoaderFunction } from "react-router"
 
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
@@ -8,9 +7,10 @@ import { List } from "~/components/List"
 import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { SearchItem } from "~/lib/search/SearchItem"
+import type Route from "./+types.route"
 const { graphql } = ReactRelay
 
-export const clientLoader = (async (args) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const client = client_get_client()
 	const { searchParams } = new URL(args.request.url)
 
@@ -33,11 +33,11 @@ export const clientLoader = (async (args) => {
 		}
 	)
 	return data
-}) satisfies ClientLoaderFunction
+}
 
-export default function Page(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function Index({
+	loaderData: data,
+}: Route.ComponentProps): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>

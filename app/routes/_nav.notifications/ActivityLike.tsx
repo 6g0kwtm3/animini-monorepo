@@ -14,7 +14,7 @@ import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import type { clientLoader } from "./route"
+import type { LoaderData } from "./+types.route"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -39,7 +39,8 @@ export function ActivityLike(props: {
 		`,
 		props.notification
 	)
-	const data = useLoaderData<typeof clientLoader>()
+
+	const data = useLoaderData() as LoaderData
 
 	const list = use(ListContext)
 

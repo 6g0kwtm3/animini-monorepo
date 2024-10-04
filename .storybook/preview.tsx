@@ -2,11 +2,8 @@ import { DecoratorHelpers } from "@storybook/addon-themes"
 import { type Decorator, type Preview } from "@storybook/react"
 import { useEffect } from "storybook/internal/preview-api"
 
-import {
-	createStub as createRemixStub,
-	route,
-	type StubProps as RemixStubProps,
-} from "react-router/testing"
+import { route } from "@react-router/dev/routes"
+import { createRoutesStub as createRemixStub } from "react-router"
 
 import "./tailwind.css"
 const { initializeThemeState, pluckThemeFromContext, useThemeParameters } =

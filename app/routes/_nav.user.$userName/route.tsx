@@ -6,30 +6,26 @@ import {
 	Link,
 	Outlet,
 	useFetcher,
-	useLoaderData,
 	useLocation,
 	useParams,
-	useRouteLoaderData,
-	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
 
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
 
-import { type clientLoader as rootLoader } from "~/root"
-
 import { AppBar, AppBarTitle } from "~/components"
 import { M3 } from "~/lib/components"
 import { m } from "~/lib/paraglide"
-import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 
 import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
 import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-remove-outline"
 import { User } from "../_nav.user.$userName/User"
+import type Route from "./+types.route"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { useRoot } from "~/lib/RootProvider"
 import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import { ExtraOutlet } from "./ExtraOutlet"
 const { graphql } = ReactRelay
@@ -38,7 +34,7 @@ const Params = Schema.Struct({
 	userName: Schema.String,
 })
 
-export const clientLoader = ((args) => {
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const { userName } = Schema.decodeUnknownSync(Params)(args.params)
 
 	const data = loadQuery<routeNavUserQuery>(
@@ -60,7 +56,7 @@ export const clientLoader = ((args) => {
 	)
 
 	return { routeNavUserQuery: data }
-}) satisfies ClientLoaderFunction
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -74,13 +70,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export default function Page(): ReactNode {
-	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
-	)
-	const data = usePreloadedQuery(
-		...useLoaderData<typeof clientLoader>().routeNavUserQuery
-	)
+import FollowRoute from '../user.$userId.follow/+types.route'
+
+export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
+	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const data = usePreloadedQuery(...loaderData!.routeNavUserQuery)
 
 	if (!data.user) {
 		throw Response.json("User not found", {
@@ -88,7 +82,7 @@ export default function Page(): ReactNode {
 		})
 	}
 
-	const follow = useFetcher<typeof userFollowAction>({
+	const follow = useFetcher<FollowRoute.ActionData>({
 		key: `${data.user.name}-follow`,
 	})
 

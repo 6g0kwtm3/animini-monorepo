@@ -1,11 +1,13 @@
 import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 
+import type { ClientLoaderFunction } from "react-router"
 import type { routeUserInfoQuery } from "~/gql/routeUserInfoQuery.graphql"
 import { client_operation } from "~/lib/client"
+import type Route from "./+types.route"
 const { graphql } = ReactRelay
 
-export const clientLoader = (async (args) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const params = Schema.decodeUnknownSync(
 		Schema.Struct({
 			userName: Schema.String,
@@ -30,4 +32,4 @@ export const clientLoader = (async (args) => {
 		{ userName: params.userName }
 	)
 	return data
-}) satisfies ClientLoaderFunction
+}

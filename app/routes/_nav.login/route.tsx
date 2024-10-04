@@ -1,8 +1,7 @@
 import {
 	Form,
-	type ClientActionFunction,
-	type ClientLoaderFunction,
 	redirect,
+	type ClientActionFunction,
 	type MetaFunction,
 } from "react-router"
 
@@ -86,7 +85,7 @@ export const clientAction = (async (args) => {
 	)
 }) satisfies ClientActionFunction
 
-export const clientLoader = (() => {
+export const clientLoader = () => {
 	const token = sessionStorage.getItem("anilist-token")
 
 	if (token) {
@@ -94,7 +93,7 @@ export const clientLoader = (() => {
 	}
 
 	return null
-}) satisfies ClientLoaderFunction
+}
 
 export default function Login(): ReactNode {
 	return (

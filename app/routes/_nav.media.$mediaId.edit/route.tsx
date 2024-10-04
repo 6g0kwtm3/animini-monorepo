@@ -62,7 +62,7 @@
 
 //
 // import { unstable_defineLoader } from "@react-router/node"
-// export const clientLoader = (async (args) => {
+// export const clientLoader = (async (args: Route.ClientLoaderArgs) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
 // 			const { mediaId } = yield* (
@@ -146,7 +146,7 @@
 // 		Effect.provideService(LoaderArgs, args),
 // 		Remix.runLoader
 // 	)
-// })satisfies ClientLoaderFunction
+// })
 
 // const FuzzyDateInput = S.compose(
 // 	S.compose(

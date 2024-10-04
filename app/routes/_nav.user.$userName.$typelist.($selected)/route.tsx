@@ -2,14 +2,11 @@ import {
 	isRouteErrorResponse,
 	Link,
 	Outlet,
-	useLoaderData,
 	useLocation,
 	useParams,
-	useRouteError,
 	useSearchParams,
 	type ClientActionFunction,
-	type ClientLoaderFunction,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
 import type { MetaFunction } from "react-router"
@@ -29,8 +26,6 @@ import { Schema } from "@effect/schema"
 
 import type { ComponentRef, ReactNode } from "react"
 import { Suspense, use, useRef } from "react"
-import {} from "react-router"
-
 import { List } from "~/components/List"
 import { Ariakit } from "~/lib/ariakit"
 
@@ -75,6 +70,8 @@ import { isVisible } from "./isVisible"
 
 import type { routeIsQuery_entry$key } from "~/gql/routeIsQuery_entry.graphql"
 import { parse, type SearchParserResult } from "~/lib/searchQueryParser"
+import type Route from "./+types.route"
+import type { ComponentProps, ErrorBoundaryProps } from "./+types.route"
 
 const { graphql } = ReactRelay
 
@@ -144,7 +141,7 @@ const eq = Equivalence.mapInput(
 	getFilterParams
 )
 
-export const clientLoader = (async (args) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 
 	const { searchParams } = new URL(args.request.url)
@@ -166,7 +163,7 @@ export const clientLoader = (async (args) => {
 	return {
 		NavUserListEntriesQuery: data,
 	}
-}) satisfies ClientLoaderFunction
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -459,7 +456,7 @@ const Params = Schema.Struct({
 	typelist: Schema.Literal("animelist", "mangalist"),
 })
 
-export default function Page(): ReactNode {
+export default function Page(props: ComponentProps): ReactNode {
 	return (
 		<ExtraOutlets>
 			{/* <MediaListHeader>
@@ -491,7 +488,7 @@ export default function Page(): ReactNode {
 						</List>
 					}
 				>
-					<AwaitQuery />
+					<AwaitQuery {...props} />
 				</Suspense>
 			</div>
 			<Outlet />
@@ -580,9 +577,9 @@ function inRange(b: number | string) {
 	}
 }
 
-function AwaitQuery() {
+function AwaitQuery({ loaderData, actionData }: ComponentProps) {
 	const query: routeAwaitQuery_query$key = usePreloadedQuery(
-		...useLoaderData<typeof clientLoader>().NavUserListEntriesQuery
+		...loaderData!.NavUserListEntriesQuery
 	)
 	const data = useFragment(routeAwaitQuery_query, query)
 
@@ -688,6 +685,7 @@ function AwaitQuery() {
 					if (element?.type === "MediaList") {
 						return (
 							<MediaListItem
+								actionData={actionData}
 								ref={virtualizer.measureElement}
 								data-id={element.entry.id}
 								key={`${element.name}:${element.entry.id}`}
@@ -710,8 +708,7 @@ function AwaitQuery() {
 	)
 }
 
-export function ErrorBoundary(): ReactNode {
-	const error = useRouteError()
+export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
 	const location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`

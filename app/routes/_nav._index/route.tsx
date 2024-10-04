@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { useLoaderData, type ClientLoaderFunction } from "react-router"
 import type { routeMediaCarouselItem_media$key } from "~/gql/routeMediaCarouselItem_media.graphql"
 import type { routeNavIndexQuery } from "~/gql/routeNavIndexQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
@@ -10,6 +9,7 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
 import MaterialSymbolsArrowForward from "~icons/material-symbols/arrow-forward"
+import type Route from "./+types.route"
 
 const { graphql } = ReactRelay
 
@@ -40,7 +40,7 @@ function MediaCarouselItem(props: { media: routeMediaCarouselItem_media$key }) {
 	)
 }
 
-export const clientLoader = (async () => {
+export const clientLoader = async () => {
 	const data = await client_operation<routeNavIndexQuery>(
 		graphql`
 			query routeNavIndexQuery @raw_response_type {
@@ -56,11 +56,11 @@ export const clientLoader = (async () => {
 	)
 
 	return data
-}) satisfies ClientLoaderFunction
+}
 
-export default function NavIndexRoute(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function NavIndexRoute({
+	loaderData: data,
+}: Route.ComponentProps): ReactNode {
 	return (
 		<M3.LayoutBody>
 			<M3.LayoutPane>

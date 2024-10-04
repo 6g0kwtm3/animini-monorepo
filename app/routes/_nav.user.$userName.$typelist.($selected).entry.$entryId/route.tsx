@@ -1,21 +1,18 @@
 import { type ReactNode } from "react"
-import {
-	json,
-	useLoaderData,
-	type ClientLoaderFunction,
-	type ShouldRevalidateFunction,
-} from "react-router"
+import { json, type ShouldRevalidateFunction } from "react-router"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 import type { routeNavUserListEntryQuery } from "~/gql/routeNavUserListEntryQuery.graphql"
 import { M3 } from "~/lib/components"
 import { MediaCover } from "~/lib/entry/MediaCover"
+import type Route from "./+types.route"
 
 import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 import type { routeSidePanel_entry$key } from "~/gql/routeSidePanel_entry.graphql"
 import { Ariakit } from "~/lib/ariakit"
 import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
+import type { ErrorBoundaryProps } from "./+types.route"
 
 const { graphql } = ReactRelay
 
@@ -26,7 +23,7 @@ const Params = Schema.Struct({
 	entryId: Schema.NumberFromString,
 })
 
-export const clientLoader = (async (args) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
 
 	const variables = {
@@ -46,7 +43,7 @@ export const clientLoader = (async (args) => {
 	)
 
 	return { routeNavUserListEntryQuery: data }
-}) satisfies ClientLoaderFunction
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -83,10 +80,8 @@ const SidePanel_entry = graphql`
 	}
 `
 
-function SidePanel(): ReactNode {
-	const data = usePreloadedQuery(
-		...useLoaderData<typeof clientLoader>().routeNavUserListEntryQuery
-	)
+function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = usePreloadedQuery(...loaderData!.routeNavUserListEntryQuery)
 
 	if (!data?.MediaList) {
 		throw json("Data not found", { status: 404 })
@@ -104,9 +99,11 @@ function SidePanel(): ReactNode {
 				variant="elevated"
 				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 			>
-				<MediaCover media={entry.media} className="mb-4 rounded-lg" />
+				{entry.media && (
+					<MediaCover media={entry.media} className="mb-4 rounded-lg" />
+				)}
 				<M3.CardHeader className="text-xl mb-2 font-bold">
-					<Ariakit.Heading>{entry.media.title.userPreferred}</Ariakit.Heading>
+					<Ariakit.Heading>{entry.media?.title?.userPreferred}</Ariakit.Heading>
 				</M3.CardHeader>
 				<div>
 					<strong>Status:</strong> {entry.status}
@@ -135,11 +132,11 @@ function SidePanel(): ReactNode {
 	)
 }
 
-export default function Route(): ReactNode {
-	return <ExtraOutlets side={<SidePanel />} />
+export default function SidePanelRoute(props: Route.ComponentProps): ReactNode {
+	return <ExtraOutlets side={<SidePanel {...props} />} />
 }
 
-function SidePanelErrorBoundary() {
+function SidePanelErrorBoundary({}: ErrorBoundaryProps) {
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">
 			<M3.Card variant="elevated" className="p-4">
@@ -149,6 +146,6 @@ function SidePanelErrorBoundary() {
 	)
 }
 
-export function ErrorBoundary(): ReactNode {
-	return <ExtraOutlets side={<SidePanelErrorBoundary />} />
+export function ErrorBoundary(props: ErrorBoundaryProps): ReactNode {
+	return <ExtraOutlets side={<SidePanelErrorBoundary {...props} />} />
 }

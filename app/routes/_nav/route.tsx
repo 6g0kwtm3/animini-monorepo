@@ -3,12 +3,10 @@ import {
 	Link,
 	Outlet,
 	useLocation,
-	useRouteLoaderData,
-	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
 
-import { type clientLoader as rootLoader } from "~/root"
+import type Route from "./+types.route"
 
 import {
 	Navigation,
@@ -43,6 +41,7 @@ import { NavigationItem } from "./NavigationItem"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
+import { useRoot } from "~/lib/RootProvider"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
@@ -53,13 +52,13 @@ const RouteNavTrendingQuery = graphql`
 	}
 `
 
-export const clientLoader = ((args) => {
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
 
 	return {
 		RouteNavTrendingQuery: data,
 	}
-}) satisfies ClientLoaderFunction
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -71,10 +70,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export default function NavRoute(): ReactNode {
-	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
-	)
+export default function NavRoute(props: Route.ComponentProps): ReactNode {
+	const root = usePreloadedQuery(...useRoot()!.rootQuery)
 
 	const { pathname } = useLocation()
 
@@ -195,7 +192,7 @@ export default function NavRoute(): ReactNode {
 			</Navigation>
 
 			<Outlet />
-			<Search />
+			<Search {...props} />
 		</Layout>
 	)
 }

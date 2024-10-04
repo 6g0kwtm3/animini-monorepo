@@ -5,7 +5,7 @@ import {
 	RadioProvider,
 } from "@ariakit/react"
 
-import { Form, useLoaderData, useLocation, useSubmit } from "react-router"
+import { Form, useLocation, useSubmit } from "react-router"
 
 import type { ReactNode } from "react"
 import { Button as ButtonText } from "~/components/Button"
@@ -18,6 +18,7 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
 import { usePreloadedQuery } from "~/lib/Network"
+import type { ComponentProps } from "./+types.route"
 import {
 	ANIME_FORMAT_OPTIONS,
 	ANIME_PROGRESS_OPTIONS,
@@ -28,19 +29,14 @@ import {
 	MANGA_SORT_OPTIONS,
 	MANGA_STATUS_OPTIONS,
 } from "./options"
-import type { clientLoader } from "./route"
 
-export function SidePanel(): ReactNode {
+export function SidePanel({ params, loaderData }: ComponentProps): ReactNode {
 	const submit = useSubmit()
 
 	const searchParams = useOptimisticSearchParams()
 	const { pathname } = useLocation()
 
-	const { params } = useLoaderData<typeof clientLoader>()
-
-	const data = usePreloadedQuery(
-		...useLoaderData<typeof clientLoader>().routeNavUserListQuery
-	)
+	const data = usePreloadedQuery(...loaderData!.routeNavUserListQuery)
 
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">

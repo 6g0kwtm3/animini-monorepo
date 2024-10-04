@@ -351,7 +351,7 @@ export const handlers = [
 		({ variables }) => {
 			return HttpResponse.json({
 				data: {
-					User: {
+					user: {
 						id: hashCode(variables.userName),
 						name: variables.userName,
 						about: null,

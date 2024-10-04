@@ -7,7 +7,6 @@ import {
 	ListItemImg,
 	ListItemTrailingSupportingText,
 } from "~/components/List"
-import type { clientLoader } from "./route"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
@@ -20,6 +19,7 @@ import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+import type { LoaderData } from "./+types.route"
 
 const { graphql } = ReactRelay
 
@@ -43,7 +43,7 @@ export function Airing(props: {
 		`,
 		props.notification
 	)
-	const data = useLoaderData<typeof clientLoader>()
+	const data = useLoaderData() as LoaderData
 
 	const list = use(ListContext)
 

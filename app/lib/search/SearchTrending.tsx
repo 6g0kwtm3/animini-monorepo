@@ -16,9 +16,8 @@ import { useFragment, usePreloadedQuery } from "../Network"
 import { createList, ListContext } from "../list"
 
 import ReactRelay, { type PreloadedQuery } from "react-relay"
-import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
-import type {} from "~/gql/SearchTrendingQuery.graphql"
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
+import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
 
 const { graphql } = ReactRelay
 

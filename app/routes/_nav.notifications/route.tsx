@@ -1,14 +1,9 @@
 import ReactRelay from "react-relay"
 
 import { useTooltipStore } from "@ariakit/react"
-import type { ActionFunction, MetaFunction } from "react-router"
 import { Effect, pipe } from "effect"
-import {
-	Form,
-	redirect,
-	useLoaderData,
-	type ClientLoaderFunction,
-} from "react-router"
+import type { ActionFunction, MetaFunction } from "react-router"
+import { Form, redirect } from "react-router"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
@@ -34,10 +29,11 @@ import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
 import type { routeNavNotificationsUpdateQuery } from "~/gql/routeNavNotificationsUpdateQuery.graphql"
+import type Route from "./+types.route"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = (async () => {
+export const clientLoader = async () => {
 	return pipe(
 		Effect.gen(function* () {
 			const client = yield* EffectUrql
@@ -60,7 +56,7 @@ export const clientLoader = (async () => {
 		Effect.provide(EffectUrql.Live),
 		Remix.runLoader
 	)
-}) satisfies ClientLoaderFunction
+}
 
 export const clientAction = (async () => {
 	return pipe(
@@ -102,9 +98,9 @@ export const clientAction = (async () => {
 	)
 }) satisfies ActionFunction
 
-export default function Notifications(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function Notifications({
+	loaderData: data,
+}: Route.ComponentProps): ReactNode {
 	const key: routeNavNotifications_query$key | undefined = data
 
 	const query = useFragment(

@@ -1,6 +1,6 @@
 import { Group, GroupLabel } from "@ariakit/react"
 
-import { useLoaderData, useParams } from "react-router"
+import { useParams } from "react-router"
 
 import type { ReactNode } from "react"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
@@ -13,11 +13,11 @@ import { Ariakit } from "~/lib/ariakit"
 import { createList, ListContext } from "~/lib/list"
 import { usePreloadedQuery } from "~/lib/Network"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
+import type Route from "./+types.route"
 import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
-import type { clientLoader } from "./route"
 import { LabelItem, LabelItemRadio } from "./SheetFilter"
 
-export function SheetSort(): ReactNode {
+export function SheetSort({ loaderData }: Route.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
 	const params = useParams<"typelist">()
@@ -25,9 +25,7 @@ export function SheetSort(): ReactNode {
 	const lines = "one"
 	const list = createList({ lines })
 
-	const data = usePreloadedQuery(
-		...useLoaderData<typeof clientLoader>().routeNavUserListQuery
-	)
+	const data = usePreloadedQuery(...loaderData!.routeNavUserListQuery)
 
 	return (
 		<ListContext value={list}>

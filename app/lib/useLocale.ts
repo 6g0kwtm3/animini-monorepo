@@ -1,6 +1,5 @@
-import { useRouteLoaderData } from "react-router"
 import { isAvailableLanguageTag } from "~/paraglide/runtime"
-import type { clientLoader as rootLoader } from "~/root"
+import { useRoot } from "./RootProvider"
 
 const rtlLngs = [
 	"ar",
@@ -71,7 +70,7 @@ export function useLocale(): {
 	readonly locale: "en" | "ja"
 	readonly dir: "rtl" | "ltr"
 } {
-	const acceptLanguage = useRouteLoaderData<typeof rootLoader>("root")?.language
+	const acceptLanguage = useRoot()?.language
 
 	const locales =
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []

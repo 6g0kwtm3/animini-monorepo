@@ -3,20 +3,18 @@ import {
 	isRouteErrorResponse,
 	Link,
 	Outlet,
-	useLoaderData,
 	useLocation,
 	useParams,
-	useRouteError,
 	useSearchParams,
 	useSubmit,
-	type ClientLoaderFunction,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
 import { Order } from "effect"
 import { type ReactNode } from "react"
 import { Card } from "~/components/Card"
 import { TabsList, TabsListItem } from "~/components/Tabs"
+import type Route from "./+types.route"
 
 import { Ariakit } from "~/lib/ariakit"
 
@@ -39,7 +37,9 @@ import {
 import { Schema } from "@effect/schema"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import type { ErrorBoundaryProps } from "./+types.route"
 import { Sheet } from "./Sheet"
+
 const { graphql } = ReactRelay
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -57,26 +57,23 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export const clientLoader = ((args) => {
-	const params = Schema.decodeUnknownSync(
-		Schema.Struct({
-			userName: Schema.String,
-			typelist: Schema.Literal("animelist", "mangalist"),
-		})
-	)(args.params)
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
+	const typelist = Schema.decodeUnknownSync(
+		Schema.Literal("animelist", "mangalist")
+	)(args.params.typelist)
 
 	const data = loadQuery<routeNavUserListQuery>(RouteNavUserListQuery, {
-		userName: params.userName,
+		userName: args.params.userName,
 		type: (
 			{
 				animelist: "ANIME",
 				mangalist: "MANGA",
 			} as const
-		)[params.typelist],
+		)[typelist],
 	})
 
-	return { routeNavUserListQuery: data, params }
-}) satisfies ClientLoaderFunction
+	return { routeNavUserListQuery: data, typelist }
+}
 
 const RouteNavUserListQuery = graphql`
 	query routeNavUserListQuery($userName: String!, $type: MediaType!)
@@ -102,7 +99,7 @@ const RouteNavUserListQuery = graphql`
 	}
 `
 
-function Actions(): ReactNode {
+function Actions(props: Route.ComponentProps): ReactNode {
 	return (
 		<>
 			<M3.Icon label="Filter">
@@ -116,9 +113,7 @@ function Actions(): ReactNode {
 	)
 }
 
-function Title(): ReactNode {
-	const { params } = useLoaderData<typeof clientLoader>()!
-
+function Title({ params }: Route.ComponentProps): ReactNode {
 	return (
 		<>
 			{" | "}
@@ -127,18 +122,18 @@ function Title(): ReactNode {
 	)
 }
 
-export default function Route(): ReactNode {
+export default function Index(props: Route.ComponentProps): ReactNode {
 	const params = useParams()
 	const submit = useSubmit()
 	const [searchParams] = useSearchParams()
 	const { pathname } = useLocation()
 
 	return (
-		<ExtraOutlets title={<Title />} actions={<Actions />}>
+		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
 			<div className="flex flex-col gap-4">
 				<M3.Tabs selectedId={params.selected}>
 					<div className="sticky top-16 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
-						<ListTabs />
+						<ListTabs {...props} />
 					</div>
 					<M3.TabsPanel
 						render={<search />}
@@ -161,16 +156,13 @@ export default function Route(): ReactNode {
 					</M3.TabsPanel>
 				</M3.Tabs>
 			</div>
-			<Sheet />
+			<Sheet {...props} />
 		</ExtraOutlets>
 	)
 }
 
-function ListTabs() {
-	const { params } = useLoaderData<typeof clientLoader>()
-	const data = usePreloadedQuery(
-		...useLoaderData<typeof clientLoader>().routeNavUserListQuery
-	)
+function ListTabs({ params, loaderData }: Route.ComponentProps) {
+	const data = usePreloadedQuery(...loaderData!.routeNavUserListQuery)
 
 	const options = Object.fromEntries(
 		data.MediaListCollection?.user?.mediaListOptions?.[
@@ -179,7 +171,7 @@ function ListTabs() {
 					animelist: "animeList",
 					mangalist: "mangaList",
 				} as const
-			)[params.typelist]
+			)[loaderData!.typelist]
 		]?.sectionOrder?.map((key, index) => [key, index]) ?? []
 	)
 
@@ -272,8 +264,8 @@ export type ReadonlyURLSearchParams = Omit<
 	"set" | "append" | "delete" | "sort"
 >
 
-export function ErrorBoundary(): ReactNode {
-	const error = useRouteError()
+export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
+ 
 	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`

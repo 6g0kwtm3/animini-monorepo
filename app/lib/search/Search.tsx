@@ -29,10 +29,13 @@ import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 import { useOptimisticSearchParams } from "./useOptimisticSearchParams"
 
-export function Search(): ReactNode {
+import SearchRoute from "../../routes/_nav.search/+types.route"
+import NavRoute from "../../routes/_nav/+types.route"
+
+export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
-	const submit = useFetcher<typeof searchLoader>()
+	const submit = useFetcher<SearchRoute.LoaderData>()
 
 	let ref = useRef<ComponentRef<"input">>(null)
 
@@ -59,8 +62,6 @@ export function Search(): ReactNode {
 	}, [navigate, sheetParams])
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
-
-	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
 	const list = createList({ lines: "one" })
 
@@ -112,9 +113,9 @@ export function Search(): ReactNode {
 							</ListContext>
 						</SearchViewBodyGroup>
 					</SearchViewBody>
-				) : data ? (
+				) : loaderData!.RouteNavTrendingQuery ? (
 					<Suspense fallback="">
-						<SearchTrending query={data.RouteNavTrendingQuery} />
+						<SearchTrending query={loaderData!.RouteNavTrendingQuery} />
 					</Suspense>
 				) : null}
 			</Form>

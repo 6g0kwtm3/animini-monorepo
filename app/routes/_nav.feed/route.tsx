@@ -1,8 +1,4 @@
-import {
-	useLoaderData,
-	type ClientLoaderFunction,
-	type MetaFunction,
-} from "react-router"
+import { type MetaFunction } from "react-router"
 
 import {
 	Predicate,
@@ -37,6 +33,7 @@ import type { Options } from "./Markdown"
 import { Markdown } from "./Markdown"
 import { UserLink } from "./UserLink"
 
+import type Route from "./+types.route"
 import { MediaLink } from "./MediaLink"
 
 const { graphql } = ReactRelay
@@ -115,7 +112,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 }
 
-export const clientLoader = (async () => {
+export const clientLoader = async () => {
 	const page = await getPage()
 
 	const ids =
@@ -132,12 +129,14 @@ export const clientLoader = (async () => {
 			? getMedia({ ids: ids })
 			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
-}) satisfies ClientLoaderFunction
+}
 
-export default function Index(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function Index({
+	loaderData: data,
+}: Route.ComponentProps): ReactNode {
 	const list = createList({ lines: "two" })
+
+	if (!data) return null
 
 	return (
 		<LayoutBody>
@@ -146,7 +145,7 @@ export default function Index(): ReactNode {
 					{data.page?.activities
 						?.filter((el) => el != null)
 						.map((activity) => {
-							if (activity.__typename === "TextActivity") {
+							if (activity?.__typename === "TextActivity") {
 								return (
 									<li
 										key={activity.id}

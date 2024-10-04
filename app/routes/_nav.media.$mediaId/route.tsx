@@ -1,10 +1,7 @@
 import {
 	Link,
 	Outlet,
-	useLoaderData,
 	useParams,
-	useRouteLoaderData,
-	type ClientLoaderFunction,
 	type MetaArgs,
 	type MetaFunction,
 	type ShouldRevalidateFunction,
@@ -30,7 +27,6 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
-import { type clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
 import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
@@ -53,11 +49,13 @@ import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { usePreloadedQuery } from "~/lib/Network"
+import { useRoot } from "~/lib/RootProvider"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
+import type Route from "./+types.route"
 const { graphql } = ReactRelay
 
-export const clientLoader = (async (args) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const client = client_get_client()
 
 	const data = await client.operation<routeNavMediaQuery>(
@@ -95,7 +93,7 @@ export const clientLoader = (async (args) => {
 			? getThemeFromHex(data.Media.coverImage.color)
 			: {},
 	}
-}) satisfies ClientLoaderFunction
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -118,9 +116,10 @@ export const meta = ({
 	return [{ title: `Media - ${data?.Media?.title.userPreferred}` }]
 }
 
-export default function Page(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function MediaPage({
+	loaderData: data,
+}: Route.ComponentProps): ReactNode {
+	if (!data) return null
 	return (
 		<LayoutBody
 			style={data.theme}
@@ -256,9 +255,7 @@ function Edit() {
 
 	const store = useTooltipStore()
 
-	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
-	)
+	const root = usePreloadedQuery(...useRoot()!.rootQuery)
 
 	return (
 		<div

@@ -1,13 +1,14 @@
 import { Schema } from "@effect/schema"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { useActionData, type ClientActionFunction } from "react-router"
+import { type ClientActionFunction } from "react-router"
 import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
 
 import { Ariakit } from "~/lib/ariakit"
 
 import { client_get_client } from "~/lib/client"
 import { m } from "~/lib/paraglide"
+import type { ComponentProps } from "./+types.route"
 const { graphql } = ReactRelay
 
 const UserFollow = graphql`
@@ -40,9 +41,7 @@ export const clientAction = (async (args) => {
 	return { ToggleFollow: data.ToggleFollow }
 }) satisfies ClientActionFunction
 
-export default function Page(): ReactNode {
-	const data = useActionData<typeof clientAction>()
-
+export default function Page({ actionData: data }: ComponentProps): ReactNode {
 	return (
 		<main>
 			{data ? (

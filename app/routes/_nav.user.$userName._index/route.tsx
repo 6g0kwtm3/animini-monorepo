@@ -2,13 +2,10 @@ import type { MetaFunction } from "react-router"
 
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import {
-	useLoaderData,
-	type ClientLoaderFunction,
-	type ShouldRevalidateFunction,
-} from "react-router"
+import { type ShouldRevalidateFunction } from "react-router"
 
 import { client_operation } from "~/lib/client"
+import type Route from "./+types.route"
 
 import type { routeNavUserIndexQuery } from "~/gql/routeNavUserIndexQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
@@ -23,7 +20,7 @@ import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = (async (args) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
 	const data = await client_operation<routeNavUserIndexQuery>(
@@ -45,7 +42,7 @@ export const clientLoader = (async (args) => {
 	}
 
 	return { user: data.User }
-}) satisfies ClientLoaderFunction
+}
 
 export const meta = (({ params }) => {
 	return [
@@ -67,9 +64,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-function SidePanel(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+function SidePanel({ loaderData: data }: Route.ComponentProps): ReactNode {
 	return (
 		<M3.LayoutPane variant={"fixed"} className="max-xl:hidden">
 			<M3.Card
@@ -77,7 +72,7 @@ function SidePanel(): ReactNode {
 				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 			>
 				<Ariakit.Heading>About me</Ariakit.Heading>
-				{data.user.about && (
+				{data?.user.about && (
 					<Markdown options={options}>{data.user.about}</Markdown>
 				)}
 			</M3.Card>
@@ -91,12 +86,14 @@ function params() {
 	})
 }
 
-export default function Route(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function SidePanelRoute(props: Route.ComponentProps): ReactNode {
 	return (
-		<ExtraOutlets side={<SidePanel />} title=" | Overview" actions={<></>}>
-			<>{JSON.stringify(data)}</>
+		<ExtraOutlets
+			side={<SidePanel {...props} />}
+			title=" | Overview"
+			actions={<></>}
+		>
+			<>{JSON.stringify(props.loaderData)}</>
 		</ExtraOutlets>
 	)
 }

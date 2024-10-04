@@ -9,10 +9,11 @@ import { M3 } from "~/lib/components"
 import { copySearchParams } from "~/lib/copySearchParams"
 
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
+import type { ComponentProps } from "./+types.route"
 import { SheetFilter } from "./SheetFilter"
 import { SheetSort } from "./SheetSort"
 
-export function Sheet(): ReactNode {
+export function Sheet(props: ComponentProps): ReactNode {
 	let { pathname } = useLocation()
 
 	const navigate = useNavigate()
@@ -69,8 +70,8 @@ export function Sheet(): ReactNode {
 					>
 						{sheet && <input type="hidden" name="sheet" value={sheet} />}
 						<M3.TabsPanel tabId={sheet}>
-							{filter && <SheetFilter />}
-							{sort && <SheetSort />}
+							{filter && <SheetFilter {...props} />}
+							{sort && <SheetSort {...props} />}
 						</M3.TabsPanel>
 					</Form>
 				</SheetBody>

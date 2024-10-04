@@ -1,10 +1,4 @@
-import {
-	Link,
-	useLocation,
-	useNavigate,
-	useParams,
-	useRouteLoaderData,
-} from "react-router"
+import { Link, useLocation, useNavigate, useParams } from "react-router"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -42,29 +36,19 @@ import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
 import { useFragment, usePreloadedQuery } from "../Network"
 
-import { type clientLoader as rootLoader } from "~/root"
-
-import type { MediaListItemSort_entry$key } from "~/gql/MediaListItemSort_entry.graphql"
-
 import { TouchTarget } from "~/components"
 import type { MediaListItemInfo_entry$key } from "~/gql/MediaListItemInfo_entry.graphql"
 import type { MediaListItemScore_entry$key } from "~/gql/MediaListItemScore_entry.graphql"
 import type { MediaListItemScore_user$key } from "~/gql/MediaListItemScore_user.graphql"
-import type { MediaListItemSort_user$key } from "~/gql/MediaListItemSort_user.graphql"
-import { sourceLanguageTag } from "~/paraglide/runtime"
-import type { clientLoader } from "~/routes/_nav.user.$userName.$typelist/route"
-import MaterialSymbolsArrowDownward from "~icons/material-symbols/arrow-downward"
 import MaterialSymbolsInfoOutline from "~icons/material-symbols/info-outline"
 import { btnIcon, button } from "../button"
-import { MediaListSort } from "../MediaListSort"
-import {
-	useOptimisticLocation,
-	useOptimisticSearchParams,
-} from "../search/useOptimisticSearchParams"
+import { useOptimisticLocation } from "../search/useOptimisticSearchParams"
 
 import MaterialSymbolsSentimentNeutralOutline from "~icons/material-symbols/sentiment-neutral-outline"
 import MaterialSymbolsSentimentSatisfiedOutline from "~icons/material-symbols/sentiment-satisfied-outline"
 
+import { formatDateRange } from "little-date"
+import type { MediaListItemDate_entry$key } from "~/gql/MediaListItemDate_entry.graphql"
 import MaterialSymbolsSentimentDissatisfiedOutline from "~icons/material-symbols/sentiment-dissatisfied-outline"
 
 const { graphql } = ReactRelay
@@ -78,6 +62,7 @@ const MediaListItem_entry = graphql`
 			id
 			...MediaCover_media
 		}
+		...MediaListItemDate_entry
 		...ProgressIncrement_entry
 		...Progress_entry
 		...MediaListItemTitle_entry
@@ -99,12 +84,16 @@ const MediaListItem_entry = graphql`
 // 	)
 // }
 
+import SelectedRoute from "../../routes/_nav.user.$userName.$typelist.($selected)/+types.route"
+import { useRoot } from "../RootProvider"
+
 export function MediaListItem({
 	entry,
 	user,
-
+	actionData,
 	...props
 }: ComponentProps<"li"> & {
+	actionData: SelectedRoute.ActionData | undefined
 	entry: MediaListItem_entry$key
 	user: MediaListItemScore_user$key | null | undefined
 }): ReactNode {
@@ -144,8 +133,18 @@ export function MediaListItem({
 					<ListItemContentTitle>
 						<MediaListItemTitle entry={data} />
 					</ListItemContentTitle>
-					<MediaListItemSubtitle entry={data} user={user} />
+					<MediaListItemSubtitle
+						entry={data}
+						user={user}
+						actionData={actionData}
+					/>
 				</Link>
+
+				<M3.ListItemContent className="hidden flex-[2] @xl:block">
+					<M3.ListItemContentSubtitle className="justify-start font-mono">
+						<MediaListItemDate entry={data} />
+					</M3.ListItemContentSubtitle>
+				</M3.ListItemContent>
 
 				<M3.ListItemContent className="hidden flex-1 @xl:block">
 					<M3.ListItemContentSubtitle className="justify-center font-mono">
@@ -155,16 +154,48 @@ export function MediaListItem({
 
 				<M3.ListItemContent className="hidden flex-1 @lg:block">
 					<M3.ListItemContentSubtitle className="justify-center font-mono">
-						<Progress entry={data} />
+						<Progress entry={data} actionData={actionData} />
 					</M3.ListItemContentSubtitle>
 				</M3.ListItemContent>
 
 				<div className="flex">
-					<ProgressIncrement entry={data} />
+					<ProgressIncrement entry={data} actionData={actionData} />
 					<Info entry={data} />
 				</div>
 				{/* <MoreMenu entry={data} /> */}
 			</ListItem>
+		)
+	)
+}
+
+const MediaListItemDate_entry = graphql`
+	fragment MediaListItemDate_entry on MediaList {
+		id
+		completedAt {
+			date @required(action: LOG)
+		}
+		startedAt {
+			date @required(action: LOG)
+		}
+	}
+`
+
+function MediaListItemDate(props: { entry: MediaListItemDate_entry$key }) {
+	const entry = useFragment(MediaListItemDate_entry, props.entry)
+
+	const startedAt = entry.startedAt?.date ?? entry.completedAt?.date
+	const completedAt = entry.completedAt?.date ?? entry.startedAt?.date
+
+	return (
+		startedAt &&
+		completedAt && (
+			<time dateTime="">
+				{!entry.startedAt?.date && " - "}
+				{formatDateRange(startedAt, completedAt, {
+					includeTime: false,
+				})}
+				{!entry.completedAt?.date && " - "}
+			</time>
 		)
 	)
 }
@@ -220,9 +251,7 @@ const MediaListItemInfo_entry = graphql`
 
 function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
-	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
-	)
+	const root = usePreloadedQuery(...useRoot()!.rootQuery)
 	const params = useParams()
 
 	const viewerIsUser =
@@ -355,14 +384,13 @@ const MediaListItemSubtitle_entry = graphql`
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
 	user: MediaListItemScore_user$key | null | undefined
+	actionData: SelectedRoute.ActionData | undefined
 }): ReactNode {
 	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
 
 	const watch = entry.toWatch
 
-	const root = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
-	)
+	const root = usePreloadedQuery(...useRoot()!.rootQuery)
 
 	const params = useParams()
 
@@ -384,7 +412,12 @@ function MediaListItemSubtitle(props: {
 				}
 			>
 				<div className="@lg:hidden">
-					Progress: <Progress className="font-mono" entry={entry} />
+					Progress:{" "}
+					<Progress
+						className="font-mono"
+						entry={entry}
+						actionData={props.actionData}
+					/>
 				</div>
 			</div>
 			{entry.media?.type === ("ANIME" satisfies MediaType) &&

@@ -1,7 +1,5 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 
-import { useParams } from "react-router"
-
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"
 
@@ -17,6 +15,7 @@ import {
 } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { subheader } from "~/components/subheader"
+import type Route from "./+types.route"
 import {
 	ANIME_FORMAT_OPTIONS,
 	ANIME_PROGRESS_OPTIONS,
@@ -26,10 +25,8 @@ import {
 	MANGA_STATUS_OPTIONS,
 } from "./options"
 
-export function SheetFilter(): ReactNode {
+export function SheetFilter({ params }: Route.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()
-
-	const params = useParams<"typelist">()
 
 	const lines = "one"
 

@@ -8,13 +8,11 @@ import {
 	ScrollRestoration,
 	useLocation,
 	useRevalidator,
-	useRouteError,
-	type ClientLoaderFunction,
+	type LinksFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
+import type Route from "./+types.root"
 import { SnackbarQueue } from "./components/Snackbar"
-
-import { type LinksFunction } from "react-router"
 
 import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
@@ -31,6 +29,8 @@ import { button } from "./lib/button"
 import type { rootQuery } from "~/gql/rootQuery.graphql"
 
 import ReactRelay from "react-relay"
+import type { ComponentProps, ErrorBoundaryProps } from "./+types.root"
+import { RootProvider } from "./lib/RootProvider"
 
 const { graphql } = ReactRelay
 
@@ -67,7 +67,7 @@ const RootQuery = graphql`
 	}
 `
 
-export const clientLoader = ((args) => {
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const rootQuery = loadQuery<rootQuery>(RootQuery, {})
 
 	return {
@@ -75,7 +75,7 @@ export const clientLoader = ((args) => {
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}
-}) satisfies ClientLoaderFunction
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	formAction,
@@ -142,17 +142,16 @@ function useOnFocus(callback: () => void) {
 	}, [callback])
 }
 
-export default function App(): ReactNode {
+export default function App({ loaderData }: ComponentProps): ReactNode {
 	return (
-		<>
+		<RootProvider value={loaderData}>
 			{import.meta.env.PROD && <RevalidateOnFocus />}
 			<Outlet />
-		</>
+		</RootProvider>
 	)
 }
 
-export function ErrorBoundary(): ReactNode {
-	const error = useRouteError()
+export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
 	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`

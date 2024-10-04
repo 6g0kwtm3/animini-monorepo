@@ -3,15 +3,11 @@ import type { ComponentProps, ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
 	Form,
-	useActionData,
 	useNavigation,
 	useParams,
-	useRouteLoaderData,
-	useSearchParams,
+	useSearchParams
 } from "react-router"
 
-import { type clientLoader as rootLoader } from "~/root"
-import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist.($selected)/route"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"
@@ -27,6 +23,7 @@ import type { ProgressShareMedia_media$key } from "~/gql/ProgressShareMedia_medi
 import type { ProgressTooltip_media$key } from "~/gql/ProgressTooltip_media.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
 import { btnIcon } from "../button"
+import { useRoot } from "../RootProvider"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
@@ -41,19 +38,19 @@ const ProgressIncrement_entry = graphql`
 	}
 `
 
+import SelectedRoute from "../../routes/_nav.user.$userName.$typelist.($selected)/+types.route"
+
 export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key
+	actionData: SelectedRoute.ActionData | undefined
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
-	const data = usePreloadedQuery(
-		...useRouteLoaderData<typeof rootLoader>("root")!.rootQuery
-	)
+	const data = usePreloadedQuery(...useRoot()!.rootQuery)
 	const params = useParams()
-	const actionData = useActionData<typeof selectedAction>()
 	const navigation = useNavigation()
 
 	const optimisticEntry =
-		actionData?.SaveMediaListEntry ??
+		props.actionData?.SaveMediaListEntry ??
 		Object.fromEntries(navigation.formData ?? new FormData())
 
 	const [search] = useSearchParams()
@@ -74,7 +71,7 @@ export function ProgressIncrement(props: {
 				<input type="hidden" name="intent" value="increment" />
 
 				<M3.Button type="submit" className={"hidden @lg:inline-flex"}>
-					<Progress entry={entry} />
+					<Progress entry={entry} actionData={props.actionData} />
 					<M3.ButtonIcon>
 						<MaterialSymbolsAdd />
 					</M3.ButtonIcon>
@@ -277,13 +274,14 @@ function ShareMedia(props: { media: ProgressShareMedia_media$key }): ReactNode {
 
 export function Progress({
 	entry,
+	actionData,
 	...props
 }: ComponentProps<"span"> & {
 	entry: Progress_entry$key
+	actionData: SelectedRoute.ActionData | undefined
 }): ReactNode {
 	const data = useFragment(Progress_entry, entry)
 
-	const actionData = useActionData<typeof selectedAction>()
 	const navigation = useNavigation()
 
 	const optimisticEntry =
