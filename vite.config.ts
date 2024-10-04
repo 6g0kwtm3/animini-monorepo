@@ -1,5 +1,5 @@
 import { paraglide } from "@inlang/paraglide-vite"
-import MillionLint from '@million/lint'
+import MillionLint from "@million/lint"
 import { reactRouter as remix } from "@react-router/dev/vite"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"

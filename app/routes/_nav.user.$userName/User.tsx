@@ -66,10 +66,7 @@ export function User({
 				<M3.TabsListItem
 					id="undefined"
 					render={
-						<Link
-							viewTransition
-							to={route_user({ userName: data.name })}
-						/>
+						<Link viewTransition to={route_user({ userName: data.name })} />
 					}
 				>
 					Overview
