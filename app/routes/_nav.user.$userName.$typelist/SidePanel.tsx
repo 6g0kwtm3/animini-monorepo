@@ -47,7 +47,7 @@ export function SidePanel({ params, loaderData }: ComponentProps): ReactNode {
 				<Form
 					action={pathname}
 					replace
-					onChange={(e) => submit(e.currentTarget)}
+					onChange={(e) => void submit(e.currentTarget)}
 					className="grid grid-cols-2 gap-2"
 				>
 					<CheckboxProvider value={searchParams.getAll("status")}>

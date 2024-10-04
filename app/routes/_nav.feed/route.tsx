@@ -145,7 +145,7 @@ export default function Index({
 					{data.page?.activities
 						?.filter((el) => el != null)
 						.map((activity) => {
-							if (activity?.__typename === "TextActivity") {
+							if (activity.__typename === "TextActivity") {
 								return (
 									<li
 										key={activity.id}

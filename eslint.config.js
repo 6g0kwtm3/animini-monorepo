@@ -15,6 +15,7 @@ export default tseslint.config(
 		ignores: [
 			"build",
 			"public/build",
+			"public/mockServiceWorker.js",
 			"**/schema.graphql",
 			"app/gql",
 			"playwright",

@@ -545,9 +545,9 @@ function isQuery(
 	const data = readInlineData(routeIsQuery_entry, entry)
 
 	return (
-		(query.status?.some(inRange(data?.status)) ?? true) &&
+		(query.status?.some(inRange(data.status)) ?? true) &&
 		(query.tags?.every((name) =>
-			data?.media?.tags?.some((tag) => inRange(tag?.name)(name))
+			data.media?.tags?.some((tag) => inRange(tag?.name)(name))
 		) ??
 			true) &&
 		(query.score?.every(inRange(data.score ?? 0)) ?? true) &&
@@ -556,7 +556,7 @@ function isQuery(
 	)
 }
 
-function inRange(b: number | string) {
+function inRange(b: number | string | null | undefined) {
 	return (a: string) => {
 		if (typeof b === "object") {
 			return false

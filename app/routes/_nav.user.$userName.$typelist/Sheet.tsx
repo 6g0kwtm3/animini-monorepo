@@ -39,7 +39,7 @@ export function Sheet(props: ComponentProps): ReactNode {
 			}}
 			open={filter || sort}
 			onClose={() => {
-				navigate({
+				void navigate({
 					search: `?${searchParams}`,
 				})
 			}}
@@ -66,7 +66,7 @@ export function Sheet(props: ComponentProps): ReactNode {
 					<Form
 						replace
 						action={pathname}
-						onChange={(e) => submit(e.currentTarget, {})}
+						onChange={(e) => void submit(e.currentTarget, {})}
 					>
 						{sheet && <input type="hidden" name="sheet" value={sheet} />}
 						<M3.TabsPanel tabId={sheet}>

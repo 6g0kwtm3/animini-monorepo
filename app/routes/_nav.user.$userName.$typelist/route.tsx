@@ -144,7 +144,7 @@ export default function Index(props: Route.ComponentProps): ReactNode {
 							className="px-4"
 							replace
 							action={pathname}
-							onChange={(e) => submit(e.currentTarget, {})}
+							onChange={(e) => void submit(e.currentTarget, {})}
 						>
 							<M3.FieldText
 								name="filter"
