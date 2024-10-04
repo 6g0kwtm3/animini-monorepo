@@ -1,14 +1,14 @@
-import type { NavLink } from "@remix-run/react"
-import {
-	Link,
-	unstable_useViewTransitionState,
-	useLocation,
-	useNavigation,
-	useResolvedPath,
-} from "@remix-run/react"
 import { Predicate } from "effect"
 import type { ComponentProps } from "react"
 import { forwardRef } from "react"
+import type { NavLink } from "react-router"
+import {
+	Link,
+	useViewTransitionState as unstable_useViewTransitionState,
+	useLocation,
+	useNavigation,
+	useResolvedPath,
+} from "react-router"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,

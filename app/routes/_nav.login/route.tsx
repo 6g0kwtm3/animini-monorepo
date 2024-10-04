@@ -1,10 +1,10 @@
-import type { MetaFunction } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
 import {
 	Form,
 	type ClientActionFunction,
 	type ClientLoaderFunction,
-} from "@remix-run/react"
+	redirect,
+	type MetaFunction,
+} from "react-router"
 
 import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"

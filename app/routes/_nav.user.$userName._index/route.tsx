@@ -1,16 +1,14 @@
-import type { MetaFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { MetaFunction } from "react-router"
 
+import type { ReactNode } from "react"
+import ReactRelay from "react-relay"
 import {
 	useLoaderData,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
-import type { ReactNode } from "react"
-import ReactRelay from "react-relay"
+} from "react-router"
 
 import { client_operation } from "~/lib/client"
-import { useRawLoaderData } from "~/lib/data"
 
 import type { routeNavUserIndexQuery } from "~/gql/routeNavUserIndexQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
@@ -41,7 +39,7 @@ export const clientLoader = (async (args) => {
 	)
 
 	if (!data?.User) {
-		throw json("User not found", {
+		throw Response.json("User not found", {
 			status: 404,
 		})
 	}
@@ -94,7 +92,7 @@ function params() {
 }
 
 export default function Route(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = useLoaderData<typeof clientLoader>()
 
 	return (
 		<ExtraOutlets side={<SidePanel />} title=" | Overview" actions={<></>}>

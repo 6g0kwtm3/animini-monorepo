@@ -11,10 +11,10 @@ import {
 	useSubmit,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 
 import { Order } from "effect"
-import { useId, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { Card } from "~/components/Card"
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
@@ -200,7 +200,7 @@ function ListTabs() {
 				id={"undefined"}
 				render={
 					<Link
-						unstable_viewTransition
+						viewTransition
 						to={{
 							pathname: route_user_list(params),
 							search,
@@ -219,7 +219,7 @@ function ListTabs() {
 							id={list.name}
 							render={
 								<Link
-									unstable_viewTransition
+									viewTransition
 									to={{
 										pathname: list.name,
 										search,

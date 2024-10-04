@@ -1,6 +1,6 @@
 import { Schema } from "@effect/schema"
-import {} from "@remix-run/react"
 import ReactRelay from "react-relay"
+
 import type { routeUserInfoQuery } from "~/gql/routeUserInfoQuery.graphql"
 import { client_operation } from "~/lib/client"
 const { graphql } = ReactRelay

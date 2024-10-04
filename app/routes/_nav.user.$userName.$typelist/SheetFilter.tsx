@@ -1,6 +1,6 @@
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 
-import { useParams } from "@remix-run/react"
+import { useParams } from "react-router"
 
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"

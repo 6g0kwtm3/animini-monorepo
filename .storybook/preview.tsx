@@ -2,7 +2,12 @@ import { DecoratorHelpers } from "@storybook/addon-themes"
 import { type Decorator, type Preview } from "@storybook/react"
 import { useEffect } from "storybook/internal/preview-api"
 
-import { createRemixStub, type RemixStubProps } from "@remix-run/testing"
+import {
+	createStub as createRemixStub,
+	route,
+	type StubProps as RemixStubProps,
+} from "react-router/testing"
+
 import "./tailwind.css"
 const { initializeThemeState, pluckThemeFromContext, useThemeParameters } =
 	DecoratorHelpers
@@ -71,10 +76,9 @@ const withRouter: Decorator = (Story, context) => {
 		typeof routes === "function"
 			? routes(Story)
 			: [
-					{
-						path: "*",
+					route("*", {
 						Component: Story,
-					},
+					}),
 				]
 	)
 

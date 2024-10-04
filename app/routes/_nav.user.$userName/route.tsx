@@ -1,5 +1,6 @@
 import { Schema } from "@effect/schema"
-import { json } from "@remix-run/node"
+
+import { type ReactNode } from "react"
 import {
 	Form,
 	Link,
@@ -11,8 +12,7 @@ import {
 	useRouteLoaderData,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
-import { type ReactNode } from "react"
+} from "react-router"
 
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
@@ -83,7 +83,7 @@ export default function Page(): ReactNode {
 	)
 
 	if (!data.user) {
-		throw json("User not found", {
+		throw Response.json("User not found", {
 			status: 404,
 		})
 	}

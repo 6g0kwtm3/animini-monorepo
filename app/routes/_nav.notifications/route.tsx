@@ -1,14 +1,14 @@
 import ReactRelay from "react-relay"
 
 import { useTooltipStore } from "@ariakit/react"
-import type { ActionFunction, MetaFunction } from "@remix-run/node"
+import type { ActionFunction, MetaFunction } from "react-router"
+import { Effect, pipe } from "effect"
 import {
 	Form,
 	redirect,
 	useLoaderData,
 	type ClientLoaderFunction,
-} from "@remix-run/react"
-import { Effect, pipe } from "effect"
+} from "react-router"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"

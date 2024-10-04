@@ -1,4 +1,4 @@
-import { type ClientLoaderFunctionArgs, type Params } from "@remix-run/react"
+import { type ClientLoaderFunctionArgs, type Params } from "react-router"
 
 import { Context, Effect, Layer } from "effect"
 

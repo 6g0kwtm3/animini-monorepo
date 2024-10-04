@@ -1,3 +1,4 @@
+import ReactRelay from "react-relay"
 import {
 	Link,
 	Outlet,
@@ -5,8 +6,7 @@ import {
 	useRouteLoaderData,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
-import ReactRelay from "react-relay"
+} from "react-router"
 
 import { type clientLoader as rootLoader } from "~/root"
 

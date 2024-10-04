@@ -1,5 +1,5 @@
-import { Link } from "@remix-run/react"
 import type { ComponentProps, ReactNode } from "react"
+import { Link } from "react-router"
 
 import { M3 } from "~/lib/components"
 import { useFragment } from "~/lib/Network"
@@ -67,7 +67,7 @@ export function User({
 					id="undefined"
 					render={
 						<Link
-							unstable_viewTransition
+							viewTransition
 							to={route_user({ userName: data.name })}
 						/>
 					}
@@ -78,7 +78,7 @@ export function User({
 					id="animelist"
 					render={
 						<Link
-							unstable_viewTransition
+							viewTransition
 							to={route_user_list({
 								userName: data.name,
 								typelist: "animelist",
@@ -92,7 +92,7 @@ export function User({
 					id="mangalist"
 					render={
 						<Link
-							unstable_viewTransition
+							viewTransition
 							to={route_user_list({
 								userName: data.name,
 								typelist: "mangalist",
@@ -102,19 +102,19 @@ export function User({
 				>
 					Manga List
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+				<M3.TabsListItem render={<Link viewTransition to={""} />}>
 					Favorites
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+				<M3.TabsListItem render={<Link viewTransition to={""} />}>
 					Stats
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+				<M3.TabsListItem render={<Link viewTransition to={""} />}>
 					Social
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+				<M3.TabsListItem render={<Link viewTransition to={""} />}>
 					Reviews
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link unstable_viewTransition to={""} />}>
+				<M3.TabsListItem render={<Link viewTransition to={""} />}>
 					Submissions
 				</M3.TabsListItem>
 			</M3.TabsList>

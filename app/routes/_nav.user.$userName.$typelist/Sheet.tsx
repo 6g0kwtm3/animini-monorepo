@@ -1,10 +1,4 @@
-import {
-	Form,
-	Link,
-	useLocation,
-	useNavigate,
-	useSubmit,
-} from "@remix-run/react"
+import { Form, Link, useLocation, useNavigate, useSubmit } from "react-router"
 
 import type { ReactNode } from "react"
 import { SheetBody } from "~/components/Sheet"
@@ -54,14 +48,14 @@ export function Sheet(): ReactNode {
 					<TabsListItem
 						id="filter"
 						className="rounded-ss-xl"
-						render={<Link unstable_viewTransition to={`?${filterParams}`} />}
+						render={<Link viewTransition to={`?${filterParams}`} />}
 					>
 						Filter
 					</TabsListItem>
 					<TabsListItem
 						id="sort"
 						className="rounded-se-xl xl:rounded-none"
-						render={<Link unstable_viewTransition to={`?${sortParams}`} />}
+						render={<Link viewTransition to={`?${sortParams}`} />}
 					>
 						Sort
 					</TabsListItem>

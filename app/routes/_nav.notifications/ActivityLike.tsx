@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react"
+import { Link, useLoaderData } from "react-router"
 
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
@@ -10,7 +10,6 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
-import { useRawLoaderData } from "~/lib/data"
 import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
@@ -40,7 +39,7 @@ export function ActivityLike(props: {
 		`,
 		props.notification
 	)
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = useLoaderData<typeof clientLoader>()
 
 	const list = use(ListContext)
 

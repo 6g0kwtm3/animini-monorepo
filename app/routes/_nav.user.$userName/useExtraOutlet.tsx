@@ -1,5 +1,5 @@
-import { useOutlet } from "@remix-run/react"
 import { type ReactNode } from "react"
+import { useOutlet } from "react-router"
 import { ExtraOutletContext } from "./ExtraOutlet"
 
 export function useExtraOutlet(id: string, context?: unknown): ReactNode {

@@ -1,5 +1,5 @@
-import { Link } from "@remix-run/react"
 import ReactRelay from "react-relay"
+import { Link, useLoaderData } from "react-router"
 import {
 	ListItemContent,
 	ListItemContentSubtitle,
@@ -9,7 +9,6 @@ import {
 } from "~/components/List"
 import type { clientLoader } from "./route"
 
-import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
@@ -44,7 +43,7 @@ export function Airing(props: {
 		`,
 		props.notification
 	)
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = useLoaderData<typeof clientLoader>()
 
 	const list = use(ListContext)
 

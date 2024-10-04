@@ -4,7 +4,7 @@ import {
 	useNavigate,
 	useParams,
 	useRouteLoaderData,
-} from "@remix-run/react"
+} from "react-router"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"

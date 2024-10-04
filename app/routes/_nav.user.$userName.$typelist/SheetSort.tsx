@@ -1,6 +1,6 @@
 import { Group, GroupLabel } from "@ariakit/react"
 
-import { useLoaderData, useParams } from "@remix-run/react"
+import { useLoaderData, useParams } from "react-router"
 
 import type { ReactNode } from "react"
 import { ListItemContent, ListItemContentTitle } from "~/components/List"

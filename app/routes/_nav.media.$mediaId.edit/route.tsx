@@ -3,13 +3,13 @@
 // 	useActionData,
 // 	useNavigate,
 // 	useNavigation
-// } from "@remix-run/react"
+// } from "react-router"
 // import {
 // 	json,
 // 	redirect,
 // 	type ActionFunction,
 // 	type LoaderFunction
-// } from "@remix-run/node"
+// } from "@react-router/node"
 // import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 // import {
 // 	Button as ButtonText,
@@ -43,7 +43,6 @@
 // import { SelectOption } from "~/components/SelectOption"
 // import { Remix } from "~/lib/Remix"
 // import { button } from "~/lib/button"
-// import { useRawLoaderData } from "~/lib/data"
 
 // import {  } from "vite-env-only"
 
@@ -62,7 +61,7 @@
 // 	)
 
 //
-// import { unstable_defineLoader } from "@remix-run/node"
+// import { unstable_defineLoader } from "@react-router/node"
 // export const clientLoader = (async (args) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
@@ -241,7 +240,7 @@
 // 	/>
 // )
 // export default function Page(): ReactNode {
-// 	const data = useRawLoaderData<typeof loader >()
+// 	const data = useLoaderData<typeof loader >()
 
 // 	const navigation = useNavigation()
 
@@ -627,3 +626,5 @@
 // 		</fieldset>
 // 	)
 // }
+
+export {}

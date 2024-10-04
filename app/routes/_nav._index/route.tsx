@@ -1,6 +1,6 @@
-import { useLoaderData, type ClientLoaderFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
+import { useLoaderData, type ClientLoaderFunction } from "react-router"
 import type { routeMediaCarouselItem_media$key } from "~/gql/routeMediaCarouselItem_media.graphql"
 import type { routeNavIndexQuery } from "~/gql/routeNavIndexQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"

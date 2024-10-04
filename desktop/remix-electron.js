@@ -1,7 +1,7 @@
 import { resolve } from "node:path"
 
-/** @typedef {import("@remix-run/node").AppLoadContext} AppLoadContext */
-/** @typedef {import("@remix-run/node").ServerBuild} ServerBuild */
+/** @typedef {import("@react-router/node").AppLoadContext} AppLoadContext */
+/** @typedef {import("@react-router/node").ServerBuild} ServerBuild */
 /** @typedef {import("@remix-run/express").GetLoadContextFunction} GetLoadContextFunction */
 
 /**

@@ -1,3 +1,6 @@
+import { Predicate } from "effect"
+import type { ComponentProps, ReactNode } from "react"
+import ReactRelay from "react-relay"
 import {
 	Form,
 	useActionData,
@@ -5,10 +8,7 @@ import {
 	useParams,
 	useRouteLoaderData,
 	useSearchParams,
-} from "@remix-run/react"
-import { Predicate } from "effect"
-import type { ComponentProps, ReactNode } from "react"
-import ReactRelay from "react-relay"
+} from "react-router"
 
 import { type clientLoader as rootLoader } from "~/root"
 import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist.($selected)/route"

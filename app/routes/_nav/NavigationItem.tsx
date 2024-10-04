@@ -1,5 +1,5 @@
-import { NavLink, type NavLinkProps } from "@remix-run/react"
 import { use, type ReactNode } from "react"
+import { NavLink, type NavLinkProps } from "react-router"
 import {
 	NavigationItemActiveIndicator,
 	NavigationStyles,

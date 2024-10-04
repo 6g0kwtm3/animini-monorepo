@@ -10,10 +10,9 @@ import {
 	type ClientActionFunction,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 
-import type { MetaFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { MetaFunction } from "react-router"
 
 import {
 	Equivalence,
@@ -28,9 +27,9 @@ import {
 
 import { Schema } from "@effect/schema"
 
-import {} from "@remix-run/react"
 import type { ComponentRef, ReactNode } from "react"
 import { Suspense, use, useRef } from "react"
+import {} from "react-router"
 
 import { List } from "~/components/List"
 import { Ariakit } from "~/lib/ariakit"
@@ -287,7 +286,7 @@ export const clientAction = (async (args) => {
 	if (formData.get("intent") === "set_status") {
 		return setStatus(formData)
 	}
-	throw json(`Unknown intent ${formData.get("intent")}`, {
+	throw Response.json(`Unknown intent ${formData.get("intent")}`, {
 		status: 400,
 	})
 }) satisfies ClientActionFunction

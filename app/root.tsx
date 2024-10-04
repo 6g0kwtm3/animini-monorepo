@@ -11,10 +11,10 @@ import {
 	useRouteError,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { type LinksFunction } from "@remix-run/node"
+import { type LinksFunction } from "react-router"
 
 import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
@@ -89,9 +89,9 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 export function Layout({ children }: { children: ReactNode }): ReactNode {
-	// const { theme } = useRawLoaderData<typeof loader>()
+	// const { theme } = useLoaderData<typeof loader>()
 	// const { locale, dir } = useLocale()
-	// const { nonce } = useRawLoaderData()
+	// const { nonce } = useLoaderData()
 	// setLanguageTag(locale)
 
 	return (

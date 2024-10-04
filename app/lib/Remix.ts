@@ -14,8 +14,6 @@ import { Schema } from "@effect/schema"
 
 import { NoSuchElementException } from "effect/Cause"
 
-import type { TypedResponse } from "@remix-run/node"
-import { json } from "@remix-run/node"
 import cookie from "cookie"
 import { dev } from "./dev"
 
@@ -112,7 +110,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	}
 
 	if (!Cause.isFailType(cause)) {
-		throw json(null, {
+		throw Response.json(null, {
 			status: 500,
 		})
 	}

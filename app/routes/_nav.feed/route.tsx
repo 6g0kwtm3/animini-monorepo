@@ -1,5 +1,8 @@
-import type { MetaFunction } from "@remix-run/node"
-import { type ClientLoaderFunction } from "@remix-run/react"
+import {
+	useLoaderData,
+	type ClientLoaderFunction,
+	type MetaFunction,
+} from "react-router"
 
 import {
 	Predicate,
@@ -24,7 +27,6 @@ import { client_operation } from "~/lib/client"
 // console.log(R)
 
 // import {RouterProvider} from 'react-router-dom'
-import { useRawLoaderData } from "~/lib/data"
 
 import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
@@ -133,7 +135,7 @@ export const clientLoader = (async () => {
 }) satisfies ClientLoaderFunction
 
 export default function Index(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = useLoaderData<typeof clientLoader>()
 
 	const list = createList({ lines: "two" })
 

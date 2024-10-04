@@ -1,6 +1,6 @@
-import { Link, type LinkProps } from "@remix-run/react"
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
+import { Link, type LinkProps } from "react-router"
 
 import {
 	ListItemAvatar,

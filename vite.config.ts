@@ -1,6 +1,6 @@
 import { paraglide } from "@inlang/paraglide-vite"
-import MillionLint from "@million/lint"
-import { vitePlugin as remix } from "@remix-run/dev"
+import MillionLint from '@million/lint'
+import { reactRouter as remix } from "@react-router/dev/vite"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import Inspect from "vite-plugin-inspect"
@@ -9,12 +9,6 @@ import tsconfigPaths from "vite-tsconfig-paths"
 const isStorybook = process.argv[1]?.includes("storybook")
 const isVitest = process.argv[1]?.includes("vitest")
 const isBun = (): boolean => !!globalThis.Bun
-
-declare module "@remix-run/server-runtime" {
-	interface Future {
-		unstable_singleFetch: true // 👈 enable _types_ for single-fetch
-	}
-}
 
 const ReactCompilerConfig = {}
 export default defineConfig({
@@ -65,27 +59,9 @@ export default defineConfig({
 		!isStorybook &&
 			!isVitest &&
 			remix({
-				future: {
-					v3_fetcherPersist: true,
-					v3_relativeSplatPath: true,
-					v3_throwAbortReason: true,
-					unstable_singleFetch: true,
-					unstable_optimizeDeps: true,
-				},
+				future: {},
 				ssr: false,
-
-				// routes(defineRoutes) {
-				// 	return defineRoutes((route) => {
-				// 		// route("", "routes/Nav.tsx", () => {
-				// 		// 	// route("", "routes/NavFeed.tsx", { index: true })
-				// 		// 	route("user/:userName", "routes/NavUser.tsx", { index: true })
-				// 		// 	route("login", "routes/NavLogin.tsx")
-				// 		// 	route("user/:userName/:typelist", "routes/NavUserList.tsx", () => {
-				// 		// 		route(":selected?", "routes/NavUserListEntries.tsx")
-				// 		// 	})
-				// 		// })
-				// 	})
-				// }
+				prerender: true,
 			}),
 		tsconfigPaths(),
 		icons({

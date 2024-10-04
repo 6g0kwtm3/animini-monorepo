@@ -1,10 +1,10 @@
+import { type ReactNode } from "react"
 import {
 	json,
 	useLoaderData,
 	type ClientLoaderFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
-import { type ReactNode } from "react"
+} from "react-router"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 import type { routeNavUserListEntryQuery } from "~/gql/routeNavUserListEntryQuery.graphql"

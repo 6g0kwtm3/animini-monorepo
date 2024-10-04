@@ -1,5 +1,5 @@
-import { type ClientLoaderFunction } from "@remix-run/react"
 import type { ReactNode } from "react"
+import { useLoaderData, type ClientLoaderFunction } from "react-router"
 
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
@@ -7,7 +7,6 @@ import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
 import { client_get_client } from "~/lib/client"
-import { useRawLoaderData } from "~/lib/data"
 import { SearchItem } from "~/lib/search/SearchItem"
 const { graphql } = ReactRelay
 
@@ -37,7 +36,7 @@ export const clientLoader = (async (args) => {
 }) satisfies ClientLoaderFunction
 
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = useLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody>

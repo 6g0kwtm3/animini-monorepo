@@ -1,14 +1,14 @@
-import type { MetaFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
 import {
 	Link,
 	Outlet,
+	useLoaderData,
 	useParams,
 	useRouteLoaderData,
 	type ClientLoaderFunction,
 	type MetaArgs,
+	type MetaFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"
 import ReactRelay from "react-relay"
@@ -39,7 +39,6 @@ import MaterialSymbolsKeyboardCommandKey from "~icons/material-symbols/keyboard-
 import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
 import { Button } from "~/components/Button"
-import { useRawLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
 
@@ -85,7 +84,7 @@ export const clientLoader = (async (args) => {
 	)
 
 	if (!data?.Media) {
-		throw json("Media not found", {
+		throw Response.json("Media not found", {
 			status: 404,
 		})
 	}
@@ -120,7 +119,7 @@ export const meta = ({
 }
 
 export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+	const data = useLoaderData<typeof clientLoader>()
 
 	return (
 		<LayoutBody

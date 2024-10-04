@@ -5,7 +5,7 @@ import {
 	RadioProvider,
 } from "@ariakit/react"
 
-import { Form, useLoaderData, useLocation, useSubmit } from "@remix-run/react"
+import { Form, useLoaderData, useLocation, useSubmit } from "react-router"
 
 import type { ReactNode } from "react"
 import { Button as ButtonText } from "~/components/Button"
