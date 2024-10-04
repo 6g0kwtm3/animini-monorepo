@@ -124,10 +124,10 @@ const Id = createContext("")
 
 export function LabelItemCheckbox(props: ComponentProps<typeof Checkbox>) {
 	const id = use(Id)
-	return <Checkbox id={id} {...props}></Checkbox>
+	return <Checkbox id={id} {...props} />
 }
 
 export function LabelItemRadio(props: ComponentProps<typeof Radio>) {
 	const id = use(Id)
-	return <Radio id={id} {...props}></Radio>
+	return <Radio id={id} {...props} />
 }

@@ -4,7 +4,6 @@ import { Form, useFetcher, useNavigate } from "react-router"
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 
-
 import { Array as ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
@@ -81,7 +80,7 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 				<SearchViewInput
 					ref={ref}
 					placeholder="Search anime or manga"
-					onChange={(e) => submit.submit(e.currentTarget.form, {})}
+					onChange={async (e) => submit.submit(e.currentTarget.form, {})}
 					name="q"
 				/>
 

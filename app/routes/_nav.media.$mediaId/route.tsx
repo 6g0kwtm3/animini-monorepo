@@ -89,7 +89,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 
 	return {
 		Media: data.Media,
-		theme: Predicate.isString(data.Media?.coverImage?.color)
+		theme: Predicate.isString(data.Media.coverImage?.color)
 			? getThemeFromHex(data.Media.coverImage.color)
 			: {},
 	}
@@ -113,7 +113,7 @@ export const meta = ({
 }: MetaArgs<
 	() => ReturnType<typeof clientLoader>
 >): ReturnType<MetaFunction> => {
-	return [{ title: `Media - ${data?.Media?.title.userPreferred}` }]
+	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]
 }
 
 export default function MediaPage({

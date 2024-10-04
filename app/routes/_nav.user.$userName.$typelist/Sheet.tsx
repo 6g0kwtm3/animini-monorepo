@@ -66,7 +66,7 @@ export function Sheet(props: ComponentProps): ReactNode {
 					<Form
 						replace
 						action={pathname}
-						onChange={(e) => submit(e.currentTarget, {})}
+						onChange={async (e) => submit(e.currentTarget, {})}
 					>
 						{sheet && <input type="hidden" name="sheet" value={sheet} />}
 						<M3.TabsPanel tabId={sheet}>

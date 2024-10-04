@@ -70,7 +70,7 @@ export function useLocale(): {
 	readonly locale: "en" | "ja"
 	readonly dir: "rtl" | "ltr"
 } {
-	const acceptLanguage = useRoot()?.language
+	const acceptLanguage = useRoot().language
 
 	const locales =
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []
