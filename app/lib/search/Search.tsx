@@ -1,10 +1,9 @@
 import * as Ariakit from "@ariakit/react"
-import { Form, useFetcher, useNavigate, useRouteLoaderData } from "react-router"
+import { Form, useFetcher, useNavigate } from "react-router"
 
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 
-import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
 import { Array as ReadonlyArray } from "effect"
 import {
@@ -21,7 +20,6 @@ import {
 	SearchViewItem,
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
-import type { clientLoader as navLoader } from "~/routes/_nav/route"
 import { M3 } from "../components"
 
 import { createList, ListContext } from "../list"
@@ -113,11 +111,11 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 							</ListContext>
 						</SearchViewBodyGroup>
 					</SearchViewBody>
-				) : loaderData!.RouteNavTrendingQuery ? (
+				) : (
 					<Suspense fallback="">
 						<SearchTrending query={loaderData!.RouteNavTrendingQuery} />
 					</Suspense>
-				) : null}
+				)}
 			</Form>
 		</SearchView>
 	)

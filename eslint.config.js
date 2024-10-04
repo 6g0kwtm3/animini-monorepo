@@ -8,6 +8,7 @@ import reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import storybook from "eslint-plugin-storybook"
 import tseslint from "typescript-eslint"
+import graphQLConfig from './graphql.config'
 
 export default tseslint.config(
 	{
@@ -132,6 +133,9 @@ export default tseslint.config(
 		files: ["**/*.graphql"],
 		languageOptions: {
 			parser: graphql.parser,
+			parserOptions: {
+				graphQLConfig: graphQLConfig,
+			},
 		},
 		plugins: {
 			"@graphql-eslint": { rules: graphql.rules },
