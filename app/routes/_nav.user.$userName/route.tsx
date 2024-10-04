@@ -70,7 +70,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-import FollowRoute from '../user.$userId.follow/+types.route'
+import FollowRoute from "../user.$userId.follow/+types.route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const root = usePreloadedQuery(...useRoot()!.rootQuery)

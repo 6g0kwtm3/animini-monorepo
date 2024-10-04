@@ -6,7 +6,7 @@ import {
 	useParams,
 	useSearchParams,
 	type ClientActionFunction,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import type { MetaFunction } from "react-router"

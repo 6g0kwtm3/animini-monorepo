@@ -1,12 +1,7 @@
 import { Predicate } from "effect"
 import type { ComponentProps, ReactNode } from "react"
 import ReactRelay from "react-relay"
-import {
-	Form,
-	useNavigation,
-	useParams,
-	useSearchParams
-} from "react-router"
+import { Form, useNavigation, useParams, useSearchParams } from "react-router"
 
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"

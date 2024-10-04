@@ -7,7 +7,7 @@ import {
 	useParams,
 	useSearchParams,
 	useSubmit,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import { Order } from "effect"
@@ -265,7 +265,6 @@ export type ReadonlyURLSearchParams = Omit<
 >
 
 export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
- 
 	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`

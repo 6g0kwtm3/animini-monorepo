@@ -19,9 +19,8 @@ import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import { useRoot } from "~/lib/RootProvider"
 
-
-import UserFollowRoute from '../user.$userId.follow/+types.route'
-import UserInfoRoute from '../user.$userName.info/+types.route'
+import UserFollowRoute from "../user.$userId.follow/+types.route"
+import UserInfoRoute from "../user.$userName.info/+types.route"
 
 export function UserLink(props: {
 	userName: string
@@ -44,9 +43,7 @@ export function UserLink(props: {
 		}
 	}, [open, fetcher, props.userName])
 
-	const root = usePreloadedQuery(
-		...useRoot()!.rootQuery
-	)
+	const root = usePreloadedQuery(...useRoot()!.rootQuery)
 
 	return (
 		<TooltipRich placement="top" store={store}>
