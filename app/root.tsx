@@ -194,7 +194,7 @@ function RevalidateOnFocus() {
 
 	useOnFocus(() => {
 		if (revalidator.state === "idle") {
-			revalidator.revalidate()
+			void revalidator.revalidate()
 		}
 	})
 
