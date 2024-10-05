@@ -50,16 +50,17 @@
 		"msw-storybook-addon": "^2.0.3",
 		"react": "^19.0.0-rc-f90a6bcc-20240827",
 		"react-dom": "^19.0.0-rc-f90a6bcc-20240827",
-		"react-relay": "^18.0.0",
+		"react-relay": "^18.1.0",
 		"react-router": "^7.0.0-pre.0",
-		"relay-runtime": "^18.0.0",
+		"relay-runtime": "^18.1.0",
 		"remix-utils": "^7.6.0",
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.1.18",
 		"typescript-eslint": "^8.8.0"
 	},
 	"overrides": {
 		"@types/react": "npm:types-react@rc",
-		"@types/react-dom": "npm:types-react-dom@rc"
+		"@types/react-dom": "npm:types-react-dom@rc",
+		"react-router-dom": "npm:react-router-dom@^7.0.0-pre.0"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
@@ -115,7 +116,7 @@
 		"knip": "^5.30.1",
 		"prettier": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.6",
-		"relay-compiler": "^18.0.0",
+		"relay-compiler": "^18.1.0",
 		"remix-development-tools": "^4.4.1",
 		"storybook": "^8.3.5",
 		"tailwindcss": "^3.4.10",

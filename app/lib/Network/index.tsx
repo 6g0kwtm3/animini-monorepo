@@ -5,6 +5,7 @@ import RelayRuntime, {
 	Environment,
 	Network,
 	RecordSource,
+	Store,
 	type Disposable,
 	type FetchFunction,
 	type MutationParameters,
@@ -26,13 +27,11 @@ import {
 
 import { GraphQLResponse, Timeout } from "./schema"
 
-import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
+
 import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
 const { ROOT_TYPE } = RelayRuntime
 
-const { RelayFeatureFlags } = RelayRuntime
 
-RelayFeatureFlags.ENABLE_RELAY_RESOLVERS = true
 
 const API_URL = "https://graphql.anilist.co"
 const fetchQuery_: FetchFunction = async function (
@@ -115,7 +114,7 @@ const fetchQuery_: FetchFunction = async function (
 
 // Create a network layer from the fetch function
 const network = Network.create(fetchQuery_)
-const store = new LiveResolverStore(new RecordSource(), {
+const store = new Store(new RecordSource(), {
 	gcReleaseBufferSize: Infinity,
 	queryCacheExpirationTime: 60 * 1000, // 1 minute
 })

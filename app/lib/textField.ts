@@ -19,7 +19,7 @@ export const createTextFieldInput = tv({
 		variant: {
 			filled: {
 				container:
-					"rounded-t-xs bg-surface-container-highest hover:state-hover hover:has-[[aria-disabled='true']]:state-none has-focused:hover:state-none",
+					"relative rounded-t-xs bg-surface-container-highest hover:state-hover hover:has-[[aria-disabled='true']]:state-none has-focused:hover:state-none",
 				containerAfter:
 					"absolute bottom-0 end-0 start-0 scale-x-0 border-b-2 border-primary transition-transform duration-sm ease-standard-accelerate group-error:border-error group-has-focused:scale-x-100 group-error:group-has-focused:scale-x-100",
 				containerBefore:
