@@ -1,5 +1,5 @@
 import { Predicate } from "effect"
-import type { ComponentProps, ReactNode } from "react"
+import { use, type ComponentProps, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Form, useNavigation, useParams, useSearchParams } from "react-router"
 
@@ -18,7 +18,6 @@ import type { ProgressShareMedia_media$key } from "~/gql/ProgressShareMedia_medi
 import type { ProgressTooltip_media$key } from "~/gql/ProgressTooltip_media.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
 import { btnIcon } from "../button"
-import { useRoot } from "../RootProvider"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
@@ -34,13 +33,14 @@ const ProgressIncrement_entry = graphql`
 `
 
 import SelectedRoute from "../../routes/_nav.user.$userName.$typelist.($selected)/+types.route"
+import { RootProvider } from "../RootProvider"
 
 export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key
 	actionData: SelectedRoute.ActionData | undefined
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
-	const data = usePreloadedQuery(...useRoot()!.rootQuery)
+	const data = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 	const params = useParams()
 	const navigation = useNavigation()
 

@@ -85,7 +85,7 @@ const MediaListItem_entry = graphql`
 // }
 
 import SelectedRoute from "../../routes/_nav.user.$userName.$typelist.($selected)/+types.route"
-import { useRoot } from "../RootProvider"
+import { RootProvider } from "../RootProvider"
 
 export function MediaListItem({
 	entry,
@@ -251,7 +251,7 @@ const MediaListItemInfo_entry = graphql`
 
 function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
-	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 	const params = useParams()
 
 	const viewerIsUser =
@@ -390,7 +390,7 @@ function MediaListItemSubtitle(props: {
 
 	const watch = entry.toWatch
 
-	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 
 	const params = useParams()
 

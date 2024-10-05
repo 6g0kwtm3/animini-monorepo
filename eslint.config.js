@@ -54,7 +54,7 @@ export default tseslint.config(
 			"jsx-a11y": jsxA11y,
 		},
 		rules: {
-			...react.configs.recommended.rules,
+			...react.configs.flat.recommended.rules,
 			...react.configs["jsx-runtime"].rules,
 			...reactHooks.configs.recommended.rules,
 			...jsxA11y.configs.recommended.rules,

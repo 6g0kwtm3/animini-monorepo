@@ -1,5 +1,6 @@
+import { use } from "react"
 import { isAvailableLanguageTag } from "~/paraglide/runtime"
-import { useRoot } from "./RootProvider"
+import { RootProvider } from "./RootProvider"
 
 const rtlLngs = [
 	"ar",
@@ -70,7 +71,7 @@ export function useLocale(): {
 	readonly locale: "en" | "ja"
 	readonly dir: "rtl" | "ltr"
 } {
-	const acceptLanguage = useRoot().language
+	const acceptLanguage = use(RootProvider)!.language
 
 	const locales =
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []

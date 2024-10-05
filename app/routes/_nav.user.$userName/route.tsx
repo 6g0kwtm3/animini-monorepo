@@ -1,6 +1,6 @@
 import { Schema } from "@effect/schema"
 
-import { type ReactNode } from "react"
+import { use, type ReactNode } from "react"
 import {
 	Form,
 	Link,
@@ -25,7 +25,6 @@ import type Route from "./+types.route"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
-import { useRoot } from "~/lib/RootProvider"
 import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import { ExtraOutlet } from "./ExtraOutlet"
 const { graphql } = ReactRelay
@@ -70,10 +69,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
+import { RootProvider } from "~/lib/RootProvider"
 import FollowRoute from "../user.$userId.follow/+types.route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 	const data = usePreloadedQuery(...loaderData!.routeNavUserQuery)
 
 	if (!data.user) {

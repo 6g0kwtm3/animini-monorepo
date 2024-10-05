@@ -14,7 +14,7 @@ import {
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
-import { type ReactNode } from "react"
+import { use, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
 
@@ -41,7 +41,7 @@ import { NavigationItem } from "./NavigationItem"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
-import { useRoot } from "~/lib/RootProvider"
+import { RootProvider } from "~/lib/RootProvider"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
@@ -71,7 +71,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 export default function NavRoute(props: Route.ComponentProps): ReactNode {
-	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 
 	const { pathname } = useLocation()
 

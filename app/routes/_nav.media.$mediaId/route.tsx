@@ -36,7 +36,7 @@ import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
 import { Button } from "~/components/Button"
 
-import type { ReactNode } from "react"
+import { use, type ReactNode } from "react"
 
 import { Ariakit } from "~/lib/ariakit"
 import { client_get_client } from "~/lib/client"
@@ -49,7 +49,7 @@ import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { usePreloadedQuery } from "~/lib/Network"
-import { useRoot } from "~/lib/RootProvider"
+import { RootProvider } from "~/lib/RootProvider"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import type Route from "./+types.route"
@@ -255,7 +255,7 @@ function Edit() {
 
 	const store = useTooltipStore()
 
-	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 
 	return (
 		<div
