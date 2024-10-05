@@ -108,7 +108,7 @@ export function MediaListItem({
 		const xl = window.innerWidth >= 1600
 		xl &&
 			data &&
-			navigate(
+			void navigate(
 				{
 					pathname: `entry/${data.id}`,
 					search: search,

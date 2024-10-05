@@ -51,7 +51,7 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 				event.key.toLocaleLowerCase() === "k"
 			) {
 				event.preventDefault()
-				navigate({ search: `?${sheetParams}` })
+				void navigate({ search: `?${sheetParams}` })
 			}
 		}
 		window.addEventListener("keydown", listener)
@@ -67,7 +67,7 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 			aria-label="Search anime or manga"
 			open={show}
 			onClose={() => {
-				navigate({ search: `?${searchParams}` })
+				void navigate({ search: `?${searchParams}` })
 			}}
 			initialFocus={ref.current}
 			variant={{
