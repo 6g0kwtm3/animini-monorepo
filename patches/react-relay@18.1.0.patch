@@ -1,0 +1,15 @@
+diff --git a/package.json b/package.json
+index b6caaf78e25de07ac4efa7ee8dc0774a8a029adf..4a791aea312f255bd7364c61df34226663c69fdf 100644
+--- a/package.json
++++ b/package.json
+@@ -28,6 +28,10 @@
+   "directories": {
+     "": "./"
+   },
++  "type": "commonjs",
++  "exports": {
++    ".": "./index.js"
++  },
+   "main": "index.js",
+   "haste_commonjs": true
+ }
