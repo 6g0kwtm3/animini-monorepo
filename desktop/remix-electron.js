@@ -29,8 +29,6 @@ import { app } from "electron"
 // if we override everything else, we get errors caused by the mismatch of built-in types and remix types
 global.File = webFetch.File
 
-
-
 /**
  * Initialize and configure remix-electron
  *
