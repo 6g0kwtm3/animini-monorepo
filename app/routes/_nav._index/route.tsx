@@ -81,7 +81,7 @@ export default function NavIndexRoute({
 						<MaterialSymbolsArrowForward className="i-inline inline" />
 					</Ariakit.Heading>
 					<M3.Carousel>
-						{data?.Page?.media?.map(
+						{data.Page?.media?.map(
 							(media) =>
 								media && (
 									<MediaCarouselItem
@@ -99,7 +99,7 @@ export default function NavIndexRoute({
 						<MaterialSymbolsArrowForward className="i-inline inline" />
 					</Ariakit.Heading>
 					<M3.Carousel>
-						{data?.Page?.media?.map(
+						{data.Page?.media?.map(
 							(media) =>
 								media && (
 									<MediaCarouselItem
