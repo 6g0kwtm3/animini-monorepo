@@ -1,6 +1,6 @@
 import { Link, useFetcher } from "react-router"
 
-import { useEffect, type ReactNode } from "react"
+import { use, useEffect, type ReactNode } from "react"
 import {
 	ListItem,
 	ListItemAvatar,
@@ -17,10 +17,11 @@ import { route_user } from "~/lib/route"
 import { M3 } from "~/lib/components"
 import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
-import { useRoot } from "~/lib/RootProvider"
+
 
 import UserFollowRoute from "../user.$userId.follow/+types.route"
 import UserInfoRoute from "../user.$userName.info/+types.route"
+import { RootProvider } from "~/lib/RootProvider"
 
 export function UserLink(props: {
 	userName: string
@@ -43,7 +44,7 @@ export function UserLink(props: {
 		}
 	}, [open, fetcher, props.userName])
 
-	const root = usePreloadedQuery(...useRoot()!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
 
 	return (
 		<TooltipRich placement="top" store={store}>
