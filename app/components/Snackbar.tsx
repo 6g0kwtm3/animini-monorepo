@@ -146,15 +146,9 @@ export function Snackbar({
 
 	const id = useId()
 
-	useEffect(() => {
-		if (!Predicate.isNumber(timeout)) {
-			return
-		}
-		if (4000 <= timeout && timeout <= 10_000) {
-			return
-		}
+	if (Predicate.isNumber(timeout) && !(4_000 <= timeout && timeout <= 10_000)) {
 		console.warn(`Recommeneded <Snackbar /> timeout is between 4s and 10s`)
-	}, [timeout])
+	}
 
 	return (
 		<SnackbarContext.Provider value={props.id ?? id}>

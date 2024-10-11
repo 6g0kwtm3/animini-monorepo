@@ -2,12 +2,12 @@ import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import type { routeMediaCarouselItem_media$key } from "~/gql/routeMediaCarouselItem_media.graphql"
 import type { routeNavIndexQuery } from "~/gql/routeNavIndexQuery.graphql"
+import type { routeNavIndexQuery_query$key } from "~/gql/routeNavIndexQuery_query.graphql"
 import { Ariakit } from "~/lib/ariakit"
-import { client_operation } from "~/lib/client"
 import { M3 } from "~/lib/components"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { MediaTitle } from "~/lib/MediaTitle"
-import { useFragment } from "~/lib/Network"
+import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsArrowForward from "~icons/material-symbols/arrow-forward"
 import type Route from "./+types.route"
 
@@ -41,15 +41,10 @@ function MediaCarouselItem(props: { media: routeMediaCarouselItem_media$key }) {
 }
 
 export const clientLoader = async () => {
-	const data = await client_operation<routeNavIndexQuery>(
+	const data = loadQuery<routeNavIndexQuery>(
 		graphql`
 			query routeNavIndexQuery @raw_response_type {
-				Page {
-					media {
-						id
-						...routeMediaCarouselItem_media
-					}
-				}
+				...routeNavIndexQuery_query
 			}
 		`,
 		{}
@@ -58,9 +53,25 @@ export const clientLoader = async () => {
 	return data
 }
 
+const routeNavIndexQuery_query = graphql`
+	fragment routeNavIndexQuery_query on Query {
+		Page {
+			media {
+				id
+				...routeMediaCarouselItem_media
+			}
+		}
+	}
+`
+
 export default function NavIndexRoute({
-	loaderData: data,
+	loaderData,
 }: Route.ComponentProps): ReactNode {
+	const data = useFragment<routeNavIndexQuery_query$key>(
+		routeNavIndexQuery_query,
+		usePreloadedQuery(...loaderData!)
+	)
+
 	return (
 		<M3.LayoutBody>
 			<M3.LayoutPane>

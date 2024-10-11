@@ -61,7 +61,5 @@ jobs:
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
 
-      - run: bun run paraglide
-
       - name: Typecheck
         run: bun run check

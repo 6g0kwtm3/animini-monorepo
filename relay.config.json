@@ -7,11 +7,10 @@
 	"artifactDirectory": "./app/gql",
 	"excludes": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
 	"featureFlags": {
-		"enable_relay_resolver_transform": true,
 		"enable_strict_custom_scalars": true
 	},
 	"requireCustomScalarTypes": true,
-	"useImportTypeSyntax": true,
+	"useImportTypeSyntax": false,
 	"isDevVariableName": "import.meta.env.DEV",
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",

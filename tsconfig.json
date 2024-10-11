@@ -1,11 +1,7 @@
 {
 	"include": ["**/*.ts", "**/*.tsx", "./.react-router/types/**/*"],
 	"compilerOptions": {
-		"plugins": [
-			{
-				"name": "@react-router/dev"
-			}
-		],
+		"plugins": [],
 		"lib": ["DOM", "DOM.Iterable", "ES2022"],
 		"isolatedModules": true,
 		"esModuleInterop": true,
