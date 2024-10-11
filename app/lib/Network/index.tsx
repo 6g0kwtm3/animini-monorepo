@@ -27,11 +27,8 @@ import {
 
 import { GraphQLResponse, Timeout } from "./schema"
 
-
 import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
 const { ROOT_TYPE } = RelayRuntime
-
-
 
 const API_URL = "https://graphql.anilist.co"
 const fetchQuery_: FetchFunction = async function (
