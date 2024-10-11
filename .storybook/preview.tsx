@@ -56,8 +56,6 @@ const style = Object.entries(theme)
 	.map(([key, value]) => `${key}: ${value}`)
 	.join(";")
 
-
-
 import { SnackbarQueue } from "../app/components/Snackbar"
 import RelayEnvironment from "../app/lib/Network/components"
 import { Ariakit } from "../app/lib/ariakit"
@@ -73,8 +71,6 @@ const withProviders: Decorator = (Story) => {
 		</RelayEnvironment>
 	)
 }
-
-
 
 const preview: Preview = {
 	parameters: {

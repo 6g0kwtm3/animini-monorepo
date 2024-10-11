@@ -4,7 +4,7 @@ import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { getResponse, graphql, HttpResponse, type RequestHandler } from "msw"
 interface Fixtures {
-	api: { use(handlers: Array<RequestHandler>): void }
+	api: { use: (handlers: Array<RequestHandler>) => void }
 }
 
 function cached<T>(fn: () => T) {
@@ -39,7 +39,7 @@ export const SucccessHandler = graphql.operation<any, any>(async (args) => {
 
 export const test = baseTest.extend<Fixtures>({
 	async page({ page }, use) {
-		await page.route("https://graphql.anilist.co/", (route, request) => {
+		await page.route("https://graphql.anilist.co/", async (route, request) => {
 			if (request.method() === "POST") {
 				return route.abort()
 			}

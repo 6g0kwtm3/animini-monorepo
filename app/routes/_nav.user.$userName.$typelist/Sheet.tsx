@@ -6,7 +6,6 @@ import { TabsList, TabsListItem } from "~/components/Tabs"
 
 import { M3 } from "~/lib/components"
 
-
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import type { ComponentProps } from "./+types.route"
 import { SheetFilter } from "./SheetFilter"
@@ -36,7 +35,7 @@ export function Sheet(props: ComponentProps): ReactNode {
 			open={filter || sort}
 			onClose={() => {
 				void navigate({
-					search: `?${searchParams.delete('sheet')}`,
+					search: `?${searchParams.delete("sheet")}`,
 				})
 			}}
 		>

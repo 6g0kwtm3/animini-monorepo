@@ -11,7 +11,6 @@ const RelayEnvironmentProvider__ =
 	}>
 
 export default function RelayEnvironment(props: { children: ReactNode }) {
-
 	return (
 		<RelayEnvironmentProvider__ environment={environment}>
 			{props.children}

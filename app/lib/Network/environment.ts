@@ -1,10 +1,9 @@
-
 import RelayRuntime, {
 	Environment,
 	Network,
 	RecordSource,
 	Store,
-	type FetchFunction
+	type FetchFunction,
 } from "relay-runtime"
 
 import { Effect, Option, pipe, Schedule } from "effect"
