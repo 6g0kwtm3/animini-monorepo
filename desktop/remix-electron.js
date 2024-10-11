@@ -29,7 +29,7 @@ import { app } from "electron"
 // if we override everything else, we get errors caused by the mismatch of built-in types and remix types
 global.File = webFetch.File
 
-export {}
+
 
 /**
  * Initialize and configure remix-electron
@@ -40,7 +40,6 @@ export {}
 export async function initRemix({
 	serverBuild: serverBuildOption,
 	mode,
-	publicFolder: publicFolderOption = "public",
 	getLoadContext,
 }) {
 	await app.whenReady()

@@ -35,19 +35,6 @@ export function parse<T extends readonly string[]>(
 	}
 }
 
-export class QueryString {
-	constructor(query: string) {}
-	get(key: string): string | undefined {
-		throw new Error("Not Implemented!")
-	}
-	getAll(key: string): string | undefined {
-		throw new Error("Not Implemented!")
-	}
-	entries(): [string | undefined, string][] {
-		throw new Error("Not Implemented!")
-	}
-}
-
 export function stringify(queryObject: SearchParserResult<string>): string {
 	return Object.entries(queryObject.values)
 		.map(([key, values]) => {

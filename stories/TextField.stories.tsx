@@ -1,16 +1,14 @@
 import { Card } from "~/components/Card"
 import {
-	Field,
-	FieldSupport,
 	FieldText,
-	FieldTextIcon,
+	FieldTextIcon
 } from "~/components/TextField"
 
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
-import type { Decorator, Meta, StoryObj } from "@storybook/react"
-import MaterialSymbolsKeyboardVoice from "~icons/material-symbols/keyboard-voice"
+import type { Meta, StoryObj } from "@storybook/react"
 import type { ReactNode } from "react"
+import MaterialSymbolsKeyboardVoice from "~icons/material-symbols/keyboard-voice"
 
 const meta = {
 	title: "Example/TextField",
@@ -41,15 +39,6 @@ function Prose(props: { children: ReactNode }) {
 }
 
 type Story = StoryObj<typeof meta>
-
-const withSupportingText: Decorator = (Story) => {
-	return (
-		<Field>
-			<Story />
-			<FieldSupport>{"Supporting text"}</FieldSupport>
-		</Field>
-	)
-}
 
 export const Filled: Story = {
 	args: {

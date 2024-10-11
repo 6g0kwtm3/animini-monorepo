@@ -16,7 +16,7 @@ import {
 import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
 import { EffectUrql } from "~/lib/urql"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+
 
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
@@ -208,32 +208,6 @@ export default function Notifications({
 			</LayoutPane>
 		</LayoutBody>
 	)
-}
-
-function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
-
-	if (Math.abs(seconds) < 60) {
-		return rtf.format(Math.trunc(seconds), "seconds")
-	}
-
-	if (Math.abs(seconds) < 60 * 60) {
-		return rtf.format(Math.trunc(seconds / 60), "minutes")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24) {
-		return rtf.format(Math.trunc(seconds / (60 * 60)), "hours")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24 * 7) {
-		return rtf.format(Math.trunc(seconds / (60 * 60 * 24)), "days")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24 * 365) {
-		return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 7)), "weeks")
-	}
-
-	return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 365)), "years")
 }
 
 export const meta = (() => {

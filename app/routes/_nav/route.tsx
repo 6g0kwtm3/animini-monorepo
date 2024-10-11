@@ -52,7 +52,7 @@ const RouteNavTrendingQuery = graphql`
 	}
 `
 
-export const clientLoader = (args: Route.ClientLoaderArgs) => {
+export const clientLoader = (_args: Route.ClientLoaderArgs) => {
 	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
 
 	return {

@@ -46,6 +46,10 @@ jobs:
         if: ${{ !cancelled() }}
         run: bun run gen:paraglide
 
+      - name: Oxlint
+        if: ${{ !cancelled() }}
+        run: bun run oxlint --fix
+
       - name: Lint
         if: ${{ !cancelled() }}
         run: bun run lint --fix

@@ -9,6 +9,7 @@ import reactRefresh from "eslint-plugin-react-refresh"
 import storybook from "eslint-plugin-storybook"
 import tseslint from "typescript-eslint"
 import graphQLConfig from "./graphql.config.js"
+import oxlint from "eslint-plugin-oxlint"
 
 export default tseslint.config(
 	{
@@ -153,5 +154,6 @@ export default tseslint.config(
 			"no-undef": "off",
 			"no-unused-vars": "off",
 		},
-	}
+	},
+	oxlint.configs["flat/recommended"]
 )

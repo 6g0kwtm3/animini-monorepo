@@ -99,7 +99,7 @@ const RouteNavUserListQuery = graphql`
 	}
 `
 
-function Actions(props: Route.ComponentProps): ReactNode {
+function Actions(_props: Route.ComponentProps): ReactNode {
 	return (
 		<>
 			<M3.Icon label="Filter">
@@ -203,7 +203,7 @@ function ListTabs({ params, loaderData }: Route.ComponentProps) {
 			>
 				All
 			</TabsListItem>
-			{lists?.map((list, i) => {
+			{lists?.map((list) => {
 				return (
 					list.name && (
 						<TabsListItem

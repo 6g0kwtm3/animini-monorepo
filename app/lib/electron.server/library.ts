@@ -12,7 +12,7 @@ if (electron && !Predicate.isString(electron)) {
 	const watcher = chokidar.watch(
 		path.resolve(electron.app.getPath("downloads"), "**", "*.mkv"),
 		{
-			ignored: /(^|[\/\\])\../, // ignore dotfiles
+			ignored: /(^|[/\\])\../, // ignore dotfiles
 			persistent: true,
 		}
 	)

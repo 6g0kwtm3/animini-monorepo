@@ -136,7 +136,7 @@ export default function SidePanelRoute(props: Route.ComponentProps): ReactNode {
 	return <ExtraOutlets side={<SidePanel {...props} />} />
 }
 
-function SidePanelErrorBoundary({}: ErrorBoundaryProps) {
+function SidePanelErrorBoundary(_props: ErrorBoundaryProps) {
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">
 			<M3.Card variant="elevated" className="p-4">

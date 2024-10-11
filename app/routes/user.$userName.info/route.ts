@@ -1,7 +1,6 @@
 import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 
-import type { ClientLoaderFunction } from "react-router"
 import type { routeUserInfoQuery } from "~/gql/routeUserInfoQuery.graphql"
 import { client_operation } from "~/lib/client"
 import type Route from "./+types.route"
