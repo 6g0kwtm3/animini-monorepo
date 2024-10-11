@@ -18,7 +18,6 @@ import { M3 } from "~/lib/components"
 import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 
-
 import UserFollowRoute from "../user.$userId.follow/+types.route"
 import UserInfoRoute from "../user.$userName.info/+types.route"
 import { RootProvider } from "~/lib/RootProvider"
