@@ -21,6 +21,7 @@ export default tseslint.config(
 			"app/gql",
 			"playwright",
 			".storybook",
+			".react-router",
 		],
 	},
 	// ...flat.extends(
