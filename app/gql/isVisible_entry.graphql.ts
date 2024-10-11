@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c45fc4fa19d1cd4810f168fe1e91a1b>>
+ * @generated SignedSource<<d40b987dce3d22df7477b071c6e2c104>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -39,7 +39,7 @@ const node: ReaderInlineDataFragment = {
   "name": "isVisible_entry"
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "b733b559a24cf6e96edf0f2d47760e98";
 }
 

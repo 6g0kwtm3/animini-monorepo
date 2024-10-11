@@ -1,5 +1,19 @@
-import { test, type Locator, type Page } from "@playwright/test"
-import { FeedPage } from "./pages/IndexPage"
+import { type Locator, type Page } from "@playwright/test"
+import { graphql, HttpResponse } from "msw"
+import type {
+	rootQuery$rawResponse,
+	rootQuery$variables,
+} from "~/gql/rootQuery.graphql"
+import type {
+	routeNavUserIndexQuery$rawResponse,
+	routeNavUserIndexQuery$variables,
+} from "~/gql/routeNavUserIndexQuery.graphql"
+import type {
+	routeNavUserQuery$rawResponse,
+	routeNavUserQuery$variables,
+} from "~/gql/routeNavUserQuery.graphql"
+import { SucccessHandler, test } from "./fixtures"
+import { HomePage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
 test.use({ storageState: "playwright/.auth/user.json" })
@@ -13,30 +27,81 @@ class UserPage {
 	private constructor(private page: Page) {
 		this.animeList = page
 			.getByRole("main")
-			.getByRole("link", { name: "Anime list" })
+			.getByRole("tab", { name: "Anime list" })
 		this.mangaList = page
 			.getByRole("main")
-			.getByRole("link", { name: "Manga list" })
+			.getByRole("tab", { name: "Manga list" })
 	}
 }
 
+const handlers = [
+	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+		"routeNavUserQuery",
+		() =>
+			HttpResponse.json({
+				data: {
+					user: {
+						id: 1,
+						about: "",
+						name: "User",
+						avatar: null,
+						bannerImage: null,
+						isFollowing: null,
+						options: null,
+					},
+				},
+			})
+	),
+	graphql.query<
+		routeNavUserIndexQuery$rawResponse,
+		routeNavUserIndexQuery$variables
+	>("routeNavUserIndexQuery", () =>
+		HttpResponse.json({
+			data: {
+				User: {
+					id: 1,
+					about: "",
+				},
+			},
+		})
+	),
+	graphql.query<rootQuery$rawResponse, rootQuery$variables>("rootQuery", () =>
+		HttpResponse.json({
+			data: {
+				Viewer: {
+					id: 1,
+					name: "User",
+					unreadNotificationCount: 0,
+				},
+			},
+		})
+	),
+	SucccessHandler,
+]
+
 test.describe("fullscreen", () => {
-	test("navigates to anime list", async ({ page, isMobile }) => {
+	test("navigates to anime list", async ({ page, isMobile, api }) => {
 		test.skip(isMobile)
+		api.use(handlers)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
-		let indexPage = await FeedPage.new(page)
+		let indexPage = await HomePage.new(page)
 		// when
 		await indexPage.nav.animeList.click()
 		// then
 		await TypelistPage.new(page)
 	})
 
-	test("navigates to navigates to manga list", async ({ page, isMobile }) => {
+	test("navigates to navigates to manga list", async ({
+		page,
+		isMobile,
+		api,
+	}) => {
 		test.skip(isMobile)
+		api.use(handlers)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
-		let indexPage = await FeedPage.new(page)
+		let indexPage = await HomePage.new(page)
 		// when
 		await indexPage.nav.profile.click()
 		// then
@@ -44,10 +109,11 @@ test.describe("fullscreen", () => {
 	})
 })
 
-test("navigates to anime list", async ({ page }) => {
+test("navigates to anime list", async ({ page, api }) => {
+	api.use(handlers)
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
-	let indexPage = await FeedPage.new(page)
+	let indexPage = await HomePage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
 	// when
@@ -56,10 +122,11 @@ test("navigates to anime list", async ({ page }) => {
 	await TypelistPage.new(page)
 })
 
-test("navigates to manga list", async ({ page }) => {
+test("navigates to manga list", async ({ page, api }) => {
+	api.use(handlers)
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
-	let indexPage = await FeedPage.new(page)
+	let indexPage = await HomePage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
 	// when

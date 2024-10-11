@@ -43,8 +43,9 @@ export function mockMedia(initialValue: {} = {}) {
 				"https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx154587-gHSraOSa0nBG.jpg",
 			color: "#aee493",
 		},
+		type: "ANIME",
 		...initialValue,
-	}
+	} as const
 }
 
 export function mockMediaListCollection(args: any, initialValue: {} = {}) {

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
+import type { MetaFunction } from "react-router"
 import type { routeMediaCarouselItem_media$key } from "~/gql/routeMediaCarouselItem_media.graphql"
 import type { routeNavIndexQuery } from "~/gql/routeNavIndexQuery.graphql"
 import type { routeNavIndexQuery_query$key } from "~/gql/routeNavIndexQuery_query.graphql"
@@ -22,6 +23,12 @@ const routeMediaCarouselItem_media = graphql`
 		...MediaCover_media @arguments(extraLarge: true)
 	}
 `
+
+export const meta = (() => [
+	{
+		title: "Home",
+	},
+]) satisfies MetaFunction
 
 function MediaCarouselItem(props: { media: routeMediaCarouselItem_media$key }) {
 	const media = useFragment(routeMediaCarouselItem_media, props.media)

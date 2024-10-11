@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<89525aa33d843229aafa8b71507f8193>>
+ * @generated SignedSource<<581efaf4f12e0ea33c172e36a21ef9ad>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -93,7 +93,7 @@ return {
 };
 })();
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "2d126b06eb1ae5b6c1667d90ab8fca28";
 }
 

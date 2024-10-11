@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f8e7770075aeb95ee9f9e778e8d87855>>
+ * @generated SignedSource<<841c9a05764a2731a8bbccc92cbc3375>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -53,7 +53,7 @@ const node: ConcreteUpdatableQuery = {
   "kind": "UpdatableQuery"
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "a0dcfdd18fcdf7d40fbcfa2359cbec3f";
 }
 

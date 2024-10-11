@@ -6,7 +6,6 @@ import { TabsList, TabsListItem } from "~/components/Tabs"
 
 import { M3 } from "~/lib/components"
 
-import { copySearchParams } from "~/lib/copySearchParams"
 
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import type { ComponentProps } from "./+types.route"
@@ -23,13 +22,10 @@ export function Sheet(props: ComponentProps): ReactNode {
 	const sheet = searchParams.get("sheet")
 	const filter = sheet === "filter"
 	const sort = sheet === "sort"
-	searchParams.delete("sheet")
 
-	const filterParams = copySearchParams(searchParams)
-	filterParams.set("sheet", "filter")
+	const filterParams = searchParams.set("sheet", "filter")
 
-	const sortParams = copySearchParams(searchParams)
-	sortParams.set("sheet", "sort")
+	const sortParams = searchParams.set("sheet", "sort")
 
 	return (
 		<M3.Sheet
@@ -40,7 +36,7 @@ export function Sheet(props: ComponentProps): ReactNode {
 			open={filter || sort}
 			onClose={() => {
 				void navigate({
-					search: `?${searchParams}`,
+					search: `?${searchParams.delete('sheet')}`,
 				})
 			}}
 		>

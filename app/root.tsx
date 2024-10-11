@@ -22,8 +22,8 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import environment, { loadQuery } from "./lib/Network"
-import { RelayEnvironmentProvider } from "./lib/Network/components"
+import { loadQuery } from "./lib/Network"
+import RelayEnvironment from "./lib/Network/components"
 import { button } from "./lib/button"
 
 import type { rootQuery } from "~/gql/rootQuery.graphql"
@@ -117,11 +117,11 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<Links />
 			</head>
 			<body>
-				<RelayEnvironmentProvider environment={environment}>
+				<RelayEnvironment>
 					<SnackbarQueue>
 						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
 					</SnackbarQueue>
-				</RelayEnvironmentProvider>
+				</RelayEnvironment>
 
 				<ScrollRestoration
 				//  nonce={nonce}

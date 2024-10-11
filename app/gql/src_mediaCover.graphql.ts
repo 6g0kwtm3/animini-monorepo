@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3fb0669ee4cd5dfa22badb3e5d26e9ff>>
+ * @generated SignedSource<<7f93605fd45af0c51aee6736f3ec78b0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -78,7 +78,7 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "f185028146ff9595bda3e0e73c936051";
 }
 

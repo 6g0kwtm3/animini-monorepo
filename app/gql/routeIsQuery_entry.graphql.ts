@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b49a7724fa4d8d163933fa70e61df829>>
+ * @generated SignedSource<<b61328af503da017b7b849a62ebeaaee>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -44,7 +44,7 @@ const node: ReaderInlineDataFragment = {
   "name": "routeIsQuery_entry"
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "97c7597f26a0d8c9f84f35caf2d8b2f2";
 }
 

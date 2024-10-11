@@ -18,7 +18,6 @@ import {
 	SearchViewInput,
 	SearchViewItem,
 } from "~/components/SearchView"
-import { copySearchParams } from "~/lib/copySearchParams"
 import { M3 } from "../components"
 
 import { createList, ListContext } from "../list"
@@ -37,10 +36,9 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 	let ref = useRef<ComponentRef<"input">>(null)
 
 	const show = searchParams.get("sheet") === "search"
-	searchParams.delete("sheet")
 
-	const sheetParams = copySearchParams(searchParams)
-	sheetParams.set("sheet", "search")
+	const sheetParams = searchParams.set("sheet", "search")
+
 	const navigate = useNavigate()
 
 	// bind command + k
@@ -67,7 +65,7 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 			aria-label="Search anime or manga"
 			open={show}
 			onClose={() => {
-				void navigate({ search: `?${searchParams}` })
+				void navigate({ search: `?${searchParams.delete("sheet")}` })
 			}}
 			initialFocus={ref.current}
 			variant={{

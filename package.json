@@ -3,7 +3,6 @@
 	"sideEffects": false,
 	"type": "module",
 	"name": "animini-pwa",
-	"main": "desktop/index.js",
 	"scripts": {
 		"deploy": "wrangler pages deploy ./build/client",
 		"build": "react-router build",
@@ -47,7 +46,6 @@
 		"marked": "^0.3.19",
 		"meros": "^1.3.0",
 		"msw": "^2.4.4",
-		"msw-storybook-addon": "^2.0.3",
 		"react": "^19.0.0-rc-f90a6bcc-20240827",
 		"react-dom": "^19.0.0-rc-f90a6bcc-20240827",
 		"react-relay": "^18.1.0",

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8e9a9cc6064c56867a632212de6c3626>>
+ * @generated SignedSource<<a3b2599d26e03785873a767daa779be7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,7 +26,7 @@ const node: ReaderInlineDataFragment = {
   "name": "routeFuzzyDateOrder_fuzzyDate"
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "08fcce2ac61137c26662d3123bf36336";
 }
 

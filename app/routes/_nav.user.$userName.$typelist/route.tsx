@@ -233,8 +233,7 @@ function FilterButton() {
 	let { pathname } = useLocation()
 
 	const searchParams = useOptimisticSearchParams()
-	const filterParams = copySearchParams(searchParams)
-	filterParams.set("sheet", "filter")
+	const filterParams = searchParams.set("sheet", "filter")
 
 	return (
 		<M3.TooltipPlain>
@@ -258,11 +257,6 @@ function FilterButton() {
 		</M3.TooltipPlain>
 	)
 }
-
-export type ReadonlyURLSearchParams = Omit<
-	URLSearchParams,
-	"set" | "append" | "delete" | "sort"
->
 
 export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
 	let location = useLocation()

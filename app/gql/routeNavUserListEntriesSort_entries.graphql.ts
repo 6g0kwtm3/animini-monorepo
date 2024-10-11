@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<db1190bf066c35f2b34a3b19ae4a3d85>>
+ * @generated SignedSource<<11f845006a1cfda336d1ab469c125495>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -54,7 +54,7 @@ const node: ReaderInlineDataFragment = {
   "name": "routeNavUserListEntriesSort_entries"
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env?.DEV) {
   (node as any).hash = "ef15fb8f850fe53c9f0704ce109fab9c";
 }
 

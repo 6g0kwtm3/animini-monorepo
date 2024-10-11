@@ -11,11 +11,15 @@ import { SearchItem } from "./SearchItem"
 
 import type { ReactNode } from "react"
 import { M3 } from "../components"
-import { useFragment, usePreloadedQuery } from "../Network"
+import {
+	useFragment,
+	usePreloadedQuery,
+	type NodeAndQueryFragment,
+} from "../Network"
 
 import { createList, ListContext } from "../list"
 
-import ReactRelay, { type PreloadedQuery } from "react-relay"
+import ReactRelay from "react-relay"
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
 
@@ -33,7 +37,7 @@ const SearchTrending_query = graphql`
 `
 
 export function SearchTrending(props: {
-	query: [ReactRelay.GraphQLTaggedNode, PreloadedQuery<routeNavTrendingQuery>]
+	query: NodeAndQueryFragment<routeNavTrendingQuery>
 }): ReactNode {
 	const query: SearchTrending_query$key = usePreloadedQuery(...props.query)
 	const data = useFragment(SearchTrending_query, query)
