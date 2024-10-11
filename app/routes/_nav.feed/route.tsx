@@ -24,7 +24,6 @@ import { client_operation } from "~/lib/client"
 
 // import {RouterProvider} from 'react-router-dom'
 
-import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { createList, ListContext } from "~/lib/list"
@@ -188,15 +187,9 @@ export default function Index({
 													</ListItem>
 												</address>
 											</ListContext>
-											<ClientOnly>
-												{() =>
-													activity.text && (
-														<Markdown options={options}>
-															{activity.text}
-														</Markdown>
-													)
-												}
-											</ClientOnly>
+											{activity?.text && (
+												<Markdown options={options}>{activity.text}</Markdown>
+											)}
 										</Card>
 									</li>
 								)

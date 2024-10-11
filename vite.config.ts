@@ -59,9 +59,7 @@ export default defineConfig({
 		!isStorybook &&
 			!isVitest &&
 			remix({
-				future: {},
 				ssr: false,
-				prerender: true,
 			}),
 		tsconfigPaths(),
 		icons({
