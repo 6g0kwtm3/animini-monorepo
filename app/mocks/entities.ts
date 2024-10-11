@@ -1,8 +1,6 @@
 import { faker as en } from "@faker-js/faker/locale/en"
 import { faker as ja } from "@faker-js/faker/locale/ja"
 
-
-
 export function mockUser(initialValue: {} = {}) {
 	return {
 		name: "John Doe",
@@ -57,7 +55,7 @@ export function mockMediaListCollection(args: any, initialValue: {} = {}) {
 			mockMediaListGroup(args),
 			mockMediaListGroup(args),
 		],
-		...initialValue
+		...initialValue,
 	}
 }
 

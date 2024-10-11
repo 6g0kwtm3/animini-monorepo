@@ -17,7 +17,6 @@ import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
 import { EffectUrql } from "~/lib/urql"
 
-
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"

@@ -1,8 +1,5 @@
 import { Card } from "~/components/Card"
-import {
-	FieldText,
-	FieldTextIcon
-} from "~/components/TextField"
+import { FieldText, FieldTextIcon } from "~/components/TextField"
 
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
