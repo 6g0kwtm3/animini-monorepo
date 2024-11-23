@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e033795eef6bf440e60067926fccc348>>
+ * @generated SignedSource<<8d64182b6f52c825feef517c6fcb97a5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -79,8 +79,7 @@ return {
                     "name": "userPreferred",
                     "storageKey": null
                   },
-                  "action": "LOG",
-                  "path": "media.title.userPreferred"
+                  "action": "LOG"
                 },
                 {
                   "args": null,
@@ -90,14 +89,12 @@ return {
               ],
               "storageKey": null
             },
-            "action": "LOG",
-            "path": "media.title"
+            "action": "LOG"
           }
         ],
         "storageKey": null
       },
-      "action": "LOG",
-      "path": "media"
+      "action": "LOG"
     }
   ],
   "type": "MediaList",

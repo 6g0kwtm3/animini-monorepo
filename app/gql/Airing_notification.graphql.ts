@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4ec70ae4cc22c6189b6c087227d9c05f>>
+ * @generated SignedSource<<e655010efc8761edb769c8d56b6ff8db>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -85,8 +85,7 @@ return {
               ],
               "storageKey": null
             },
-            "action": "LOG",
-            "path": "media.title"
+            "action": "LOG"
           },
           {
             "args": null,
@@ -97,8 +96,7 @@ return {
         ],
         "storageKey": null
       },
-      "action": "LOG",
-      "path": "media"
+      "action": "LOG"
     }
   ],
   "type": "AiringNotification",

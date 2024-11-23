@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a119bcc6849e84d3fbb0dbf243a6c8e0>>
+ * @generated SignedSource<<eee3874f00bbc2ebb1a4f33ff2b2e7c6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -61,8 +61,7 @@ return {
         "resolverModule": mediaListBehindResolver,
         "path": "behind"
       },
-      "action": "NONE",
-      "path": "behind"
+      "action": "NONE"
     },
     {
       "alias": null,
