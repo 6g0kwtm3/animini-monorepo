@@ -3,7 +3,7 @@ import { Await, Link } from "react-router"
 import {
 	createContext,
 	Suspense,
-	useContext,
+	use,
 	type ComponentProps,
 	type ReactNode,
 } from "react"
@@ -79,7 +79,7 @@ export function MediaLink({
 }: Omit<ComponentProps<typeof Link>, "to"> & {
 	mediaId: number
 }): ReactNode {
-	const ctx = useContext(MediaLinkContext)
+	const ctx = use(MediaLinkContext)
 	const data = ctx[mediaId]
 
 	return (

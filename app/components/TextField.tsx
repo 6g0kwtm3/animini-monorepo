@@ -1,6 +1,6 @@
 import { Predicate } from "effect"
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
-import { createContext, useContext, useId, useRef } from "react"
+import { createContext, use, useId, useRef } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 
@@ -23,7 +23,7 @@ function FieldContainer({
 	children,
 	...props
 }: ComponentProps<"div">): ReactNode {
-	const { container, containerBefore, containerAfter } = useContext(Context)
+	const { container, containerBefore, containerAfter } = use(Context)
 	return (
 		<div {...props} className={container({ className: props.className })}>
 			<div className={containerBefore()} />
@@ -126,7 +126,7 @@ export function FieldText({
 }
 
 export function FieldTextSuffix(props: ComponentProps<"span">): ReactNode {
-	const { suffix } = useContext(Context)
+	const { suffix } = use(Context)
 
 	return <span {...props} className={suffix({ className: props.className })} />
 }
@@ -134,8 +134,8 @@ export function FieldTextSuffix(props: ComponentProps<"span">): ReactNode {
 export function FieldTextLabel({
 	...props
 }: ComponentProps<"label">): ReactNode {
-	const { label, labelAfter } = useContext(Context)
-	const id = useContext(LabelContext)
+	const { label, labelAfter } = use(Context)
+	const id = use(LabelContext)
 	props.htmlFor ??= id
 
 	return (
@@ -147,7 +147,7 @@ export function FieldTextLabel({
 }
 
 function FieldOutline(props: ComponentProps<"fieldset">): ReactNode {
-	const { outline } = useContext(Context)
+	const { outline } = use(Context)
 
 	return (
 		<fieldset {...props} className={outline({ className: props.className })}>
@@ -166,7 +166,7 @@ function FieldOutline(props: ComponentProps<"fieldset">): ReactNode {
 }
 
 export function FieldTextIcon(props: ComponentProps<"div">): ReactNode {
-	const { icon } = useContext(Context)
+	const { icon } = use(Context)
 
 	return <div {...props} className={icon({ className: props.className })} />
 }

@@ -101,12 +101,16 @@ const fetchQuery_: FetchFunction = async function (
 	)
 }
 
+declare global {
+	var __RELAY_STORE__: Store
+}
+
 // Create a network layer from the fetch function
 const network = Network.create(fetchQuery_)
-const store = new Store(new RecordSource(), {
+const store = (globalThis.__RELAY_STORE__ ??= new Store(new RecordSource(), {
 	gcReleaseBufferSize: Infinity,
 	queryCacheExpirationTime: 60 * 1000, // 1 minute
-})
+}))
 
 const environment = new Environment({
 	network,
