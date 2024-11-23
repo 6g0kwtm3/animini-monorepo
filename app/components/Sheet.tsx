@@ -8,7 +8,7 @@ import { tv } from "~/lib/tailwind-variants"
 const sheet = tv(
 	{
 		slots: {
-			root: "fixed flex flex-col overflow-hidden bg-surface-container-low transition-transform duration-2sm ease-emphasized data-[enter]:transform-none",
+			root: "fixed flex flex-col overflow-hidden bg-surface-container-low transition-transform duration-2sm ease-emphasized data-enter:transform-none",
 			backdrop: "",
 			container:
 				"overflow-auto overscroll-contain text-body-md text-on-surface",
@@ -26,7 +26,7 @@ const sheet = tv(
 			modal: {
 				true: {
 					backdrop:
-						"bg-scrim/40 opacity-0 transition-opacity duration-sm ease-emphasized data-[enter]:opacity-100",
+						"bg-scrim/40 opacity-0 transition-opacity duration-sm ease-emphasized data-enter:opacity-100",
 				},
 				false: {},
 			},

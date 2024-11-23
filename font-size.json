@@ -83,13 +83,13 @@
 		"0.6875rem",
 		{
 			"lineHeight": "1.6666666666666667",
-			"letterSpacing": "0.03125rem",
+			"letterSpacing": "0.045454545454545456em",
 			"fontWeight": 500
 		}
 	],
 	"body-lg": [
 		"1rem",
-		{ "lineHeight": "1.5", "letterSpacing": "0.03125rem", "fontWeight": 400 }
+		{ "lineHeight": "1.5", "letterSpacing": "0.03125em", "fontWeight": 400 }
 	],
 	"body-md": [
 		"0.875rem",

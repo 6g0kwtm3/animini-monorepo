@@ -11,7 +11,7 @@ const createNavigation = tv(
 			root: "fixed bottom-0 start-0 z-50",
 			label: `group relative flex text-center text-on-surface-variant`,
 			activeIndicator: "absolute bg-secondary-container",
-			icon: "i last:*:hidden",
+			icon: "i *:last:hidden",
 			largeBadge:
 				"flex h-4 min-w-4 items-center justify-center rounded-sm bg-error px-1 text-label-sm text-on-error",
 		},
@@ -28,7 +28,7 @@ const createNavigation = tv(
 					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md aria-[current='page']:text-on-surface`,
 					activeIndicator:
 						"h-8 w-16 scale-x-0 rounded-lg transition-transform duration-sm ease-emphasized-accelerate group-aria-[current='page']:scale-x-100",
-					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:first:*:hidden group-aria-[current='page']:last:*:block group-focused:state-focus group-pressed:state-pressed",
+					icon: "relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:*:first:hidden group-aria-[current='page']:*:last:block group-focused:state-focus group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2",
 				},
 				rail: {
@@ -37,7 +37,7 @@ const createNavigation = tv(
 						"grow-0 flex-col items-center gap-1 px-2 py-0 text-label-md aria-[current='page']:text-on-surface",
 					activeIndicator:
 						"h-8 w-14 scale-x-0 rounded-lg transition-transform duration-sm ease-emphasized-accelerate group-aria-[current='page']:scale-x-100",
-					icon: "relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:text-on-surface group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:first:*:hidden group-aria-[current='page']:last:*:block group-focused:text-on-surface group-focused:state-focus group-pressed:text-on-surface group-pressed:state-pressed",
+					icon: "relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:text-on-surface group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:*:first:hidden group-aria-[current='page']:*:last:block group-focused:text-on-surface group-focused:state-focus group-pressed:text-on-surface group-pressed:state-pressed",
 					largeBadge: "absolute left-1/2",
 				},
 				drawer: {
@@ -45,7 +45,7 @@ const createNavigation = tv(
 					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed`,
 					activeIndicator:
 						"inset-0 -z-10 hidden h-full w-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
-					icon: "h-6 w-6 group-hover:text-on-surface group-hover:state-none group-aria-[current='page']:first:*:block group-aria-[current='page']:last:*:hidden group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
+					icon: "h-6 w-6 group-hover:text-on-surface group-hover:state-none group-aria-[current='page']:*:first:block group-aria-[current='page']:*:last:hidden group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none",
 					largeBadge: "static ms-auto",
 				},
 			},

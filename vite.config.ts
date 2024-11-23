@@ -1,11 +1,14 @@
 import { paraglide } from "@inlang/paraglide-vite"
 import MillionLint from "@million/lint"
 import { reactRouter as remix } from "@react-router/dev/vite"
+import tailwindcss from "@tailwindcss/vite"
+import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
-import { defineConfig } from "vite"
+import { defineConfig, type PluginOption } from "vite"
 import Inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
+import tailwindConfig from "./tailwind.config"
 const isStorybook = process.argv[1]?.includes("storybook")
 const isVitest = process.argv[1]?.includes("vitest")
 const isBun = (): boolean => !!globalThis.Bun
@@ -14,6 +17,8 @@ const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
 		Inspect(),
+		tvTransform(),
+		tailwindcss(),
 		// babel({
 		// 	filter: /\.[jt]sx?$/,
 		// 	include: [
@@ -85,4 +90,18 @@ export default defineConfig({
 })
 declare global {
 	const __BUSTER__: string
+}
+function tvTransform(): PluginOption {
+	return {
+		enforce: "pre",
+		name: "tv-transformer",
+		transform(src, id) {
+			if (/\.[jt]sx?$/.test(id)) {
+				return {
+					code: tvTransformer(src, Object.keys(tailwindConfig.theme.screens)),
+					map: null,
+				}
+			}
+		},
+	}
 }

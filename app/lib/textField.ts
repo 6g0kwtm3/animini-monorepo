@@ -13,7 +13,7 @@ export const createTextFieldInput = tv({
 			"pointer-events-none absolute whitespace-nowrap text-body-sm text-on-surface-variant transition-all group-has-[:placeholder-shown]:top-4 group-has-[:placeholder-shown]:text-body-lg group-has-[[aria-disabled='true']]:text-on-surface/[.38] group-error:text-error group-error:group-hover:text-on-error-container group-has-read-write:group-hover:text-on-surface group-has-focused:group-has-[:placeholder-shown]:text-body-sm group-error:group-has-focused:text-error group-has-read-write:group-has-focused:text-primary",
 		labelAfter: "hidden group-has-[:required]:inline",
 		input:
-			"peer flex w-full min-w-0 resize-none items-center justify-between bg-transparent px-4 text-body-lg text-on-surface placeholder-transparent caret-primary outline-none placeholder:transition-all group-has-[.suffix]/suffix:text-right group-has-[.suffix]/suffix:[appearance:textfield] aria-[disabled='true']:text-on-surface/[.38] group-error:caret-error focused:placeholder-on-surface-variant group-has-[.suffix]/suffix:[&::-webkit-inner-spin-button]:hidden [&_option]:bg-surface-container [&_option]:text-on-surface",
+			"peer flex w-full min-w-0 resize-none items-center justify-between bg-transparent px-4 text-body-lg text-on-surface placeholder-transparent caret-primary outline-hidden placeholder:transition-all group-has-[.suffix]/suffix:text-right group-has-[.suffix]/suffix:[appearance:textfield] aria-[disabled='true']:text-on-surface/[.38] group-error:caret-error focused:placeholder-on-surface-variant group-has-[.suffix]/suffix:[&::-webkit-inner-spin-button]:hidden [&_option]:bg-surface-container [&_option]:text-on-surface",
 	},
 	variants: {
 		variant: {

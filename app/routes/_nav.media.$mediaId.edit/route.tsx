@@ -534,7 +534,7 @@
 // 				e.currentTarget.style.height = ""
 // 				e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
 // 			}}
-// 			className="[field-sizing:content]"
+// 			className="field-sizing-content"
 // 			label="Notes"
 // 		/>
 // 	)

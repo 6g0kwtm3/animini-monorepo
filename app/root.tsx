@@ -100,7 +100,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			// lang={locale}
 			// dir={dir}
 			style={theme}
-			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
+			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light scheme-light-dark contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />

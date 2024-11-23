@@ -1,5 +1,4 @@
 import { Predicate } from "effect"
-import { withTV } from "tailwind-variants/transformer"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import colors from "./colors.json"
@@ -36,7 +35,7 @@ export const config = {
 			pressed: "12%",
 			dragged: "16%",
 		},
-		fontSize: fontSize as any,
+		fontSize: JSON.parse(JSON.stringify(fontSize)),
 		colors: Object.assign(
 			Object.fromEntries(
 				Object.keys(colors.dark).map((key) => {
@@ -89,9 +88,7 @@ export const config = {
 	},
 	plugins: [
 		/* eslint-disable @typescript-eslint/no-require-imports */
-		require("@tailwindcss/container-queries"),
-		/* eslint-disable @typescript-eslint/no-require-imports */
-		require("@tailwindcss/typography"),
+		// require("@tailwindcss/typography"),
 
 		plugin(({ addBase, matchUtilities, theme }) => {
 			addBase({
@@ -151,33 +148,32 @@ export const config = {
 				"&:has(:is(:user-invalid,:-moz-ui-invalid,:invalid))",
 				"&:has([aria-invalid='true'])",
 			])
-			addVariant("group-error", [
-				":merge(.group):has(:is(:user-invalid,:-moz-ui-invalid,:invalid)) &",
-				":merge(.group):has([aria-invalid='true']) &",
-			])
+			// addVariant("group-error", [
+			// 	":merge(.group):has(:is(:user-invalid,:-moz-ui-invalid,:invalid)) &",
+			// 	":merge(.group):has([aria-invalid='true']) &",
+			// ])
 			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
 			addVariant("read-write", ["&:read-write"])
 
-			addVariant("has-focused", [
-				"&:has([data-focus-visible])",
-				"&:has(:focus-visible)",
-			])
+			// addVariant("has-focused", [
+			// 	"&:has([data-focus-visible])",
+			// 	"&:has(:focus-visible)",
+			// ])
 			addVariant("pressed", ["&[data-active]", "&:active"])
-			addVariant("popover-open", ["&[data-open]", "&:popover-open"])
-			addVariant("starting", ["@starting-style{&}"])
-			addVariant("group-focused", [
-				":merge(.group)[data-focus-visible] &",
-				":merge(.group):focus-visible &",
-			])
-			addVariant("group-has-read-write", [":merge(.group):has(:read-write) &"])
-			addVariant("group-has-focused", [
-				":merge(.group):has([data-focus-visible]) &",
-				":merge(.group):has(:focus-visible) &",
-			])
-			addVariant("group-pressed", [
-				":merge(.group)[data-active] &",
-				":merge(.group):active &",
-			])
+
+			// addVariant("group-focused", [
+			// 	":merge(.group)[data-focus-visible] &",
+			// 	":merge(.group):focus-visible &",
+			// ])
+			// addVariant("group-has-read-write", [":merge(.group):has(:read-write) &"])
+			// addVariant("group-has-focused", [
+			// 	":merge(.group):has([data-focus-visible]) &",
+			// 	":merge(.group):has(:focus-visible) &",
+			// ])
+			// addVariant("group-pressed", [
+			// 	":merge(.group)[data-active] &",
+			// 	":merge(.group):active &",
+			// ])
 			matchVariant("pointer", (value) => `@media(pointer: ${value}) {&}`, {
 				values: {
 					none: "none",
@@ -272,4 +268,4 @@ export const config = {
 	],
 } as const satisfies Config
 
-export default withTV(config)
+export default config

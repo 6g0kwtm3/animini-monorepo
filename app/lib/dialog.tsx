@@ -17,7 +17,7 @@ export const createDialog = tv(
 					root: "inset-[3.5rem] m-auto h-fit max-h-[calc(100%-7rem)] w-fit min-w-[17.5rem] max-w-[35rem] rounded-xl py-6",
 					content: "gap-6",
 					backdrop:
-						"bg-scrim/40 opacity-0 transition-[opacity] data-[enter]:opacity-100",
+						"bg-scrim/40 opacity-0 transition-[opacity] data-enter:opacity-100",
 					headline:
 						"-mb-2 h-auto px-6 text-center text-headline-sm first:text-start",
 					body: "pt-0",

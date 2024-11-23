@@ -13,7 +13,7 @@ const createSearchView = tv(
 			input:
 				"w-full bg-transparent p-4 text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4",
 			backdrop:
-				"bg-scrim/40 opacity-0 transition-[opacity] data-[enter]:opacity-100",
+				"bg-scrim/40 opacity-0 transition-[opacity] data-enter:opacity-100",
 			body: "overflow-auto overscroll-contain text-body-md text-on-surface",
 		},
 		variants: {

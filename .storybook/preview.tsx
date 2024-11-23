@@ -90,12 +90,12 @@ const preview: Preview = {
 				light: {
 					style: style,
 					class:
-						"bg-surface font-['Noto_Sans',sans-serif] contrast-standard theme-light [color-scheme:light] data-[contrast='true']:contrast-high",
+						"bg-surface font-['Noto_Sans',sans-serif] contrast-standard theme-light scheme-light data-[contrast='true']:contrast-high",
 				},
 				dark: {
 					style: style,
 					class:
-						"bg-surface font-['Noto_Sans',sans-serif] contrast-standard theme-dark [color-scheme:dark] data-[contrast='true']:contrast-high",
+						"bg-surface font-['Noto_Sans',sans-serif] contrast-standard theme-dark scheme-dark data-[contrast='true']:contrast-high",
 				},
 			},
 		}),
