@@ -15,7 +15,7 @@ import { Schema } from "@effect/schema"
 import { NoSuchElementException } from "effect/Cause"
 
 import cookie from "cookie"
-import { json, type TypedResponse } from "react-router"
+import { type TypedResponse } from "react-router"
 import { dev } from "./dev"
 
 export function Cookie<I, A>(
@@ -119,7 +119,7 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	const { error } = cause
 
 	if (error instanceof NoSuchElementException) {
-		throw json("Not found", {
+		throw Response.json("Not found", {
 			status: 404,
 		})
 	}
@@ -129,12 +129,12 @@ export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
 	}
 
 	if (error instanceof Timeout) {
-		throw json(`Request timeout. Try again in ${error.reset}s`, {
+		throw Response.json(`Request timeout. Try again in ${error.reset}s`, {
 			status: 504,
 		})
 	}
 
-	throw json(null, {
+	throw Response.json(null, {
 		status: 500,
 	})
 }

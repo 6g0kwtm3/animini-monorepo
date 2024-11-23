@@ -1,8 +1,8 @@
 import {
-	CheckboxProvider,
-	Group,
-	GroupLabel,
-	RadioProvider,
+    CheckboxProvider,
+    Group,
+    GroupLabel,
+    RadioProvider,
 } from "@ariakit/react"
 
 import { Form, useLocation, useSubmit } from "react-router"
@@ -18,19 +18,19 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
 import { usePreloadedQuery } from "~/lib/Network"
-import type { ComponentProps } from "./+types.route"
+import type { Route } from "./+types/route"
 import {
-	ANIME_FORMAT_OPTIONS,
-	ANIME_PROGRESS_OPTIONS,
-	ANIME_SORT_OPTIONS,
-	ANIME_STATUS_OPTIONS,
-	MANGA_FORMAT_OPTIONS,
-	MANGA_PROGRESS_OPTIONS,
-	MANGA_SORT_OPTIONS,
-	MANGA_STATUS_OPTIONS,
+    ANIME_FORMAT_OPTIONS,
+    ANIME_PROGRESS_OPTIONS,
+    ANIME_SORT_OPTIONS,
+    ANIME_STATUS_OPTIONS,
+    MANGA_FORMAT_OPTIONS,
+    MANGA_PROGRESS_OPTIONS,
+    MANGA_SORT_OPTIONS,
+    MANGA_STATUS_OPTIONS,
 } from "./options"
 
-export function SidePanel({ params, loaderData }: ComponentProps): ReactNode {
+export function SidePanel({ params, loaderData }: Route.ComponentProps): ReactNode {
 	const submit = useSubmit()
 
 	const searchParams = useOptimisticSearchParams()

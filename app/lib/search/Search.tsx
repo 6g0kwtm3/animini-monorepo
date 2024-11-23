@@ -6,17 +6,17 @@ import { Suspense, useEffect, useRef } from "react"
 
 import { Array as ReadonlyArray } from "effect"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
 import {
-	SearchView,
-	SearchViewBody,
-	SearchViewBodyGroup,
-	SearchViewInput,
-	SearchViewItem,
+    SearchView,
+    SearchViewBody,
+    SearchViewBodyGroup,
+    SearchViewInput,
+    SearchViewItem,
 } from "~/components/SearchView"
 import { M3 } from "../components"
 
@@ -25,13 +25,13 @@ import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 import { useOptimisticSearchParams } from "./useOptimisticSearchParams"
 
-import SearchRoute from "../../routes/_nav.search/+types.route"
-import NavRoute from "../../routes/_nav/+types.route"
+import type {Route as SearchRoute} from "../../routes/_nav.search/+types/route"
+import type {Route as NavRoute} from "../../routes/_nav/+types/route"
 
 export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
-	const submit = useFetcher<SearchRoute.LoaderData>()
+	const submit = useFetcher<SearchRoute.ComponentProps['loaderData']>()
 
 	let ref = useRef<ComponentRef<"input">>(null)
 

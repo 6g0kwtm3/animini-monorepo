@@ -1,10 +1,10 @@
 import {
-	Link,
-	Outlet,
-	useParams,
-	type MetaArgs,
-	type MetaFunction,
-	type ShouldRevalidateFunction,
+    Link,
+    Outlet,
+    useParams,
+    type MetaArgs,
+    type MetaFunction,
+    type ShouldRevalidateFunction,
 } from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"
@@ -12,19 +12,19 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-	Menu,
-	MenuDivider,
-	MenuItemLeadingIcon,
-	MenuItemTrailingIcon,
-	MenuItemTrailingText,
-	MenuList,
-	MenuListItem,
-	MenuTrigger,
+    Menu,
+    MenuDivider,
+    MenuItemLeadingIcon,
+    MenuItemTrailingIcon,
+    MenuItemTrailingText,
+    MenuList,
+    MenuListItem,
+    MenuTrigger,
 } from "~/components/Menu"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
@@ -52,7 +52,7 @@ import { usePreloadedQuery } from "~/lib/Network"
 import { RootProvider } from "~/lib/RootProvider"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {

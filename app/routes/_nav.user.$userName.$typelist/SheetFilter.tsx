@@ -7,22 +7,22 @@ import { createList, ListContext } from "~/lib/list"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 
 import {
-	createContext,
-	use,
-	useId,
-	type ComponentProps,
-	type ReactNode,
+    createContext,
+    use,
+    useId,
+    type ComponentProps,
+    type ReactNode,
 } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { subheader } from "~/components/subheader"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 import {
-	ANIME_FORMAT_OPTIONS,
-	ANIME_PROGRESS_OPTIONS,
-	ANIME_STATUS_OPTIONS,
-	MANGA_FORMAT_OPTIONS,
-	MANGA_PROGRESS_OPTIONS,
-	MANGA_STATUS_OPTIONS,
+    ANIME_FORMAT_OPTIONS,
+    ANIME_PROGRESS_OPTIONS,
+    ANIME_STATUS_OPTIONS,
+    MANGA_FORMAT_OPTIONS,
+    MANGA_PROGRESS_OPTIONS,
+    MANGA_STATUS_OPTIONS,
 } from "./options"
 
 export function SheetFilter({ params }: Route.ComponentProps): ReactNode {

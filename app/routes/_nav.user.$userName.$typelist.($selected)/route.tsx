@@ -70,8 +70,7 @@ import { isVisible } from "./isVisible"
 
 import type { routeIsQuery_entry$key } from "~/gql/routeIsQuery_entry.graphql"
 import { parse, type SearchParserResult } from "~/lib/searchQueryParser"
-import type Route from "./+types.route"
-import type { ComponentProps, ErrorBoundaryProps } from "./+types.route"
+import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 
@@ -577,7 +576,7 @@ function inRange(b: number | string | null | undefined) {
 	}
 }
 
-function AwaitQuery({ loaderData, actionData }: ComponentProps) {
+function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 	const query: routeAwaitQuery_query$key = usePreloadedQuery(
 		...loaderData!.NavUserListEntriesQuery
 	)
@@ -708,7 +707,7 @@ function AwaitQuery({ loaderData, actionData }: ComponentProps) {
 	)
 }
 
-export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	const location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`

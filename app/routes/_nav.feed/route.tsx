@@ -1,9 +1,9 @@
 import { type MetaFunction } from "react-router"
 
 import {
-	Predicate,
-	Array as ReadonlyArray,
-	Record as ReadonlyRecord,
+    Predicate,
+    Array as ReadonlyArray,
+    Record as ReadonlyRecord,
 } from "effect"
 import type { ReactNode } from "react"
 
@@ -11,10 +11,10 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle,
+    ListItem,
+    ListItemContent,
+    ListItemContentSubtitle as ListItemSubtitle,
+    ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 import { client_operation } from "~/lib/client"
@@ -32,7 +32,7 @@ import type { Options } from "./Markdown"
 import { Markdown } from "./Markdown"
 import { UserLink } from "./UserLink"
 
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 import { MediaLink } from "./MediaLink"
 
 const { graphql } = ReactRelay

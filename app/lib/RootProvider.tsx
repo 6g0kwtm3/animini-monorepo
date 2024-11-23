@@ -1,5 +1,5 @@
 import { createContext } from "react"
 
-import Route from "../+types.root"
+import type {Route} from "../+types/root"
 
-export const RootProvider = createContext<Route.LoaderData>(null!)
+export const RootProvider = createContext<Route.ComponentProps['loaderData']>(null!)

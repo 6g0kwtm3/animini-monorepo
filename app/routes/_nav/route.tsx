@@ -1,17 +1,17 @@
 import ReactRelay from "react-relay"
 import {
-	Link,
-	Outlet,
-	useLocation,
-	type ShouldRevalidateFunction,
+    Link,
+    Outlet,
+    useLocation,
+    type ShouldRevalidateFunction,
 } from "react-router"
 
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 import {
-	Navigation,
-	NavigationItemIcon,
-	NavigationItemLargeBadge,
+    Navigation,
+    NavigationItemIcon,
+    NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
 import { use, type ReactNode } from "react"

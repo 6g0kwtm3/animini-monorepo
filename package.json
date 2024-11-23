@@ -28,8 +28,8 @@
 		"@graphql-tools/mock": "^9.0.4",
 		"@material/material-color-utilities": "^0.3.0",
 		"@million/lint": "^1.0.11",
-		"@react-router/fs-routes": "^7.0.0-pre.1",
-		"@react-router/node": "^7.0.0-pre.1",
+		"@react-router/fs-routes": "^7.0.1",
+		"@react-router/node": "^7.0.1",
 		"@tanstack/react-virtual": "^3.10.7",
 		"anitomy": "^0.0.35",
 		"arktype": "^2.0.0-beta.1",
@@ -48,15 +48,15 @@
 		"react": "19.0.0-rc-107a2f8c3e-20240617",
 		"react-dom": "19.0.0-rc-107a2f8c3e-20240617",
 		"react-relay": "^18.1.0",
-		"react-router": "^7.0.0-pre.1",
+		"react-router": "^7.0.1",
+		"react-router-dom": "^7.0.1",
 		"relay-runtime": "^18.1.0",
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.1.18",
 		"typescript-eslint": "^8.8.0"
 	},
 	"overrides": {
 		"@types/react": "npm:types-react@rc",
-		"@types/react-dom": "npm:types-react-dom@rc",
-		"react-router-dom": "npm:react-router-dom@^7.0.0-pre.1"
+		"@types/react-dom": "npm:types-react-dom@rc"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
@@ -69,7 +69,7 @@
 		"@inlang/paraglide-js": "^1.11.2",
 		"@inlang/paraglide-vite": "^1.2.74",
 		"@playwright/test": "^1.45.3",
-		"@react-router/dev": "^7.0.0-pre.1",
+		"@react-router/dev": "^7.0.1",
 		"@storybook/addon-a11y": "^8.3.5",
 		"@storybook/addon-essentials": "^8.3.5",
 		"@storybook/addon-interactions": "^8.3.5",
@@ -140,9 +140,7 @@
 		"maintained node versions"
 	],
 	"patchedDependencies": {
-		"wrangler@3.34.2": "patches/wrangler@3.34.2.patch",
-		"relay-runtime@17.0.0": "patches/relay-runtime@16.2.0.patch",
-		"react-relay@18.1.0": "patches/react-relay@18.1.0.patch"
+		"wrangler@3.34.2": "patches/wrangler@3.34.2.patch"
 	},
 	"msw": {
 		"workerDirectory": [

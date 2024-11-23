@@ -7,7 +7,7 @@ import { TabsList, TabsListItem } from "~/components/Tabs"
 import { M3 } from "~/lib/components"
 
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
-import type { ComponentProps } from "./+types.route"
+import type { ComponentProps } from "./+types/route"
 import { SheetFilter } from "./SheetFilter"
 import { SheetSort } from "./SheetSort"
 

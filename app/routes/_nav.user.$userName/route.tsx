@@ -2,13 +2,13 @@ import { Schema } from "@effect/schema"
 
 import { use, type ReactNode } from "react"
 import {
-	Form,
-	Link,
-	Outlet,
-	useFetcher,
-	useLocation,
-	useParams,
-	type ShouldRevalidateFunction,
+    Form,
+    Link,
+    Outlet,
+    useFetcher,
+    useLocation,
+    useParams,
+    type ShouldRevalidateFunction,
 } from "react-router"
 
 import ReactRelay from "react-relay"
@@ -21,7 +21,7 @@ import { m } from "~/lib/paraglide"
 import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
 import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-remove-outline"
 import { User } from "../_nav.user.$userName/User"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
@@ -70,7 +70,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 import { RootProvider } from "~/lib/RootProvider"
-import FollowRoute from "../user.$userId.follow/+types.route"
+import type{Route as FollowRoute} from "../user.$userId.follow/+types/route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
@@ -82,7 +82,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 		})
 	}
 
-	const follow = useFetcher<FollowRoute.ActionData>({
+	const follow = useFetcher<FollowRoute.ComponentProps['actionData']>({
 		key: `${data.user.name}-follow`,
 	})
 

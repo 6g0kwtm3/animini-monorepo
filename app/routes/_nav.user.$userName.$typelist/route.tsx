@@ -1,20 +1,20 @@
 import {
-	Form,
-	isRouteErrorResponse,
-	Link,
-	Outlet,
-	useLocation,
-	useParams,
-	useSearchParams,
-	useSubmit,
-	type ShouldRevalidateFunction,
+    Form,
+    isRouteErrorResponse,
+    Link,
+    Outlet,
+    useLocation,
+    useParams,
+    useSearchParams,
+    useSubmit,
+    type ShouldRevalidateFunction,
 } from "react-router"
 
 import { Order } from "effect"
 import { type ReactNode } from "react"
 import { Card } from "~/components/Card"
 import { TabsList, TabsListItem } from "~/components/Tabs"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 import { Ariakit } from "~/lib/ariakit"
 
@@ -23,21 +23,20 @@ import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
-import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
 import ReactRelay from "react-relay"
 import type { routeNavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
 import {
-	useOptimisticLocation,
-	useOptimisticSearchParams,
+    useOptimisticLocation,
+    useOptimisticSearchParams,
 } from "~/lib/search/useOptimisticSearchParams"
 
 import { Schema } from "@effect/schema"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
-import type { ErrorBoundaryProps } from "./+types.route"
+import type {  } from "./+types/route"
 import { Sheet } from "./Sheet"
 
 const { graphql } = ReactRelay
@@ -258,7 +257,7 @@ function FilterButton() {
 	)
 }
 
-export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`

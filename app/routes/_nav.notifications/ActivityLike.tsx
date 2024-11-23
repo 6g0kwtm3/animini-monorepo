@@ -3,18 +3,18 @@ import { Link, useLoaderData } from "react-router"
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
-	ListItemContent,
-	ListItemContentSubtitle,
-	ListItemContentTitle,
-	ListItemImg,
-	ListItemTrailingSupportingText,
+    ListItemContent,
+    ListItemContentSubtitle,
+    ListItemContentTitle,
+    ListItemImg,
+    ListItemTrailingSupportingText,
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import type { LoaderData } from "./+types.route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -40,7 +40,7 @@ export function ActivityLike(props: {
 		props.notification
 	)
 
-	const data = useLoaderData() as LoaderData
+	const data = useLoaderData() as Route.ComponentProps['loaderData']
 
 	const list = use(ListContext)
 

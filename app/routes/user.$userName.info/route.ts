@@ -3,7 +3,7 @@ import ReactRelay from "react-relay"
 
 import type { routeUserInfoQuery } from "~/gql/routeUserInfoQuery.graphql"
 import { client_operation } from "~/lib/client"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {

@@ -5,7 +5,7 @@ import ReactRelay from "react-relay"
 import { type ShouldRevalidateFunction } from "react-router"
 
 import { client_operation } from "~/lib/client"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 import type { routeNavUserIndexQuery } from "~/gql/routeNavUserIndexQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"

@@ -7,7 +7,7 @@ import { List } from "~/components/List"
 import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { SearchItem } from "~/lib/search/SearchItem"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {

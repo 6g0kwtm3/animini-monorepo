@@ -11,7 +11,7 @@ import {
 	type LinksFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
-import type Route from "./+types.root"
+import type { Route } from "./+types/root"
 import { SnackbarQueue } from "./components/Snackbar"
 
 import { useEffect, type ReactNode } from "react"
@@ -29,7 +29,7 @@ import { button } from "./lib/button"
 import type { rootQuery } from "~/gql/rootQuery.graphql"
 
 import ReactRelay from "react-relay"
-import type { ComponentProps, ErrorBoundaryProps } from "./+types.root"
+
 import { RootProvider } from "./lib/RootProvider"
 
 const { graphql } = ReactRelay
@@ -100,7 +100,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			// lang={locale}
 			// dir={dir}
 			style={theme}
-			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light scheme-light-dark contrast-more:contrast-high dark:theme-dark"
+			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Noto_Sans',sans-serif] scheme-light-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -142,7 +142,7 @@ function useOnFocus(callback: () => void) {
 	}, [callback])
 }
 
-export default function App({ loaderData }: ComponentProps): ReactNode {
+export default function App({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<RootProvider value={loaderData}>
 			{import.meta.env.PROD && <RevalidateOnFocus />}
@@ -151,7 +151,7 @@ export default function App({ loaderData }: ComponentProps): ReactNode {
 	)
 }
 
-export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`
@@ -177,11 +177,11 @@ export function ErrorBoundary({ error }: ErrorBoundaryProps): ReactNode {
 
 	return (
 		<Card variant="elevated">
-			<Ariakit.Heading className="text-balance text-headline-md">
+			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 			<Link to={location} className={button()}>
 				Try again
 			</Link>

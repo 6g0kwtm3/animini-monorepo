@@ -2,14 +2,14 @@ import { Link, useFetcher } from "react-router"
 
 import { use, useEffect, type ReactNode } from "react"
 import {
-	ListItem,
-	ListItemAvatar,
-	ListItemContent,
-	Skeleton,
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichTrigger,
+    ListItem,
+    ListItemAvatar,
+    ListItemContent,
+    Skeleton,
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichTrigger,
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
@@ -18,9 +18,9 @@ import { M3 } from "~/lib/components"
 import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 
-import UserFollowRoute from "../user.$userId.follow/+types.route"
-import UserInfoRoute from "../user.$userName.info/+types.route"
 import { RootProvider } from "~/lib/RootProvider"
+import UserFollowRoute from "../user.$userId.follow/+types/route"
+import UserInfoRoute from "../user.$userName.info/+types/route"
 
 export function UserLink(props: {
 	userName: string

@@ -10,7 +10,7 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsArrowForward from "~icons/material-symbols/arrow-forward"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 

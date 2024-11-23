@@ -8,9 +8,9 @@ import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
 import { Remix } from "~/lib/Remix"
@@ -28,7 +28,7 @@ import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
 import type { routeNavNotificationsUpdateQuery } from "~/gql/routeNavNotificationsUpdateQuery.graphql"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 

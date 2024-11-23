@@ -8,7 +8,7 @@ import { Ariakit } from "~/lib/ariakit"
 
 import { client_get_client } from "~/lib/client"
 import { m } from "~/lib/paraglide"
-import type { ComponentProps } from "./+types.route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 const UserFollow = graphql`
@@ -41,7 +41,7 @@ export const clientAction = (async (args) => {
 	return { ToggleFollow: data.ToggleFollow }
 }) satisfies ClientActionFunction
 
-export default function Page({ actionData: data }: ComponentProps): ReactNode {
+export default function Page({ actionData: data }: Route.ComponentProps): ReactNode {
 	return (
 		<main>
 			{data ? (

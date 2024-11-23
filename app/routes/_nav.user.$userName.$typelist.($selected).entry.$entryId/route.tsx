@@ -1,18 +1,18 @@
 import { type ReactNode } from "react"
-import { json, type ShouldRevalidateFunction } from "react-router"
+import { type ShouldRevalidateFunction } from "react-router"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 
 import type { routeNavUserListEntryQuery } from "~/gql/routeNavUserListEntryQuery.graphql"
 import { M3 } from "~/lib/components"
 import { MediaCover } from "~/lib/entry/MediaCover"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 
 import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 import type { routeSidePanel_entry$key } from "~/gql/routeSidePanel_entry.graphql"
 import { Ariakit } from "~/lib/ariakit"
 import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
-import type { ErrorBoundaryProps } from "./+types.route"
+
 
 const { graphql } = ReactRelay
 
@@ -84,7 +84,7 @@ function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(...loaderData!.routeNavUserListEntryQuery)
 
 	if (!data?.MediaList) {
-		throw json("Data not found", { status: 404 })
+		throw Response.json("Data not found", { status: 404 })
 	}
 
 	const mediaList: routeSidePanel_entry$key = data.MediaList
@@ -136,7 +136,7 @@ export default function SidePanelRoute(props: Route.ComponentProps): ReactNode {
 	return <ExtraOutlets side={<SidePanel {...props} />} />
 }
 
-function SidePanelErrorBoundary(_props: ErrorBoundaryProps) {
+function SidePanelErrorBoundary(_props: Route.ErrorBoundaryProps) {
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">
 			<M3.Card variant="elevated" className="p-4">
@@ -146,6 +146,6 @@ function SidePanelErrorBoundary(_props: ErrorBoundaryProps) {
 	)
 }
 
-export function ErrorBoundary(props: ErrorBoundaryProps): ReactNode {
+export function ErrorBoundary(props: Route.ErrorBoundaryProps): ReactNode {
 	return <ExtraOutlets side={<SidePanelErrorBoundary {...props} />} />
 }

@@ -32,12 +32,12 @@ const ProgressIncrement_entry = graphql`
 	}
 `
 
-import SelectedRoute from "../../routes/_nav.user.$userName.$typelist.($selected)/+types.route"
+import type {Route as SelectedRoute} from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
 import { RootProvider } from "../RootProvider"
 
 export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key
-	actionData: SelectedRoute.ActionData | undefined
+	actionData: SelectedRoute.ComponentProps['actionData'] | undefined
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
 	const data = usePreloadedQuery(...use(RootProvider)!.rootQuery)
@@ -273,7 +273,7 @@ export function Progress({
 	...props
 }: ComponentProps<"span"> & {
 	entry: Progress_entry$key
-	actionData: SelectedRoute.ActionData | undefined
+	actionData: SelectedRoute.ComponentProps['actionData'] | undefined
 }): ReactNode {
 	const data = useFragment(Progress_entry, entry)
 

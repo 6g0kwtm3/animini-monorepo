@@ -13,7 +13,7 @@ import { Ariakit } from "~/lib/ariakit"
 import { createList, ListContext } from "~/lib/list"
 import { usePreloadedQuery } from "~/lib/Network"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
-import type Route from "./+types.route"
+import type { Route } from "./+types/route"
 import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
 import { LabelItem, LabelItemRadio } from "./SheetFilter"
 

@@ -61,11 +61,7 @@ export default defineConfig({
 		// remixDevTools(),
 		// cloudflareDevProxy(),
 
-		!isStorybook &&
-			!isVitest &&
-			remix({
-				ssr: false,
-			}),
+		!isStorybook && !isVitest && remix(),
 		tsconfigPaths(),
 		icons({
 			compiler: "jsx",
@@ -86,6 +82,9 @@ export default defineConfig({
 			`${Date.now()}` || process.env.NODE_ENV === "production"
 				? `${Date.now()}`
 				: "`${Date.now()}`",
+	},
+	optimizeDeps: {
+		include: ["relay-runtime", "react-relay"],
 	},
 })
 declare global {
