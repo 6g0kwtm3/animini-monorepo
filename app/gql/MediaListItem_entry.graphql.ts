@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9de67f8bec8042aad8c70a28c2a38c56>>
+ * @generated SignedSource<<916604a0dbfc571c227f5ff2724ea7f7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -58,8 +58,7 @@ return {
         ],
         "storageKey": null
       },
-      "action": "LOG",
-      "path": "media"
+      "action": "LOG"
     },
     {
       "args": null,

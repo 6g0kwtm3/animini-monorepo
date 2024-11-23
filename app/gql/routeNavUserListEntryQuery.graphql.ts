@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7b1562c88d51133042829c352c109d6d>>
+ * @generated SignedSource<<2f8656672c9a76da1a3b42d668901983>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -125,8 +125,7 @@ return {
           ],
           "storageKey": null
         },
-        "action": "LOG",
-        "path": "MediaList"
+        "action": "LOG"
       }
     ],
     "type": "Query",

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3206de0e0497355dbc22077b0e9f549c>>
+ * @generated SignedSource<<edc92b44e8d9ee71ddcf26aa1bf38fb7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -174,8 +174,7 @@ return {
                 {
                   "kind": "RequiredField",
                   "field": (v5/*: any*/),
-                  "action": "LOG",
-                  "path": "Media.title.userPreferred"
+                  "action": "LOG"
                 },
                 {
                   "args": null,
@@ -185,8 +184,7 @@ return {
               ],
               "storageKey": null
             },
-            "action": "LOG",
-            "path": "Media.title"
+            "action": "LOG"
           },
           (v6/*: any*/),
           {

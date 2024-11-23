@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<193690b0bc3575b5773829eeec52fb8e>>
+ * @generated SignedSource<<8755caab2274a3da1aca3fb36dd5ea8e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -63,8 +63,7 @@ const node: ReaderFragment = {
         ],
         "storageKey": null
       },
-      "action": "LOG",
-      "path": "title"
+      "action": "LOG"
     },
     {
       "args": null,

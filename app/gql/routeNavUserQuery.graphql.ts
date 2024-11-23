@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<02ff24329c2fd2827251496eb0d0978b>>
+ * @generated SignedSource<<616962f5a120fcf833bb509c7094b250>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,6 +10,12 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
+import { profileTheme as userOptionsProfileThemeResolverType } from "../lib/user/Theme";
+// Type assertion validating that `userOptionsProfileThemeResolverType` resolver is correctly implemented.
+// A type error here indicates that the type signature of the resolver module is incorrect.
+(userOptionsProfileThemeResolverType satisfies (
+  rootKey: Theme_userOptions$key,
+) => unknown | null | undefined);
 export type routeNavUserQuery$variables = {
   userName: string;
 };

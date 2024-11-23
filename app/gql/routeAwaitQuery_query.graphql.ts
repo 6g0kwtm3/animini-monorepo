@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b0f9ebcab6e379b05c8e4438fb064fb1>>
+ * @generated SignedSource<<81368264cc59e1e76909e24781ec7d97>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -252,8 +252,7 @@ return {
                 {
                   "kind": "RequiredField",
                   "field": (v1/*: any*/),
-                  "action": "LOG",
-                  "path": "MediaListCollection.lists.name"
+                  "action": "LOG"
                 },
                 {
                   "alias": null,
@@ -565,14 +564,12 @@ return {
               ],
               "storageKey": null
             },
-            "action": "LOG",
-            "path": "MediaListCollection.lists"
+            "action": "LOG"
           }
         ],
         "storageKey": null
       },
-      "action": "LOG",
-      "path": "MediaListCollection"
+      "action": "LOG"
     }
   ],
   "type": "Query",
