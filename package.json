@@ -27,7 +27,7 @@
 		"@effect/schema": "^0.72.3",
 		"@graphql-tools/mock": "^9.0.4",
 		"@material/material-color-utilities": "^0.3.0",
-		"@million/lint": "^1.0.11",
+		"@million/lint": "^1.0.13",
 		"@react-router/fs-routes": "^7.0.1",
 		"@react-router/node": "^7.0.1",
 		"@tanstack/react-virtual": "^3.10.7",

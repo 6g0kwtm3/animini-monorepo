@@ -611,7 +611,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 
 	const elements = lists.flatMap((list) => {
 		const entries = sortEntries(
-			list.entries?.flatMap((el) =>
+			list?.entries?.flatMap((el) =>
 				el != null && isVisible(el, search) && isQuery(el, parsed) ? [el] : []
 			) ?? [],
 			{ search, user: data.MediaListCollection.user }
@@ -623,7 +623,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 					...entries.map((entry) => ({
 						type: "MediaList" as const,
 						entry,
-						name: list.name,
+						name: list?.name,
 					})),
 				]
 			: []
