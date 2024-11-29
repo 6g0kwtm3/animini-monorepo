@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dd44a1e0e88b9ecbe850828ded890dfc>>
+ * @generated SignedSource<<8168d4ba0bcbb42b82543b6de985f11e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -87,7 +87,8 @@ return {
           {
             "kind": "RequiredField",
             "field": (v3/*: any*/),
-            "action": "LOG"
+            "action": "LOG",
+            "path": "ToggleFollow.name"
           },
           (v4/*: any*/)
         ],

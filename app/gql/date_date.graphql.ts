@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<be0b614d41d0b2bc0ec003f919d64db1>>
+ * @generated SignedSource<<fa287944a436097eb32481728c9bcbec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -43,7 +43,8 @@ const node: ReaderFragment = {
         "name": "month",
         "storageKey": null
       },
-      "action": "LOG"
+      "action": "LOG",
+      "path": "month"
     },
     {
       "kind": "RequiredField",
@@ -54,7 +55,8 @@ const node: ReaderFragment = {
         "name": "year",
         "storageKey": null
       },
-      "action": "LOG"
+      "action": "LOG",
+      "path": "year"
     }
   ],
   "type": "FuzzyDate",

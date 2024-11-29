@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<286b85c4a0b405f27420a26f93b8b4c6>>
+ * @generated SignedSource<<c3af06b27714186f5e738d84a2e3e2e5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -114,7 +114,8 @@ return {
             "resolverModule": mediaCoverImageSrcResolver,
             "path": "coverImage.src"
           },
-          "action": "LOG"
+          "action": "LOG",
+          "path": "coverImage.src"
         },
         {
           "kind": "RequiredField",
@@ -131,7 +132,8 @@ return {
             "resolverModule": mediaCoverImageSrcsetResolver,
             "path": "coverImage.srcset"
           },
-          "action": "LOG"
+          "action": "LOG",
+          "path": "coverImage.srcset"
         }
       ],
       "storageKey": null
