@@ -14,7 +14,7 @@ export function DialogContentIcon(props: ComponentProps<"div">): ReactNode {
 	)
 }
 export function DialogFullscreenIcon(props: ComponentProps<"div">): ReactNode {
-	return <div {...props} className={classes("h-6 w-6 i-6", props.className)} />
+	return <div {...props} className={classes("i-6 h-6 w-6", props.className)} />
 }
 
 const Styles = createContext(createDialog())

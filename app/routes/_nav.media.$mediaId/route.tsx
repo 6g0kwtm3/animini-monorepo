@@ -1,10 +1,10 @@
 import {
-    Link,
-    Outlet,
-    useParams,
-    type MetaArgs,
-    type MetaFunction,
-    type ShouldRevalidateFunction,
+	Link,
+	Outlet,
+	useParams,
+	type MetaArgs,
+	type MetaFunction,
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"
@@ -12,19 +12,19 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-    Menu,
-    MenuDivider,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuListItem,
-    MenuTrigger,
+	Menu,
+	MenuDivider,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuListItem,
+	MenuTrigger,
 } from "~/components/Menu"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger,
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
@@ -157,7 +157,7 @@ export default function MediaPage({
 						<div className="overflow-hidden rounded-xl">
 							<Card variant="elevated">
 								<div className="sm:p-12">
-									<Ariakit.Heading className="text-balance text-display-lg">
+									<Ariakit.Heading className="text-display-lg text-balance">
 										<MediaTitle mediaTitle={data.Media.title} />
 									</Ariakit.Heading>
 									<Menu>
@@ -262,7 +262,7 @@ function Edit() {
 			style={{
 				viewTransitionName: "edit",
 			}}
-			className="fixed bottom-24 end-4 sm:bottom-4"
+			className="fixed end-4 bottom-24 sm:bottom-4"
 		>
 			<div className="relative">
 				<TooltipPlain store={store}>

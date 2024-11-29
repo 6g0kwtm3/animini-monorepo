@@ -37,9 +37,9 @@ function MediaCarouselItem(props: { media: routeMediaCarouselItem_media$key }) {
 		media && (
 			<M3.CarouselItem className="relative max-w-52">
 				<MediaCover media={media} className="h-full rounded" />
-				<div className="absolute inset-0 bg-gradient-to-b from-transparent to-scrim/60" />
+				<div className="to-scrim/60 absolute inset-0 bg-gradient-to-b from-transparent" />
 
-				<div className="absolute bottom-0 text-balance p-3 text-title-md">
+				<div className="text-title-md absolute bottom-0 p-3 text-balance">
 					<MediaTitle mediaTitle={media.title} />
 				</div>
 			</M3.CarouselItem>

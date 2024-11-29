@@ -12,18 +12,18 @@ const createLayout = tv(
 		},
 		variants: {
 			navigation: {
-				none: { body: "pb-0 ps-4 sm:ps-6" },
+				none: { body: "ps-4 pb-0 sm:ps-6" },
 				bar: {
 					root: "",
-					body: "pb-20 ps-4 sm:ps-6",
+					body: "ps-4 pb-20 sm:ps-6",
 				},
 				rail: {
 					root: "",
-					body: "pb-0 ps-20 sm:ps-20",
+					body: "ps-20 pb-0 sm:ps-20",
 				},
 				drawer: {
 					root: "",
-					body: "pb-0 ps-[22.5rem] sm:ps-[22.5rem]",
+					body: "ps-[22.5rem] pb-0 sm:ps-[22.5rem]",
 				},
 			},
 		},
@@ -66,7 +66,7 @@ export const PaneContext = createContext<RefObject<ComponentRef<"div"> | null>>(
 
 const pane = tv(
 	{
-		base: "block overflow-y-auto overflow-x-hidden rounded-md",
+		base: "block overflow-x-hidden overflow-y-auto rounded-md",
 		variants: {
 			variant: {
 				fixed: "w-[22.5rem] shrink-0",

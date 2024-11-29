@@ -3,11 +3,11 @@ import { type VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 
 const divider = tv({
-	base: "w-full border-x-0 border-b border-t-0 border-outline-variant",
+	base: "border-outline-variant w-full border-x-0 border-t-0 border-b",
 	variants: {
 		inset: {
-			middle: "me-4 ms-4",
-			start: "me-0 ms-4",
+			middle: "ms-4 me-4",
+			start: "ms-4 me-0",
 		},
 	},
 })

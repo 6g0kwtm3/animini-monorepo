@@ -24,7 +24,7 @@ export function ChipFilter(props: ComponentProps<"label">): ReactNode {
 					{...props}
 					htmlFor={id}
 					data-focus-visible={focusVisible || undefined}
-					className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow hover:state-hover has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow focused:state-focus"
+					className="border-outline text-label-lg text-on-surface-variant hover:state-hover has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container focused:state-focus flex h-8 items-center gap-2 rounded-sm border px-4 shadow has-[:checked]:border-0 has-[:checked]:shadow"
 				/>
 			</IdContext>
 		</FocusContext>
@@ -71,7 +71,7 @@ export function ChipFilterRadio(props: Ariakit.RadioProps): ReactNode {
 
 export function ChipFilterIcon(): ReactNode {
 	return (
-		<div className="-ms-2 w-0 opacity-0 transition-all duration-3sm ease-standard-accelerate i-[1.125rem] peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
+		<div className="duration-3sm ease-standard-accelerate i-[1.125rem] -ms-2 w-0 opacity-0 transition-all peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
 			<MaterialSymbolsCheck />
 		</div>
 	)

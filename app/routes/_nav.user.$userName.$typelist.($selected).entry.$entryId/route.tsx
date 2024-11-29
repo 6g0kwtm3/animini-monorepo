@@ -13,7 +13,6 @@ import type { routeSidePanel_entry$key } from "~/gql/routeSidePanel_entry.graphq
 import { Ariakit } from "~/lib/ariakit"
 import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
 
-
 const { graphql } = ReactRelay
 
 const Params = Schema.Struct({
@@ -93,7 +92,7 @@ function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<M3.LayoutPane
 			variant="fixed"
-			className="duration-2sm ease-emphasized starting:w-0 max-xl:hidden"
+			className="duration-2sm ease-emphasized max-xl:hidden starting:w-0"
 		>
 			<M3.Card
 				variant="elevated"
@@ -102,7 +101,7 @@ function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
 				{entry.media && (
 					<MediaCover media={entry.media} className="mb-4 rounded-lg" />
 				)}
-				<M3.CardHeader className="text-xl mb-2 font-bold">
+				<M3.CardHeader className="mb-2 text-xl font-bold">
 					<Ariakit.Heading>{entry.media?.title?.userPreferred}</Ariakit.Heading>
 				</M3.CardHeader>
 				<div>

@@ -88,12 +88,12 @@ export function FieldText({
 							trailing
 						) : (
 							<>
-								<FieldTextIcon className="hidden group-error:block">
+								<FieldTextIcon className="group-error:block hidden">
 									<MaterialSymbolsError />
 								</FieldTextIcon>
 								{(!props.type || props.type === "search") && (
 									<Icon
-										className="cursor-default group-has-[:placeholder-shown]:hidden group-error:hidden group-has-focused:block group-has-focused:group-error:hidden"
+										className="group-error:hidden group-has-focused:block group-has-focused:group-error:hidden cursor-default group-has-[:placeholder-shown]:hidden"
 										onClick={() => {
 											if (ref.current && !ref.current.disabled)
 												ref.current.value = ""
@@ -153,10 +153,10 @@ function FieldOutline(props: ComponentProps<"fieldset">): ReactNode {
 		<fieldset {...props} className={outline({ className: props.className })}>
 			<legend
 				className={
-					"overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-has-focused:group-has-[:placeholder-shown]:max-w-none"
+					"group-has-focused:group-has-[:placeholder-shown]:max-w-none overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0"
 				}
 			>
-				<span className="px-1 text-body-sm">
+				<span className="text-body-sm px-1">
 					{props.children}
 					<span className="hidden group-has-[:required]:inline">*</span>
 				</span>

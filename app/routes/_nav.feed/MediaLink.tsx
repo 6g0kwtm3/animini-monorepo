@@ -45,7 +45,7 @@ function Media(props: { media: MediaLink_media$key }) {
 		media && (
 			<span
 				className={card({
-					className: `not-prose inline-flex overflow-hidden p-0 text-start contrast-standard theme-light contrast-more:contrast-high dark:theme-dark`,
+					className: `not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`,
 				})}
 				style={media.coverImage?.theme ?? undefined}
 			>

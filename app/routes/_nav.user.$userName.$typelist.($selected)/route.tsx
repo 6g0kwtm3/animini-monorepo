@@ -557,8 +557,8 @@ function isQuery(
 
 function inRange(b: number | string | null | undefined) {
 	return (a: string) => {
-		if (typeof b === "object") {
-			return false
+		if (typeof b === "string") {
+			return b.toLocaleLowerCase().includes(a)
 		}
 
 		if (typeof b === "number") {
@@ -572,7 +572,7 @@ function inRange(b: number | string | null | undefined) {
 							? b < Number(a.slice(1))
 							: b === Number(a)
 		}
-		return b.includes(a)
+		return false
 	}
 }
 
@@ -658,7 +658,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 	return (
 		<div ref={ref} className="">
 			<List
-				className="relative @container"
+				className="@container relative"
 				lines={"two"}
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
@@ -672,7 +672,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute left-0 top-0 w-full"
+								className="absolute top-0 left-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 							>
@@ -683,19 +683,22 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 
 					if (element?.type === "MediaList") {
 						return (
-							<MediaListItem
-								actionData={actionData}
-								ref={virtualizer.measureElement}
-								data-id={element.entry.id}
-								key={`${element.name}:${element.entry.id}`}
-								entry={element.entry}
+							<li
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								user={data.MediaListCollection.user}
-								className="absolute left-0 top-0 w-full"
+								className="absolute top-0 left-0 w-full"
+								ref={virtualizer.measureElement}
 								data-index={item.index}
-							/>
+								key={`${element.name}:${element.entry.id}`}
+							>
+								<MediaListItem
+									actionData={actionData}
+									data-id={element.entry.id}
+									entry={element.entry}
+									user={data.MediaListCollection.user}
+								/>
+							</li>
 						)
 					}
 
@@ -735,11 +738,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 
 	return (
 		<ExtraOutlets>
-			<Ariakit.Heading className="text-balance text-headline-md">
+			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 			<Link to={location} className={button()}>
 				Try again
 			</Link>

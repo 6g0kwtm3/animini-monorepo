@@ -3,11 +3,11 @@ import { Link, useLoaderData } from "react-router"
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
-    ListItemTrailingSupportingText,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
+	ListItemTrailingSupportingText,
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { ListContext } from "~/lib/list"
@@ -40,7 +40,7 @@ export function ActivityLike(props: {
 		props.notification
 	)
 
-	const data = useLoaderData() as Route.ComponentProps['loaderData']
+	const data = useLoaderData() as Route.ComponentProps["loaderData"]
 
 	const list = use(ListContext)
 
@@ -64,7 +64,7 @@ export function ActivityLike(props: {
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0) >
 							(data?.Viewer?.unreadNotificationCount ?? 0) && (
-							<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
+							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 						)}{" "}
 						{notification.context}
 					</ListItemContentTitle>

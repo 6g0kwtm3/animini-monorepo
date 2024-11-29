@@ -270,7 +270,7 @@ export function Markdown(props: {
 	options: Options
 }): ReactNode {
 	return (
-		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md">
+		<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto">
 			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
 				(): ReactNode => parse2(markdownHtml(props.children), props.options),

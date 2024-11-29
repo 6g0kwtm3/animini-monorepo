@@ -1,11 +1,11 @@
 import ReactRelay from "react-relay"
 import { Link, useLoaderData } from "react-router"
 import {
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
-    ListItemTrailingSupportingText,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
+	ListItemTrailingSupportingText,
 } from "~/components/List"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
@@ -43,7 +43,7 @@ export function Airing(props: {
 		`,
 		props.notification
 	)
-	const data = useLoaderData() as Route.ComponentProps['loaderData']
+	const data = useLoaderData() as Route.ComponentProps["loaderData"]
 
 	const list = use(ListContext)
 
@@ -63,7 +63,7 @@ export function Airing(props: {
 						<ListItemContentTitle>
 							{(notification.createdAt ?? 0) >
 								(data?.Viewer?.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
+								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 							)}{" "}
 							{m.episode_aired({
 								episode: notification.episode,

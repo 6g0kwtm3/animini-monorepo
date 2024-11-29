@@ -1,13 +1,13 @@
 import {
-    Form,
-    isRouteErrorResponse,
-    Link,
-    Outlet,
-    useLocation,
-    useParams,
-    useSearchParams,
-    useSubmit,
-    type ShouldRevalidateFunction,
+	Form,
+	isRouteErrorResponse,
+	Link,
+	Outlet,
+	useLocation,
+	useParams,
+	useSearchParams,
+	useSubmit,
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import { Order } from "effect"
@@ -29,14 +29,13 @@ import ReactRelay from "react-relay"
 import type { routeNavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { btnIcon, button } from "~/lib/button"
 import {
-    useOptimisticLocation,
-    useOptimisticSearchParams,
+	useOptimisticLocation,
+	useOptimisticSearchParams,
 } from "~/lib/search/useOptimisticSearchParams"
 
 import { Schema } from "@effect/schema"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
-import type {  } from "./+types/route"
 import { Sheet } from "./Sheet"
 
 const { graphql } = ReactRelay
@@ -131,7 +130,7 @@ export default function Index(props: Route.ComponentProps): ReactNode {
 		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
 			<div className="flex flex-col gap-4">
 				<M3.Tabs selectedId={params.selected}>
-					<div className="sticky top-16 z-50 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
+					<div className="bg-surface sm:bg-surface-container-low sticky top-16 z-50 grid sm:-mt-4">
 						<ListTabs {...props} />
 					</div>
 					<M3.TabsPanel
@@ -286,11 +285,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	return (
 		<ExtraOutlets>
 			<Card variant="elevated">
-				<Ariakit.Heading className="text-balance text-headline-md">
+				<Ariakit.Heading className="text-headline-md text-balance">
 					Uh oh ...
 				</Ariakit.Heading>
 				<p className="text-headline-sm">Something went wrong.</p>
-				<pre className="overflow-auto text-body-md">{errorMessage}</pre>{" "}
+				<pre className="text-body-md overflow-auto">{errorMessage}</pre>{" "}
 				<Link to={location} className={button()}>
 					Try again
 				</Link>

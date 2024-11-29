@@ -47,7 +47,7 @@ export const WithDivider: Story = {
 			<>
 				<M3.CardHeader>
 					<M3.List lines={"two"} className="p-0">
-						<M3.ListItem className="p-0 hover:state-none">
+						<M3.ListItem className="hover:state-none p-0">
 							<M3.ListItemImg>
 								<img src={favicon} alt="" className="" />
 							</M3.ListItemImg>

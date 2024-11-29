@@ -5,7 +5,9 @@ const app = new Hono()
 
 app.use("*", serveStatic({ root: "./build/client" }))
 
-export default {
-	port: 3000,
+const server = Bun.serve({
+	port: 4003,
 	fetch: app.fetch,
-}
+})
+
+console.log(`Listening on ${server.url}`)

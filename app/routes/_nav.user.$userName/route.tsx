@@ -2,13 +2,13 @@ import { Schema } from "@effect/schema"
 
 import { use, type ReactNode } from "react"
 import {
-    Form,
-    Link,
-    Outlet,
-    useFetcher,
-    useLocation,
-    useParams,
-    type ShouldRevalidateFunction,
+	Form,
+	Link,
+	Outlet,
+	useFetcher,
+	useLocation,
+	useParams,
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import ReactRelay from "react-relay"
@@ -70,7 +70,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 import { RootProvider } from "~/lib/RootProvider"
-import type{Route as FollowRoute} from "../user.$userId.follow/+types/route"
+import type { Route as FollowRoute } from "../user.$userId.follow/+types/route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
@@ -82,7 +82,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 		})
 	}
 
-	const follow = useFetcher<FollowRoute.ComponentProps['actionData']>({
+	const follow = useFetcher<FollowRoute.ComponentProps["actionData"]>({
 		key: `${data.user.name}-follow`,
 	})
 
@@ -96,12 +96,12 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<M3.LayoutBody
 			style={data.user.options?.profileTheme ?? undefined}
-			className="max-sm:pe-0 max-sm:ps-0"
+			className="max-sm:ps-0 max-sm:pe-0"
 		>
 			<M3.LayoutPane>
 				<M3.Card
 					variant="elevated"
-					className="p-0 contrast-standard theme-light contrast-more:contrast-high max-sm:contents dark:theme-dark"
+					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark p-0 max-sm:contents"
 				>
 					<M3.Tabs selectedId={params.typelist}>
 						<div className="sticky top-0 z-50">

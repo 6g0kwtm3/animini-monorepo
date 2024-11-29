@@ -9,11 +9,11 @@ import type { ComponentProps, ReactNode } from "react"
 import { use } from "react"
 
 import {
-    ListItem,
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
 } from "~/components/List"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 
@@ -27,8 +27,8 @@ import { Progress, ProgressIncrement } from "./Progress"
 import { Predicate } from "effect"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
-    MediaListItemSubtitle_entry$key,
-    MediaType,
+	MediaListItemSubtitle_entry$key,
+	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
 import { M3 } from "../components"
@@ -84,7 +84,7 @@ const MediaListItem_entry = graphql`
 // 	)
 // }
 
-import type {Route as SelectedRoute} from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
+import type { Route as SelectedRoute } from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
 import { RootProvider } from "../RootProvider"
 
 export function MediaListItem({
@@ -92,8 +92,8 @@ export function MediaListItem({
 	user,
 	actionData,
 	...props
-}: ComponentProps<"li"> & {
-	actionData: SelectedRoute.ComponentProps['actionData'] | undefined
+}: ComponentProps<"div"> & {
+	actionData: SelectedRoute.ComponentProps["actionData"] | undefined
 	entry: MediaListItem_entry$key
 	user: MediaListItemScore_user$key | null | undefined
 }): ReactNode {
@@ -121,7 +121,14 @@ export function MediaListItem({
 
 	return (
 		data && (
-			<ListItem {...props} onMouseEnter={loadSidePanel} onFocus={loadSidePanel}>
+			<div
+				{...props}
+				className={list.item({
+					className: props.className,
+				})}
+				onMouseEnter={loadSidePanel}
+				onFocus={loadSidePanel}
+			>
 				<ListItemImg>
 					<MediaCover media={data.media} />
 				</ListItemImg>
@@ -163,7 +170,7 @@ export function MediaListItem({
 					<Info entry={data} />
 				</div>
 				{/* <MoreMenu entry={data} /> */}
-			</ListItem>
+			</div>
 		)
 	)
 }
@@ -230,13 +237,13 @@ function MediaListScore(props: {
 	if (user?.mediaListOptions?.scoreFormat === "POINT_3") {
 		return {
 			1: (
-				<MaterialSymbolsSentimentDissatisfiedOutline className="i-inline inline text-error @xl:i" />
+				<MaterialSymbolsSentimentDissatisfiedOutline className="i-inline text-error @xl:i inline" />
 			),
 			2: (
-				<MaterialSymbolsSentimentNeutralOutline className="i-inline inline text-tertiary @xl:i" />
+				<MaterialSymbolsSentimentNeutralOutline className="i-inline text-tertiary @xl:i inline" />
 			),
 			3: (
-				<MaterialSymbolsSentimentSatisfiedOutline className="i-inline inline text-primary @xl:i" />
+				<MaterialSymbolsSentimentSatisfiedOutline className="i-inline text-primary @xl:i inline" />
 			),
 		}[entry.score]
 	}
@@ -269,7 +276,7 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 					search: search,
 				}}
 				className={button({
-					className: "hidden @lg:inline-flex xl:pointer-fine:hidden",
+					className: "xl:pointer-fine:hidden hidden @lg:inline-flex",
 				})}
 			>
 				{label}
@@ -283,7 +290,7 @@ function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
 					search: search,
 				}}
 				className={btnIcon({
-					className: "@lg:hidden xl:pointer-fine:hidden",
+					className: "xl:pointer-fine:hidden @lg:hidden",
 				})}
 			>
 				<span className="sr-only">{label}</span>
@@ -358,7 +365,7 @@ function MediaListItemTitle(props: {
 	return (
 		<>
 			{libraryHasNextEpisode && (
-				<MaterialSymbolsPriorityHigh className="i-inline inline text-primary" />
+				<MaterialSymbolsPriorityHigh className="i-inline text-primary inline" />
 
 				// <span className="i-inline text-primary">video_library</span>
 			)}
@@ -384,7 +391,7 @@ const MediaListItemSubtitle_entry = graphql`
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
 	user: MediaListItemScore_user$key | null | undefined
-	actionData: SelectedRoute.ComponentProps['actionData'] | undefined
+	actionData: SelectedRoute.ComponentProps["actionData"] | undefined
 }): ReactNode {
 	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
 

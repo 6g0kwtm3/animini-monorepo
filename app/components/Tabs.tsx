@@ -9,8 +9,8 @@ const TabsContext = createContext<string | undefined>(undefined)
 const tabs = tv(
 	{
 		slots: {
-			root: "border-b border-surface-container-highest",
-			item: "grid h-12 items-center justify-center whitespace-nowrap px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed",
+			root: "border-surface-container-highest border-b",
+			item: "text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed grid h-12 items-center justify-center px-4 whitespace-nowrap",
 		},
 		variants: {
 			variant: {
@@ -18,7 +18,7 @@ const tabs = tv(
 				secondary: {},
 			},
 			grow: {
-				true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
+				true: { root: "grid [grid-auto-columns:minmax(0,1fr)] grid-flow-col" },
 				false: { root: "flex overflow-x-auto" },
 			},
 		},
@@ -101,7 +101,7 @@ export function TabsListItem({
 			<div className="col-start-1 row-start-1">{children}</div>
 			{selectedId === `${prefix}/${id}` && (
 				<div
-					className="col-start-1 row-start-1 h-[0.1875rem] self-end rounded-t-[0.1875rem] bg-primary"
+					className="bg-primary col-start-1 row-start-1 h-[0.1875rem] self-end rounded-t-[0.1875rem]"
 					style={{
 						viewTransitionName: layoutId?.replaceAll(":", "-"),
 					}}

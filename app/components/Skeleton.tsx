@@ -5,7 +5,7 @@ import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 
 const skeleton = tv({
-	base: "animate-pulse select-none overflow-hidden rounded-xs bg-surface-container-highest text-transparent",
+	base: "bg-surface-container-highest animate-pulse overflow-hidden rounded-xs text-transparent select-none",
 	variants: {
 		full: {
 			true: "block h-full w-full",

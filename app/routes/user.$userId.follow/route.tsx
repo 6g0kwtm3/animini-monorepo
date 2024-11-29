@@ -41,7 +41,9 @@ export const clientAction = (async (args) => {
 	return { ToggleFollow: data.ToggleFollow }
 }) satisfies ClientActionFunction
 
-export default function Page({ actionData: data }: Route.ComponentProps): ReactNode {
+export default function Page({
+	actionData: data,
+}: Route.ComponentProps): ReactNode {
 	return (
 		<main>
 			{data ? (

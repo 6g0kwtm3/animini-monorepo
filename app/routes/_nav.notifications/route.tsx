@@ -8,9 +8,9 @@ import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger,
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
 import { Remix } from "~/lib/Remix"
@@ -138,7 +138,7 @@ export default function Notifications({
 			<LayoutPane>
 				{someNotRead > 0 && (
 					<Form method="post">
-						<div className="fixed bottom-24 end-4 sm:bottom-4">
+						<div className="fixed end-4 bottom-24 sm:bottom-4">
 							<div className="relative">
 								<TooltipPlain store={store}>
 									<TooltipPlainTrigger
