@@ -455,7 +455,7 @@ const Params = Schema.Struct({
 	typelist: Schema.Literal("animelist", "mangalist"),
 })
 
-export default function Page(props: ComponentProps): ReactNode {
+export default function Page(props: Route.ComponentProps): ReactNode {
 	return (
 		<ExtraOutlets>
 			{/* <MediaListHeader>

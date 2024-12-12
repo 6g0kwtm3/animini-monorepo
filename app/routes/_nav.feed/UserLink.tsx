@@ -19,17 +19,17 @@ import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 
 import { RootProvider } from "~/lib/RootProvider"
-import UserFollowRoute from "../user.$userId.follow/+types/route"
-import UserInfoRoute from "../user.$userName.info/+types/route"
+import type { Info as UserFollowRoute } from "../user.$userId.follow/+types/route"
+import type { Info as UserInfoRoute } from "../user.$userName.info/+types/route"
 
 export function UserLink(props: {
 	userName: string
 	children: ReactNode
 }): ReactNode {
-	const fetcher = useFetcher<UserInfoRoute.LoaderData>({
+	const fetcher = useFetcher<UserInfoRoute['loaderData']>({
 		key: `${props.userName}-info`,
 	})
-	const follow = useFetcher<UserFollowRoute.ActionData>({
+	const follow = useFetcher<UserFollowRoute['actionData']>({
 		key: `${props.userName}-follow`,
 	})
 

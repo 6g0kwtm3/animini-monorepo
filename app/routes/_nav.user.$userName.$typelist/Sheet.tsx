@@ -7,11 +7,11 @@ import { TabsList, TabsListItem } from "~/components/Tabs"
 import { M3 } from "~/lib/components"
 
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
-import type { ComponentProps } from "./+types/route"
+import type { Route } from "./+types/route"
 import { SheetFilter } from "./SheetFilter"
 import { SheetSort } from "./SheetSort"
 
-export function Sheet(props: ComponentProps): ReactNode {
+export function Sheet(props: Route.ComponentProps): ReactNode {
 	let { pathname } = useLocation()
 
 	const navigate = useNavigate()

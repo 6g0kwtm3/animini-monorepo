@@ -63,20 +63,6 @@ export function commitMutation<P extends MutationParameters>(
 	return commitMutation_<P>(environment, ...args)
 }
 
-declare module "relay-runtime" {
-	type ErrorResult<Error> = {
-		ok: false
-		errors: ReadonlyArray<Error>
-	}
-
-	type OkayResult<T> = {
-		ok: true
-		value: T
-	}
-
-	export type Result<T, Error> = OkayResult<T> | ErrorResult<Error>
-}
-
 type Shift<T> = T extends [any, ...infer U] ? U : []
 
 export function fetchQuery<O extends OperationType>(

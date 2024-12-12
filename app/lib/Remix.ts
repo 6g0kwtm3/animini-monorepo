@@ -15,7 +15,6 @@ import { Schema } from "@effect/schema"
 import { NoSuchElementException } from "effect/Cause"
 
 import cookie from "cookie"
-import { type TypedResponse } from "react-router"
 import { dev } from "./dev"
 
 export function Cookie<I, A>(
@@ -94,8 +93,8 @@ export const formData = Effect.gen(function* () {
 	return yield* Effect.promise(async () => request.formData())
 })
 
-export class ResponseError<T> extends Data.TaggedError("ResponseError")<{
-	response: TypedResponse<T>
+export class ResponseError extends Data.TaggedError("ResponseError")<{
+	response: Response
 }> {}
 
 export async function runLoader<E, A>(effect: Effect.Effect<A, E>): Promise<A> {
