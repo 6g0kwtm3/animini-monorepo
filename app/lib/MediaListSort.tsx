@@ -7,7 +7,9 @@ export enum MediaListSort {
 	StartedOn = "started_on",
 	FinishedOn = "finished_on",
 	StartDate = "start_date",
+	EndDate = "end_date",
 	AvgScore = "avg_score",
+	Behind = "behind",
 	Popularity = "popularity",
 	ToWatch = "to_watch",
 }

@@ -11,14 +11,7 @@ import {
 
 import type { MetaFunction } from "react-router"
 
-import {
-	Equivalence,
-	identity,
-	Order,
-	pipe,
-	Array as ReadonlyArray,
-	Record,
-} from "effect"
+import { identity, Order, pipe, Array as ReadonlyArray } from "effect"
 
 // import {} from 'glob'
 
@@ -43,10 +36,7 @@ import {
 	usePreloadedQuery,
 } from "~/lib/Network"
 
-import {
-	type routeNavUserListEntriesQuery,
-	type routeNavUserListEntriesQuery$variables,
-} from "~/gql/routeNavUserListEntriesQuery.graphql"
+import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 import {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
@@ -77,50 +67,39 @@ const { graphql } = ReactRelay
 const NavUserListEntriesSort_entries = graphql`
 	fragment routeNavUserListEntriesSort_entries on MediaList @inline {
 		id
-		progress @include(if: $includeProgress)
-		score @include(if: $includeScore)
-		startedAt @include(if: $includeStartedAt) {
+		progress
+		score
+		startedAt {
 			...routeFuzzyDateOrder_fuzzyDate
 		}
-		completedAt @include(if: $includeCompletedAt) {
+		completedAt {
 			...routeFuzzyDateOrder_fuzzyDate
 		}
 		media {
 			id
-			popularity @include(if: $includePopularity)
-			startDate @include(if: $includeStartDate) {
+			popularity
+			startDate {
 				...routeFuzzyDateOrder_fuzzyDate
 			}
-			averageScore @include(if: $includeAvgScore)
+			endDate {
+				...routeFuzzyDateOrder_fuzzyDate
+			}
+			averageScore
 			status(version: 2)
-			title @include(if: $includeTitle) {
+			title {
 				userPreferred
 			}
 		}
-		updatedAt @include(if: $includeUpdated)
-		toWatch @include(if: $includeToWatch)
+		updatedAt
+		toWatch
+		behind
 		...MediaListItem_entry
 	}
 `
 
 const RouteNavUserListEntriesQuery = graphql`
-	query routeNavUserListEntriesQuery(
-		$userName: String!
-		$type: MediaType!
-		$includeStatus: Boolean!
-		$includeScore: Boolean!
-		$includeMediaStatus: Boolean!
-		$includeTags: Boolean!
-		$includeToWatch: Boolean!
-		$includeTitle: Boolean!
-		$includeProgress: Boolean!
-		$includeStartedAt: Boolean!
-		$includeCompletedAt: Boolean!
-		$includePopularity: Boolean!
-		$includeStartDate: Boolean!
-		$includeAvgScore: Boolean!
-		$includeUpdated: Boolean!
-	) @raw_response_type {
+	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
+	@raw_response_type {
 		...routeAwaitQuery_query
 	}
 `
@@ -133,17 +112,11 @@ const keywords = [
 	"asc",
 	"desc",
 	"progress",
+	"media-status",
 ] as const
-
-const eq = Equivalence.mapInput(
-	Record.getEquivalence(Equivalence.boolean),
-	getFilterParams
-)
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const params = Schema.decodeUnknownSync(Params)(args.params)
-
-	const { searchParams } = new URL(args.request.url)
 
 	const data = loadQuery<routeNavUserListEntriesQuery>(
 		RouteNavUserListEntriesQuery,
@@ -155,7 +128,6 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 					mangalist: "MANGA",
 				} as const
 			)[params.typelist],
-			...getFilterParams(searchParams),
 		}
 	)
 
@@ -169,14 +141,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	formMethod,
 	currentParams,
 	nextParams,
-	currentUrl,
-	nextUrl,
 }) => {
 	if (
 		formMethod === "GET" &&
 		currentParams.userName === nextParams.userName &&
-		currentParams.typelist === nextParams.typelist &&
-		eq(currentUrl.searchParams, nextUrl.searchParams)
+		currentParams.typelist === nextParams.typelist
 	) {
 		return false
 	}
@@ -203,37 +172,6 @@ const UserSetStatus = graphql`
 		}
 	}
 `
-
-function getFilterParams(searchParams: URLSearchParams) {
-	const { values } = parse(
-		searchParams.get("filter")?.toLocaleLowerCase() ?? "",
-		{
-			keywords: keywords,
-		}
-	)
-
-	const sort = values.desc?.concat(values.asc ?? []) ?? values.asc
-
-	return {
-		includeMediaStatus: false,
-		includeScore: !!(values.score || sort?.includes(MediaListSort.Score)),
-		includeStatus: !!values.status,
-		includeToWatch: !!(
-			values.to_watch || sort?.includes(MediaListSort.ToWatch)
-		),
-		includeTags: !!values.tags,
-		includeAvgScore: !!sort?.includes(MediaListSort.AvgScore),
-		includeTitle: !!sort?.includes(MediaListSort.TitleEnglish),
-		includeProgress: !!(
-			values.progress || sort?.includes(MediaListSort.Progress)
-		),
-		includeUpdated: !!sort?.includes(MediaListSort.UpdatedTime),
-		includeStartedAt: !!sort?.includes(MediaListSort.StartedOn),
-		includeCompletedAt: !!sort?.includes(MediaListSort.FinishedOn),
-		includeStartDate: !!sort?.includes(MediaListSort.StartDate),
-		includePopularity: !!sort?.includes(MediaListSort.Popularity),
-	} satisfies Partial<routeNavUserListEntriesQuery$variables>
-}
 
 async function setStatus(formData: FormData) {
 	const variables = Schema.decodeUnknownSync(
@@ -413,6 +351,10 @@ function sortEntries(
 			orderEntry(OrderFuzzyDate, (entry) => entry.media?.startDate)
 			continue
 		}
+		if (sort === MediaListSort.EndDate) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.media?.endDate)
+			continue
+		}
 		if (sort === MediaListSort.AvgScore) {
 			orderEntry(Order.number, (entry) => entry.media?.averageScore ?? 0)
 			continue
@@ -422,6 +364,13 @@ function sortEntries(
 			orderEntry(
 				Order.number,
 				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
+			)
+			continue
+		}
+		if (sort === MediaListSort.Behind) {
+			orderEntry(
+				Order.number,
+				(entry) => (entry.behind ?? 1) || Number.POSITIVE_INFINITY
 			)
 			continue
 		}
@@ -522,18 +471,18 @@ const routeAwaitQuery_query = graphql`
 const routeIsQuery_entry = graphql`
 	fragment routeIsQuery_entry on MediaList @inline {
 		id
-		status @include(if: $includeStatus)
-		score @include(if: $includeScore)
-		progress @include(if: $includeProgress)
+		status
+		score
+		progress
 		media {
 			id
-			status(version: 2) @include(if: $includeMediaStatus)
-			tags @include(if: $includeTags) {
+			status(version: 2)
+			tags {
 				id
 				name
 			}
 		}
-		toWatch @include(if: $includeToWatch)
+		toWatch
 	}
 `
 
@@ -545,6 +494,7 @@ function isQuery(
 
 	return (
 		(query.status?.some(inRange(data.status)) ?? true) &&
+		(query["media-status"]?.some(inRange(data.media?.status)) ?? true) &&
 		(query.tags?.every((name) =>
 			data.media?.tags?.some((tag) => inRange(tag?.name)(name))
 		) ??
