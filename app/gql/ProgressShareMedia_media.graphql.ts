@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ae685599f2e383d53e4c17b9b2d86aec>>
+ * @generated SignedSource<<e8e2f4f8f87b8f35ed8fe41947948802>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -54,12 +54,14 @@ const node: ReaderFragment = {
               "name": "userPreferred",
               "storageKey": null
             },
-            "action": "LOG"
+            "action": "LOG",
+            "path": "title.userPreferred"
           }
         ],
         "storageKey": null
       },
-      "action": "LOG"
+      "action": "LOG",
+      "path": "title"
     }
   ],
   "type": "Media",

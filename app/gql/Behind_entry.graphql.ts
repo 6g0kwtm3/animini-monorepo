@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<005ff246ced7c510520257e251804e76>>
+ * @generated SignedSource<<4bbf3956f96e0db3710eb50cc0e0b6b8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -74,7 +74,8 @@ const node: ReaderFragment = {
             "resolverModule": mediaAvalibleResolver,
             "path": "media.avalible"
           },
-          "action": "NONE"
+          "action": "NONE",
+          "path": "media.avalible"
         }
       ],
       "storageKey": null

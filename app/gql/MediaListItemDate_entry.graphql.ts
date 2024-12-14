@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<41b50bf2030ab242eb88ce85673f3cc6>>
+ * @generated SignedSource<<4971c877a28a65269e3e0da0cec83a50>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -71,7 +71,8 @@ return {
             "resolverModule": fuzzyDateDateResolver,
             "path": "completedAt.date"
           },
-          "action": "LOG"
+          "action": "LOG",
+          "path": "completedAt.date"
         }
       ],
       "storageKey": null
@@ -95,7 +96,8 @@ return {
             "resolverModule": fuzzyDateDateResolver,
             "path": "startedAt.date"
           },
-          "action": "LOG"
+          "action": "LOG",
+          "path": "startedAt.date"
         }
       ],
       "storageKey": null

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<53098521e54f0da748b58e09f165e67f>>
+ * @generated SignedSource<<849a0fbaa3c85eb07be1ac75375840ba>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -162,7 +162,8 @@ return {
                   ],
                   "storageKey": null
                 },
-                "action": "LOG"
+                "action": "LOG",
+                "path": "Page.media.title"
               },
               (v3/*: any*/),
               {
