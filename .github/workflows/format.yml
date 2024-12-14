@@ -34,18 +34,6 @@ jobs:
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
 
-      - name: Router
-        if: ${{ !cancelled() }}
-        run: bun run gen:router
-
-      - name: Relay
-        if: ${{ !cancelled() }}
-        run: bun run gen:relay
-
-      - name: Paraglide
-        if: ${{ !cancelled() }}
-        run: bun run gen:paraglide
-
       - name: Oxlint
         if: ${{ !cancelled() }}
         run: bun run oxlint --fix

@@ -8,6 +8,7 @@
 		"build": "bunx cross-env NODE_ENV=production react-router build",
 		"dev": "react-router dev",
 		"start": "bun ./scripts/start.ts",
+		"prepare": "bun run gen:router && bun run gen:relay && bun run gen:paraglide",
 		"gen:relay": "bunx --bun relay-compiler",
 		"gen:router": "bunx --bun react-router typegen",
 		"gen:paraglide": "paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
