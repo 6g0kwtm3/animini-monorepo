@@ -19,5 +19,4 @@ worker-configuration.d.ts
 .million
 *storybook.log
 storybook-static
-/gql
 /.react-router
