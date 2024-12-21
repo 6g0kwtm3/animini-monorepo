@@ -1,7 +1,6 @@
 import ReactRelay from "react-relay"
 
 import { useTooltipStore } from "@ariakit/react"
-import { Effect, pipe } from "effect"
 import type { ActionFunction, MetaFunction } from "react-router"
 import { Form, redirect } from "react-router"
 import { Card } from "~/components/Card"
@@ -13,14 +12,12 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
-import { EffectUrql } from "~/lib/urql"
 
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
-import { commitLocalUpdate, useFragment } from "~/lib/Network"
+import { commitLocalUpdate, fetchQuery, useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
@@ -33,68 +30,55 @@ import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async () => {
-	return pipe(
-		Effect.gen(function* () {
-			const client = yield* EffectUrql
-
-			const data = yield* client.query<NavNotificationsQuery>(
-				graphql`
-					query routeNavNotificationsQuery @raw_response_type {
-						Viewer {
-							id
-							unreadNotificationCount
-						}
-						...routeNavNotifications_query
-					}
-				`,
-				{}
-			)
-
-			return data
-		}),
-		Effect.provide(EffectUrql.Live),
-		Remix.runLoader
+	const data = await fetchQuery<NavNotificationsQuery>(
+		graphql`
+			query routeNavNotificationsQuery @raw_response_type {
+				Viewer {
+					id
+					unreadNotificationCount
+				}
+				...routeNavNotifications_query
+			}
+		`,
+		{}
 	)
+
+	return data
 }
 
 export const clientAction = (async () => {
-	return pipe(
-		Effect.gen(function* () {
-			const client = yield* EffectUrql
-			yield* client.query(
+	await fetchQuery(
+		graphql`
+			query routeNavNotificationsReadQuery @raw_response_type {
+				Page(perPage: 0) {
+					notifications(resetNotificationCount: true) {
+						__typename
+					}
+				}
+			}
+		`,
+		{}
+	)
+
+	commitLocalUpdate((store) => {
+		const { updatableData } =
+			store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
 				graphql`
-					query routeNavNotificationsReadQuery @raw_response_type {
-						Page(perPage: 0) {
-							notifications(resetNotificationCount: true) {
-								__typename
-							}
+					query routeNavNotificationsUpdateQuery @updatable {
+						Viewer {
+							unreadNotificationCount
 						}
 					}
 				`,
 				{}
 			)
 
-			commitLocalUpdate((store) => {
-				const { updatableData } =
-					store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
-						graphql`
-							query routeNavNotificationsUpdateQuery @updatable {
-								Viewer {
-									unreadNotificationCount
-								}
-							}
-						`,
-						{}
-					)
-				if (updatableData.Viewer)
-					updatableData.Viewer.unreadNotificationCount = 0
-			})
+		if (updatableData.Viewer) {
+			updatableData.Viewer.unreadNotificationCount = 0
+		}
+	})
 
-			return redirect(".")
-		}),
-		Effect.provide(EffectUrql.Live),
-		Remix.runLoader
-	)
+	return redirect(".")
 }) satisfies ActionFunction
 
 export default function Notifications({

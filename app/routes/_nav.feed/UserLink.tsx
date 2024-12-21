@@ -26,10 +26,10 @@ export function UserLink(props: {
 	userName: string
 	children: ReactNode
 }): ReactNode {
-	const fetcher = useFetcher<UserInfoRoute['loaderData']>({
+	const fetcher = useFetcher<UserInfoRoute["loaderData"]>({
 		key: `${props.userName}-info`,
 	})
-	const follow = useFetcher<UserFollowRoute['actionData']>({
+	const follow = useFetcher<UserFollowRoute["actionData"]>({
 		key: `${props.userName}-follow`,
 	})
 

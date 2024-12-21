@@ -5,19 +5,17 @@ import {
 	type MetaFunction,
 } from "react-router"
 
-import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Button, ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { Remix } from "~/lib/Remix"
+
 import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
-import { commitLocalUpdate } from "~/lib/Network"
+import { commitLocalUpdate, fetchQuery } from "~/lib/Network"
 import { M3 } from "~/lib/components"
 import { route_user_list } from "~/lib/route"
-import { EffectUrql } from "~/lib/urql"
 
 const { graphql } = ReactRelay
 
@@ -28,60 +26,50 @@ export const meta = (() => {
 const ANILIST_CLIENT_ID = 3455
 
 export const clientAction = (async (args) => {
-	return pipe(
-		Effect.gen(function* () {
-			const formData = yield* Effect.promise(async () =>
-				args.request.formData()
-			)
-			const { searchParams } = new URL(args.request.url)
+	const formData = await args.request.formData()
+	const { searchParams } = new URL(args.request.url)
 
-			const token = formData.get("token")
+	const token = formData.get("token")
 
-			if (typeof token !== "string") {
-				return {}
-			}
+	if (typeof token !== "string") {
+		return {}
+	}
 
-			const client = yield* EffectUrql
+	commitLocalUpdate((store) => {
+		store.invalidateStore()
+	})
 
-			commitLocalUpdate((store) => {
-				store.invalidateStore()
-			})
-
-			const data = yield* client.query<NavLoginQuery>(
-				graphql`
-					query routeNavLoginQuery @raw_response_type {
-						Viewer {
-							id
-							name
-						}
-					}
-				`,
-				{},
-				{
-					networkCacheConfig: {
-						metadata: {
-							headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
-						},
-					},
+	const data = await fetchQuery<NavLoginQuery>(
+		graphql`
+			query routeNavLoginQuery @raw_response_type {
+				Viewer {
+					id
+					name
 				}
-			)
-
-			if (!data?.Viewer) {
-				return {}
 			}
+		`,
+		{},
+		{
+			networkCacheConfig: {
+				metadata: {
+					headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
+				},
+			},
+		}
+	)
 
-			sessionStorage.setItem("anilist-token", token.trim())
+	if (!data?.Viewer) {
+		return {}
+	}
 
-			return redirect(
-				searchParams.get("redirect") ??
-					route_user_list({
-						typelist: "animelist",
-						userName: data.Viewer.name,
-					})
-			)
-		}),
-		Effect.provide(EffectUrql.Live),
-		Remix.runLoader
+	sessionStorage.setItem("anilist-token", token.trim())
+
+	return redirect(
+		searchParams.get("redirect") ??
+			route_user_list({
+				typelist: "animelist",
+				userName: data.Viewer.name,
+			})
 	)
 }) satisfies ClientActionFunction
 

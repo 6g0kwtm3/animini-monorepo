@@ -8,7 +8,6 @@ const mutableStruct = <F extends Schema.Struct.Fields>(schema: F) =>
 
 export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
 	reset: Schema.String,
-	cause: Schema.instanceOf(Error),
 }) {}
 
 const PayloadData = Schema.mutable(

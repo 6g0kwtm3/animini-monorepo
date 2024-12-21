@@ -5,7 +5,8 @@ import type {
 	ProgressIncrementMutation,
 	ProgressIncrementMutation$data,
 } from "~/gql/ProgressIncrementMutation.graphql"
-import { client_get_client } from "~/lib/client"
+import { mutation } from "~/lib/Network"
+
 const { graphql } = ReactRelay
 
 export const increment = async (
@@ -20,9 +21,7 @@ export const increment = async (
 		})
 	)(Object.fromEntries(form))
 
-	const client = client_get_client()
-
-	const data = await client.mutation<ProgressIncrementMutation>({
+	const data = await mutation<ProgressIncrementMutation>({
 		mutation: graphql`
 			mutation ProgressIncrementMutation($entryId: Int!, $progress: Int) {
 				SaveMediaListEntry(id: $entryId, progress: $progress) {

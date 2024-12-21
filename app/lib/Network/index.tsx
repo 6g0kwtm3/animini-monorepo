@@ -3,13 +3,13 @@ import ReactRelay from "react-relay"
 
 import RelayRuntime, {
 	type Disposable,
+	type MutationConfig,
 	type MutationParameters,
-	type Observable,
 	type OperationType,
 } from "relay-runtime"
 
-import environment from "./environment"
 import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
+import environment from "./environment"
 
 export const { readFragment } = ResolverFragments
 
@@ -63,12 +63,24 @@ export function commitMutation<P extends MutationParameters>(
 	return commitMutation_<P>(environment, ...args)
 }
 
+export function mutation<P extends MutationParameters>(
+	config: MutationConfig<P>
+): Promise<P["response"]> {
+	return new Promise<P["response"]>((resume, reject) => {
+		commitMutation<P>({
+			...config,
+			onCompleted: (value) => resume(value),
+			onError: (error) => reject(error),
+		})
+	})
+}
+
 type Shift<T> = T extends [any, ...infer U] ? U : []
 
 export function fetchQuery<O extends OperationType>(
 	...args: Shift<Parameters<typeof fetchQuery__<O>>>
-): Observable<O["response"]> {
-	return fetchQuery__<O>(environment, ...args)
+): Promise<O["response"]> {
+	return fetchQuery__<O>(environment, ...args).toPromise()
 }
 
 export default environment

@@ -22,8 +22,6 @@ import { Suspense, use, useRef } from "react"
 import { List } from "~/components/List"
 import { Ariakit } from "~/lib/ariakit"
 
-import { client_get_client } from "~/lib/client"
-
 import { MediaListItem, MockMediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 import { MediaListSort } from "~/lib/MediaListSort"
@@ -31,6 +29,7 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import ReactRelay from "react-relay"
 import {
 	loadQuery,
+	mutation,
 	readInlineData,
 	useFragment,
 	usePreloadedQuery,
@@ -191,8 +190,7 @@ async function setStatus(formData: FormData) {
 		})
 	)(Object.fromEntries(formData))
 
-	const client = client_get_client()
-	const data = await client.mutation<routeUserSetStatusMutation>({
+	const data = await mutation<routeUserSetStatusMutation>({
 		mutation: UserSetStatus,
 		variables: variables,
 		updater: (store) => {

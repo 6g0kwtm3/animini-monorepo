@@ -39,7 +39,7 @@ import { Button } from "~/components/Button"
 import { use, type ReactNode } from "react"
 
 import { Ariakit } from "~/lib/ariakit"
-import { client_get_client } from "~/lib/client"
+
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
@@ -48,7 +48,7 @@ import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
-import { usePreloadedQuery } from "~/lib/Network"
+import { fetchQuery, usePreloadedQuery } from "~/lib/Network"
 import { RootProvider } from "~/lib/RootProvider"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
@@ -56,9 +56,7 @@ import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const client = client_get_client()
-
-	const data = await client.operation<routeNavMediaQuery>(
+	const data = await fetchQuery<routeNavMediaQuery>(
 		graphql`
 			query routeNavMediaQuery($id: Int!) @raw_response_type {
 				Media(id: $id) {

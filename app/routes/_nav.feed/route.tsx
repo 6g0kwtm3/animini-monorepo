@@ -17,8 +17,6 @@ import {
 	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
-import { client_operation } from "~/lib/client"
-
 // import * as R from '@remix-run/router'
 // console.log(R)
 
@@ -32,6 +30,7 @@ import type { Options } from "./Markdown"
 import { Markdown } from "./Markdown"
 import { UserLink } from "./UserLink"
 
+import { fetchQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { MediaLink } from "./MediaLink"
 
@@ -44,7 +43,7 @@ function matchMediaId(s: string) {
 }
 
 async function getPage() {
-	const data = await client_operation<routeNavFeedQuery>(
+	const data = await fetchQuery<routeNavFeedQuery>(
 		graphql`
 			query routeNavFeedQuery @raw_response_type {
 				Page(perPage: 10) {
@@ -72,7 +71,7 @@ async function getPage() {
 	return data?.Page
 }
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
-	const data = await client_operation<routeNavFeedMediaQuery>(
+	const data = await fetchQuery<routeNavFeedMediaQuery>(
 		graphql`
 			query routeNavFeedMediaQuery($ids: [Int]) @raw_response_type {
 				Page {

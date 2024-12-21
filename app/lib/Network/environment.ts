@@ -6,17 +6,9 @@ import RelayRuntime, {
 	type FetchFunction,
 } from "relay-runtime"
 
-import { Effect, Option, pipe, Schedule } from "effect"
+import { Option } from "effect"
 
 import { Schema } from "@effect/schema"
-
-import {
-	HttpBody,
-	HttpClient,
-	HttpClientRequest,
-	HttpClientResponse,
-	Headers as HttpHeaders,
-} from "@effect/platform"
 
 import { GraphQLResponse, Timeout } from "./schema"
 
@@ -29,75 +21,39 @@ const fetchQuery_: FetchFunction = async function (
 	cacheConfig
 ) {
 	const token = sessionStorage.getItem("anilist-token")
+	const body = JSON.stringify({
+		query: operation.text,
+		variables: variables,
+	})
 
-	return pipe(
-		Effect.gen(function* () {
-			const body = yield* HttpBody.json({
-				query: operation.text,
-				variables: variables,
-			})
-
-			const headers =
-				Option.getOrNull(
-					Schema.decodeUnknownOption(Schema.instanceOf(Headers))(
-						cacheConfig.metadata?.headers
-					)
-				) ?? new Headers()
-			headers.set("Content-Type", "application/json")
-			headers.set("Accept", "application/json")
-
-			if (token) {
-				headers.set("Authorization", `Bearer ${token}`)
-			}
-
-			const request = HttpClientRequest.post(API_URL, {
-				body: body,
-				headers,
-			})
-
-			const response = yield* Effect.catchTag(
-				HttpClient.fetchOk(request),
-				"ResponseError",
-				(error) => {
-					if (error.response.status === 429) {
-						return new Timeout({
-							cause: error,
-							reset: pipe(
-								error.response.headers,
-								HttpHeaders.get("retry-after"),
-								Option.getOrElse(() => "60")
-							),
-						})
-					}
-
-					return Effect.succeed(error.response)
-				}
+	const headers =
+		Option.getOrNull(
+			Schema.decodeUnknownOption(Schema.instanceOf(Headers))(
+				cacheConfig.metadata?.headers
 			)
+		) ?? new Headers()
 
-			const result =
-				yield* HttpClientResponse.schemaBodyJson(GraphQLResponse)(response)
+	headers.set("Content-Type", "application/json")
+	headers.set("Accept", "application/json")
 
-			if ("errors" in result && result.errors?.length) {
-				yield* Effect.logWarning(...result.errors)
-			}
+	if (token) {
+		headers.set("Authorization", `Bearer ${token}`)
+	}
 
-			return result
-		}),
-		Effect.withTracerEnabled(false),
-		Effect.catchTags({
-			RequestError: Effect.die,
-			HttpBodyError: Effect.die,
-			ParseError: Effect.die,
-		}),
-		Effect.scoped,
-		Effect.retry({
-			schedule: Schedule.intersect(
-				Schedule.jittered(Schedule.exponential("60 seconds")),
-				Schedule.recurs(10)
-			),
-			while: (error) => error instanceof Timeout,
-		}),
-		Effect.runPromise
+	const response = await fetch(API_URL, {
+		method: "POST",
+		body: body,
+		headers,
+	})
+
+	if (response.status === 429) {
+		throw new Timeout({
+			reset: response.headers.get("retry-after") ?? "60",
+		})
+	}
+
+	return Schema.decodeSync(Schema.parseJson(GraphQLResponse))(
+		await response.text()
 	)
 }
 

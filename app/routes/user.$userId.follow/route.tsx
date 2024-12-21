@@ -5,8 +5,7 @@ import { type ClientActionFunction } from "react-router"
 import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
 
 import { Ariakit } from "~/lib/ariakit"
-
-import { client_get_client } from "~/lib/client"
+import { mutation } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
@@ -27,9 +26,8 @@ export const clientAction = (async (args) => {
 			userId: Schema.NumberFromString,
 		})
 	)(args.params)
-	const client = client_get_client()
 
-	const data = await client.mutation<routeUserFollowMutation>({
+	const data = await mutation<routeUserFollowMutation>({
 		mutation: UserFollow,
 		variables: { userId: params.userId },
 	})

@@ -4,7 +4,6 @@ import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { type ShouldRevalidateFunction } from "react-router"
 
-import { client_operation } from "~/lib/client"
 import type { Route } from "./+types/route"
 
 import type { routeNavUserIndexQuery } from "~/gql/routeNavUserIndexQuery.graphql"
@@ -14,6 +13,7 @@ import { M3 } from "~/lib/components"
 import { Markdown, type Options } from "../_nav.feed/Markdown"
 
 import { Schema } from "@effect/schema"
+import { fetchQuery } from "~/lib/Network"
 import { MediaLink } from "../_nav.feed/MediaLink"
 import { UserLink } from "../_nav.feed/UserLink"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
@@ -23,7 +23,7 @@ const { graphql } = ReactRelay
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const { userName } = Schema.decodeUnknownSync(params())(args.params)
 
-	const data = await client_operation<routeNavUserIndexQuery>(
+	const data = await fetchQuery<routeNavUserIndexQuery>(
 		graphql`
 			query routeNavUserIndexQuery($userName: String!) @raw_response_type {
 				User(name: $userName) {

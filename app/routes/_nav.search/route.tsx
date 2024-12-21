@@ -5,16 +5,15 @@ import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
-import { client_get_client } from "~/lib/client"
+import { fetchQuery } from "~/lib/Network"
 import { SearchItem } from "~/lib/search/SearchItem"
 import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const client = client_get_client()
 	const { searchParams } = new URL(args.request.url)
 
-	const data = await client.operation<routeNavSearchQuery>(
+	const data = await fetchQuery<routeNavSearchQuery>(
 		graphql`
 			query routeNavSearchQuery(
 				$q: String
