@@ -49,6 +49,7 @@
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20230914.0",
 		"@graphql-eslint/eslint-plugin": "^3.20.1",
+		"@graphql-tools/mock": "^9.0.11",
 		"@iconify-json/material-symbols": "^1.1.82",
 		"@inlang/paraglide-js": "^1.9.1",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.40",
