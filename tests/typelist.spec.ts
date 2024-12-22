@@ -1,4 +1,11 @@
-import { test, type Locator, type Page } from "@playwright/test"
+import { type Locator, type Page } from "@playwright/test"
+import { graphql, HttpResponse } from "msw"
+
+import type {
+	routeNavUserQuery$rawResponse,
+	routeNavUserQuery$variables,
+} from "~/gql/routeNavUserQuery.graphql"
+import { SucccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
@@ -21,8 +28,9 @@ class UserPage {
 }
 
 test.describe("fullscreen", () => {
-	test("anime list", async ({ page, isMobile }) => {
+	test("anime list", async ({ page, isMobile, api }) => {
 		test.skip(isMobile)
+		api.use(handlers)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
 		let indexPage = await FeedPage.new(page)
@@ -32,8 +40,9 @@ test.describe("fullscreen", () => {
 		await TypelistPage.new(page)
 	})
 
-	test("manga list", async ({ page, isMobile }) => {
+	test("manga list", async ({ page, isMobile, api }) => {
 		test.skip(isMobile)
+		api.use(handlers)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
 		let indexPage = await FeedPage.new(page)
@@ -44,7 +53,8 @@ test.describe("fullscreen", () => {
 	})
 })
 
-test("anime list", async ({ page }) => {
+test("anime list", async ({ page, api }) => {
+	api.use(handlers)
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	let indexPage = await FeedPage.new(page)
@@ -56,7 +66,8 @@ test("anime list", async ({ page }) => {
 	await TypelistPage.new(page)
 })
 
-test("manga list", async ({ page }) => {
+test("manga list", async ({ page, api }) => {
+	api.use(handlers)
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	let indexPage = await FeedPage.new(page)
@@ -67,3 +78,33 @@ test("manga list", async ({ page }) => {
 	// then
 	await TypelistPage.new(page)
 })
+
+const handlers = [
+	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+		"routeNavUserQuery",
+		() =>
+			HttpResponse.json({
+				data: {
+					User: {
+						id: 1,
+						name: "User",
+						isFollowing: null,
+					},
+				},
+			})
+	),
+	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+		"routeNavUserQuery",
+		() =>
+			HttpResponse.json({
+				data: {
+					User: {
+						id: 1,
+						isFollowing: false,
+						name: "User",
+					},
+				},
+			})
+	),
+	SucccessHandler,
+]

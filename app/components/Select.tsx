@@ -40,7 +40,7 @@ export function SelectFactory({
 					/>
 				}
 			/>
-			<TextFieldOutlined.Label name={props.name}>
+			<TextFieldOutlined.Label htmlFor={props.name}>
 				{label}
 			</TextFieldOutlined.Label>
 			<TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">

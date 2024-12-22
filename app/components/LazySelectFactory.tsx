@@ -19,7 +19,7 @@ export default function LazySelectFactory({
 			<TextFieldOutlined>
 				<LazySelect {...props} />
 				<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
-				<TextFieldOutlined.Label name={props.name}>
+				<TextFieldOutlined.Label htmlFor={props.name}>
 					{label}
 				</TextFieldOutlined.Label>
 			</TextFieldOutlined>

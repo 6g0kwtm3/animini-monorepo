@@ -30,7 +30,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	const data = await client_operation<NavUserQuery>(
 		graphql`
-			query routeNavUserQuery($userName: String!) {
+			query routeNavUserQuery($userName: String!) @raw_response_type {
 				User(name: $userName) {
 					id
 					name

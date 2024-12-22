@@ -1,12 +1,11 @@
 import type { MetaFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
-import { unstable_defineClientAction, useFetcher } from "@remix-run/react"
+import { Form, unstable_defineClientAction, useFetcher } from "@remix-run/react"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
-import * as Ariakit from "@ariakit/react"
 import { Schema } from "@effect/schema"
 import cookie from "cookie"
 import { Effect, pipe } from "effect"
@@ -47,7 +46,7 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 			const data = yield* client.query<NavLoginQuery>(
 				graphql`
-					query routeNavLoginQuery {
+					query routeNavLoginQuery @raw_response_type {
 						Viewer {
 							id
 							name
@@ -101,26 +100,19 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()
-	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
-
-	store.onSubmit((state) => {
-		fetcher.submit(state.values, {
-			method: "post",
-		})
-	})
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<Ariakit.Form store={store} method="post" className="grid gap-2">
+				<Form method="post" className="grid gap-2">
 					<Outlined>
 						<TextFieldOutlinedInput
-							name={store.names.token}
+							name="token"
 							required
 							type="password"
 							autoComplete="current-password"
 						/>
-						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
+						<Outlined.Label htmlFor="token">Token</Outlined.Label>
 					</Outlined>
 
 					<footer className="flex justify-end gap-2">
@@ -145,11 +137,11 @@ export default function Login(): ReactNode {
 							<span>Get token</span>
 						</a>
 
-						<Ariakit.FormSubmit className={button({ variant: "filled" })}>
+						<button type="submit" className={button({ variant: "filled" })}>
 							Login
-						</Ariakit.FormSubmit>
+						</button>
 					</footer>
-				</Ariakit.Form>
+				</Form>
 			</LayoutPane>
 		</LayoutBody>
 	)
