@@ -42,7 +42,7 @@ export const test = baseTest.extend<Fixtures>({
 			if (request.method() === "POST") {
 				return route.abort()
 			}
-			route.continue()
+			await route.continue()
 		})
 		await use(page)
 	},
@@ -66,7 +66,7 @@ export const test = baseTest.extend<Fixtures>({
 				})
 			}
 
-			route.fallback()
+			await route.fallback()
 		})
 
 		await use({
