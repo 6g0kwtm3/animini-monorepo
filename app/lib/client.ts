@@ -3,9 +3,8 @@ import type {
 	MutationParameters,
 	OperationType,
 } from "relay-runtime"
-import { commitMutation, fetchQuery } from "./Network"
+import environment, { commitMutation, fetchQuery } from "./Network"
 
-import environment from "./Network"
 class Client {
 	async query<T extends OperationType>(
 		...args: [
