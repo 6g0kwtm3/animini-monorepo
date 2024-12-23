@@ -6,10 +6,10 @@ import {
 	useSearchParams,
 	type ClientActionFunction,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 
-import type { MetaFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+import {} from "react-router"
 import { useRawLoaderData } from "~/lib/data"
 
 import {
@@ -23,9 +23,9 @@ import {
 
 import type { AnitomyResult } from "anitomy"
 
-import { unstable_defineClientLoader } from "@remix-run/react"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
+import {} from "react-router"
 
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
@@ -119,14 +119,14 @@ const NavUserListEntriesQuery = graphql`
 	}
 `
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	return {
 		Library: Promise.resolve<
 			Record<string, [AnitomyResult, ...AnitomyResult[]]>
 		>({}),
 		query: fetchSelectedList(args),
 	}
-})
+}
 
 export const meta = (({ params }) => {
 	return [
@@ -186,14 +186,12 @@ export const clientAction = (async (args) => {
 	if (formData.get("intent") === "set_status") {
 		return setStatus(formData)
 	}
-	throw json(`Unknown intent ${formData.get("intent")}`, {
+	throw Response.json(`Unknown intent ${formData.get("intent")}`, {
 		status: 400,
 	})
 }) satisfies ClientActionFunction
 
-async function fetchSelectedList(
-	args: Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
-) {
+async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	const params = invariant(Params(args.params))
 
 	const client = await client_get_client()
@@ -232,7 +230,7 @@ async function fetchSelectedList(
 	)
 
 	if (!selectedList) {
-		throw json("List not found", {
+		throw Response.json("List not found", {
 			status: 404,
 		})
 	}

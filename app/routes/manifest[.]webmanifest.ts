@@ -1,7 +1,7 @@
-import { json, type LoaderFunction } from "@remix-run/node"
+import { type LoaderFunction } from "react-router"
 
 export const clientLoader = (async () => {
-	return json(
+	return Response.json(
 		{
 			short_name: "PWA",
 			name: "Remix PWA",

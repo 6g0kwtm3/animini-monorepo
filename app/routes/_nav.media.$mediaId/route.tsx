@@ -1,14 +1,13 @@
-import type { MetaFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
 import {
 	Link,
 	useLocation,
 	useOutlet,
 	useParams,
 	useRouteLoaderData,
-	type MetaArgs_SingleFetch,
+	type MetaArgs,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -53,14 +52,14 @@ import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
-import { unstable_defineClientLoader } from "@remix-run/react"
+import {} from "react-router"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const client = client_get_client()
 
 	const data = await client.query<routeNavMediaQuery>(
@@ -86,7 +85,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	)
 
 	if (!data?.Media) {
-		throw json("Media not found", {
+		throw Response.json("Media not found", {
 			status: 404,
 		})
 	}
@@ -97,7 +96,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 			? getThemeFromHex(data.Media.coverImage.color)
 			: {},
 	}
-})
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
@@ -117,7 +116,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export const meta = ({
 	data,
-}: MetaArgs_SingleFetch<
+}: MetaArgs<
 	() => ReturnType<typeof clientLoader>
 >): ReturnType<MetaFunction> => {
 	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]

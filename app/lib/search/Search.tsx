@@ -7,7 +7,7 @@ import {
 	useNavigate,
 	useNavigation,
 	useRouteLoaderData,
-} from "@remix-run/react"
+} from "react-router"
 
 import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"

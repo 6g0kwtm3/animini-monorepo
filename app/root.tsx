@@ -5,13 +5,13 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	unstable_defineClientLoader,
 	useRouteError,
+	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { type LinksFunction } from "@remix-run/node"
+import { type LinksFunction } from "react-router"
 
 import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
@@ -22,7 +22,7 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import { useRevalidator } from "@remix-run/react"
+import { useRevalidator } from "react-router"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import environment, { RelayEnvironmentProvider } from "./lib/Network"
 
@@ -45,7 +45,7 @@ export const links: LinksFunction = () => {
 	]
 }
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const viewer = Viewer()
 
 	return {
@@ -53,7 +53,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}
-})
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	formAction,

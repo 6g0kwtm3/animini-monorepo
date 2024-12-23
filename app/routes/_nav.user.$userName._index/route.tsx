@@ -1,16 +1,15 @@
-import type { MetaFunction } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+import {} from "react-router"
 
+import type { ReactNode } from "react"
+import ReactRelay from "react-relay"
 import {
 	Form,
 	Link,
-	unstable_defineClientLoader,
 	useFetcher,
 	useLocation,
 	useRouteLoaderData,
-} from "@remix-run/react"
-import type { ReactNode } from "react"
-import ReactRelay from "react-relay"
+} from "react-router"
 import { Button, Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 
@@ -26,7 +25,7 @@ import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const { userName } = invariant(Params(args.params))
 
 	const data = await client_operation<NavUserQuery>(
@@ -43,13 +42,13 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	)
 
 	if (!data?.User) {
-		throw json("User not found", {
+		throw Response.json("User not found", {
 			status: 404,
 		})
 	}
 
 	return { user: data.User }
-})
+}
 
 export const meta = (({ params }) => {
 	return [

@@ -1,17 +1,4 @@
 // import {
-// 	Link,
-// 	useActionData,
-// 	useNavigate,
-// 	useNavigation
-// } from "@remix-run/react"
-// import {
-// 	json,
-// 	redirect,
-// 	type ActionFunction,
-// 	type LoaderFunction
-// } from "@remix-run/node"
-
-// import {
 // 	Button as ButtonText,
 // 	ButtonIcon as ButtonTextIcon
 // } from "~/components/Button"
@@ -60,8 +47,8 @@
 // 	)
 
 //
-// import { unstable_defineLoader } from "@remix-run/node"
-// export const clientLoader = unstable_defineClientLoader(async (args) => {
+
+// export const clientLoader = (async (args) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
 // 			const { mediaId } = await (

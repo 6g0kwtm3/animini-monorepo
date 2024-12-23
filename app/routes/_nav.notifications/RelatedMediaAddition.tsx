@@ -1,6 +1,6 @@
 import ReactRelay from "react-relay"
 
-import { Link, useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "react-router"
 import {
 	ListItem,
 	ListItemContent,
