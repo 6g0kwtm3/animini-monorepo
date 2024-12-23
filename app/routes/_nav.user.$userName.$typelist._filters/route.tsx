@@ -136,7 +136,9 @@ export default function Filters(): ReactNode {
 						<Form
 							action={pathname}
 							replace
-							onChange={(e) => submit(e.currentTarget)}
+							onChange={(e) => {
+								void submit(e.currentTarget)
+							}}
 							className="grid grid-cols-2 gap-2"
 						>
 							<CheckboxProvider value={searchParams.getAll("status")}>
@@ -357,13 +359,15 @@ function Filter() {
 		<Form
 			replace
 			action={pathname}
-			onChange={(e) => submit(e.currentTarget, {})}
+			onChange={(e) => {
+				void submit(e.currentTarget, {})
+			}}
 		>
 			{sheet && <input type="hidden" name="sheet" value={sheet} />}
 			<Sheet
 				open={filter || sort}
 				onClose={() => {
-					navigate({
+					void navigate({
 						search: `?${searchParams}`,
 					})
 				}}

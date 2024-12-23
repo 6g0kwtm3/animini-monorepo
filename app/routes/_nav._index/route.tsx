@@ -316,7 +316,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 
 	useEffect(() => {
 		if (open && fetcher.state === "idle" && !fetcher.data) {
-			fetcher.load(`/user/${props.userName}/info`)
+			void fetcher.load(`/user/${props.userName}/info`)
 		}
 	}, [open, fetcher, props.userName])
 

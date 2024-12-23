@@ -1,12 +1,14 @@
-import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+
 import {
+	ClientLoaderFunctionArgs,
 	Link,
+	MetaFunction,
 	useLocation,
 	useOutlet,
 	useParams,
 	useRouteLoaderData,
 	type MetaArgs,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
 import { AnimatePresence, motion } from "framer-motion"
@@ -45,18 +47,16 @@ import { useRawLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
 
+import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
-import { route_login, route_media_edit } from "~/lib/route"
-import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
-// type X = HTMLAttributes<any>
-import {} from "react-router"
-import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import * as Predicate from "~/lib/Predicate"
+import { route_login, route_media_edit } from "~/lib/route"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
+import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {

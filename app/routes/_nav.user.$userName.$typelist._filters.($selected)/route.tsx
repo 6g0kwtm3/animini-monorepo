@@ -5,11 +5,10 @@ import {
 	useRouteError,
 	useSearchParams,
 	type ClientActionFunction,
-	type ShouldRevalidateFunction,
+	type ClientLoaderFunctionArgs, type MetaFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
-import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
-import {} from "react-router"
 import { useRawLoaderData } from "~/lib/data"
 
 import {
@@ -25,7 +24,6 @@ import type { AnitomyResult } from "anitomy"
 
 import type { ReactNode } from "react"
 import { Suspense } from "react"
-import {} from "react-router"
 
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"

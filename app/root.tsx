@@ -7,11 +7,11 @@ import {
 	ScrollRestoration,
 	useRouteError,
 	type ClientLoaderFunctionArgs,
+	type LinksFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
-import { SnackbarQueue } from "./components/Snackbar"
 
-import { type LinksFunction } from "react-router"
+import { SnackbarQueue } from "./components/Snackbar"
 
 import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
@@ -127,7 +127,7 @@ export default function App(): ReactNode {
 
 	useOnFocus(() => {
 		if (revalidator.state === "idle") {
-			revalidator.revalidate()
+			void revalidator.revalidate()
 		}
 	})
 

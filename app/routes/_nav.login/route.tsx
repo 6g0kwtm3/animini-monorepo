@@ -94,7 +94,7 @@ export default function Login(): ReactNode {
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
 	store.onSubmit((state) => {
-		fetcher.submit(state.values, {
+		void fetcher.submit(state.values, {
 			method: "post",
 		})
 	})
