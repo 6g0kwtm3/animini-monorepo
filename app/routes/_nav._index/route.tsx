@@ -1,11 +1,5 @@
-import type { MetaFunction } from "@remix-run/node"
-import {
-	Await,
-	Link,
-	unstable_defineClientLoader,
-	useFetcher,
-	useRouteLoaderData,
-} from "@remix-run/react"
+import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+import { Await, Link, useFetcher, useRouteLoaderData } from "react-router"
 
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Suspense, useEffect, useMemo } from "react"
@@ -28,10 +22,8 @@ import { client_operation } from "~/lib/client"
 
 import { route_media, route_user } from "~/lib/route"
 
-// import * as R from '@remix-run/router'
 // console.log(R)
 
-// import {RouterProvider} from 'react-router-dom'
 import { useRawLoaderData } from "~/lib/data"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
@@ -50,7 +42,6 @@ import { Loading, Skeleton } from "~/components/Skeleton"
 import type { clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
 
-import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { m } from "~/lib/paraglide"
@@ -180,7 +171,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 }
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const page = await getPage()
 
 	const ids =
@@ -198,7 +189,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 				? getMedia({ ids: ids })
 				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
-})
+}
 
 export default function Index(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
@@ -247,11 +238,7 @@ export default function Index(): ReactNode {
 													{/* <ListItemTrailingSupportingText></ListItemTrailingSupportingText> */}
 												</ListItem>
 											</List>
-											<ClientOnly>
-												{() =>
-													activity.text && <Markdown>{activity.text}</Markdown>
-												}
-											</ClientOnly>
+											{activity.text && <Markdown>{activity.text}</Markdown>}
 										</Card>
 									</li>
 								)
@@ -329,7 +316,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 
 	useEffect(() => {
 		if (open && fetcher.state === "idle" && !fetcher.data) {
-			fetcher.load(`/user/${props.userName}/info`)
+			void fetcher.load(`/user/${props.userName}/info`)
 		}
 	}, [open, fetcher, props.userName])
 
@@ -475,7 +462,6 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 function Markdown(props: { children: string }) {
 	return (
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
-			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
 				() => parse(markdownHtml(props.children), options),
 				[props.children]

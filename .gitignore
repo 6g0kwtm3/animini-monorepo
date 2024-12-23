@@ -17,3 +17,4 @@ worker-configuration.d.ts
 /playwright/.cache/
 /playwright/.auth
 .million
+.react-router

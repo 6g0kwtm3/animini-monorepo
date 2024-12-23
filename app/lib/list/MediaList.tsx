@@ -1,11 +1,10 @@
-import { Await, type AwaitProps } from "@remix-run/react"
+import { Await, type AwaitProps } from "react-router"
 
 // import {} from 'glob'
 
 import { Library } from "~/lib/entry/MediaListItem"
 import { formatWatch } from "~/lib/entry/ToWatch"
 
-import type { SerializeFrom } from "@remix-run/node"
 import type { AnitomyResult } from "anitomy"
 
 import type { ReactNode } from "react"
@@ -18,9 +17,7 @@ const { graphql } = ReactRelay
 export function AwaitLibrary({
 	children,
 	...props
-}: AwaitProps<
-	Promise<SerializeFrom<Record<string, [AnitomyResult, ...AnitomyResult[]]>>>
-> & {
+}: AwaitProps<Promise<Record<string, [AnitomyResult, ...AnitomyResult[]]>>> & {
 	children: ReactNode
 }): ReactNode {
 	return (

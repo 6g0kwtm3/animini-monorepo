@@ -1,4 +1,4 @@
-import { useSearchParams } from "@remix-run/react"
+import { useSearchParams } from "react-router"
 
 import type { ReactNode } from "react"
 export function SearchParam(props: { name: string }): ReactNode {

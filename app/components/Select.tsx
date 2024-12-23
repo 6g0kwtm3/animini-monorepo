@@ -6,7 +6,6 @@ import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
 import { Suspense, lazy } from "react"
-import { ClientOnly } from "remix-utils/client-only"
 
 const { input } = createTextField({})
 
@@ -50,13 +49,9 @@ export function SelectFactory({
 	)
 
 	return (
-		<ClientOnly fallback={fallback}>
-			{() => (
-				<Suspense fallback={fallback}>
-					<LazySelectFactory {...props} label={label} />
-				</Suspense>
-			)}
-		</ClientOnly>
+		<Suspense fallback={fallback}>
+			<LazySelectFactory {...props} label={label} />
+		</Suspense>
 	)
 }
 
@@ -71,12 +66,8 @@ export function Select({
 	)
 
 	return (
-		<ClientOnly fallback={fallback}>
-			{() => (
-				<Suspense fallback={fallback}>
-					<LazySelect {...props} />
-				</Suspense>
-			)}
-		</ClientOnly>
+		<Suspense fallback={fallback}>
+			<LazySelect {...props} />
+		</Suspense>
 	)
 }

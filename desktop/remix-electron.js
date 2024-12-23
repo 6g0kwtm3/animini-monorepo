@@ -16,12 +16,12 @@ import { resolve } from "node:path"
  *   `context` object to your loaders.
  */
 
-import { createRequestHandler } from "@remix-run/express"
+import { createRequestHandler } from "@react-router/express"
 import express from "express"
 import { pathToFileURL } from "url"
 
 // @ts-ignore: weird ESM error
-import * as webFetch from "@remix-run/web-fetch"
+import * as webFetch from "@react-router/web-fetch"
 
 import { app } from "electron"
 
@@ -78,7 +78,7 @@ export async function initRemix({
 	const serverBuild = viteDevServer
 		? () =>
 				/** @type {Promise<ServerBuild>} */ (
-					viteDevServer.ssrLoadModule("virtual:remix/server-build")
+					viteDevServer.ssrLoadModule("virtual:react-router/server-build")
 				)
 		: typeof serverBuildOption === "string"
 			? /** @type {ServerBuild} */ (

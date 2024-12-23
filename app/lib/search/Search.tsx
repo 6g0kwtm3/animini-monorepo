@@ -7,7 +7,7 @@ import {
 	useNavigate,
 	useNavigation,
 	useRouteLoaderData,
-} from "@remix-run/react"
+} from "react-router"
 
 import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
@@ -74,7 +74,7 @@ export function Search(): ReactNode {
 		let listener = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
 				event.preventDefault()
-				navigate({ search: `?${sheetParams}` })
+				void navigate({ search: `?${sheetParams}` })
 			}
 		}
 		window.addEventListener("keydown", listener)
@@ -90,7 +90,7 @@ export function Search(): ReactNode {
 			aria-label="Search anime or manga"
 			open={show}
 			onClose={(state) => {
-				navigate({ search: `?${searchParams}` })
+				void navigate({ search: `?${searchParams}` })
 			}}
 			initialFocus={ref}
 			variant={{
@@ -104,7 +104,7 @@ export function Search(): ReactNode {
 					<SearchViewInput
 						ref={ref}
 						placeholder="Search anime or manga"
-						onChange={(e) => submit.submit(e.currentTarget.form, {})}
+						onChange={(e) => void submit.submit(e.currentTarget.form, {})}
 						name="q"
 					/>
 
