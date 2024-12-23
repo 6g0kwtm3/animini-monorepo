@@ -21,8 +21,8 @@ import {
 	useSubmit,
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
+import * as Order from "~/lib/Order"
 
-import { Order } from "effect"
 import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"

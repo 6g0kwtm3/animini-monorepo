@@ -7,7 +7,7 @@ import { formatWatch } from "~/lib/entry/ToWatch"
 
 import type { SerializeFrom } from "@remix-run/node"
 import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/Array"
+
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import type { MediaListHeaderToWatch_entries$key } from "~/gql/MediaListHeaderToWatch_entries.graphql"
@@ -19,7 +19,7 @@ export function AwaitLibrary({
 	children,
 	...props
 }: AwaitProps<
-	Promise<SerializeFrom<Record<string, NonEmptyArray<AnitomyResult>>>>
+	Promise<SerializeFrom<Record<string, [AnitomyResult, ...AnitomyResult[]]>>>
 > & {
 	children: ReactNode
 }): ReactNode {

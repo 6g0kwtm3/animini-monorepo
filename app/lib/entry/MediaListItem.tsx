@@ -6,7 +6,7 @@ import { m } from "~/lib/paraglide"
 import ReactRelay from "react-relay"
 
 import type { AnitomyResult } from "anitomy"
-import type { NonEmptyArray } from "effect/Array"
+
 import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
 import {
@@ -27,13 +27,13 @@ import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { ProgressIncrement } from "./Progress"
 
 import type { SerializeFrom } from "@remix-run/node"
-import { Predicate } from "effect"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
+import * as Predicate from "~/lib/Predicate"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -52,7 +52,7 @@ const MediaListItem_entry = graphql`
 
 export type ListItem_EntryFragment = typeof MediaListItem_entry
 export const Library = createContext<
-	SerializeFrom<Record<string, NonEmptyArray<AnitomyResult>>>
+	SerializeFrom<Record<string, [AnitomyResult, ...AnitomyResult[]]>>
 >({})
 
 export function MediaListItem(props: {

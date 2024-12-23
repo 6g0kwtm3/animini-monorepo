@@ -10,13 +10,12 @@
 // 	type ActionFunction,
 // 	type LoaderFunction
 // } from "@remix-run/node"
-// import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
+
 // import {
 // 	Button as ButtonText,
 // 	ButtonIcon as ButtonTextIcon
 // } from "~/components/Button"
 
-// import { divide, sumAll } from "effect/Number"
 // import {
 // 	TextFieldOutlined,
 // 	TextFieldOutlinedFactory,
@@ -65,19 +64,19 @@
 // export const clientLoader = unstable_defineClientLoader(async (args) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
-// 			const { mediaId } = yield* (
+// 			const { mediaId } = await (
 // 				Remix.params({ mediaId: S.NumberFromString })
 // 			)
-// 			const { searchParams } = yield* (ClientArgs)
-// 			const client = yield* (EffectUrql)
+// 			const { searchParams } = await (ClientArgs)
+// 			const client = await (EffectUrql)
 
-// 			const format = yield* (
+// 			const format = await (
 // 				S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(
 // 					searchParams.get("format")
 // 				)
 // 			)
 
-// 			return yield* (
+// 			return await (
 // 				client.query(
 // 					graphql`
 // 						query MediaEditQuery($mediaId: Int!, $format: ScoreFormat) {

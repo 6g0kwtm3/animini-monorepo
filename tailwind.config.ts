@@ -3,8 +3,8 @@ import type { Config } from "tailwindcss"
 //@ts-ignore
 import { withTV } from "tailwind-variants/transformer"
 //@ts-ignore
-import { Predicate } from "effect"
 import plugin from "tailwindcss/plugin"
+import * as Predicate from "./app/lib/Predicate"
 import colors from "./colors.json"
 
 export default withTV({

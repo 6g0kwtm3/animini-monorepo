@@ -54,8 +54,8 @@ import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
 import { unstable_defineClientLoader } from "@remix-run/react"
-import { Predicate } from "effect"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
+import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 const { graphql } = ReactRelay
@@ -63,7 +63,7 @@ const { graphql } = ReactRelay
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const client = client_get_client()
 
-	const data = await client.operation<routeNavMediaQuery>(
+	const data = await client.query<routeNavMediaQuery>(
 		graphql`
 			query routeNavMediaQuery($id: Int!) {
 				Media(id: $id) {

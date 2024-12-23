@@ -14,7 +14,6 @@ import { Suspense, useEffect, useRef } from "react"
 import ReactRelay from "react-relay"
 import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
 
-import { Array as ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
@@ -109,7 +108,7 @@ export function Search(): ReactNode {
 						name="q"
 					/>
 
-					{ReadonlyArray.isNonEmptyArray(media) ? (
+					{media.length > 0 ? (
 						<SearchViewBody>
 							<SearchViewBodyGroup>
 								<Ariakit.ComboboxGroupLabel
