@@ -19,15 +19,11 @@ import {
 	MediaListHeaderToWatch,
 } from "~/lib/list/MediaList"
 
-import { Order, Array as ReadonlyArray } from "effect"
-
 // import {} from 'glob'
 
-import { Schema } from "@effect/schema"
 import type { AnitomyResult } from "anitomy"
 
 import { unstable_defineClientLoader } from "@remix-run/react"
-import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
 
@@ -40,7 +36,7 @@ import { client_get_client } from "~/lib/client"
 
 import { MediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
-import { MediaListSort } from "~/lib/MediaListSort"
+import { MediaListSort, MediaListSortSchema } from "~/lib/MediaListSort"
 import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
@@ -56,11 +52,11 @@ import type {
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
+import { ArkErrors, type } from "arktype"
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
-import type {
-	MediaListStatus,
-	routeUserSetStatusMutation,
-} from "~/gql/routeUserSetStatusMutation.graphql"
+import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
+import { invariant } from "~/lib/invariant"
+import * as Order from "~/lib/Order"
 
 const { graphql } = ReactRelay
 
@@ -125,7 +121,9 @@ const NavUserListEntriesQuery = graphql`
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return {
-		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>({}),
+		Library: Promise.resolve<
+			Record<string, [AnitomyResult, ...AnitomyResult[]]>
+		>({}),
 		query: fetchSelectedList(args),
 	}
 })
@@ -153,23 +151,14 @@ const UserSetStatus = graphql`
 	}
 `
 
+const SetStatusFormData = type({
+	mediaId: "string.integer.parse",
+	status:
+		"'COMPLETED'|'CURRENT'|'DROPPED'|'PAUSED'|'PLANNING'|'REPEATING'|'%future added value'",
+})
+
 async function setStatus(formData: FormData) {
-	const variables = Schema.decodeUnknownSync(
-		Schema.Struct({
-			mediaId: Schema.NumberFromString,
-			status: Schema.Enums<{
-				[K in MediaListStatus]: K
-			}>({
-				COMPLETED: "COMPLETED",
-				CURRENT: "CURRENT",
-				DROPPED: "DROPPED",
-				PAUSED: "PAUSED",
-				PLANNING: "PLANNING",
-				REPEATING: "REPEATING",
-				"%future added value": "%future added value",
-			}),
-		})
-	)(Object.fromEntries(formData))
+	const variables = invariant(SetStatusFormData(Object.fromEntries(formData)))
 
 	const client = client_get_client()
 	const data = await client.mutation<routeUserSetStatusMutation>({
@@ -205,10 +194,11 @@ export const clientAction = (async (args) => {
 async function fetchSelectedList(
 	args: Parameters<Parameters<typeof unstable_defineClientLoader>[0]>[0]
 ) {
-	const params = Schema.decodeUnknownSync(Params)(args.params)
+	const params = invariant(Params(args.params))
+
 	const client = await client_get_client()
 
-	const data = await client.operation<NavUserListEntriesQuery>(
+	const data = await client.query<NavUserListEntriesQuery>(
 		NavUserListEntriesQuery,
 		{
 			userName: params.userName,
@@ -289,8 +279,9 @@ function sortEntries(
 
 	const order: Order.Order<(typeof entries)[number]>[] = []
 
-	for (const sort of sorts) {
-		if (!Schema.is(Schema.Enums(MediaListSort))(sort)) {
+	for (const unparsedSort of sorts) {
+		const sort = MediaListSortSchema(unparsedSort)
+		if (sort instanceof ArkErrors) {
 			continue
 		}
 		if (sort === MediaListSort.TitleEnglish) {
@@ -376,7 +367,7 @@ function sortEntries(
 		)
 	)
 
-	return ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))(entries)
+	return entries.sort(Order.reverse(Order.combineAll(order)))
 }
 
 function filterEntries(
@@ -431,10 +422,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-const Params = Schema.Struct({
-	selected: Schema.optional(Schema.String),
-	userName: Schema.String,
-	typelist: Schema.Literal("animelist", "mangalist"),
+const Params = type({
+	"selected?": "string",
+	userName: "string",
+	typelist: '"animelist"|"mangalist"',
 })
 
 export default function Page(): ReactNode {
@@ -478,7 +469,7 @@ export default function Page(): ReactNode {
 						<Suspense
 							fallback={
 								<Loading>
-									{ReadonlyArray.range(1, 7).map((i) => (
+									{Array.from({ length: 7 }, (_, i) => (
 										<MediaListItem key={i} entry={null} />
 									))}
 								</Loading>
@@ -492,11 +483,9 @@ export default function Page(): ReactNode {
 											search
 										),
 										search
-									)
-										.filter((el) => el != null)
-										.map((entry) => (
-											<MediaListItem key={entry.id} entry={entry} />
-										))
+									).map((entry) => (
+										<MediaListItem key={entry.id} entry={entry} />
+									))
 
 									return (
 										<Suspense fallback={mediaList}>

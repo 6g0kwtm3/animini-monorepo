@@ -9,9 +9,7 @@ import {
 } from "@remix-run/react"
 import ReactRelay from "react-relay"
 
-import { Effect, Option, pipe } from "effect"
-
-import { Remix, Viewer } from "~/lib/Remix"
+import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
 
 import {
@@ -39,39 +37,31 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
-import { EffectUrql, LoaderArgs, LoaderLive } from "~/lib/urql"
+
+import { client_get_client } from "~/lib/client"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 
 const { graphql } = ReactRelay
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return {
-		trending: pipe(
-			Effect.gen(function* () {
-				const client = yield* EffectUrql
-				const viewer = Viewer()
+	const client = client_get_client()
+	const viewer = Viewer()
 
-				const data = yield* client.query<NavQuery>(
-					graphql`
-						query routeNavQuery($isToken: Boolean = false) {
-							Viewer @include(if: $isToken) {
-								id
-								unreadNotificationCount
-							}
-							...SearchTrending_query
-						}
-					`,
-					{ isToken: Option.isSome(viewer) }
-				)
+	const data = await client.query<NavQuery>(
+		graphql`
+			query routeNavQuery($isToken: Boolean = false) {
+				Viewer @include(if: $isToken) {
+					id
+					unreadNotificationCount
+				}
+				...SearchTrending_query
+			}
+		`,
+		{ isToken: viewer != null }
+	)
 
-				return data
-			}),
-			Effect.provide(LoaderLive),
-			Effect.provideService(LoaderArgs, args),
-			Remix.runLoader
-		),
-	}
+	return { trending: data }
 })
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({

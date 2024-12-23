@@ -1,4 +1,3 @@
-import { Schema } from "@effect/schema"
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
@@ -20,13 +19,15 @@ import { client_operation } from "~/lib/client"
 import { useRawLoaderData } from "~/lib/data"
 import type { clientLoader as rootLoader } from "~/root"
 
+import { type } from "arktype"
 import type { routeNavUserQuery as NavUserQuery } from "~/gql/routeNavUserQuery.graphql"
+import { invariant } from "~/lib/invariant"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const { userName } = Schema.decodeUnknownSync(params())(args.params)
+	const { userName } = invariant(Params(args.params))
 
 	const data = await client_operation<NavUserQuery>(
 		graphql`
@@ -58,11 +59,9 @@ export const meta = (({ params }) => {
 	]
 }) satisfies MetaFunction<typeof clientLoader>
 
-function params() {
-	return Schema.Struct({
-		userName: Schema.String,
-	})
-}
+const Params = type({
+	userName: "string",
+})
 
 export default function Page(): ReactNode {
 	const rootData = useRouteLoaderData<typeof rootLoader>("root")

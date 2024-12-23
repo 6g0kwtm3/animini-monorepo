@@ -7,13 +7,8 @@ import {
 	useRouteLoaderData,
 } from "@remix-run/react"
 
-import {
-	Predicate,
-	Array as ReadonlyArray,
-	Record as ReadonlyRecord,
-} from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
+import { Suspense, useEffect, useMemo } from "react"
 
 import marked from "marked"
 import ReactRelay from "react-relay"
@@ -39,7 +34,6 @@ import { route_media, route_user } from "~/lib/route"
 // import {RouterProvider} from 'react-router-dom'
 import { useRawLoaderData } from "~/lib/data"
 
-import { Parser } from "htmlparser2"
 import { MediaCover } from "~/lib/entry/MediaCover"
 
 import createDOMPurify from "dompurify"
@@ -60,6 +54,7 @@ import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { m } from "~/lib/paraglide"
+import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 const { graphql } = ReactRelay
@@ -145,7 +140,6 @@ async function getPage() {
 	)
 	return data?.Page
 }
-
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await client_operation<routeNavFeedMediaQuery>(
 		graphql`
@@ -168,7 +162,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 		variables
 	)
 
-	return ReadonlyRecord.fromEntries(
+	return Object.fromEntries(
 		data?.Page?.media
 			?.filter((el) => el != null)
 			.map(
@@ -199,9 +193,10 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	return {
 		page,
-		media: ReadonlyArray.isNonEmptyArray(ids)
-			? getMedia({ ids: ids })
-			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
+		media:
+			ids.length > 0
+				? getMedia({ ids: ids })
+				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
 })
 
@@ -482,41 +477,11 @@ function Markdown(props: { children: string }) {
 		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
 			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
-				() => parse2(markdownHtml(props.children), options),
+				() => parse(markdownHtml(props.children), options),
 				[props.children]
 			)}
 		</div>
 	)
-}
-
-interface HtmlNode {
-	node: ReactNode
-}
-
-class HtmlTag implements HtmlNode {
-	constructor(private _name: React.FC<{ children: ReactNode }>) {}
-
-	private _children: HtmlNode[] = []
-
-	get children(): ReactNode {
-		return this._children.reduce<ReactNode>(
-			(acc, node, i) => (
-				<>
-					{acc}
-					{node.node}
-				</>
-			),
-			null
-		)
-	}
-
-	get node() {
-		return createElement(this._name, undefined, this.children)
-	}
-
-	appendNode(node: HtmlNode) {
-		this._children.push(node)
-	}
 }
 
 function getAttributes(attributes: any) {
@@ -535,37 +500,48 @@ function getAttributes(attributes: any) {
 	}
 }
 
-function parse2(html: string, options: any): ReactNode {
-	const stack = [new HtmlTag(Fragment)]
+function traverse(element: ChildNode, options: any): ReactNode {
+	if (element.nodeType === Node.TEXT_NODE) {
+		return element.textContent
+	} else if (element instanceof HTMLElement) {
+		const Name = element.tagName.toLowerCase()
+		const attributes: Record<string, string> = {}
+		for (const attribute of element.attributes) {
+			attributes[attribute.name] = attribute.value
+		}
 
-	const parser = new Parser({
-		onopentag(Name, attributes) {
-			const node = new HtmlTag((props) => {
-				const fullProps = {
-					...getAttributes(attributes),
-					...props,
-				}
+		const fullProps = {
+			...getAttributes(attributes),
+			children: traverseCollection(element.childNodes, options),
+		}
 
-				if (Name in options.replace) {
-					return options.replace[Name](fullProps)
-				}
+		if (Name in options.replace) {
+			return options.replace[Name](fullProps)
+		}
 
-				return <Name {...fullProps} />
-			})
-			stack.at(-1)?.appendNode(node)
-			stack.push(node)
-		},
-		ontext(text) {
-			stack.at(-1)?.appendNode({ node: text })
-		},
-		onclosetag(name) {
-			stack.pop()
-		},
-	})
-	parser.write(html)
-	parser.end()
+		return <Name {...fullProps} />
+	}
+}
 
-	return stack[0]?.node
+function traverseCollection(
+	children: NodeListOf<ChildNode>,
+	options: any
+): ReactNode {
+	return Array.from(children).reduce<ReactNode>(
+		(acc, node, i) => (
+			<>
+				{acc}
+				{traverse(node, options)}
+			</>
+		),
+		null
+	)
+}
+
+function parse(html: string, options: any): ReactNode {
+	const subdocument = new DOMParser().parseFromString(html, "text/html")
+
+	return traverseCollection(subdocument.body.childNodes, options)
 }
 
 function sanitizeHtml(t: string) {
