@@ -6,7 +6,6 @@ import {
 	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
-
 import cookie from "cookie"
 
 import type { ReactNode } from "react"
