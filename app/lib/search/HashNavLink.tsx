@@ -6,9 +6,9 @@ import {
 	useNavigation,
 	useResolvedPath,
 } from "@remix-run/react"
-import { Predicate } from "effect"
 import type { ComponentPropsWithoutRef } from "react"
 import { forwardRef } from "react"
+import * as Predicate from "~/lib/Predicate"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,

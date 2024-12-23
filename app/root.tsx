@@ -13,8 +13,6 @@ import { SnackbarQueue } from "./components/Snackbar"
 
 import { type LinksFunction } from "@remix-run/node"
 
-import { Option } from "effect"
-
 import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
@@ -48,7 +46,7 @@ export const links: LinksFunction = () => {
 }
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const viewer = Option.getOrNull(Viewer())
+	const viewer = Viewer()
 
 	return {
 		Viewer: viewer,

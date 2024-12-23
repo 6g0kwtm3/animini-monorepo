@@ -15,7 +15,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	const client = client_get_client()
 	const { searchParams } = new URL(args.request.url)
 
-	const data = await client.operation<routeNavSearchQuery>(
+	const data = await client.query<routeNavSearchQuery>(
 		graphql`
 			query routeNavSearchQuery(
 				$q: String

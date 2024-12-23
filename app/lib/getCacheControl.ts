@@ -1,4 +1,4 @@
-import { Predicate } from "effect"
+import * as Predicate from "~/lib/Predicate"
 
 export function getCacheControl(options: {
 	maxAge?: number

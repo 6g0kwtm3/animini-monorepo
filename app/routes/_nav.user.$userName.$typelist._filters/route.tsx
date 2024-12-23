@@ -22,7 +22,6 @@ import {
 	type ShouldRevalidateFunction,
 } from "@remix-run/react"
 
-import { Order } from "effect"
 import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
 import { Button as ButtonText, Icon } from "~/components/Button"
@@ -272,6 +271,7 @@ export default function Filters(): ReactNode {
 	)
 }
 
+import * as Order from "~/lib/Order"
 function ListTabs() {
 	const { data, params } = useLoaderData<typeof clientLoader>()
 

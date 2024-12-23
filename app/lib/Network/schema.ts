@@ -1,9 +1,12 @@
 import { type } from "arktype"
-import { Data } from "effect"
 
-export class Timeout extends Data.TaggedError("Timeout")<{
+export class Timeout extends Error {
 	reset: string
-}> {}
+	constructor(reset: string) {
+		super()
+		this.reset = reset
+	}
+}
 
 const PayloadErrors = type([
 	{
