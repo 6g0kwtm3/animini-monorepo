@@ -1,14 +1,15 @@
-
 import {
-	ClientLoaderFunctionArgs,
 	Link,
-	MetaFunction,
 	useLocation,
 	useOutlet,
 	useParams,
 	useRouteLoaderData,
+} from "react-router"
+import type {
+	ClientLoaderFunctionArgs,
+	MetaFunction,
 	type MetaArgs,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import { AnimatePresence, motion } from "framer-motion"

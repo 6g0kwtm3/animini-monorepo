@@ -5,8 +5,9 @@ import {
 	useRouteError,
 	useSearchParams,
 	type ClientActionFunction,
-	type ClientLoaderFunctionArgs, type MetaFunction,
-	type ShouldRevalidateFunction
+	type ClientLoaderFunctionArgs,
+	type MetaFunction,
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import { useRawLoaderData } from "~/lib/data"
