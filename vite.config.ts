@@ -64,6 +64,9 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
+	preview: {
+		port: 3000,
+	},
 	define: {
 		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,
 		__BUSTER__:

@@ -32,20 +32,10 @@ jobs:
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
 
-      - name: Await CF Pages
-        uses: WalshyDev/cf-pages-await@v1
-        id: cf-pages
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN  }}
-          accountId: "e9b0348e83d33e46fbb82c3271317d70"
-          project: "animini-pwa"
-
       - name: Test E2E
         run: bun run test
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
-          BASE_URL: ${{ steps.cf-pages.outputs.url }}
-          HOME: /root
 
   typecheck:
     runs-on: ubuntu-latest
