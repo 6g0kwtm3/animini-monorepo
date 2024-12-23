@@ -1,8 +1,7 @@
-import { redirect } from "@remix-run/node"
-import { unstable_defineClientAction } from "@remix-run/react"
 import cookie from "cookie"
+import { redirect, type ClientLoaderFunctionArgs } from "react-router"
 
-export const clientAction = unstable_defineClientAction(async (args) => {
+export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	const url = new URL(args.request.url)
 
 	const setCookie = cookie.serialize(`anilist-token`, "", {
@@ -16,4 +15,4 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 			"Set-Cookie": setCookie,
 		},
 	})
-})
+}

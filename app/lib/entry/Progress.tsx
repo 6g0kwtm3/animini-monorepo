@@ -5,10 +5,9 @@ import {
 	useParams,
 	useRouteLoaderData,
 	useSearchParams,
-} from "@remix-run/react"
+} from "react-router"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { ClientOnly } from "remix-utils/client-only"
 import * as Predicate from "~/lib/Predicate"
 
 import type { clientLoader as rootLoader } from "~/root"
@@ -118,37 +117,37 @@ export function ProgressIncrement(props: {
 						<M3.MenuItemLeadingIcon />
 						Edit
 					</M3.MenuListItem>
-					<ClientOnly>
-						{() => {
-							const shareData: ShareData = {
-								title: entry.media.title.userPreferred,
-								text: entry.media.title.userPreferred,
-								url: `https://${location.host}/media/${entry.media.id}`,
-							}
 
-							const canShare =
-								typeof navigator.canShare === "function" &&
-								navigator.canShare(shareData)
+					{(() => {
+						const shareData: ShareData = {
+							title: entry.media.title.userPreferred,
+							text: entry.media.title.userPreferred,
+							url: `https://${location.host}/media/${entry.media.id}`,
+						}
 
-							return (
-								canShare && (
-									<M3.MenuListItem
-										render={<button type="button" />}
-										onClick={() => {
-											void (async () => {
-												await navigator.share(shareData)
-											})()
-										}}
-									>
-										<M3.MenuItemLeadingIcon>
-											<MaterialSymbolsForward />
-										</M3.MenuItemLeadingIcon>
-										Share
-									</M3.MenuListItem>
-								)
+						const canShare =
+							typeof navigator.canShare === "function" &&
+							navigator.canShare(shareData)
+
+						return (
+							canShare && (
+								<M3.MenuListItem
+									render={<button type="button" />}
+									onClick={() => {
+										void (async () => {
+											await navigator.share(shareData)
+										})()
+									}}
+								>
+									<M3.MenuItemLeadingIcon>
+										<MaterialSymbolsForward />
+									</M3.MenuItemLeadingIcon>
+									Share
+								</M3.MenuListItem>
 							)
-						}}
-					</ClientOnly>
+						)
+					})()}
+
 					<M3.MenuListItem>
 						<M3.MenuItemLeadingIcon>
 							<MaterialSymbolsFavorite />

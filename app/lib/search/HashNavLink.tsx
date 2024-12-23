@@ -1,11 +1,11 @@
-import type { NavLink } from "@remix-run/react"
+import type { NavLink } from "react-router"
 import {
 	Link,
-	unstable_useViewTransitionState,
+	useViewTransitionState,
 	useLocation,
 	useNavigation,
 	useResolvedPath,
-} from "@remix-run/react"
+} from "react-router"
 import type { ComponentPropsWithoutRef } from "react"
 import { forwardRef } from "react"
 import * as Predicate from "~/lib/Predicate"
@@ -21,7 +21,7 @@ export const HashNavLink = forwardRef<
 	const path = useResolvedPath(props.to, { relative: props.relative })
 	const isActive = path.search === search && path.pathname === pathname
 
-	const isTransitioning = unstable_useViewTransitionState(path)
+	const isTransitioning = useViewTransitionState(path)
 	const navigation = useNavigation()
 	const isPending =
 		navigation.state === "loading" &&
