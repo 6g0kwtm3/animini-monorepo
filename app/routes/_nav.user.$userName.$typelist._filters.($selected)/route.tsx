@@ -483,11 +483,9 @@ export default function Page(): ReactNode {
 											search
 										),
 										search
-									)
-										.filter((el) => el != null)
-										.map((entry) => (
-											<MediaListItem key={entry.id} entry={entry} />
-										))
+									).map((entry) => (
+										<MediaListItem key={entry.id} entry={entry} />
+									))
 
 									return (
 										<Suspense fallback={mediaList}>

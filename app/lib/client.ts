@@ -5,6 +5,7 @@ import type {
 } from "relay-runtime"
 import { commitMutation, fetchQuery } from "./Network"
 
+import environment from "./Network"
 class Client {
 	async query<T extends OperationType>(
 		...args: [
@@ -32,8 +33,6 @@ class Client {
 export function client_get_client(): Client {
 	return new Client()
 }
-
-import environment from "./Network"
 
 export async function client_operation<T extends OperationType>(
 	...args: [
