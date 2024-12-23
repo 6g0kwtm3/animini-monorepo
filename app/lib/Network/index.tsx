@@ -9,22 +9,16 @@ import {
 
 import RelayRuntime from "relay-runtime"
 
-import { Effect, Option, pipe, Schedule } from "effect"
-
-import { Schema } from "@effect/schema"
+import { Option, pipe } from "effect"
 
 import { JsonToToken } from "../viewer"
 
-import { json } from "@remix-run/node"
+import { GraphQLResponse } from "./schema"
 
-import { Remix } from "../Remix"
-
-import * as Http from "@effect/platform/HttpClient"
-
-import { GraphQLResponse, Timeout } from "./schema"
-
+import { ArkErrors, type } from "arktype"
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
+import { invariant } from "../invariant"
 
 const { RelayFeatureFlags } = RelayRuntime
 
@@ -42,81 +36,40 @@ const fetchQuery_: FetchFunction = async function (
 	const token = pipe(
 		cookies["anilist-token"],
 		Option.fromNullable,
-		Option.flatMap(Schema.decodeOption(JsonToToken)),
-		Option.map(({ token }) => token),
+		Option.flatMap((value) => {
+			const result = JsonToToken(value)
+			return result instanceof ArkErrors
+				? Option.none()
+				: Option.some(result.token)
+		}),
 		Option.getOrUndefined
 	)
 
-	return pipe(
-		Effect.gen(function* () {
-			const body = yield* Http.body.json({
-				query: operation.text,
-				variables: variables,
-			})
+	const body = JSON.stringify({
+		query: operation.text,
+		variables: variables,
+	})
 
-			const headers =
-				Option.getOrNull(
-					Schema.decodeUnknownOption(Schema.instanceOf(Headers))(
-						cacheConfig.metadata?.headers
-					)
-				) ?? new Headers()
-			headers.set("Content-Type", "application/json")
-			headers.set("Accept", "application/json")
+	let headers = type(["instanceof", Headers])(cacheConfig.metadata?.headers)
+	if (headers instanceof ArkErrors) {
+		headers = new Headers()
+	}
+	headers.set("Content-Type", "application/json")
+	headers.set("Accept", "application/json")
 
-			if (token) {
-				headers.set("Authorization", `Bearer ${token}`)
-			}
+	if (token) {
+		headers.set("Authorization", `Bearer ${token}`)
+	}
 
-			const request = Http.request.post(API_URL, {
-				body: body,
-				headers,
-			})
+	const request = await fetch(API_URL, {
+		body: body,
+		method: "POST",
+		headers,
+	})
 
-			const response = yield* Http.client.fetchOk(request)
+	const response = invariant(GraphQLResponse(await request.json()))
 
-			const result =
-				yield* Http.response.schemaBodyJson(GraphQLResponse)(response)
-
-			if ("errors" in result && result.errors?.length) {
-				yield* Effect.logWarning(...result.errors)
-			}
-
-			return result
-		}),
-		Effect.withTracerEnabled(false),
-		Effect.catchTags({
-			RequestError: Effect.die,
-			BodyError: Effect.die,
-			ParseError: Effect.die,
-			ResponseError: (error) => {
-				if (error.response.status === 429) {
-					return new Timeout({
-						reset: pipe(
-							error.response.headers,
-							Http.headers.get("retry-after"),
-							Option.getOrElse(() => "60")
-						),
-					})
-				}
-
-				return new Remix.ResponseError({
-					response: json(null, {
-						status: error.response.status,
-						statusText: "",
-					}),
-				})
-			},
-		}),
-		Effect.scoped,
-		Effect.retry({
-			schedule: Schedule.intersect(
-				Schedule.jittered(Schedule.exponential("5 seconds")),
-				Schedule.recurs(10)
-			),
-			while: (error) => error instanceof Timeout,
-		}),
-		Effect.runPromise
-	)
+	return response
 }
 
 // Create a network layer from the fetch function

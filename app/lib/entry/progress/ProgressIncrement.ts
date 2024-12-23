@@ -1,24 +1,23 @@
-import { Schema } from "@effect/schema"
-
+import { type } from "arktype"
 import ReactRelay from "react-relay"
 import type {
 	ProgressIncrementMutation,
 	ProgressIncrementMutation$data,
 } from "~/gql/ProgressIncrementMutation.graphql"
 import { client_get_client } from "~/lib/client"
+import { invariant } from "~/lib/invariant"
 const { graphql } = ReactRelay
 
+const IncrementFormData = type({
+	id: "string.integer.parse",
+	progress: "string.integer.parse",
+})
 export const increment = async (
 	form: FormData
 ): Promise<{
 	SaveMediaListEntry: ProgressIncrementMutation$data["SaveMediaListEntry"]
 }> => {
-	const formData = Schema.decodeUnknownSync(
-		Schema.Struct({
-			id: Schema.NumberFromString,
-			progress: Schema.NumberFromString,
-		})
-	)(Object.fromEntries(form))
+	const formData = invariant(IncrementFormData(Object.fromEntries(form)))
 
 	const client = client_get_client()
 

@@ -1,5 +1,5 @@
-import { Schema } from "@effect/schema"
 import { useActionData, type ClientActionFunction } from "@remix-run/react"
+import { type } from "arktype"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
@@ -7,6 +7,7 @@ import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.grap
 import { Ariakit } from "~/lib/ariakit"
 
 import { client_get_client } from "~/lib/client"
+import { invariant } from "~/lib/invariant"
 import { m } from "~/lib/paraglide"
 const { graphql } = ReactRelay
 
@@ -20,12 +21,12 @@ const UserFollow = graphql`
 	}
 `
 
+const Params = type({
+	userId: "string.integer.parse",
+})
 export const clientAction = (async (args) => {
-	const params = Schema.decodeUnknownSync(
-		Schema.Struct({
-			userId: Schema.NumberFromString,
-		})
-	)(args.params)
+	const params = invariant(Params(args.params))
+
 	const client = client_get_client()
 
 	const data = await client.mutation<routeUserFollowMutation>({

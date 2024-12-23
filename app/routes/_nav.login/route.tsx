@@ -7,7 +7,7 @@ import {
 } from "~/components/TextField"
 
 import * as Ariakit from "@ariakit/react"
-import { Schema } from "@effect/schema"
+
 import cookie from "cookie"
 import { Effect, pipe } from "effect"
 import type { ReactNode } from "react"
@@ -20,7 +20,7 @@ import { button } from "~/lib/button"
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import { route_user_list } from "~/lib/route"
 import { EffectUrql } from "~/lib/urql"
-import { JsonToToken } from "~/lib/viewer"
+import { type Token } from "~/lib/viewer"
 const { graphql } = ReactRelay
 
 export const meta = (() => {
@@ -68,10 +68,10 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 				return {}
 			}
 
-			const encoded = Schema.encodeSync(JsonToToken)({
+			const encoded = JSON.stringify({
 				token: token,
 				viewer: data.Viewer,
-			})
+			} satisfies typeof Token.infer)
 
 			const setCookie = cookie.serialize(`anilist-token`, encoded, {
 				sameSite: "lax",
