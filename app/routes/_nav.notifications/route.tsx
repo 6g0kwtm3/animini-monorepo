@@ -1,13 +1,12 @@
 import ReactRelay from "react-relay"
 
 import { useTooltipStore } from "@ariakit/react"
-import type { ActionFunction, MetaFunction } from "@remix-run/node"
-import {
-	Form,
-	redirect,
-	unstable_defineClientLoader,
-	useLoaderData,
-} from "@remix-run/react"
+import type {
+	ActionFunction,
+	ClientLoaderFunctionArgs,
+	MetaFunction,
+} from "react-router"
+import { Form, redirect, useLoaderData } from "react-router"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
@@ -33,7 +32,7 @@ import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const client = await client_get_client()
 
 	const data = await client.query<NavNotificationsQuery>(
@@ -50,7 +49,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	)
 
 	return data
-})
+}
 
 export const clientAction = (async (args) => {
 	const client = await client_get_client()

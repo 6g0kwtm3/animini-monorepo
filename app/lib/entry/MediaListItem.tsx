@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react"
+import { Link } from "react-router"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -26,7 +26,6 @@ import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { ProgressIncrement } from "./Progress"
 
-import type { SerializeFrom } from "@remix-run/node"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
 	MediaListItemSubtitle_entry$key,
@@ -52,7 +51,7 @@ const MediaListItem_entry = graphql`
 
 export type ListItem_EntryFragment = typeof MediaListItem_entry
 export const Library = createContext<
-	SerializeFrom<Record<string, [AnitomyResult, ...AnitomyResult[]]>>
+	Record<string, [AnitomyResult, ...AnitomyResult[]]>
 >({})
 
 export function MediaListItem(props: {
@@ -71,10 +70,7 @@ export function MediaListItem(props: {
 				<ListItemContent
 					render={
 						entry?.media ? (
-							<Link
-								unstable_viewTransition
-								to={route_media({ id: entry.media.id })}
-							/>
+							<Link viewTransition to={route_media({ id: entry.media.id })} />
 						) : (
 							<div />
 						)

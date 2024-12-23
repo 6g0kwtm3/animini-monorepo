@@ -1,13 +1,13 @@
+import ReactRelay from "react-relay"
 import {
 	Await,
 	Outlet,
-	unstable_defineClientLoader,
 	useLoaderData,
 	useLocation,
 	useRouteLoaderData,
+	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
-import ReactRelay from "react-relay"
+} from "react-router"
 
 import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
@@ -44,7 +44,7 @@ import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-ou
 
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const client = client_get_client()
 	const viewer = Viewer()
 
@@ -62,7 +62,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	)
 
 	return { trending: data }
-})
+}
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,

@@ -10,7 +10,6 @@ import {
 	isRouteErrorResponse,
 	Link,
 	Outlet,
-	unstable_defineClientLoader,
 	useLoaderData,
 	useLocation,
 	useNavigate,
@@ -19,8 +18,9 @@ import {
 	useRouteError,
 	useSearchParams,
 	useSubmit,
+	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
-} from "@remix-run/react"
+} from "react-router"
 import * as Order from "~/lib/Order"
 
 import type { ReactNode } from "react"
@@ -77,7 +77,7 @@ const Params = type({
 	typelist: '"animelist"|"mangalist"',
 })
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const params = invariant(Params(args.params))
 
 	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
@@ -91,7 +91,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 	})
 
 	return { data, params }
-})
+}
 
 const { graphql } = ReactRelay
 
@@ -136,7 +136,9 @@ export default function Filters(): ReactNode {
 						<Form
 							action={pathname}
 							replace
-							onChange={(e) => submit(e.currentTarget)}
+							onChange={(e) => {
+								void submit(e.currentTarget)
+							}}
 							className="grid grid-cols-2 gap-2"
 						>
 							<CheckboxProvider value={searchParams.getAll("status")}>
@@ -357,13 +359,15 @@ function Filter() {
 		<Form
 			replace
 			action={pathname}
-			onChange={(e) => submit(e.currentTarget, {})}
+			onChange={(e) => {
+				void submit(e.currentTarget, {})
+			}}
 		>
 			{sheet && <input type="hidden" name="sheet" value={sheet} />}
 			<Sheet
 				open={filter || sort}
 				onClose={() => {
-					navigate({
+					void navigate({
 						search: `?${searchParams}`,
 					})
 				}}

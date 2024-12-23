@@ -1,6 +1,5 @@
-import type { MetaFunction } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
-import { unstable_defineClientAction, useFetcher } from "@remix-run/react"
+import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+import { redirect, useFetcher } from "react-router"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput,
@@ -28,7 +27,7 @@ export const meta = (() => {
 
 const ANILIST_CLIENT_ID = 3455
 
-export const clientAction = unstable_defineClientAction(async (args) => {
+export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	const formData = await args.request.formData()
 	const { searchParams } = new URL(args.request.url)
 
@@ -88,14 +87,14 @@ export const clientAction = unstable_defineClientAction(async (args) => {
 			},
 		}
 	)
-})
+}
 
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()
 	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
 
 	store.onSubmit((state) => {
-		fetcher.submit(state.values, {
+		void fetcher.submit(state.values, {
 			method: "post",
 		})
 	})

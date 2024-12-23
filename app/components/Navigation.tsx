@@ -1,4 +1,4 @@
-import type { NavLink, NavLinkProps } from "@remix-run/react"
+import type { NavLink, NavLinkProps } from "react-router"
 
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
@@ -103,7 +103,7 @@ export const NavigationItem = forwardRef<
 	return createElement(HashNavLink, {
 		ref,
 		...props,
-		unstable_viewTransition: true,
+		viewTransition: true,
 		className: label({ className: props.className }),
 		children: ({
 			isActive,

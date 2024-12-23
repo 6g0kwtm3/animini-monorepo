@@ -1,5 +1,5 @@
-import { unstable_defineClientLoader } from "@remix-run/react"
 import type { ReactNode } from "react"
+import { type ClientLoaderFunctionArgs } from "react-router"
 
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
@@ -11,7 +11,7 @@ import { useRawLoaderData } from "~/lib/data"
 import { SearchItem } from "~/lib/search/SearchItem"
 const { graphql } = ReactRelay
 
-export const clientLoader = unstable_defineClientLoader(async (args) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const client = client_get_client()
 	const { searchParams } = new URL(args.request.url)
 
@@ -34,7 +34,7 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 		}
 	)
 	return data
-})
+}
 
 export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
