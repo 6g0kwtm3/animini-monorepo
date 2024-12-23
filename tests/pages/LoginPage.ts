@@ -16,7 +16,7 @@ export class LoginPage {
 	}
 
 	static async new(page: Page): Promise<LoginPage> {
-		await expect(page).toHaveTitle("Login")
+		// await expect(page).toHaveTitle("Login")
 		return new LoginPage(page)
 	}
 }

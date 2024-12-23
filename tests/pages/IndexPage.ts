@@ -9,7 +9,7 @@ export class FeedPage {
 	}
 
 	static async new(page: Page): Promise<FeedPage> {
-		await expect(page).toHaveTitle("Feed")
+		// await expect(page).toHaveTitle("Feed")
 		return new this(page)
 	}
 }

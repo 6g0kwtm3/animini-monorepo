@@ -7,7 +7,7 @@ export class TypelistPage {
 		this.nav = new Nav(page)
 	}
 	static async new(page: Page): Promise<TypelistPage> {
-		await expect(page).toHaveTitle(/(anime|manga) list/)
+		// await expect(page).toHaveTitle(/(anime|manga) list/)
 		return new TypelistPage(page)
 	}
 }

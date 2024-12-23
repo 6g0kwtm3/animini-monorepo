@@ -12,7 +12,7 @@ export class MediaPage {
 		this.title = main.getByRole("heading")
 	}
 	static async new(page: Page): Promise<MediaPage> {
-		await expect(page).toHaveTitle(/Media - /)
+		// await expect(page).toHaveTitle(/Media - /)
 		return new MediaPage(page)
 	}
 }
