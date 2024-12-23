@@ -1,13 +1,15 @@
 import { expect } from "@playwright/test"
 import { graphql, HttpResponse } from "msw"
-import routeNavMediaQuery, {
+import type {
 	routeNavMediaQuery$rawResponse,
-	type routeNavMediaQuery$variables,
+	routeNavMediaQuery$variables,
 } from "~/gql/routeNavMediaQuery.graphql"
-import routeNavSearchQuery, {
+import routeNavMediaQuery from "~/gql/routeNavMediaQuery.graphql"
+import type {
 	routeNavSearchQuery$rawResponse,
 	routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
+import routeNavSearchQuery from "~/gql/routeNavSearchQuery.graphql"
 import { SucccessHandler, test } from "./fixtures"
 import { MediaPage } from "./pages/MediaPage"
 import { SearchPage } from "./pages/SearchPage"
