@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
-        
+
       - name: Await CF Pages
         uses: WalshyDev/cf-pages-await@v1
         id: cf-pages
