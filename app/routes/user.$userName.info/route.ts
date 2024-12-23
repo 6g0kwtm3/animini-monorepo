@@ -10,8 +10,7 @@ const Params = type({
 	userName: "string",
 })
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const params = invariant(Params(args.params)
-) 
+	const params = invariant(Params(args.params))
 
 	const data = await client_operation<routeUserInfoQuery>(
 		graphql`
