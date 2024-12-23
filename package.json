@@ -1,4 +1,5 @@
 {
+	"$schema": "https://json.schemastore.org/package",
 	"private": true,
 	"sideEffects": false,
 	"type": "module",
@@ -6,7 +7,7 @@
 	"main": "desktop/index.js",
 	"scripts": {
 		"deploy": "wrangler pages deploy ./build/client",
-		"build": "react-router build",
+		"build": "bunx cross-env NODE_ENV=production react-router build",
 		"dev": "bun run \"/dev:/\"",
 		"dev:vite": "react-router dev",
 		"dev:codegen": "bun run codegen",
@@ -68,6 +69,7 @@
 		"@types/react-relay": "^16.0.6",
 		"@types/relay-runtime": "^14.1.24",
 		"autoprefixer": "^10.4.19",
+		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.5",
 		"electron": "^28.2.10",
 		"electron-devtools-installer": "^3.2.0",
