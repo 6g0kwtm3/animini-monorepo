@@ -13,6 +13,6 @@ export class MediaPage {
 	}
 	static async new(page: Page): Promise<MediaPage> {
 		// await expect(page).toHaveTitle(/Media - /)
-		return new MediaPage(page)
+		return new this(page)
 	}
 }

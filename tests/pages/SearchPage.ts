@@ -6,7 +6,7 @@ export class SearchPage {
 	active: Locator
 	options: Locator
 	static new(page: Page): SearchPage {
-		return new SearchPage(page)
+		return new this(page)
 	}
 
 	private constructor(private page: Page) {

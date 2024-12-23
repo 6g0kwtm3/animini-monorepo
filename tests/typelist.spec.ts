@@ -15,7 +15,7 @@ class UserPage {
 	animeList: Locator
 	mangaList: Locator
 	static new(page: Page) {
-		return new UserPage(page)
+		return new this(page)
 	}
 	private constructor(private page: Page) {
 		this.animeList = page
