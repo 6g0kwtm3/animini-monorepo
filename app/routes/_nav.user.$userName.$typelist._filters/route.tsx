@@ -4,7 +4,7 @@ import {
 	GroupLabel,
 	RadioProvider,
 } from "@ariakit/react"
-import { Schema } from "@effect/schema"
+
 import {
 	Form,
 	isRouteErrorResponse,
@@ -50,9 +50,11 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
+import { type } from "arktype"
 import ReactRelay from "react-relay"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { client_operation } from "~/lib/client"
+import { invariant } from "~/lib/invariant"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -70,13 +72,13 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
+const Params = type({
+	userName: "string",
+	typelist: '"animelist"|"mangalist"',
+})
+
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	const params = await Schema.decodeUnknownSync(
-		Schema.Struct({
-			userName: Schema.String,
-			typelist: Schema.Literal("animelist", "mangalist"),
-		})
-	)(args.params)
+	const params = invariant(Params(args.params))
 
 	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
 		userName: params.userName,

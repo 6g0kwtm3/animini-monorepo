@@ -1,50 +1,38 @@
-import { Schema } from "@effect/schema"
+import { type } from "arktype"
+import { Data } from "effect"
 
-export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
-	reset: Schema.String,
-}) {}
+export class Timeout extends Data.TaggedError("Timeout")<{
+	reset: string
+}> {}
 
-const PayloadErrors = Schema.mutable(
-	Schema.Array(
-		Schema.mutable(
-			Schema.Struct({
-				message: Schema.String,
-				status: Schema.optional(Schema.Number),
-			})
-		)
-	)
-)
+const PayloadErrors = type([
+	{
+		message: "string",
+		"status?": "number",
+	},
+	"[]",
+])
 
-const PayloadData = Schema.mutable(Schema.Record(Schema.String, Schema.Any))
-const PayloadExtensions = Schema.mutable(
-	Schema.Record(Schema.String, Schema.Any)
-)
+const PayloadData = type("Record<string,unknown>")
+const PayloadExtensions = type("Record<string,unknown>")
 
-const GraphQLResponseWithData = Schema.mutable(
-	Schema.Struct({
-		data: PayloadData,
-		extensions: Schema.optional(PayloadExtensions),
-		errors: Schema.optional(PayloadErrors),
-	})
-)
+const GraphQLResponseWithData = type({
+	data: PayloadData,
+	"extensions?": PayloadExtensions,
+	"errors?": PayloadErrors,
+})
 
-const GraphQLResponseWithExtensionsOnly = Schema.mutable(
-	Schema.Struct({
-		data: Schema.Null,
-		extensions: PayloadExtensions,
-	})
-)
+const GraphQLResponseWithExtensionsOnly = type({
+	data: "null",
+	extensions: PayloadExtensions,
+})
 
-const GraphQLResponseWithoutData = Schema.mutable(
-	Schema.Struct({
-		data: Schema.optional(PayloadData),
-		extensions: Schema.optional(PayloadExtensions),
-		errors: PayloadErrors,
-	})
-)
+const GraphQLResponseWithoutData = type({
+	"data?": PayloadData,
+	"extensions?": PayloadExtensions,
+	errors: PayloadErrors,
+})
 
-export const GraphQLResponse = Schema.Union(
-	GraphQLResponseWithData,
-	GraphQLResponseWithExtensionsOnly,
+export const GraphQLResponse = GraphQLResponseWithExtensionsOnly.or(
 	GraphQLResponseWithoutData
-)
+).or(GraphQLResponseWithData)

@@ -29,7 +29,6 @@
 // 	LoaderLive
 // } from "~/lib/urql"
 
-// import * as S from "@effect/schema/Schema"
 // import { DialogFullscreenIcon } from "~/components/Dialog"
 
 // import * as Ariakit from "@ariakit/react"

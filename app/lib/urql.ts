@@ -1,8 +1,6 @@
 import { type Params, type unstable_defineClientLoader } from "@remix-run/react"
 
-import { Context, Effect, Layer } from "effect"
-
-import { Schema } from "@effect/schema"
+import { Context, Data, Effect, Layer } from "effect"
 
 import type {
 	CacheConfig,
@@ -41,9 +39,9 @@ export class ClientArgs extends Context.Tag("client/Args")<
 	Arguments
 >() {}
 
-export class Timeout extends Schema.TaggedError<Timeout>()("Timeout", {
-	reset: Schema.String,
-}) {}
+export class Timeout extends Data.TaggedError("Timeout")<{
+	reset: string
+}> {}
 
 const makeClientLive = Effect.sync(() => {
 	return {
