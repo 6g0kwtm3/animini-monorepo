@@ -1,13 +1,13 @@
-import { Schema } from "@effect/schema"
+import { type } from "arktype"
 
-const Viewer = Schema.Struct({
-	name: Schema.String,
-	id: Schema.Number,
+const Viewer = type({
+	name: "string",
+	id: "number.integer",
 })
 
-export const Token = Schema.Struct({
-	token: Schema.Trim,
+export const Token = type({
+	token: "string.trim",
 	viewer: Viewer,
 })
 
-export const JsonToToken = Schema.parseJson(Token)
+export const JsonToToken = type("string.json.parse").to(Token)
