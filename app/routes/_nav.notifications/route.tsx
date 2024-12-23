@@ -8,7 +8,6 @@ import {
 	unstable_defineClientLoader,
 	useLoaderData,
 } from "@remix-run/react"
-import { Effect, pipe } from "effect"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
@@ -18,9 +17,7 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { Remix } from "~/lib/Remix"
 import { fab } from "~/lib/button"
-import { EffectUrql } from "~/lib/urql"
 import { sourceLanguageTag } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
@@ -28,6 +25,7 @@ import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
 import { useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
+import { client_get_client } from "~/lib/client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
@@ -36,52 +34,41 @@ import { RelatedMediaAddition } from "./RelatedMediaAddition"
 const { graphql } = ReactRelay
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
-	return pipe(
-		Effect.gen(function* () {
-			const client = yield* EffectUrql
+	const client = await client_get_client()
 
-			const data = yield* client.query<NavNotificationsQuery>(
-				graphql`
-					query routeNavNotificationsQuery {
-						Viewer {
-							id
-							unreadNotificationCount
-						}
-						...routeNavNotifications_query
-					}
-				`,
-				{}
-			)
-
-			return data
-		}),
-		Effect.provide(EffectUrql.Live),
-		Remix.runLoader
+	const data = await client.query<NavNotificationsQuery>(
+		graphql`
+			query routeNavNotificationsQuery {
+				Viewer {
+					id
+					unreadNotificationCount
+				}
+				...routeNavNotifications_query
+			}
+		`,
+		{}
 	)
+
+	return data
 })
 
 export const clientAction = (async (args) => {
-	return pipe(
-		Effect.gen(function* () {
-			const client = yield* EffectUrql
-			yield* client.query(
-				graphql`
-					query routeNavNotificationsReadQuery {
-						Page(perPage: 0) {
-							notifications(resetNotificationCount: true) {
-								__typename
-							}
-						}
-					}
-				`,
-				{}
-			)
+	const client = await client_get_client()
 
-			return redirect(".")
-		}),
-		Effect.provide(EffectUrql.Live),
-		Remix.runLoader
+	await client.query(
+		graphql`
+			query routeNavNotificationsReadQuery {
+				Page(perPage: 0) {
+					notifications(resetNotificationCount: true) {
+						__typename
+					}
+				}
+			}
+		`,
+		{}
 	)
+
+	return redirect(".")
 }) satisfies ActionFunction
 
 export default function Notifications(): ReactNode {

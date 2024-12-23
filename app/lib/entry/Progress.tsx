@@ -6,10 +6,10 @@ import {
 	useRouteLoaderData,
 	useSearchParams,
 } from "@remix-run/react"
-import { Predicate } from "effect"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { ClientOnly } from "remix-utils/client-only"
+import * as Predicate from "~/lib/Predicate"
 
 import type { clientLoader as rootLoader } from "~/root"
 import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.($selected)/route"

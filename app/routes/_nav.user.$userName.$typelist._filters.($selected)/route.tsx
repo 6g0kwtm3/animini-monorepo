@@ -19,14 +19,11 @@ import {
 	MediaListHeaderToWatch,
 } from "~/lib/list/MediaList"
 
-import { Order, Array as ReadonlyArray } from "effect"
-
 // import {} from 'glob'
 
 import type { AnitomyResult } from "anitomy"
 
 import { unstable_defineClientLoader } from "@remix-run/react"
-import type { NonEmptyArray } from "effect/Array"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
 
@@ -59,6 +56,7 @@ import { ArkErrors, type } from "arktype"
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { invariant } from "~/lib/invariant"
+import * as Order from "~/lib/Order"
 
 const { graphql } = ReactRelay
 
@@ -123,7 +121,9 @@ const NavUserListEntriesQuery = graphql`
 
 export const clientLoader = unstable_defineClientLoader(async (args) => {
 	return {
-		Library: Promise.resolve<Record<string, NonEmptyArray<AnitomyResult>>>({}),
+		Library: Promise.resolve<
+			Record<string, [AnitomyResult, ...AnitomyResult[]]>
+		>({}),
 		query: fetchSelectedList(args),
 	}
 })
@@ -198,7 +198,7 @@ async function fetchSelectedList(
 
 	const client = await client_get_client()
 
-	const data = await client.operation<NavUserListEntriesQuery>(
+	const data = await client.query<NavUserListEntriesQuery>(
 		NavUserListEntriesQuery,
 		{
 			userName: params.userName,
@@ -367,7 +367,7 @@ function sortEntries(
 		)
 	)
 
-	return ReadonlyArray.sortBy(Order.reverse(Order.combineAll(order)))(entries)
+	return entries.sort(Order.reverse(Order.combineAll(order)))
 }
 
 function filterEntries(
@@ -469,7 +469,7 @@ export default function Page(): ReactNode {
 						<Suspense
 							fallback={
 								<Loading>
-									{ReadonlyArray.range(1, 7).map((i) => (
+									{Array.from({ length: 7 }, (_, i) => (
 										<MediaListItem key={i} entry={null} />
 									))}
 								</Loading>
@@ -483,11 +483,9 @@ export default function Page(): ReactNode {
 											search
 										),
 										search
-									)
-										.filter((el) => el != null)
-										.map((entry) => (
-											<MediaListItem key={entry.id} entry={entry} />
-										))
+									).map((entry) => (
+										<MediaListItem key={entry.id} entry={entry} />
+									))
 
 									return (
 										<Suspense fallback={mediaList}>

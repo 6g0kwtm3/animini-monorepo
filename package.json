@@ -24,7 +24,6 @@
 	},
 	"dependencies": {
 		"@ariakit/react": "^0.4.7",
-		"@effect/platform": "^0.56.0",
 		"@material/material-color-utilities": "^0.2.7",
 		"@million/lint": "1.0.0-rc.26",
 		"@remix-run/node": "^2.9.2",
@@ -34,7 +33,6 @@
 		"chokidar": "^3.6.0",
 		"cookie": "^0.6.0",
 		"dompurify": "^3.1.5",
-		"effect": "3.3.0",
 		"framer-motion": "^11.2.10",
 		"htmlparser2": "^9.1.0",
 		"isbot": "^4.1.0",

@@ -9,17 +9,16 @@ import {
 import * as Ariakit from "@ariakit/react"
 
 import cookie from "cookie"
-import { Effect, pipe } from "effect"
+
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { Remix } from "~/lib/Remix"
 import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
+import { client_get_client } from "~/lib/client"
 import { route_user_list } from "~/lib/route"
-import { EffectUrql } from "~/lib/urql"
 import { type Token } from "~/lib/viewer"
 const { graphql } = ReactRelay
 
@@ -30,72 +29,64 @@ export const meta = (() => {
 const ANILIST_CLIENT_ID = 3455
 
 export const clientAction = unstable_defineClientAction(async (args) => {
-	return pipe(
-		Effect.gen(function* () {
-			const formData = yield* Effect.promise(async () =>
-				args.request.formData()
-			)
-			const { searchParams } = new URL(args.request.url)
+	const formData = await args.request.formData()
+	const { searchParams } = new URL(args.request.url)
 
-			const token = formData.get("token")
+	const token = formData.get("token")
 
-			if (typeof token !== "string") {
-				return {}
-			}
+	if (typeof token !== "string") {
+		return {}
+	}
 
-			const client = yield* EffectUrql
+	const client = await client_get_client()
 
-			const data = yield* client.query<NavLoginQuery>(
-				graphql`
-					query routeNavLoginQuery {
-						Viewer {
-							id
-							name
-						}
-					}
-				`,
-				{},
-				{
-					networkCacheConfig: {
-						metadata: {
-							headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
-						},
-					},
+	const data = await client.query<NavLoginQuery>(
+		graphql`
+			query routeNavLoginQuery {
+				Viewer {
+					id
+					name
 				}
-			)
-
-			if (!data?.Viewer) {
-				return {}
 			}
+		`,
+		{},
+		{
+			networkCacheConfig: {
+				metadata: {
+					headers: new Headers({ Authorization: `Bearer ${token.trim()}` }),
+				},
+			},
+		}
+	)
 
-			const encoded = JSON.stringify({
-				token: token,
-				viewer: data.Viewer,
-			} satisfies typeof Token.infer)
+	if (!data?.Viewer) {
+		return {}
+	}
 
-			const setCookie = cookie.serialize(`anilist-token`, encoded, {
-				sameSite: "lax",
-				maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
-				path: "/",
-			})
+	const encoded = JSON.stringify({
+		token: token,
+		viewer: data.Viewer,
+	} satisfies typeof Token.infer)
 
-			document.cookie = setCookie
+	const setCookie = cookie.serialize(`anilist-token`, encoded, {
+		sameSite: "lax",
+		maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
+		path: "/",
+	})
 
-			return redirect(
-				searchParams.get("redirect") ??
-					route_user_list({
-						typelist: "animelist",
-						userName: data.Viewer.name,
-					}),
-				{
-					headers: {
-						"Set-Cookie": setCookie,
-					},
-				}
-			)
-		}),
-		Effect.provide(EffectUrql.Live),
-		Remix.runLoader
+	document.cookie = setCookie
+
+	return redirect(
+		searchParams.get("redirect") ??
+			route_user_list({
+				typelist: "animelist",
+				userName: data.Viewer.name,
+			}),
+		{
+			headers: {
+				"Set-Cookie": setCookie,
+			},
+		}
 	)
 })
 

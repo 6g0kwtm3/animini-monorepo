@@ -9,8 +9,6 @@ import {
 
 import RelayRuntime from "relay-runtime"
 
-import { Option, pipe } from "effect"
-
 import { JsonToToken } from "../viewer"
 
 import { GraphQLResponse } from "./schema"
@@ -19,6 +17,7 @@ import { ArkErrors, type } from "arktype"
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
 import { invariant } from "../invariant"
+import { isString } from "../Predicate"
 
 const { RelayFeatureFlags } = RelayRuntime
 
@@ -33,17 +32,12 @@ const fetchQuery_: FetchFunction = async function (
 ) {
 	const cookies = cookie.parse(document.cookie)
 
-	const token = pipe(
-		cookies["anilist-token"],
-		Option.fromNullable,
-		Option.flatMap((value) => {
-			const result = JsonToToken(value)
-			return result instanceof ArkErrors
-				? Option.none()
-				: Option.some(result.token)
-		}),
-		Option.getOrUndefined
-	)
+	let token = cookies["anilist-token"]
+
+	if (isString(token)) {
+		const parsedToken = JsonToToken(token)
+		token = parsedToken instanceof ArkErrors ? undefined : parsedToken.token
+	}
 
 	const body = JSON.stringify({
 		query: operation.text,

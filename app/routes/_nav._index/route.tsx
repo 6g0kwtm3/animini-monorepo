@@ -7,11 +7,6 @@ import {
 	useRouteLoaderData,
 } from "@remix-run/react"
 
-import {
-	Predicate,
-	Array as ReadonlyArray,
-	Record as ReadonlyRecord,
-} from "effect"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Fragment, Suspense, createElement, useEffect, useMemo } from "react"
 
@@ -60,6 +55,7 @@ import { ClientOnly } from "remix-utils/client-only"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { m } from "~/lib/paraglide"
+import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
 const { graphql } = ReactRelay
@@ -145,7 +141,6 @@ async function getPage() {
 	)
 	return data?.Page
 }
-
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await client_operation<routeNavFeedMediaQuery>(
 		graphql`
@@ -168,7 +163,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 		variables
 	)
 
-	return ReadonlyRecord.fromEntries(
+	return Object.fromEntries(
 		data?.Page?.media
 			?.filter((el) => el != null)
 			.map(
@@ -199,9 +194,10 @@ export const clientLoader = unstable_defineClientLoader(async (args) => {
 
 	return {
 		page,
-		media: ReadonlyArray.isNonEmptyArray(ids)
-			? getMedia({ ids: ids })
-			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
+		media:
+			ids.length > 0
+				? getMedia({ ids: ids })
+				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
 })
 
