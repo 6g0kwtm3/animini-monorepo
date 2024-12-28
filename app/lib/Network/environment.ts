@@ -6,8 +6,6 @@ import RelayRuntime, {
 	type FetchFunction,
 } from "relay-runtime"
 
-
-
 import { ArkErrors, type } from "arktype"
 import { invariant } from "../invariant"
 import { GraphQLResponse, Timeout } from "./schema"

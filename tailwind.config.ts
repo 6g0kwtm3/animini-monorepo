@@ -87,7 +87,6 @@ export const config = {
 		},
 	},
 	plugins: [
-		/* eslint-disable @typescript-eslint/no-require-imports */
 		// require("@tailwindcss/typography"),
 
 		plugin(({ addBase, matchUtilities, theme }) => {

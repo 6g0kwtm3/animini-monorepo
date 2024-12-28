@@ -63,7 +63,7 @@ async function getPage() {
 		`,
 		{}
 	)
-	return data?.Page
+	return data.Page
 }
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await fetchQuery<routeNavFeedMediaQuery>(
@@ -88,7 +88,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 
 	return Object.fromEntries(
-		data?.Page?.media
+		data.Page?.media
 			?.filter((el) => el != null)
 			.map(
 				(media) =>
@@ -182,7 +182,7 @@ export default function Index({
 													</ListItem>
 												</address>
 											</ListContext>
-											{activity?.text && (
+											{activity.text && (
 												<Markdown options={options}>{activity.text}</Markdown>
 											)}
 										</Card>

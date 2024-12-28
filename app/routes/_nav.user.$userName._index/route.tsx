@@ -34,7 +34,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 		{ userName }
 	)
 
-	if (!data?.User) {
+	if (!data.User) {
 		throw Response.json("User not found", {
 			status: 404,
 		})
@@ -71,7 +71,7 @@ function SidePanel({ loaderData: data }: Route.ComponentProps): ReactNode {
 				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 			>
 				<Ariakit.Heading>About me</Ariakit.Heading>
-				{data?.user.about && (
+				{data.user.about && (
 					<Markdown options={options}>{data.user.about}</Markdown>
 				)}
 			</M3.Card>

@@ -10,7 +10,6 @@ import {
 	type ShouldRevalidateFunction,
 } from "react-router"
 
-
 import * as Order from "~/lib/Order"
 import { type ReactNode } from "react"
 import { Card } from "~/components/Card"

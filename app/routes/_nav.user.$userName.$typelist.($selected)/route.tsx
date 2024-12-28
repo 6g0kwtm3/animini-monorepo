@@ -372,7 +372,6 @@ function sortEntries(
 			continue
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (sort === MediaListSort.Popularity) {
 			orderEntry(Order.number, (entry) => entry.media?.popularity ?? 0)
 			continue
@@ -558,7 +557,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 
 	const elements = lists.flatMap((list) => {
 		const entries = sortEntries(
-			list?.entries?.flatMap((el) =>
+			list.entries?.flatMap((el) =>
 				el != null && isVisible(el, search) && isQuery(el, parsed) ? [el] : []
 			) ?? [],
 			{ search, user: data.MediaListCollection.user }
@@ -570,7 +569,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 					...entries.map((entry) => ({
 						type: "MediaList" as const,
 						entry,
-						name: list?.name,
+						name: list.name,
 					})),
 				]
 			: []
@@ -605,7 +604,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 	return (
 		<div ref={ref} className="">
 			<List
-				className="relative @container"
+				className="@container relative"
 				lines={"two"}
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
@@ -619,7 +618,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute left-0 top-0 w-full"
+								className="absolute top-0 left-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 							>
@@ -634,7 +633,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute left-0 top-0 w-full"
+								className="absolute top-0 left-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 								key={`${element.name}:${element.entry.id}`}
@@ -685,11 +684,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 
 	return (
 		<ExtraOutlets>
-			<Ariakit.Heading className="text-balance text-headline-md">
+			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 			<Link to={location} className={button()}>
 				Try again
 			</Link>
