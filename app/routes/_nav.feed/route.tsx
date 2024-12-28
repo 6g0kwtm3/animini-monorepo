@@ -1,12 +1,7 @@
 import { type MetaFunction } from "react-router"
 
-import {
-	Predicate,
-	Array as ReadonlyArray,
-	Record as ReadonlyRecord,
-} from "effect"
 import type { ReactNode } from "react"
-
+import * as Predicate from "~/lib/Predicate"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -92,7 +87,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 		variables
 	)
 
-	return ReadonlyRecord.fromEntries(
+	return Object.fromEntries(
 		data?.Page?.media
 			?.filter((el) => el != null)
 			.map(
@@ -123,9 +118,10 @@ export const clientLoader = async () => {
 
 	return {
 		page,
-		media: ReadonlyArray.isNonEmptyArray(ids)
-			? getMedia({ ids: ids })
-			: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
+		media:
+			ids.length > 0
+				? getMedia({ ids: ids })
+				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
 }
 

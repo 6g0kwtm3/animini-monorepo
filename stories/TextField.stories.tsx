@@ -10,7 +10,7 @@ import MaterialSymbolsKeyboardVoice from "~icons/material-symbols/keyboard-voice
 const meta = {
 	title: "Example/TextField",
 	component: FieldText,
-	//@ts-expect-error react@rc
+
 	subcomponents: { FieldTextIcon },
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout

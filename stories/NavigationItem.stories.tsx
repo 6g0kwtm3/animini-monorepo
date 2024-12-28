@@ -16,9 +16,7 @@ const meta = {
 	title: "Example/NavigationItem",
 	component: NavigationItem,
 	subcomponents: {
-		//@ts-expect-error react 19 not compatible with storybook
 		NavigationItemIcon,
-		//@ts-expect-error react 19 not compatible with storybook
 		NavigationItemLargeBadge,
 	},
 	parameters: {

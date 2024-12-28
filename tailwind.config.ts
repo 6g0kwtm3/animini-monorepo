@@ -1,6 +1,6 @@
-import { Predicate } from "effect"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
+import * as Predicate from "./app/lib/Predicate.js"
 import colors from "./colors.json"
 import fontSize from "./font-size.json"
 

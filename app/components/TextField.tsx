@@ -1,4 +1,4 @@
-import { Predicate } from "effect"
+import * as Predicate from "~/lib/Predicate"
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { createContext, use, useId, useRef } from "react"
 

@@ -6,10 +6,9 @@ import RelayRuntime, {
 	type FetchFunction,
 } from "relay-runtime"
 
-import { Option } from "effect"
 
-import { Schema } from "@effect/schema"
 
+import { ArkErrors, type } from "arktype"
 import { invariant } from "../invariant"
 import { GraphQLResponse, Timeout } from "./schema"
 
@@ -27,12 +26,10 @@ const fetchQuery_: FetchFunction = async function (
 		variables: variables,
 	})
 
-	const headers =
-		Option.getOrNull(
-			Schema.decodeUnknownOption(Schema.instanceOf(Headers))(
-				cacheConfig.metadata?.headers
-			)
-		) ?? new Headers()
+	let headers = type(["instanceof", Headers])(cacheConfig.metadata?.headers)
+	if (headers instanceof ArkErrors) {
+		headers = new Headers()
+	}
 
 	headers.set("Content-Type", "application/json")
 	headers.set("Accept", "application/json")
@@ -51,7 +48,7 @@ const fetchQuery_: FetchFunction = async function (
 		throw new Timeout(response.headers.get("retry-after") ?? "60")
 	}
 
-	return invariant(GraphQLResponse(await response.text()))
+	return invariant(GraphQLResponse(await response.json()))
 }
 
 declare global {

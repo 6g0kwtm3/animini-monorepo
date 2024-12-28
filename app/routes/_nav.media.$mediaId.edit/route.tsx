@@ -10,7 +10,6 @@
 // 	type ActionFunction,
 // 	type LoaderFunction
 // } from "@react-router/node"
-// import { Effect, Option, Predicate, ReadonlyRecord, pipe } from "effect"
 // import {
 // 	Button as ButtonText,
 // 	ButtonIcon as ButtonTextIcon

@@ -11,7 +11,7 @@ import {
 
 import type { MetaFunction } from "react-router"
 
-import { identity, Order, pipe, Array as ReadonlyArray } from "effect"
+import * as Order from "~/lib/Order"
 
 // import {} from 'glob'
 
@@ -291,7 +291,7 @@ function sortEntries(
 		)[String(user?.mediaListOptions?.rowOrder)] ?? [])
 	)
 
-	const order: Order.Order<(typeof entries)[number]>[] = []
+	const orders: Order.Order<(typeof entries)[number]>[] = []
 
 	for (const [dir, sort] of sorts) {
 		if (!Schema.is(Schema.Enums(MediaListSort))(sort)) {
@@ -302,9 +302,8 @@ function sortEntries(
 			self: Order.Order<A>,
 			f: (b: (typeof entries)[number]) => A
 		) {
-			order.push(
-				(dir === "desc" ? Order.reverse : identity)(Order.mapInput(self, f))
-			)
+			const order = Order.mapInput(self, f)
+			orders.push(dir === "desc" ? Order.reverse(order) : order)
 		}
 
 		if (sort === MediaListSort.TitleEnglish) {
@@ -382,7 +381,7 @@ function sortEntries(
 		sort satisfies never
 	}
 
-	order.push(
+	orders.push(
 		Order.reverse(
 			Order.mapInput(Order.number, (entry) => {
 				return [
@@ -393,7 +392,7 @@ function sortEntries(
 		)
 	)
 
-	return pipe(entries, ReadonlyArray.sortBy(Order.combineAll(order)))
+	return entries.sort(Order.combineAll(orders))
 }
 
 const Params = Schema.Struct({
@@ -428,7 +427,7 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 				<Suspense
 					fallback={
 						<List className="@container">
-							{ReadonlyArray.range(1, 7).map((i) => (
+							{Array.from({ length: 7 }, (_, i) => (
 								<MockMediaListItem key={i} />
 							))}
 						</List>
@@ -546,7 +545,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 			: data.MediaListCollection.lists
 	).filter((el) => el != null)
 
-	if (!ReadonlyArray.isNonEmptyReadonlyArray(lists)) {
+	if (lists.length < 1) {
 		throw new Error("No list selected")
 	}
 
@@ -565,7 +564,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 			{ search, user: data.MediaListCollection.user }
 		)
 
-		return ReadonlyArray.isNonEmptyReadonlyArray(entries)
+		return entries.length > 0
 			? [
 					{ type: "MediaListGroup" as const, list },
 					...entries.map((entry) => ({
@@ -606,7 +605,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 	return (
 		<div ref={ref} className="">
 			<List
-				className="@container relative"
+				className="relative @container"
 				lines={"two"}
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
@@ -620,7 +619,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute top-0 left-0 w-full"
+								className="absolute left-0 top-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 							>
@@ -635,7 +634,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute top-0 left-0 w-full"
+								className="absolute left-0 top-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 								key={`${element.name}:${element.entry.id}`}
@@ -686,11 +685,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 
 	return (
 		<ExtraOutlets>
-			<Ariakit.Heading className="text-headline-md text-balance">
+			<Ariakit.Heading className="text-balance text-headline-md">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
 			<Link to={location} className={button()}>
 				Try again
 			</Link>

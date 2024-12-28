@@ -3,10 +3,10 @@ export interface Order<T> {
 }
 
 export function number(a: number, b: number) {
-	return a - b
+	return b - a
 }
 export function string(a: string, b: string) {
-	return a.localeCompare(b)
+	return b.localeCompare(a)
 }
 export function mapInput<A, B>(order: Order<A>, map: (a: B) => A): Order<B> {
 	return (a, b) => order(map(a), map(b))
