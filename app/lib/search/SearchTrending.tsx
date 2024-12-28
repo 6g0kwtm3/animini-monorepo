@@ -50,22 +50,21 @@ export function SearchTrending(props: {
 					Trending
 				</Ariakit.ComboboxGroupLabel>
 
-					<ListContext value={list}>
-						<div className={list.root({ className: "-mt-2" })}>
-							{data.trending.media.map(
-								(media) =>
-									media && (
-										<SearchViewItem
-											key={media.id}
-											data-id={media.id}
-											render={<SearchItem media={media} />}
-										/>
-									)
-							)}
-						</div>
-					</ListContext>
-				</SearchViewBodyGroup>
-			</SearchViewBody>
-		)
-		:null
+				<ListContext value={list}>
+					<div className={list.root({ className: "-mt-2" })}>
+						{data.trending.media.map(
+							(media) =>
+								media && (
+									<SearchViewItem
+										key={media.id}
+										data-id={media.id}
+										render={<SearchItem media={media} />}
+									/>
+								)
+						)}
+					</div>
+				</ListContext>
+			</SearchViewBodyGroup>
+		</SearchViewBody>
+	) : null
 }

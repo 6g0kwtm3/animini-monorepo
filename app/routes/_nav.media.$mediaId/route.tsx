@@ -4,7 +4,7 @@ import {
 	useParams,
 	type MetaArgs,
 	type MetaFunction,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"

@@ -48,12 +48,10 @@ const fetchQuery_: FetchFunction = async function (
 	})
 
 	if (response.status === 429) {
-		throw new Timeout(response.headers.get("retry-after") ?? "60",)
+		throw new Timeout(response.headers.get("retry-after") ?? "60")
 	}
 
-	return invariant(GraphQLResponse(
-		await response.text()
-	))
+	return invariant(GraphQLResponse(await response.text()))
 }
 
 declare global {

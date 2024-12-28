@@ -28,8 +28,6 @@ const Params = type({
 export const clientAction = (async (args) => {
 	const params = invariant(Params(args.params))
 
- 
-
 	const data = await mutation<routeUserFollowMutation>({
 		mutation: UserFollow,
 		variables: { userId: params.userId },

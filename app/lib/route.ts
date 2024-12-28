@@ -7,7 +7,7 @@ export interface Path {
 type SearchParams = `?${string}`
 type Hash = `#${string}`
 
-type Typelist = string;
+type Typelist = string
 
 type Pathname =
 	| `/`
@@ -49,9 +49,7 @@ export function route_user_list_selected(params: {
 	userName: string
 	typelist: Typelist
 	selected: string
-}):
-	| `/user/${string}/${Typelist}/${string}/`
-  {
+}): `/user/${string}/${Typelist}/${string}/` {
 	return `${route_user_list(params)}${params.selected}/` satisfies Route
 }
 
@@ -64,4 +62,3 @@ export function route_login({
 }
 
 export * as Routes from "./route"
-
