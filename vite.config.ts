@@ -19,22 +19,7 @@ export default defineConfig({
 		Inspect(),
 		tvTransform(),
 		tailwindcss(),
-		// babel({
-		// 	filter: /\.[jt]sx?$/,
-		// 	include: [
-		// 		"app/routes/_nav.user.$userName/*.tsx",
-		// 		"app/routes/_nav.user.$userName.$typelist/*.tsx",
-		// 		"app/components/**/*.tsx",
-		// 		"app/lib/**/*.tsx",
-		// 	],
-		// 	babelConfig: {
-		// 		presets: ["@babel/preset-typescript"], // if you use TypeScript
-		// 		plugins: [
-		// 			// ["@babel/plugin-syntax-jsx"],
-		// 			["babel-plugin-react-compiler", ReactCompilerConfig],
-		// 		],
-		// 	},
-		// }),
+
 
 		!isStorybook &&
 			!isVitest &&
