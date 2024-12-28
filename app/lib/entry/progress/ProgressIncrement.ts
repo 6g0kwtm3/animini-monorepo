@@ -19,7 +19,7 @@ export const increment = async (
 	SaveMediaListEntry: ProgressIncrementMutation$data["SaveMediaListEntry"]
 }> => {
 	const formData = invariant(IncrementFormData(Object.fromEntries(form)))
-	
+
 	const data = await mutation<ProgressIncrementMutation>({
 		mutation: graphql`
 			mutation ProgressIncrementMutation($entryId: Int!, $progress: Int) {

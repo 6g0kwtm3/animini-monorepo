@@ -20,7 +20,7 @@ import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const { userName } = (args.params)
+	const { userName } = args.params
 
 	const data = await fetchQuery<routeNavUserIndexQuery>(
 		graphql`
@@ -78,8 +78,6 @@ function SidePanel({ loaderData: data }: Route.ComponentProps): ReactNode {
 		</M3.LayoutPane>
 	)
 }
-
- 
 
 export default function SidePanelRoute(props: Route.ComponentProps): ReactNode {
 	return (
