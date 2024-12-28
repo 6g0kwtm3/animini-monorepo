@@ -2,8 +2,8 @@ import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 
 import type { routeUserInfoQuery } from "~/gql/routeUserInfoQuery.graphql"
-import type { Route } from "./+types/route"
 import { fetchQuery } from "~/lib/Network"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {

@@ -1,5 +1,4 @@
 import * as Ariakit from "@ariakit/react"
-import { Array as ReadonlyArray } from "effect"
 
 import {
 	SearchViewBody,
@@ -44,14 +43,12 @@ export function SearchTrending(props: {
 
 	const list = createList({ lines: "one" })
 
-	return (
-		data.trending?.media &&
-		ReadonlyArray.isNonEmptyReadonlyArray(data.trending.media) && (
-			<SearchViewBody>
-				<SearchViewBodyGroup>
-					<Ariakit.ComboboxGroupLabel render={<M3.Subheader lines={"one"} />}>
-						Trending
-					</Ariakit.ComboboxGroupLabel>
+	return data.trending?.media && data.trending.media.length > 0 ? (
+		<SearchViewBody>
+			<SearchViewBodyGroup>
+				<Ariakit.ComboboxGroupLabel render={<M3.Subheader lines={"one"} />}>
+					Trending
+				</Ariakit.ComboboxGroupLabel>
 
 					<ListContext value={list}>
 						<div className={list.root({ className: "-mt-2" })}>
@@ -70,5 +67,5 @@ export function SearchTrending(props: {
 				</SearchViewBodyGroup>
 			</SearchViewBody>
 		)
-	)
+		:null
 }

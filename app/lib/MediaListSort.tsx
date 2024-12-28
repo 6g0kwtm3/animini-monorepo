@@ -1,3 +1,5 @@
+import { type } from "arktype"
+
 export enum MediaListSort {
 	TitleEnglish = "title_english",
 	Score = "score",
@@ -13,3 +15,7 @@ export enum MediaListSort {
 	Popularity = "popularity",
 	ToWatch = "to_watch",
 }
+
+export const MediaListSortSchema = type.enumerated(
+	...Object.values(MediaListSort)
+)

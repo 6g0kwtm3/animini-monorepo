@@ -16,7 +16,6 @@
 // 	ButtonIcon as ButtonTextIcon
 // } from "~/components/Button"
 
-// import { divide, sumAll } from "effect/Number"
 // import {
 // 	TextFieldOutlined,
 // 	TextFieldOutlinedFactory,
@@ -29,7 +28,6 @@
 // 	LoaderLive
 // } from "~/lib/urql"
 
-// import * as S from "@effect/schema/Schema"
 // import { DialogFullscreenIcon } from "~/components/Dialog"
 
 // import * as Ariakit from "@ariakit/react"
@@ -65,19 +63,19 @@
 // export const clientLoader = (async (args: Route.ClientLoaderArgs) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
-// 			const { mediaId } = yield* (
+// 			const { mediaId } = await (
 // 				Remix.params({ mediaId: S.NumberFromString })
 // 			)
-// 			const { searchParams } = yield* (ClientArgs)
-// 			const client = yield* (EffectUrql)
+// 			const { searchParams } = await (ClientArgs)
+// 			const client = await (EffectUrql)
 
-// 			const format = yield* (
+// 			const format = await (
 // 				S.decodeUnknownEither(S.nullable(ScoreFormatSchema))(
 // 					searchParams.get("format")
 // 				)
 // 			)
 
-// 			return yield* (
+// 			return await (
 // 				client.query(
 // 					graphql`
 // 						query MediaEditQuery($id: Int!, $format: ScoreFormat) {
@@ -627,4 +625,5 @@
 // 	)
 // }
 
-export {}
+export { };
+

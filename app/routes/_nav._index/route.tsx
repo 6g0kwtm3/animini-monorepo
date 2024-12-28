@@ -13,7 +13,6 @@ import MaterialSymbolsArrowForward from "~icons/material-symbols/arrow-forward"
 import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
-
 const routeMediaCarouselItem_media = graphql`
 	fragment routeMediaCarouselItem_media on Media {
 		id

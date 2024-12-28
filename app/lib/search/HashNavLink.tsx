@@ -1,14 +1,14 @@
-import { Predicate } from "effect"
 import type { ComponentProps } from "react"
 import { forwardRef } from "react"
 import type { NavLink } from "react-router"
 import {
 	Link,
-	useViewTransitionState as unstable_useViewTransitionState,
+	useViewTransitionState,
 	useLocation,
 	useNavigation,
 	useResolvedPath,
 } from "react-router"
+import * as Predicate from "~/lib/Predicate"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,
@@ -21,7 +21,7 @@ export const HashNavLink = forwardRef<
 	const path = useResolvedPath(props.to, { relative: props.relative })
 	const isActive = path.search === search && path.pathname === pathname
 
-	const isTransitioning = unstable_useViewTransitionState(path)
+	const isTransitioning = useViewTransitionState(path)
 	const navigation = useNavigation()
 	const isPending =
 		navigation.state === "loading" &&

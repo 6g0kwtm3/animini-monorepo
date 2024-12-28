@@ -113,6 +113,7 @@ export const ErrorStates: Story = {
 export const FilledFocused: Story = {}
 FilledFocused.args = {
 	...Filled.args,
+						// @ts-expect-error
 	"data-focus-visible": "true",
 }
 

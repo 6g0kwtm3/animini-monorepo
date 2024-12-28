@@ -2,7 +2,6 @@ import { Predicate } from "effect"
 import { use, type ComponentProps, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Form, useNavigation, useParams, useSearchParams } from "react-router"
-
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"

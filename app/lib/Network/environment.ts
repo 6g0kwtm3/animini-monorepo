@@ -10,6 +10,7 @@ import { Option } from "effect"
 
 import { Schema } from "@effect/schema"
 
+import { invariant } from "../invariant"
 import { GraphQLResponse, Timeout } from "./schema"
 
 const { ROOT_TYPE } = RelayRuntime
@@ -47,14 +48,12 @@ const fetchQuery_: FetchFunction = async function (
 	})
 
 	if (response.status === 429) {
-		throw new Timeout({
-			reset: response.headers.get("retry-after") ?? "60",
-		})
+		throw new Timeout(response.headers.get("retry-after") ?? "60",)
 	}
 
-	return Schema.decodeSync(Schema.parseJson(GraphQLResponse))(
+	return invariant(GraphQLResponse(
 		await response.text()
-	)
+	))
 }
 
 declare global {

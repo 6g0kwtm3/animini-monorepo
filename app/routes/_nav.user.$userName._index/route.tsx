@@ -12,7 +12,6 @@ import { M3 } from "~/lib/components"
 
 import { Markdown, type Options } from "../_nav.feed/Markdown"
 
-import { Schema } from "@effect/schema"
 import { fetchQuery } from "~/lib/Network"
 import { MediaLink } from "../_nav.feed/MediaLink"
 import { UserLink } from "../_nav.feed/UserLink"
@@ -21,7 +20,7 @@ import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const { userName } = Schema.decodeUnknownSync(params())(args.params)
+	const { userName } = (args.params)
 
 	const data = await fetchQuery<routeNavUserIndexQuery>(
 		graphql`
@@ -80,11 +79,7 @@ function SidePanel({ loaderData: data }: Route.ComponentProps): ReactNode {
 	)
 }
 
-function params() {
-	return Schema.Struct({
-		userName: Schema.String,
-	})
-}
+ 
 
 export default function SidePanelRoute(props: Route.ComponentProps): ReactNode {
 	return (

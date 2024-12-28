@@ -4,7 +4,6 @@ import { Form, useFetcher, useNavigate } from "react-router"
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 
-import { Array as ReadonlyArray } from "effect"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
@@ -82,7 +81,7 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 					name="q"
 				/>
 
-				{ReadonlyArray.isNonEmptyArray(media) ? (
+				{media.length > 0 ? (
 					<SearchViewBody>
 						<SearchViewBodyGroup>
 							<Ariakit.ComboboxGroupLabel

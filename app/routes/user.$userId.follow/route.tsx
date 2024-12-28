@@ -1,10 +1,11 @@
-import { Schema } from "@effect/schema"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { type ClientActionFunction } from "react-router"
 import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
 
+import { type } from "arktype"
 import { Ariakit } from "~/lib/ariakit"
+import { invariant } from "~/lib/invariant"
 import { mutation } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import type { Route } from "./+types/route"
@@ -20,12 +21,14 @@ const UserFollow = graphql`
 	}
 `
 
+const Params = type({
+	userId: "string.integer.parse",
+})
+
 export const clientAction = (async (args) => {
-	const params = Schema.decodeUnknownSync(
-		Schema.Struct({
-			userId: Schema.NumberFromString,
-		})
-	)(args.params)
+	const params = invariant(Params(args.params))
+
+ 
 
 	const data = await mutation<routeUserFollowMutation>({
 		mutation: UserFollow,

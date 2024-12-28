@@ -4,7 +4,7 @@ import {
 	useParams,
 	type MetaArgs,
 	type MetaFunction,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"
@@ -38,15 +38,15 @@ import { Button } from "~/components/Button"
 
 import { use, type ReactNode } from "react"
 
+import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
+import * as Predicate from "~/lib/Predicate"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 // type X = HTMLAttributes<any>
-import { Predicate } from "effect"
-import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { fetchQuery, usePreloadedQuery } from "~/lib/Network"
 import { RootProvider } from "~/lib/RootProvider"

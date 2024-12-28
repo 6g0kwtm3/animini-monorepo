@@ -1,5 +1,4 @@
-import { redirect } from "react-router"
-import { type ClientActionFunction } from "react-router"
+import { redirect, type ClientActionFunction } from "react-router"
 import { commitLocalUpdate } from "~/lib/Network"
 
 export const clientAction = (async (args) => {

@@ -1,6 +1,6 @@
 import { paraglide } from "@inlang/paraglide-vite"
 import MillionLint from "@million/lint"
-import { reactRouter as remix } from "@react-router/dev/vite"
+import { reactRouter } from "@react-router/dev/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
@@ -61,7 +61,7 @@ export default defineConfig({
 		// remixDevTools(),
 		// cloudflareDevProxy(),
 
-		!isStorybook && !isVitest && remix(),
+		!isStorybook && !isVitest && reactRouter(),
 		tsconfigPaths(),
 		icons({
 			compiler: "jsx",

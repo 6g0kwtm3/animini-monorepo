@@ -24,13 +24,13 @@ import { formatWatch } from "./ToWatch"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { Progress, ProgressIncrement } from "./Progress"
 
-import { Predicate } from "effect"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
+import * as Predicate from "~/lib/Predicate"
 import { M3 } from "../components"
 import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"

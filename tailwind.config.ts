@@ -201,6 +201,7 @@ export const config = {
 					},
 				},
 				{
+					// @ts-expect-error
 					values: Object.assign(
 						Object.fromEntries(
 							Object.entries(theme("spacing") || {}).filter(

@@ -30,7 +30,7 @@ export const clientAction = (async (args) => {
 	const { searchParams } = new URL(args.request.url)
 
 	const token = formData.get("token")
-
+ 
 	if (typeof token !== "string") {
 		return {}
 	}

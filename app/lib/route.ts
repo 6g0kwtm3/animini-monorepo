@@ -7,13 +7,15 @@ export interface Path {
 type SearchParams = `?${string}`
 type Hash = `#${string}`
 
+type Typelist = string;
+
 type Pathname =
 	| `/`
 	| `/media/${string}/`
 	| `/media/${string}/edit/`
 	| `/user/${string}/`
-	| `/user/${string}/${"animelist" | "mangalist"}/`
-	| `/user/${string}/${"animelist" | "mangalist"}/${string}/`
+	| `/user/${string}/${Typelist}/`
+	| `/user/${string}/${Typelist}/${string}/`
 	| `/login/`
 
 export type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
@@ -38,18 +40,18 @@ export function route_user({
 
 export function route_user_list(params: {
 	userName: string
-	typelist: "animelist" | "mangalist"
-}): `/user/${string}/animelist/` | `/user/${string}/mangalist/` {
+	typelist: Typelist
+}): `/user/${string}/${Typelist}/` {
 	return `${route_user(params)}${params.typelist}/` satisfies Route
 }
 
 export function route_user_list_selected(params: {
 	userName: string
-	typelist: "animelist" | "mangalist"
+	typelist: Typelist
 	selected: string
 }):
-	| `/user/${string}/animelist/${string}/`
-	| `/user/${string}/mangalist/${string}/` {
+	| `/user/${string}/${Typelist}/${string}/`
+  {
 	return `${route_user_list(params)}${params.selected}/` satisfies Route
 }
 
@@ -62,3 +64,4 @@ export function route_login({
 }
 
 export * as Routes from "./route"
+

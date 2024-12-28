@@ -1,4 +1,3 @@
-import { Predicate } from "effect"
 import type {
 	ComponentProps,
 	ComponentRef,
@@ -14,6 +13,7 @@ import {
 	useRef,
 	useState,
 } from "react"
+import * as Predicate from "~/lib/Predicate"
 import { Ariakit } from "~/lib/ariakit"
 
 type OnBeforeToggle = (
