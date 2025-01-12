@@ -22,7 +22,7 @@ export function SelectFactory({
 			<TextFieldOutlined>
 				<Select {...props} />
 				<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
-				<TextFieldOutlined.Label name={props.name}>
+				<TextFieldOutlined.Label htmlFor={props.name}>
 					{label}
 				</TextFieldOutlined.Label>
 			</TextFieldOutlined>
