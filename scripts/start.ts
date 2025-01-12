@@ -6,7 +6,7 @@ const app = new Hono()
 app.use("*", serveStatic({ root: "./build/client" }))
 
 const server = Bun.serve({
-	port: 4003,
+	port: 3000,
 	fetch: app.fetch,
 })
 

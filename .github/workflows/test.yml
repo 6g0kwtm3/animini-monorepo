@@ -36,7 +36,6 @@ jobs:
         run: bun run test
         env:
           ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
-          BASE_URL: http://localhost:4003
           HOME: /root
 
   typecheck:
