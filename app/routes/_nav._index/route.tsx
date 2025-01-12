@@ -82,7 +82,7 @@ export default function NavIndexRoute({
 }: Route.ComponentProps): ReactNode {
 	const data = useFragment<routeNavIndexQuery_query$key>(
 		routeNavIndexQuery_query,
-		usePreloadedQuery(...loaderData!)
+		usePreloadedQuery(...loaderData)
 	)
 
 	return (
