@@ -1,6 +1,7 @@
 import * as Ariakit from "@ariakit/react"
 import {
 	forwardRef,
+	type ComponentProps,
 	type ComponentPropsWithoutRef,
 	type ReactNode,
 } from "react"
@@ -36,15 +37,15 @@ export function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps) {
 	)
 }
 
-function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
+function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 	return (
 		<>
-			<Ariakit.FormLabel
+			<label
 				{...props}
 				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
 			>
 				{children}
-			</Ariakit.FormLabel>
+			</label>
 
 			<fieldset className="pointer-events-none absolute -top-[0.71875rem] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
 				<legend
@@ -63,11 +64,11 @@ function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
 
 export const TextFieldOutlinedInput = forwardRef<
 	HTMLInputElement,
-	Ariakit.FormInputProps
+	ComponentProps<"input">
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
 	return (
-		<Ariakit.FormInput
+		<input
 			ref={ref}
 			type="text"
 			{...props}
@@ -86,7 +87,7 @@ export function TextFieldOutlinedFactory({
 	return (
 		<TextFieldOutlined>
 			<TextFieldOutlinedInput {...props} />
-			<OutlinedLabel name={props.name}>{label}</OutlinedLabel>
+			<OutlinedLabel htmlFor={props.name}>{label}</OutlinedLabel>
 			{/* <TextFieldOutlinedSupporting
 				name={props.name}
 			></TextFieldOutlinedSupporting> */}
@@ -124,9 +125,9 @@ export function TextFieldFilled(
 	)
 }
 
-export function TextFieldFilledInput(props: Ariakit.FormInputProps) {
+export function TextFieldFilledInput(props: ComponentProps<"input">) {
 	return (
-		<Ariakit.FormInput
+		<input
 			{...props}
 			placeholder=" "
 			className={classes(
@@ -137,9 +138,9 @@ export function TextFieldFilledInput(props: Ariakit.FormInputProps) {
 	)
 }
 
-export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
+export function TextFieldFilledLabel(props: ComponentProps<"label">) {
 	return (
-		<Ariakit.FormLabel
+		<label
 			{...props}
 			className={classes(
 				"group-hover:on-surface pointer-events-none absolute text-body-sm text-on-surface-variant text-on-surface/[.38] transition-all group-focus-within:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-has-[:disabled]:peer-placeholder-shown:top-4 group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
@@ -151,7 +152,7 @@ export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
 			)}
 		>
 			{props.children}
-		</Ariakit.FormLabel>
+		</label>
 	)
 }
 
