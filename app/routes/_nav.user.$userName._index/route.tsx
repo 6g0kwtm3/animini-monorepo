@@ -35,7 +35,6 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	)
 
 	if (!data.User) {
-	if (!data.User) {
 		throw Response.json("User not found", {
 			status: 404,
 		})
