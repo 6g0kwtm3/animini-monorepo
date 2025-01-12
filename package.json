@@ -11,7 +11,7 @@
 		"dev": "bun run \"/dev:/\"",
 		"dev:vite": "react-router dev",
 		"dev:codegen": "bun run codegen",
-		"start": "vite preview",
+		"start": "bun ./scripts/start.ts",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
 		"check": "tsc",
