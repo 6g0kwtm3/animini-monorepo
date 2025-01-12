@@ -22,6 +22,6 @@
 		"noUnusedParameters": false,
 		// Vite takes care of building everything, not tsc.
 		"noEmit": true,
-		"types": ["unplugin-icons/types/react"]
+		"types": ["unplugin-icons/types/react", "@types/bun"]
 	}
 }
