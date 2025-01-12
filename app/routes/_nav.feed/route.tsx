@@ -1,7 +1,6 @@
 import { type MetaFunction } from "react-router"
 
 import type { ReactNode } from "react"
-import * as Predicate from "~/lib/Predicate"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -11,6 +10,7 @@ import {
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
+import * as Predicate from "~/lib/Predicate"
 
 // import * as R from '@remix-run/router'
 // console.log(R)
@@ -63,7 +63,7 @@ async function getPage() {
 		`,
 		{}
 	)
-	return data?.Page
+	return data.Page
 }
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await fetchQuery<routeNavFeedMediaQuery>(
@@ -88,7 +88,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 
 	return Object.fromEntries(
-		data?.Page?.media
+		data.Page?.media
 			?.filter((el) => el != null)
 			.map(
 				(media) =>

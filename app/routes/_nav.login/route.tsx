@@ -58,7 +58,7 @@ export const clientAction = (async (args) => {
 		}
 	)
 
-	if (!data?.Viewer) {
+	if (!data.Viewer) {
 		return {}
 	}
 

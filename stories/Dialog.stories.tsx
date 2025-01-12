@@ -11,7 +11,7 @@ import MaterialSymbolsDeleteOutline from "~icons/material-symbols/delete-outline
 const meta = {
 	title: "Example/Dialog",
 	component: Dialog,
-	
+
 	subcomponents: { DialogIcon: DialogContentIcon },
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout

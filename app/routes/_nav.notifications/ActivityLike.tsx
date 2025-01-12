@@ -63,7 +63,7 @@ export function ActivityLike(props: {
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0) >
-							(data?.Viewer?.unreadNotificationCount ?? 0) && (
+							(data.Viewer?.unreadNotificationCount ?? 0) && (
 							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 						)}{" "}
 						{notification.context}
