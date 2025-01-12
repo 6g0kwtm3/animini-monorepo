@@ -14,12 +14,11 @@
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
 		"check": "bunx --bun tsc",
-		"codegen": "relay-compiler",
+		"codegen": "bunx relay-compiler",
 		"knip": "knip",
 		"lint": "bunx --bun eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "bunx --bun prettier . -w",
-		"prepare": "bun run codegen",
-		"paraglide": "paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
+		"paraglide": "bunx paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
 		"test": "playwright test"
 	},
 	"dependencies": {

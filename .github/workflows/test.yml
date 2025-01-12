@@ -58,9 +58,6 @@ jobs:
         with:
           bun-version-file: "package.json"
 
-      - name: Install dependencies 📦
-        run: bun install --frozen-lockfile
-
       - run: bun run paraglide
 
       - name: Typecheck
