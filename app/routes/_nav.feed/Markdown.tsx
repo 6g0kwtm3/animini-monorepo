@@ -1,13 +1,11 @@
 import createDOMPurify from "dompurify"
-import { Parser } from "htmlparser2"
+
 import marked from "marked"
 import {
-	createElement,
-	Fragment,
 	useMemo,
 	type ComponentProps,
 	type JSX,
-	type ReactNode,
+	type ReactNode
 } from "react"
 import { route_media, route_user } from "~/lib/route"
 
@@ -26,6 +24,51 @@ function getAttributes(attributes: any) {
 		...(frameBorder ? { frameBorder } : {}),
 	}
 }
+
+function traverse(element: ChildNode, options: any): ReactNode {
+	if (element.nodeType === Node.TEXT_NODE) {
+		return element.textContent
+	} else if (element instanceof HTMLElement) {
+		const Name = element.tagName.toLowerCase()
+		const attributes: Record<string, string> = {}
+		for (const attribute of element.attributes) {
+			attributes[attribute.name] = attribute.value
+		}
+
+		const fullProps = {
+			...getAttributes(attributes),
+			children: traverseCollection(element.childNodes, options),
+		}
+
+		if (Name in options.replace) {
+			return options.replace[Name](fullProps)
+		}
+
+		return <Name {...fullProps} />
+	}
+}
+
+function traverseCollection(
+	children: NodeListOf<ChildNode>,
+	options: any
+): ReactNode {
+	return Array.from(children).reduce<ReactNode>(
+		(acc, node, i) => (
+			<>
+				{acc}
+				{traverse(node, options)}
+			</>
+		),
+		null
+	)
+}
+
+function parse(html: string, options: any): ReactNode {
+	const subdocument = new DOMParser().parseFromString(html, "text/html")
+
+	return traverseCollection(subdocument.body.childNodes, options)
+}
+
 function sanitizeHtml(t: string) {
 	const DOMPurify = createDOMPurify(window)
 
@@ -141,124 +184,6 @@ function markdownHtml(t: string) {
 		t
 	)
 }
-
-interface HtmlNode {
-	node: ReactNode
-}
-
-function parse2(html: string, options: any): ReactNode {
-	const stack = [new HtmlTag(Fragment)]
-
-	const parser = new Parser({
-		onopentag(Name, attributes) {
-			const node = new HtmlTag((props) => {
-				const fullProps = {
-					...getAttributes(attributes),
-					...props,
-				}
-
-				if (Name in options.replace) {
-					return options.replace[Name](fullProps)
-				}
-
-				return <Name {...fullProps} />
-			})
-			stack.at(-1)?.appendNode(node)
-			stack.push(node)
-		},
-		ontext(text) {
-			stack.at(-1)?.appendNode({ node: text })
-		},
-		onclosetag() {
-			stack.pop()
-		},
-	})
-	parser.write(html)
-	parser.end()
-
-	return stack[0]?.node
-}
-
-// const options: HTMLReactParserOptions = {
-// 	replace(domNode) {
-// 		if (
-// 			domNode instanceof Element &&
-// 			domNode.name === "a" &&
-// 			!domNode.attribs["href"]?.trim()
-// 		) {
-// 			return (
-// 				<span className="text-primary">
-// 					{domToReact(domNode.children, options)}
-// 				</span>
-// 			)
-// 		}
-// 		if (domNode instanceof Element && domNode.name === "center") {
-// 			return (
-// 				<span className="text-center">
-// 					{domToReact(domNode.children, options)}
-// 				</span>
-// 			)
-// 		}
-// 		if (
-// 			domNode instanceof Element &&
-// 			domNode.attribs["class"] === "media-link" &&
-// 			domNode.attribs["data-id"] &&
-// 			domNode.name === "a"
-// 		) {
-// 			return <MediaLink mediaId={domNode.attribs["data-id"]}></MediaLink>
-// 		}
-// 		if (
-// 			domNode instanceof Element &&
-// 			domNode.attribs["class"] === "user-link" &&
-// 			domNode.attribs["data-user-name"] &&
-// 			domNode.name === "a"
-// 		) {
-// 			return (
-// 				<Link  to={route_user({ userName: domNode.attribs["data-user-name"] })}>
-// 					{domToReact(domNode.children, options)}
-// 				</Link>
-// 			)
-// 		}
-// 		if (domNode instanceof Element && domNode.name === "a") {
-// 			return (
-// 				<a
-// 					{...attributesToProps(domNode.attribs)}
-// 					rel="noopener noreferrer"
-// 					target="_blank"
-// 				>
-// 					{domToReact(domNode.children, options)}
-// 				</a>
-// 			)
-// 		}
-// 	}
-// }
-
-class HtmlTag implements HtmlNode {
-	constructor(private _name: React.FC<{ children: ReactNode }>) {}
-
-	private _children: HtmlNode[] = []
-
-	get children(): ReactNode {
-		return this._children.reduce<ReactNode>(
-			(acc, node) => (
-				<>
-					{acc}
-					{node.node}
-				</>
-			),
-			null
-		)
-	}
-
-	get node() {
-		return createElement(this._name, undefined, this.children)
-	}
-
-	appendNode(node: HtmlNode) {
-		this._children.push(node)
-	}
-}
-
 export interface Options {
 	replace: Partial<{
 		[K in keyof JSX.IntrinsicElements]: (props: ComponentProps<K>) => ReactNode
@@ -272,10 +197,9 @@ export function Markdown(props: {
 }): ReactNode {
 	return (
 		<div className={props.className}>
-			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
-				(): ReactNode => parse2(markdownHtml(props.children), props.options),
-				[props.children, props.options]
+				() => parse(markdownHtml(props.children), options),
+				[props.children]
 			)}
 		</div>
 	)
