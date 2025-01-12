@@ -193,7 +193,7 @@ export function Markdown(props: {
 	return (
 		<div className={props.className}>
 			{useMemo(
-				() => parse(markdownHtml(props.children), props.options),
+				async () => parse(markdownHtml(props.children), props.options),
 				[props.children]
 			)}
 		</div>
