@@ -5,8 +5,6 @@ import {
 	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
-import * as Ariakit from "@ariakit/react"
-
 import cookie from "cookie"
 
 import type { ReactNode } from "react"
@@ -91,26 +89,19 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 
 export default function Login(): ReactNode {
 	const fetcher = useFetcher<typeof clientAction>()
-	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
-
-	store.onSubmit((state) => {
-		void fetcher.submit(state.values, {
-			method: "post",
-		})
-	})
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<Ariakit.Form store={store} method="post" className="grid gap-2">
+				<fetcher.Form method="post" className="grid gap-2">
 					<Outlined>
 						<TextFieldOutlinedInput
-							name={store.names.token}
+							name="token"
 							required
 							type="password"
 							autoComplete="current-password"
 						/>
-						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
+						<Outlined.Label htmlFor="token">Token</Outlined.Label>
 					</Outlined>
 
 					<footer className="flex justify-end gap-2">
@@ -135,11 +126,11 @@ export default function Login(): ReactNode {
 							<span>Get token</span>
 						</a>
 
-						<Ariakit.FormSubmit className={button({ variant: "filled" })}>
+						<button type="submit" className={button({ variant: "filled" })}>
 							Login
-						</Ariakit.FormSubmit>
+						</button>
 					</footer>
-				</Ariakit.Form>
+				</fetcher.Form>
 			</LayoutPane>
 		</LayoutBody>
 	)
