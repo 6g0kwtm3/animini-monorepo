@@ -5,8 +5,6 @@ export * from "./Checkbox"
 export * from "./Chip"
 export * from "./Dialog"
 export * from "./Layout"
-export * from "./LazySelect"
-export * from "./LazySelectFactory"
 export * from "./List"
 export * from "./Menu"
 export * from "./Navigation"
@@ -22,3 +20,4 @@ export * from "./TextField"
 export * from "./Tooltip"
 
 export * as m3 from "./index"
+

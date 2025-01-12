@@ -1,73 +1,89 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
-
+import type { ReactNode } from "react"
 import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
-import { Suspense, lazy } from "react"
+import { forwardRef, useRef } from "react"
+import { createMenu } from "~/lib/menu"
 
 const { input } = createTextField({})
 
-const LazySelectFactory = lazy(async () => import("./LazySelectFactory"))
-
-const LazySelect = lazy(async () => import("./LazySelect"))
 export function SelectFactory({
 	label,
-
 	...props
-}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
+}: Ariakit.SelectProps & {
 	children: ReactNode
 	label: ReactNode
 	name: string
 }): ReactNode {
-	const form = Ariakit.useFormContext()
-	if (!form) throw new Error("FormSelect must be used within a Form")
-	// eslint-disable-next-line react-compiler/react-compiler
-	const value = form.useValue(props.name)
-
-	const fallback = (
-		<TextFieldOutlined>
-			<Ariakit.FormControl
-				name={props.name}
-				render={
-					<select
-						{...props}
-						value={value}
-						onChange={(e) => form.setValue(props.name, e.currentTarget.value)}
-						className={input({ className: "appearance-none" })}
-					/>
-				}
-			/>
-			<TextFieldOutlined.Label name={props.name}>
-				{label}
-			</TextFieldOutlined.Label>
-			<TextFieldOutlined.TrailingIcon className="pointer-events-none absolute right-0">
-				expand_more
-			</TextFieldOutlined.TrailingIcon>
-		</TextFieldOutlined>
-	)
-
 	return (
-		<Suspense fallback={fallback}>
-			<LazySelectFactory {...props} label={label} />
-		</Suspense>
+		<Ariakit.SelectProvider>
+			<TextFieldOutlined>
+				<Select {...props} />
+				<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
+				<TextFieldOutlined.Label name={props.name}>
+					{label}
+				</TextFieldOutlined.Label>
+			</TextFieldOutlined>
+		</Ariakit.SelectProvider>
 	)
 }
 
-export function Select({
-	...props
-}: (Omit<Ariakit.SelectProps, "ref"> & ComponentPropsWithoutRef<"select">) & {
-	children: ReactNode
-	name: string
-}): ReactNode {
-	const fallback = (
-		<select {...props} className={input({ className: "appearance-none" })} />
-	)
+const { root } = createMenu()
 
-	return (
-		<Suspense fallback={fallback}>
-			<LazySelect {...props} />
-		</Suspense>
-	)
+export interface SelectProps extends Ariakit.SelectProps {
+	value?: string
+	setValue?: (value: string) => void
+	defaultValue?: string
+	onBlur?: React.FocusEventHandler<HTMLElement>
 }
+
+import type { FocusEvent } from "react"
+
+export const Select = forwardRef<HTMLButtonElement, SelectProps>(
+	function LazySelect(
+		{ children, value, setValue, defaultValue, ...props },
+		ref
+	) {
+		const store = Ariakit.useSelectStore({
+			value,
+			setValue,
+			defaultValue: defaultValue ?? "",
+		})
+		const portalRef = useRef<HTMLElement>(null)
+
+		// Only call onBlur if the focus is leaving the whole widget.
+		const onBlur = (event: FocusEvent<HTMLElement>) => {
+			const portal = portalRef.current
+			const { selectElement, popoverElement } = store.getState()
+			if (portal?.contains(event.relatedTarget)) return
+			if (selectElement?.contains(event.relatedTarget)) return
+			if (popoverElement?.contains(event.relatedTarget)) return
+			props.onBlur?.(event)
+		}
+
+		return (
+			<>
+				<Ariakit.Select
+					ref={ref}
+					{...props}
+					store={store}
+					onBlur={onBlur}
+					className={input({ className: "cursor-default" })}
+				/>
+				<Ariakit.SelectPopover
+					sameWidth
+					store={store}
+					onBlur={onBlur}
+					className={root({
+						className:
+							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
+					})}
+				>
+					{children}
+				</Ariakit.SelectPopover>
+			</>
+		)
+	}
+)

@@ -1,18 +1,15 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { createContext, useContext } from "react"
-import type { LazySelectOption } from "./LazySelect"
+import type { ReactNode } from "react"
+import { Ariakit } from "~/lib/ariakit"
+import { createMenu } from "~/lib/menu"
 
-export const SelectContext = createContext<
-	(
-		props: ComponentPropsWithoutRef<"option"> &
-			ComponentPropsWithoutRef<typeof LazySelectOption>
-	) => ReactNode
->((props) => <option {...props}>{props.value}</option>)
-export function SelectOption(
-	props: ComponentPropsWithoutRef<"option"> &
-		ComponentPropsWithoutRef<typeof LazySelectOption>
-): ReactNode {
-	const Option = useContext(SelectContext)
-
-	return <Option {...props} />
+const { item } = createMenu({})
+export function SelectOption(props: Ariakit.SelectItemProps): ReactNode {
+	return (
+		<Ariakit.SelectItem
+			{...props}
+			className={item({
+				className: "data-[active-item]:state-focus",
+			})}
+		/>
+	)
 }
