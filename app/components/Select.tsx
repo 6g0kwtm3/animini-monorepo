@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactNode } from "react"
+import type { ReactNode, FocusEvent } from "react"
 import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
@@ -38,8 +38,6 @@ export interface SelectProps extends Ariakit.SelectProps {
 	defaultValue?: string
 	onBlur?: React.FocusEventHandler<HTMLElement>
 }
-
-import type { FocusEvent } from "react"
 
 export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 	function LazySelect(
