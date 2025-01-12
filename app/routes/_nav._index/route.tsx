@@ -182,7 +182,7 @@ function MediaCarouselItemBig(props: {
 		media && (
 			<M3.CarouselItem
 				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark relative max-w-full overflow-hidden rounded"
-				id={media.id}
+				id={`${media.id}`}
 				style={media.coverImage?.theme ?? undefined}
 			>
 				{/* <MediaCover media={media} className="h-full rounded" /> */}

@@ -26,7 +26,6 @@ export default defineConfig({
 				babel: {
 					plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
 				},
-				lite: true,
 				filter: {
 					include: [
 						"app/routes/**/*.tsx",
