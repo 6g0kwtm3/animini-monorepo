@@ -25,7 +25,7 @@ export function SheetSort({ loaderData }: Route.ComponentProps): ReactNode {
 	const lines = "one"
 	const list = createList({ lines })
 
-	const data = usePreloadedQuery(...loaderData!.routeNavUserListQuery)
+	const data = usePreloadedQuery(...loaderData.routeNavUserListQuery)
 
 	return (
 		<ListContext value={list}>

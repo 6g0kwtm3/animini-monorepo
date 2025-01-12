@@ -71,7 +71,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 export default function NavRoute(props: Route.ComponentProps): ReactNode {
-	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
 
 	const { pathname } = useLocation()
 

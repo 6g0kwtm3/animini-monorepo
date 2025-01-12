@@ -39,7 +39,7 @@ export function ProgressIncrement(props: {
 	actionData: SelectedRoute.ComponentProps["actionData"] | undefined
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
-	const data = usePreloadedQuery(...use(RootProvider)!.rootQuery)
+	const data = usePreloadedQuery(...use(RootProvider).rootQuery)
 	const params = useParams()
 	const navigation = useNavigation()
 

@@ -67,8 +67,8 @@ import { RootProvider } from "~/lib/RootProvider"
 import type { Route as FollowRoute } from "../user.$userId.follow/+types/route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
-	const data = usePreloadedQuery(...loaderData!.routeNavUserQuery)
+	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
+	const data = usePreloadedQuery(...loaderData.routeNavUserQuery)
 
 	if (!data.user) {
 		throw Response.json("User not found", {

@@ -161,7 +161,7 @@ export default function Index(props: Route.ComponentProps): ReactNode {
 }
 
 function ListTabs({ params, loaderData }: Route.ComponentProps) {
-	const data = usePreloadedQuery(...loaderData!.routeNavUserListQuery)
+	const data = usePreloadedQuery(...loaderData.routeNavUserListQuery)
 
 	const options = Object.fromEntries(
 		data.MediaListCollection?.user?.mediaListOptions?.[
@@ -170,7 +170,7 @@ function ListTabs({ params, loaderData }: Route.ComponentProps) {
 					animelist: "animeList",
 					mangalist: "mangaList",
 				} as const
-			)[loaderData!.typelist]
+			)[loaderData.typelist]
 		]?.sectionOrder?.map((key, index) => [key, index]) ?? []
 	)
 

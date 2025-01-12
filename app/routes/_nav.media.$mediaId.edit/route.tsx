@@ -402,7 +402,7 @@
 // 																			Careful - you have unsaved changes!
 // 																			<dib className="flex-1" /><SnackbarAction type="reset">Reset</SnackbarAction>
 // 																			<SnackbarAction
-// 																				onClick={() => form.current!.requestSubmit()}
+// 																				onClick={() => form.current.requestSubmit()}
 // 																			>
 // 																				Save changes
 // 																			</SnackbarAction>

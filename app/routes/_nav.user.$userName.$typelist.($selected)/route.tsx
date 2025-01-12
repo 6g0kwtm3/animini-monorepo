@@ -509,7 +509,7 @@ function inRange(b: number | string | null | undefined) {
 
 function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 	const query: routeAwaitQuery_query$key = usePreloadedQuery(
-		...loaderData!.NavUserListEntriesQuery
+		...loaderData.NavUserListEntriesQuery
 	)
 	const data = useFragment(routeAwaitQuery_query, query)
 

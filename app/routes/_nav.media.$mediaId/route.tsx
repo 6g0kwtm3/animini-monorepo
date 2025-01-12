@@ -253,7 +253,7 @@ function Edit() {
 
 	const store = useTooltipStore()
 
-	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
 
 	return (
 		<div

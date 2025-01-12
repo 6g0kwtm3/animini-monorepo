@@ -43,7 +43,7 @@ export function UserLink(props: {
 		}
 	}, [open, fetcher, props.userName])
 
-	const root = usePreloadedQuery(...use(RootProvider)!.rootQuery)
+	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
 
 	return (
 		<TooltipRich placement="top" store={store}>

@@ -39,7 +39,7 @@ export function SidePanel({
 	const searchParams = useOptimisticSearchParams()
 	const { pathname } = useLocation()
 
-	const data = usePreloadedQuery(...loaderData!.routeNavUserListQuery)
+	const data = usePreloadedQuery(...loaderData.routeNavUserListQuery)
 
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">

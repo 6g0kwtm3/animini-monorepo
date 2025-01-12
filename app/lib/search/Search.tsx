@@ -109,7 +109,7 @@ export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 					</SearchViewBody>
 				) : (
 					<Suspense fallback="">
-						<SearchTrending query={loaderData!.RouteNavTrendingQuery} />
+						<SearchTrending query={loaderData.RouteNavTrendingQuery} />
 					</Suspense>
 				)}
 			</Form>

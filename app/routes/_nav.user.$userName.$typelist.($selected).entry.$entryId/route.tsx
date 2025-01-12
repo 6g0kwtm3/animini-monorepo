@@ -78,7 +78,7 @@ const SidePanel_entry = graphql`
 `
 
 function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(...loaderData!.routeNavUserListEntryQuery)
+	const data = usePreloadedQuery(...loaderData.routeNavUserListEntryQuery)
 
 	if (!data?.MediaList) {
 		throw Response.json("Data not found", { status: 404 })
