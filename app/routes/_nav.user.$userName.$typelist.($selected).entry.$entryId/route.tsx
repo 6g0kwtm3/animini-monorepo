@@ -7,26 +7,24 @@ import { M3 } from "~/lib/components"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import type { Route } from "./+types/route"
 
-import { Schema } from "@effect/schema"
+import { type } from "arktype"
 import ReactRelay from "react-relay"
 import type { routeSidePanel_entry$key } from "~/gql/routeSidePanel_entry.graphql"
 import { Ariakit } from "~/lib/ariakit"
+import { invariant } from "~/lib/invariant"
 import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
 
 const { graphql } = ReactRelay
 
-const Params = Schema.Struct({
-	selected: Schema.optional(Schema.String),
-	userName: Schema.String,
-	typelist: Schema.Literal("animelist", "mangalist"),
-	entryId: Schema.NumberFromString,
+const Params = type({
+	entryId: "string.integer.parse",
 })
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const params = Schema.decodeUnknownSync(Params)(args.params)
+	const params = invariant(Params(args.params))
 
 	const variables = {
-		userName: params.userName,
+		userName: args.params.userName,
 		id: params.entryId,
 	}
 

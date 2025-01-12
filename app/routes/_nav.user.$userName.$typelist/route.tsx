@@ -10,11 +10,10 @@ import {
 	type ShouldRevalidateFunction,
 } from "react-router"
 
-
-import * as Order from "~/lib/Order"
 import { type ReactNode } from "react"
 import { Card } from "~/components/Card"
 import { TabsList, TabsListItem } from "~/components/Tabs"
+import * as Order from "~/lib/Order"
 import type { Route } from "./+types/route"
 
 import { Ariakit } from "~/lib/ariakit"
@@ -34,7 +33,8 @@ import {
 	useOptimisticSearchParams,
 } from "~/lib/search/useOptimisticSearchParams"
 
-import { Schema } from "@effect/schema"
+import { type } from "arktype"
+import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 import { Sheet } from "./Sheet"
@@ -56,10 +56,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
+const Typelist = type("'animelist'|'mangalist'")
+
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const typelist = Schema.decodeUnknownSync(
-		Schema.Literal("animelist", "mangalist")
-	)(args.params.typelist)
+	const typelist = invariant(Typelist(args.params.typelist))
 
 	const data = loadQuery<routeNavUserListQuery>(RouteNavUserListQuery, {
 		userName: args.params.userName,

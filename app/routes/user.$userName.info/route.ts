@@ -1,4 +1,3 @@
-import { Schema } from "@effect/schema"
 import ReactRelay from "react-relay"
 
 import type { routeUserInfoQuery } from "~/gql/routeUserInfoQuery.graphql"
@@ -7,11 +6,7 @@ import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const params = Schema.decodeUnknownSync(
-		Schema.Struct({
-			userName: Schema.String,
-		})
-	)(args.params)
+	const params = args.params
 
 	const data = await fetchQuery<routeUserInfoQuery>(
 		graphql`

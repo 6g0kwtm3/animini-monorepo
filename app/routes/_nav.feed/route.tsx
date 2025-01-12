@@ -183,7 +183,12 @@ export default function Index({
 												</address>
 											</ListContext>
 											{activity?.text && (
-												<Markdown options={options}>{activity.text}</Markdown>
+												<Markdown
+													className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto"
+													options={options}
+												>
+													{activity.text}
+												</Markdown>
 											)}
 										</Card>
 									</li>

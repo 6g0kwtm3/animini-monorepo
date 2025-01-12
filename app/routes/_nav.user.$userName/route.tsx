@@ -1,5 +1,3 @@
-import { Schema } from "@effect/schema"
-
 import { use, type ReactNode } from "react"
 import {
 	Form,
@@ -29,12 +27,8 @@ import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import { ExtraOutlet } from "./ExtraOutlet"
 const { graphql } = ReactRelay
 
-const Params = Schema.Struct({
-	userName: Schema.String,
-})
-
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const { userName } = Schema.decodeUnknownSync(Params)(args.params)
+	const { userName } = args.params
 
 	const data = loadQuery<routeNavUserQuery>(
 		graphql`

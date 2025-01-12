@@ -268,9 +268,10 @@ export interface Options {
 export function Markdown(props: {
 	children: string
 	options: Options
+	className?: string
 }): ReactNode {
 	return (
-		<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto">
+		<div className={props.className}>
 			{/* {(markdownHtml(props.children))} */}
 			{useMemo(
 				(): ReactNode => parse2(markdownHtml(props.children), props.options),

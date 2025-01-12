@@ -15,8 +15,6 @@ import * as Order from "~/lib/Order"
 
 // import {} from 'glob'
 
-import { Schema } from "@effect/schema"
-
 import type { ComponentRef, ReactNode } from "react"
 import { Suspense, use, useRef } from "react"
 import { List } from "~/components/List"
@@ -24,7 +22,7 @@ import { Ariakit } from "~/lib/ariakit"
 
 import { MediaListItem, MockMediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
-import { MediaListSort } from "~/lib/MediaListSort"
+import { MediaListSort, MediaListSortSchema } from "~/lib/MediaListSort"
 
 import ReactRelay from "react-relay"
 import {
@@ -44,8 +42,7 @@ import {
 
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type {
-	MediaListStatus,
-	routeUserSetStatusMutation,
+	routeUserSetStatusMutation
 } from "~/gql/routeUserSetStatusMutation.graphql"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
@@ -57,7 +54,9 @@ import { M3 } from "~/lib/components"
 import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
 import { isVisible } from "./isVisible"
 
+import { ArkErrors, type } from "arktype"
 import type { routeIsQuery_entry$key } from "~/gql/routeIsQuery_entry.graphql"
+import { invariant } from "~/lib/invariant"
 import { parse, type SearchParserResult } from "~/lib/searchQueryParser"
 import type { Route } from "./+types/route"
 
@@ -114,8 +113,10 @@ const keywords = [
 	"media-status",
 ] as const
 
+const Typelist = type("'animelist'|'mangalist'")
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const params = Schema.decodeUnknownSync(Params)(args.params)
+	const params = args.params
+	const typelist = invariant(Typelist(params.typelist))
 
 	const data = loadQuery<routeNavUserListEntriesQuery>(
 		RouteNavUserListEntriesQuery,
@@ -126,7 +127,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 					animelist: "ANIME",
 					mangalist: "MANGA",
 				} as const
-			)[params.typelist],
+			)[typelist],
 		}
 	)
 
@@ -172,23 +173,14 @@ const UserSetStatus = graphql`
 	}
 `
 
+const SetStatusFormData = type({
+	mediaId: "string.integer.parse",
+	status:
+		"'COMPLETED'|'CURRENT'|'DROPPED'|'PAUSED'|'PLANNING'|'REPEATING'|'%future added value'",
+})
+
 async function setStatus(formData: FormData) {
-	const variables = Schema.decodeUnknownSync(
-		Schema.Struct({
-			mediaId: Schema.NumberFromString,
-			status: Schema.Enums<{
-				[K in MediaListStatus]: K
-			}>({
-				COMPLETED: "COMPLETED",
-				CURRENT: "CURRENT",
-				DROPPED: "DROPPED",
-				PAUSED: "PAUSED",
-				PLANNING: "PLANNING",
-				REPEATING: "REPEATING",
-				"%future added value": "%future added value",
-			}),
-		})
-	)(Object.fromEntries(formData))
+	const variables = invariant(SetStatusFormData(Object.fromEntries(formData)))
 
 	const data = await mutation<routeUserSetStatusMutation>({
 		mutation: UserSetStatus,
@@ -293,8 +285,9 @@ function sortEntries(
 
 	const orders: Order.Order<(typeof entries)[number]>[] = []
 
-	for (const [dir, sort] of sorts) {
-		if (!Schema.is(Schema.Enums(MediaListSort))(sort)) {
+	for (const [dir, unparsedSort] of sorts) {
+		const sort = MediaListSortSchema(unparsedSort)
+		if (sort instanceof ArkErrors) {
 			continue
 		}
 
@@ -395,11 +388,6 @@ function sortEntries(
 	return entries.sort(Order.combineAll(orders))
 }
 
-const Params = Schema.Struct({
-	selected: Schema.optional(Schema.String),
-	userName: Schema.String,
-	typelist: Schema.Literal("animelist", "mangalist"),
-})
 
 export default function Page(props: Route.ComponentProps): ReactNode {
 	return (
@@ -605,7 +593,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 	return (
 		<div ref={ref} className="">
 			<List
-				className="relative @container"
+				className="@container relative"
 				lines={"two"}
 				style={{ height: `${virtualizer.getTotalSize()}px` }}
 			>
@@ -619,7 +607,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute left-0 top-0 w-full"
+								className="absolute top-0 left-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 							>
@@ -634,7 +622,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 								style={{
 									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
 								}}
-								className="absolute left-0 top-0 w-full"
+								className="absolute top-0 left-0 w-full"
 								ref={virtualizer.measureElement}
 								data-index={item.index}
 								key={`${element.name}:${element.entry.id}`}
@@ -685,11 +673,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 
 	return (
 		<ExtraOutlets>
-			<Ariakit.Heading className="text-balance text-headline-md">
+			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 			<Link to={location} className={button()}>
 				Try again
 			</Link>
