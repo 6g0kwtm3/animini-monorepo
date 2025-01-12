@@ -41,9 +41,7 @@ import {
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
-import type {
-	routeUserSetStatusMutation
-} from "~/gql/routeUserSetStatusMutation.graphql"
+import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { PaneContext } from "~/components/Layout"
@@ -386,7 +384,6 @@ function sortEntries(
 
 	return entries.sort(Order.combineAll(orders))
 }
-
 
 export default function Page(props: Route.ComponentProps): ReactNode {
 	return (

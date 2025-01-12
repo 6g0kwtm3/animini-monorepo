@@ -182,7 +182,7 @@ export default function Index({
 													</ListItem>
 												</address>
 											</ListContext>
-											{activity?.text && (
+											{activity.text && (
 												<Markdown
 													className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto"
 													options={options}
