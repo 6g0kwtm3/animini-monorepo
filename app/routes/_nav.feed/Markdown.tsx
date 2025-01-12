@@ -1,12 +1,7 @@
 import createDOMPurify from "dompurify"
 
 import marked from "marked"
-import {
-	useMemo,
-	type ComponentProps,
-	type JSX,
-	type ReactNode
-} from "react"
+import { useMemo, type ComponentProps, type JSX, type ReactNode } from "react"
 import { route_media, route_user } from "~/lib/route"
 
 function getAttributes(attributes: any) {
