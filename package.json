@@ -12,7 +12,7 @@
 		"prepare": "bun run gen:router && bun run gen:relay && bun run gen:paraglide",
 		"gen:relay": "bunx --bun relay-compiler",
 		"gen:router": "bunx --bun react-router typegen",
-		"gen:paraglide": "bunx --bun paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
+		"gen:paraglide": "paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
 		"check": "bunx --bun tsc",
 		"oxlint": "bunx --bun oxlint",
 		"lint": "bunx --bun eslint .",
