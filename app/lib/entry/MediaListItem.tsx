@@ -34,7 +34,7 @@ import * as Predicate from "~/lib/Predicate"
 import { M3 } from "../components"
 import { ListContext } from "../list"
 import { MediaTitle } from "../MediaTitle"
-import { useFragment, usePreloadedQuery } from "../Network"
+import { useFragment } from "../Network"
 
 import { TouchTarget } from "~/components"
 import type { MediaListItemInfo_entry$key } from "~/gql/MediaListItemInfo_entry.graphql"
@@ -50,6 +50,11 @@ import MaterialSymbolsSentimentSatisfiedOutline from "~icons/material-symbols/se
 import { formatDateRange } from "little-date"
 import type { MediaListItemDate_entry$key } from "~/gql/MediaListItemDate_entry.graphql"
 import MaterialSymbolsSentimentDissatisfiedOutline from "~icons/material-symbols/sentiment-dissatisfied-outline"
+
+import type { MediaListItem_viewer$key } from "~/gql/MediaListItem_viewer.graphql"
+import type { MediaListItemInfo_viewer$key } from "~/gql/MediaListItemInfo_viewer.graphql"
+import type { MediaListItemSubtitle_viewer$key } from "~/gql/MediaListItemSubtitle_viewer.graphql"
+import type { Route as SelectedRoute } from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
 
 const { graphql } = ReactRelay
 
@@ -72,6 +77,15 @@ const MediaListItem_entry = graphql`
 	}
 `
 
+const MediaListItem_viewer = graphql`
+	fragment MediaListItem_viewer on User {
+		id
+		...MediaListItemSubtitle_viewer
+		...MediaListItemInfo_viewer
+		...ProgressIncrement_viewer
+	}
+`
+
 // function useMedia(query: string) {
 // 	const media = window.matchMedia(query)
 // 	return useSyncExternalStore(
@@ -84,20 +98,20 @@ const MediaListItem_entry = graphql`
 // 	)
 // }
 
-import type { Route as SelectedRoute } from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
-import { RootProvider } from "../RootProvider"
-
 export function MediaListItem({
-	entry,
+	entry: entryKey,
 	user,
 	actionData,
+	viewer: viewerKey,
 	...props
 }: ComponentProps<"div"> & {
 	actionData: SelectedRoute.ComponentProps["actionData"] | undefined
 	entry: MediaListItem_entry$key
 	user: MediaListItemScore_user$key | null | undefined
+	viewer: MediaListItem_viewer$key | null | undefined
 }): ReactNode {
-	const data = useFragment(MediaListItem_entry, entry)
+	const entry = useFragment(MediaListItem_entry, entryKey)
+	const viewer = useFragment(MediaListItem_viewer, viewerKey)
 
 	const list = use(ListContext)
 	const navigate = useNavigate()
@@ -107,10 +121,10 @@ export function MediaListItem({
 	const loadSidePanel = () => {
 		const xl = window.innerWidth >= 1600
 		xl &&
-			data &&
+			entry &&
 			void navigate(
 				{
-					pathname: `entry/${data.id}`,
+					pathname: `entry/${entry.id}`,
 					search: search,
 				},
 				{
@@ -120,7 +134,7 @@ export function MediaListItem({
 	}
 
 	return (
-		data && (
+		entry && (
 			<div
 				{...props}
 				className={list.item({
@@ -130,44 +144,49 @@ export function MediaListItem({
 				onFocus={loadSidePanel}
 			>
 				<ListItemImg>
-					<MediaCover media={data.media} />
+					<MediaCover media={entry.media} />
 				</ListItemImg>
 
 				<Link
-					to={route_media({ id: data.media.id })}
+					to={route_media({ id: entry.media.id })}
 					className={list.itemContent({ className: "flex-[5]" })}
 				>
 					<ListItemContentTitle>
-						<MediaListItemTitle entry={data} />
+						<MediaListItemTitle entry={entry} />
 					</ListItemContentTitle>
 					<MediaListItemSubtitle
-						entry={data}
+						entry={entry}
 						user={user}
 						actionData={actionData}
+						viewer={viewer}
 					/>
 				</Link>
 
 				<M3.ListItemContent className="hidden flex-[2] @xl:block">
 					<M3.ListItemContentSubtitle className="justify-start font-mono">
-						<MediaListItemDate entry={data} />
+						<MediaListItemDate entry={entry} />
 					</M3.ListItemContentSubtitle>
 				</M3.ListItemContent>
 
 				<M3.ListItemContent className="hidden flex-1 @xl:block">
 					<M3.ListItemContentSubtitle className="justify-center font-mono">
-						<MediaListScore entry={data} user={user} />
+						<MediaListScore entry={entry} user={user} />
 					</M3.ListItemContentSubtitle>
 				</M3.ListItemContent>
 
 				<M3.ListItemContent className="hidden flex-1 @lg:block">
 					<M3.ListItemContentSubtitle className="justify-center font-mono">
-						<Progress entry={data} actionData={actionData} />
+						<Progress entry={entry} actionData={actionData} />
 					</M3.ListItemContentSubtitle>
 				</M3.ListItemContent>
 
 				<div className="flex">
-					<ProgressIncrement entry={data} actionData={actionData} />
-					<Info entry={data} />
+					<ProgressIncrement
+						entry={entry}
+						actionData={actionData}
+						viewer={viewer}
+					/>
+					<Info entry={entry} viewer={viewer} />
 				</div>
 				{/* <MoreMenu entry={data} /> */}
 			</div>
@@ -256,14 +275,23 @@ const MediaListItemInfo_entry = graphql`
 	}
 `
 
-function Info(props: { entry: MediaListItemInfo_entry$key }): ReactNode {
+const MediaListItemInfo_viewer = graphql`
+	fragment MediaListItemInfo_viewer on User {
+		id
+		name
+	}
+`
+
+function Info(props: {
+	entry: MediaListItemInfo_entry$key
+	viewer: MediaListItemInfo_viewer$key | null | undefined
+}): ReactNode {
 	const entry = useFragment(MediaListItemInfo_entry, props.entry)
-	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
+	const viewer = useFragment(MediaListItemInfo_viewer, props.viewer)
 	const params = useParams()
 
 	const viewerIsUser =
-		Predicate.isString(root.Viewer?.name) &&
-		root.Viewer.name === params.userName
+		Predicate.isString(viewer?.name) && viewer.name === params.userName
 	const label = viewerIsUser ? "Edit" : "Info"
 
 	const { search } = useOptimisticLocation()
@@ -388,16 +416,24 @@ const MediaListItemSubtitle_entry = graphql`
 		...MediaListItemScore_entry
 	}
 `
+
+const MediaListItemSubtitle_viewer = graphql`
+	fragment MediaListItemSubtitle_viewer on User {
+		id
+		name
+	}
+`
+
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key
 	user: MediaListItemScore_user$key | null | undefined
 	actionData: SelectedRoute.ComponentProps["actionData"] | undefined
+	viewer: MediaListItemSubtitle_viewer$key | null | undefined
 }): ReactNode {
 	const entry = useFragment(MediaListItemSubtitle_entry, props.entry)
+	const viewer = useFragment(MediaListItemSubtitle_viewer, props.viewer)
 
 	const watch = entry.toWatch
-
-	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
 
 	const params = useParams()
 
@@ -412,8 +448,7 @@ function MediaListItemSubtitle(props: {
 
 			<div
 				className={
-					Predicate.isString(root.Viewer?.name) &&
-					root.Viewer.name === params.userName
+					Predicate.isString(viewer?.name) && viewer.name === params.userName
 						? "contents @lg:hidden"
 						: "contents"
 				}

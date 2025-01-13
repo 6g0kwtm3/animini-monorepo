@@ -1,6 +1,6 @@
 import { Link, useFetcher } from "react-router"
 
-import { use, useEffect, type ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import {
 	ListItem,
 	ListItemAvatar,
@@ -15,17 +15,30 @@ import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
 
 import { M3 } from "~/lib/components"
-import { usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 
-import { RootProvider } from "~/lib/RootProvider"
+import ReactRelay from "react-relay"
+import type { UserLink_viewer$key } from "~/gql/UserLink_viewer.graphql"
+import { useFragment } from "~/lib/Network"
 import type { Info as UserFollowRoute } from "../user.$userId.follow/+types/route"
 import type { Info as UserInfoRoute } from "../user.$userName.info/+types/route"
+
+const { graphql } = ReactRelay
+
+const UserLink_viewer = graphql`
+	fragment UserLink_viewer on User {
+		id
+		name
+	}
+`
 
 export function UserLink(props: {
 	userName: string
 	children: ReactNode
+	viewer: UserLink_viewer$key | null | undefined
 }): ReactNode {
+	const viewer = useFragment(UserLink_viewer, props.viewer)
+
 	const fetcher = useFetcher<UserInfoRoute["loaderData"]>({
 		key: `${props.userName}-info`,
 	})
@@ -42,8 +55,6 @@ export function UserLink(props: {
 			fetcher.load(`/user/${props.userName}/info`)
 		}
 	}, [open, fetcher, props.userName])
-
-	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
 
 	return (
 		<TooltipRich placement="top" store={store}>
@@ -94,7 +105,7 @@ export function UserLink(props: {
 				</div>
 
 				<TooltipRichActions>
-					{root.Viewer?.name && root.Viewer.name !== props.userName && (
+					{viewer?.name && viewer.name !== props.userName && (
 						<follow.Form
 							method="post"
 							action={`/user/${fetcher.data?.User?.id}/follow`}

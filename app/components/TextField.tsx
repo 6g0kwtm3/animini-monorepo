@@ -19,7 +19,7 @@ export function FieldSupport(props: ComponentProps<"p">): ReactNode {
 	return <p {...props} className={text({ className: props.className })} />
 }
 
-function FieldContainer({
+export function FieldContainer({
 	children,
 	...props
 }: ComponentProps<"div">): ReactNode {

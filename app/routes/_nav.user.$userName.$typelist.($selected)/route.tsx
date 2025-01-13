@@ -29,8 +29,7 @@ import {
 	loadQuery,
 	mutation,
 	readInlineData,
-	useFragment,
-	usePreloadedQuery,
+	usePreloadedQuery
 } from "~/lib/Network"
 
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
@@ -45,7 +44,6 @@ import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutatio
 
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { PaneContext } from "~/components/Layout"
-import type { routeAwaitQuery_query$key } from "~/gql/routeAwaitQuery_query.graphql"
 import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
 import { M3 } from "~/lib/components"
@@ -96,7 +94,29 @@ const NavUserListEntriesSort_entries = graphql`
 const RouteNavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
-		...routeAwaitQuery_query
+	  Viewer {
+		  id
+		  ...MediaListItem_viewer
+		}
+		MediaListCollection(userName: $userName, type: $type)
+			@required(action: LOG) {
+			user {
+				id
+				...routeNavUserListEntriesSort_user
+				...MediaListItemScore_user
+			}
+			lists @required(action: LOG) {
+				name @required(action: LOG)
+				entries {
+					id
+					...routeIsQuery_entry
+					...isVisible_entry
+					...routeNavUserListEntriesSort_entries
+					...MediaListItem_entry
+					...routeSidePanel_entry # @defer
+				}
+			}
+		}
 	}
 `
 
@@ -425,30 +445,6 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 	)
 }
 
-const routeAwaitQuery_query = graphql`
-	fragment routeAwaitQuery_query on Query {
-		MediaListCollection(userName: $userName, type: $type)
-			@required(action: LOG) {
-			user {
-				id
-				...routeNavUserListEntriesSort_user
-				...MediaListItemScore_user
-			}
-			lists @required(action: LOG) {
-				name @required(action: LOG)
-				entries {
-					id
-					...routeIsQuery_entry
-					...isVisible_entry
-					...routeNavUserListEntriesSort_entries
-					...MediaListItem_entry
-					...routeSidePanel_entry # @defer
-				}
-			}
-		}
-	}
-`
-
 const routeIsQuery_entry = graphql`
 	fragment routeIsQuery_entry on MediaList @inline {
 		id
@@ -508,10 +504,7 @@ function inRange(b: number | string | null | undefined) {
 }
 
 function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
-	const query: routeAwaitQuery_query$key = usePreloadedQuery(
-		...loaderData.NavUserListEntriesQuery
-	)
-	const data = useFragment(routeAwaitQuery_query, query)
+	const data = usePreloadedQuery(...loaderData.NavUserListEntriesQuery)
 
 	const params = useParams()
 
@@ -628,6 +621,7 @@ function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
 									data-id={element.entry.id}
 									entry={element.entry}
 									user={data.MediaListCollection.user}
+									viewer={data.Viewer}
 								/>
 							</li>
 						)

@@ -1,4 +1,4 @@
-import { use, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import {
 	Form,
 	Link,
@@ -33,6 +33,10 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = loadQuery<routeNavUserQuery>(
 		graphql`
 			query routeNavUserQuery($userName: String!) @raw_response_type {
+				Viewer {
+					id
+					name
+				}
 				user: User(name: $userName) {
 					id
 					isFollowing
@@ -63,11 +67,9 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-import { RootProvider } from "~/lib/RootProvider"
 import type { Route as FollowRoute } from "../user.$userId.follow/+types/route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
 	const data = usePreloadedQuery(...loaderData.routeNavUserQuery)
 
 	if (!data.user) {
@@ -107,7 +109,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 									</span>
 								</AppBarTitle>
 								<div className="flex-1" />
-								{root.Viewer?.name && root.Viewer.name !== data.user.name && (
+								{data.Viewer?.name && data.Viewer.name !== data.user.name && (
 									<follow.Form
 										method="post"
 										action={`/user/${data.user.id}/follow`}
@@ -131,7 +133,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 										</M3.Icon>
 									</follow.Form>
 								)}
-								{root.Viewer?.name === data.user.name && <Logout />}
+								{data.Viewer?.name === data.user.name && <Logout />}
 								<ExtraOutlet id="actions" />
 							</AppBar>
 						</div>

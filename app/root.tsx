@@ -22,17 +22,9 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import { loadQuery } from "./lib/Network"
 import RelayEnvironment from "./lib/Network/components"
 import { button } from "./lib/button"
 
-import type { rootQuery } from "~/gql/rootQuery.graphql"
-
-import ReactRelay from "react-relay"
-
-import { RootProvider } from "./lib/RootProvider"
-
-const { graphql } = ReactRelay
 
 export const links: LinksFunction = () => {
 	return [
@@ -57,21 +49,8 @@ export const links: LinksFunction = () => {
 	]
 }
 
-const RootQuery = graphql`
-	query rootQuery @raw_response_type {
-		Viewer {
-			id
-			name
-			unreadNotificationCount
-		}
-	}
-`
-
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const rootQuery = loadQuery<rootQuery>(RootQuery, {})
-
 	return {
-		rootQuery: rootQuery,
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}
@@ -142,12 +121,12 @@ function useOnFocus(callback: () => void) {
 	}, [callback])
 }
 
-export default function App({ loaderData }: Route.ComponentProps): ReactNode {
+export default function App(_: Route.ComponentProps): ReactNode {
 	return (
-		<RootProvider value={loaderData}>
+		<>
 			{import.meta.env.PROD && <RevalidateOnFocus />}
 			<Outlet />
-		</RootProvider>
+		</>
 	)
 }
 

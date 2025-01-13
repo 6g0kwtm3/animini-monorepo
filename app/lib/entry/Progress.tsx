@@ -1,4 +1,4 @@
-import { use, type ComponentProps, type ReactNode } from "react"
+import { type ComponentProps, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { Form, useNavigation, useParams, useSearchParams } from "react-router"
 import * as Predicate from "~/lib/Predicate"
@@ -8,7 +8,7 @@ import MaterialSymbolsForward from "~icons/material-symbols/forward"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsPlaylistAdd from "~icons/material-symbols/playlist-add"
 import { M3 } from "../components"
-import { useFragment, usePreloadedQuery } from "../Network"
+import { useFragment } from "../Network"
 
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
@@ -31,15 +31,23 @@ const ProgressIncrement_entry = graphql`
 	}
 `
 
+const ProgressIncrement_viewer = graphql`
+	fragment ProgressIncrement_viewer on User {
+		id
+		name
+	}
+`
+
+import type { ProgressIncrement_viewer$key } from "~/gql/ProgressIncrement_viewer.graphql"
 import type { Route as SelectedRoute } from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
-import { RootProvider } from "../RootProvider"
 
 export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key
 	actionData: SelectedRoute.ComponentProps["actionData"] | undefined
+	viewer: ProgressIncrement_viewer$key | null | undefined
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
-	const data = usePreloadedQuery(...use(RootProvider).rootQuery)
+	const viewer = useFragment(ProgressIncrement_viewer, props.viewer)
 	const params = useParams()
 	const navigation = useNavigation()
 
@@ -57,8 +65,8 @@ export function ProgressIncrement(props: {
 	search.set("sheet", String(entry.id))
 
 	return (
-		Predicate.isString(data.Viewer?.name) &&
-		data.Viewer.name === params.userName && (
+		Predicate.isString(viewer?.name) &&
+		viewer.name === params.userName && (
 			<Form className="" method="post">
 				<input type="hidden" name="progress" value={progress + 1} />
 				<input type="hidden" name="id" value={entry.id} />

@@ -1,10 +1,6 @@
 import { type Locator, type Page } from "@playwright/test"
 import { graphql, HttpResponse } from "msw"
 import type {
-	rootQuery$rawResponse,
-	rootQuery$variables,
-} from "~/gql/rootQuery.graphql"
-import type {
 	routeNavUserIndexQuery$rawResponse,
 	routeNavUserIndexQuery$variables,
 } from "~/gql/routeNavUserIndexQuery.graphql"
@@ -40,6 +36,10 @@ const handlers = [
 		() =>
 			HttpResponse.json({
 				data: {
+					Viewer: {
+						id: 1,
+						name: "User",
+					},
 					user: {
 						id: 1,
 						about: "",
@@ -61,17 +61,6 @@ const handlers = [
 				User: {
 					id: 1,
 					about: "",
-				},
-			},
-		})
-	),
-	graphql.query<rootQuery$rawResponse, rootQuery$variables>("rootQuery", () =>
-		HttpResponse.json({
-			data: {
-				Viewer: {
-					id: 1,
-					name: "User",
-					unreadNotificationCount: 0,
 				},
 			},
 		})

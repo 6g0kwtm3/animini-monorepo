@@ -54,6 +54,7 @@ const handlers = [
 		() =>
 			HttpResponse.json({
 				data: {
+					Viewer: null,
 					Media: {
 						coverImage: null,
 						id: 1,

@@ -14,7 +14,7 @@ import {
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
-import { use, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
 
@@ -41,16 +41,10 @@ import { NavigationItem } from "./NavigationItem"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
-import { RootProvider } from "~/lib/RootProvider"
+
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 const { graphql } = ReactRelay
-
-const RouteNavTrendingQuery = graphql`
-	query routeNavTrendingQuery @raw_response_type {
-		...SearchTrending_query
-	}
-`
 
 export const clientLoader = (_args: Route.ClientLoaderArgs) => {
 	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
@@ -70,9 +64,19 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export default function NavRoute(props: Route.ComponentProps): ReactNode {
-	const root = usePreloadedQuery(...use(RootProvider).rootQuery)
+const RouteNavTrendingQuery = graphql`
+	query routeNavTrendingQuery @raw_response_type {
+		Viewer {
+			id
+			name
+			unreadNotificationCount
+		}
+		...SearchTrending_query
+	}
+`
 
+export default function NavRoute(props: Route.ComponentProps): ReactNode {
+	const data = usePreloadedQuery(...props.loaderData.RouteNavTrendingQuery)
 	const { pathname } = useLocation()
 
 	return (
@@ -115,9 +119,9 @@ export default function NavRoute(props: Route.ComponentProps): ReactNode {
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Feed</div>
 				</NavigationItem>
-				{root.Viewer ? (
+				{data.Viewer ? (
 					<>
-						<NavigationItem to={route_user({ userName: root.Viewer.name })} end>
+						<NavigationItem to={route_user({ userName: data.Viewer.name })} end>
 							<NavigationItemIcon>
 								<MaterialSymbolsPersonOutline />
 								<MaterialSymbolsPerson />
@@ -127,7 +131,7 @@ export default function NavRoute(props: Route.ComponentProps): ReactNode {
 						<NavigationItem
 							className="max-sm:hidden"
 							to={route_user_list({
-								userName: root.Viewer.name,
+								userName: data.Viewer.name,
 								typelist: "animelist",
 							})}
 						>
@@ -139,7 +143,7 @@ export default function NavRoute(props: Route.ComponentProps): ReactNode {
 						</NavigationItem>
 						<NavigationItem
 							to={route_user_list({
-								userName: root.Viewer.name,
+								userName: data.Viewer.name,
 								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
@@ -171,9 +175,9 @@ export default function NavRoute(props: Route.ComponentProps): ReactNode {
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
 
-					{(root.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+					{(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 						<NavigationItemLargeBadge>
-							{root.Viewer?.unreadNotificationCount}
+							{data.Viewer?.unreadNotificationCount}
 						</NavigationItemLargeBadge>
 					)}
 				</NavigationItem>
