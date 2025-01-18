@@ -30,7 +30,7 @@
 		"@react-router/node": "^7.1.1",
 		"@tanstack/react-virtual": "^3.11.2",
 		"anitomy": "^0.0.35",
-		"arktype": "^2.0.0-rc.29",
+		"arktype": "^2.0.0",
 		"chokidar": "^3.6.0",
 		"cookie": "^0.6.0",
 		"dompurify": "^3.1.6",

@@ -8,16 +8,15 @@ export class Timeout extends Error {
 	}
 }
 
-const PayloadErrors = type([
-	{
-		message: "string",
-		"status?": "number",
-		"validation?": "Record<string,string[]>",
-		"locations?": [{ line: "number", column: "number" }, "[]"],
-		"path?": "(string|number)[]",
-	},
-	"[]",
-])
+const PayloadError = type({
+	message: "string",
+	"status?": "number",
+	"validation?": "Record<string,string[]>",
+	"locations?": [{ line: "number", column: "number" }, "[]"],
+	"path?": "(string|number)[]",
+})
+
+const PayloadErrors = type([PayloadError, "...", [PayloadError, "[]"]])
 
 const PayloadData = type("Record<string,unknown>")
 const PayloadExtensions = type("Record<string,unknown>")
