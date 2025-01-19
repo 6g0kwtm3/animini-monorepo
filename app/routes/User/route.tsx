@@ -21,7 +21,7 @@ import { type } from "arktype"
 import type { routeNavUserQuery as NavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 import { invariant } from "~/lib/invariant"
 import { m } from "~/lib/paraglide"
-import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+import type { clientAction as userFollowAction } from "../UserFollow/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {

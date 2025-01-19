@@ -11,7 +11,7 @@ import ReactRelay from "react-relay"
 import * as Predicate from "~/lib/Predicate"
 
 import type { clientLoader as rootLoader } from "~/root"
-import type { clientAction as selectedAction } from "~/routes/_nav.user.$userName.$typelist._filters.($selected)/route"
+import type { clientAction as selectedAction } from "~/routes/UserListSelected/route"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"
