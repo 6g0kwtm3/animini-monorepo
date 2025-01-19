@@ -1,22 +1,24 @@
+import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+import { redirect, useFetcher } from "react-router"
 import {
-	Form,
-	redirect,
-	type ClientActionFunction,
-	type MetaFunction,
-} from "react-router"
+	TextFieldOutlined as Outlined,
+	TextFieldOutlinedInput,
+} from "~/components/TextField"
+
+import * as Ariakit from "@ariakit/react"
+
+import cookie from "cookie"
 
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { Button, ButtonIcon as ButtonTextIcon } from "~/components/Button"
+import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-
 import { button } from "~/lib/button"
 
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
-import { commitLocalUpdate, fetchQuery } from "~/lib/Network"
-import { M3 } from "~/lib/components"
+import { client_get_client } from "~/lib/client"
 import { route_user_list } from "~/lib/route"
-
+import { type Token } from "~/lib/viewer"
 const { graphql } = ReactRelay
 
 export const meta = (() => {
@@ -25,7 +27,7 @@ export const meta = (() => {
 
 const ANILIST_CLIENT_ID = 3455
 
-export const clientAction = (async (args) => {
+export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	const formData = await args.request.formData()
 	const { searchParams } = new URL(args.request.url)
 
@@ -35,13 +37,11 @@ export const clientAction = (async (args) => {
 		return {}
 	}
 
-	commitLocalUpdate((store) => {
-		store.invalidateStore()
-	})
+	const client = await client_get_client()
 
-	const data = await fetchQuery<NavLoginQuery>(
+	const data = await client.query<NavLoginQuery>(
 		graphql`
-			query routeNavLoginQuery @raw_response_type {
+			query routeNavLoginQuery {
 				Viewer {
 					id
 					name
@@ -58,46 +58,60 @@ export const clientAction = (async (args) => {
 		}
 	)
 
-	if (!data.Viewer) {
+	if (!data?.Viewer) {
 		return {}
 	}
 
-	sessionStorage.setItem("anilist-token", token.trim())
+	const encoded = JSON.stringify({
+		token: token,
+		viewer: data.Viewer,
+	} satisfies typeof Token.infer)
+
+	const setCookie = cookie.serialize(`anilist-token`, encoded, {
+		sameSite: "lax",
+		maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
+		path: "/",
+	})
+
+	document.cookie = setCookie
 
 	return redirect(
 		searchParams.get("redirect") ??
 			route_user_list({
 				typelist: "animelist",
 				userName: data.Viewer.name,
-			})
+			}),
+		{
+			headers: {
+				"Set-Cookie": setCookie,
+			},
+		}
 	)
-}) satisfies ClientActionFunction
-
-export const clientLoader = () => {
-	const token = sessionStorage.getItem("anilist-token")
-
-	if (token) {
-		return redirect("/")
-	}
-
-	return null
 }
 
 export default function Login(): ReactNode {
+	const fetcher = useFetcher<typeof clientAction>()
+	const store = Ariakit.useFormStore({ defaultValues: { token: "" } })
+
+	store.onSubmit((state) => {
+		void fetcher.submit(state.values, {
+			method: "post",
+		})
+	})
+
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<Form method="post" className="grid gap-2">
-					<M3.Field>
-						<M3.FieldText
-							name="token"
+				<Ariakit.Form store={store} method="post" className="grid gap-2">
+					<Outlined>
+						<TextFieldOutlinedInput
+							name={store.names.token}
 							required
 							type="password"
 							autoComplete="current-password"
-							label="Token"
-							defaultValue={import.meta.env.VITE_TEST_TOKEN}
 						/>
-					</M3.Field>
+						<Outlined.Label name={store.names.token}>Token</Outlined.Label>
+					</Outlined>
 
 					<footer className="flex justify-end gap-2">
 						<a
@@ -109,7 +123,6 @@ export default function Login(): ReactNode {
 								}
 							)}`}
 							rel="noreferrer"
-							defaultValue={import.meta.env.VITE_TEST_TOKEN}
 							className={button({})}
 						>
 							<ButtonTextIcon>
@@ -122,11 +135,11 @@ export default function Login(): ReactNode {
 							<span>Get token</span>
 						</a>
 
-						<Button variant="filled" type="submit">
+						<Ariakit.FormSubmit className={button({ variant: "filled" })}>
 							Login
-						</Button>
+						</Ariakit.FormSubmit>
 					</footer>
-				</Form>
+				</Ariakit.Form>
 			</LayoutPane>
 		</LayoutBody>
 	)
