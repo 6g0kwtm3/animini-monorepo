@@ -230,7 +230,11 @@ export default function Index(): ReactNode {
 														/>
 													</div>
 													<ListItemContent>
-														<ListItemTitle>{activity.user?.name}</ListItemTitle>
+														<ListItemTitle>
+															<Link to={`/user/${activity.user?.name}`}>
+																{activity.user?.name}
+															</Link>
+														</ListItemTitle>
 														<ListItemSubtitle>
 															{activity.createdAt}
 														</ListItemSubtitle>
