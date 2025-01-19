@@ -16,24 +16,24 @@ const isBun = (): boolean => !!globalThis.Bun
 const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
-		Inspect(),
+		// Inspect(),
 		tvTransform(),
 		tailwindcss(),
 
-		!isStorybook &&
-			!isVitest &&
-			MillionLint.vite({
-				babel: {
-					plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
-				},
-				filter: {
-					include: [
-						"app/routes/**/*.tsx",
-						"app/components/**/*.tsx",
-						"app/lib/**/*.tsx",
-					],
-				},
-			}),
+		// !isStorybook &&
+		// 	!isVitest &&
+		// 	MillionLint.vite({
+		// 		babel: {
+		// 			plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
+		// 		},
+		// 		filter: {
+		// 			include: [
+		// 				"app/routes/**/*.tsx",
+		// 				"app/components/**/*.tsx",
+		// 				"app/lib/**/*.tsx",
+		// 			],
+		// 		},
+		// 	}),
 		isBun()
 			? null
 			: paraglide({
