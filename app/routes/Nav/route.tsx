@@ -47,7 +47,9 @@ import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore
 const { graphql } = ReactRelay
 
 export const clientLoader = (_args: Route.ClientLoaderArgs) => {
-	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {})
+	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {
+		token: !!sessionStorage.getItem("anilist-token"),
+	})
 
 	return {
 		RouteNavTrendingQuery: data,
@@ -65,8 +67,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }
 
 const RouteNavTrendingQuery = graphql`
-	query routeNavTrendingQuery @raw_response_type {
-		Viewer {
+	query routeNavTrendingQuery($token: Boolean!) @raw_response_type {
+		Viewer @include(if: $token) {
 			id
 			name
 			unreadNotificationCount

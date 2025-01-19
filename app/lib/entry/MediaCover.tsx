@@ -22,8 +22,6 @@ const MediaCover_media = graphql`
 	}
 `
 
-export type MediaCover_media = typeof MediaCover_media
-
 const cover = tv({
 	base: "bg-cover bg-center object-cover object-center",
 })

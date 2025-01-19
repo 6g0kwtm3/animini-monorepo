@@ -1,22 +1,25 @@
 import { paraglide } from "@inlang/paraglide-vite"
-import MillionLint from "@million/lint"
 import { reactRouter } from "@react-router/dev/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
 import { defineConfig, type PluginOption } from "vite"
+import eslintPlugin from "vite-plugin-eslint"
 import Inspect from "vite-plugin-inspect"
+import oxlintPlugin from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 import tailwindConfig from "./tailwind.config"
+
 const isStorybook = process.argv[1]?.includes("storybook")
 const isVitest = process.argv[1]?.includes("vitest")
 const isBun = (): boolean => !!globalThis.Bun
-
 const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
 		Inspect(),
+		oxlintPlugin(),
+		// eslintPlugin(),
 		tvTransform(),
 		tailwindcss(),
 

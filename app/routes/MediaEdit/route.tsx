@@ -78,7 +78,7 @@
 // 				client.query(
 // 					graphql`
 // 						query MediaEditQuery($id: Int!, $format: ScoreFormat) {
-// 							Viewer {
+// 							Viewer @include(if: $token)  {
 // 								id
 // 								mediaListOptions {
 // 									scoreFormat

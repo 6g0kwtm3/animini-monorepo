@@ -1,5 +1,4 @@
-@import "./base.css";
-
 @import "tailwindcss";
+@import "./base.css";
 
 @config "../tailwind.config.ts";

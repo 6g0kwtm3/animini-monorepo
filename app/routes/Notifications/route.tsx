@@ -32,15 +32,15 @@ const { graphql } = ReactRelay
 export const clientLoader = async () => {
 	const data = await fetchQuery<NavNotificationsQuery>(
 		graphql`
-			query routeNavNotificationsQuery @raw_response_type {
-				Viewer {
+			query routeNavNotificationsQuery($token: Boolean!) @raw_response_type {
+				Viewer @include(if: $token) {
 					id
 					unreadNotificationCount
 				}
 				...routeNavNotifications_query
 			}
 		`,
-		{}
+		{ token: !!sessionStorage.getItem("anilist-token") }
 	)
 
 	return data

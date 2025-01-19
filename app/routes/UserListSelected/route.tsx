@@ -1,4 +1,5 @@
 import {
+	data,
 	isRouteErrorResponse,
 	Link,
 	Outlet,
@@ -92,9 +93,12 @@ const NavUserListEntriesSort_entries = graphql`
 `
 
 const RouteNavUserListEntriesQuery = graphql`
-	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
-	@raw_response_type {
-		Viewer {
+	query routeNavUserListEntriesQuery(
+		$userName: String!
+		$type: MediaType!
+		$token: Boolean!
+	) @raw_response_type {
+		Viewer @include(if: $token) {
 			id
 			...MediaListItem_viewer
 		}
@@ -139,6 +143,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const data = loadQuery<routeNavUserListEntriesQuery>(
 		RouteNavUserListEntriesQuery,
 		{
+			token: !!sessionStorage.getItem("anilist-token"),
 			userName: params.userName,
 			type: (
 				{
@@ -228,7 +233,7 @@ export const clientAction = (async (args) => {
 	if (formData.get("intent") === "set_status") {
 		return setStatus(formData)
 	}
-	throw Response.json(`Unknown intent ${formData.get("intent")}`, {
+	throw data(`Unknown intent ${formData.get("intent")}`, {
 		status: 400,
 	})
 }) satisfies ClientActionFunction

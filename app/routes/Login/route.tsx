@@ -73,11 +73,7 @@ export const clientAction = (async (args) => {
 }) satisfies ClientActionFunction
 
 export const clientLoader = () => {
-	const token = sessionStorage.getItem("anilist-token")
-
-	if (token) {
-		return redirect("/")
-	}
+	sessionStorage.clear()
 
 	return null
 }

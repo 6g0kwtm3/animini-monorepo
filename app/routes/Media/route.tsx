@@ -55,8 +55,8 @@ const { graphql } = ReactRelay
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const routeNavMediaQuery = loadQuery<routeNavMediaQuery>(
 		graphql`
-			query routeNavMediaQuery($id: Int!) @raw_response_type {
-				Viewer {
+			query routeNavMediaQuery($id: Int!, $token: Boolean!) @raw_response_type {
+				Viewer @include(if: $token) {
 					id
 					...routeEdit_viewer
 				}
@@ -76,6 +76,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 			}
 		`,
 		{
+			token: !!sessionStorage.getItem("anilist-token"),
 			id: Number(args.params.mediaId),
 		}
 	)

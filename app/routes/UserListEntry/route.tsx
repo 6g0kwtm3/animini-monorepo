@@ -58,6 +58,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
+import { data as json, } from "react-router"
 const SidePanel_entry = graphql`
 	fragment routeSidePanel_entry on MediaList {
 		id
@@ -81,7 +82,7 @@ function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(...loaderData.routeNavUserListEntryQuery)
 
 	if (!data?.MediaList) {
-		throw Response.json("Data not found", { status: 404 })
+		throw json("Data not found", { status: 404 })
 	}
 
 	const mediaList: routeSidePanel_entry$key = data.MediaList

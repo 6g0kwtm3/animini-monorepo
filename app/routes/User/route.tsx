@@ -1,6 +1,7 @@
 import { type ReactNode } from "react"
 import {
 	Form,
+	isRouteErrorResponse,
 	Link,
 	Outlet,
 	useFetcher,
@@ -12,7 +13,7 @@ import {
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
 
-import { AppBar, AppBarTitle } from "~/components"
+import { AppBar, AppBarTitle, Card } from "~/components"
 import { M3 } from "~/lib/components"
 import { m } from "~/lib/paraglide"
 
@@ -32,8 +33,9 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	const data = loadQuery<routeNavUserQuery>(
 		graphql`
-			query routeNavUserQuery($userName: String!) @raw_response_type {
-				Viewer {
+			query routeNavUserQuery($userName: String!, $token: Boolean!)
+			@raw_response_type {
+				Viewer @include(if: $token) {
 					id
 					name
 				}
@@ -49,7 +51,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 				}
 			}
 		`,
-		{ userName }
+		{ token: !!sessionStorage.getItem("anilist-token"), userName }
 	)
 
 	return { routeNavUserQuery: data }
@@ -67,13 +69,17 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
+import { Ariakit } from "~/lib/ariakit"
+import { button } from "~/lib/button"
 import type { Route as FollowRoute } from "../UserFollow/+types/route"
+
+import { data as json } from "react-router"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(...loaderData.routeNavUserQuery)
 
 	if (!data.user) {
-		throw Response.json("User not found", {
+		throw json("User not found", {
 			status: 404,
 		})
 	}
@@ -164,5 +170,53 @@ function Logout(): ReactNode {
 				<MaterialSymbolsLogout />
 			</Icon>
 		</Form>
+	)
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	let location = useLocation()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<M3.LayoutBody>
+				<M3.LayoutPane>
+					<div>
+						<Ariakit.Heading>Oops</Ariakit.Heading>
+						<p>Status: {error.status}</p>
+						<p>{error.data}</p>
+						<Link to={location} className={button()}>
+							Try again
+						</Link>
+					</div>
+				</M3.LayoutPane>
+			</M3.LayoutBody>
+		)
+	}
+
+	console.log({ error })
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<M3.LayoutBody>
+			<M3.LayoutPane>
+				<Card variant="elevated">
+					<Ariakit.Heading className="text-headline-md text-balance">
+						Uh oh ...
+					</Ariakit.Heading>
+					<p className="text-headline-sm">Something went wrong.</p>
+					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+					<Link to={location} className={button()}>
+						Try again
+					</Link>
+				</Card>
+			</M3.LayoutPane>
+		</M3.LayoutBody>
 	)
 }

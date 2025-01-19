@@ -14,7 +14,7 @@ import {
 import type { Route } from "./+types/root"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { useEffect, type ReactNode } from "react"
+import { use, useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Ariakit } from "./lib/ariakit"
 

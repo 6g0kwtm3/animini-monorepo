@@ -19,6 +19,7 @@ import { ExtraOutlets } from "../User/ExtraOutlet"
 
 const { graphql } = ReactRelay
 
+import { data as json, } from "react-router"
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const { userName } = args.params
 
@@ -35,7 +36,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	)
 
 	if (!data.User) {
-		throw Response.json("User not found", {
+		throw json("User not found", {
 			status: 404,
 		})
 	}

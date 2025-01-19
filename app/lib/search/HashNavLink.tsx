@@ -3,12 +3,11 @@ import { forwardRef } from "react"
 import type { NavLink } from "react-router"
 import {
 	Link,
-	useViewTransitionState,
 	useLocation,
 	useNavigation,
 	useResolvedPath,
+	useViewTransitionState,
 } from "react-router"
-import * as Predicate from "~/lib/Predicate"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,
@@ -30,7 +29,7 @@ export const HashNavLink = forwardRef<
 
 	return (
 		<Link ref={ref} {...props} aria-current={isActive ? "page" : undefined}>
-			{Predicate.isFunction(children)
+			{typeof children === "function"
 				? children({
 						isActive: isActive,
 						isTransitioning,

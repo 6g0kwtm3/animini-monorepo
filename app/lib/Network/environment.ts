@@ -50,7 +50,7 @@ const fetchQuery_: FetchFunction = async function (
 }
 
 declare global {
-	var __RELAY_STORE__: Store
+	var __RELAY_STORE__: Store | undefined
 }
 
 // Create a network layer from the fetch function
