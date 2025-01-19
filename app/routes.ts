@@ -19,7 +19,7 @@ export default [
 			route(":selected?", "./routes/UserListSelected/route.tsx"),
 		]),
 	]),
-	route("logout", "./routes/Logout/route.tsx"),
+	route("logout", "./routes/logout/route.tsx"),
 	route("user/:userId/follow", "./routes/UserFollow/route.tsx"),
 	route("user/:userId/info", "./routes/UserInfo/route.ts"),
 ] satisfies RouteConfig
