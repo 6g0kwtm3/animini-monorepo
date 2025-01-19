@@ -14,7 +14,7 @@
 	"isDevVariableName": "import.meta.env?.DEV",
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",
-		"Json": { "name": "JSONValue", "path": "./app/lib/urql" },
-		"CountryCode": { "name": "CountryCode", "path": "./app/lib/urql" }
+		"Json": { "name": "JSONValue", "path": "../lib/urql" },
+		"CountryCode": { "name": "CountryCode", "path": "../lib/urql" }
 	}
 }
