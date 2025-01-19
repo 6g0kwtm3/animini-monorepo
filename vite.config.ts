@@ -1,5 +1,6 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import { reactRouter } from "@react-router/dev/vite"
+import { cloudflareDevProxy } from '@react-router/dev/vite/cloudflare'
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import relay from "vite-plugin-relay"
@@ -14,8 +15,7 @@ export default defineConfig({
 		}),
 
 		// remixDevTools(),
-		// cloudflareDevProxy(),
-
+		cloudflareDevProxy(),
 		reactRouter(),
 
 		// million.vite({
