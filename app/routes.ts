@@ -1,8 +1,8 @@
 import {
-	index,
-	layout,
-	route,
-	type RouteConfig,
+  index,
+  layout,
+  route,
+  type RouteConfig,
 } from "@react-router/dev/routes"
 
 export default [
@@ -18,7 +18,9 @@ export default [
 		route("user/:userName", "./routes/User/route.tsx", [
 			index("./routes/UserIndex/route.tsx"),
 			route(":typelist", "./routes/UserList/route.tsx", [
-				route(":selected?", "./routes/UserListSelected/route.tsx"),
+				route(":selected?", "./routes/UserListSelected/route.tsx", [
+					route("entry/:entryId", "./routes/UserListEntry/route.tsx"),
+				]),
 			]),
 		]),
 	]),
