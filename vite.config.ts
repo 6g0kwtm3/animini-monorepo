@@ -16,7 +16,7 @@ const isBun = (): boolean => !!globalThis.Bun
 const ReactCompilerConfig = {}
 export default defineConfig({
 	plugins: [
-		// Inspect(),
+		Inspect(),
 		tvTransform(),
 		tailwindcss(),
 
