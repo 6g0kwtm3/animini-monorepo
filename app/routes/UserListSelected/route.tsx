@@ -29,7 +29,7 @@ import {
 	loadQuery,
 	mutation,
 	readInlineData,
-	usePreloadedQuery
+	usePreloadedQuery,
 } from "~/lib/Network"
 
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
@@ -94,9 +94,9 @@ const NavUserListEntriesSort_entries = graphql`
 const RouteNavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
-	  Viewer {
-		  id
-		  ...MediaListItem_viewer
+		Viewer {
+			id
+			...MediaListItem_viewer
 		}
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {

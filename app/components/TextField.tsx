@@ -26,7 +26,7 @@ export function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps) {
 		<Ariakit.FormError
 			{...props}
 			className={classes(
-				"order-last gap-4 px-4 pt-1 text-body-sm text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38] group-error:text-error",
+				"text-body-sm text-on-surface-variant group-has-[:disabled]:text-on-surface/[.38] group-error:text-error order-last gap-4 px-4 pt-1",
 				props.className
 			)}
 		/>
@@ -38,18 +38,18 @@ function OutlinedLabel({ children, ...props }: Ariakit.FormLabelProps) {
 		<>
 			<Ariakit.FormLabel
 				{...props}
-				className="pointer-events-none absolute -top-2 left-4 text-body-sm text-on-surface-variant transition-all group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-has-[:required]:after:content-['*'] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38]"
+				className="text-body-sm text-on-surface-variant group-focus-within:text-primary group-hover:text-on-surface group-focus-within:group-hover:text-primary peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm peer-disabled:text-on-surface/[.38] group-hover:peer-disabled:text-on-surface/[.38] group-error:text-error group-error:group-focus-within:text-error group-focus-within:group-error:text-error group-hover:group-error:text-on-error-container group-hover:group-error:group-focus-within:text-error group-error:peer-disabled:text-on-surface/[.38] peer-disabled:group-error:text-on-surface/[.38] pointer-events-none absolute -top-2 left-4 transition-all peer-placeholder-shown:top-4 group-focus-within:peer-placeholder-shown:-top-2 group-focus-within:peer-placeholder-shown:left-4 group-has-[:required]:after:content-['*']"
 			>
 				{children}
 			</Ariakit.FormLabel>
 
-			<fieldset className="pointer-events-none absolute -top-[0.71875rem] bottom-0 left-0 right-0 rounded-xs border border-outline px-[0.625rem] transition-all group-focus-within:border-2 group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error">
+			<fieldset className="border-outline group-focus-within:border-primary group-hover:border-on-surface group-hover:group-focus-within:border-primary group-has-[:disabled]:border-outline/[.12] group-hover:group-has-[:disabled]:border-outline/[.12] group-error:border-error group-focus-within:group-error:border-error group-hover:group-error:border-on-error-container group-focus-within:group-hover:group-error:border-error pointer-events-none absolute -top-[0.71875rem] right-0 bottom-0 left-0 rounded-xs border px-[0.625rem] transition-all group-focus-within:border-2">
 				<legend
 					className={
 						"overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-[:placeholder-shown]:max-w-0 group-focus-within:group-has-[:placeholder-shown]:max-w-none"
 					}
 				>
-					<span className="px-1 text-body-sm group-has-[:required]:after:content-['*']">
+					<span className="text-body-sm px-1 group-has-[:required]:after:content-['*']">
 						{children}
 					</span>
 				</legend>
@@ -100,7 +100,7 @@ export function TextFieldFilled(
 		<label
 			{...props}
 			className={classes(
-				"group relative flex items-center overflow-hidden rounded-t-xs bg-surface-container-highest before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-on-surface-variant after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:border-primary after:transition-transform focus-within:after:scale-x-100 hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container",
+				"group bg-surface-container-highest before:border-on-surface-variant after:border-primary hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-[:disabled]:before:border-on-surface/[.38] hover:has-[:disabled]:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container relative flex items-center overflow-hidden rounded-t-xs before:absolute before:bottom-0 before:left-0 before:w-full before:border-b after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:transition-transform focus-within:after:scale-x-100",
 				props.className
 			)}
 		/>
@@ -127,7 +127,7 @@ export function TextFieldFilledInput(props: Ariakit.FormInputProps) {
 			{...props}
 			placeholder=" "
 			className={classes(
-				"peer flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pb-2 pt-6 text-body-lg text-on-surface placeholder-transparent caret-primary outline-none focus:ring-0 disabled:text-on-surface/[.38] group-error:caret-error",
+				"peer text-body-lg text-on-surface caret-primary disabled:text-on-surface/[.38] group-error:caret-error flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pt-6 pb-2 placeholder-transparent outline-none focus:ring-0",
 				props.className
 			)}
 		/>
@@ -139,7 +139,7 @@ export function TextFieldFilledLabel(props: Ariakit.FormLabelProps) {
 		<Ariakit.FormLabel
 			{...props}
 			className={classes(
-				"group-hover:on-surface pointer-events-none absolute text-body-sm text-on-surface-variant text-on-surface/[.38] transition-all group-focus-within:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-has-[:disabled]:peer-placeholder-shown:top-4 group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error",
+				"group-hover:on-surface text-body-sm text-on-surface-variant text-on-surface/[.38] group-focus-within:text-primary peer-placeholder-shown:text-body-lg group-focus-within:peer-placeholder-shown:text-body-sm group-error:text-error group-error:group-hover:text-on-error-container group-error:group-hover:group-focus-within:text-error pointer-events-none absolute transition-all peer-placeholder-shown:top-4 group-has-[:disabled]:peer-placeholder-shown:top-4",
 				// props.leading ? "left-12" :
 				"left-4",
 				"group-focus-within:peer-placeholder-shown:top-2",

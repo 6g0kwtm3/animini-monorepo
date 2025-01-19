@@ -109,9 +109,9 @@ export default function MediaPage({
 
 	return (
 		<>
-			<title>Media - {data.Media?.title.userPreferred}</title>
+			<title>Media - {data.Media.title.userPreferred}</title>
 			<LayoutBody
-				style={data.Media?.coverImage?.theme ?? {}}
+				style={data.Media.coverImage?.theme ?? {}}
 				className={
 					"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 				}
