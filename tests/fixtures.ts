@@ -38,16 +38,16 @@ export const SucccessHandler = graphql.operation<any, any>(async (args) => {
 })
 
 export const test = baseTest.extend<Fixtures>({
-	async page({ page }, use) {
+	async page({ page }, next) {
 		await page.route("https://graphql.anilist.co/", async (route, request) => {
 			if (request.method() === "POST") {
 				return route.abort()
 			}
-			route.continue()
+			return route.continue()
 		})
-		await use(page)
+		await next(page)
 	},
-	async api({ page }, use) {
+	async api({ page }, next) {
 		let handlers: RequestHandler[] = []
 
 		await page.route("https://graphql.anilist.co/", async (route, request) => {
@@ -67,10 +67,10 @@ export const test = baseTest.extend<Fixtures>({
 				})
 			}
 
-			route.fallback()
+			return route.fallback()
 		})
 
-		use({
+		await next({
 			use(handlers_) {
 				handlers = handlers_
 			},

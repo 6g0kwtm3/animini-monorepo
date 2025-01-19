@@ -1,7 +1,13 @@
 import createDOMPurify from "dompurify"
 
 import marked from "marked"
-import { useMemo, type ComponentProps, type JSX, type ReactNode } from "react"
+import {
+	useMemo,
+	type ComponentProps,
+	type JSX,
+	type ReactElement,
+	type ReactNode,
+} from "react"
 import { route_media, route_user } from "~/lib/route"
 
 function getAttributes(attributes: any) {
@@ -46,9 +52,9 @@ function traverse(element: ChildNode, options: any): ReactNode {
 function traverseCollection(
 	children: NodeListOf<ChildNode>,
 	options: any
-): ReactNode {
-	return Array.from(children).reduce<ReactNode>(
-		(acc, node, i) => (
+): null | ReactElement {
+	return Array.from(children).reduce<null | ReactElement>(
+		(acc, node) => (
 			<>
 				{acc}
 				{traverse(node, options)}
@@ -58,7 +64,7 @@ function traverseCollection(
 	)
 }
 
-function parse(html: string, options: any): ReactNode {
+function parse(html: string, options: any): null | ReactElement {
 	const subdocument = new DOMParser().parseFromString(html, "text/html")
 
 	return traverseCollection(subdocument.body.childNodes, options)
@@ -193,8 +199,8 @@ export function Markdown(props: {
 	return (
 		<div className={props.className}>
 			{useMemo(
-				async () => parse(markdownHtml(props.children), props.options),
-				[props.children]
+				() => parse(markdownHtml(props.children), props.options),
+				[props.children, props.options]
 			)}
 		</div>
 	)

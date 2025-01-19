@@ -15,7 +15,7 @@
 		"gen:paraglide": "paraglide-js compile --project ./project.inlang --outdir=./app/paraglide",
 		"check": "bunx --bun tsc",
 		"oxlint": "bunx --bun oxlint",
-		"lint": "bunx --bun eslint .",
+		"lint": "bunx --bun --cache eslint .",
 		"format": "bunx --bun prettier . -w",
 		"knip": "knip",
 		"test:unit": "vitest",

@@ -130,8 +130,6 @@ export default function Index({
 }: Route.ComponentProps): ReactNode {
 	const list = createList({ lines: "two" })
 
-	if (!data) return null
-
 	return (
 		<LayoutBody>
 			<LayoutPane>

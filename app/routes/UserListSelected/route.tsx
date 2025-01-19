@@ -383,12 +383,9 @@ function sortEntries(
 			continue
 		}
 
-		if (sort === MediaListSort.Popularity) {
-			orderEntry(Order.number, (entry) => entry.media?.popularity ?? 0)
-			continue
-		}
-
-		sort satisfies never
+		sort satisfies MediaListSort.Popularity
+		orderEntry(Order.number, (entry) => entry.media?.popularity ?? 0)
+		continue
 	}
 
 	orders.push(

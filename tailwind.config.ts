@@ -200,10 +200,9 @@ export const config = {
 					},
 				},
 				{
-					// @ts-expect-error
 					values: Object.assign(
 						Object.fromEntries(
-							Object.entries(theme("spacing") || {}).filter(
+							Object.entries<string>(theme("spacing") || {}).filter(
 								([key]) => 5 <= Number(key) && Number(key) <= 12
 							)
 						),

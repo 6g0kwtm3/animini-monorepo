@@ -66,6 +66,7 @@ export const clientAction = (async () => {
 				graphql`
 					query routeNavNotificationsUpdateQuery @updatable {
 						Viewer {
+							id
 							unreadNotificationCount
 						}
 					}
