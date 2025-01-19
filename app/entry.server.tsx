@@ -1,8 +1,8 @@
-import { isbot } from 'isbot'
-import ReactDOMServer from 'react-dom/server'
+import { isbot } from "isbot"
+import ReactDOMServer from "react-dom/server"
+import type { EntryContext } from "react-router"
+import { ServerRouter } from "react-router"
 const { renderToReadableStream } = ReactDOMServer
-import type { EntryContext } from 'react-router'
-import { ServerRouter } from 'react-router'
 
 export default async function handleRequest(
 	request: Request,
@@ -22,12 +22,12 @@ export default async function handleRequest(
 		}
 	)
 
-	const userAgent = request.headers.get('user-agent')
+	const userAgent = request.headers.get("user-agent")
 	if (userAgent && isbot(userAgent)) {
 		await body.allReady
 	}
 
-	responseHeaders.set('Content-Type', 'text/html')
+	responseHeaders.set("Content-Type", "text/html")
 	return new Response(body, {
 		headers: responseHeaders,
 		status: responseStatusCode,

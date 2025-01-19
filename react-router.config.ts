@@ -1,5 +1,5 @@
 import type { Config } from "@react-router/dev/config"
-import type { PlatformProxy } from 'wrangler'
+import type { PlatformProxy } from "wrangler"
 
 export default {
 	future: {
