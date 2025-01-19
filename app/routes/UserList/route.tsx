@@ -36,7 +36,7 @@ import {
 import { type } from "arktype"
 import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
-import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import { ExtraOutlets } from "../User/ExtraOutlet"
 import { Sheet } from "./Sheet"
 
 const { graphql } = ReactRelay

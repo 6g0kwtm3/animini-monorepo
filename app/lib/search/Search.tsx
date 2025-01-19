@@ -24,8 +24,8 @@ import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 import { useOptimisticSearchParams } from "./useOptimisticSearchParams"
 
-import type { Route as SearchRoute } from "../../routes/_nav.search/+types/route"
-import type { Route as NavRoute } from "../../routes/_nav/+types/route"
+import type { Route as SearchRoute } from "../../routes/Search/+types/route"
+import type { Route as NavRoute } from "../../routes/Nav/+types/route"
 
 export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()

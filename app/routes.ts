@@ -7,7 +7,8 @@ import {
 
 export default [
 	layout("./routes/Nav/route.tsx", [
-		index("./routes/Home/route.tsx"),
+		index("./routes/Index/route.tsx"),
+		route("feed", "./routes/Home/route.tsx"),
 		route("login", "./routes/Login/route.tsx"),
 		route("media/:mediaId", "./routes/Media/route.tsx", [
 			route("edit", "./routes/MediaEdit/route.tsx"),
@@ -15,6 +16,7 @@ export default [
 		route("notifications", "./routes/Notifications/route.tsx"),
 		route("search", "./routes/Search/route.tsx"),
 		route("user/:userName", "./routes/User/route.tsx", [
+			index("./routes/UserIndex/route.tsx"),
 			route(":typelist", "./routes/UserList/route.tsx", [
 				route(":selected?", "./routes/UserListSelected/route.tsx"),
 			]),

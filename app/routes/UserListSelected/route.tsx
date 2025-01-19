@@ -29,7 +29,7 @@ import {
 	loadQuery,
 	mutation,
 	readInlineData,
-	usePreloadedQuery
+	usePreloadedQuery,
 } from "~/lib/Network"
 
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
@@ -47,7 +47,7 @@ import { PaneContext } from "~/components/Layout"
 import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
 import { button } from "~/lib/button"
 import { M3 } from "~/lib/components"
-import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import { ExtraOutlets } from "../User/ExtraOutlet"
 import { isVisible } from "./isVisible"
 
 import { ArkErrors, type } from "arktype"
@@ -94,9 +94,9 @@ const NavUserListEntriesSort_entries = graphql`
 const RouteNavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
-	  Viewer {
-		  id
-		  ...MediaListItem_viewer
+		Viewer {
+			id
+			...MediaListItem_viewer
 		}
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {

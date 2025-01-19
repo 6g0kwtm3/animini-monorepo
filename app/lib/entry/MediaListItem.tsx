@@ -54,7 +54,7 @@ import MaterialSymbolsSentimentDissatisfiedOutline from "~icons/material-symbols
 import type { MediaListItem_viewer$key } from "~/gql/MediaListItem_viewer.graphql"
 import type { MediaListItemInfo_viewer$key } from "~/gql/MediaListItemInfo_viewer.graphql"
 import type { MediaListItemSubtitle_viewer$key } from "~/gql/MediaListItemSubtitle_viewer.graphql"
-import type { Route as SelectedRoute } from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
+import type { Route as SelectedRoute } from "../../routes/UserListSelected/+types/route"
 
 const { graphql } = ReactRelay
 

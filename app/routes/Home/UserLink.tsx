@@ -20,8 +20,8 @@ import { m } from "~/lib/paraglide"
 import ReactRelay from "react-relay"
 import type { UserLink_viewer$key } from "~/gql/UserLink_viewer.graphql"
 import { useFragment } from "~/lib/Network"
-import type { Info as UserFollowRoute } from "../user.$userId.follow/+types/route"
-import type { Info as UserInfoRoute } from "../user.$userName.info/+types/route"
+import type { Info as UserFollowRoute } from "../UserFollow/+types/route"
+import type { Info as UserInfoRoute } from "../UserInfo/+types/route"
 
 const { graphql } = ReactRelay
 

@@ -39,7 +39,7 @@ const ProgressIncrement_viewer = graphql`
 `
 
 import type { ProgressIncrement_viewer$key } from "~/gql/ProgressIncrement_viewer.graphql"
-import type { Route as SelectedRoute } from "../../routes/_nav.user.$userName.$typelist.($selected)/+types/route"
+import type { Route as SelectedRoute } from "../../routes/UserListSelected/+types/route"
 
 export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key

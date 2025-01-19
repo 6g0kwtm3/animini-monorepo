@@ -1,6 +1,6 @@
 import { type ReactNode } from "react"
 import { type ShouldRevalidateFunction } from "react-router"
-import { ExtraOutlets } from "../_nav.user.$userName/ExtraOutlet"
+import { ExtraOutlets } from "../User/ExtraOutlet"
 
 import type { routeNavUserListEntryQuery } from "~/gql/routeNavUserListEntryQuery.graphql"
 import { M3 } from "~/lib/components"

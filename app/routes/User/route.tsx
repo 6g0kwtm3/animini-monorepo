@@ -18,7 +18,7 @@ import { m } from "~/lib/paraglide"
 
 import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
 import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-remove-outline"
-import { User } from "../_nav.user.$userName/User"
+import { User } from "../User/User"
 import type { Route } from "./+types/route"
 
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
@@ -67,7 +67,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-import type { Route as FollowRoute } from "../user.$userId.follow/+types/route"
+import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(...loaderData.routeNavUserQuery)

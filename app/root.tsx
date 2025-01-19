@@ -25,7 +25,6 @@ import tailwind from "./tailwind.css?url"
 import RelayEnvironment from "./lib/Network/components"
 import { button } from "./lib/button"
 
-
 export const links: LinksFunction = () => {
 	return [
 		{
