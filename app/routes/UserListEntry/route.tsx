@@ -58,7 +58,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-import { data as json, } from "react-router"
+import { data as json } from "react-router"
 const SidePanel_entry = graphql`
 	fragment routeSidePanel_entry on MediaList {
 		id

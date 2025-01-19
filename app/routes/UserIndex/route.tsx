@@ -19,7 +19,7 @@ import { ExtraOutlets } from "../User/ExtraOutlet"
 
 const { graphql } = ReactRelay
 
-import { data as json, } from "react-router"
+import { data as json } from "react-router"
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const { userName } = args.params
 
