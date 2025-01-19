@@ -40,14 +40,14 @@ import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
 import { Loading, Skeleton } from "~/components/Skeleton"
 import type { clientLoader as rootLoader } from "~/root"
-import type { clientLoader as userInfoLoader } from "../user.$userName.info/route"
+import type { clientLoader as userInfoLoader } from "../UserInfo/route"
 
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
-import type { clientAction as userFollowAction } from "../user.$userId.follow/route"
+import type { clientAction as userFollowAction } from "../UserFollow/route"
 const { graphql } = ReactRelay
 
 function MediaLink({

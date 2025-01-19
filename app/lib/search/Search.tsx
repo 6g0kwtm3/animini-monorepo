@@ -12,7 +12,7 @@ import {
 import type { ElementRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 import ReactRelay from "react-relay"
-import type { clientLoader as searchLoader } from "~/routes/_nav.search/route"
+import type { clientLoader as searchLoader } from "~/routes/Search/route"
 
 import {
 	TooltipPlain,
@@ -30,7 +30,7 @@ import {
 	SearchViewItem,
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
-import type { clientLoader as navLoader } from "~/routes/_nav/route"
+import type { clientLoader as navLoader } from "~/routes/Nav/route"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { M3 } from "../components"
 
