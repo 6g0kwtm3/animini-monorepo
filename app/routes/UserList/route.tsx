@@ -4,7 +4,7 @@ import {
 	GroupLabel,
 	RadioProvider,
 } from "@ariakit/react"
-
+import * as Sentry from "@sentry/react"
 import {
 	Form,
 	isRouteErrorResponse,
@@ -592,7 +592,7 @@ export function ErrorBoundary(): ReactNode {
 			</LayoutBody>
 		)
 	}
-
+	Sentry.captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

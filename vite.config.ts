@@ -1,5 +1,6 @@
 import { paraglide } from "@inlang/paraglide-js-adapter-vite"
 import { reactRouter } from "@react-router/dev/vite"
+import { sentryVitePlugin } from "@sentry/vite-plugin"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import relay from "vite-plugin-relay"
@@ -33,18 +34,18 @@ export default defineConfig({
 			},
 		}),
 		relay,
+		sentryVitePlugin({
+			org: "patryk-pi",
+			project: "javascript-react",
+		}),
 	],
 	server: {
 		port: 3000,
 	},
 	define: {
 		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,
-		__BUSTER__:
-			`${Date.now()}` || process.env.NODE_ENV === "production"
-				? `${Date.now()}`
-				: "`${Date.now()}`",
+	},
+	build: {
+		sourcemap: true,
 	},
 })
-declare global {
-	const __BUSTER__: string
-}

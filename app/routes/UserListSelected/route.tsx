@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react"
 import {
 	Await,
 	Outlet,
@@ -9,7 +10,6 @@ import {
 	type MetaFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
-
 import { useRawLoaderData } from "~/lib/data"
 
 import {
@@ -514,7 +514,7 @@ export function ErrorBoundary(): ReactNode {
 			</div>
 		)
 	}
-
+	Sentry.captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

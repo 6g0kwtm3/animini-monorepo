@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -10,7 +11,6 @@ import {
 	type LinksFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
-
 import { SnackbarQueue } from "./components/Snackbar"
 
 import { useEffect, type ReactNode } from "react"
@@ -147,7 +147,7 @@ export function ErrorBoundary(): ReactNode {
 			</div>
 		)
 	}
-
+	Sentry.captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
