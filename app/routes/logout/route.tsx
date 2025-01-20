@@ -1,7 +1,7 @@
 import cookie from "cookie"
 import { redirect, type ClientLoaderFunctionArgs } from "react-router"
 
-export const clientAction =  (args: ClientLoaderFunctionArgs) => {
+export const clientAction = (args: ClientLoaderFunctionArgs) => {
 	const url = new URL(args.request.url)
 
 	const setCookie = cookie.serialize(`anilist-token`, "", {
