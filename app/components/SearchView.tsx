@@ -59,7 +59,7 @@ export const SearchView = forwardRef<
 		onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
 		onSearch?: Ariakit.ComboboxProviderProps["setValue"]
 	} & VariantProps<typeof createSearchView>
->(function SearchView({ variant, defaultValue, onSearch, ...props }, ref) {
+>(function SearchView({ variant, ...props }, ref) {
 	const styles = createSearchView({ variant })
 
 	return (

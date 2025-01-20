@@ -45,7 +45,7 @@ export const links: LinksFunction = () => {
 	]
 }
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	const viewer = Viewer()
 
 	return {
@@ -76,6 +76,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 
 	return (
 		<html
+			lang="en"
 			// lang={locale}
 			// dir={dir}
 			style={theme}

@@ -106,7 +106,7 @@ export const NavigationItem = forwardRef<
 		viewTransition: true,
 		className: label({ className: props.className }),
 		children: ({
-			isActive,
+			isActive: _isActive,
 		}: Parameters<
 			Extract<NavLinkProps["children"], (...args: any) => any>
 		>[0]) => (

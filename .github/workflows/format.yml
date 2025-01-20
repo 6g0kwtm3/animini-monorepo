@@ -34,9 +34,9 @@ jobs:
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
 
-      # - name: Oxlint
-      #   if: ${{ !cancelled() }}
-      #   run: bun run oxlint --fix
+      - name: Oxlint
+        if: ${{ !cancelled() }}
+        run: bun run oxlint --fix
 
       - name: Lint
         if: ${{ !cancelled() }}
