@@ -118,7 +118,7 @@ const NavUserListEntriesQuery = graphql`
 	}
 `
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	return {
 		Library: Promise.resolve<
 			Record<string, [AnitomyResult, ...AnitomyResult[]]>

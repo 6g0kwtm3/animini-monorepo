@@ -44,7 +44,7 @@ import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-ou
 
 const { graphql } = ReactRelay
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = async (_args: ClientLoaderFunctionArgs) => {
 	const client = client_get_client()
 	const viewer = Viewer()
 

@@ -1,6 +1,6 @@
 import { type LoaderFunction } from "react-router"
 
-export const clientLoader = (async () => {
+export const clientLoader = (() => {
 	return Response.json(
 		{
 			short_name: "PWA",

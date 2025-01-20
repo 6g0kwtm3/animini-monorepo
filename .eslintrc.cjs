@@ -19,7 +19,6 @@ module.exports = {
 				"@typescript-eslint/dot-notation": "error",
 				"@typescript-eslint/restrict-plus-operands": "warn",
 				"@typescript-eslint/no-floating-promises": "error",
-				"@typescript-eslint/promise-function-async": "error",
 				"@typescript-eslint/no-misused-promises": "error",
 				"@typescript-eslint/return-await": "error",
 			},

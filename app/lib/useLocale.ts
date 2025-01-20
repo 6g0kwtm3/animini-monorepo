@@ -2,7 +2,7 @@ import { isAvailableLanguageTag } from "~/paraglide/runtime"
 import type { clientLoader as rootLoader } from "~/root"
 import { useRawRouteLoaderData } from "./data"
 
-const rtlLngs = [
+const rtlLngs = new Set([
 	"ar",
 	"shu",
 	"sqr",
@@ -65,7 +65,7 @@ const rtlLngs = [
 	"dv",
 	"sam",
 	"ckb",
-]
+])
 
 export function useLocale(): {
 	readonly locale: "en" | "ja"
@@ -79,7 +79,7 @@ export function useLocale(): {
 
 	for (const locale of locales) {
 		if (isAvailableLanguageTag(locale)) {
-			return { locale, dir: rtlLngs.includes(locale) ? "rtl" : "ltr" } as const
+			return { locale, dir: rtlLngs.has(locale) ? "rtl" : "ltr" } as const
 		}
 	}
 
