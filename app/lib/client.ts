@@ -6,7 +6,7 @@ import type {
 import environment, { commitMutation, fetchQuery } from "./Network"
 
 class Client {
-	query<T extends OperationType>(
+	async query<T extends OperationType>(
 		...args: [
 			Parameters<typeof fetchQuery<T>>[1],
 			Parameters<typeof fetchQuery<T>>[2],
@@ -16,7 +16,7 @@ class Client {
 		return client_operation(...args)
 	}
 
-	mutation<T extends MutationParameters>(
+	async mutation<T extends MutationParameters>(
 		config: MutationConfig<T>
 	): Promise<T["response"]> {
 		return new Promise<T["response"]>((resolve, reject) =>
@@ -33,7 +33,7 @@ export function client_get_client(): Client {
 	return new Client()
 }
 
-export function client_operation<T extends OperationType>(
+export async function client_operation<T extends OperationType>(
 	...args: [
 		Parameters<typeof fetchQuery<T>>[1],
 		Parameters<typeof fetchQuery<T>>[2],
