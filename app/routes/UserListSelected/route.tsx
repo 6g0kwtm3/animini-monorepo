@@ -45,7 +45,7 @@ import type {
 	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
 	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
 } from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
-import { type routeNavUserListEntriesQuery as NavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
+import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 import type {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
@@ -195,7 +195,7 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 
 	const client = await client_get_client()
 
-	const data = await client.query<NavUserListEntriesQuery>(
+	const data = await client.query<routeNavUserListEntriesQuery>(
 		NavUserListEntriesQuery,
 		{
 			userName: params.userName,
