@@ -8,6 +8,7 @@ const { graphql } = ReactRelay
 
 const Behind_entry = graphql`
 	fragment Behind_entry on MediaList {
+		id
 		progress
 		media {
 			id

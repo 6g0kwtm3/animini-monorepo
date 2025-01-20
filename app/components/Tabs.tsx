@@ -1,3 +1,4 @@
+import { useStoreState } from "@ariakit/react"
 import { motion } from "framer-motion"
 
 import type { ReactNode } from "react"
@@ -65,8 +66,8 @@ export function TabsListItem({
 	if (!context) {
 		throw new Error("TabsListItem must be wrapped in TabsList")
 	}
-	// eslint-disable-next-line react-compiler/react-compiler
-	const selectedId = context.useState("selectedId")
+
+	const selectedId = useStoreState(context, "selectedId")
 
 	return (
 		<Ariakit.Tab
