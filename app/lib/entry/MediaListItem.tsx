@@ -39,6 +39,7 @@ const { graphql } = ReactRelay
 
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
+		id
 		...ProgressIncrement_entry
 		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
