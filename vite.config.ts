@@ -3,7 +3,6 @@ import { reactRouter } from "@react-router/dev/vite"
 import { sentryVitePlugin } from "@sentry/vite-plugin"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
-import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 import babel from "vite-plugin-babel"
 
@@ -49,7 +48,7 @@ export default defineConfig({
 				props.height = "1em"
 			},
 		}),
-		relay,
+
 		sentryVitePlugin({
 			org: "patryk-pi",
 			project: "javascript-react",
