@@ -518,7 +518,7 @@ function traverseCollection(
 	options: any
 ): ReactNode {
 	return Array.from(children).reduce<ReactNode>(
-		(acc, node, ) => (
+		(acc, node) => (
 			<>
 				{acc}
 				{traverse(node, options)}
