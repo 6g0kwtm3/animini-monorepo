@@ -15,7 +15,7 @@ export default tseslint.config(
 			"public/mockServiceWorker.js",
 			"**/schema.graphql",
 			"app/gql",
-            "playwright",
+			"playwright",
 			".react-router",
 		],
 	},
