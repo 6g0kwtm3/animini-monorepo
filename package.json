@@ -16,6 +16,7 @@
 		"check": "bunx --bun tsc",
 		"codegen": "relay-compiler",
 		"knip": "knip",
+		"oxlint": "oxlint -c ./oxlintrc.json",
 		"lint": "bunx --bun eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "bunx --bun prettier . -w",
 		"prepare": "bun run codegen",
@@ -80,6 +81,7 @@
 		"graphql": "^16.8.1",
 		"knip": "^5.17.4",
 		"million": "^3.1.11",
+		"oxlint": "^0.15.7",
 		"prettier": "^3.3.1",
 		"prettier-plugin-tailwindcss": "^0.6.1",
 		"relay-compiler": "^16.2.0",
@@ -89,6 +91,7 @@
 		"vite": "^6.0.5",
 		"vite-env-only": "^3.0.1",
 		"vite-plugin-babel": "^1.2.0",
+		"vite-plugin-oxlint": "^1.2.1",
 		"vite-plugin-relay": "^2.1.0",
 		"vite-tsconfig-paths": "^4.3.2",
 		"wrangler": "3.34.2"

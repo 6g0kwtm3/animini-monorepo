@@ -171,7 +171,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 }
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
 	const page = await getPage()
 
 	const ids =
@@ -518,7 +518,7 @@ function traverseCollection(
 	options: any
 ): ReactNode {
 	return Array.from(children).reduce<ReactNode>(
-		(acc, node, i) => (
+		(acc, node, ) => (
 			<>
 				{acc}
 				{traverse(node, options)}
