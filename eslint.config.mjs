@@ -16,14 +16,10 @@ export default tseslint.config(
 			"**/schema.graphql",
 			"app/gql",
 			"playwright",
+			".wrangler",
 			".react-router",
 		],
 	},
-	// ...flat.extends(
-	// "plugin:compat/recommended",
-	// "@remix-run/eslint-config",
-	// "@remix-run/eslint-config/node"
-	// ),
 	eslint.configs.recommended,
 	tseslint.configs.base,
 
