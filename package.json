@@ -72,7 +72,7 @@
 		"@types/relay-runtime": "^14.1.24",
 		"autoprefixer": "^10.4.19",
 		"cross-env": "^7.0.3",
-		"dotenv": "^16.4.5",
+		"dotenv": "^16.4.7",
 		"electron": "^28.2.10",
 		"electron-devtools-installer": "^3.2.0",
 		"eslint": "9.12.0",
