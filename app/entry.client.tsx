@@ -1,12 +1,24 @@
-import { HydratedRouter } from "react-router/dom"
-import { startTransition, StrictMode } from "react"
-import { hydrateRoot } from "react-dom/client"
 import * as Sentry from "@sentry/react"
+import { startTransition, StrictMode, useEffect } from "react"
+import { hydrateRoot } from "react-dom/client"
+import {
+	createRoutesFromChildren,
+	matchRoutes,
+	useLocation,
+	useNavigationType,
+} from "react-router"
+import { HydratedRouter } from "react-router/dom"
 
 Sentry.init({
 	dsn: "https://examplePublicKey@o0.ingest.sentry.io/0",
 	integrations: [
-		Sentry.browserTracingIntegration(),
+		Sentry.reactRouterV7BrowserTracingIntegration({
+			createRoutesFromChildren: createRoutesFromChildren,
+			matchRoutes: matchRoutes,
+			useEffect: useEffect,
+			useLocation: useLocation,
+			useNavigationType: useNavigationType,
+		}),
 		Sentry.replayIntegration(),
 	],
 
@@ -26,6 +38,16 @@ startTransition(() => {
 		document,
 		<StrictMode>
 			<HydratedRouter />
-		</StrictMode>
+		</StrictMode>,
+		{
+			// Callback called when an error is thrown and not caught by an ErrorBoundary.
+			onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+				console.warn("Uncaught error", error, errorInfo.componentStack)
+			}),
+			// Callback called when React catches an error in an ErrorBoundary.
+			onCaughtError: Sentry.reactErrorHandler(),
+			// Callback called when React automatically recovers from errors.
+			onRecoverableError: Sentry.reactErrorHandler(),
+		}
 	)
 })
