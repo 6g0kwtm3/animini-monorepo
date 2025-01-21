@@ -39,7 +39,7 @@ export default defineConfig({
 		}),
 		relay,
 		sentryVitePlugin({
-			org: "patryk-pi",
+			org: "animini",
 			project: "javascript-react",
 		}),
 	],
