@@ -1,7 +1,7 @@
 import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
 import { Await, Link, useFetcher, useRouteLoaderData } from "react-router"
 
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
 import { Suspense, useEffect, useMemo } from "react"
 
 import marked from "marked"
@@ -287,16 +287,16 @@ const options = {
 				return <span className="text-primary">{props.children}</span>
 			}
 
-			// @ts-ignore
+			// @ts-expect-error datasets are not typed
 			if (props.className === "media-link" && props["data-id"]) {
-				// @ts-ignore
+				// @ts-expect-error datasets are not typed
 				return <MediaLink mediaId={props["data-id"]} />
 			}
 
-			// @ts-ignore
+			// @ts-expect-error datasets are not typed
 			if (props["data-user-name"]) {
 				return (
-					// @ts-ignore
+					// @ts-expect-error datasets are not typed
 					<UserLink userName={props["data-user-name"]}>
 						{props.children}
 					</UserLink>
@@ -627,7 +627,7 @@ function markdownHtml(t: string) {
 		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
 		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
 		(t = sanitizeHtml(
-			// @ts-ignore
+			// @ts-expect-error marked error types are not correct
 			marked(t, {
 				renderer: d,
 				lexer: u,
