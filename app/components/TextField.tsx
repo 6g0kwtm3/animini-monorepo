@@ -3,6 +3,7 @@ import {
 	forwardRef,
 	type ComponentProps,
 	type ComponentPropsWithoutRef,
+	type JSX,
 	type ReactNode,
 } from "react"
 import { createTextField } from "~/lib/textField"
@@ -12,7 +13,7 @@ export function TextFieldOutlined({
 	children,
 
 	...props
-}: ComponentPropsWithoutRef<"label">) {
+}: ComponentPropsWithoutRef<"label">): ReactNode {
 	return (
 		<label
 			{...props}
@@ -25,7 +26,9 @@ export function TextFieldOutlined({
 	)
 }
 
-export function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps) {
+export function TextFieldOutlinedSupporting(
+	props: Ariakit.FormErrorProps
+): ReactNode {
 	return (
 		<Ariakit.FormError
 			{...props}
@@ -83,7 +86,7 @@ export function TextFieldOutlinedFactory({
 	...props
 }: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
 	label: ReactNode
-}) {
+}): ReactNode {
 	return (
 		<TextFieldOutlined>
 			<TextFieldOutlinedInput {...props} />
@@ -125,7 +128,9 @@ export function TextFieldFilled(
 	)
 }
 
-export function TextFieldFilledInput(props: ComponentProps<"input">) {
+export function TextFieldFilledInput(
+	props: ComponentProps<"input">
+): ReactNode {
 	return (
 		<input
 			{...props}
@@ -138,7 +143,9 @@ export function TextFieldFilledInput(props: ComponentProps<"input">) {
 	)
 }
 
-export function TextFieldFilledLabel(props: ComponentProps<"label">) {
+export function TextFieldFilledLabel(
+	props: ComponentProps<"label">
+): ReactNode {
 	return (
 		<label
 			{...props}
