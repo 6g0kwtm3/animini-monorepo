@@ -18,11 +18,11 @@ import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolve
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
+import * as Sentry from "@sentry/react"
 
 const { RelayFeatureFlags } = RelayRuntime
 
 RelayFeatureFlags.ENABLE_RELAY_RESOLVERS = true
-
 const API_URL = "https://graphql.anilist.co"
 const fetchQuery_: FetchFunction = async function (
 	operation,
@@ -74,6 +74,11 @@ const environment = new Environment({
 	network,
 	store,
 	requiredFieldLogger(event) {
+		Sentry.addBreadcrumb({
+			level: "info",
+			category: "relay",
+			data: event,
+		})
 		if (event.kind === "relay_resolver.error") {
 			// Log this somewhere!
 			console.warn(
