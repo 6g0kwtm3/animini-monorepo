@@ -22,7 +22,6 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import { useRevalidator } from "react-router"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import environment, { RelayEnvironmentProvider } from "./lib/Network"
 
@@ -84,6 +83,9 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>
+				{import.meta.env.DEV && (
+					<script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
+				)}
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				{/* <meta
@@ -124,14 +126,6 @@ function useOnFocus(callback: () => void) {
 }
 
 export default function App(): ReactNode {
-	const revalidator = useRevalidator()
-
-	useOnFocus(() => {
-		if (revalidator.state === "idle") {
-			void revalidator.revalidate()
-		}
-	})
-
 	return <Outlet />
 }
 

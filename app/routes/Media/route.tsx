@@ -256,13 +256,6 @@ export default function Page(): ReactNode {
 		</LayoutBody>
 	)
 }
-declare global {
-	namespace React {
-		interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
-			popover?: "manual" | true | "auto" | undefined
-		}
-	}
-}
 
 function Edit() {
 	const { mediaId } = useParams()
