@@ -39,7 +39,7 @@ export function getThemeFromHex(hex: string): { [k: string]: string } {
 
 					return [
 						`--${key}-${theme}-${contrast}`,
-						// @ts-ignore
+						// @ts-expect-error color is not narrowed correctly
 						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot)),
 					]
 				})

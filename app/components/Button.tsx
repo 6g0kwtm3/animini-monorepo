@@ -11,8 +11,6 @@ import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton } from "~/lib/button"
 import { TouchTarget } from "./Tooltip"
 
-export type Icon = FC<ComponentPropsWithoutRef<"div">>
-
 interface ButtonProps
 	extends Ariakit.ButtonProps,
 		VariantProps<typeof createButton> {

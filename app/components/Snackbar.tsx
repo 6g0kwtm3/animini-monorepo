@@ -188,7 +188,9 @@ export function SnackbarAction(
 	const [supportsPopover, setSupportsPopover] = useState(true)
 
 	useEffect(() => {
-		setSupportsPopover(HTMLElement.prototype.hasOwnProperty("popover"))
+		setSupportsPopover(
+			Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover")
+		)
 	}, [])
 
 	return (
