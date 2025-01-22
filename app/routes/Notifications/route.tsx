@@ -17,7 +17,7 @@ import {
 } from "~/components/Tooltip"
 
 import { fab } from "~/lib/button"
-import { getLocale } from "~/paraglide/runtime"
+import { languageTag as getLocale } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
