@@ -7,7 +7,7 @@
 	"main": "desktop/index.js",
 	"scripts": {
 		"deploy": "wrangler pages deploy ./build/client",
-		"build": "bunx cross-env NODE_ENV=production react-router build",
+		"build": "bun run paraglide && bunx cross-env NODE_ENV=production react-router build",
 		"dev": "react-router dev",
 		"dev:codegen": "bun run codegen",
 		"start": "vite preview",

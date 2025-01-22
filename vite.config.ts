@@ -13,10 +13,10 @@ export default defineConfig({
 			configFile: "./oxlintrc.json",
 		}),
 		// MillionLint.vite(),
-		paraglide({
-			project: "./project.inlang",
-			outdir: "./app/paraglide",
-		}),
+		// paraglide({
+		// 	project: "./project.inlang",
+		// 	outdir: "./app/paraglide",
+		// }),
 
 		// remixDevTools(),
 		// cloudflareDevProxy(),
