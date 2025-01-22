@@ -1,8 +1,7 @@
-import type { Config } from "tailwindcss"
-//@ts-ignore
-//@ts-ignore
+import containerQueries from "@tailwindcss/container-queries"
+import typography from "@tailwindcss/typography"
 import { withTV } from "tailwind-variants/transformer"
-//@ts-ignore
+import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import * as Predicate from "./app/lib/Predicate"
 import colors from "./colors.json"
@@ -196,8 +195,8 @@ export default withTV({
 		},
 	},
 	plugins: [
-		require("@tailwindcss/container-queries"),
-		require("@tailwindcss/typography"),
+		containerQueries,
+		typography,
 
 		plugin(
 			({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
