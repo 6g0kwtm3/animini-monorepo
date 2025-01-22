@@ -20,8 +20,6 @@ const MediaCover_media = graphql`
 	}
 `
 
-export type MediaCover_media = typeof MediaCover_media
-
 const tv = createTV({ twMerge: false })
 
 const cover = tv({
