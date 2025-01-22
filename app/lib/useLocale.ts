@@ -1,4 +1,4 @@
-import { isAvailableLanguageTag } from "~/paraglide/runtime"
+import { isLocale } from "~/paraglide/runtime"
 import type { clientLoader as rootLoader } from "~/root"
 import { useRawRouteLoaderData } from "./data"
 
@@ -78,7 +78,7 @@ export function useLocale(): {
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []
 
 	for (const locale of locales) {
-		if (isAvailableLanguageTag(locale)) {
+		if (isLocale(locale)) {
 			return { locale, dir: rtlLngs.has(locale) ? "rtl" : "ltr" } as const
 		}
 	}

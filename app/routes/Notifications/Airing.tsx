@@ -1,5 +1,5 @@
-import { Link } from "react-router"
 import ReactRelay from "react-relay"
+import { Link } from "react-router"
 import {
 	ListItem,
 	ListItemContent,
@@ -17,7 +17,7 @@ import { route_media } from "~/lib/route"
 
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import { useFragment } from "~/lib/Network"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
 const { graphql } = ReactRelay
@@ -85,7 +85,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 }
 
 function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+	const rtf = new Intl.RelativeTimeFormat(getLocale(), {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")
