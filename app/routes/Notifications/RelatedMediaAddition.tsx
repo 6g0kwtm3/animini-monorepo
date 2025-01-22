@@ -13,7 +13,7 @@ import {
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
-import { getLocale } from "~/paraglide/runtime"
+import { languageTag as getLocale } from "~/paraglide/runtime"
 
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import { useFragment } from "~/lib/Network"

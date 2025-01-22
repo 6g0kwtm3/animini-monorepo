@@ -1,4 +1,4 @@
-import { isLocale } from "~/paraglide/runtime"
+import { isAvailableLanguageTag as isLocale } from "~/paraglide/runtime"
 import type { clientLoader as rootLoader } from "~/root"
 import { useRawRouteLoaderData } from "./data"
 
