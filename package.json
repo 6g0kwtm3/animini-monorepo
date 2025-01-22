@@ -100,7 +100,7 @@
 		"wrangler": "3.34.2"
 	},
 	"engines": {
-		"node": ">=18.0.0"
+		"node": ">=23.6.0"
 	},
 	"packageManager": "bun@1.2.0",
 	"browserslist": [
