@@ -5,6 +5,7 @@ import {
 	Network,
 	RecordSource,
 	type FetchFunction,
+	type Store,
 } from "relay-runtime"
 
 import RelayRuntime from "relay-runtime"
@@ -13,12 +14,12 @@ import { JsonToToken } from "../viewer"
 
 import { GraphQLResponse } from "./schema"
 
+import * as Sentry from "@sentry/react"
 import { ArkErrors, type } from "arktype"
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
-import * as Sentry from "@sentry/react"
 
 const { RelayFeatureFlags } = RelayRuntime
 
@@ -68,7 +69,17 @@ const fetchQuery_: FetchFunction = async function (
 
 // Create a network layer from the fetch function
 const network = Network.create(fetchQuery_)
-const store = new LiveResolverStore(new RecordSource())
+
+declare global {
+	var __RELAY_STORE__: Store | undefined
+}
+const store = (globalThis.__RELAY_STORE__ ??= new LiveResolverStore(
+	new RecordSource(),
+	{
+		gcReleaseBufferSize: Infinity,
+		queryCacheExpirationTime: 60 * 1000,
+	}
+))
 
 const environment = new Environment({
 	network,
