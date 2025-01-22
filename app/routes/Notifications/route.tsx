@@ -17,7 +17,7 @@ import {
 } from "~/components/Tooltip"
 
 import { fab } from "~/lib/button"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
@@ -177,7 +177,7 @@ export default function Notifications(): ReactNode {
 }
 
 function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+	const rtf = new Intl.RelativeTimeFormat(getLocale(), {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")
