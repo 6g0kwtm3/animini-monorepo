@@ -13,7 +13,7 @@ import {
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale } from "~/paraglide/runtime"
 
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import { useFragment } from "~/lib/Network"
@@ -84,7 +84,7 @@ export function RelatedMediaAddition(props: {
 }
 
 function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+	const rtf = new Intl.RelativeTimeFormat(getLocale(), {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")
