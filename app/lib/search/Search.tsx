@@ -9,7 +9,7 @@ import {
 	useRouteLoaderData,
 } from "react-router"
 
-import type { ElementRef, ReactNode } from "react"
+import type { ComponentRef, ReactNode } from "react"
 import { Suspense, useEffect, useRef } from "react"
 import ReactRelay from "react-relay"
 import type { clientLoader as searchLoader } from "~/routes/Search/route"
@@ -60,7 +60,7 @@ export function Search(): ReactNode {
 
 	const submit = useFetcher<typeof searchLoader>()
 
-	let ref = useRef<ElementRef<"input">>(null)
+	let ref = useRef<ComponentRef<"input">>(null)
 
 	const show = searchParams.get("sheet") === "search"
 	searchParams.delete("sheet")
