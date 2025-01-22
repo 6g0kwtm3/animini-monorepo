@@ -102,7 +102,7 @@
 	"engines": {
 		"node": ">=18.0.0"
 	},
-	"packageManager": "bun@1.1.21",
+	"packageManager": "bun@1.2.0",
 	"browserslist": [
 		"defaults and fully supports es6-module",
 		"maintained node versions"
