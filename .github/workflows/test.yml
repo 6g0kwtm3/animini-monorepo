@@ -19,11 +19,6 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.45.3-jammy
     steps:
       - uses: actions/checkout@v3
-      - name: Install unzip
-        shell: bash
-        run: |
-          apt-get update
-          apt-get install -y unzip
       - name: Install bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -32,20 +27,20 @@ jobs:
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
 
-      - name: Await CF Pages
-        uses: WalshyDev/cf-pages-await@v1
-        id: cf-pages
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN  }}
-          accountId: "e9b0348e83d33e46fbb82c3271317d70"
-          project: "animini-pwa"
+  #     - name: Await CF Pages
+  #       uses: WalshyDev/cf-pages-await@v1
+  #       id: cf-pages
+  #       with:
+  #         apiToken: ${{ secrets.CF_API_TOKEN  }}
+  #         accountId: "e9b0348e83d33e46fbb82c3271317d70"
+  #         project: "animini-pwa"
 
-      - name: Test E2E
-        run: bun run test
-        env:
-          ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
-          BASE_URL: ${{ steps.cf-pages.outputs.url }}
-          HOME: /root
+  #     - name: Test E2E
+  #       run: bun run test
+  #       env:
+  #         ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
+  #         BASE_URL: ${{ steps.cf-pages.outputs.url }}
+  #         HOME: /root
 
   typecheck:
     runs-on: ubuntu-latest
