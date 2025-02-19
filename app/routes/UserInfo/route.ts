@@ -16,8 +16,8 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 
 	const data = await fetchQuery<routeUserInfoQuery>(
 		graphql`
-			query routeUserInfoQuery($userId: Int!) @raw_response_type {
-				User(id: $userId) {
+			query routeUserInfoQuery($id: Int!) @raw_response_type {
+				User(id: $id) {
 					id
 					isFollower
 					isFollowing
@@ -29,7 +29,7 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 				}
 			}
 		`,
-		{ userId: params.userId }
+		{ id: params.userId }
 	)
 	return data
 }

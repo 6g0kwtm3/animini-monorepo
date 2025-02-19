@@ -12,7 +12,7 @@ import {
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale as sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
@@ -83,7 +83,7 @@ export function ActivityLike(props: {
 }
 
 function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag(), {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")

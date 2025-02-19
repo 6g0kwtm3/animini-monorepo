@@ -1,3 +1,5 @@
+import Headers from "@mjackson/headers"
+import { ArkErrors, type } from "arktype"
 import RelayRuntime, {
 	Environment,
 	Network,
@@ -5,8 +7,6 @@ import RelayRuntime, {
 	Store,
 	type FetchFunction,
 } from "relay-runtime"
-
-import { ArkErrors, type } from "arktype"
 import { invariant } from "../invariant"
 import { GraphQLResponse, Timeout } from "./schema"
 
@@ -24,13 +24,18 @@ const fetchQuery_: FetchFunction = async function (
 		variables: variables,
 	})
 
-	let headers = type(["instanceof", Headers])(cacheConfig.metadata?.headers)
+	let headers = type(["instanceof", globalThis.Headers])(
+		cacheConfig.metadata?.headers
+	)
 	if (headers instanceof ArkErrors) {
-		headers = new Headers()
+		headers = new globalThis.Headers()
 	}
 
 	headers.set("Content-Type", "application/json")
-	headers.set("Accept", "application/json")
+	headers.set(
+		"Accept",
+		"application/graphql-response+json;charset=utf-8, application/json;charset=utf-8"
+	)
 
 	if (token) {
 		headers.set("Authorization", `Bearer ${token}`)
@@ -42,11 +47,22 @@ const fetchQuery_: FetchFunction = async function (
 		headers,
 	})
 
-	if (response.status === 429) {
-		throw new Timeout(response.headers.get("retry-after") ?? "60")
-	}
+	const responseHeaders = new Headers(response.headers)
 
-	return invariant(GraphQLResponse(await response.json()))
+	if (responseHeaders.contentType.mediaType === "application/json") {
+		if (response.status === 429) {
+			throw new Timeout(response.headers.get("retry-after") ?? "60")
+		}
+
+		return invariant(GraphQLResponse(await response.json()))
+	} else if (
+		responseHeaders.contentType.mediaType ===
+		"application/graphql-response+json"
+	) {
+		return invariant(GraphQLResponse(await response.json()))
+	} else {
+		throw new Error(`Unknown content type: ${responseHeaders.contentType}`)
+	}
 }
 
 declare global {

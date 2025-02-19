@@ -17,7 +17,7 @@ import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import { ListContext } from "~/lib/list"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale as sourceLanguageTag } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { Route } from "./+types/route"
 
@@ -85,7 +85,7 @@ export function Airing(props: {
 }
 
 function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag(), {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")

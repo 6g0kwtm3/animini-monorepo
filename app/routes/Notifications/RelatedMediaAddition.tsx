@@ -12,7 +12,7 @@ import {
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
-import { sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale as sourceLanguageTag } from "~/paraglide/runtime"
 
 import { use, type ReactNode } from "react"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
@@ -83,7 +83,7 @@ export function RelatedMediaAddition(props: {
 }
 
 function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag, {})
+	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag(), {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")

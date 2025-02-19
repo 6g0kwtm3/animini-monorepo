@@ -1,4 +1,4 @@
-import { isAvailableLanguageTag } from "~/paraglide/runtime"
+import { isLocale as isAvailableLanguageTag } from "~/paraglide/runtime"
 
 const rtlLngs = [
 	"ar",

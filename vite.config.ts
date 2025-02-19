@@ -4,7 +4,6 @@ import tailwindcss from "@tailwindcss/vite"
 import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
 import { defineConfig, type PluginOption } from "vite"
-
 import Inspect from "vite-plugin-inspect"
 import oxlintPlugin from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
@@ -64,18 +63,12 @@ export default defineConfig({
 	},
 	define: {
 		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,
-		__BUSTER__:
-			`${Date.now()}` || process.env.NODE_ENV === "production"
-				? `${Date.now()}`
-				: "`${Date.now()}`",
 	},
 	optimizeDeps: {
 		include: ["relay-runtime", "react-relay"],
 	},
 })
-declare global {
-	const __BUSTER__: string
-}
+
 function tvTransform(): PluginOption {
 	return {
 		enforce: "pre",
