@@ -28,7 +28,7 @@
 		"@material/material-color-utilities": "^0.3.0",
 		"@million/lint": "1.0.0-rc.26",
 		"@mjackson/headers": "^0.10.0",
-		"@react-router/node": "^7.1.1",
+		"@react-router/node": "^7.2.0",
 		"@tanstack/react-virtual": "^3.11.2",
 		"anitomy": "^0.0.35",
 		"arktype": "^2.0.0",
@@ -45,13 +45,13 @@
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-relay": "^18.2.0",
-		"react-router": "^7.1.1",
+		"react-router": "^7.2.0",
 		"relay-runtime": "^18.2.0",
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.2.0",
 		"textarea-caret": "^3.1.0"
 	},
 	"overrides": {
-		"react-router-dom": "npm:react-router-dom@^7.1.1"
+		"react-router-dom": "npm:react-router-dom@^7.2.0"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
@@ -64,7 +64,7 @@
 		"@inlang/paraglide-js": "2.0.0-beta.16",
 		"@inlang/paraglide-vite": "^1.2.74",
 		"@playwright/test": "^1.45.3",
-		"@react-router/dev": "^7.1.1",
+		"@react-router/dev": "^7.2.0",
 		"@storybook/addon-a11y": "^8.4.7",
 		"@storybook/addon-essentials": "^8.4.7",
 		"@storybook/addon-interactions": "^8.4.7",
