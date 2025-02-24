@@ -167,6 +167,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	)
 }
 
+
 function RevalidateOnFocus() {
 	const revalidator = useRevalidator()
 
