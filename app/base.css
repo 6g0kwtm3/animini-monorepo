@@ -6,7 +6,7 @@
 	@media (prefers-reduced-motion: no-preference) {
 		[data-focus-visible],
 		:focus-visible {
-			@apply outline-primary rounded-xs outline outline-4 -outline-offset-4;
+			@apply outline-primary rounded-xs outline-3 -outline-offset-3;
 		}
 	}
 }
