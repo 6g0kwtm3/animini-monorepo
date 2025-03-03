@@ -14,7 +14,7 @@ import { createList, ListContext } from "~/lib/list"
 import { usePreloadedQuery } from "~/lib/Network"
 import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParams"
 import type { Route } from "./+types/route"
-import { ANIME_SORT_OPTIONS, MANGA_SORT_OPTIONS } from "./options"
+import { useAnimeSortOptions, useMangaSortOptions } from "./options"
 import { LabelItem, LabelItemRadio } from "./SheetFilter"
 
 export function SheetSort({ loaderData }: Route.ComponentProps): ReactNode {
@@ -26,6 +26,8 @@ export function SheetSort({ loaderData }: Route.ComponentProps): ReactNode {
 	const list = createList({ lines })
 
 	const data = usePreloadedQuery(...loaderData.routeNavUserListQuery)
+	const ANIME_SORT_OPTIONS = useAnimeSortOptions()
+	const MANGA_SORT_OPTIONS = useMangaSortOptions()
 
 	return (
 		<ListContext value={list}>

@@ -16,14 +16,7 @@ import {
 import type { VariantProps } from "tailwind-variants"
 import { subheader } from "~/components/subheader"
 import type { Route } from "./+types/route"
-import {
-	ANIME_FORMAT_OPTIONS,
-	ANIME_PROGRESS_OPTIONS,
-	ANIME_STATUS_OPTIONS,
-	MANGA_FORMAT_OPTIONS,
-	MANGA_PROGRESS_OPTIONS,
-	MANGA_STATUS_OPTIONS,
-} from "./options"
+import { MANGA_PROGRESS_OPTIONS, useAnimeFormatOptions, useAnimeStatusOptions, useMangaFormatOptions, useMangaStatusOptions } from "./options"
 
 export function SheetFilter({ params }: Route.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()
@@ -31,6 +24,11 @@ export function SheetFilter({ params }: Route.ComponentProps): ReactNode {
 	const lines = "one"
 
 	const list = createList({ lines })
+
+	const ANIME_FORMAT_OPTIONS = useAnimeFormatOptions()
+	const ANIME_STATUS_OPTIONS = useAnimeStatusOptions()
+	const MANGA_FORMAT_OPTIONS = useMangaFormatOptions()
+	const MANGA_STATUS_OPTIONS = useMangaStatusOptions()
 
 	return (
 		<ListContext value={list}>

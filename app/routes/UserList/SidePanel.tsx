@@ -20,14 +20,14 @@ import { useOptimisticSearchParams } from "~/lib/search/useOptimisticSearchParam
 import { usePreloadedQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import {
-	ANIME_FORMAT_OPTIONS,
 	ANIME_PROGRESS_OPTIONS,
-	ANIME_SORT_OPTIONS,
-	ANIME_STATUS_OPTIONS,
-	MANGA_FORMAT_OPTIONS,
 	MANGA_PROGRESS_OPTIONS,
-	MANGA_SORT_OPTIONS,
-	MANGA_STATUS_OPTIONS,
+	useAnimeFormatOptions,
+	useAnimeSortOptions,
+	useAnimeStatusOptions,
+	useMangaFormatOptions,
+	useMangaSortOptions,
+	useMangaStatusOptions,
 } from "./options"
 
 export function SidePanel({
@@ -40,6 +40,12 @@ export function SidePanel({
 	const { pathname } = useLocation()
 
 	const data = usePreloadedQuery(...loaderData.routeNavUserListQuery)
+	const ANIME_FORMAT_OPTIONS = useAnimeFormatOptions()
+	const ANIME_STATUS_OPTIONS = useAnimeStatusOptions()
+	const MANGA_FORMAT_OPTIONS = useMangaFormatOptions()
+	const MANGA_STATUS_OPTIONS = useMangaStatusOptions()
+	const ANIME_SORT_OPTIONS = useAnimeSortOptions()
+	const MANGA_SORT_OPTIONS = useMangaSortOptions()
 
 	return (
 		<M3.LayoutPane variant="fixed" className="max-xl:hidden">

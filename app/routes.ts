@@ -1,11 +1,12 @@
 import {
 	index,
 	layout,
+	prefix,
 	route,
 	type RouteConfig,
 } from "@react-router/dev/routes"
 
-export default [
+export default prefix(":locale?", [
 	layout("./routes/Nav/route.tsx", [
 		index("./routes/Index/route.tsx"),
 		route("feed", "./routes/Home/route.tsx"),
@@ -27,4 +28,4 @@ export default [
 	route("logout", "./routes/logout/route.tsx"),
 	route("user/:userId/follow", "./routes/UserFollow/route.tsx"),
 	route("user/:userId/info", "./routes/UserInfo/route.ts"),
-] satisfies RouteConfig
+]) satisfies RouteConfig

@@ -94,13 +94,13 @@ export function User({
 				>
 					Manga List
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<M3.Link to={""} />}>
+				<M3.TabsListItem id="favorites" render={<M3.Link to={""} />}>
 					Favorites
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<M3.Link to={""} />}>Stats</M3.TabsListItem>
-				<M3.TabsListItem render={<M3.Link to={""} />}>Social</M3.TabsListItem>
-				<M3.TabsListItem render={<M3.Link to={""} />}>Reviews</M3.TabsListItem>
-				<M3.TabsListItem render={<M3.Link to={""} />}>
+				<M3.TabsListItem id="stats" render={<M3.Link to={""} />}>Stats</M3.TabsListItem>
+				<M3.TabsListItem id="social" render={<M3.Link to={""} />}>Social</M3.TabsListItem>
+				<M3.TabsListItem id="reviews" render={<M3.Link to={""} />}>Reviews</M3.TabsListItem>
+				<M3.TabsListItem id="submissions" render={<M3.Link to={""} />}>
 					Submissions
 				</M3.TabsListItem>
 			</M3.TabsList>

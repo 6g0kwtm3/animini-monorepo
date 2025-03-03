@@ -13,7 +13,7 @@ import {
 import type { Route } from "./+types/root"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { createContext, useContext, useEffect, type ReactNode } from "react"
+import { createContext, use, useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Ariakit } from "./lib/ariakit"
 
@@ -64,7 +64,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 const LocaleContextSSR = createContext(baseLocale)
 if (import.meta.env.SSR) {
-	defineGetLocale(() => assertIsLocale(useContext(LocaleContextSSR)))
+	defineGetLocale(() => assertIsLocale(use(LocaleContextSSR)))
 }
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
