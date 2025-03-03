@@ -63,7 +63,7 @@ export function commitMutation<P extends MutationParameters>(
 	return commitMutation_<P>(environment, ...args)
 }
 
-export async function mutation<P extends MutationParameters>(
+export function mutation<P extends MutationParameters>(
 	config: MutationConfig<P>
 ): Promise<P["response"]> {
 	return new Promise<P["response"]>((resume, reject) => {
@@ -77,7 +77,7 @@ export async function mutation<P extends MutationParameters>(
 
 type Shift<T> = T extends [any, ...infer U] ? U : []
 
-export async function fetchQuery<O extends OperationType>(
+export function fetchQuery<O extends OperationType>(
 	...args: Shift<Parameters<typeof fetchQuery__<O>>>
 ): Promise<O["response"]> {
 	return fetchQuery__<O>(environment, ...args).toPromise()

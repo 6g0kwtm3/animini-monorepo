@@ -8,7 +8,7 @@ import routeNavSearchQuery, {
 	routeNavSearchQuery$rawResponse,
 	routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
-import { SucccessHandler, test } from "./fixtures"
+import { SuccessHandler, test } from "./fixtures"
 import { MediaPage } from "./pages/MediaPage"
 import { SearchPage } from "./pages/SearchPage"
 
@@ -67,7 +67,7 @@ const handlers = [
 				},
 			})
 	),
-	SucccessHandler,
+	SuccessHandler,
 ]
 
 test("changes focus", async ({ page, api }) => {

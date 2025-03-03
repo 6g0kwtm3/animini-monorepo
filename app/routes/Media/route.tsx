@@ -49,7 +49,7 @@ import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
-export const clientLoader = async (args: Route.ClientLoaderArgs) => {
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const routeNavMediaQuery = loadQuery<routeNavMediaQuery>(
 		graphql`
 			query routeNavMediaQuery($id: Int!, $token: Boolean!) @raw_response_type {

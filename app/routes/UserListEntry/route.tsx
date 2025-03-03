@@ -24,14 +24,13 @@ export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const params = invariant(Params(args.params))
 
 	const variables = {
-		userName: args.params.userName,
 		id: params.entryId,
 	}
 
 	const data = await loadQuery<routeNavUserListEntryQuery>(
 		graphql`
-			query routeNavUserListEntryQuery($userName: String!, $id: Int!) {
-				MediaList(userName: $userName, id: $id) @required(action: LOG) {
+			query routeNavUserListEntryQuery($id: Int!) {
+				MediaList(id: $id) @required(action: LOG) {
 					...routeSidePanel_entry
 				}
 			}
@@ -74,7 +73,6 @@ const SidePanel_entry = graphql`
 			avalible
 			...MediaCover_media
 		}
-		...Progress_entry
 	}
 `
 

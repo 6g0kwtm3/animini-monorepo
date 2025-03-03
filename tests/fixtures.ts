@@ -27,7 +27,7 @@ const schema = cached(async () => {
 	return addMocksToSchema({ schema: buildSchema(raw) })
 })
 
-export const SucccessHandler = graphql.operation<any, any>(async (args) => {
+export const SuccessHandler = graphql.operation<any, any>(async (args) => {
 	return HttpResponse.json(
 		await execute({
 			document: parse(args.query),
@@ -39,7 +39,7 @@ export const SucccessHandler = graphql.operation<any, any>(async (args) => {
 
 export const test = baseTest.extend<Fixtures>({
 	async page({ page }, next) {
-		await page.route("https://graphql.anilist.co/", async (route, request) => {
+		await page.route("https://graphql.anilist.co/", (route, request) => {
 			if (request.method() === "POST") {
 				return route.abort()
 			}
@@ -51,22 +51,23 @@ export const test = baseTest.extend<Fixtures>({
 		let handlers: RequestHandler[] = []
 
 		await page.route("https://graphql.anilist.co/", async (route, request) => {
-			const response = await getResponse(
-				handlers,
-				new Request(request.url(), {
-					method: request.method(),
-					body: request.postDataBuffer(),
-				})
-			)
+			if (request.method() === "POST") {
+				const response = await getResponse(
+					handlers,
+					new Request(request.url(), {
+						method: "POST",
+						body: request.postDataBuffer(),
+					})
+				)
 
-			if (response) {
-				return route.fulfill({
-					json: await response.json(),
-					headers: Object.fromEntries(response.headers.entries()),
-					status: response.status,
-				})
+				if (response) {
+					return route.fulfill({
+						json: await response.json(),
+						headers: Object.fromEntries(response.headers.entries()),
+						status: response.status,
+					})
+				}
 			}
-
 			return route.fallback()
 		})
 

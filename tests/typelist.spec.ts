@@ -8,7 +8,7 @@ import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
-import { SucccessHandler, test } from "./fixtures"
+import { SuccessHandler, test } from "./fixtures"
 import { HomePage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
@@ -65,7 +65,7 @@ const handlers = [
 			},
 		})
 	),
-	SucccessHandler,
+	SuccessHandler,
 ]
 
 test.describe("fullscreen", () => {

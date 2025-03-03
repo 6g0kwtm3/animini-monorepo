@@ -5,7 +5,7 @@ import {
 	useLocation,
 	useSearchParams,
 	type ClientActionFunction,
-	type ShouldRevalidateFunction
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import type { MetaFunction } from "react-router"
@@ -135,7 +135,7 @@ const keywords = [
 ] as const
 
 const Typelist = type("'animelist'|'mangalist'")
-export const clientLoader = async (args: Route.ClientLoaderArgs) => {
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const params = args.params
 	const typelist = invariant(Typelist(params.typelist))
 
