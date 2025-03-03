@@ -1,4 +1,4 @@
-import { Form, Link, useLocation, useNavigate, useSubmit } from "react-router"
+import { Form, useLocation, useNavigate, useSubmit } from "react-router"
 
 import type { ReactNode } from "react"
 import { SheetBody } from "~/components/Sheet"
@@ -44,14 +44,14 @@ export function Sheet(props: Route.ComponentProps): ReactNode {
 					<TabsListItem
 						id="filter"
 						className="rounded-ss-xl"
-						render={<Link viewTransition to={`?${filterParams}`} />}
+						render={<M3.Link to={`?${filterParams}`} />}
 					>
 						Filter
 					</TabsListItem>
 					<TabsListItem
 						id="sort"
 						className="rounded-se-xl xl:rounded-none"
-						render={<Link viewTransition to={`?${sortParams}`} />}
+						render={<M3.Link to={`?${sortParams}`} />}
 					>
 						Sort
 					</TabsListItem>

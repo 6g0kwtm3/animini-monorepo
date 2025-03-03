@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "react-router"
+import { useLoaderData } from "react-router"
 
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
@@ -12,9 +12,10 @@ import {
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
-import { getLocale as sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale as useLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { Route } from "./+types/route"
+import { M3 } from "~/lib/components"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -43,10 +44,14 @@ export function ActivityLike(props: {
 	const data = useLoaderData() as Route.ComponentProps["loaderData"]
 
 	const list = use(ListContext)
+	const locale = useLocale()
 
 	return (
 		notification.user && (
-			<Link to={`/activity/${notification.activityId}`} className={list.item()}>
+			<M3.Link
+				to={`/activity/${notification.activityId}`}
+				className={list.item()}
+			>
 				<ListItemImg>
 					{notification.user.avatar?.large && (
 						<img
@@ -74,16 +79,16 @@ export function ActivityLike(props: {
 				</ListItemContent>
 				{notification.createdAt && (
 					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - Date.now() / 1000)}
+						{format(notification.createdAt - Date.now() / 1000, locale)}
 					</ListItemTrailingSupportingText>
 				)}
-			</Link>
+			</M3.Link>
 		)
 	)
 }
 
-function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag(), {})
+function format(seconds: number, locale: string) {
+	const rtf = new Intl.RelativeTimeFormat(locale, {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")

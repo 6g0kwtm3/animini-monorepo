@@ -348,7 +348,7 @@
 // 							<DialogFullscreenIcon className="sm:hidden">
 // 								<Ariakit.DialogDismiss
 // 									render={
-// 										<Link
+// 										<M3.Link
 // 											 to=".."
 // 											onClick={(e) => (e.preventDefault(), navigate(-1))}
 // 										/>
@@ -624,4 +624,5 @@
 // 	)
 // }
 
-export {}
+export { };
+

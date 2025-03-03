@@ -1,9 +1,4 @@
-import {
-	Link,
-	Outlet,
-	useParams,
-	type ShouldRevalidateFunction,
-} from "react-router"
+import { Outlet, useParams, type ShouldRevalidateFunction } from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"
 import ReactRelay from "react-relay"
@@ -47,7 +42,9 @@ import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
 
+import { motion } from "motion/react"
 import type { routeEdit_viewer$key } from "~/gql/routeEdit_viewer.graphql"
+import { M3 } from "~/lib/components"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
@@ -249,17 +246,12 @@ function Edit(props: { viewer: routeEdit_viewer$key | null | undefined }) {
 	const viewer = useFragment(routeEdit_viewer, props.viewer)
 
 	return (
-		<div
-			style={{
-				viewTransitionName: "edit",
-			}}
-			className="fixed end-4 bottom-24 sm:bottom-4"
-		>
+		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger
 						render={
-							<Link
+							<M3.Link
 								to={
 									viewer
 										? route_media_edit({ id: Number(mediaId) })
@@ -272,12 +264,12 @@ function Edit(props: { viewer: routeEdit_viewer$key | null | undefined }) {
 								onClick={() => store.setOpen(false)}
 							>
 								<MaterialSymbolsEditOutline />
-							</Link>
+							</M3.Link>
 						}
 					/>
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
 				</TooltipPlain>
 			</div>
-		</div>
+		</motion.div>
 	)
 }

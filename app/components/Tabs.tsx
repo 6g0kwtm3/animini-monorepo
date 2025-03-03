@@ -1,10 +1,9 @@
+import { motion } from "motion/react"
 import type { ReactNode } from "react"
 import { createContext, use, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 import { tv } from "~/lib/tailwind-variants"
-
-const TabsContext = createContext<string | undefined>(undefined)
 
 const tabs = tv(
 	{
@@ -61,17 +60,15 @@ export function TabsList({
 }: Ariakit.TabListProps & VariantProps<typeof tabs>): ReactNode {
 	const styles = tabs({ grow })
 	return (
-		<TabsContext.Provider value={useId()}>
-			<Styles value={styles}>
-				<Ariakit.TabList
-					{...props}
-					className={styles.root({
-						className: props.className,
-					})}
-					render={<nav />}
-				/>
-			</Styles>
-		</TabsContext.Provider>
+		<Styles value={styles}>
+			<Ariakit.TabList
+				{...props}
+				className={styles.root({
+					className: props.className,
+				})}
+				render={<nav />}
+			/>
+		</Styles>
 	)
 }
 
@@ -82,8 +79,6 @@ export function TabsListItem({
 	id,
 	...props
 }: Ariakit.TabProps): ReactNode {
-	const layoutId = use(TabsContext)
-
 	const context = Ariakit.useTabContext()
 
 	const selectedId = Ariakit.useStoreState(context, "selectedId")
@@ -100,11 +95,9 @@ export function TabsListItem({
 		>
 			<div className="col-start-1 row-start-1">{children}</div>
 			{selectedId === `${prefix}/${id}` && (
-				<div
+				<motion.div
 					className="bg-primary col-start-1 row-start-1 h-[0.1875rem] self-end rounded-t-[0.1875rem]"
-					style={{
-						viewTransitionName: layoutId?.replaceAll(":", "-"),
-					}}
+					layoutId={prefix}
 				/>
 			)}
 		</Ariakit.Tab>

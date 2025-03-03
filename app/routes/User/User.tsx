@@ -1,5 +1,4 @@
 import type { ComponentProps, ReactNode } from "react"
-import { Link } from "react-router"
 
 import { M3 } from "~/lib/components"
 import { useFragment } from "~/lib/Network"
@@ -65,17 +64,14 @@ export function User({
 			>
 				<M3.TabsListItem
 					id="undefined"
-					render={
-						<Link viewTransition to={route_user({ userName: data.name })} />
-					}
+					render={<M3.Link to={route_user({ userName: data.name })} />}
 				>
 					Overview
 				</M3.TabsListItem>
 				<M3.TabsListItem
 					id="animelist"
 					render={
-						<Link
-							viewTransition
+						<M3.Link
 							to={route_user_list({
 								userName: data.name,
 								typelist: "animelist",
@@ -88,8 +84,7 @@ export function User({
 				<M3.TabsListItem
 					id="mangalist"
 					render={
-						<Link
-							viewTransition
+						<M3.Link
 							to={route_user_list({
 								userName: data.name,
 								typelist: "mangalist",
@@ -99,19 +94,13 @@ export function User({
 				>
 					Manga List
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link viewTransition to={""} />}>
+				<M3.TabsListItem render={<M3.Link to={""} />}>
 					Favorites
 				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link viewTransition to={""} />}>
-					Stats
-				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link viewTransition to={""} />}>
-					Social
-				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link viewTransition to={""} />}>
-					Reviews
-				</M3.TabsListItem>
-				<M3.TabsListItem render={<Link viewTransition to={""} />}>
+				<M3.TabsListItem render={<M3.Link to={""} />}>Stats</M3.TabsListItem>
+				<M3.TabsListItem render={<M3.Link to={""} />}>Social</M3.TabsListItem>
+				<M3.TabsListItem render={<M3.Link to={""} />}>Reviews</M3.TabsListItem>
+				<M3.TabsListItem render={<M3.Link to={""} />}>
 					Submissions
 				</M3.TabsListItem>
 			</M3.TabsList>

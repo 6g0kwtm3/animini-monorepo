@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate, useParams } from "react-router"
+import { useLocation, useNavigate, useParams } from "react-router"
 
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
@@ -9,11 +9,11 @@ import type { ComponentProps, ReactNode } from "react"
 import { use } from "react"
 
 import {
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle,
-	ListItemContentTitle,
-	ListItemImg,
+    ListItem,
+    ListItemContent,
+    ListItemContentSubtitle,
+    ListItemContentTitle,
+    ListItemImg,
 } from "~/components/List"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 
@@ -26,8 +26,8 @@ import { Progress, ProgressIncrement } from "./Progress"
 
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
-	MediaListItemSubtitle_entry$key,
-	MediaType,
+    MediaListItemSubtitle_entry$key,
+    MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
 import * as Predicate from "~/lib/Predicate"
@@ -147,7 +147,7 @@ export function MediaListItem({
 					<MediaCover media={entry.media} />
 				</ListItemImg>
 
-				<Link
+				<M3.Link
 					to={route_media({ id: entry.media.id })}
 					className={list.itemContent({ className: "flex-[5]" })}
 				>
@@ -160,7 +160,7 @@ export function MediaListItem({
 						actionData={actionData}
 						viewer={viewer}
 					/>
-				</Link>
+				</M3.Link>
 
 				<M3.ListItemContent className="hidden flex-[2] @xl:block">
 					<M3.ListItemContentSubtitle className="justify-start font-mono">
@@ -298,7 +298,7 @@ function Info(props: {
 
 	return (
 		<>
-			<Link
+			<M3.Link
 				to={{
 					pathname: `entry/${entry.id}`,
 					search: search,
@@ -311,8 +311,8 @@ function Info(props: {
 				<M3.ButtonIcon>
 					<MaterialSymbolsInfoOutline />
 				</M3.ButtonIcon>
-			</Link>
-			<Link
+			</M3.Link>
+			<M3.Link
 				to={{
 					pathname: `entry/${entry.id}`,
 					search: search,
@@ -324,7 +324,7 @@ function Info(props: {
 				<span className="sr-only">{label}</span>
 				<MaterialSymbolsInfoOutline />
 				<TouchTarget />
-			</Link>
+			</M3.Link>
 		</>
 	)
 }

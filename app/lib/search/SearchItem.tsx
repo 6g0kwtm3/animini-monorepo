@@ -1,6 +1,5 @@
 import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { Link, type LinkProps } from "react-router"
 
 import {
 	ListItemAvatar,
@@ -9,6 +8,9 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components/List"
 
+import { M3 } from "~/lib/components"
+
+import type { LinkProps } from "react-router"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
 import { MediaCover } from "../entry/MediaCover"
 import { ListContext } from "../list"
@@ -40,7 +42,7 @@ export function SearchItem({
 
 	return (
 		data && (
-			<Link
+			<M3.Link
 				{...props}
 				to={route_media({ id: data.id })}
 				className={list.item()}
@@ -62,7 +64,7 @@ export function SearchItem({
 						</ListItemTrailingSupportingText>
 					)}
 				</>
-			</Link>
+			</M3.Link>
 		)
 	)
 }

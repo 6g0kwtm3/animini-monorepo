@@ -1,13 +1,12 @@
 import { type ReactNode } from "react"
 import {
-	Form,
-	isRouteErrorResponse,
-	Link,
-	Outlet,
-	useFetcher,
-	useLocation,
-	useParams,
-	type ShouldRevalidateFunction,
+    Form,
+    isRouteErrorResponse,
+    Outlet,
+    useFetcher,
+    useLocation,
+    useParams,
+    type ShouldRevalidateFunction
 } from "react-router"
 
 import ReactRelay from "react-relay"
@@ -110,7 +109,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 							<AppBar variant="large" className="sm:bg-surface-container-low">
 								<AppBarTitle>
 									<span>
-										<Link to="..">{data.user.name}</Link>
+										<M3.Link to="..">{data.user.name}</M3.Link>
 										<ExtraOutlet id="title" />
 									</span>
 								</AppBarTitle>
@@ -185,9 +184,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
 						<p>{error.data}</p>
-						<Link to={location} className={button()}>
+						<M3.Link to={location} className={button()}>
 							Try again
-						</Link>
+						</M3.Link>
 					</div>
 				</M3.LayoutPane>
 			</M3.LayoutBody>
@@ -212,9 +211,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 					</Ariakit.Heading>
 					<p className="text-headline-sm">Something went wrong.</p>
 					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-					<Link to={location} className={button()}>
+					<M3.Link to={location} className={button()}>
 						Try again
-					</Link>
+					</M3.Link>
 				</Card>
 			</M3.LayoutPane>
 		</M3.LayoutBody>

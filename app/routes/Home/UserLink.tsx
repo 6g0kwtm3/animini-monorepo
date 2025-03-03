@@ -1,15 +1,15 @@
-import { Link, useFetcher } from "react-router"
+import { useFetcher } from "react-router"
 
 import { useEffect, type ReactNode } from "react"
 import {
-	ListItem,
-	ListItemAvatar,
-	ListItemContent,
-	Skeleton,
-	TooltipRich,
-	TooltipRichActions,
-	TooltipRichContainer,
-	TooltipRichTrigger,
+    ListItem,
+    ListItemAvatar,
+    ListItemContent,
+    Skeleton,
+    TooltipRich,
+    TooltipRichActions,
+    TooltipRichContainer,
+    TooltipRichTrigger,
 } from "~/components"
 import { Ariakit } from "~/lib/ariakit"
 import { route_user } from "~/lib/route"
@@ -60,9 +60,9 @@ export function UserLink(props: {
 		<TooltipRich placement="top" store={store}>
 			<TooltipRichTrigger
 				render={
-					<Link to={route_user({ userName: props.userName })}>
+					<M3.Link to={route_user({ userName: props.userName })}>
 						{props.children}
-					</Link>
+					</M3.Link>
 				}
 			/>
 			<TooltipRichContainer className="not-prose text-start">

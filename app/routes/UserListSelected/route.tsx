@@ -1,13 +1,11 @@
 import {
 	data,
 	isRouteErrorResponse,
-	Link,
 	Outlet,
 	useLocation,
-	useParams,
 	useSearchParams,
 	type ClientActionFunction,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
 import type { MetaFunction } from "react-router"
@@ -128,6 +126,7 @@ const keywords = [
 	"tags",
 	"status",
 	"score",
+	"format",
 	"to_watch",
 	"asc",
 	"desc",
@@ -505,10 +504,8 @@ function inRange(b: number | string | null | undefined) {
 	}
 }
 
-function AwaitQuery({ loaderData, actionData }: Route.ComponentProps) {
+function AwaitQuery({ loaderData, actionData, params }: Route.ComponentProps) {
 	const data = usePreloadedQuery(...loaderData.NavUserListEntriesQuery)
-
-	const params = useParams()
 
 	if (!data?.MediaListCollection) {
 		throw new Error("No list collection found")
@@ -648,9 +645,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 					<Ariakit.Heading>Oops</Ariakit.Heading>
 					<p>Status: {error.status}</p>
 					<p>{error.data}</p>
-					<Link to={location} className={button()}>
+					<M3.Link to={location} className={button()}>
 						Try again
-					</Link>
+					</M3.Link>
 				</div>
 			</ExtraOutlets>
 		)
@@ -670,9 +667,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-			<Link to={location} className={button()}>
+			<M3.Link to={location} className={button()}>
 				Try again
-			</Link>
+			</M3.Link>
 		</ExtraOutlets>
 	)
 }

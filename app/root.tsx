@@ -1,6 +1,5 @@
 import {
 	isRouteErrorResponse,
-	Link,
 	Links,
 	Meta,
 	Outlet,
@@ -14,7 +13,7 @@ import {
 import type { Route } from "./+types/root"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { useEffect, type ReactNode } from "react"
+import { createContext, useContext, useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Ariakit } from "./lib/ariakit"
 
@@ -22,8 +21,15 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
+import { M3 } from "~/lib/components"
 import RelayEnvironment from "./lib/Network/components"
 import { button } from "./lib/button"
+import {
+	assertIsLocale,
+	baseLocale,
+	defineGetLocale,
+	isLocale,
+} from "./paraglide/runtime"
 
 export const links: LinksFunction = () => {
 	return [
@@ -52,7 +58,13 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return {
 		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
+		locale: isLocale(args.params.locale) ? args.params.locale : baseLocale,
 	}
+}
+
+const LocaleContextSSR = createContext(baseLocale)
+if (import.meta.env.SSR) {
+	defineGetLocale(() => assertIsLocale(useContext(LocaleContextSSR)))
 }
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -92,6 +104,12 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
  report-uri https://csp.example.com;`}
 				/> */}
 				<Meta />
+				{import.meta.env.DEV && (
+					<script
+						crossOrigin="anonymous"
+						src="//unpkg.com/react-scan/dist/auto.global.js"
+					/>
+				)}
 				<Links />
 			</head>
 			<body>
@@ -120,12 +138,12 @@ function useOnFocus(callback: () => void) {
 	}, [callback])
 }
 
-export default function App(_: Route.ComponentProps): ReactNode {
+export default function App(props: Route.ComponentProps): ReactNode {
 	return (
-		<>
+		<LocaleContextSSR.Provider value={props.loaderData.locale}>
 			{import.meta.env.PROD && <RevalidateOnFocus />}
 			<Outlet />
-		</>
+		</LocaleContextSSR.Provider>
 	)
 }
 
@@ -139,9 +157,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
-				<Link to={location} className={button()}>
+				<M3.Link to={location} className={button()}>
 					Try again
-				</Link>
+				</M3.Link>
 			</div>
 		)
 	}
@@ -160,13 +178,12 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-			<Link to={location} className={button()}>
+			<M3.Link to={location} className={button()}>
 				Try again
-			</Link>
+			</M3.Link>
 		</Card>
 	)
 }
-
 
 function RevalidateOnFocus() {
 	const revalidator = useRevalidator()

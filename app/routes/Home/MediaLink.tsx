@@ -7,16 +7,16 @@ import {
 	type ComponentProps,
 	type ReactNode,
 } from "react"
-import { ListItemContent, ListItemImg } from "~/components"
-import { route_media } from "~/lib/route"
-
 import ReactRelay from "react-relay"
+import { ListItemContent, ListItemImg } from "~/components"
 import type { MediaLink_media$key } from "~/gql/MediaLink_media.graphql"
 import { card } from "~/lib/card"
+import { M3 } from "~/lib/components"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { createList, ListContext } from "~/lib/list"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
+import { route_media } from "~/lib/route"
 const { graphql } = ReactRelay
 
 export const MediaLinkContext = createContext<
@@ -84,13 +84,13 @@ export function MediaLink({
 
 	return (
 		data && (
-			<Link to={route_media({ id: mediaId })} {...props}>
+			<M3.Link to={route_media({ id: mediaId })} {...props}>
 				<Suspense fallback="Loading...">
 					<Await errorElement={"Error..."} resolve={data}>
 						{(media) => <Media media={media} />}
 					</Await>
 				</Suspense>
-			</Link>
+			</M3.Link>
 		)
 	)
 }

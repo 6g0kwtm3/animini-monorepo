@@ -1,6 +1,6 @@
 import ReactRelay from "react-relay"
 
-import { Link, useLoaderData } from "react-router"
+import { useLoaderData } from "react-router"
 import {
 	ListItemContent,
 	ListItemContentSubtitle,
@@ -12,10 +12,11 @@ import {
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
-import { getLocale as sourceLanguageTag } from "~/paraglide/runtime"
+import { getLocale as useLocale } from "~/paraglide/runtime"
 
 import { use, type ReactNode } from "react"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
+import { M3 } from "~/lib/components"
 import { ListContext } from "~/lib/list"
 import { MediaTitle } from "~/lib/MediaTitle"
 import { useFragment } from "~/lib/Network"
@@ -46,11 +47,12 @@ export function RelatedMediaAddition(props: {
 	const data = useLoaderData() as Route.ComponentProps["loaderData"]
 
 	const list = use(ListContext)
+	const locale = useLocale()
 
 	return (
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
-				<Link
+				<M3.Link
 					to={route_media({
 						id: notification.media.id,
 					})}
@@ -73,17 +75,17 @@ export function RelatedMediaAddition(props: {
 					</ListItemContent>
 					{notification.createdAt && (
 						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - Date.now() / 1000)}
+							{format(notification.createdAt - Date.now() / 1000, locale)}
 						</ListItemTrailingSupportingText>
 					)}
-				</Link>
+				</M3.Link>
 			</li>
 		)
 	)
 }
 
-function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(sourceLanguageTag(), {})
+function format(seconds: number, locale: string) {
+	const rtf = new Intl.RelativeTimeFormat(locale, {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")

@@ -1,9 +1,8 @@
 import ReactRelay from "react-relay"
 import {
-	Link,
 	Outlet,
 	useLocation,
-	type ShouldRevalidateFunction,
+	type ShouldRevalidateFunction
 } from "react-router"
 
 import type { Route } from "./+types/route"
@@ -43,6 +42,8 @@ import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
+
+import { M3 } from "~/lib/components"
 
 const { graphql } = ReactRelay
 
@@ -96,14 +97,14 @@ export default function NavRoute(props: Route.ComponentProps): ReactNode {
 			>
 				<SearchButton
 					render={
-						<Link
+						<M3.Link
 							className={fab({ className: "mx-3 max-sm:hidden" })}
 							to={{
 								search: `?sheet=search`,
 							}}
 						>
 							<MaterialSymbolsTravelExplore />
-						</Link>
+						</M3.Link>
 					}
 				/>
 
