@@ -1,9 +1,10 @@
-import { paraglide } from "@inlang/paraglide-vite"
+import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import { reactRouter } from "@react-router/dev/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
 import { defineConfig, type PluginOption } from "vite"
+import babel from "vite-plugin-babel"
 import Inspect from "vite-plugin-inspect"
 import oxlintPlugin from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
@@ -24,18 +25,18 @@ export default defineConfig({
 
 		// !isStorybook &&
 		// 	!isVitest &&
-		// 	MillionLint.vite({
-		// 		babel: {
-		// 			plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
-		// 		},
-		// 		filter: {
-		// 			include: [
-		// 				"app/routes/**/*.tsx",
-		// 				"app/components/**/*.tsx",
-		// 				"app/lib/**/*.tsx",
-		// 			],
-		// 		},
-		// 	}),
+		babel({
+			filter: /\.[jt]sx?$/,
+			babelConfig: {
+				presets: ["@babel/preset-typescript"],
+				plugins: [["babel-plugin-react-compiler", {}]],
+			},
+			include: [
+				"app/routes/**/*.tsx",
+				"app/components/**/*.tsx",
+				"app/lib/**/*.tsx",
+			],
+		}),
 		isBun()
 			? null
 			: paraglide({
