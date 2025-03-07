@@ -11,11 +11,11 @@ const card = tv({
 	variants: {
 		variant: {
 			outlined:
-				"border border-outline-variant bg-surface disabled:border-outline/[.12]",
+				"border-outline-variant bg-surface disabled:border-outline/[.12] border",
 			filled:
 				"bg-surface-container-highest disabled:bg-surface-container-highest/[.38]",
 			elevated:
-				"bg-surface-container-low shadow disabled:bg-surface-container-low/[.38]",
+				"bg-surface-container-low disabled:bg-surface-container-low/[.38] shadow-sm",
 		},
 		interactive: {
 			true: "hover:state-hover focused:state-focus pressed:state-pressed",

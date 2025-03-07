@@ -1,12 +1,11 @@
 import containerQueries from "@tailwindcss/container-queries"
 import typography from "@tailwindcss/typography"
-import { withTV } from "tailwind-variants/transformer"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import * as Predicate from "./app/lib/Predicate"
 import colors from "./colors.json"
 
-export default withTV({
+export const config = {
 	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
@@ -146,7 +145,7 @@ export default withTV({
 		},
 		colors: Object.assign(
 			Object.fromEntries(
-				Object.entries(colors.dark).map(([key, value]) => {
+				Object.entries(colors.dark).map(([key]) => {
 					return [`${key}`, `rgb(var(--${key}) / <alpha-value>)`]
 				})
 			),
@@ -198,88 +197,66 @@ export default withTV({
 		containerQueries,
 		typography,
 
-		plugin(
-			({ addUtilities, matchComponents, addBase, matchUtilities, theme }) => {
-				addBase({
-					":root": Object.assign({
-						fontSize: "16px",
-					}),
-					"::backdrop": Object.assign({
-						fontSize: "16px",
-					}),
-				})
+		plugin(({ addBase, matchUtilities, theme }) => {
+			addBase({
+				":root": Object.assign({
+					fontSize: "16px",
+				}),
+				"::backdrop": Object.assign({
+					fontSize: "16px",
+				}),
+			})
 
-				matchUtilities(
-					{
-						state: (opacity: string | number) => {
-							const stateColor = `color-mix(in oklab, currentColor, transparent ${
-								100 -
-								Number(
-									Predicate.isString(opacity)
-										? opacity.replace("%", "")
-										: Number(opacity) * 100
-								)
-							}%)`
+			matchUtilities(
+				{
+					state: (opacity: string | number) => {
+						const stateColor = `color-mix(in oklab, currentColor, transparent ${
+							100 -
+							Number(
+								Predicate.isString(opacity)
+									? opacity.replace("%", "")
+									: Number(opacity) * 100
+							)
+						}%)`
 
-							return {
-								backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
-							}
-						},
+						return {
+							backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
+						}
 					},
-					{
-						values: theme("state") || {},
-						type: ["percentage"],
-					}
-				)
+				},
+				{
+					values: theme("state") || {},
+					type: ["percentage"],
+				}
+			)
 
-				// matchUtilities(
-				// 	{
-				// 		state: (color) => ({
-				// 			...withAlphaVariable({
-				// 				color: "currentColor",
-				// 				property: "--mdi-state-color",
-				// 				variable: "--mdi-state-opacity"
-				// 			}),
-				// 			"--mdi-state-opacity": undefined,
-				// 			backgroundImage
-				// 		})
-				// 	},
-				// 	{
-				// 		values: flattenColorPalette(theme("colors")),
-				// 		type: ["color", "any"]
-				// 	}
-				// )
-			}
-		),
-		plugin(({ addUtilities }) => {}),
-		plugin(({ matchVariant }) => {}),
-		plugin(({ addComponents, matchComponents, addVariant, matchVariant }) => {
-			matchComponents({}, {})
-
+			// matchUtilities(
+			// 	{
+			// 		state: (color) => ({
+			// 			...withAlphaVariable({
+			// 				color: "currentColor",
+			// 				property: "--mdi-state-color",
+			// 				variable: "--mdi-state-opacity"
+			// 			}),
+			// 			"--mdi-state-opacity": undefined,
+			// 			backgroundImage
+			// 		})
+			// 	},
+			// 	{
+			// 		values: flattenColorPalette(theme("colors")),
+			// 		type: ["color", "any"]
+			// 	}
+			// )
+		}),
+		plugin(({ addVariant }) => {
 			addVariant("error", [
 				"&:has(:is(:user-invalid,:-moz-ui-invalid,:invalid))",
 				"&:has([aria-invalid='true'])",
 			])
-			addVariant("group-error", [
-				":merge(.group):has(:is(:user-invalid,:-moz-ui-invalid,:invalid)) &",
-				":merge(.group):has([aria-invalid='true']) &",
-			])
 			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
-			addVariant("has-focused", [
-				"&:has([data-focus-visible])",
-				"&:has(:focus-visible)",
-			])
 			addVariant("pressed", ["&[data-active]", "&:active"])
 			addVariant("popover-open", ["&[data-open]", "&:popover-open"])
-			addVariant("starting-style", ["@starting-style{&}"])
-			addVariant("group-focused", [
-				":merge(.group)[data-focus-visible] &",
-				":merge(.group):focus-visible &",
-			])
-			addVariant("group-pressed", [
-				":merge(.group)[data-active] &",
-				":merge(.group):active &",
-			])
+
 			// addVariant("dragged", [])
 		}),
 		plugin(({ addVariant }) => {
@@ -298,7 +275,7 @@ export default withTV({
 				{
 					values: Object.assign(
 						Object.fromEntries(
-							Object.entries(theme("spacing") || {}).filter(
+							Object.entries<string>(theme("spacing") || {}).filter(
 								([key]) => 5 <= Number(key) && Number(key) <= 12
 							)
 						),
@@ -355,10 +332,9 @@ export default withTV({
 				".i-inline": {
 					"vertical-align": "-11.5%",
 				},
-				".allow-discrete": {
-					"transition-behavior": "allow-discrete",
-				},
 			})
 		}),
 	],
-} satisfies Config)
+} as const satisfies Config
+
+export default config

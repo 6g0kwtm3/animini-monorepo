@@ -138,7 +138,7 @@ export default function Page(): ReactNode {
 				<div>
 					<Card
 						variant="filled"
-						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
+						className="force:rounded-[2.75rem] grid flex-1 gap-4"
 					>
 						<MediaCover
 							media={data.Media}
@@ -167,7 +167,7 @@ export default function Page(): ReactNode {
 						<div className="overflow-hidden rounded-xl">
 							<Card variant="elevated">
 								<div className="sm:p-12">
-									<Ariakit.Heading className="text-balance text-display-lg">
+									<Ariakit.Heading className="text-display-lg text-balance">
 										{data.Media.title.userPreferred}
 									</Ariakit.Heading>
 									<Menu>
@@ -265,7 +265,7 @@ function Edit() {
 	const root = useRouteLoaderData<typeof rootLoader>("root")
 
 	return (
-		<motion.div layoutId="edit" className="fixed bottom-24 end-4 sm:bottom-4">
+		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger

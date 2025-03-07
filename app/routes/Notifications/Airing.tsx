@@ -61,7 +61,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 						<ListItemContentTitle>
 							{(notification.createdAt ?? 0) >
 								(data?.Viewer?.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
+								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 							)}{" "}
 							{m.episode_aired({
 								episode: notification.episode,

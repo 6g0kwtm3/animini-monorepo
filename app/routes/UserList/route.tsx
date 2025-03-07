@@ -231,7 +231,7 @@ export default function Filters(): ReactNode {
 					<Card variant="elevated" className="max-sm:contents">
 						<div className="flex flex-col gap-4">
 							<M3.Tabs selectedId={String(params.selected)}>
-								<div className="sticky top-0 z-50 -mx-4 grid bg-surface sm:-mt-4 sm:bg-surface-container-low">
+								<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 -mx-4 grid sm:-mt-4">
 									<AppBar
 										variant="large"
 										className="sm:bg-surface-container-low"
@@ -375,7 +375,7 @@ function Filter() {
 				<M3.Tabs selectedId={sheet}>
 					<TabsList
 						grow
-						className="sticky top-0 z-10 rounded-t-xl bg-surface-container-low"
+						className="bg-surface-container-low sticky top-0 z-10 rounded-t-xl"
 					>
 						<TabsListItem id="filter" render={<Link to={`?${filterParams}`} />}>
 							Filter
@@ -605,13 +605,13 @@ export function ErrorBoundary(): ReactNode {
 			<LayoutPane>
 				<Card
 					variant="elevated"
-					className="m-4 force:bg-error-container force:text-on-error-container"
+					className="force:bg-error-container force:text-on-error-container m-4"
 				>
-					<Ariakit.Heading className="text-balance text-headline-md">
+					<Ariakit.Heading className="text-headline-md text-balance">
 						Uh oh ...
 					</Ariakit.Heading>
 					<p className="text-headline-sm">Something went wrong.</p>
-					<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 				</Card>
 			</LayoutPane>
 		</LayoutBody>
