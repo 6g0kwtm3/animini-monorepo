@@ -1,10 +1,10 @@
 import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
 import { Await, Link, useFetcher, useRouteLoaderData } from "react-router"
 
+import { ErrorBoundary } from "@sentry/react"
+import marked from "marked"
 import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
 import { Suspense, useEffect, useMemo } from "react"
-
-import marked from "marked"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -39,7 +39,7 @@ import {
 import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
 import { Loading, Skeleton } from "~/components/Skeleton"
-import type { clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../UserInfo/route"
 
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
@@ -68,7 +68,7 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden text-start force:p-0`}
+									className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark force:p-0 inline-flex overflow-hidden text-start`}
 									style={theme}
 									render={<span />}
 								>
@@ -217,7 +217,7 @@ export default function Index(): ReactNode {
 										<Card
 											variant="filled"
 											render={<article />}
-											className="grid max-w-7xl gap-4 force:rounded-[1.75rem]"
+											className="force:rounded-[1.75rem] grid max-w-7xl gap-4"
 										>
 											<List
 												lines="two"
@@ -249,7 +249,9 @@ export default function Index(): ReactNode {
 													{/* <ListItemTrailingSupportingText></ListItemTrailingSupportingText> */}
 												</ListItem>
 											</List>
-											{activity.text && <Markdown>{activity.text}</Markdown>}
+											<ErrorBoundary fallback={<>Failed to parse markdown</>}>
+												{activity.text && <Markdown>{activity.text}</Markdown>}
+											</ErrorBoundary>
 										</Card>
 									</li>
 								)
