@@ -1,0 +1,8 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "m3-react",
+	"private": true,
+	"dependencies": {
+		"m3-core": "workspace:*"
+	}
+}

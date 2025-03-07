@@ -1,0 +1,5 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "m3-core",
+	"private": true
+}
