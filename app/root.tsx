@@ -1,4 +1,7 @@
-import * as Sentry from "@sentry/react"
+import {
+	captureException,
+	startSpan
+} from "@sentry/react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -121,7 +124,7 @@ const clientLogger: Route.unstable_ClientMiddlewareFunction = (
 	{ request },
 	next
 ) => {
-	return Sentry.startSpan({ name: `Navigated to ${request.url}` }, () => {
+	return startSpan({ name: `Navigated to ${request.url}` }, () => {
 		// Run the remaining middlewares and all route loaders
 		return next()
 	})
@@ -146,7 +149,7 @@ export function ErrorBoundary(): ReactNode {
 			</div>
 		)
 	}
-	Sentry.captureException(error)
+	captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

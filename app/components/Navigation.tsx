@@ -1,17 +1,16 @@
-import type { NavLink, NavLinkProps } from "react-router"
+import type { NavLink } from "react-router"
 
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-import { createElement } from "~/lib/createElement"
 import { HashNavLink } from "~/lib/search/HashNavLink"
 
 const tv = createTV({ twMerge: false })
 
-const createNavigation = tv(
+export const createNavigation = tv(
 	{
 		slots: {
 			root: "fixed start-0 bottom-0 z-50",
@@ -49,7 +48,7 @@ const createNavigation = tv(
 					root: "bg-surface top-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 p-3",
 					label: `text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0`,
 					activeIndicator:
-						"inset-0 -z-10 hidden h-full scale-x-100 rounded-xl force:w-full group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
+						"force:w-full inset-0 -z-10 hidden h-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
 					icon: "group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none h-6 w-6 *:first:group-aria-[current='page']:block *:last:group-aria-[current='page']:hidden",
 					largeBadge: "static ms-auto",
 				},
@@ -95,28 +94,29 @@ export const NavigationItem = forwardRef<
 	Partial<ComponentPropsWithoutRef<typeof NavLink>> & {
 		children?: ReactNode
 		className?: string
-		render?: ReactElement<any>
+		icon: ReactNode
+		activeIcon: ReactNode
+		badge?: ReactNode
 	}
 >(function NavigationItem({ children, ...props }, ref) {
 	const { label } = useContext(Context)
 
-	return createElement(HashNavLink, {
-		ref,
-		...props,
-		viewTransition: true,
-		className: label({ className: props.className }),
-		children: ({
-			isActive: _isActive,
-		}: Parameters<
-			Extract<NavLinkProps["children"], (...args: any) => any>
-		>[0]) => (
-			<>
-				<NavigationActiveIndicator />
-				{children}
-				<TouchTarget />
-			</>
-		),
-	})
+	return (
+		<HashNavLink
+			ref={ref}
+			{...props}
+			className={label({ className: props.className })}
+		>
+			<NavigationActiveIndicator />
+			<NavigationItemIcon>
+				{props.icon}
+				{props.activeIcon}
+			</NavigationItemIcon>
+			<div className="max-w-full break-words">{children}</div>
+			{props.badge}
+			<TouchTarget />
+		</HashNavLink>
+	)
 })
 
 const NavigationContext = createContext<{ "--id": string } | undefined>(

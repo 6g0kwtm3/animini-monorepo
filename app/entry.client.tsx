@@ -1,4 +1,9 @@
-import * as Sentry from "@sentry/react"
+import {
+	init,
+	reactErrorHandler,
+	reactRouterV7BrowserTracingIntegration,
+	replayIntegration,
+} from "@sentry/react"
 import { startTransition, StrictMode, useEffect } from "react"
 import { hydrateRoot } from "react-dom/client"
 import {
@@ -9,17 +14,17 @@ import {
 } from "react-router"
 import { HydratedRouter } from "react-router/dom"
 
-Sentry.init({
-	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
+init({
+	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.io/4508677512888400",
 	integrations: [
-		Sentry.reactRouterV7BrowserTracingIntegration({
+		reactRouterV7BrowserTracingIntegration({
 			createRoutesFromChildren: createRoutesFromChildren,
 			matchRoutes: matchRoutes,
 			useEffect: useEffect,
 			useLocation: useLocation,
 			useNavigationType: useNavigationType,
 		}),
-		Sentry.replayIntegration(),
+		replayIntegration(),
 	],
 
 	tracesSampleRate: 1.0, //  Capture 100% of the transactions
@@ -41,13 +46,13 @@ startTransition(() => {
 		</StrictMode>,
 		{
 			// Callback called when an error is thrown and not caught by an ErrorBoundary.
-			onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+			onUncaughtError: reactErrorHandler((error, errorInfo) => {
 				console.warn("Uncaught error", error, errorInfo.componentStack)
 			}),
 			// Callback called when React catches an error in an ErrorBoundary.
-			onCaughtError: Sentry.reactErrorHandler(),
+			onCaughtError: reactErrorHandler(),
 			// Callback called when React automatically recovers from errors.
-			onRecoverableError: Sentry.reactErrorHandler(),
+			onRecoverableError: reactErrorHandler(),
 		}
 	)
 })

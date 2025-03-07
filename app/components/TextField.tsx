@@ -1,6 +1,7 @@
 import * as Ariakit from "@ariakit/react"
 import {
 	forwardRef,
+	use,
 	type ComponentProps,
 	type ComponentPropsWithoutRef,
 	type JSX,
@@ -8,6 +9,7 @@ import {
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
+import { Label, LabelId } from "./Label"
 
 export function TextFieldOutlined({
 	children,
@@ -15,14 +17,14 @@ export function TextFieldOutlined({
 	...props
 }: ComponentPropsWithoutRef<"label">): ReactNode {
 	return (
-		<label
+		<Label
 			{...props}
 			className={classes("group mt-[.35rem] block", props.className)}
 		>
 			<div className="relative flex items-center justify-between">
 				{children}
 			</div>
-		</label>
+		</Label>
 	)
 }
 
@@ -43,12 +45,12 @@ export function TextFieldOutlinedSupporting(
 function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 	return (
 		<>
-			<label
+			<Label
 				{...props}
 				className="text-body-sm text-on-surface-variant group-focus-within:text-primary group-hover:text-on-surface group-hover:group-focus-within:text-primary peer-placeholder-shown:text-body-lg peer-placeholder-shown:group-focus-within:text-body-sm peer-disabled:text-on-surface/[.38] peer-disabled:group-hover:text-on-surface/[.38] group-error:text-error group-focus-within:group-error:text-error group-error:group-focus-within:text-error group-error:group-hover:text-on-error-container group-focus-within:group-error:group-hover:text-error peer-disabled:group-error:text-on-surface/[.38] group-error:peer-disabled:text-on-surface/[.38] pointer-events-none absolute -top-2 left-4 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:group-focus-within:-top-2 peer-placeholder-shown:group-focus-within:left-4 group-has-required:after:content-['*']"
 			>
 				{children}
-			</label>
+			</Label>
 
 			<fieldset className="border-outline group-focus-within:border-primary group-hover:border-on-surface group-focus-within:group-hover:border-primary group-has-disabled:border-outline/[.12] group-has-disabled:group-hover:border-outline/[.12] group-error:border-error group-error:group-focus-within:border-error group-error:group-hover:border-on-error-container group-error:group-hover:group-focus-within:border-error pointer-events-none absolute -top-[0.71875rem] right-0 bottom-0 left-0 rounded-xs border px-[0.625rem] transition-all group-focus-within:border-2">
 				<legend
@@ -67,14 +69,16 @@ function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 
 export const TextFieldOutlinedInput = forwardRef<
 	HTMLInputElement,
-	ComponentProps<"input">
+	Omit<ComponentProps<"input">, "id">
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
+	let id = use(LabelId)
 	return (
 		<input
 			ref={ref}
 			type="text"
 			{...props}
+			id={id}
 			placeholder=" "
 			className={input({ className: props.className })}
 		/>
@@ -101,10 +105,10 @@ export function TextFieldOutlinedFactory({
 TextFieldOutlined.Label = OutlinedLabel
 
 export function TextFieldFilled(
-	props: ComponentPropsWithoutRef<"label">
+	props: ComponentPropsWithoutRef<typeof Label>
 ): JSX.Element {
 	return (
-		<label
+		<Label
 			{...props}
 			className={classes(
 				"group bg-surface-container-highest before:border-on-surface-variant after:border-primary hover:state-hover hover:before:border-on-surface focus-within:hover:state-none has-disabled:before:border-on-surface/[.38] hover:has-disabled:before:border-on-surface/[.38] error:before:border-error error:after:border-error error:focus-within:after:scale-x-100 error:hover:before:border-on-error-container relative flex items-center overflow-hidden rounded-t-xs before:absolute before:bottom-0 before:left-0 before:w-full before:border-b after:absolute after:bottom-0 after:left-0 after:w-full after:scale-x-0 after:border-b-2 after:transition-transform focus-within:after:scale-x-100",
@@ -129,12 +133,14 @@ export function TextFieldFilled(
 }
 
 export function TextFieldFilledInput(
-	props: ComponentProps<"input">
+	props: Omit<ComponentProps<"input">, "id">
 ): ReactNode {
+	let id = use(LabelId)
 	return (
 		<input
 			{...props}
-			placeholder=" "
+			id={id}
+			placeholder={props.placeholder || " "}
 			className={classes(
 				"peer text-body-lg text-on-surface caret-primary disabled:text-on-surface/[.38] group-error:caret-error flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pt-6 pb-2 placeholder-transparent outline-hidden focus:ring-0",
 				props.className
@@ -147,7 +153,7 @@ export function TextFieldFilledLabel(
 	props: ComponentProps<"label">
 ): ReactNode {
 	return (
-		<label
+		<Label
 			{...props}
 			className={classes(
 				"group-hover:on-surface text-body-sm text-on-surface-variant text-on-surface/[.38] group-focus-within:text-primary peer-placeholder-shown:text-body-lg peer-placeholder-shown:group-focus-within:text-body-sm group-error:text-error group-hover:group-error:text-on-error-container group-focus-within:group-hover:group-error:text-error pointer-events-none absolute transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:group-has-disabled:top-4",
@@ -159,7 +165,7 @@ export function TextFieldFilledLabel(
 			)}
 		>
 			{props.children}
-		</label>
+		</Label>
 	)
 }
 

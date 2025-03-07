@@ -15,7 +15,6 @@ import type { clientLoader as rootLoader } from "~/root"
 import {
 	Navigation,
 	NavigationItem,
-	NavigationItemIcon,
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
@@ -118,21 +117,21 @@ export default function NavRoute(): ReactNode {
 					lg: "drawer",
 				}}
 			>
-				<NavigationItem to="/">
-					<NavigationItemIcon>
-						<MaterialSymbolsFeedOutline />
-						<MaterialSymbolsFeed />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Feed</div>
+				<NavigationItem
+					to="/"
+					icon={<MaterialSymbolsFeedOutline />}
+					activeIcon={<MaterialSymbolsFeed />}
+				>
+					Feed
 				</NavigationItem>
 				{rootData?.Viewer ? (
 					<>
-						<NavigationItem to={route_user({ userName: rootData.Viewer.name })}>
-							<NavigationItemIcon>
-								<MaterialSymbolsPersonOutline />
-								<MaterialSymbolsPerson />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Profile</div>
+						<NavigationItem
+							to={route_user({ userName: rootData.Viewer.name })}
+							icon={<MaterialSymbolsPersonOutline />}
+							activeIcon={<MaterialSymbolsPerson />}
+						>
+							Profile
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
@@ -140,12 +139,10 @@ export default function NavRoute(): ReactNode {
 								userName: rootData.Viewer.name,
 								typelist: "animelist",
 							})}
+							icon={<MaterialSymbolsPlayArrowOutline />}
+							activeIcon={<MaterialSymbolsPlayArrow />}
 						>
-							<NavigationItemIcon>
-								<MaterialSymbolsPlayArrowOutline />
-								<MaterialSymbolsPlayArrow />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Anime List</div>
+							Anime List
 						</NavigationItem>
 						<NavigationItem
 							to={route_user_list({
@@ -153,12 +150,10 @@ export default function NavRoute(): ReactNode {
 								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
+							icon={<MaterialSymbolsMenuBookOutline />}
+							activeIcon={<MaterialSymbolsMenuBook />}
 						>
-							<NavigationItemIcon>
-								<MaterialSymbolsMenuBookOutline />
-								<MaterialSymbolsMenuBook />
-							</NavigationItemIcon>
-							<div className="max-w-full break-words">Manga List</div>
+							Manga List
 						</NavigationItem>
 					</>
 				) : (
@@ -166,35 +161,34 @@ export default function NavRoute(): ReactNode {
 						to={route_login({
 							redirect: pathname,
 						})}
+						icon={<MaterialSymbolsPersonOutline />}
+						activeIcon={<MaterialSymbolsPerson />}
 					>
-						<NavigationItemIcon>
-							<MaterialSymbolsPersonOutline />
-							<MaterialSymbolsPerson />
-						</NavigationItemIcon>
-						<div className="max-w-full break-words">Login</div>
+						Login
 					</NavigationItem>
 				)}
-				<NavigationItem to="/notifications">
-					<NavigationItemIcon>
-						<MaterialSymbolsNotificationsOutline />
-						<MaterialSymbolsNotifications />
-					</NavigationItemIcon>
-					<div className="max-w-full break-words">Notifications</div>
-					<Suspense>
-						<Await resolve={data.trending} errorElement={"Error"}>
-							{(data) =>
-								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-									<NavigationItemLargeBadge>
-										{data?.Viewer?.unreadNotificationCount}
-									</NavigationItemLargeBadge>
-								)
-							}
-						</Await>
-					</Suspense>
+				<NavigationItem
+					to="/notifications"
+					icon={<MaterialSymbolsNotificationsOutline />}
+					activeIcon={<MaterialSymbolsNotifications />}
+					badge={
+						<Suspense>
+							<Await resolve={data.trending} errorElement={null}>
+								{(data) =>
+									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+										<NavigationItemLargeBadge>
+											{data?.Viewer?.unreadNotificationCount}
+										</NavigationItemLargeBadge>
+									)
+								}
+							</Await>
+						</Suspense>
+					}
+				>
+					Notifications
 				</NavigationItem>
 				<SearchButton />
 			</Navigation>
-
 			<Outlet />
 			<Search />
 		</Layout>
