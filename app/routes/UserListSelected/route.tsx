@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/react"
 import {
 	Await,
 	Outlet,
@@ -51,6 +50,7 @@ import type {
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
+import { captureException } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
@@ -514,7 +514,7 @@ export function ErrorBoundary(): ReactNode {
 			</div>
 		)
 	}
-	Sentry.captureException(error)
+	captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

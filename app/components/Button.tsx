@@ -1,6 +1,5 @@
 import type {
 	ComponentPropsWithoutRef,
-	FC,
 	PropsWithChildren,
 	ReactNode,
 } from "react"

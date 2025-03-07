@@ -20,7 +20,7 @@ import {
 } from "~/components/Tooltip"
 
 import { List } from "~/components/List"
-import { NavigationItem, NavigationItemIcon } from "~/components/Navigation"
+import { NavigationItem } from "~/components/Navigation"
 import {
 	SearchView,
 	SearchViewBody,
@@ -142,15 +142,12 @@ export function SearchButton(): ReactNode {
 						to={{
 							search: `?q=`,
 						}}
+						icon={<MaterialSymbolsTravelExplore />}
+						activeIcon={<MaterialSymbolsTravelExplore />}
 					/>
 				}
 			>
-				<NavigationItemIcon>
-					<MaterialSymbolsTravelExplore />
-					<MaterialSymbolsTravelExplore />
-				</NavigationItemIcon>
-
-				<div className="max-w-full break-words">Explore</div>
+				Explore
 			</TooltipPlainTrigger>
 			<TooltipPlainContainer>
 				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>

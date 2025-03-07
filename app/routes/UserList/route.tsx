@@ -4,7 +4,6 @@ import {
 	GroupLabel,
 	RadioProvider,
 } from "@ariakit/react"
-import * as Sentry from "@sentry/react"
 import {
 	Form,
 	isRouteErrorResponse,
@@ -50,8 +49,10 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
+import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import ReactRelay from "react-relay"
+import { Label } from "~/components/Label"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { client_operation } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
@@ -417,7 +418,7 @@ function SheetSort() {
 							: MANGA_SORT_OPTIONS
 					).map(([value, label]) => {
 						return (
-							<ListItem render={<label />} key={value}>
+							<ListItem render={<Label />} key={value}>
 								<Radio name="sort" value={value} />
 								<ListItemContent>
 									<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -452,7 +453,7 @@ function SheetFilter() {
 								: MANGA_STATUS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<label />} key={value}>
+								<ListItem render={<Label />} key={value}>
 									<Checkbox name="status" value={value} />
 									<div className="col-span-2 col-start-2">
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -475,7 +476,7 @@ function SheetFilter() {
 								: MANGA_FORMAT_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<label />} key={value}>
+								<ListItem render={<Label />} key={value}>
 									<Checkbox name="format" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -498,7 +499,7 @@ function SheetFilter() {
 								: MANGA_PROGRESS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<label />} key={value}>
+								<ListItem render={<Label />} key={value}>
 									<Checkbox name="progress" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -592,7 +593,7 @@ export function ErrorBoundary(): ReactNode {
 			</LayoutBody>
 		)
 	}
-	Sentry.captureException(error)
+	captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

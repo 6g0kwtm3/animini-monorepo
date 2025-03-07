@@ -1,17 +1,21 @@
-import type { NavLink, NavLinkProps } from "react-router"
+import type { NavLink } from "react-router"
 
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type {
+	ComponentProps,
+	ComponentPropsWithoutRef,
+	CSSProperties,
+	ReactNode,
+} from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-import { createElement } from "~/lib/createElement"
 import { HashNavLink } from "~/lib/search/HashNavLink"
 
 const tv = createTV({ twMerge: false })
 
-const createNavigation = tv(
+export const createNavigation = tv(
 	{
 		slots: {
 			root: "fixed start-0 bottom-0 z-50",
@@ -92,31 +96,33 @@ const Context = createContext(createNavigation())
 
 export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
-	Partial<ComponentPropsWithoutRef<typeof NavLink>> & {
+	ComponentProps<typeof NavLink> & {
 		children?: ReactNode
+		style?: CSSProperties
 		className?: string
-		render?: ReactElement<any>
+		icon: ReactNode
+		activeIcon: ReactNode
+		badge?: ReactNode
 	}
 >(function NavigationItem({ children, ...props }, ref) {
 	const { label } = useContext(Context)
 
-	return createElement(HashNavLink, {
-		ref,
-		...props,
-		viewTransition: true,
-		className: label({ className: props.className }),
-		children: ({
-			isActive: _isActive,
-		}: Parameters<
-			Extract<NavLinkProps["children"], (...args: any) => any>
-		>[0]) => (
-			<>
-				<NavigationActiveIndicator />
-				{children}
-				<TouchTarget />
-			</>
-		),
-	})
+	return (
+		<HashNavLink
+			ref={ref}
+			{...props}
+			className={label({ className: props.className })}
+		>
+			<NavigationActiveIndicator />
+			<NavigationItemIcon>
+				{props.icon}
+				{props.activeIcon}
+			</NavigationItemIcon>
+			<div className="max-w-full break-words">{children}</div>
+			{props.badge}
+			<TouchTarget />
+		</HashNavLink>
+	)
 })
 
 const NavigationContext = createContext<{ "--id": string } | undefined>(

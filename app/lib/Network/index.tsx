@@ -14,7 +14,7 @@ import { JsonToToken } from "../viewer"
 
 import { GraphQLResponse } from "./schema"
 
-import * as Sentry from "@sentry/react"
+import { addBreadcrumb } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
 import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
@@ -29,7 +29,7 @@ const fetchQuery_: FetchFunction = async function (
 	operation,
 	variables,
 	cacheConfig,
-	uploadables
+	_uploadables
 ) {
 	const cookies = cookie.parse(document.cookie)
 
@@ -85,7 +85,7 @@ const environment = new Environment({
 	network,
 	store,
 	requiredFieldLogger(event) {
-		Sentry.addBreadcrumb({
+		addBreadcrumb({
 			level: "info",
 			category: "relay",
 			data: event,

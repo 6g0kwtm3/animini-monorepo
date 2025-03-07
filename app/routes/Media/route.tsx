@@ -180,12 +180,12 @@ export default function Page(): ReactNode {
 										</MenuTrigger>
 
 										<MenuList className="top-auto">
-											<MenuListItem render={<a href="" />}>
+											{/* <MenuListItem render={<a href="" />}>
 												<MenuItemLeadingIcon>
 													<MaterialSymbolsVisibility />
 												</MenuItemLeadingIcon>
 												Item 1
-											</MenuListItem>
+											</MenuListItem> */}
 
 											<MenuListItem>
 												<MenuItemLeadingIcon>

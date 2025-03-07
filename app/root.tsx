@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react"
+import { captureException, startSpan } from "@sentry/react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -22,9 +22,16 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
+import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import { Route } from "./+types/root"
 import environment, { RelayEnvironmentProvider } from "./lib/Network"
+
+let RelayEnvironment = RelayEnvironmentProvider as (props: {
+	children: ReactNode
+	environment: IEnvironment
+}) => ReactNode
+
 export const links: LinksFunction = () => {
 	return [
 		{
@@ -100,11 +107,11 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<Links />
 			</head>
 			<body>
-				<RelayEnvironmentProvider environment={environment}>
+				<RelayEnvironment environment={environment}>
 					<SnackbarQueue>
 						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
 					</SnackbarQueue>
-				</RelayEnvironmentProvider>
+				</RelayEnvironment>
 
 				<ScrollRestoration
 				//  nonce={nonce}
@@ -121,7 +128,7 @@ const clientLogger: Route.unstable_ClientMiddlewareFunction = (
 	{ request },
 	next
 ) => {
-	return Sentry.startSpan({ name: `Navigated to ${request.url}` }, () => {
+	return startSpan({ name: `Navigated to ${request.url}` }, () => {
 		// Run the remaining middlewares and all route loaders
 		return next()
 	})
@@ -146,7 +153,7 @@ export function ErrorBoundary(): ReactNode {
 			</div>
 		)
 	}
-	Sentry.captureException(error)
+	captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
