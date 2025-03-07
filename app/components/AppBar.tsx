@@ -10,8 +10,8 @@ const tv = createTV({ twMerge: false })
 const appBar = tv(
 	{
 		slots: {
-			root: "flex gap-2 bg-surface",
-			title: "flex h-10 items-center text-title-lg text-on-surface first:ms-2",
+			root: "bg-surface flex gap-2",
+			title: "text-title-lg text-on-surface flex h-10 items-center first:ms-2",
 		},
 		variants: {
 			elevate: {
@@ -29,13 +29,13 @@ const appBar = tv(
 					root: "",
 				},
 				small: {
-					root: "h-16 px-2 pb-3 pt-3",
+					root: "h-16 px-2 pt-3 pb-3",
 				},
 				medium: {
 					root: "",
 				},
 				large: {
-					root: "h-28 animate-app-bar-large px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]",
+					root: "animate-app-bar-large h-28 px-2 pt-3 pb-6 [animation-range:0_7rem] [animation-timeline:scroll()]",
 				},
 			},
 		},

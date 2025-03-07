@@ -10,7 +10,7 @@ export const createTextField = tv({
 		variant: {
 			outlined: {
 				input:
-					"peer flex min-w-0 flex-1 resize-none items-center justify-between bg-transparent p-4 text-body-lg text-on-surface placeholder-transparent caret-primary placeholder:transition-all focus:placeholder-on-surface-variant disabled:text-on-surface/[.38] group-has-[.suffix]:text-right group-has-[.suffix]:[appearance:textfield] group-error:caret-error [&::-webkit-inner-spin-button]:group-has-[.suffix]:hidden [&_option]:bg-surface-container [&_option]:text-on-surface",
+					"peer text-body-lg text-on-surface caret-primary focus:placeholder-on-surface-variant disabled:text-on-surface/[.38] group-error:caret-error [&_option]:bg-surface-container [&_option]:text-on-surface flex min-w-0 flex-1 resize-none items-center justify-between bg-transparent p-4 placeholder-transparent group-has-[.suffix]:[appearance:textfield] group-has-[.suffix]:text-right placeholder:transition-all [&::-webkit-inner-spin-button]:group-has-[.suffix]:hidden",
 				root: "group relative mt-[10px] flex items-center",
 			},
 		},

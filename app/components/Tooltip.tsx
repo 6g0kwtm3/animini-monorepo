@@ -24,7 +24,7 @@ const tooltip = tv({
 	slots: { container: "" },
 	variants: {
 		variant: {
-			rich: { container: "rounded-md bg-surface-container px-4 pb-2 pt-3" },
+			rich: { container: "bg-surface-container rounded-md px-4 pt-3 pb-2" },
 		},
 	},
 })
@@ -44,7 +44,7 @@ export function TooltipRichSubhead(
 	return (
 		<Ariakit.HovercardHeading
 			{...props}
-			className="mb-2 text-title-sm text-on-surface-variant"
+			className="text-title-sm text-on-surface-variant mb-2"
 		/>
 	)
 }
@@ -96,7 +96,7 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 					gutter={4}
 					alwaysVisible
 					{...props}
-					className="flex min-h-6 items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface"
+					className="bg-inverse-surface text-body-sm text-inverse-on-surface flex min-h-6 items-center rounded-xs px-2"
 					render={
 						<motion.div
 							initial={{ opacity: 0, y }}
@@ -111,6 +111,6 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 }
 export function TouchTarget(): ReactNode {
 	return (
-		<span className="absolute left-1/2 top-1/2 h-[max(100%,3rem)] w-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2" />
+		<span className="absolute top-1/2 left-1/2 h-[max(100%,3rem)] w-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2" />
 	)
 }

@@ -68,7 +68,7 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose inline-flex overflow-hidden text-start contrast-standard theme-light force:p-0 contrast-more:contrast-high dark:theme-dark`}
+									className={`not-prose contrast-standard theme-light force:p-0 contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden text-start`}
 									style={theme}
 									render={<span />}
 								>
@@ -217,7 +217,7 @@ export default function Index(): ReactNode {
 										<Card
 											variant="filled"
 											render={<article />}
-											className="grid max-w-7xl gap-4 force:rounded-[1.75rem]"
+											className="force:rounded-[1.75rem] grid max-w-7xl gap-4"
 										>
 											<List
 												lines="two"
@@ -471,7 +471,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 
 function Markdown(props: { children: string }) {
 	return (
-		<div className="prose max-w-full overflow-x-auto md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md">
+		<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md max-w-full overflow-x-auto">
 			{useMemo(
 				() => parse(markdownHtml(props.children), options),
 				[props.children]

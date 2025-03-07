@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 
 export const btnIcon = tv({
-	base: "relative h-10 w-10 select-none rounded-full bg-center p-2 text-on-surface-variant i hover:state-hover focused:outline focused:state-focus pressed:state-pressed",
+	base: "text-on-surface-variant i hover:state-hover focused:outline focused:state-focus pressed:state-pressed relative h-10 w-10 rounded-full bg-center p-2 select-none",
 	variants: {
 		variant: {
 			standard: "",
@@ -16,29 +16,29 @@ export const btnIcon = tv({
 
 export const createButton = tv({
 	slots: {
-		root: "inline-flex h-10 min-w-[3rem] select-none items-center justify-center whitespace-nowrap rounded-[1.25rem] text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-active:state-pressed data-focus-visible:state-focus focused:outline",
-		icon: "dummy h-[1.125rem] w-[1.125rem] i-[1.125rem]",
+		root: "text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-active:state-pressed data-focus-visible:state-focus focused:outline inline-flex h-10 min-w-[3rem] items-center justify-center rounded-[1.25rem] whitespace-nowrap select-none aria-disabled:cursor-not-allowed",
+		icon: "dummy i-[1.125rem] h-[1.125rem] w-[1.125rem]",
 	},
 	variants: {
 		variant: {
 			outlined: {
-				root: "gap-4 px-6 text-primary ring-1 ring-inset ring-outline aria-disabled:ring-on-surface/[.12] focused:ring-primary",
+				root: "text-primary ring-outline aria-disabled:ring-on-surface/[.12] focused:ring-primary gap-4 px-6 ring-1 ring-inset",
 				icon: "-mx-2",
 			},
 			elevated: {
-				root: "gap-4 bg-surface-container-low px-6 text-primary shadow-sm hover:bg-surface-container aria-disabled:bg-on-surface/[.12] aria-disabled:shadow-none aria-disabled:hover:bg-surface-container-low",
+				root: "bg-surface-container-low text-primary hover:bg-surface-container aria-disabled:bg-on-surface/[.12] aria-disabled:hover:bg-surface-container-low gap-4 px-6 shadow-sm aria-disabled:shadow-none",
 				icon: "-mx-2",
 			},
 			filled: {
-				root: "gap-4 bg-primary px-6 text-on-primary aria-disabled:bg-on-surface/[.12]",
+				root: "bg-primary text-on-primary aria-disabled:bg-on-surface/[.12] gap-4 px-6",
 				icon: "-mx-2",
 			},
 			text: {
-				root: "gap-2 px-4 text-primary [&:not(:has(.dummy))]:px-3",
+				root: "text-primary gap-2 px-4 [&:not(:has(.dummy))]:px-3",
 				icon: "first:-ms-1 last:-me-1",
 			},
 			tonal: {
-				root: "gap-4 bg-secondary-container px-6 text-on-secondary-container hover:shadow-sm aria-disabled:bg-on-surface/[.12] aria-disabled:hover:bg-surface",
+				root: "bg-secondary-container text-on-secondary-container aria-disabled:bg-on-surface/[.12] aria-disabled:hover:bg-surface gap-4 px-6 hover:shadow-sm",
 				icon: "-mx-2",
 			},
 		},
@@ -52,12 +52,12 @@ const { root: button } = createButton()
 export { button }
 
 export const fab = tv({
-	base: "block shadow-sm i hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:cursor-not-allowed data-active:state-pressed data-focus-visible:state-focus",
+	base: "i hover:state-hover focus-visible:state-focus active:state-pressed data-active:state-pressed data-focus-visible:state-focus block shadow-sm aria-disabled:cursor-not-allowed",
 	variants: {
 		size: {
 			default: "h-14 w-14 rounded-[1rem] p-4",
 			small: "h-10 w-10 rounded-md p-2",
-			large: "h-24 w-24 rounded-xl p-[1.875rem] i-9",
+			large: "i-9 h-24 w-24 rounded-xl p-[1.875rem]",
 		},
 		color: {
 			surface: "bg-surface text-on-surface",

@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @config '../tailwind.config.ts';
 
@@ -11,13 +11,13 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
 }
 
 @layer base {
@@ -27,7 +27,7 @@
 
 	@media (prefers-reduced-motion: no-preference) {
 		:focus-visible {
-			@apply outline outline-offset-4 outline-primary transition-[outline-offset] duration-md ease-emphasized-accelerate;
+			@apply outline-primary duration-md ease-emphasized-accelerate outline outline-offset-4 transition-[outline-offset];
 		}
 	}
 }

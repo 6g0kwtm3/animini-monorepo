@@ -6,15 +6,15 @@ export const createList = tv(
 	{
 		slots: {
 			root: "grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4",
-			item: "group col-span-full grid grid-cols-subgrid px-4 hover:state-hover focus-visible:state-focus data-active-item:state-focus data-focus-visible:state-focus",
+			item: "group hover:state-hover focus-visible:state-focus data-active-item:state-focus data-focus-visible:state-focus col-span-full grid grid-cols-subgrid px-4",
 			itemAvatar: "h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full",
 			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",
 			itemContent:
 				"flex h-full flex-col first:col-span-2 last:col-span-2 first:last:col-span-3",
-			itemTitle: "truncate text-body-lg text-on-surface",
+			itemTitle: "text-body-lg text-on-surface truncate",
 			itemSubtitle: "text-body-md text-on-surface-variant",
-			trailingSupportingText: "text-end text-label-sm text-on-surface-variant",
+			trailingSupportingText: "text-label-sm text-on-surface-variant text-end",
 		},
 		variants: {
 			lines: {

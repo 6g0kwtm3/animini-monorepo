@@ -122,7 +122,7 @@ function MediaListItemTitle(props: {
 	return (
 		<>
 			{libraryHasNextEpisode && (
-				<MaterialSymbolsPriorityHigh className="i-inline inline text-primary" />
+				<MaterialSymbolsPriorityHigh className="i-inline text-primary inline" />
 
 				// <span className="i-inline text-primary">video_library</span>
 			)}
