@@ -23,7 +23,7 @@ const MediaCover_media = graphql`
 const tv = createTV({ twMerge: false })
 
 const cover = tv({
-	base: "bg-cover bg-center object-cover object-center [.transitioning_&]:[view-transition-name:media-cover]",
+	base: "bg-cover bg-center object-cover object-center in-[.transitioning]:[view-transition-name:media-cover]",
 })
 export function MediaCover({
 	media,

@@ -3,15 +3,15 @@ import type { ReactNode } from "react"
 // const point3Icons = [
 // 	<EmojiSadIcon
 // 		key="face-frown"
-// 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-error peer-checked:text-error group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100 "
+// 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-error peer-checked:text-error peer-checked:group-hover:opacity-40 hover:peer-checked:group-hover:opacity-100 "
 // 	/>,
 // 	<EmojiHappyIcon
 // 		key="face-smile-1"
-// 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-tertiary peer-checked:text-tertiary group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100 "
+// 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-tertiary peer-checked:text-tertiary peer-checked:group-hover:opacity-40 hover:peer-checked:group-hover:opacity-100 "
 // 	/>,
 // 	<EmojiHappyIcon
 // 		key="face-smile-2"
-// 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-primary peer-checked:text-primary group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100 "
+// 		className="text-gray-300 dark:text-gray-500 h-6 w-6 hover:scale-110 hover:text-primary peer-checked:text-primary peer-checked:group-hover:opacity-40 hover:peer-checked:group-hover:opacity-100 "
 // 	/>
 // ]
 
@@ -19,7 +19,7 @@ import type { ReactNode } from "react"
 // 	<>
 // 		<div
 // 			key={index}
-// 			className="hover:text-yellow-400 peer-checked:text-yellow-400 absolute left-0 top-0 flex text-transparent group-hover:peer-checked:opacity-40 group-hover:peer-checked:hover:opacity-100"
+// 			className="hover:text-yellow-400 peer-checked:text-yellow-400 absolute left-0 top-0 flex text-transparent peer-checked:group-hover:opacity-40 hover:peer-checked:group-hover:opacity-100"
 // 		>
 // 			{Array.from({ length: 5 - index }, (_, i) => (
 // 				<StarIcon className="h-6 w-6 hover:scale-110" key={i} />

@@ -1,17 +1,22 @@
 import { paraglide } from "@inlang/paraglide-vite"
 import { reactRouter } from "@react-router/dev/vite"
 import { sentryVitePlugin } from "@sentry/vite-plugin"
+import tailwindcss from "@tailwindcss/vite"
+import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
-import { defineConfig } from "vite"
+import { defineConfig, type PluginOption } from "vite"
 import oxlintPlugin from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
+import tailwindConfig from "./tailwind.config"
 
 export default defineConfig({
 	plugins: [
 		oxlintPlugin({
 			configFile: "./oxlintrc.json",
 		}),
+		tvTransform(),
+		tailwindcss(),
 
 		paraglide({
 			project: "./project.inlang",
@@ -45,3 +50,18 @@ export default defineConfig({
 		sourcemap: true,
 	},
 })
+
+function tvTransform(): PluginOption {
+	return {
+		enforce: "pre",
+		name: "tv-transformer",
+		transform(src, id) {
+			if (/\.[jt]sx?$/.test(id)) {
+				return {
+					code: tvTransformer(src, Object.keys(tailwindConfig.theme.screens)),
+					map: null,
+				}
+			}
+		},
+	}
+}

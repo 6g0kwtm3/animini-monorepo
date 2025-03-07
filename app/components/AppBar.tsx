@@ -20,7 +20,7 @@ const appBar = tv(
 			},
 			hide: {
 				true: {
-					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-[--app-bar-height] sm:data-[hidden='true']:translate-y-0",
+					root: "transform-gpu transition-transform data-[hidden='true']:-translate-y-(--app-bar-height) sm:data-[hidden='true']:translate-y-0",
 				},
 				false: { root: "" },
 			},

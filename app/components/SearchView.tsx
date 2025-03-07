@@ -11,12 +11,12 @@ const tv = createTV({ twMerge: false })
 const createSearchView = tv(
 	{
 		slots: {
-			root: "fixed mt-0 flex overflow-hidden bg-surface-container-high",
+			root: "bg-surface-container-high fixed mt-0 flex overflow-hidden",
 			input:
-				"w-full bg-transparent p-4 text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4",
+				"text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant w-full bg-transparent p-4 [&::-webkit-search-cancel-button]:ms-4 [&::-webkit-search-cancel-button]:me-0",
 			backdrop:
-				"bg-scrim/40 opacity-0 transition-[opacity] data-[enter]:opacity-100",
-			body: "overflow-auto overscroll-contain text-body-md text-on-surface",
+				"bg-scrim/40 opacity-0 transition-[opacity] data-enter:opacity-100",
+			body: "text-body-md text-on-surface overflow-auto overscroll-contain",
 		},
 		variants: {
 			variant: {
@@ -26,7 +26,7 @@ const createSearchView = tv(
 				},
 				docked: {
 					input: "h-14",
-					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0",
+					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit max-w-[45rem] min-w-[22.5rem] rounded-xl py-0",
 				},
 			},
 		},
@@ -94,18 +94,19 @@ export const SearchViewInput = forwardRef<
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss render={<Icon />}>
+				<Ariakit.DialogDismiss autoFocus={!autoFocus} render={<Icon />}>
 					<MaterialSymbolsArrowBack />
 				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
 					ref={ref}
 					autoSelect={"always"}
+					autoFocus={autoFocus}
 					{...props}
 					className={input({ className: props.className })}
 				/>
 				<Ariakit.ComboboxCancel render={<Icon />} />
 			</div>
-			<div className="border-b border-outline-variant sm:last:hidden" />
+			<div className="border-outline-variant border-b sm:last:hidden" />
 		</>
 	)
 })

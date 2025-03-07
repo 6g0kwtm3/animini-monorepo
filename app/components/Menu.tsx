@@ -46,7 +46,7 @@ const createMenu = tv({
 		button: "",
 		listItem:
 			"elevation-2 group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface hover:state-hover focus:state-focus",
-		list: "allow-discrete top-[anchor(bottom)] z-50 flex max-h-[--popover-avalible-height] min-w-[7rem] max-w-[17.5rem] translate-y-12 flex-col overflow-visible overscroll-contain rounded-xs bg-surface-container py-2 text-label-lg text-on-surface opacity-0 duration-4sm ease-emphasized-accelerate popover-open:transform-none popover-open:opacity-100 popover-open:starting-style:-translate-y-4 popover-open:starting-style:opacity-0 motion-safe:transition-all",
+		list: "transition-discrete top-[anchor(bottom)] z-50 flex max-h-(--popover-avalible-height) min-w-[7rem] max-w-[17.5rem] translate-y-12 flex-col overflow-visible overscroll-contain rounded-xs bg-surface-container py-2 text-label-lg text-on-surface opacity-0 duration-4sm ease-emphasized-accelerate popover-open:transform-none popover-open:opacity-100 popover-open:starting:-translate-y-4 popover-open:starting:opacity-0 motion-safe:transition-all",
 	},
 })
 

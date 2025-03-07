@@ -15,7 +15,7 @@ const card = tv({
 			filled:
 				"bg-surface-container-highest disabled:bg-surface-container-highest/[.38]",
 			elevated:
-				"bg-surface-container-low shadow disabled:bg-surface-container-low/[.38]",
+				"bg-surface-container-low shadow-sm disabled:bg-surface-container-low/[.38]",
 		},
 		interactive: {
 			true: "hover:state-hover focused:state-focus pressed:state-pressed",

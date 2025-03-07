@@ -230,7 +230,7 @@ export default function Index(): ReactNode {
 															alt=""
 															loading="lazy"
 															src={activity.user?.avatar?.large || ""}
-															className="h-10 w-10 rounded-full bg-[image:--bg] bg-cover object-cover"
+															className="h-10 w-10 rounded-full bg-(image:--bg) bg-cover object-cover"
 															style={{
 																"--bg": `url(${activity.user?.avatar?.medium})`,
 															}}
@@ -350,7 +350,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 									<Skeleton full>
 										<img
 											src={fetcher.data?.User?.avatar?.large ?? ""}
-											className="bg-[image:--bg] bg-cover bg-center object-cover object-center"
+											className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
 											style={{
 												"--bg": `url(${fetcher.data?.User?.avatar?.medium ?? ""})`,
 											}}

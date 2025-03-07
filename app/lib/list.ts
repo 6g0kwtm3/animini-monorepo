@@ -6,7 +6,7 @@ export const createList = tv(
 	{
 		slots: {
 			root: "grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4",
-			item: "group col-span-full grid grid-cols-subgrid px-4 hover:state-hover focus-visible:state-focus data-[active-item]:state-focus data-[focus-visible]:state-focus",
+			item: "group col-span-full grid grid-cols-subgrid px-4 hover:state-hover focus-visible:state-focus data-active-item:state-focus data-focus-visible:state-focus",
 			itemAvatar: "h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full",
 			itemImg: "h-14 w-14 overflow-hidden *:h-full *:w-full",
 			itemIcon: "i",

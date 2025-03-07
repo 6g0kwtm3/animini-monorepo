@@ -166,7 +166,7 @@ export function Snackbar({
 				popover="manual"
 				data-timeout={timeout}
 				ref={ref}
-				className="mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs bg-inverse-surface p-4 text-body-md text-inverse-on-surface shadow [&:popover-open]:flex"
+				className="mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs bg-inverse-surface p-4 text-body-md text-inverse-on-surface shadow-sm [&:popover-open]:flex"
 			/>
 		</SnackbarContext.Provider>
 	)
