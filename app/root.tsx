@@ -23,8 +23,8 @@ import theme from "~/../fallback.json"
 import tailwind from "./tailwind.css?url"
 
 import { useIsHydrated } from "~/lib/useIsHydrated"
+import { Route } from "./+types/root"
 import environment, { RelayEnvironmentProvider } from "./lib/Network"
-
 export const links: LinksFunction = () => {
 	return [
 		{
@@ -116,6 +116,18 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 		</html>
 	)
 }
+
+const clientLogger: Route.unstable_ClientMiddlewareFunction = (
+	{ request },
+	next
+) => {
+	return Sentry.startSpan({ name: `Navigated to ${request.url}` }, () => {
+		// Run the remaining middlewares and all route loaders
+		return next()
+	})
+}
+
+export const unstable_clientMiddleware = [clientLogger]
 
 export default function App(): ReactNode {
 	return <Outlet />
