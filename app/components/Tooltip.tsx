@@ -85,7 +85,7 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const mounted = Ariakit.useStoreState(tooltip, "mounted")
 
 	const y = Ariakit.useStoreState(tooltip, (state) => {
-		const dir = state.currentPlacement.split("-")[0]!
+		const dir = state.currentPlacement.split("-")[0]
 		return dir === "top" ? -8 : 8
 	})
 
