@@ -15,7 +15,7 @@ const tv = createTV({
 
 const tabs = tv({
 	slots: {
-		root: "border-b border-surface-container-highest",
+		root: "border-surface-container-highest border-b",
 	},
 	variants: {
 		variant: {
@@ -23,7 +23,7 @@ const tabs = tv({
 			secondary: {},
 		},
 		grow: {
-			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
+			true: { root: "grid [grid-auto-columns:minmax(0,1fr)] grid-flow-col" },
 			false: { root: "flex overflow-x-auto" },
 		},
 	},
@@ -72,7 +72,7 @@ export function TabsListItem({
 	return (
 		<Ariakit.Tab
 			{...props}
-			className="flex justify-center px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed"
+			className="text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed flex justify-center px-4"
 		>
 			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
 				{children}
@@ -80,7 +80,7 @@ export function TabsListItem({
 				{selectedId === props.id && (
 					<motion.div
 						layoutId={layoutId}
-						className="absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem] bg-primary"
+						className="bg-primary absolute right-0 bottom-0 left-0 h-[0.1875rem] rounded-t-[0.1875rem]"
 					/>
 				)}
 			</div>

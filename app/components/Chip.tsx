@@ -8,7 +8,7 @@ export function ChipFilter(
 	return (
 		<label
 			{...props}
-			className="flex h-8 items-center gap-2 rounded-sm border border-outline px-4 text-label-lg text-on-surface-variant shadow outline-1 outline-primary duration-md ease-standard-decelerate has-[:checked]:border-0 has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:shadow has-focused:outline has-focused:outline-offset-4 motion-safe:transition-[outline-offset] hover:[&:not(\#)]:state-hover has-focused:[&:not(\#)]:state-focus"
+			className="border-outline text-label-lg text-on-surface-variant outline-primary duration-md ease-standard-decelerate has-checked:bg-secondary-container has-checked:text-on-secondary-container has-focused:outline has-focused:outline-offset-4 hover:[&:not(\\#)]:state-hover has-focused:[&:not(\\#)]:state-focus flex h-8 items-center gap-2 rounded-sm border px-4 shadow-sm outline-1 has-checked:border-0 has-checked:shadow-sm motion-safe:transition-[outline-offset]"
 		/>
 	)
 }
@@ -37,7 +37,7 @@ export function ChipFilterRadio(props: Ariakit.RadioProps): ReactNode {
 
 export function ChipFilterIcon(): ReactNode {
 	return (
-		<div className="-ms-2 w-0 opacity-0 transition-all ease-standard-accelerate i-[1.125rem] peer-has-[:checked]:w-[1.125rem] peer-has-[:checked]:opacity-100">
+		<div className="ease-standard-accelerate i-[1.125rem] -ms-2 w-0 opacity-0 transition-all peer-has-checked:w-[1.125rem] peer-has-checked:opacity-100">
 			<MaterialSymbolsCheck />
 		</div>
 	)

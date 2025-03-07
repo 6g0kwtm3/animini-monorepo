@@ -525,13 +525,13 @@ export function ErrorBoundary(): ReactNode {
 	return (
 		<Card
 			variant="elevated"
-			className="m-4 bg-error-container text-on-error-container"
+			className="bg-error-container text-on-error-container m-4"
 		>
-			<Ariakit.Heading className="text-balance text-headline-md">
+			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 		</Card>
 	)
 }

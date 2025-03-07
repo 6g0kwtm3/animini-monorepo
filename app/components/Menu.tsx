@@ -45,8 +45,8 @@ const createMenu = tv({
 	slots: {
 		button: "",
 		listItem:
-			"elevation-2 group inset-[unset] flex h-12 items-center gap-3 bg-surface-container px-3 text-label-lg text-on-surface hover:state-hover focus:state-focus",
-		list: "allow-discrete top-[anchor(bottom)] z-50 flex max-h-[--popover-avalible-height] min-w-[7rem] max-w-[17.5rem] translate-y-12 flex-col overflow-visible overscroll-contain rounded-xs bg-surface-container py-2 text-label-lg text-on-surface opacity-0 duration-4sm ease-emphasized-accelerate popover-open:transform-none popover-open:opacity-100 popover-open:starting-style:-translate-y-4 popover-open:starting-style:opacity-0 motion-safe:transition-all",
+			"elevation-2 group bg-surface-container text-label-lg text-on-surface hover:state-hover focus:state-focus inset-[unset] flex h-12 items-center gap-3 px-3",
+		list: "bg-surface-container text-label-lg text-on-surface duration-4sm ease-emphasized-accelerate popover-open:transform-none popover-open:opacity-100 popover-open:starting:-translate-y-4 popover-open:starting:opacity-0 top-[anchor(bottom)] z-50 flex max-h-(--popover-avalible-height) max-w-[17.5rem] min-w-[7rem] translate-y-12 flex-col overflow-visible overscroll-contain rounded-xs py-2 opacity-0 transition-discrete motion-safe:transition-all",
 	},
 })
 
@@ -71,29 +71,29 @@ export const MenuListItem = forwardRef<HTMLDivElement, Ariakit.MenuItemProps>(
 export function MenuItemIcon(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
-	return <div {...props} className="h-6 w-6 text-on-surface-variant" />
+	return <div {...props} className="text-on-surface-variant h-6 w-6" />
 }
 export function MenuItemLeadingIcon(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
-	return <div {...props} className="h-6 w-6 text-on-surface-variant i" />
+	return <div {...props} className="text-on-surface-variant i h-6 w-6" />
 }
 export function MenuItemTrailingIcon(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
 	return (
-		<div {...props} className="ms-auto h-6 w-6 text-on-surface-variant i" />
+		<div {...props} className="text-on-surface-variant i ms-auto h-6 w-6" />
 	)
 }
 export function MenuItemTrailingText(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
-	return <div {...props} className="ms-auto text-on-surface-variant" />
+	return <div {...props} className="text-on-surface-variant ms-auto" />
 }
 export function MenuDivider(props: ComponentPropsWithoutRef<"li">): ReactNode {
 	return (
 		<li {...props} className="contents">
-			<div className="my-2 w-full border-b border-outline-variant" />
+			<div className="border-outline-variant my-2 w-full border-b" />
 		</li>
 	)
 }

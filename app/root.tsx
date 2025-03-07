@@ -80,7 +80,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			// dir={dir}
 			style={theme}
 			data-testid={isHydrated && "hydrated"}
-			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
+			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Noto_Sans',sans-serif] [color-scheme:light_dark]"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -157,13 +157,13 @@ export function ErrorBoundary(): ReactNode {
 	return (
 		<Card
 			variant="elevated"
-			className="m-4 force:bg-error-container force:text-on-error-container"
+			className="force:bg-error-container force:text-on-error-container m-4"
 		>
-			<Ariakit.Heading className="text-balance text-headline-md">
+			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 		</Card>
 	)
 }

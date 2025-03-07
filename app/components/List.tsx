@@ -99,7 +99,7 @@ export function ListItemIcon(
 
 const tv = createTV({ twMerge: false })
 const subheader = tv({
-	base: "truncate px-4 text-body-md text-on-surface-variant",
+	base: "text-body-md text-on-surface-variant truncate px-4",
 	variants: {
 		lines: {
 			one: "py-2",
