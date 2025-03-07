@@ -17,7 +17,6 @@ import {
 } from "~/components/Tooltip"
 
 import { fab } from "~/lib/button"
-import { languageTag as getLocale } from "~/paraglide/runtime"
 
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
@@ -32,7 +31,7 @@ import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
 	const client = await client_get_client()
 
 	const data = await client.query<NavNotificationsQuery>(
@@ -51,7 +50,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	return data
 }
 
-export const clientAction = (async (args) => {
+export const clientAction = (async () => {
 	const client = await client_get_client()
 
 	await client.query(
@@ -174,32 +173,6 @@ export default function Notifications(): ReactNode {
 			</LayoutPane>
 		</LayoutBody>
 	)
-}
-
-function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(getLocale(), {})
-
-	if (Math.abs(seconds) < 60) {
-		return rtf.format(Math.trunc(seconds), "seconds")
-	}
-
-	if (Math.abs(seconds) < 60 * 60) {
-		return rtf.format(Math.trunc(seconds / 60), "minutes")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24) {
-		return rtf.format(Math.trunc(seconds / (60 * 60)), "hours")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24 * 7) {
-		return rtf.format(Math.trunc(seconds / (60 * 60 * 24)), "days")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24 * 365) {
-		return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 7)), "weeks")
-	}
-
-	return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 365)), "years")
 }
 
 export const meta = (() => {

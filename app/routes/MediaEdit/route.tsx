@@ -20,7 +20,8 @@
 // import * as Ariakit from "@ariakit/react"
 
 // import { motion } from "framer-motion"
-// import type { ComponentPropsWithoutRef, ReactNode } from "react"
+// import type { ComponentPropsWithoutRef } from "react"
+import type { ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
 
 // import { ChipFilter } from "~/components/Chip"
@@ -225,7 +226,8 @@
 // 		label="Score"
 // 	/>
 // )
-// export default function Page(): ReactNode {
+export default function Page(): ReactNode {
+  return null
 // 	const data = useRawLoaderData<typeof loader >()
 
 // 	const navigation = useNavigation()
@@ -419,7 +421,7 @@
 // 			</div>
 // 		</div>
 // 	)
-// }
+}
 
 // const FuzzyDateLift = S.struct({
 // 	month: S.optionFromNullable(S.number),
