@@ -181,7 +181,7 @@ export default function NavRoute(): ReactNode {
 					</NavigationItemIcon>
 					<div className="max-w-full break-words">Notifications</div>
 					<Suspense>
-						<Await resolve={data.trending} errorElement={<></>}>
+						<Await resolve={data.trending} errorElement={'Error'}>
 							{(data) =>
 								(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 									<NavigationItemLargeBadge>

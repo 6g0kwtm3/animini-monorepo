@@ -293,7 +293,7 @@ function ListTabs() {
 			>
 				All
 			</TabsListItem>
-			{lists?.map((list, i) => {
+			{lists?.map((list) => {
 				return (
 					list.name && (
 						<TabsListItem
