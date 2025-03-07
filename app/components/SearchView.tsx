@@ -99,6 +99,7 @@ export const SearchViewInput = forwardRef<
 				<Ariakit.Combobox
 					ref={ref}
 					autoSelect={"always"}
+					autoFocus
 					{...props}
 					className={input({ className: props.className })}
 				/>
