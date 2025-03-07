@@ -21,3 +21,6 @@ worker-configuration.d.ts
 storybook-static
 /.react-router
 .eslintcache
+/lib/
+.bsb.lock
+**/*.res.mjs

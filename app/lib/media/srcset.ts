@@ -31,9 +31,10 @@ export function srcset(key: srcset_mediaCover$key): string | null {
 	const filtered = entries.flatMap(([scale, src]): [number, string][] =>
 		src ? [[scale, src]] : []
 	)
-
-	for (const entry of filtered) {
-		entry[0] /= filtered[0]![0]
+	if (filtered[0]) {
+		for (const entry of filtered) {
+			entry[0] /= filtered[0][0]
+		}
 	}
 
 	const normalized = filtered.map(([scale, src]) => [` ${scale}x`, src])

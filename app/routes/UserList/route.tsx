@@ -190,8 +190,7 @@ function ListTabs({ params, loaderData }: Route.ComponentProps) {
 			<TabsListItem
 				id={"undefined"}
 				render={
-					<Link
-						viewTransition
+					<M3.Link
 						to={{
 							pathname: route_user_list(params),
 							search,
@@ -209,8 +208,7 @@ function ListTabs({ params, loaderData }: Route.ComponentProps) {
 							key={list.name}
 							id={list.name}
 							render={
-								<Link
-									viewTransition
+								<M3.Link
 									to={{
 										pathname: list.name,
 										search,
@@ -238,7 +236,7 @@ function FilterButton() {
 		<M3.TooltipPlain>
 			<M3.TooltipPlainTrigger
 				render={
-					<Link
+					<M3.Link
 						className={btnIcon({
 							className: [searchParams.size && "text-tertiary"],
 						})}
@@ -249,7 +247,7 @@ function FilterButton() {
 					>
 						<span className="sr-only">Filter</span>
 						<MaterialSymbolsFilterList />
-					</Link>
+					</M3.Link>
 				}
 			/>
 			<M3.TooltipPlainContainer>Filter</M3.TooltipPlainContainer>
@@ -268,9 +266,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 					<Ariakit.Heading>Oops</Ariakit.Heading>
 					<p>Status: {error.status}</p>
 					<p>{error.data}</p>
-					<Link to={location} className={button()}>
+					<M3.Link to={location} className={button()}>
 						Try again
-					</Link>
+					</M3.Link>
 				</div>
 			</ExtraOutlets>
 		)
@@ -291,9 +289,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 				</Ariakit.Heading>
 				<p className="text-headline-sm">Something went wrong.</p>
 				<pre className="text-body-md overflow-auto">{errorMessage}</pre>{" "}
-				<Link to={location} className={button()}>
+				<M3.Link to={location} className={button()}>
 					Try again
-				</Link>
+				</M3.Link>
 			</Card>
 		</ExtraOutlets>
 	)
