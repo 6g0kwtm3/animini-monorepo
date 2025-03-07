@@ -20,7 +20,8 @@
 // import * as Ariakit from "@ariakit/react"
 
 // import { motion } from "framer-motion"
-// import type { ComponentPropsWithoutRef, ReactNode } from "react"
+// import type { ComponentPropsWithoutRef } from "react"
+import type { ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
 
 // import { ChipFilter } from "~/components/Chip"
@@ -225,201 +226,202 @@
 // 		label="Score"
 // 	/>
 // )
-// export default function Page(): ReactNode {
-// 	const data = useRawLoaderData<typeof loader >()
+export default function Page(): ReactNode {
+	return null
+	// 	const data = useRawLoaderData<typeof loader >()
 
-// 	const navigation = useNavigation()
+	// 	const navigation = useNavigation()
 
-// 	useActionData<typeof action>()
+	// 	useActionData<typeof action>()
 
-// 	const busy = navigation.state === "submitting"
+	// 	const busy = navigation.state === "submitting"
 
-// 	const advancedScores = pipe(
-// 		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
-// 		Option.filter(Predicate.isReadonlyRecord)
-// 	)
+	// 	const advancedScores = pipe(
+	// 		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
+	// 		Option.filter(Predicate.isReadonlyRecord)
+	// 	)
 
-// 	const defaultAdvancedScores =
-// 		pipe(
-// 			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
-// 				?.filter(el=> el!=null)
-// 				.map((category) =>
-// 					pipe(
-// 						advancedScores,
-// 						Option.flatMap(ReadonlyRecord.get(category)),
-// 						Option.filter(Predicate.isNumber),
-// 						Option.getOrElse(() => 0)
-// 					)
-// 				)
-// 		) ?? []
+	// 	const defaultAdvancedScores =
+	// 		pipe(
+	// 			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
+	// 				?.filter(el=> el!=null)
+	// 				.map((category) =>
+	// 					pipe(
+	// 						advancedScores,
+	// 						Option.flatMap(ReadonlyRecord.get(category)),
+	// 						Option.filter(Predicate.isNumber),
+	// 						Option.getOrElse(() => 0)
+	// 					)
+	// 				)
+	// 		) ?? []
 
-// 	const navigate = useNavigate()
+	// 	const navigate = useNavigate()
 
-// 	const store = Ariakit.useFormStore({
-// 		defaultValues: {
-// 			advancedScores: defaultAdvancedScores,
-// 			completedAt: pipe(
-// 				S.decodeUnknownOption(FuzzyDateLift)(
-// 					data?.Media?.mediaListEntry?.completedAt
-// 				),
-// 				Option.flatMap(Option.all),
-// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-// 				Option.getOrElse(() => "")
-// 			),
-// 			startedAt: pipe(
-// 				S.decodeUnknownOption(FuzzyDateLift)(
-// 					data?.Media?.mediaListEntry?.startedAt
-// 				),
-// 				Option.flatMap(Option.all),
-// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-// 				Option.getOrElse(() => "")
-// 			),
-// 			notes: data?.Media?.mediaListEntry?.notes ?? "",
-// 			progress: data?.Media?.mediaListEntry?.progress || 0,
-// 			repeat: data?.Media?.mediaListEntry?.repeat || 0,
-// 			score: data?.Media?.mediaListEntry?.score || 0,
-// 			status: pipe(
-// 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
-// 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
-// 				Option.getOrElse(() => OPTIONS[MediaListStatus.Current])
-// 			),
-// 			customLists: pipe(
-// 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
-// 				Option.filter(Predicate.isReadonlyRecord),
-// 				Option.getOrElse(ReadonlyRecord.empty),
-// 				ReadonlyRecord.filter((key) => !!key),
-// 				Object.keys
-// 			)
-// 		}
-// 	})
+	// 	const store = Ariakit.useFormStore({
+	// 		defaultValues: {
+	// 			advancedScores: defaultAdvancedScores,
+	// 			completedAt: pipe(
+	// 				S.decodeUnknownOption(FuzzyDateLift)(
+	// 					data?.Media?.mediaListEntry?.completedAt
+	// 				),
+	// 				Option.flatMap(Option.all),
+	// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
+	// 				Option.getOrElse(() => "")
+	// 			),
+	// 			startedAt: pipe(
+	// 				S.decodeUnknownOption(FuzzyDateLift)(
+	// 					data?.Media?.mediaListEntry?.startedAt
+	// 				),
+	// 				Option.flatMap(Option.all),
+	// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
+	// 				Option.getOrElse(() => "")
+	// 			),
+	// 			notes: data?.Media?.mediaListEntry?.notes ?? "",
+	// 			progress: data?.Media?.mediaListEntry?.progress || 0,
+	// 			repeat: data?.Media?.mediaListEntry?.repeat || 0,
+	// 			score: data?.Media?.mediaListEntry?.score || 0,
+	// 			status: pipe(
+	// 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
+	// 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
+	// 				Option.getOrElse(() => OPTIONS[MediaListStatus.Current])
+	// 			),
+	// 			customLists: pipe(
+	// 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
+	// 				Option.filter(Predicate.isReadonlyRecord),
+	// 				Option.getOrElse(ReadonlyRecord.empty),
+	// 				ReadonlyRecord.filter((key) => !!key),
+	// 				Object.keys
+	// 			)
+	// 		}
+	// 	})
 
-// 	store.useSubmit(async (state) => {
-// 		await new Promise((resolve) => setTimeout(resolve, 10_000, state))
-// 		// fetcher.submit(state.values, { method: "post" })
-// 	})
+	// 	store.useSubmit(async (state) => {
+	// 		await new Promise((resolve) => setTimeout(resolve, 10_000, state))
+	// 		// fetcher.submit(state.values, { method: "post" })
+	// 	})
 
-// 	const values = store.useState("values")
+	// 	const values = store.useState("values")
 
-// 	const avgScore = pipe(
-// 		values.advancedScores.map((n) => Number(n)),
-// 		avg,
-// 		Option.getOrElse(() => 0),
-// 		round
-// 	)
+	// 	const avgScore = pipe(
+	// 		values.advancedScores.map((n) => Number(n)),
+	// 		avg,
+	// 		Option.getOrElse(() => 0),
+	// 		round
+	// 	)
 
-// 	function avg(numbers: number[]) {
-// 		return divide(sumAll(numbers), numbers.length)
-// 	}
+	// 	function avg(numbers: number[]) {
+	// 		return divide(sumAll(numbers), numbers.length)
+	// 	}
 
-// 	function round(n: number) {
-// 		return Math.round(n * 10) / 10
-// 	}
+	// 	function round(n: number) {
+	// 		return Math.round(n * 10) / 10
+	// 	}
 
-// 	const listOptions =
-// 		data?.Media?.type === "MANGA"
-// 			? data.Viewer?.mediaListOptions?.mangaList
-// 			: data?.Viewer?.mediaListOptions?.animeList
-// 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
+	// 	const listOptions =
+	// 		data?.Media?.type === "MANGA"
+	// 			? data.Viewer?.mediaListOptions?.mangaList
+	// 			: data?.Viewer?.mediaListOptions?.animeList
+	// 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
-// 	return (
-// 		<div>
-// 			<div>
-// 				<Ariakit.Dialog
-//
-// 					alwaysVisible
-// 					hideOnInteractOutside={false}
-// 					className={root()}
-// 					backdrop={<div className={backdrop()} />}
-// 					render={<motion.div layoutId="edit" initial={false} />}
-// 				>
-// 					<Ariakit.Form store={store} method="post" className={content({})}>
-// 						<header className={headline({ className: "text-balance" })}>
-// 							<DialogFullscreenIcon className="sm:hidden">
-// 								<Ariakit.DialogDismiss
-// 									render={
-// 										<Link
-// 											 to=".."
-// 											onClick={(e) => (e.preventDefault(), navigate(-1))}
-// 										/>
-// 									}
-// 								>
-// 									<span className="i">close</span>
-// 									<div className="sr-only">Cancel</div>
-// 								</Ariakit.DialogDismiss>
-// 							</DialogFullscreenIcon>
-// 							Foo fa ra fa
-// 							<ButtonText type="submit" className="ms-auto sm:hidden">
-// 								Save
-// 							</ButtonText>
-// 						</header>
-// 						<div className={body()}>
-// 							<div className="grid gap-2">
-// 								<input type="hidden" name="mediaId" value={data?.Media?.id} />
-// 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
-// 									<Status name={store.names.status} />
-// 									<Score name={store.names.score} />
+	// 	return (
+	// 		<div>
+	// 			<div>
+	// 				<Ariakit.Dialog
+	//
+	// 					alwaysVisible
+	// 					hideOnInteractOutside={false}
+	// 					className={root()}
+	// 					backdrop={<div className={backdrop()} />}
+	// 					render={<motion.div layoutId="edit" initial={false} />}
+	// 				>
+	// 					<Ariakit.Form store={store} method="post" className={content({})}>
+	// 						<header className={headline({ className: "text-balance" })}>
+	// 							<DialogFullscreenIcon className="sm:hidden">
+	// 								<Ariakit.DialogDismiss
+	// 									render={
+	// 										<Link
+	// 											 to=".."
+	// 											onClick={(e) => (e.preventDefault(), navigate(-1))}
+	// 										/>
+	// 									}
+	// 								>
+	// 									<span className="i">close</span>
+	// 									<div className="sr-only">Cancel</div>
+	// 								</Ariakit.DialogDismiss>
+	// 							</DialogFullscreenIcon>
+	// 							Foo fa ra fa
+	// 							<ButtonText type="submit" className="ms-auto sm:hidden">
+	// 								Save
+	// 							</ButtonText>
+	// 						</header>
+	// 						<div className={body()}>
+	// 							<div className="grid gap-2">
+	// 								<input type="hidden" name="mediaId" value={data?.Media?.id} />
+	// 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
+	// 									<Status name={store.names.status} />
+	// 									<Score name={store.names.score} />
 
-// 									<Progress name={store.names.progress} media={data?.Media} />
-// 									<StartDate name={store.names.startedAt} />
-// 									<FinishDate name={store.names.completedAt} />
-// 									<Repeat name={store.names.repeat} />
-// 								</div>
-// 								<Notes name={store.names.notes} />
+	// 									<Progress name={store.names.progress} media={data?.Media} />
+	// 									<StartDate name={store.names.startedAt} />
+	// 									<FinishDate name={store.names.completedAt} />
+	// 									<Repeat name={store.names.repeat} />
+	// 								</div>
+	// 								<Notes name={store.names.notes} />
 
-// 								<AdvancedScores advancedScoring={listOptions}>
-// 									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
-// 										(label, i) => {
-// 											const name = store.names.advancedScores[i]
-// 											return name ? (
-// 												<AdvancedScore
-// 													onChange={() => store.setValue("score", avgScore)}
-// 													key={label}
-// 													label={label}
-// 													name={name}
-// 												/>
-// 											) : null
-// 										}
-// 									)}
-// 								</AdvancedScores>
+	// 								<AdvancedScores advancedScoring={listOptions}>
+	// 									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
+	// 										(label, i) => {
+	// 											const name = store.names.advancedScores[i]
+	// 											return name ? (
+	// 												<AdvancedScore
+	// 													onChange={() => store.setValue("score", avgScore)}
+	// 													key={label}
+	// 													label={label}
+	// 													name={name}
+	// 												/>
+	// 											) : null
+	// 										}
+	// 									)}
+	// 								</AdvancedScores>
 
-// 								<CustomLists
-// 									name={store.names.customLists}
-// 									listOptions={listOptions}
-// 								/>
+	// 								<CustomLists
+	// 									name={store.names.customLists}
+	// 									listOptions={listOptions}
+	// 								/>
 
-// 								{/* <Snackbar open={touched}>
-// 																			Careful - you have unsaved changes!
-// 																			<dib className="flex-1" /><SnackbarAction type="reset">Reset</SnackbarAction>
-// 																			<SnackbarAction
-// 																				onClick={() => form.current!.requestSubmit()}
-// 																			>
-// 																				Save changes
-// 																			</SnackbarAction>
-// 																		</Snackbar> */}
-// 							</div>
-// 						</div>
+	// 								{/* <Snackbar open={touched}>
+	// 																			Careful - you have unsaved changes!
+	// 																			<dib className="flex-1" /><SnackbarAction type="reset">Reset</SnackbarAction>
+	// 																			<SnackbarAction
+	// 																				onClick={() => form.current!.requestSubmit()}
+	// 																			>
+	// 																				Save changes
+	// 																			</SnackbarAction>
+	// 																		</Snackbar> */}
+	// 							</div>
+	// 						</div>
 
-// 						<div className="mx-6 border-b border-outline-variant max-sm:hidden" />
-// 						<footer className={actions({ className: "max-sm:hidden" })}>
-// 							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
-// 							<Ariakit.FormSubmit className={button()}>
-// 								{busy && (
-// 									<ButtonTextIcon className="animate-spin">
-// 										progress_activity
-// 									</ButtonTextIcon>
-// 								)}
-// 								Save changes
-// 							</Ariakit.FormSubmit>
-// 						</footer>
-// 						{/* <Snackbar timeout={4000} open={saved}>
-//                   Entry saved
-//                 </Snackbar> */}
-// 					</Ariakit.Form>
-// 				</Ariakit.Dialog>
-// 			</div>
-// 		</div>
-// 	)
-// }
+	// 						<div className="mx-6 border-b border-outline-variant max-sm:hidden" />
+	// 						<footer className={actions({ className: "max-sm:hidden" })}>
+	// 							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
+	// 							<Ariakit.FormSubmit className={button()}>
+	// 								{busy && (
+	// 									<ButtonTextIcon className="animate-spin">
+	// 										progress_activity
+	// 									</ButtonTextIcon>
+	// 								)}
+	// 								Save changes
+	// 							</Ariakit.FormSubmit>
+	// 						</footer>
+	// 						{/* <Snackbar timeout={4000} open={saved}>
+	//                   Entry saved
+	//                 </Snackbar> */}
+	// 					</Ariakit.Form>
+	// 				</Ariakit.Dialog>
+	// 			</div>
+	// 		</div>
+	// 	)
+}
 
 // const FuzzyDateLift = S.struct({
 // 	month: S.optionFromNullable(S.number),

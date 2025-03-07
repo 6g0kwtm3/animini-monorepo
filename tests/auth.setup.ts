@@ -8,7 +8,7 @@ setup("authenticate", async ({ page, baseURL }) => {
 	await page.keyboard.press("Control+.")
 	let indexPage = await FeedPage.new(page)
 	const loginPage = await indexPage.nav.gotoLogin()
-	await loginPage.token.fill(process.env.ANILIST_TEST_TOKEN!)
+	await loginPage.token.fill(process.env.ANILIST_TEST_TOKEN)
 	await loginPage.login.click()
 	await FeedPage.new(page)
 
