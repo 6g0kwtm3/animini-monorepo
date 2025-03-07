@@ -1,4 +1,3 @@
-import containerQueries from "@tailwindcss/container-queries"
 import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
@@ -194,7 +193,6 @@ export const config = {
 		},
 	},
 	plugins: [
-		containerQueries,
 		typography,
 
 		plugin(({ addBase, matchUtilities, theme }) => {
