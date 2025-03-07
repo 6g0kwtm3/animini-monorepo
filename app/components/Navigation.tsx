@@ -1,6 +1,11 @@
 import type { NavLink } from "react-router"
 
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type {
+	ComponentProps,
+	ComponentPropsWithoutRef,
+	CSSProperties,
+	ReactNode,
+} from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
@@ -91,8 +96,9 @@ const Context = createContext(createNavigation())
 
 export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
-	Partial<ComponentPropsWithoutRef<typeof NavLink>> & {
+	ComponentProps<typeof NavLink> & {
 		children?: ReactNode
+		style?: CSSProperties
 		className?: string
 		icon: ReactNode
 		activeIcon: ReactNode

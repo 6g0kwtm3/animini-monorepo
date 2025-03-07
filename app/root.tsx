@@ -1,7 +1,4 @@
-import {
-	captureException,
-	startSpan
-} from "@sentry/react"
+import { captureException, startSpan } from "@sentry/react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -25,9 +22,16 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
+import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import { Route } from "./+types/root"
 import environment, { RelayEnvironmentProvider } from "./lib/Network"
+
+let RelayEnvironment = RelayEnvironmentProvider as (props: {
+	children: ReactNode
+	environment: IEnvironment
+}) => ReactNode
+
 export const links: LinksFunction = () => {
 	return [
 		{
@@ -103,11 +107,11 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<Links />
 			</head>
 			<body>
-				<RelayEnvironmentProvider environment={environment}>
+				<RelayEnvironment environment={environment}>
 					<SnackbarQueue>
 						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
 					</SnackbarQueue>
-				</RelayEnvironmentProvider>
+				</RelayEnvironment>
 
 				<ScrollRestoration
 				//  nonce={nonce}
