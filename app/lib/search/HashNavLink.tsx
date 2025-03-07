@@ -1,10 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { forwardRef } from "react"
-import {
-	Link,
-	useLocation,
-	useResolvedPath
-} from "react-router"
+import { Link, useLocation, useResolvedPath } from "react-router"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,
