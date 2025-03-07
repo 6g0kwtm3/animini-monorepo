@@ -12,22 +12,14 @@ export default defineConfig({
 		oxlintPlugin({
 			configFile: "./oxlintrc.json",
 		}),
-		// MillionLint.vite(),
+
 		paraglide({
 			project: "./project.inlang",
 			outdir: "./app/paraglide",
 		}),
 
-		// remixDevTools(),
-		// cloudflareDevProxy(),
-
 		reactRouter(),
 
-		// million.vite({
-		// 	auto: true,
-		// 	// rsc: true,
-		// 	log: false
-		// }),
 		tsconfigPaths(),
 		icons({
 			compiler: "jsx",
