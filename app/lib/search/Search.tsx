@@ -9,9 +9,8 @@ import {
 	useRouteLoaderData,
 } from "react-router"
 
-import type { ComponentRef, ReactNode } from "react"
-import { Suspense, useEffect, useRef } from "react"
-import ReactRelay from "react-relay"
+import type { ReactNode } from "react"
+import { Suspense, useEffect } from "react"
 import type { clientLoader as searchLoader } from "~/routes/Search/route"
 
 import {
@@ -37,8 +36,6 @@ import { M3 } from "../components"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 
-const { graphql } = ReactRelay
-
 function useOptimisticSearchParams() {
 	const { search } = useOptimisticLocation()
 
@@ -59,8 +56,6 @@ export function Search(): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
 	const submit = useFetcher<typeof searchLoader>()
-
-	let ref = useRef<ComponentRef<"input">>(null)
 
 	const show = searchParams.get("sheet") === "search"
 	searchParams.delete("sheet")
@@ -89,10 +84,9 @@ export function Search(): ReactNode {
 		<SearchView
 			aria-label="Search anime or manga"
 			open={show}
-			onClose={(state) => {
+			onClose={() => {
 				void navigate({ search: `?${searchParams}` })
 			}}
-			initialFocus={ref}
 			variant={{
 				initial: "fullscreen",
 				sm: "docked",
@@ -102,7 +96,6 @@ export function Search(): ReactNode {
 			<Form role="search" action="/search" className={"flex w-full flex-col"}>
 				<>
 					<SearchViewInput
-						ref={ref}
 						placeholder="Search anime or manga"
 						onChange={(e) => void submit.submit(e.currentTarget.form, {})}
 						name="q"

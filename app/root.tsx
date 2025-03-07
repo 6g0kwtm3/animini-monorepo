@@ -13,7 +13,7 @@ import {
 } from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { useEffect, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
@@ -83,9 +83,6 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			className="bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light [color-scheme:light_dark] contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>
-				{import.meta.env.DEV && (
-					<script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
-				)}
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				{/* <meta
@@ -97,6 +94,9 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
  report-uri https://csp.example.com;`}
 				/> */}
 				<Meta />
+				{import.meta.env.DEV && (
+					<script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
+				)}
 				<Links />
 			</head>
 			<body>
@@ -115,14 +115,6 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			</body>
 		</html>
 	)
-}
-
-function useOnFocus(callback: () => void) {
-	useEffect(() => {
-		const onFocus = () => callback()
-		window.addEventListener("focus", onFocus)
-		return () => window.removeEventListener("focus", onFocus)
-	}, [callback])
 }
 
 export default function App(): ReactNode {
