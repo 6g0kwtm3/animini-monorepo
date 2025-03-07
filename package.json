@@ -78,7 +78,7 @@
 		"electron-devtools-installer": "^3.2.1",
 		"eslint": "9.12.0",
 		"eslint-plugin-compat": "6.0.1",
-		"eslint-plugin-oxlint": "^0.15.7",
+		"eslint-plugin-oxlint": "^0.15.13",
 		"eslint-plugin-react-compiler": "0.0.0-experimental-fcabbc1-20241106",
 		"eslint-plugin-react-refresh": "0.4.12",
 		"graphql": "^16.10.0",
