@@ -93,7 +93,7 @@ export const SearchViewInput = forwardRef<
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss render={<Icon />}>
+				<Ariakit.DialogDismiss autoFocus={false} render={<Icon />}>
 					<MaterialSymbolsArrowBack />
 				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
