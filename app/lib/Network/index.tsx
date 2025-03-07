@@ -4,11 +4,11 @@ import {
 	Environment,
 	Network,
 	RecordSource,
+	ROOT_TYPE,
+	Store,
 	type FetchFunction,
-	type Store,
 } from "relay-runtime"
 
-import RelayRuntime from "relay-runtime"
 
 import { JsonToToken } from "../viewer"
 
@@ -16,14 +16,11 @@ import { GraphQLResponse } from "./schema"
 
 import { addBreadcrumb } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
-import LiveResolverStore from "relay-runtime/lib/store/experimental-live-resolvers/LiveResolverStore"
+
 import ResolverFragments from "relay-runtime/store/ResolverFragments"
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
 
-const { RelayFeatureFlags } = RelayRuntime
-
-RelayFeatureFlags.ENABLE_RELAY_RESOLVERS = true
 const API_URL = "https://graphql.anilist.co"
 const fetchQuery_: FetchFunction = async function (
 	operation,
@@ -73,18 +70,42 @@ const network = Network.create(fetchQuery_)
 declare global {
 	var __RELAY_STORE__: Store | undefined
 }
-const store = (globalThis.__RELAY_STORE__ ??= new LiveResolverStore(
-	new RecordSource(),
-	{
-		gcReleaseBufferSize: Infinity,
-		queryCacheExpirationTime: 60 * 1000,
-	}
-))
+const store = (globalThis.__RELAY_STORE__ ??= new Store(new RecordSource(), {
+	gcReleaseBufferSize: Infinity,
+	queryCacheExpirationTime: 60 * 1000,
+}))
 
 const environment = new Environment({
 	network,
 	store,
-	requiredFieldLogger(event) {
+	missingFieldHandlers: [
+		{
+			handle(field, record, argValues) {
+				if (
+					record != null &&
+					record.getType() === ROOT_TYPE &&
+					(field.name === "User" ||
+						field.name === "Media" ||
+						field.name === "AiringSchedule" ||
+						field.name === "Character" ||
+						field.name === "Staff" ||
+						field.name === "MediaList" ||
+						field.name === "Studio" ||
+						field.name === "Review" ||
+						field.name === "ActivityReply" ||
+						field.name === "Thread" ||
+						field.name === "ThreadComment" ||
+						field.name === "Recommendation") &&
+					Object.hasOwn(argValues, "id")
+				) {
+					return `${field.name}:${argValues.id}`
+				}
+				return undefined
+			},
+			kind: "linked",
+		},
+	],
+	relayFieldLogger(event) {
 		addBreadcrumb({
 			level: "info",
 			category: "relay",
