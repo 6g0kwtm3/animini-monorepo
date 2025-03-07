@@ -5,13 +5,14 @@ import tailwindcss from "@tailwindcss/vite"
 import { tvTransformer } from "tailwind-variants/transformer"
 import icons from "unplugin-icons/vite"
 import { defineConfig, type PluginOption } from "vite"
+import Inspect from "vite-plugin-inspect"
 import oxlintPlugin from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 import tailwindConfig from "./tailwind.config"
-
 export default defineConfig({
 	plugins: [
+		Inspect(),
 		oxlintPlugin({
 			configFile: "./oxlintrc.json",
 		}),
