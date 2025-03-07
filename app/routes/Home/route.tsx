@@ -68,7 +68,7 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose contrast-standard theme-light force:p-0 contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden text-start`}
+									className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden text-start force:p-0`}
 									style={theme}
 									render={<span />}
 								>
@@ -217,7 +217,7 @@ export default function Index(): ReactNode {
 										<Card
 											variant="filled"
 											render={<article />}
-											className="force:rounded-[1.75rem] grid max-w-7xl gap-4"
+											className="grid max-w-7xl gap-4 force:rounded-[1.75rem]"
 										>
 											<List
 												lines="two"
