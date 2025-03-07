@@ -3,7 +3,7 @@ import { createTV } from "tailwind-variants"
 const tv = createTV({ twMerge: false })
 
 export const btnIcon = tv({
-	base: "text-on-surface-variant i hover:state-hover focused:outline focused:state-focus pressed:state-pressed relative h-10 w-10 rounded-full bg-center p-2 select-none",
+	base: "text-on-surface-variant i hover:state-hover focused:state-focus pressed:state-pressed relative h-10 w-10 rounded-full bg-center p-2 select-none",
 	variants: {
 		variant: {
 			standard: "",
@@ -16,7 +16,7 @@ export const btnIcon = tv({
 
 export const createButton = tv({
 	slots: {
-		root: "text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-active:state-pressed data-focus-visible:state-focus focused:outline inline-flex h-10 min-w-[3rem] items-center justify-center rounded-[1.25rem] whitespace-nowrap select-none aria-disabled:cursor-not-allowed",
+		root: "text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-active:state-pressed data-focus-visible:state-focus inline-flex h-10 min-w-[3rem] items-center justify-center rounded-[1.25rem] whitespace-nowrap select-none aria-disabled:cursor-not-allowed",
 		icon: "dummy i-[1.125rem] h-[1.125rem] w-[1.125rem]",
 	},
 	variants: {

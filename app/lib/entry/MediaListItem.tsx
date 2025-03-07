@@ -98,6 +98,7 @@ const MediaListItemTitle_entry = graphql`
 		id
 		progress
 		media @required(action: LOG) {
+			id
 			title @required(action: LOG) {
 				userPreferred @required(action: LOG)
 			}
