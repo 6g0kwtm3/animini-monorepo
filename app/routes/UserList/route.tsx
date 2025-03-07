@@ -1,7 +1,6 @@
 import {
 	Form,
 	isRouteErrorResponse,
-	Link,
 	Outlet,
 	useLocation,
 	useParams,
@@ -37,6 +36,7 @@ import { type } from "arktype"
 import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { ExtraOutlets } from "../User/ExtraOutlet"
+import { FilterInput } from "./FilterInput"
 import { Sheet } from "./Sheet"
 
 const { graphql } = ReactRelay
@@ -145,7 +145,7 @@ export default function Index(props: Route.ComponentProps): ReactNode {
 							action={pathname}
 							onChange={(e) => void submit(e.currentTarget, {})}
 						>
-							<M3.FieldText
+							<FilterInput
 								name="filter"
 								label="Filter"
 								defaultValue={searchParams.get("filter") ?? ""}

@@ -87,44 +87,54 @@ function SidePanel({ loaderData }: Route.ComponentProps): ReactNode {
 	const entry = useFragment(SidePanel_entry, mediaList)
 
 	return (
-		<M3.LayoutPane
-			variant="fixed"
-			className="duration-2sm ease-emphasized max-xl:hidden starting:w-0"
+		<M3.LayoutHandle
+			initialValue={Number(localStorage.getItem("panel-index")) || 1}
+			onChange={(value) => {
+				localStorage.setItem("panel-index", value.toString())
+			}}
+			snapPoints={(w) => [0, 360, w / 2, w - 360, w]}
 		>
-			<M3.Card
-				variant="elevated"
-				className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+			<M3.LayoutPane
+				variant="fixed"
+				className="duration-2sm ease-emphasized max-xl:hidden starting:w-0"
 			>
-				{entry.media && (
-					<MediaCover media={entry.media} className="mb-4 rounded-lg" />
-				)}
-				<M3.CardHeader className="mb-2 text-xl font-bold">
-					<Ariakit.Heading>{entry.media?.title?.userPreferred}</Ariakit.Heading>
-				</M3.CardHeader>
-				<div>
-					<strong>Status:</strong> {entry.status}
-				</div>
-				<M3.Field>
-					<M3.FieldText
-						variant="outlined"
-						label="Score"
-						readOnly
-						type="number"
-						value={entry.score ?? ""}
-					/>
-				</M3.Field>
-				<M3.Field>
-					<M3.FieldText
-						variant="outlined"
-						label="Progress"
-						readOnly
-						type="number"
-						value={entry.progress ?? ""}
-						trailing={`/${entry.media?.avalible ?? entry.media?.episodes}`}
-					/>
-				</M3.Field>
-			</M3.Card>
-		</M3.LayoutPane>
+				<M3.Card
+					variant="elevated"
+					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+				>
+					{entry.media && (
+						<MediaCover media={entry.media} className="mb-4 rounded-lg" />
+					)}
+					<M3.CardHeader className="mb-2 text-xl font-bold">
+						<Ariakit.Heading>
+							{entry.media?.title?.userPreferred}
+						</Ariakit.Heading>
+					</M3.CardHeader>
+					<div>
+						<strong>Status:</strong> {entry.status}
+					</div>
+					<M3.Field>
+						<M3.FieldText
+							variant="outlined"
+							label="Score"
+							readOnly
+							type="number"
+							value={entry.score ?? ""}
+						/>
+					</M3.Field>
+					<M3.Field>
+						<M3.FieldText
+							variant="outlined"
+							label="Progress"
+							readOnly
+							type="number"
+							value={entry.progress ?? ""}
+							trailing={`/${entry.media?.avalible ?? entry.media?.episodes}`}
+						/>
+					</M3.Field>
+				</M3.Card>
+			</M3.LayoutPane>
+		</M3.LayoutHandle>
 	)
 }
 
