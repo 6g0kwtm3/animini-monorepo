@@ -107,9 +107,5 @@
 	"browserslist": [
 		"defaults and fully supports es6-module",
 		"maintained node versions"
-	],
-	"patchedDependencies": {
-		"wrangler@3.34.2": "patches/wrangler@3.34.2.patch",
-		"relay-runtime@16.2.0": "patches/relay-runtime@16.2.0.patch"
-	}
+	]
 }
