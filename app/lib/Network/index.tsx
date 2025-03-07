@@ -1,15 +1,12 @@
 import cookie from "cookie"
 import ReactRelay from "react-relay"
-import {
+import RelayRuntime, {
 	Environment,
 	Network,
 	RecordSource,
-	ROOT_TYPE,
 	Store,
 	type FetchFunction,
 } from "relay-runtime"
-
-
 import { JsonToToken } from "../viewer"
 
 import { GraphQLResponse } from "./schema"
@@ -17,9 +14,10 @@ import { GraphQLResponse } from "./schema"
 import { addBreadcrumb } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
 
-import ResolverFragments from "relay-runtime/store/ResolverFragments"
+import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
+const { ROOT_TYPE } = RelayRuntime
 
 const API_URL = "https://graphql.anilist.co"
 const fetchQuery_: FetchFunction = async function (
