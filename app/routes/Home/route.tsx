@@ -197,13 +197,6 @@ export default function Index(): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<button
-					onClick={() => {
-						throw new Error("This is your first error!")
-					}}
-				>
-					Break the world
-				</button>
 				<ul className="flex flex-col gap-2">
 					{data.page?.activities
 						?.filter((el) => el != null)

@@ -17,6 +17,7 @@ import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQue
 import { client_get_client } from "~/lib/client"
 import { route_user_list } from "~/lib/route"
 import { type Token } from "~/lib/viewer"
+import { setUser } from "@sentry/react"
 const { graphql } = ReactRelay
 
 export const meta = (() => {
@@ -72,6 +73,10 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	})
 
 	document.cookie = setCookie
+	setUser({
+		id: data.Viewer.id,
+		username: data.Viewer.name,
+	})
 
 	return redirect(
 		searchParams.get("redirect") ??
