@@ -104,7 +104,10 @@ export const NavigationItem = forwardRef<
 		activeIcon: ReactNode
 		badge?: ReactNode
 	}
->(function NavigationItem({ children, ...props }, ref) {
+>(function NavigationItem(
+	{ activeIcon, icon, badge, children, ...props },
+	ref
+) {
 	const { label } = useContext(Context)
 
 	return (
@@ -115,11 +118,11 @@ export const NavigationItem = forwardRef<
 		>
 			<NavigationActiveIndicator />
 			<NavigationItemIcon>
-				{props.icon}
-				{props.activeIcon}
+				{icon}
+				{activeIcon}
 			</NavigationItemIcon>
 			<div className="max-w-full break-words">{children}</div>
-			{props.badge}
+			{badge}
 			<TouchTarget />
 		</HashNavLink>
 	)
