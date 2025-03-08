@@ -1,10 +1,10 @@
 import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
 import { Await, Link, useFetcher, useRouteLoaderData } from "react-router"
 
+import { ErrorBoundary } from "@sentry/react"
+import marked from "marked"
 import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
 import { Suspense, useEffect, useMemo } from "react"
-
-import marked from "marked"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -39,7 +39,7 @@ import {
 import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
 import { Loading, Skeleton } from "~/components/Skeleton"
-import type { clientLoader as rootLoader } from "~/root"
+import { type clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../UserInfo/route"
 
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
@@ -48,6 +48,7 @@ import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 function MediaLink({
@@ -191,19 +192,12 @@ export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
 	}
 }
 
-export default function Index(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = loaderData
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<button
-					onClick={() => {
-						throw new Error("This is your first error!")
-					}}
-				>
-					Break the world
-				</button>
 				<ul className="flex flex-col gap-2">
 					{data.page?.activities
 						?.filter((el) => el != null)
@@ -249,7 +243,9 @@ export default function Index(): ReactNode {
 													{/* <ListItemTrailingSupportingText></ListItemTrailingSupportingText> */}
 												</ListItem>
 											</List>
-											{activity.text && <Markdown>{activity.text}</Markdown>}
+											<ErrorBoundary fallback={<>Failed to parse markdown</>}>
+												{activity.text && <Markdown>{activity.text}</Markdown>}
+											</ErrorBoundary>
 										</Card>
 									</li>
 								)

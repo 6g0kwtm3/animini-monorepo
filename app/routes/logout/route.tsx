@@ -1,3 +1,4 @@
+import { setUser } from "@sentry/react"
 import cookie from "cookie"
 import { redirect, type ClientLoaderFunctionArgs } from "react-router"
 
@@ -10,6 +11,7 @@ export const clientAction = (args: ClientLoaderFunctionArgs) => {
 		path: "/",
 	})
 	document.cookie = setCookie
+	setUser(null)
 	return redirect(url.searchParams.get("redirect") ?? "/", {
 		headers: {
 			"Set-Cookie": setCookie,

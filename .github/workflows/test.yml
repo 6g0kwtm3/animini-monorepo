@@ -12,11 +12,9 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Test E2E
+  deploy-sentry:
+    name: Deploy Sentry
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.45.3-jammy
     steps:
       - uses: actions/checkout@v3
       - name: Install bun
@@ -26,6 +24,32 @@ jobs:
 
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+  # test:
+  #   name: Test E2E
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: mcr.microsoft.com/playwright:v1.45.3-jammy
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Install bun
+  #       uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version-file: "package.json"
+
+  #     - name: Install dependencies 📦
+  #       run: bun install --frozen-lockfile
 
   #     - name: Await CF Pages
   #       uses: WalshyDev/cf-pages-await@v1
@@ -55,8 +79,6 @@ jobs:
 
       - name: Install dependencies 📦
         run: bun install --frozen-lockfile
-
-      - run: bun run paraglide
 
       - name: Typecheck
         run: bun run check

@@ -22,6 +22,7 @@ import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
+import { useSentryToolbar } from "@sentry/toolbar"
 import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import { Route } from "./+types/root"
@@ -72,6 +73,16 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	)
 }
 
+function SentryToolbar() {
+	useSentryToolbar({
+		initProps: {
+			organizationSlug: "animini",
+			projectIdOrSlug: "javascript-react",
+		},
+	})
+	return null
+}
+
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// const { theme } = useRawLoaderData<typeof loader>()
 	// const { locale, dir } = useLocale()
@@ -101,10 +112,13 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
  report-uri https://csp.example.com;`}
 				/> */}
 				<Meta />
-				{import.meta.env.DEV && (
-					<script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
-				)}
 				<Links />
+				{import.meta.env.DEV && (
+					<script
+						async
+						src="https://unpkg.com/react-scan/dist/auto.global.js"
+					></script>
+				)}
 			</head>
 			<body>
 				<RelayEnvironment environment={environment}>
@@ -112,7 +126,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
 					</SnackbarQueue>
 				</RelayEnvironment>
-
+				{import.meta.env.DEV && <SentryToolbar></SentryToolbar>}
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
