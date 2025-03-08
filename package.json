@@ -20,7 +20,7 @@
 		"oxlint": "oxlint -c ./oxlintrc.json",
 		"lint": "bunx --bun eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "bunx --bun prettier . -w",
-		"prepare": "bun run gen:router && bun run codegen",
+		"prepare": "bun run paraglide && bun run gen:router && bun run codegen",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir ./app/paraglide",
 		"test": "playwright test"
 	},
