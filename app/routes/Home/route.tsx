@@ -48,6 +48,7 @@ import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 function MediaLink({
@@ -191,8 +192,8 @@ export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
 	}
 }
 
-export default function Index(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = loaderData
 
 	return (
 		<LayoutBody>
