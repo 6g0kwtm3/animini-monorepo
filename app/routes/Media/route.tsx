@@ -138,7 +138,7 @@ export default function Page(): ReactNode {
 				<div>
 					<Card
 						variant="filled"
-						className="grid flex-1 gap-4 force:rounded-[2.75rem]"
+						className="force:rounded-[2.75rem] grid flex-1 gap-4"
 					>
 						<MediaCover
 							media={data.Media}
