@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@ariakit/react": "^0.4.15",
 		"@material/material-color-utilities": "^0.3.0",
-		"@million/lint": "1.0.0-rc.26",
+		"@million/lint": "1.0.14",
 		"@react-router/node": "^7.3.0",
 		"@sentry/react": "^9.5.0",
 		"@sentry/toolbar": "^1.0.0-beta.11",
