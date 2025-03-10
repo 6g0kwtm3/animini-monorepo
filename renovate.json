@@ -3,7 +3,7 @@
 	"extends": ["config:recommended"],
 	"lockFileMaintenance": { "enabled": true, "automerge": true },
 	"packageRules": [
-		{ "matchDepTypes": ["devDependencies"], "automerge": true },
+		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
 		{ "matchManagers": ["bun"], "automerge": true }
 	]
 }
