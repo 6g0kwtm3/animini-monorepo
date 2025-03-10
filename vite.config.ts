@@ -31,7 +31,11 @@ export default defineConfig({
 			},
 		}),
 		relay,
-		sentryVitePlugin({ org: "animini", project: "javascript-react" }),
+		sentryVitePlugin({
+			org: "animini",
+			project: "javascript-react",
+			authToken: process.env.SENTRY_AUTH_TOKEN,
+		}),
 	],
 	server: { port: 3000 },
 	build: { sourcemap: true },

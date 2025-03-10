@@ -9,5 +9,8 @@
 		"production": {
 			"compatibility_date": "2024-11-11"
 		}
+	},
+	"vars": {
+		"NODE_VERSION": "23.6.0"
 	}
 }
