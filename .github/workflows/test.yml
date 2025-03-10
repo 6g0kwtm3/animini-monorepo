@@ -2,11 +2,8 @@ name: Test
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
+  merge_group:
 
 permissions:
   contents: read
