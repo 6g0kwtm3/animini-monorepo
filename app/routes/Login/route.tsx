@@ -5,7 +5,7 @@ import {
 	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
-import cookie from "cookie"
+import * as cookie from "cookie"
 
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"

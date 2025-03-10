@@ -1,5 +1,5 @@
 import { ArkErrors } from "arktype"
-import cookie from "cookie"
+import * as cookie from "cookie"
 import { isString } from "./Predicate"
 import { JsonToToken } from "./viewer"
 

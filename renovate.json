@@ -1,19 +1,24 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["config:recommended", ":pinDevDependencies", ":pinDependencies"],
-	"lockFileMaintenance": { "enabled": true, "automerge": true },
+	"lockFileMaintenance": {
+		"enabled": true,
+		"automerge": true
+	},
 	"packageRules": [
 		{
 			"matchPackageNames": ["/eslint/"],
 			"groupName": "eslint"
 		},
-		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
+		{
+			"matchDepTypes": ["devDependencies", "action"],
+			"automerge": true
+		},
 		{
 			"matchDepTypes": ["action"],
 			"matchUpdateTypes": ["digest"],
 			"automerge": false
-		},
-		{ "matchManagers": ["bun"], "automerge": true }
+		}
 	],
 	"automergeType": "branch",
 	"prConcurrentLimit": 5
