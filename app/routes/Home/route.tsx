@@ -62,7 +62,7 @@ function MediaLink({
 	return (
 		<Link to={route_media({ id: mediaId })} {...props}>
 			<Suspense fallback="Loading...">
-				<Await errorElement={"Error..."} resolve={data?.media}>
+				<Await errorElement={"Error..."} resolve={data.media}>
 					{(data) => {
 						const { media, theme } = data[mediaId] ?? {}
 
@@ -199,7 +199,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 		<LayoutBody>
 			<LayoutPane>
 				<ul className="flex flex-col gap-2">
-					{data?.page?.activities
+					{data.page?.activities
 						?.filter((el) => el != null)
 						.map((activity) => {
 							if (activity.__typename === "TextActivity") {
@@ -348,10 +348,10 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 									<Skeleton full>
 										{fetcher.data?.User?.avatar?.large && (
 											<img
-												src={fetcher.data?.User.avatar.large}
+												src={fetcher.data.User.avatar.large}
 												className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
 												style={{
-													"--bg": `url(${fetcher.data?.User.avatar.medium ?? ""})`,
+													"--bg": `url(${fetcher.data.User.avatar.medium ?? ""})`,
 												}}
 												loading="lazy"
 												alt=""
@@ -375,7 +375,7 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 
 					<TooltipRichActions>
 						{rootData?.Viewer?.name &&
-							rootData?.Viewer.name !== props.userName && (
+							rootData.Viewer.name !== props.userName && (
 								<follow.Form
 									method="post"
 									action={`/user/${fetcher.data?.User?.id}/follow`}

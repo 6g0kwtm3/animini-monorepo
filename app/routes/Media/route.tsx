@@ -90,9 +90,9 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	}
 
 	return {
-		Media: data?.Media,
-		theme: Predicate.isString(data?.Media.coverImage?.color)
-			? getThemeFromHex(data?.Media.coverImage.color)
+		Media: data.Media,
+		theme: Predicate.isString(data.Media.coverImage?.color)
+			? getThemeFromHex(data.Media.coverImage.color)
 			: {},
 	}
 }
@@ -129,7 +129,7 @@ export default function Page(): ReactNode {
 
 	return (
 		<LayoutBody
-			style={data?.theme}
+			style={data.theme}
 			className={
 				"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 			}
@@ -141,7 +141,7 @@ export default function Page(): ReactNode {
 						className="grid flex-1 gap-4 rounded-[2.75rem]"
 					>
 						<MediaCover
-							media={data?.Media}
+							media={data.Media}
 							className="rounded-xl [view-transition-name:media-cover]"
 						/>
 
@@ -168,7 +168,7 @@ export default function Page(): ReactNode {
 							<Card variant="elevated">
 								<div className="sm:p-12">
 									<Ariakit.Heading className="text-display-lg text-balance">
-										{data?.Media.title.userPreferred}
+										{data.Media.title.userPreferred}
 									</Ariakit.Heading>
 									<Menu>
 										<MenuTrigger
@@ -234,7 +234,7 @@ export default function Page(): ReactNode {
 									<div
 										className="text-title-lg"
 										dangerouslySetInnerHTML={{
-											__html: data?.Media.description || "",
+											__html: data.Media.description || "",
 										}}
 									/>
 								</div>

@@ -1,12 +1,12 @@
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
-    Form,
-    useActionData,
-    useNavigation,
-    useParams,
-    useRouteLoaderData,
-    useSearchParams,
+	Form,
+	useActionData,
+	useNavigation,
+	useParams,
+	useRouteLoaderData,
+	useSearchParams,
 } from "react-router"
 import * as Predicate from "~/lib/Predicate"
 
@@ -74,7 +74,7 @@ export function ProgressIncrement(props: {
 	return (
 		<div className="flex justify-end">
 			{Predicate.isString(data?.Viewer?.name) &&
-				data?.Viewer.name === params.userName && (
+				data.Viewer.name === params.userName && (
 					<Form className="hidden @md:block" method="post">
 						<input type="hidden" name="progress" value={progress + 1} />
 						<input type="hidden" name="id" value={entry.id} />

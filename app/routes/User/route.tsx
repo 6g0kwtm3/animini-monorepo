@@ -3,11 +3,11 @@ import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
-    Form,
-    Link,
-    useFetcher,
-    useLocation,
-    useRouteLoaderData,
+	Form,
+	Link,
+	useFetcher,
+	useLocation,
+	useRouteLoaderData,
 } from "react-router"
 import { Button, Button as ButtonText } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -46,7 +46,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		})
 	}
 
-	return { user: data?.User }
+	return { user: data.User }
 }
 
 export const meta = (({ params }) => {
@@ -68,7 +68,7 @@ export default function Page(): ReactNode {
 	const { pathname } = useLocation()
 
 	const follow = useFetcher<typeof userFollowAction>({
-		key: `${data?.user.name}-follow`,
+		key: `${data.user.name}-follow`,
 	})
 
 	return (
@@ -83,32 +83,32 @@ export default function Page(): ReactNode {
 					</Link>
 				</nav>
 
-				{rootData?.Viewer?.name && rootData?.Viewer.name !== data?.user.name && (
-					<follow.Form method="post" action={`/user/${data?.user.id}/follow`}>
+				{rootData?.Viewer?.name && rootData.Viewer.name !== data.user.name && (
+					<follow.Form method="post" action={`/user/${data.user.id}/follow`}>
 						<input
 							type="hidden"
 							name="isFollowing"
 							value={
 								(follow.formData?.get("isFollowing") ??
 								follow.data?.ToggleFollow.isFollowing ??
-								data?.user.isFollowing)
+								data.user.isFollowing)
 									? ""
 									: "true"
 							}
 							id=""
 						/>
 
-						<Button type="submit" aria-disabled={!data?.user.id}>
+						<Button type="submit" aria-disabled={!data.user.id}>
 							{(follow.formData?.get("isFollowing") ??
 							follow.data?.ToggleFollow.isFollowing ??
-							data?.user.isFollowing)
+							data.user.isFollowing)
 								? m.unfollow_button()
 								: m.follow_button()}
 						</Button>
 					</follow.Form>
 				)}
 
-				{rootData?.Viewer?.name === data?.user.name && (
+				{rootData?.Viewer?.name === data.user.name && (
 					<Form
 						method="post"
 						action={`/logout/?${new URLSearchParams({

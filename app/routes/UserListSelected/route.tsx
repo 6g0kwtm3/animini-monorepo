@@ -170,22 +170,22 @@ async function setStatus(formData: FormData) {
 		},
 	})
 
-	if (!data?.SaveMediaListEntry) {
+	if (!data.SaveMediaListEntry) {
 		throw new Error("Failed to set status")
 	}
 
-	return { SaveMediaListEntry: data?.SaveMediaListEntry }
+	return { SaveMediaListEntry: data.SaveMediaListEntry }
 }
 
 export const clientAction = (async (args) => {
 	const formData = await args.request.formData()
-	if (formData?.get("intent") === "increment") {
+	if (formData.get("intent") === "increment") {
 		return increment(formData)
 	}
-	if (formData?.get("intent") === "set_status") {
+	if (formData.get("intent") === "set_status") {
 		return setStatus(formData)
 	}
-	throw Response.json(`Unknown intent ${formData?.get("intent")}`, {
+	throw Response.json(`Unknown intent ${formData.get("intent")}`, {
 		status: 400,
 	})
 }) satisfies ClientActionFunction
@@ -269,7 +269,7 @@ function sortEntries(
 	data: readonly NavUserListEntriesSort_entries$key[],
 	searchParams: URLSearchParams
 ) {
-	let entries = data?.map((key) =>
+	let entries = data.map((key) =>
 		readInlineData(NavUserListEntriesSort_entries, key)
 	)
 	const sorts = searchParams.getAll("sort")
@@ -371,7 +371,7 @@ function filterEntries(
 	data: readonly NavUserListEntriesFilter_entries$key[],
 	searchParams: URLSearchParams
 ): NavUserListEntriesFilter_entries$data[] {
-	let entries = data?.map((key) =>
+	let entries = data.map((key) =>
 		readInlineData(NavUserListEntriesFilter_entries, key)
 	)
 	const status = searchParams.getAll("status")
@@ -434,7 +434,7 @@ export default function Page(): ReactNode {
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-						<Await resolve={data?.query}>
+						<Await resolve={data.query}>
 							{({ selectedList }) => (
 								<MediaListHeaderToWatch
 									entries={filterEntries(
@@ -448,7 +448,7 @@ export default function Page(): ReactNode {
 				</MediaListHeaderItem>
 				<MediaListHeaderItem subtitle={m.total_entries()}>
 					<Suspense fallback={<Skeleton>80</Skeleton>}>
-						<Await resolve={data?.query}>
+						<Await resolve={data.query}>
 							{({ selectedList }) =>
 								filterEntries(
 									selectedList.entries?.filter((el) => el != null) ?? [],
@@ -472,7 +472,7 @@ export default function Page(): ReactNode {
 								</Loading>
 							}
 						>
-							<Await resolve={data?.query}>
+							<Await resolve={data.query}>
 								{({ selectedList }) => {
 									const mediaList = sortEntries(
 										filterEntries(
@@ -486,7 +486,7 @@ export default function Page(): ReactNode {
 
 									return (
 										<Suspense fallback={mediaList}>
-											<AwaitLibrary resolve={data?.Library}>
+											<AwaitLibrary resolve={data.Library}>
 												{mediaList}
 											</AwaitLibrary>
 										</Suspense>

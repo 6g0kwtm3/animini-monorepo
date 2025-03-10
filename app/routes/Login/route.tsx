@@ -30,7 +30,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	const formData = await args.request.formData()
 	const { searchParams } = new URL(args.request.url)
 
-	const token = formData?.get("token")
+	const token = formData.get("token")
 
 	if (typeof token !== "string") {
 		return {}
@@ -63,7 +63,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 
 	const encoded = JSON.stringify({
 		token: token,
-		viewer: data?.Viewer,
+		viewer: data.Viewer,
 	} satisfies typeof Token.infer)
 
 	const setCookie = cookie.serialize(`anilist-token`, encoded, {
@@ -74,15 +74,15 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 
 	document.cookie = setCookie
 	setUser({
-		id: data?.Viewer.id,
-		username: data?.Viewer.name,
+		id: data.Viewer.id,
+		username: data.Viewer.name,
 	})
 
 	return redirect(
 		searchParams.get("redirect") ??
 			route_user_list({
 				typelist: "animelist",
-				userName: data?.Viewer.name,
+				userName: data.Viewer.name,
 			}),
 		{
 			headers: {

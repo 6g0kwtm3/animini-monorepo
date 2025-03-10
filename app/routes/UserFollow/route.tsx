@@ -34,11 +34,11 @@ export const clientAction = (async (args) => {
 		variables: { userId: params.userId },
 	})
 
-	if (!data?.ToggleFollow) {
+	if (!data.ToggleFollow) {
 		throw new Error("Failed to follow")
 	}
 
-	return { ToggleFollow: data?.ToggleFollow }
+	return { ToggleFollow: data.ToggleFollow }
 }) satisfies ClientActionFunction
 
 export default function Page(): ReactNode {
@@ -48,9 +48,9 @@ export default function Page(): ReactNode {
 		<main>
 			{data ? (
 				<Ariakit.Heading>
-					{data?.ToggleFollow.isFollowing
-						? m.follow({ name: data?.ToggleFollow.name })
-						: m.unfollow({ name: data?.ToggleFollow.name })}
+					{data.ToggleFollow.isFollowing
+						? m.follow({ name: data.ToggleFollow.name })
+						: m.unfollow({ name: data.ToggleFollow.name })}
 				</Ariakit.Heading>
 			) : (
 				<Ariakit.Heading>Oops</Ariakit.Heading>

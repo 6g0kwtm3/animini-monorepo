@@ -1,8 +1,8 @@
 import { type } from "arktype"
 import ReactRelay from "react-relay"
 import type {
-    ProgressIncrementMutation,
-    ProgressIncrementMutation$data,
+	ProgressIncrementMutation,
+	ProgressIncrementMutation$data,
 } from "~/gql/ProgressIncrementMutation.graphql"
 import { client_get_client } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
@@ -30,12 +30,12 @@ export const increment = async (
 				}
 			}
 		`,
-		variables: { entryId: formData?.id, progress: formData?.progress },
+		variables: { entryId: formData.id, progress: formData.progress },
 	})
 
-	if (!data?.SaveMediaListEntry) {
+	if (!data.SaveMediaListEntry) {
 		throw new Error("Failed to increment progress")
 	}
 
-	return { SaveMediaListEntry: data?.SaveMediaListEntry }
+	return { SaveMediaListEntry: data.SaveMediaListEntry }
 }
