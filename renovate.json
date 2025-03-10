@@ -10,5 +10,6 @@
 		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
 		{ "matchManagers": ["bun"], "automerge": true }
 	],
-	"automergeType": "branch"
+	"automergeType": "branch",
+	"prConcurrentLimit": 5
 }
