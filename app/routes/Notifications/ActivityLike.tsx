@@ -47,10 +47,10 @@ export function ActivityLike(props: {
 				<ListItemImg>
 					{notification.user.avatar?.large && (
 						<img
-							src={notification.user.avatar?.large}
+							src={notification.user.avatar.large}
 							className="h-14 w-14 bg-(image:--bg) bg-cover object-cover"
 							style={{
-								"--bg": `url(${notification.user.avatar?.medium})`,
+								"--bg": `url(${notification.user.avatar.medium})`,
 							}}
 							loading="lazy"
 							alt=""

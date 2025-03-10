@@ -220,14 +220,14 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											>
 												<ListItem className="hover:state-none">
 													<div className="col-start-1 h-10 w-10">
-														{activity?.user?.avatar?.large && (
+														{activity.user?.avatar?.large && (
 															<img
 																alt=""
 																loading="lazy"
-																src={activity.user?.avatar?.large}
+																src={activity.user.avatar.large}
 																className="h-10 w-10 rounded-full bg-(image:--bg) bg-cover object-cover"
 																style={{
-																	"--bg": `url(${activity.user?.avatar?.medium})`,
+																	"--bg": `url(${activity.user.avatar.medium})`,
 																}}
 															/>
 														)}
@@ -348,10 +348,10 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 									<Skeleton full>
 										{fetcher.data?.User?.avatar?.large && (
 											<img
-												src={fetcher.data?.User?.avatar?.large}
+												src={fetcher.data.User.avatar.large}
 												className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
 												style={{
-													"--bg": `url(${fetcher.data?.User?.avatar?.medium ?? ""})`,
+													"--bg": `url(${fetcher.data.User.avatar.medium ?? ""})`,
 												}}
 												loading="lazy"
 												alt=""
