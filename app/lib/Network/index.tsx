@@ -58,6 +58,7 @@ export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	{ context, request },
 	next
 ) => {
+	// TODO: dispose on route leave
 	context.set(loadQuery, (query, ...args) => {
 		const queryRef = loadQuery_(environment, query, ...args)
 		request.signal.addEventListener("abort", () => {
