@@ -1,9 +1,8 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { createTV } from "tailwind-variants"
 
 import ReactRelay from "react-relay"
-import { createElement } from "../createElement"
 import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
+import { createElement } from "../createElement"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -20,7 +19,7 @@ const MediaCover_media = graphql`
 	}
 `
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const cover = tv({
 	base: "bg-cover bg-center object-cover object-center in-[.transitioning]:[view-transition-name:media-cover]",

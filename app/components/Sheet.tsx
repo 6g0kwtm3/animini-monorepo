@@ -9,9 +9,8 @@ import {
 import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const sheet = tv({
 	slots: {

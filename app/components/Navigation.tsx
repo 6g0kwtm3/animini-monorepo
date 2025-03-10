@@ -9,11 +9,10 @@ import type {
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
 import { HashNavLink } from "~/lib/search/HashNavLink"
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 export const createNavigation = tv(
 	{
