@@ -127,7 +127,7 @@ export default function NavRoute(): ReactNode {
 				{rootData?.Viewer ? (
 					<>
 						<NavigationItem
-							to={route_user({ userName: rootData.Viewer.name })}
+							to={route_user({ userName: rootData?.Viewer.name })}
 							icon={<MaterialSymbolsPersonOutline />}
 							activeIcon={<MaterialSymbolsPerson />}
 						>
@@ -136,7 +136,7 @@ export default function NavRoute(): ReactNode {
 						<NavigationItem
 							className="max-sm:hidden"
 							to={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: rootData?.Viewer.name,
 								typelist: "animelist",
 							})}
 							icon={<MaterialSymbolsPlayArrowOutline />}
@@ -146,7 +146,7 @@ export default function NavRoute(): ReactNode {
 						</NavigationItem>
 						<NavigationItem
 							to={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: rootData?.Viewer.name,
 								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
@@ -173,11 +173,11 @@ export default function NavRoute(): ReactNode {
 					activeIcon={<MaterialSymbolsNotifications />}
 					badge={
 						<Suspense>
-							<Await resolve={data.trending} errorElement={null}>
+							<Await resolve={data?.trending} errorElement={null}>
 								{(data) =>
-									(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 										<NavigationItemLargeBadge>
-											{data.Viewer?.unreadNotificationCount}
+											{data?.Viewer?.unreadNotificationCount}
 										</NavigationItemLargeBadge>
 									)
 								}

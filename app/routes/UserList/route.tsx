@@ -278,7 +278,7 @@ export default function Filters(): ReactNode {
 function ListTabs() {
 	const { data, params } = useLoaderData<typeof clientLoader>()
 
-	const lists = data.MediaListCollection?.lists
+	const lists = data?.MediaListCollection?.lists
 		?.filter((el) => el != null)
 		.sort(
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))

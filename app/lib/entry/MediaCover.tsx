@@ -34,15 +34,15 @@ export function MediaCover({
 
 	return createElement("img", {
 		src:
-			data.coverImage?.extraLarge ??
-			data.coverImage?.large ??
-			data.coverImage?.medium ??
+			data?.coverImage?.extraLarge ??
+			data?.coverImage?.large ??
+			data?.coverImage?.medium ??
 			"",
 		loading: "lazy",
 		alt: "",
 		...props,
 		style: {
-			backgroundImage: `url(${data.coverImage?.medium})`,
+			backgroundImage: `url(${data?.coverImage?.medium})`,
 			...props.style,
 		},
 		className: cover({

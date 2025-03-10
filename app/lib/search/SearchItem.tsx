@@ -1,19 +1,19 @@
-import { Link } from "react-router"
 import { forwardRef } from "react"
 import ReactRelay from "react-relay"
+import { Link } from "react-router"
 
 import {
-	ListItem,
-	ListItemAvatar,
-	ListItemContent,
-	ListItemContentTitle,
-	ListItemTrailingSupportingText,
+    ListItem,
+    ListItemAvatar,
+    ListItemContent,
+    ListItemContentTitle,
+    ListItemTrailingSupportingText,
 } from "~/components/List"
 
-import { MediaCover } from "../entry/MediaCover"
-import { route_media } from "../route"
-import { useFragment } from "../Network"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
+import { MediaCover } from "../entry/MediaCover"
+import { useFragment } from "../Network"
+import { route_media } from "../route"
 const { graphql } = ReactRelay
 
 const SearchItem_media = graphql`
@@ -40,8 +40,8 @@ export const SearchItem = forwardRef<
 				ref={ref}
 				render={
 					<Link
-						to={route_media({ id: data.id })}
-						title={data.title.userPreferred}
+						to={route_media({ id: data?.id })}
+						title={data?.title.userPreferred}
 					/>
 				}
 			>
@@ -51,13 +51,13 @@ export const SearchItem = forwardRef<
 
 				<ListItemContent>
 					<ListItemContentTitle>
-						{data.title.userPreferred}
+						{data?.title.userPreferred}
 					</ListItemContentTitle>
 				</ListItemContent>
 
-				{data.type && (
+				{data?.type && (
 					<ListItemTrailingSupportingText>
-						{data.type.toLowerCase()}
+						{data?.type.toLowerCase()}
 					</ListItemTrailingSupportingText>
 				)}
 			</ListItem>

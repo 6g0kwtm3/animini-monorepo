@@ -97,7 +97,7 @@ type Shift<T> = T extends [any, ...infer U] ? U : []
 
 export function fetchQuery<O extends OperationType>(
 	...args: Shift<Parameters<typeof fetchQuery__<O>>>
-): Promise<O["response"]> {
+): Promise<O["response"] | undefined> {
 	return fetchQuery__<O>(environment, ...args).toPromise()
 }
 

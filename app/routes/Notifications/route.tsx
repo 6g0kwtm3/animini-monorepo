@@ -103,7 +103,7 @@ export default function Notifications(): ReactNode {
 
 	const store = useTooltipStore()
 
-	const someNotRead = data.Viewer?.unreadNotificationCount ?? 0
+	const someNotRead = data?.Viewer?.unreadNotificationCount ?? 0
 
 	return (
 		<LayoutBody>
@@ -129,13 +129,13 @@ export default function Notifications(): ReactNode {
 					</Form>
 				)}
 				<Card variant="elevated" className="max-sm:contents">
-					{!query.Page?.notifications?.length && (
+					{!query?.Page?.notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
 					)}
 
 					<div className="-mx-4 sm:-my-4">
 						<List lines={{ initial: "three", sm: "two" }}>
-							{query.Page?.notifications
+							{query?.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
 									if (notification.__typename === "AiringNotification") {

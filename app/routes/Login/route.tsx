@@ -13,11 +13,11 @@ import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { button } from "~/lib/button"
 
+import { setUser } from "@sentry/react"
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { route_user_list } from "~/lib/route"
 import { type Token } from "~/lib/viewer"
-import { setUser } from "@sentry/react"
 const { graphql } = ReactRelay
 
 export const meta = (() => {
@@ -30,7 +30,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	const formData = await args.request.formData()
 	const { searchParams } = new URL(args.request.url)
 
-	const token = formData.get("token")
+	const token = formData?.get("token")
 
 	if (typeof token !== "string") {
 		return {}
@@ -57,13 +57,13 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		}
 	)
 
-	if (!data.Viewer) {
+	if (!data?.Viewer) {
 		return {}
 	}
 
 	const encoded = JSON.stringify({
 		token: token,
-		viewer: data.Viewer,
+		viewer: data?.Viewer,
 	} satisfies typeof Token.infer)
 
 	const setCookie = cookie.serialize(`anilist-token`, encoded, {
@@ -74,15 +74,15 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 
 	document.cookie = setCookie
 	setUser({
-		id: data.Viewer.id,
-		username: data.Viewer.name,
+		id: data?.Viewer.id,
+		username: data?.Viewer.name,
 	})
 
 	return redirect(
 		searchParams.get("redirect") ??
 			route_user_list({
 				typelist: "animelist",
-				userName: data.Viewer.name,
+				userName: data?.Viewer.name,
 			}),
 		{
 			headers: {

@@ -2,9 +2,9 @@ import * as Ariakit from "@ariakit/react"
 
 import { List } from "~/components/List"
 import {
-	SearchViewBody,
-	SearchViewBodyGroup,
-	SearchViewItem,
+    SearchViewBody,
+    SearchViewBodyGroup,
+    SearchViewItem,
 } from "~/components/SearchView"
 
 import { SearchItem } from "./SearchItem"
@@ -33,7 +33,7 @@ export function SearchTrending(props: {
 }): ReactNode {
 	const data = useFragment(SearchTrending_query, props.query)
 
-	return data.trending?.media && data.trending.media.length > 0 ? (
+	return data?.trending?.media && data?.trending.media.length > 0 ? (
 		<SearchViewBody>
 			<SearchViewBodyGroup>
 				<Ariakit.ComboboxGroupLabel render={<M3.Subheader lines={"one"} />}>
@@ -41,7 +41,7 @@ export function SearchTrending(props: {
 				</Ariakit.ComboboxGroupLabel>
 
 				<List lines={"one"} render={<div />} className="-mt-2">
-					{data.trending.media
+					{data?.trending.media
 						.filter((el) => el != null)
 						.map((media) => (
 							<SearchViewItem

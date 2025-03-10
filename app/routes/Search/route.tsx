@@ -45,7 +45,7 @@ export default function Page(): ReactNode {
 				<Card variant="elevated" className="max-sm:contents">
 					<div className="-mx-4">
 						<List>
-							{data.page?.media
+							{data?.page?.media
 								?.filter((el) => el != null)
 								.map((media) => <SearchItem media={media} key={media.id} />)}
 						</List>

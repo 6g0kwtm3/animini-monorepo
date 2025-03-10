@@ -118,7 +118,7 @@ const environment = new Environment({
 		}
 	},
 	getDataID: (data, typeName) =>
-		data.id != null ? `${typeName}:${data.id}` : null,
+		data?.id != null ? `${typeName}:${data?.id}` : null,
 	// ... other options
 })
 
