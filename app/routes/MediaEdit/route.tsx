@@ -319,7 +319,7 @@ export default function Page(): ReactNode {
 
 	// 	const listOptions =
 	// 		data?.Media?.type === "MANGA"
-	// 			? data.Viewer?.mediaListOptions?.mangaList
+	// 			? data?.Viewer?.mediaListOptions?.mangaList
 	// 			: data?.Viewer?.mediaListOptions?.animeList
 	// 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
@@ -482,9 +482,9 @@ export default function Page(): ReactNode {
 // 			<TextFieldOutlined.Label name={props.name}>
 // 				Episode Progress
 // 			</TextFieldOutlined.Label>
-// 			{data && Predicate.isNumber(data.episodes ?? data.chapters) ? (
+// 			{data && Predicate.isNumber(data?.episodes ?? data?.chapters) ? (
 // 				<TextFieldOutlined.Suffix className="pointer-events-none">
-// 					/{data.episodes ?? data.chapters}
+// 					/{data?.episodes ?? data?.chapters}
 // 				</TextFieldOutlined.Suffix>
 // 			) : null}
 // 		</TextFieldOutlined>
@@ -549,7 +549,7 @@ export default function Page(): ReactNode {
 // 		return null
 // 	}
 
-// 	if (!data.advancedScoring?.length) {
+// 	if (!data?.advancedScoring?.length) {
 // 		return null
 // 	}
 

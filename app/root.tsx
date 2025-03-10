@@ -26,7 +26,10 @@ import { useSentryToolbar } from "@sentry/toolbar"
 import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 import { Route } from "./+types/root"
-import environment, { RelayEnvironmentProvider } from "./lib/Network"
+import environment, {
+	loadQueryMiddleware,
+	RelayEnvironmentProvider,
+} from "./lib/Network"
 
 let RelayEnvironment = RelayEnvironmentProvider as (props: {
 	children: ReactNode
@@ -138,7 +141,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	)
 }
 
-const clientLogger: Route.unstable_ClientMiddlewareFunction = (
+const clientLoggerMiddleware: Route.unstable_ClientMiddlewareFunction = (
 	{ request },
 	next
 ) => {
@@ -148,7 +151,10 @@ const clientLogger: Route.unstable_ClientMiddlewareFunction = (
 	})
 }
 
-export const unstable_clientMiddleware = [clientLogger]
+export const unstable_clientMiddleware = [
+	clientLoggerMiddleware,
+	loadQueryMiddleware,
+]
 
 export default function App(): ReactNode {
 	return <Outlet />

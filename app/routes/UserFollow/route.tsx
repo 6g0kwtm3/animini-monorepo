@@ -1,7 +1,7 @@
-import { useActionData, type ClientActionFunction } from "react-router"
 import { type } from "arktype"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
+import { useActionData, type ClientActionFunction } from "react-router"
 import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
 
 import { Ariakit } from "~/lib/ariakit"
