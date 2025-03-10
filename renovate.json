@@ -8,6 +8,11 @@
 			"groupName": "eslint"
 		},
 		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
+		{
+			"matchDepTypes": ["action"],
+			"matchUpdateTypes": ["digest"],
+			"automerge": false
+		},
 		{ "matchManagers": ["bun"], "automerge": true }
 	],
 	"automergeType": "branch",
