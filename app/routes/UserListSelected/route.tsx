@@ -214,7 +214,7 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 				name: "All",
 				entries: Object.values(
 					Object.fromEntries(
-						data?.MediaListCollection?.lists
+						data.MediaListCollection?.lists
 							?.flatMap((list) => list?.entries)
 							.filter((entry) => entry != null)
 							.map((entry) => [entry.id, entry]) ?? []
@@ -224,7 +224,7 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 		}
 	}
 
-	const selectedList = data?.MediaListCollection?.lists?.find(
+	const selectedList = data.MediaListCollection?.lists?.find(
 		(list) => list?.name === params.selected
 	)
 

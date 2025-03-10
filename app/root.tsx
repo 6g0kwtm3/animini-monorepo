@@ -151,7 +151,10 @@ const clientLoggerMiddleware: Route.unstable_ClientMiddlewareFunction = (
 	})
 }
 
-export const unstable_clientMiddleware = [clientLoggerMiddleware, loadQueryMiddleware]
+export const unstable_clientMiddleware = [
+	clientLoggerMiddleware,
+	loadQueryMiddleware,
+]
 
 export default function App(): ReactNode {
 	return <Outlet />

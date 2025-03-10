@@ -83,7 +83,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		}
 	)
 
-	if (!data?.Media) {
+	if (!data.Media) {
 		throw Response.json("Media not found", {
 			status: 404,
 		})

@@ -130,7 +130,7 @@ async function getPage() {
 		`,
 		{}
 	)
-	return data?.Page
+	return data.Page
 }
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await client_operation<routeNavFeedMediaQuery>(
@@ -155,7 +155,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 
 	return Object.fromEntries(
-		data?.Page?.media
+		data.Page?.media
 			?.filter((el) => el != null)
 			.map(
 				(media) =>

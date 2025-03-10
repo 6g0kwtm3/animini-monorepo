@@ -175,9 +175,9 @@ export default function NavRoute(): ReactNode {
 						<Suspense>
 							<Await resolve={data.trending} errorElement={null}>
 								{(data) =>
-									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+									(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
 										<NavigationItemLargeBadge>
-											{data?.Viewer?.unreadNotificationCount}
+											{data.Viewer?.unreadNotificationCount}
 										</NavigationItemLargeBadge>
 									)
 								}
