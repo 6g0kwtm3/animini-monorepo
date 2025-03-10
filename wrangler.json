@@ -1,0 +1,13 @@
+{
+	"name": "animini-pwa",
+	"pages_build_output_dir": "build/client",
+	"compatibility_date": "2024-02-08",
+	"placement": {
+		"mode": "smart"
+	},
+	"env": {
+		"production": {
+			"compatibility_date": "2024-11-11"
+		}
+	}
+}
