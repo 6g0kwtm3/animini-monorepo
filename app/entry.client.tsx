@@ -15,7 +15,11 @@ import {
 import { HydratedRouter } from "react-router/dom"
 
 init({
-	environment: import.meta.env.DEV ? "development" : "production",
+	environment: import.meta.env.DEV
+		? "development"
+		: import.meta.env.CF_PAGES_BRANCH === "master"
+			? `production`
+			: import.meta.env.CF_PAGES_BRANCH,
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
 	integrations: [
 		reactRouterV7BrowserTracingIntegration({

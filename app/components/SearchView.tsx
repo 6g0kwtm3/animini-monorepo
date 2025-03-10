@@ -2,11 +2,10 @@ import * as Ariakit from "@ariakit/react"
 import type { ReactElement } from "react"
 import { createContext, forwardRef, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import { Icon } from "./Button"
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const createSearchView = tv(
 	{

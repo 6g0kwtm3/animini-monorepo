@@ -1,11 +1,10 @@
 import type { ComponentPropsWithoutRef, ComponentRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const appBar = tv(
 	{

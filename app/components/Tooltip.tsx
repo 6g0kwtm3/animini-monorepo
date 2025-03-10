@@ -7,8 +7,6 @@ import type {
 } from "react"
 import { forwardRef } from "react"
 
-import { createTV } from "tailwind-variants"
-
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
@@ -18,7 +16,7 @@ export function TooltipRichTrigger(
 	return <Ariakit.HovercardAnchor render={<div />} {...props} />
 }
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const tooltip = tv({
 	slots: { container: "" },

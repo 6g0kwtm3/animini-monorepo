@@ -81,7 +81,7 @@ export function MediaListItem(props: {
 						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
 					</ListItemContentTitle>
 					<ListItemContentSubtitle className="flex flex-wrap gap-1">
-						<Skeleton className="force:max-w-[21.666666666666668ch]">
+						<Skeleton className="max-w-[21.666666666666668ch]">
 							{entry && <MediaListItemSubtitle entry={entry} />}
 						</Skeleton>
 					</ListItemContentSubtitle>

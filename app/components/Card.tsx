@@ -1,10 +1,9 @@
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { createElement } from "~/lib/createElement"
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const card = tv({
 	base: "rounded-md p-4",

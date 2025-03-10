@@ -1,6 +1,4 @@
-import { createTV } from "tailwind-variants"
-
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 export const createTextField = tv({
 	slots: {
 		input: "",
