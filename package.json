@@ -44,7 +44,7 @@
 		"react-relay": "^18.2.0",
 		"react-router": "^7.3.0",
 		"relay-runtime": "^18.2.0",
-		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.2.0"
+		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@^0.2.1"
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@^7.3.0"
