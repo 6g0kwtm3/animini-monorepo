@@ -26,7 +26,6 @@ const fetchQuery_: FetchFunction = async function (
 	cacheConfig,
 	_uploadables
 ) {
-
 	const cookies = cookie.parse(document.cookie)
 
 	let token = cookies["anilist-token"]
