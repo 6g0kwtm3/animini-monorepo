@@ -13,11 +13,11 @@ import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { button } from "~/lib/button"
 
+import { setUser } from "@sentry/react"
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { route_user_list } from "~/lib/route"
 import { type Token } from "~/lib/viewer"
-import { setUser } from "@sentry/react"
 const { graphql } = ReactRelay
 
 export const meta = (() => {

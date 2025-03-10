@@ -1,6 +1,6 @@
-import { Link } from "react-router"
 import { forwardRef } from "react"
 import ReactRelay from "react-relay"
+import { Link } from "react-router"
 
 import {
 	ListItem,
@@ -10,10 +10,10 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components/List"
 
-import { MediaCover } from "../entry/MediaCover"
-import { route_media } from "../route"
-import { useFragment } from "../Network"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
+import { MediaCover } from "../entry/MediaCover"
+import { useFragment } from "../Network"
+import { route_media } from "../route"
 const { graphql } = ReactRelay
 
 const SearchItem_media = graphql`
