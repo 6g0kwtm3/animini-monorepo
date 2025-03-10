@@ -1,5 +1,5 @@
 import { setUser } from "@sentry/react"
-import cookie from "cookie"
+import * as cookie from "cookie"
 import { redirect, type ClientLoaderFunctionArgs } from "react-router"
 
 export const clientAction = (args: ClientLoaderFunctionArgs) => {

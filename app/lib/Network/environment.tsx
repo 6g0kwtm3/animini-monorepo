@@ -1,4 +1,4 @@
-import cookie from "cookie"
+import * as cookie from "cookie"
 import ReactRelay from "react-relay"
 import RelayRuntime, {
 	Environment,
@@ -26,6 +26,7 @@ const fetchQuery_: FetchFunction = async function (
 	cacheConfig,
 	_uploadables
 ) {
+
 	const cookies = cookie.parse(document.cookie)
 
 	let token = cookies["anilist-token"]
