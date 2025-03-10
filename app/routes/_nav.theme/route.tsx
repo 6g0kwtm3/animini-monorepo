@@ -56,7 +56,7 @@ function Palette() {
 		<ul className="grid">
 			{["primary", "secondary", "tertiary", "error"].map((color) => {
 				return (
-					<li key={color}>
+					<li key={color} data-key={color}>
 						<Ariakit.Heading>
 							{color.substring(0, 1).toUpperCase() + color.substring(1)}
 						</Ariakit.Heading>

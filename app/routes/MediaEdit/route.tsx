@@ -375,7 +375,7 @@ export default function Page(): ReactNode {
 	// 											return name ? (
 	// 												<AdvancedScore
 	// 													onChange={() => store.setValue("score", avgScore)}
-	// 													key={label}
+	// 													key={label} data-key={label}
 	// 													label={label}
 	// 													name={name}
 	// 												/>
@@ -434,7 +434,7 @@ export default function Page(): ReactNode {
 // 		<SelectFactory
 // 			{...props}
 // 			children={Object.values(OPTIONS).map((value) => {
-// 				return <SelectOption value={value} key={value} />
+// 				return <SelectOption value={value} key={value} data-key={value} />
 // 			})}
 // 			label="Status"
 // 		/>
@@ -605,7 +605,7 @@ export default function Page(): ReactNode {
 // 			<div className="flex flex-wrap gap-2">
 // 				{customLists.map((list, i) => {
 // 					return (
-// 						<ChipFilter {...props} key={list}>
+// 						<ChipFilter {...props} key={list} data-key={list}>
 // 							{list}
 // 						</ChipFilter>
 // 					)

@@ -142,6 +142,7 @@ export default function Notifications(): ReactNode {
 										return (
 											<Airing
 												key={notification.id}
+												data-key={notification.id}
 												notification={notification}
 											/>
 										)
@@ -153,6 +154,7 @@ export default function Notifications(): ReactNode {
 										return (
 											<RelatedMediaAddition
 												key={notification.id}
+												data-key={notification.id}
 												notification={notification}
 											/>
 										)
@@ -161,6 +163,7 @@ export default function Notifications(): ReactNode {
 										return (
 											<ActivityLike
 												key={notification.id}
+												data-key={notification.id}
 												notification={notification}
 											/>
 										)

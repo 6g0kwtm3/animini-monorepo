@@ -467,7 +467,7 @@ export default function Page(): ReactNode {
 							fallback={
 								<Loading>
 									{Array.from({ length: 7 }, (_, i) => (
-										<MediaListItem key={i} entry={null} />
+										<MediaListItem key={i} data-key={i} entry={null} />
 									))}
 								</Loading>
 							}
@@ -481,7 +481,11 @@ export default function Page(): ReactNode {
 										),
 										search
 									).map((entry) => (
-										<MediaListItem key={entry.id} entry={entry} />
+										<MediaListItem
+											key={entry.id}
+											data-key={entry.id}
+											entry={entry}
+										/>
 									))
 
 									return (

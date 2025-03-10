@@ -114,6 +114,7 @@ export function Search(): ReactNode {
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}
+											data-key={media.id}
 											render={<SearchItem media={media} />}
 										/>
 									))}
