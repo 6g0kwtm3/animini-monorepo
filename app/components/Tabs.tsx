@@ -4,14 +4,11 @@ import { motion } from "framer-motion"
 import type { ReactNode } from "react"
 import { createContext, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { createTV } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 
 const TabsContext = createContext<string | undefined>(undefined)
 
-const tv = createTV({
-	twMerge: false,
-})
+import { tv } from "~/lib/tailwind-variants"
 
 const tabs = tv({
 	slots: {

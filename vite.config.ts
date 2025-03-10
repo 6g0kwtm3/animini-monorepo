@@ -13,16 +13,11 @@ import tailwindConfig from "./tailwind.config"
 export default defineConfig({
 	plugins: [
 		Inspect(),
-		oxlintPlugin({
-			configFile: "./oxlintrc.json",
-		}),
+		oxlintPlugin({ configFile: "./oxlintrc.json" }),
 		tvTransform(),
 		tailwindcss(),
 
-		paraglide({
-			project: "./project.inlang",
-			outdir: "./app/paraglide",
-		}),
+		paraglide({ project: "./project.inlang", outdir: "./app/paraglide" }),
 
 		reactRouter(),
 
@@ -36,20 +31,11 @@ export default defineConfig({
 			},
 		}),
 		relay,
-		sentryVitePlugin({
-			org: "animini",
-			project: "javascript-react",
-		}),
+		sentryVitePlugin({ org: "animini", project: "javascript-react" }),
 	],
-	server: {
-		port: 3000,
-	},
-	define: {
-		"process.env.NODE_DEBUG": process.env.NODE_DEBUG,
-	},
-	build: {
-		sourcemap: true,
-	},
+	server: { port: 3000 },
+	build: { sourcemap: true },
+	envPrefix: ["VITE_", "CF_", "NODE_"],
 })
 
 function tvTransform(): PluginOption {

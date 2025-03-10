@@ -45,15 +45,17 @@ export function ActivityLike(props: {
 		notification.user && (
 			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
 				<ListItemImg>
-					<img
-						src={notification.user.avatar?.large || ""}
-						className="h-14 w-14 bg-(image:--bg) bg-cover object-cover"
-						style={{
-							"--bg": `url(${notification.user.avatar?.medium})`,
-						}}
-						loading="lazy"
-						alt=""
-					/>
+					{notification.user.avatar?.large && (
+						<img
+							src={notification.user.avatar.large}
+							className="h-14 w-14 bg-(image:--bg) bg-cover object-cover"
+							style={{
+								"--bg": `url(${notification.user.avatar.medium})`,
+							}}
+							loading="lazy"
+							alt=""
+						/>
+					)}
 				</ListItemImg>
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>

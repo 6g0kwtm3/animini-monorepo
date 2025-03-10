@@ -69,11 +69,11 @@ function MediaLink({
 						return (
 							media && (
 								<Card
-									className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden text-start force:p-0`}
+									className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`}
 									style={theme}
 									render={<span />}
 								>
-									<List className="force:p-0" render={<span />}>
+									<List className="p-0" render={<span />}>
 										<ListItem render={<span />}>
 											<ListItemImg>
 												<MediaCover media={media} />
@@ -211,7 +211,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 										<Card
 											variant="filled"
 											render={<article />}
-											className="grid max-w-7xl gap-4 force:rounded-[1.75rem]"
+											className="grid max-w-7xl gap-4 rounded-[1.75rem]"
 										>
 											<List
 												lines="two"
@@ -220,15 +220,17 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											>
 												<ListItem className="hover:state-none">
 													<div className="col-start-1 h-10 w-10">
-														<img
-															alt=""
-															loading="lazy"
-															src={activity.user?.avatar?.large || ""}
-															className="h-10 w-10 rounded-full bg-(image:--bg) bg-cover object-cover"
-															style={{
-																"--bg": `url(${activity.user?.avatar?.medium})`,
-															}}
-														/>
+														{activity.user?.avatar?.large && (
+															<img
+																alt=""
+																loading="lazy"
+																src={activity.user.avatar.large}
+																className="h-10 w-10 rounded-full bg-(image:--bg) bg-cover object-cover"
+																style={{
+																	"--bg": `url(${activity.user.avatar.medium})`,
+																}}
+															/>
+														)}
 													</div>
 													<ListItemContent>
 														<ListItemTitle>
@@ -341,18 +343,20 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 				<Loading value={fetcher.data === undefined}>
 					<div className="-mx-4 -my-2">
 						<List lines={"two"} className="">
-							<ListItem className="force:hover:state-none">
+							<ListItem className="hover:state-none">
 								<ListItemAvatar>
 									<Skeleton full>
-										<img
-											src={fetcher.data?.User?.avatar?.large ?? ""}
-											className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-											style={{
-												"--bg": `url(${fetcher.data?.User?.avatar?.medium ?? ""})`,
-											}}
-											loading="lazy"
-											alt=""
-										/>
+										{fetcher.data?.User?.avatar?.large && (
+											<img
+												src={fetcher.data.User.avatar.large}
+												className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
+												style={{
+													"--bg": `url(${fetcher.data.User.avatar.medium ?? ""})`,
+												}}
+												loading="lazy"
+												alt=""
+											/>
+										)}
 									</Skeleton>
 								</ListItemAvatar>
 								<ListItemContent>

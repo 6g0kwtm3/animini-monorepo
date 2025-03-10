@@ -153,7 +153,7 @@ export function Snackbar({
 		if (4000 <= timeout && timeout <= 10_000) {
 			return
 		}
-		console.warn(`Recommeneded <Snackbar /> timeout is between 4s and 10s`)
+		console.warn(`Recommended <Snackbar /> timeout is between 4s and 10s`)
 	}, [timeout])
 
 	return (

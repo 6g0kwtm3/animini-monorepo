@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
-import { createTV, type VariantProps } from "tailwind-variants"
+import { type VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 import { createList } from "~/lib/list"
@@ -97,7 +97,7 @@ export function ListItemIcon(
 	})
 }
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 const subheader = tv({
 	base: "text-body-md text-on-surface-variant truncate px-4",
 	variants: {

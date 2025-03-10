@@ -1,11 +1,11 @@
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
-import { createTV, type VariantProps } from "tailwind-variants"
+import { type VariantProps } from "tailwind-variants"
 
 import { createElement } from "~/lib/createElement"
 
-const tv = createTV({ twMerge: false })
+import { tv } from "~/lib/tailwind-variants"
 
 const createLayout = tv(
 	{
