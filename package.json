@@ -74,7 +74,7 @@
 		"cross-env": "7.0.3",
 		"dotenv": "16.4.7",
 		"electron": "35.0.1",
-		"electron-devtools-installer": "3.2.1",
+		"electron-devtools-installer": "4.0.0",
 		"eslint": "9.22.0",
 		"eslint-plugin-compat": "6.0.2",
 		"eslint-plugin-oxlint": "0.15.13",
