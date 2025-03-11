@@ -83,7 +83,7 @@
 		"graphql": "16.10.0",
 		"knip": "5.45.0",
 		"million": "3.1.11",
-		"oxlint": "0.15.13",
+		"oxlint": "0.15.14",
 		"prettier": "3.5.3",
 		"prettier-plugin-tailwindcss": "0.6.11",
 		"relay-compiler": "18.2.0",
