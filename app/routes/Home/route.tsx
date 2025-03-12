@@ -1,11 +1,11 @@
-import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
-import { Await, Link, useFetcher, useRouteLoaderData } from "react-router"
+import type { MetaFunction } from "react-router"
+import { Link, useFetcher, useRouteLoaderData } from "react-router"
 
 import { ErrorBoundary } from "@sentry/react"
 import marked from "marked"
-import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
+import type { ComponentProps, ComponentPropsWithoutRef, JSX, ReactNode } from "react"
 import { Suspense, useEffect, useMemo } from "react"
-import ReactRelay from "react-relay"
+import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
@@ -24,8 +24,6 @@ import { route_media, route_user } from "~/lib/route"
 
 // console.log(R)
 
-import { useRawLoaderData } from "~/lib/data"
-
 import { MediaCover } from "~/lib/entry/MediaCover"
 
 import createDOMPurify from "dompurify"
@@ -42,8 +40,10 @@ import { Loading, Skeleton } from "~/components/Skeleton"
 import { type clientLoader as rootLoader } from "~/root"
 import type { clientLoader as userInfoLoader } from "../UserInfo/route"
 
+import type { routeMediaCardQuery } from "~/gql/routeMediaCardQuery.graphql"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
@@ -53,48 +53,71 @@ const { graphql } = ReactRelay
 
 function MediaLink({
 	mediaId,
+	type,
+	slug,
 	...props
-}: Omit<ComponentPropsWithoutRef<typeof Link>, "to"> & {
+}: Omit<ComponentProps<typeof Link>, "to"> & {
 	mediaId: number
+	type: string
+	slug?: string
 }) {
-	const data = useRawLoaderData<typeof clientLoader>()
-
 	return (
 		<Link to={route_media({ id: mediaId })} {...props}>
-			<Suspense fallback="Loading...">
-				<Await errorElement={"Error..."} resolve={data.media}>
-					{(data) => {
-						const { media, theme } = data[mediaId] ?? {}
-
-						return (
-							media && (
-								<Card
-									className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`}
-									style={theme}
-									render={<span />}
-								>
-									<List className="p-0" render={<span />}>
-										<ListItem render={<span />}>
-											<ListItemImg>
-												<MediaCover media={media} />
-											</ListItemImg>
-											<ListItemContent>
-												<ListItemTitle render={<span />}>
-													{media.title.userPreferred}
-												</ListItemTitle>
-												<ListItemSubtitle render={<span />}>
-													{media.type}
-												</ListItemSubtitle>
-											</ListItemContent>
-										</ListItem>
-									</List>
-								</Card>
-							)
-						)
-					}}
-				</Await>
-			</Suspense>
+			<ErrorBoundary
+				fallback={<>{slug ? `${type}${slug}` : `Failed to load ${type}`}</>}
+			>
+				<Suspense fallback="Loading...">
+					<MediaCard mediaId={mediaId} type={type}></MediaCard>
+				</Suspense>
+			</ErrorBoundary>
 		</Link>
+	)
+}
+
+function MediaCard(props) {
+	const media = useLazyLoadQuery<routeMediaCardQuery>(
+		graphql`
+			query routeMediaCardQuery($id: Int) {
+				Media(id: $id) {
+					title {
+						userPreferred
+					}
+					coverImage {
+						theme
+					}
+					...MediaCover_media
+				}
+			}
+		`,
+		{
+			id: props.mediaId,
+		}
+	).Media
+
+	return (
+		media && (
+			<Card
+				className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`}
+				style={media.coverImage?.theme}
+				render={<span />}
+			>
+				<List className="p-0" render={<span />}>
+					<ListItem render={<span />}>
+						<ListItemImg>
+							<MediaCover media={media} />
+						</ListItemImg>
+						<ListItemContent>
+							<ListItemTitle render={<span />}>
+								{media.title?.userPreferred}
+							</ListItemTitle>
+							<ListItemSubtitle render={<span />}>
+								{props.type}
+							</ListItemSubtitle>
+						</ListItemContent>
+					</ListItem>
+				</List>
+			</Card>
+		)
 	)
 }
 
@@ -104,34 +127,6 @@ function matchMediaId(s: string) {
 		.filter(isFinite)
 }
 
-async function getPage() {
-	const data = await client_operation<routeNavFeedQuery>(
-		graphql`
-			query routeNavFeedQuery {
-				Page(perPage: 10) {
-					activities(sort: [ID_DESC], type_in: [TEXT]) {
-						__typename
-						... on TextActivity {
-							id
-							createdAt
-							text
-							user {
-								id
-								name
-								avatar {
-									large
-									medium
-								}
-							}
-						}
-					}
-				}
-			}
-		`,
-		{}
-	)
-	return data?.Page
-}
 async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	const data = await client_operation<routeNavFeedMediaQuery>(
 		graphql`
@@ -172,40 +167,70 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 	)
 }
 
-export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
-	const page = await getPage()
-
-	const ids =
-		page?.activities?.flatMap((activity) => {
-			if (activity?.__typename === "TextActivity") {
-				return activity.text ? matchMediaId(activity.text) : []
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
+	const page = args.context.get(loadQuery)<routeNavFeedQuery>(
+		graphql`
+			query routeNavFeedQuery($perPage: Int) {
+				Page(perPage: $perPage) {
+					activities(sort: [ID_DESC], type_in: [TEXT]) {
+						__typename
+						... on TextActivity {
+							id
+							createdAt
+							text
+							user {
+								id
+								name
+								avatar {
+									large
+									medium
+								}
+							}
+						}
+					}
+				}
 			}
-			return []
-		}) ?? []
+		`,
+		{}
+	)
+
+	console.log({ page })
+
+	// const ids =
+	// 	page?.activities?.flatMap((activity) => {
+	// 		if (activity?.__typename === "TextActivity") {
+	// 			return activity.text ? matchMediaId(activity.text) : []
+	// 		}
+	// 		return []
+	// 	}) ?? []
 
 	return {
 		page,
 		media:
-			ids.length > 0
-				? getMedia({ ids: ids })
-				: Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
+			// ids.length > 0
+			// 	? getMedia({ ids: ids })
+			// 	:
+			Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
 	}
 }
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = loaderData
+	const data = usePreloadedQuery(...loaderData.page)
+
+	console.log(data)
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
 				<ul className="flex flex-col gap-2">
-					{data.page?.activities
+					{data.Page?.activities
 						?.filter((el) => el != null)
 						.map((activity) => {
 							if (activity.__typename === "TextActivity") {
 								return (
 									<li
 										key={activity.id}
+										data-key={activity.id}
 										className="animate-appear [animation-range:entry_5%_cover_20%] [animation-timeline:view()]"
 									>
 										<Card
@@ -278,23 +303,39 @@ const options = {
 			return <center {...props} />
 		},
 		p(props) {
-			return <div {...props} />
+			return <p {...props} />
 		},
 		a(props) {
 			if (!props.href?.trim()) {
-				return <span className="text-primary">{props.children}</span>
+				return <a className="text-primary">{props.children}</a>
 			}
 
-			// @ts-expect-error datasets are not typed
-			if (props.className === "media-link" && props["data-id"]) {
-				// @ts-expect-error datasets are not typed
-				return <MediaLink mediaId={props["data-id"]} />
-			}
+			let mediaId: number
 
-			// @ts-expect-error datasets are not typed
-			if (props["data-user-name"]) {
+			if (
+				props.className === "media-link" &&
+				"data-id" in props &&
+				"data-type" in props &&
+				"data-slug" in props &&
+				Predicate.isString(props["data-type"]) &&
+				Predicate.isString(props["data-slug"]) &&
+				isFinite((mediaId = Number(props["data-id"])))
+			) {
 				return (
-					// @ts-expect-error datasets are not typed
+					<MediaLink
+						{...props}
+						mediaId={mediaId}
+						type={props["data-type"]}
+						slug={props["data-slug"]}
+					/>
+				)
+			}
+
+			if (
+				"data-user-name" in props &&
+				Predicate.isString(props["data-user-name"])
+			) {
+				return (
 					<UserLink userName={props["data-user-name"]}>
 						{props.children}
 					</UserLink>
@@ -302,7 +343,12 @@ const options = {
 			}
 
 			return (
-				<a {...props} rel="noopener noreferrer" target="_blank">
+				<a
+					{...props}
+					rel="noopener noreferrer"
+					target="_blank"
+					className="text-primary"
+				>
 					{props.children}
 				</a>
 			)
@@ -544,7 +590,7 @@ function sanitizeHtml(t: string) {
 	const DOMPurify = createDOMPurify(window)
 
 	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
-		if (node.tagName === "a") {
+		if ("target" in node) {
 			node.setAttribute("target", "_blank")
 			node.setAttribute("rel", "noopener noreferrer")
 		}
@@ -647,9 +693,9 @@ function markdownHtml(t: string) {
 			"<video muted loop controls><source src='h$1' type='video/webm'>Your browser does not support the video tag.</video>"
 		)),
 		(t = t.replace(
-			/(?:<a.*?href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+).*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
-			(group, _, mediaId) => {
-				return `<a class="media-link" href="${route_media({ id: mediaId })}" data-id="${mediaId}">Loading...</a>`
+			/(?:<a.*href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+)(\/\w+)?.*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
+			(group, type, mediaId, slug) => {
+				return `<a class="media-link" href="${route_media({ id: mediaId })}" data-type="${type}" data-slug="${slug}" data-id="${mediaId}">Loading...</a>`
 			}
 		)),
 		t

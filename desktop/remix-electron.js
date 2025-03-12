@@ -20,14 +20,7 @@ import { createRequestHandler } from "@react-router/express"
 import express from "express"
 import { pathToFileURL } from "url"
 
-// @ts-ignore: weird ESM error
-import * as webFetch from "@react-router/web-fetch"
-
 import { app } from "electron"
-
-// only override the File global
-// if we override everything else, we get errors caused by the mismatch of built-in types and remix types
-global.File = webFetch.File
 
 /**
  * Initialize and configure remix-electron

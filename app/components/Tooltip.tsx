@@ -31,6 +31,7 @@ export function TooltipRichContainer(props: Ariakit.HovercardProps): ReactNode {
 	return (
 		<Ariakit.Hovercard
 			gutter={8}
+			portal={true}
 			{...props}
 			className={container({ className: props.className })}
 		/>
