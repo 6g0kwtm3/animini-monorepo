@@ -10,10 +10,11 @@ import oxlintPlugin from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 import tailwindConfig from "./tailwind.config"
+
 export default defineConfig({
 	plugins: [
 		Inspect(),
-		oxlintPlugin({ configFile: "../../oxlintrc.json" }),
+		oxlintPlugin({ configFile: "./node_modules/oxlint-config/oxlintrc.json" }),
 		tvTransform(),
 		tailwindcss(),
 

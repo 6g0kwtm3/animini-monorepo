@@ -17,12 +17,12 @@
 			"outputs": ["app/paraglide/**"],
 			"inputs": ["messages/**", "project.inlang/settings.json"]
 		},
-		"check-transit": {
-			"dependsOn": ["^check-transit"]
+		"transit": {
+			"dependsOn": ["^transit"]
 		},
-		"check": { "dependsOn": ["check-transit", "router", "paraglide", "relay"] },
-		"//#oxlint": {},
-		"lint": {},
+		"check": { "dependsOn": ["transit", "router", "paraglide", "relay"] },
+		"oxlint": { "dependsOn": ["transit"] },
+		"lint": { "dependsOn": ["transit"] },
 		"//#format": {}
 	}
 }

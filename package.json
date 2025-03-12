@@ -5,10 +5,11 @@
 	"scripts": {
 		"build": "turbo run build --affected",
 		"check": "turbo run check --affected",
+		"lint": "turbo run lint --affected",
+		"oxlint": "turbo run oxlint --affected",
 		"dev": "turbo run dev",
 		"format": "prettier . -w",
-		"knip": "knip",
-		"oxlint": "oxlint -c ./oxlintrc.json --fix"
+		"knip": "knip"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "3.3.0",
