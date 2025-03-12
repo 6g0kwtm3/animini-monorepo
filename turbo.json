@@ -13,7 +13,10 @@
 			"outputs": [".react-router/**"]
 		},
 		"relay": { "outputs": ["app/gql/**"] },
-		"paraglide": { "outputs": ["app/paraglide/**"] },
+		"paraglide": {
+			"outputs": ["app/paraglide/**"],
+			"inputs": ["messages/**", "project.inlang/settings.json"]
+		},
 		"check-transit": {
 			"dependsOn": ["^check-transit"]
 		},
