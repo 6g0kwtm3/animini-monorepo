@@ -1,4 +1,4 @@
 @import "tailwindcss";
-@import "../app/base.css";
+@import "m3-core/base.css";
 
-@config "../tailwind.storybook.config.ts";
+@config "../tailwind.config.ts";

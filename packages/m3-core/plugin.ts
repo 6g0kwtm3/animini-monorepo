@@ -6,8 +6,6 @@ import colors from "./colors.json"
 import fontSize from "./tailwind.config.fonts"
 
 export const config = {
-	content: ["app/**/*.{ts,tsx}"],
-
 	theme: {
 		screens: {
 			sm: "600px",

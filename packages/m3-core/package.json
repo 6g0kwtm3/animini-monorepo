@@ -1,5 +1,9 @@
 {
 	"$schema": "https://json.schemastore.org/package",
 	"name": "m3-core",
-	"private": true
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./tailwind.config": "./tailwind.config.ts"
+	}
 }
