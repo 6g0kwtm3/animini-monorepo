@@ -2,6 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "m3-react",
 	"private": true,
+	"type": "module",
 	"dependencies": {
 		"m3-core": "workspace:*",
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1",

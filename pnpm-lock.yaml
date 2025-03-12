@@ -71,6 +71,9 @@ importers:
       eslint:
         specifier: 9.22.0
         version: 9.22.0(jiti@2.4.2)
+      eslint-config:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       eslint-plugin-storybook:
         specifier: 0.10.0--canary.156.408aed4.0
         version: 0.10.0--canary.156.408aed4.0(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)
@@ -80,6 +83,9 @@ importers:
       oxlint:
         specifier: ^0.15.7
         version: 0.15.14
+      oxlint-config:
+        specifier: workspace:*
+        version: link:../../packages/oxlint-config
       react:
         specifier: 19.0.0
         version: 19.0.0

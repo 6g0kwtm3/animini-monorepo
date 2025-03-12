@@ -7,7 +7,7 @@ import oxlint from "eslint-plugin-oxlint"
 
 import tseslint from "typescript-eslint"
 
-export default typegen([
+export default await typegen([
 	{
 		ignores: [
 			"build",
