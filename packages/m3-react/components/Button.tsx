@@ -8,7 +8,7 @@ import { createContext, forwardRef, useContext } from "react"
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton } from "~/lib/button"
-import { TouchTarget } from "./Tooltip"
+import { TouchTarget } from "./TouchTarget"
 
 interface ButtonProps
 	extends Ariakit.ButtonProps,

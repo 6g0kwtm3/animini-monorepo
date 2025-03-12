@@ -8,5 +8,8 @@
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1",
 		"@ariakit/react": "0.4.15",
 		"react": "19.0.0"
+	},
+	"exports": {
+		"./Button": "./components/Button.tsx"
 	}
 }
