@@ -1,0 +1,25 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"tasks": {
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
+		"build": {
+			"dependsOn": ["^build", "relay"],
+			"outputs": ["build/**"]
+		},
+		"router": {
+			"outputs": [".react-router/**"]
+		},
+		"relay": { "outputs": ["app/gql/**"] },
+		"paraglide": { "outputs": ["app/paraglide/**"] },
+		"check-transit": {
+			"dependsOn": ["^check-transit"]
+		},
+		"check": { "dependsOn": ["check-transit", "router", "paraglide", "relay"] },
+		"//#oxlint": {},
+		"//#lint": {},
+		"//#format": {}
+	}
+}

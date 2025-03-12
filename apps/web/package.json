@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
+	"name": "web",
 	"private": true,
 	"sideEffects": false,
 	"type": "module",
-	"name": "animini-pwa",
 	"main": "desktop/index.js",
 	"scripts": {
 		"deploy": "wrangler pages deploy ./build/client",
@@ -14,9 +14,8 @@
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
 		"check": "bunx --bun tsc",
-		"codegen": "relay-compiler",
-		"gen:router": "bunx --bun react-router typegen",
-		"prepare": "bun run paraglide && bun run gen:router && bun run codegen",
+		"relay": "relay-compiler",
+		"router": "bunx --bun react-router typegen",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir ./app/paraglide",
 		"test": "playwright test"
 	},
@@ -66,7 +65,8 @@
 		"vite-plugin-relay": "2.1.0",
 		"vite-tsconfig-paths": "5.1.4",
 		"unplugin-icons": "22.1.0",
-		"@types/relay-runtime": "18.2.5"
+		"@types/relay-runtime": "18.2.5",
+		"express": "4.21.2"
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@^7.3.0"
@@ -74,7 +74,9 @@
 	"devDependencies": {
 		"cross-env": "7.0.3",
 		"dotenv": "16.4.7",
-		"nodemon": "3.1.9"
+		"nodemon": "3.1.9",
+		"vite-plugin-inspect": "11.0.0",
+		"vite-plugin-oxlint": "1.2.3"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
