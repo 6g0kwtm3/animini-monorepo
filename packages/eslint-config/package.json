@@ -2,9 +2,10 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "eslint-config",
 	"private": true,
+	"type": "module",
 	"exports": {
-		"./typescript": "./typescript/eslint.config.js",
-		"./react": "./react/eslint.config.js"
+		"./typescript": "./typescript/eslint.config.mjs",
+		"./react": "./react/eslint.config.mjs"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "3.3.0",
