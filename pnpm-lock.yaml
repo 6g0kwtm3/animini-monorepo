@@ -30,6 +30,8 @@ importers:
         specifier: 3.114.1
         version: 3.114.1(@cloudflare/workers-types@4.20250311.0)
 
+  apps/storybook: {}
+
   apps/web:
     dependencies:
       '@ariakit/react':
