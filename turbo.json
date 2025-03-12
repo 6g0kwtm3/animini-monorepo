@@ -8,7 +8,7 @@
 		},
 		"build": {
 			"dependsOn": ["^build", "relay"],
-			"outputs": ["build/**"]
+			"outputs": ["build/**", " storybook-static/**"]
 		},
 		"router": {
 			"outputs": [".react-router/**"]
