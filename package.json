@@ -5,34 +5,23 @@
 	"scripts": {
 		"build": "turbo run build --affected",
 		"check": "turbo run check --affected",
-		"lint": "turbo run lint --affected",
-		"oxlint": "turbo run oxlint --affected",
 		"dev": "turbo run dev",
 		"format": "prettier . -w",
-		"knip": "knip"
+		"knip": "knip",
+		"lint": "turbo run lint --affected",
+		"oxlint": "turbo run oxlint --affected"
 	},
 	"devDependencies": {
-		"@eslint/eslintrc": "3.3.0",
-		"@eslint/js": "9.22.0",
-		"@graphql-eslint/eslint-plugin": "4.3.0",
-		"@playwright/test": "1.51.0",
-		"@types/eslint": "9.6.1",
-		"eslint": "9.22.0",
-		"eslint-plugin-compat": "6.0.2",
-		"eslint-plugin-oxlint": "0.15.14",
-		"eslint-plugin-react-compiler": "0.0.0-experimental-fcabbc1-20241106",
-		"eslint-plugin-react-refresh": "0.4.19",
 		"knip": "5.45.0",
 		"oxlint": "0.15.14",
 		"prettier": "3.5.3",
 		"prettier-plugin-tailwindcss": "0.6.11",
 		"turbo": "^2.4.4",
 		"typescript": "5.8.2",
-		"typescript-eslint": "8.26.1",
 		"wrangler": "3.114.1"
 	},
+	"packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a",
 	"engines": {
 		"node": ">=23.6.0"
-	},
-	"packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
+	}
 }

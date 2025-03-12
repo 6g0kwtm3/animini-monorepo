@@ -12,13 +12,13 @@
 		"dev": "react-router dev",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
+		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --fix",
+		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir ./app/paraglide",
 		"relay": "relay-compiler",
 		"router": "react-router typegen",
 		"start": "vite preview",
-		"test": "playwright test",
-		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --fix",
-		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix"
+		"test": "playwright test"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
@@ -75,12 +75,23 @@
 		"vite-tsconfig-paths": "5.1.4"
 	},
 	"devDependencies": {
+		"@eslint/eslintrc": "3.3.0",
+		"@eslint/js": "9.22.0",
+		"@graphql-eslint/eslint-plugin": "4.3.0",
+		"@playwright/test": "1.51.0",
+		"@types/eslint": "9.6.1",
 		"cross-env": "7.0.3",
 		"dotenv": "16.4.7",
+		"eslint": "9.22.0",
+		"eslint-plugin-compat": "6.0.2",
+		"eslint-plugin-oxlint": "0.15.14",
+		"eslint-plugin-react-compiler": "0.0.0-experimental-fcabbc1-20241106",
+		"eslint-plugin-react-refresh": "0.4.19",
 		"nodemon": "3.1.9",
+		"oxlint-config": "workspace:*",
+		"typescript-eslint": "8.26.1",
 		"vite-plugin-inspect": "11.0.0",
-		"vite-plugin-oxlint": "1.2.3",
-		"oxlint-config": "workspace:*"
+		"vite-plugin-oxlint": "1.2.3"
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.3.0"
