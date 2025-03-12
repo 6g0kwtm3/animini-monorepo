@@ -18,16 +18,16 @@ import type { ReactNode } from "react"
 // const point5Icons = Array.from({ length: 5 }, (_, index) => (
 // 	<>
 // 		<div
-// 			key={index}
+// 			key={index} data-key={index}
 // 			className="hover:text-yellow-400 peer-checked:text-yellow-400 absolute left-0 top-0 flex text-transparent peer-checked:group-hover:opacity-40 hover:peer-checked:group-hover:opacity-100"
 // 		>
 // 			{Array.from({ length: 5 - index }, (_, i) => (
-// 				<StarIcon className="h-6 w-6 hover:scale-110" key={i} />
+// 				<StarIcon className="h-6 w-6 hover:scale-110" key={i} data-key={i} />
 // 			))}
 // 		</div>
 
 // 		<StarIcon
-// 			key={`bg-${index}`}
+// 			key={`bg-${index} data-key={`bg-${index}`}
 // 			className="text-gray-300 dark:text-gray-500 h-6 w-6"
 // 		/>
 // 	</>
@@ -46,6 +46,7 @@ export const Rating = (props: {
 						id={String(length - index)}
 						aria-label={String(length - index)}
 						key={index}
+						data-key={index}
 					>
 						<input
 							name={props.name}

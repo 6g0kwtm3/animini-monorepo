@@ -152,7 +152,7 @@ export default function Filters(): ReactNode {
 												: MANGA_STATUS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value}>
+												<M3.ChipFilter key={value} data-key={value}>
 													<M3.ChipFilterCheckbox name="status" value={value} />
 													{label}
 												</M3.ChipFilter>
@@ -171,7 +171,7 @@ export default function Filters(): ReactNode {
 												: MANGA_FORMAT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value}>
+												<M3.ChipFilter key={value} data-key={value}>
 													<M3.ChipFilterCheckbox name="format" value={value} />
 													{label}
 												</M3.ChipFilter>
@@ -190,7 +190,7 @@ export default function Filters(): ReactNode {
 												: MANGA_PROGRESS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value}>
+												<M3.ChipFilter key={value} data-key={value}>
 													<M3.ChipFilterCheckbox
 														name="progress"
 														value={value}
@@ -213,7 +213,7 @@ export default function Filters(): ReactNode {
 												: MANGA_SORT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value}>
+												<M3.ChipFilter key={value} data-key={value}>
 													<M3.ChipFilterRadio name="sort" value={value} />
 													{label}
 												</M3.ChipFilter>
@@ -299,6 +299,7 @@ function ListTabs() {
 					list.name && (
 						<TabsListItem
 							key={list.name}
+							data-key={list.name}
 							id={list.name}
 							render={<Link to={`${list.name}?${searchParams}`} />}
 						>
@@ -418,7 +419,7 @@ function SheetSort() {
 							: MANGA_SORT_OPTIONS
 					).map(([value, label]) => {
 						return (
-							<ListItem render={<Label />} key={value}>
+							<ListItem render={<Label />} key={value} data-key={value}>
 								<Radio name="sort" value={value} />
 								<ListItemContent>
 									<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -453,7 +454,7 @@ function SheetFilter() {
 								: MANGA_STATUS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<Label />} key={value}>
+								<ListItem render={<Label />} key={value} data-key={value}>
 									<Checkbox name="status" value={value} />
 									<div className="col-span-2 col-start-2">
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -476,7 +477,7 @@ function SheetFilter() {
 								: MANGA_FORMAT_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<Label />} key={value}>
+								<ListItem render={<Label />} key={value} data-key={value}>
 									<Checkbox name="format" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -499,7 +500,7 @@ function SheetFilter() {
 								: MANGA_PROGRESS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<Label />} key={value}>
+								<ListItem render={<Label />} key={value} data-key={value}>
 									<Checkbox name="progress" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
