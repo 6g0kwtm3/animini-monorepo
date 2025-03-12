@@ -336,7 +336,6 @@ function sortEntries(
 			continue
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (sort === MediaListSort.PopularityDesc) {
 			order.push(
 				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
