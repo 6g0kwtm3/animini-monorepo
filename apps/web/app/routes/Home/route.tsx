@@ -9,7 +9,7 @@ import type {
 	JSX,
 	ReactNode,
 } from "react"
-import { Suspense, useEffect, useMemo } from "react"
+import { Suspense, useMemo } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -39,15 +39,13 @@ import {
 	TooltipRichTrigger,
 } from "~/components/Tooltip"
 
-import * as Ariakit from "@ariakit/react"
 import { Button } from "~/components/Button"
-import { Loading, Skeleton } from "~/components/Skeleton"
 import { type clientLoader as rootLoader } from "~/root"
-import type { clientLoader as userInfoLoader } from "../UserInfo/route"
 
 import type { routeMediaCardQuery } from "~/gql/routeMediaCardQuery.graphql"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
+import type { routeUserCardQuery } from "~/gql/routeUserCardQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
@@ -199,8 +197,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 		{}
 	)
 
-	console.log({ page })
-
 	// const ids =
 	// 	page?.activities?.flatMap((activity) => {
 	// 		if (activity?.__typename === "TextActivity") {
@@ -221,8 +217,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(...loaderData.page)
-
-	console.log(data)
 
 	return (
 		<LayoutBody>
@@ -255,7 +249,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 																alt=""
 																loading="lazy"
 																src={activity.user.avatar.large}
-																className="bg-(image:--bg) h-10 w-10 rounded-full bg-cover object-cover"
+																className="h-10 w-10 rounded-full bg-(image:--bg) bg-cover object-cover"
 																style={{
 																	"--bg": `url(${activity.user.avatar.medium})`,
 																}}
@@ -361,28 +355,92 @@ const options = {
 	},
 } satisfies Options
 
-function UserLink(props: { userName: string; children: ReactNode }) {
-	const fetcher = useFetcher<typeof userInfoLoader>({
-		key: `${props.userName}-info`,
-	})
+function UserCard(props: { userName: string }) {
+	let data = useLazyLoadQuery<routeUserCardQuery>(
+		graphql`
+			query routeUserCardQuery($userName: String!) {
+				User(name: $userName) {
+					id
+					avatar {
+						medium
+						large
+					}
+					isFollower
+					isFollowing
+				}
+			}
+		`,
+		{ userName: props.userName }
+	)
+
+	const rootData = useRouteLoaderData<typeof rootLoader>("root")
 	const follow = useFetcher<typeof userFollowAction>({
 		key: `${props.userName}-follow`,
 	})
 
-	const store = Ariakit.useHovercardStore()
-
-	const open = Ariakit.useStoreState(store, "open")
-
-	useEffect(() => {
-		if (open && fetcher.state === "idle" && !fetcher.data) {
-			void fetcher.load(`/user/${props.userName}/info`)
-		}
-	}, [open, fetcher, props.userName])
-
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
-
 	return (
-		<TooltipRich placement="top" store={store}>
+		<>
+			<div className="-mx-4 -my-2">
+				<List lines={"two"} className="">
+					<ListItem className="hover:state-none">
+						<ListItemAvatar>
+							{data.User?.avatar?.large && (
+								<img
+									src={data.User.avatar.large}
+									className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
+									style={{
+										"--bg": `url(${data.User.avatar.medium ?? ""})`,
+									}}
+									loading="lazy"
+									alt=""
+								/>
+							)}
+						</ListItemAvatar>
+						<ListItemContent>
+							<ListItemTitle>{props.userName}</ListItemTitle>
+							<ListItemSubtitle>
+								{data.User?.isFollower ? "Follower" : "Not follower"}
+							</ListItemSubtitle>
+						</ListItemContent>
+					</ListItem>
+				</List>
+			</div>
+
+			<TooltipRichActions>
+				{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName && (
+					<follow.Form method="post" action={`/user/${data.User?.id}/follow`}>
+						<input
+							type="hidden"
+							name="isFollowing"
+							value={
+								(follow.formData?.get("isFollowing") ??
+								follow.data?.ToggleFollow.isFollowing ??
+								data.User?.isFollowing)
+									? ""
+									: "true"
+							}
+							id=""
+						/>
+
+						<Button type="submit" aria-disabled={!data.User?.id}>
+							{(follow.formData?.get("isFollowing") ??
+							follow.data?.ToggleFollow.isFollowing ??
+							data.User?.isFollowing)
+								? m.unfollow_button()
+								: m.follow_button()}
+						</Button>
+					</follow.Form>
+				)}
+			</TooltipRichActions>
+			{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
+			<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
+		</>
+	)
+}
+
+function UserLink(props: { userName: string; children: ReactNode }) {
+	return (
+		<TooltipRich placement="top">
 			<TooltipRichTrigger
 				render={
 					<Link to={route_user({ userName: props.userName })}>
@@ -390,74 +448,14 @@ function UserLink(props: { userName: string; children: ReactNode }) {
 					</Link>
 				}
 			/>
-			<TooltipRichContainer className="not-prose text-start">
-				<Loading value={fetcher.data === undefined}>
-					<div className="-mx-4 -my-2">
-						<List lines={"two"} className="">
-							<ListItem className="hover:state-none">
-								<ListItemAvatar>
-									<Skeleton full>
-										{fetcher.data?.User?.avatar?.large && (
-											<img
-												src={fetcher.data.User.avatar.large}
-												className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-												style={{
-													"--bg": `url(${fetcher.data.User.avatar.medium ?? ""})`,
-												}}
-												loading="lazy"
-												alt=""
-											/>
-										)}
-									</Skeleton>
-								</ListItemAvatar>
-								<ListItemContent>
-									<ListItemTitle>{props.userName}</ListItemTitle>
-									<ListItemSubtitle>
-										<Skeleton>
-											{fetcher.data?.User?.isFollower
-												? "Follower"
-												: "Not follower"}
-										</Skeleton>
-									</ListItemSubtitle>
-								</ListItemContent>
-							</ListItem>
-						</List>
-					</div>
 
-					<TooltipRichActions>
-						{rootData?.Viewer?.name &&
-							rootData.Viewer.name !== props.userName && (
-								<follow.Form
-									method="post"
-									action={`/user/${fetcher.data?.User?.id}/follow`}
-								>
-									<input
-										type="hidden"
-										name="isFollowing"
-										value={
-											(follow.formData?.get("isFollowing") ??
-											follow.data?.ToggleFollow.isFollowing ??
-											fetcher.data?.User?.isFollowing)
-												? ""
-												: "true"
-										}
-										id=""
-									/>
-
-									<Button type="submit" aria-disabled={!fetcher.data?.User?.id}>
-										{(follow.formData?.get("isFollowing") ??
-										follow.data?.ToggleFollow.isFollowing ??
-										fetcher.data?.User?.isFollowing)
-											? m.unfollow_button()
-											: m.follow_button()}
-									</Button>
-								</follow.Form>
-							)}
-					</TooltipRichActions>
-					{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
-				<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
-				</Loading>
-			</TooltipRichContainer>
+			<ErrorBoundary>
+				<Suspense>
+					<TooltipRichContainer className="text-start" unmountOnHide>
+						<UserCard userName={props.userName}></UserCard>
+					</TooltipRichContainer>
+				</Suspense>
+			</ErrorBoundary>
 		</TooltipRich>
 	)
 }
