@@ -1,4 +1,4 @@
-{
+export default {
 	"light": {
 		"scrim": "neutral0",
 		"primary": "primary40",
