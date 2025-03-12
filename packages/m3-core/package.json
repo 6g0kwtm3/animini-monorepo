@@ -7,7 +7,8 @@
 		"./plugin": "./plugin.ts",
 		"./colors": "./colors.ts",
 		"./tailwind.config": "./tailwind.config.ts",
-		"./fonts": "./fonts.ts"
+		"./fonts": "./fonts.ts",
+		"./tailwind-variants": "./tailwind-variants.ts"
 	},
 	"devDependencies": {
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1",
