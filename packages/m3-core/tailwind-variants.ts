@@ -1,7 +1,7 @@
 import { createTV } from "tailwind-variants"
 
 // import colors from "~/../colors.json"
-import fontSize from "~/../tailwind.config.fonts"
+import fontSize from "./fonts"
 
 export const tv = createTV({
 	twMergeConfig: {

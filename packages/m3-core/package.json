@@ -1,5 +1,17 @@
 {
 	"$schema": "https://json.schemastore.org/package",
 	"name": "m3-core",
-	"private": true
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./plugin": "./plugin.ts",
+		"./colors": "./colors.ts",
+		"./tailwind.config": "./tailwind.config.ts",
+		"./fonts": "./fonts.ts",
+		"./tailwind-variants": "./tailwind-variants.ts"
+	},
+	"devDependencies": {
+		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1",
+		"tailwindcss": "4.0.0-beta.2"
+	}
 }

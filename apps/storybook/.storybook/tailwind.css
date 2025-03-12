@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@import "m3-core/base.css";
+
+@config "../tailwind.config.ts";
