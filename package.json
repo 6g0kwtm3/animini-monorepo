@@ -6,8 +6,8 @@
 		"oxlint": "oxlint -c ./oxlintrc.json",
 		"lint": "bunx --bun eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"format": "bunx --bun prettier . -w",
-		"check": "bun --filter * check",
-		"build": "bun --filter * build"
+		"check": "bun --filter '*' check",
+		"build": "bun --filter '*' build"
 	},
 	"devDependencies": {
 		"@playwright/test": "1.51.0",
