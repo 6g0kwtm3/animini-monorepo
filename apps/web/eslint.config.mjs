@@ -5,7 +5,7 @@ import oxlint from "eslint-plugin-oxlint"
 import reactCompiler from "eslint-plugin-react-compiler"
 import reactRefresh from "eslint-plugin-react-refresh"
 import tseslint from "typescript-eslint"
-import graphQLConfig from "./apps/web/graphql.config.js"
+import graphQLConfig from "./graphql.config.js"
 
 export default tseslint.config(
 	{
@@ -59,12 +59,12 @@ export default tseslint.config(
 		},
 	},
 	{
-		files: ["apps/web/**/*.{js,jsx,ts,tsx}"],
+		files: ["**/*.{js,jsx,ts,tsx}"],
 		processor: graphql.processors.graphql,
 		// languageOptions: { parser: tsparser },
 	},
 	{
-		files: ["apps/web/**/*.graphql"],
+		files: ["**/*.graphql"],
 		languageOptions: {
 			parser: graphql.parser,
 			parserOptions: {

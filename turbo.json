@@ -22,7 +22,7 @@
 		},
 		"check": { "dependsOn": ["check-transit", "router", "paraglide", "relay"] },
 		"//#oxlint": {},
-		"//#lint": {},
+		"lint": {},
 		"//#format": {}
 	}
 }

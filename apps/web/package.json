@@ -16,7 +16,8 @@
 		"relay": "relay-compiler",
 		"router": "react-router typegen",
 		"start": "vite preview",
-		"test": "playwright test"
+		"test": "playwright test",
+		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --fix"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
