@@ -36,7 +36,7 @@
 		"chokidar": "4.0.3",
 		"cookie": "1.0.2",
 		"dompurify": "3.2.4",
-		"framer-motion": "12.4.13",
+		"framer-motion": "12.5.0",
 		"isbot": "5.1.23",
 		"marked": "0.3.19",
 		"react": "19.0.0",
