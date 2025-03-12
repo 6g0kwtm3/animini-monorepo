@@ -75,7 +75,7 @@ export function ProgressIncrement(props: {
 		<div className="flex justify-end">
 			{Predicate.isString(data?.Viewer?.name) &&
 				data.Viewer.name === params.userName && (
-					<Form className="hidden @md:block" method="post">
+					<Form className="@md:block hidden" method="post">
 						<input type="hidden" name="progress" value={progress + 1} />
 						<input type="hidden" name="id" value={entry.id} />
 						<input type="hidden" name="intent" value="increment" />

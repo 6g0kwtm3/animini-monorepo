@@ -7,7 +7,7 @@ import { createElement } from "~/lib/createElement"
 import { tv } from "~/lib/tailwind-variants"
 
 const skeleton = tv({
-	base: "bg-surface-container-highest animate-pulse overflow-hidden rounded-xs text-transparent select-none",
+	base: "bg-surface-container-highest rounded-xs animate-pulse select-none overflow-hidden text-transparent",
 	variants: {
 		full: {
 			true: "block h-full w-full",

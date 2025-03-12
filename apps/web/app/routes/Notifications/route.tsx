@@ -110,7 +110,7 @@ export default function Notifications(): ReactNode {
 			<LayoutPane>
 				{someNotRead && (
 					<Form method="post">
-						<div className="fixed end-4 bottom-24 sm:bottom-4">
+						<div className="fixed bottom-24 end-4 sm:bottom-4">
 							<div className="relative">
 								<TooltipPlain store={store}>
 									<TooltipPlainTrigger

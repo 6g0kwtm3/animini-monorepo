@@ -265,7 +265,7 @@ function Edit() {
 	const root = useRouteLoaderData<typeof rootLoader>("root")
 
 	return (
-		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
+		<motion.div layoutId="edit" className="fixed bottom-24 end-4 sm:bottom-4">
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger

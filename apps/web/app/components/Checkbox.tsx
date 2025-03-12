@@ -18,13 +18,13 @@ export function Checkbox(props: Omit<Ariakit.CheckboxProps, "id">): ReactNode {
 			<Ariakit.VisuallyHidden>
 				<Ariakit.Checkbox {...props} id={id} />
 			</Ariakit.VisuallyHidden>
-			<div className="text-primary i hidden group-has-checked:block">
+			<div className="text-primary i group-has-checked:block hidden">
 				<MaterialSymbolsCheckBox />
 			</div>
 			<div className="i hidden group-has-[input:not(:checked)]:block">
 				<MaterialSymbolsCheckBoxOutlineBlank />
 			</div>
-			<div className="i hidden group-has-indeterminate:block">
+			<div className="i group-has-indeterminate:block hidden">
 				<MaterialSymbolsIndeterminateCheckBox />
 			</div>
 			<TouchTarget />
@@ -39,7 +39,7 @@ export function Radio(props: Omit<Ariakit.RadioProps, "id">): ReactNode {
 			<Ariakit.VisuallyHidden>
 				<Ariakit.Radio {...props} id={id} />
 			</Ariakit.VisuallyHidden>
-			<div className="text-primary i hidden group-has-checked:block">
+			<div className="text-primary i group-has-checked:block hidden">
 				<MaterialSymbolsRadioButtonCheckedOutline />
 			</div>
 			<div className="i hidden group-has-[input:not(:checked)]:block">

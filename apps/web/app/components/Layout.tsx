@@ -15,18 +15,18 @@ const createLayout = tv(
 		},
 		variants: {
 			navigation: {
-				none: { body: "ps-4 pb-0 sm:ps-6" },
+				none: { body: "pb-0 ps-4 sm:ps-6" },
 				bar: {
 					root: "",
-					body: "ps-4 pb-20 sm:ps-6",
+					body: "pb-20 ps-4 sm:ps-6",
 				},
 				rail: {
 					root: "",
-					body: "ps-20 pb-0 sm:ps-20",
+					body: "pb-0 ps-20 sm:ps-20",
 				},
 				drawer: {
 					root: "",
-					body: "ps-[22.5rem] pb-0 sm:ps-[22.5rem]",
+					body: "pb-0 ps-[22.5rem] sm:ps-[22.5rem]",
 				},
 			},
 		},

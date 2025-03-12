@@ -22,7 +22,7 @@ const MediaCover_media = graphql`
 import { tv } from "~/lib/tailwind-variants"
 
 const cover = tv({
-	base: "bg-cover bg-center object-cover object-center in-[.transitioning]:[view-transition-name:media-cover]",
+	base: "in-[.transitioning]:[view-transition-name:media-cover] bg-cover bg-center object-cover object-center",
 })
 export function MediaCover({
 	media,

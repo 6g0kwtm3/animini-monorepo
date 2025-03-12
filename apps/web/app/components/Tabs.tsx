@@ -20,7 +20,7 @@ const tabs = tv({
 			secondary: {},
 		},
 		grow: {
-			true: { root: "grid [grid-auto-columns:minmax(0,1fr)] grid-flow-col" },
+			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
 			false: { root: "flex overflow-x-auto" },
 		},
 	},
@@ -77,7 +77,7 @@ export function TabsListItem({
 				{selectedId === props.id && (
 					<motion.div
 						layoutId={layoutId}
-						className="bg-primary absolute right-0 bottom-0 left-0 h-[0.1875rem] rounded-t-[0.1875rem]"
+						className="bg-primary absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem]"
 					/>
 				)}
 			</div>

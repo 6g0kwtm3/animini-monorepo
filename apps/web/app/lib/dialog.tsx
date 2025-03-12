@@ -13,10 +13,10 @@ export const createDialog = tv(
 		variants: {
 			variant: {
 				basic: {
-					root: "inset-[3.5rem] m-auto h-fit max-h-[calc(100%-7rem)] w-fit max-w-[35rem] min-w-[17.5rem] rounded-xl py-6",
+					root: "inset-[3.5rem] m-auto h-fit max-h-[calc(100%-7rem)] w-fit min-w-[17.5rem] max-w-[35rem] rounded-xl py-6",
 					content: "gap-6",
 					backdrop:
-						"bg-scrim/40 opacity-0 transition-[opacity] data-enter:opacity-100",
+						"bg-scrim/40 data-enter:opacity-100 opacity-0 transition-[opacity]",
 					headline:
 						"text-headline-sm -mb-2 h-auto px-6 text-center first:text-start",
 					body: "pt-0",

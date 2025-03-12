@@ -17,7 +17,7 @@ import { tv } from "~/lib/tailwind-variants"
 export const createNavigation = tv(
 	{
 		slots: {
-			root: "fixed start-0 bottom-0 z-50",
+			root: "fixed bottom-0 start-0 z-50",
 			label: `group relative flex text-center`,
 			activeIndicator: "bg-secondary-container absolute",
 			icon: "i *:last:hidden",
@@ -32,8 +32,8 @@ export const createNavigation = tv(
 			},
 			variant: {
 				bar: {
-					root: "bg-surface-container end-0 grid h-20 [grid-auto-columns:minmax(0,1fr)] grid-flow-col gap-2",
-					label: `text-label-md text-on-surface-variant aria-[current='page']:text-on-surface flex-1 flex-col items-center gap-1 pt-3 pb-4`,
+					root: "bg-surface-container end-0 grid h-20 grid-flow-col gap-2 [grid-auto-columns:minmax(0,1fr)]",
+					label: `text-label-md text-on-surface-variant aria-[current='page']:text-on-surface flex-1 flex-col items-center gap-1 pb-4 pt-3`,
 					activeIndicator:
 						"h-8 w-16 scale-x-0 rounded-lg transition-transform group-aria-[current='page']:scale-x-100",
 					icon: "group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-focused:state-focus group-pressed:state-pressed relative flex h-8 w-16 items-center justify-center rounded-lg *:first:group-aria-[current='page']:hidden *:last:group-aria-[current='page']:block",
