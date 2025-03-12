@@ -39,9 +39,13 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm install --frozen-lockfile
 
-      - name: Lint & Format
+      - name: Lint
         if: ${{ !cancelled() }}
-        run: pnpm exec turbo oxlint lint format --affected
+        run: pnpm exec turbo oxlint lint --affected
+
+      - name: Format
+        if: ${{ !cancelled() }}
+        run: pnpm exec turbo format
 
       - name: Commit changes
         if: ${{ !cancelled() }}
