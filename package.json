@@ -98,7 +98,7 @@
 		"vite-plugin-oxlint": "1.2.3",
 		"vite-plugin-relay": "2.1.0",
 		"vite-tsconfig-paths": "5.1.4",
-		"wrangler": "3.112.0"
+		"wrangler": "3.114.1"
 	},
 	"engines": {
 		"node": ">=23.6.0"
