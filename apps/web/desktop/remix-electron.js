@@ -1,8 +1,8 @@
 import { resolve } from "node:path"
 
-/** @typedef {import("@remix-run/node").AppLoadContext} AppLoadContext */
-/** @typedef {import("@remix-run/node").ServerBuild} ServerBuild */
-/** @typedef {import("@remix-run/express").GetLoadContextFunction} GetLoadContextFunction */
+/** @typedef {import("react-router").AppLoadContext} AppLoadContext */
+/** @typedef {import("react-router").ServerBuild} ServerBuild */
+/** @import { HttpBindings } from "@hono/node-server" */
 
 /**
  * @typedef {object} InitRemixOptions
@@ -16,12 +16,12 @@ import { resolve } from "node:path"
  *   `context` object to your loaders.
  */
 
-import { createRequestHandler } from "@react-router/express"
-import express from "express"
-import { pathToFileURL } from "url"
-
+import { serve } from "@hono/node-server"
+import { serveStatic } from "@hono/node-server/serve-static"
 import { app } from "electron"
-
+import { Hono } from "hono"
+import { createRequestHandler } from "react-router"
+import { pathToFileURL } from "url"
 /**
  * Initialize and configure remix-electron
  *
@@ -49,22 +49,26 @@ export async function initRemix({
 					})
 				)
 
-	const server = express()
+	const server = /** @type {Hono<{ Bindings: HttpBindings }>} */ (new Hono())
 
 	// handle asset requests
 	if (viteDevServer) {
-		server.use(viteDevServer.middlewares)
+		server.use(
+			(ctx, next) =>
+				new Promise((resolve) =>
+					viteDevServer.middlewares(ctx.env.incoming, ctx.env.outgoing, () =>
+						resolve(next())
+					)
+				)
+		)
 	} else {
 		server.use(
 			"/assets",
-			express.static(resolve(appRoot, "build/client/assets"), {
-				immutable: true,
-				maxAge: "1y",
-			})
+			serveStatic({ root: resolve(appRoot, "build/client/assets") })
 		)
 	}
 
-	server.use(express.static(resolve(appRoot, "build/client"), { maxAge: "1h" }))
+	server.use(serveStatic({ root: resolve(appRoot, "build/client") }))
 
 	const serverBuild = viteDevServer
 		? () =>
@@ -78,18 +82,18 @@ export async function initRemix({
 			: serverBuildOption
 
 	// handle SSR requests
-	server.all(
-		"*",
-		createRequestHandler({
-			build: serverBuild,
-			mode,
-			getLoadContext,
-		})
+	server.all("*", (ctx) => {
+		return createRequestHandler(serverBuild, mode)(
+			ctx.req.raw,
+			getLoadContext()
+		)
+	})
+
+	const port = 5137
+
+	await new Promise((resolve) =>
+		serve({ fetch: server.fetch, port }, () => resolve(undefined))
 	)
-
-	const port = 3000
-
-	await new Promise((resolve) => server.listen(port, () => resolve(undefined)))
 
 	return `http://localhost:${port}/`
 }

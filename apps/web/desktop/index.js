@@ -2,9 +2,10 @@ import path, { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { app, BrowserWindow, dialog } from "electron"
+import { unstable_RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
 
-export {}
+export { }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -35,6 +36,7 @@ app.on("ready", () => {
 
 			const url = await initRemix({
 				serverBuild: path.join(__dirname, "../build/server/index.js"),
+				getLoadContext: () => new unstable_RouterContextProvider(),
 			})
 			await createWindow(url)
 		} catch (error) {

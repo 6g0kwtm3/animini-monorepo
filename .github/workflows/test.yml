@@ -16,16 +16,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version-file: "package.json"
+          cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: bun run build
+        run: pnpm exec turbo web#build
 
       - name: Create Sentry release
         uses: getsentry/action-release@v3
@@ -35,6 +38,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
+          sourcemaps: packages/web/build
   # test:
   #   name: Test E2E
   #   runs-on: ubuntu-latest
@@ -42,13 +46,16 @@ jobs:
   #     image: mcr.microsoft.com/playwright:v1.45.3-jammy
   #   steps:
   #     - uses: actions/checkout@v3
-  #     - name: Install bun
-  #       uses: oven-sh/setup-bun@v2
-  #       with:
-  #         bun-version-file: "package.json"
+  #   - name: Install pnpm
+  #   uses: pnpm/action-setup@v4
+
+  # - name: Use Node.js
+  #   uses: actions/setup-node@v4
+  #   with:
+  #     cache: "pnpm"
 
   #     - name: Install dependencies 📦
-  #       run: bun install --frozen-lockfile
+  #       run: pnpm install --frozen-lockfile
 
   #     - name: Await CF Pages
   #       uses: WalshyDev/cf-pages-await@v1
@@ -59,7 +66,7 @@ jobs:
   #         project: "animini-pwa"
 
   #     - name: Test E2E
-  #       run: bun run test
+  #       run: pnpm run test
   #       env:
   #         ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
   #         BASE_URL: ${{ steps.cf-pages.outputs.url }}
@@ -71,16 +78,19 @@ jobs:
     name: Typecheck
     steps:
       - uses: actions/checkout@v4
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version-file: "package.json"
+          cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Typecheck
-        run: bun run check --affected
+        run: pnpm run check
 
   boundaries:
     runs-on: ubuntu-latest
@@ -88,13 +98,16 @@ jobs:
     name: Boundaries
     steps:
       - uses: actions/checkout@v4
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version-file: "package.json"
+          cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Boundaries
-        run: turbo boundaries
+        run: pnpm exec turbo boundaries
