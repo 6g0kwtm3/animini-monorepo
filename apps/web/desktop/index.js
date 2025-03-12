@@ -5,7 +5,7 @@ import { app, BrowserWindow, dialog } from "electron"
 import { unstable_RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
 
-export { }
+export {}
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
