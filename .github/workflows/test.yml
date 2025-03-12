@@ -10,6 +10,11 @@ on:
 permissions:
   contents: read
 
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  TURBO_REMOTE_ONLY: true
+
 jobs:
   deploy-sentry:
     name: Deploy Sentry
@@ -74,7 +79,6 @@ jobs:
 
   typecheck:
     runs-on: ubuntu-latest
-
     name: Typecheck
     steps:
       - uses: actions/checkout@v4
