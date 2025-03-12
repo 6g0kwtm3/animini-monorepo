@@ -80,6 +80,12 @@ importers:
       eslint-typegen:
         specifier: ^2.0.0
         version: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+      m3-core:
+        specifier: workspace:*
+        version: link:../../packages/m3-core
+      m3-react:
+        specifier: workspace:*
+        version: link:../../packages/m3-react
       oxlint:
         specifier: ^0.15.7
         version: 0.15.14
@@ -209,6 +215,9 @@ importers:
       isbot:
         specifier: 5.1.23
         version: 5.1.23
+      m3-core:
+        specifier: workspace:*
+        version: link:../../packages/m3-core
       marked:
         specifier: 0.3.19
         version: 0.3.19
@@ -325,7 +334,14 @@ importers:
         specifier: 8.26.1
         version: 8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)
 
-  packages/m3-core: {}
+  packages/m3-core:
+    devDependencies:
+      tailwind-variants:
+        specifier: npm:@patryk_walach/tailwind-variants@0.2.1
+        version: '@patryk_walach/tailwind-variants@0.2.1(tailwindcss@4.0.0-beta.2)'
+      tailwindcss:
+        specifier: 4.0.0-beta.2
+        version: 4.0.0-beta.2
 
   packages/m3-react:
     dependencies:
