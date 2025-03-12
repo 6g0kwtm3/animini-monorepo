@@ -1,0 +1,8 @@
+{
+	"semi": false,
+	"plugins": ["prettier-plugin-tailwindcss"],
+	"tailwindFunctions": ["tv"],
+	"useTabs": true,
+	"endOfLine": "auto",
+	"trailingComma": "es5"
+}
