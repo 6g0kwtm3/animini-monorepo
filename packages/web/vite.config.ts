@@ -13,7 +13,7 @@ import tailwindConfig from "./tailwind.config"
 export default defineConfig({
 	plugins: [
 		Inspect(),
-		oxlintPlugin({ configFile: "./oxlintrc.json" }),
+		oxlintPlugin({ configFile: "../../oxlintrc.json" }),
 		tvTransform(),
 		tailwindcss(),
 
