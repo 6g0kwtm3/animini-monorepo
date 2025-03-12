@@ -38,7 +38,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          sourcemaps: packages/web/build
+          sourcemaps: apps/web/build
   # test:
   #   name: Test E2E
   #   runs-on: ubuntu-latest
