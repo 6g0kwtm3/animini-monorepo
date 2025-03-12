@@ -3,7 +3,12 @@ import { Link, useFetcher, useRouteLoaderData } from "react-router"
 
 import { ErrorBoundary } from "@sentry/react"
 import marked from "marked"
-import type { ComponentProps, ComponentPropsWithoutRef, JSX, ReactNode } from "react"
+import type {
+	ComponentProps,
+	ComponentPropsWithoutRef,
+	JSX,
+	ReactNode,
+} from "react"
 import { Suspense, useEffect, useMemo } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { Card } from "~/components/Card"
@@ -74,7 +79,7 @@ function MediaLink({
 	)
 }
 
-function MediaCard(props) {
+function MediaCard(props: { mediaId: number; type: string }) {
 	const media = useLazyLoadQuery<routeMediaCardQuery>(
 		graphql`
 			query routeMediaCardQuery($id: Int) {
@@ -98,7 +103,7 @@ function MediaCard(props) {
 		media && (
 			<Card
 				className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`}
-				style={media.coverImage?.theme}
+				style={media.coverImage?.theme ?? undefined}
 				render={<span />}
 			>
 				<List className="p-0" render={<span />}>
