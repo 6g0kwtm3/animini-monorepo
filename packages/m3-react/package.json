@@ -3,13 +3,21 @@
 	"name": "m3-react",
 	"private": true,
 	"type": "module",
-	"dependencies": {
-		"m3-core": "workspace:*",
-		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1",
+	"main": "./dist/index.js",
+	"typings": "./dist/m3-react.d.ts",
+	"scripts": {
+		"build": "tsup src/index.ts",
+		"dev": "tsup src/index.ts --watch"
+	},
+	"dependencies": {},
+	"devDependencies": {
 		"@ariakit/react": "0.4.15",
-		"react": "19.0.0"
+		"@types/react": "19.0.10",
+		"m3-core": "workspace:*",
+		"react": "19.0.0",
+		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1"
 	},
 	"exports": {
-		"./Button": "./components/Button.tsx"
+		"./Button": "./src/components/Button.tsx"
 	}
 }

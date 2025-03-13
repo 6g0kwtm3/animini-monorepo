@@ -6,9 +6,7 @@
 	"scripts": {
 		"build": "storybook build",
 		"check": "tsc",
-		"dev": "storybook dev -p 6006 --no-open",
-		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --fix",
-		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix"
+		"dev": "storybook dev -p 6007 --no-open"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
@@ -23,14 +21,8 @@
 		"@storybook/react-vite": "^8.6.0",
 		"@storybook/test": "^8.6.0",
 		"@tailwindcss/vite": "4.0.0-beta.2",
-		"eslint": "9.22.0",
-		"eslint-plugin-storybook": "0.10.0--canary.156.408aed4.0",
-		"eslint-config": "workspace:*",
-		"eslint-typegen": "^2.0.0",
-    "m3-core": "workspace:*",
-    "m3-react": "workspace:*",
-		"oxlint": "^0.15.7",
-		"oxlint-config": "workspace:*",
+		"m3-core": "workspace:*",
+		"m3-react": "workspace:*",
 		"react": "19.0.0",
 		"storybook": "^8.6.0",
 		"tailwindcss": "4.0.0-beta.2",

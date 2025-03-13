@@ -1,8 +1,11 @@
+import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
-import colors from "./colors.json"
-import fontSize from "./tailwind.config.fonts"
 
-function m3Plugin() {
+import { colors } from "./colors"
+import { fonts } from "./fonts"
+import { screens } from "./screens"
+
+export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 	return plugin(
 		({ addBase, matchUtilities, addVariant, theme, addComponents }) => {
 			addBase({
@@ -137,12 +140,7 @@ function m3Plugin() {
 		},
 		{
 			theme: {
-				screens: {
-					sm: "600px",
-					md: "840px",
-					lg: "1200px",
-					xl: "1600px",
-				},
+				screens,
 				borderRadius: {
 					none: "0",
 					xs: "0.25rem",
@@ -161,7 +159,7 @@ function m3Plugin() {
 					pressed: "12%",
 					dragged: "16%",
 				},
-				fontSize,
+				fontSize: fonts,
 				colors: Object.assign(
 					Object.fromEntries(
 						Object.keys(colors.dark).map((key) => {
@@ -215,5 +213,3 @@ function m3Plugin() {
 		}
 	)
 }
-
-export default m3Plugin

@@ -1,0 +1,26 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"outDir": "tmp",
+		"rootDir": ".",
+		"lib": ["DOM", "DOM.Iterable", "ES2022"],
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"resolveJsonModule": true,
+		"target": "ES2022",
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"rootDirs": ["."],
+		"paths": {},
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"composite": true
+	},
+	"include": ["**/*"]
+}

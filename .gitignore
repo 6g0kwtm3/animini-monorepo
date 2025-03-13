@@ -20,3 +20,8 @@ worker-configuration.d.ts
 .react-router
 .turbo
 storybook-static
+tsdoc-metadata.json
+tsconfig.tsbuildinfo
+dist
+tmp
+.tsup

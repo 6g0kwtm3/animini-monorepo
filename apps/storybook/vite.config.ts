@@ -1,11 +1,13 @@
 import tailwindcss from "@tailwindcss/vite"
-import oxlintPlugin from "vite-plugin-oxlint"
-import { defineConfig, type PluginOption } from "vite"
 import icons from "unplugin-icons/vite"
+import { defineConfig } from "vite"
+import oxlintPlugin from "vite-plugin-oxlint"
+
+import { tvTransform } from "m3-core"
 
 export default defineConfig({
 	plugins: [
-		oxlintPlugin({ configFile: "./node_modules/oxlint-config/oxlintrc.json" }),
+		oxlintPlugin({ configFile: "../../oxlintrc.json" }),
 		tvTransform(),
 		tailwindcss(),
 		icons({
@@ -18,18 +20,3 @@ export default defineConfig({
 		}),
 	],
 })
-
-function tvTransform(): PluginOption {
-	return {
-		enforce: "pre",
-		name: "tv-transformer",
-		transform(src, id) {
-			if (/\.[jt]sx?$/.test(id)) {
-				return {
-					code: tvTransformer(src, Object.keys(tailwindConfig.theme.screens)),
-					map: null,
-				}
-			}
-		},
-	}
-}

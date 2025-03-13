@@ -7,13 +7,18 @@
 			"persistent": true
 		},
 		"build": {
-			"dependsOn": ["^build", "relay"],
-			"outputs": ["build/**", " storybook-static/**"]
+			"dependsOn": ["^build", "relay", "build:root"],
+			"outputs": ["build/**", "dist/**", "etc/**", "storybook-static/**"]
+		},
+		"//#build:root": {
+			"inputs": ["packages/*/src/**"],
+			"cache": false
 		},
 		"router": {
 			"outputs": [".react-router/**"]
 		},
 		"relay": { "outputs": ["app/gql/**"] },
+		"relay-watch": { "cache": false, "persistent": true },
 		"paraglide": {
 			"outputs": ["app/paraglide/**"],
 			"inputs": ["messages/**", "project.inlang/settings.json"]
@@ -22,8 +27,8 @@
 			"dependsOn": ["^transit"]
 		},
 		"check": { "dependsOn": ["transit", "router", "paraglide", "relay"] },
-		"oxlint": {},
-		"lint": {},
+		"//#oxlint": {},
+		"//#lint": {},
 		"//#format": {}
 	}
 }

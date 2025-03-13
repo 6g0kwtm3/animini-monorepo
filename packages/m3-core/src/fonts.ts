@@ -1,4 +1,4 @@
-export default {
+export const fonts = {
 	"display-lg": [
 		"3.5625rem",
 		{

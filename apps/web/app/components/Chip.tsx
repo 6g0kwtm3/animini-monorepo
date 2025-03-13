@@ -22,7 +22,7 @@ export function ChipFilter(
 			<Label
 				{...props}
 				data-focus-visible={focusVisible || undefined}
-				className="border-outline text-label-lg text-on-surface-variant duration-md ease-standard-decelerate has-checked:bg-secondary-container has-checked:text-on-secondary-container hover:[&:not(\\\\#)]:state-hover has-focused:[&:not(\\\\#)]:state-focus has-checked:border-0 has-checked:shadow-sm flex h-8 items-center gap-2 rounded-sm border px-4 shadow-sm"
+				className="border-outline text-label-lg text-on-surface-variant duration-md ease-standard-decelerate has-checked:bg-secondary-container has-checked:text-on-secondary-container hover:force:state-hover has-focused:force:state-focus has-checked:border-0 has-checked:shadow-sm flex h-8 items-center gap-2 rounded-sm border px-4 shadow-sm"
 			/>
 		</FocusContext>
 	)

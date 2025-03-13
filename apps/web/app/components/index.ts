@@ -1,5 +1,5 @@
 export * from "./AppBar"
-export * from "./Button"
+export * from "m3-react"
 export * from "./Card"
 export * from "./Checkbox"
 export * from "./Chip"

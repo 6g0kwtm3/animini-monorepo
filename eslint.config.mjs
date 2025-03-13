@@ -1,13 +1,16 @@
 // @ts-check
 /// <reference path="./eslint-typegen.d.ts" />
 import eslint from "@eslint/js"
-import typegen from "eslint-typegen"
-
+import * as graphql from "@graphql-eslint/eslint-plugin"
 import oxlint from "eslint-plugin-oxlint"
-
+import reactCompiler from "eslint-plugin-react-compiler"
+import reactRefresh from "eslint-plugin-react-refresh"
+import storybook from "eslint-plugin-storybook"
+import typegen from "eslint-typegen"
 import tseslint from "typescript-eslint"
+import graphQLConfig from "./apps/web/graphql.config.js"
 
-export default await typegen([
+export default typegen([
 	{
 		ignores: [
 			"build",
@@ -50,12 +53,43 @@ export default await typegen([
 		},
 	},
 	{
+		files: ["**/*.{js,jsx,ts,tsx}"],
+		plugins: {
+			"react-refresh": reactRefresh,
+			// compat: compat,
+			"react-compiler": reactCompiler,
+		},
+	},
+
+	...storybook.configs["flat/recommended"],
+	{
+		files: ["apps/web/**/*.{js,jsx,ts,tsx}"],
+		processor: graphql.processors.graphql,
+		// languageOptions: { parser: tsparser },
+	},
+	{
+		files: ["apps/web/**/*.graphql"],
+		languageOptions: {
+			parser: graphql.parser,
+			parserOptions: {
+				graphQLConfig: graphQLConfig,
+			},
+		},
+		plugins: {
+			"@graphql-eslint": { rules: graphql.rules },
+		},
+		rules: {
+			"@graphql-eslint/no-deprecated": "error",
+			"@graphql-eslint/no-duplicate-fields": "error",
+			"@graphql-eslint/require-selections": "error",
+			// "@graphql-eslint/selection-set-depth": ["warn", { maxDepth: 3 }],
+		},
+	},
+	{
 		rules: {
 			"no-undef": "off",
 			"no-unused-vars": "off",
 		},
 	},
-	...oxlint.buildFromOxlintConfigFile(
-		"./node_modules/oxlint-config/oxlintrc.json"
-	),
+	...oxlint.buildFromOxlintConfigFile("./oxlintrc.json"),
 ])

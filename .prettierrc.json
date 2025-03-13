@@ -4,5 +4,6 @@
 	"tailwindFunctions": ["tv"],
 	"useTabs": true,
 	"endOfLine": "auto",
-	"trailingComma": "es5"
+	"trailingComma": "es5",
+	"tailwindStylesheet": "./apps/web/app/tailwind.css"
 }

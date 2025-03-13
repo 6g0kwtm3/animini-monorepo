@@ -1,4 +1,4 @@
-import { tv } from "~/lib/tailwind-variants"
+import { tv } from "../tailwind-variants"
 
 export const btnIcon = tv({
 	base: "text-on-surface-variant i hover:state-hover focused:state-focus pressed:state-pressed relative h-10 w-10 select-none rounded-full bg-center p-2",
@@ -47,6 +47,7 @@ export const createButton = tv({
 })
 
 const { root: button } = createButton()
+
 export { button }
 
 export const fab = tv({
