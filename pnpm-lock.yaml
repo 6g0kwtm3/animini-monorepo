@@ -207,8 +207,8 @@ importers:
         specifier: 6.0.2
         version: 6.0.2(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-oxlint:
-        specifier: 0.15.14
-        version: 0.15.14
+        specifier: 0.15.15
+        version: 0.15.15
       eslint-plugin-react-compiler:
         specifier: 0.0.0-experimental-fcabbc1-20241106
         version: 0.0.0-experimental-fcabbc1-20241106(eslint@9.22.0(jiti@2.4.2))
@@ -2929,8 +2929,8 @@ packages:
     peerDependencies:
       eslint: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
 
-  eslint-plugin-oxlint@0.15.14:
-    resolution: {integrity: sha512-fotP3qqKUDZ+b/waiezSVPFvFeiKs7lXYvZlWNWJvvo3AUfGuFkygl0atxqj2IwR7Wu5OM883g2HsVyRk53I0g==}
+  eslint-plugin-oxlint@0.15.15:
+    resolution: {integrity: sha512-n5RJ3INUx5eqeOvdtr+5+bOK070NF52C0qxa7any7vnvA8GqoFP6vMOYQ966DhmOc69bunzvoVHk/Fis0a/yAQ==}
 
   eslint-plugin-react-compiler@0.0.0-experimental-fcabbc1-20241106:
     resolution: {integrity: sha512-lP00yCyYRWvqGAe4N2iPBSx3lh+cl1jUpO6AefwNw8/zO4Mek4gNUfD0FXvBOmuFoP+/9LfsqGFFDCulK2xiaA==}
@@ -8056,7 +8056,7 @@ snapshots:
       lodash.memoize: 4.1.2
       semver: 7.7.1
 
-  eslint-plugin-oxlint@0.15.14:
+  eslint-plugin-oxlint@0.15.15:
     dependencies:
       jsonc-parser: 3.3.1
 

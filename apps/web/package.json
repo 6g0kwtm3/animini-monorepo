@@ -84,7 +84,7 @@
 		"dotenv": "16.4.7",
 		"eslint": "9.22.0",
 		"eslint-plugin-compat": "6.0.2",
-		"eslint-plugin-oxlint": "0.15.14",
+		"eslint-plugin-oxlint": "0.15.15",
 		"eslint-plugin-react-compiler": "0.0.0-experimental-fcabbc1-20241106",
 		"eslint-plugin-react-refresh": "0.4.19",
 		"nodemon": "3.1.9",
