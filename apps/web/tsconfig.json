@@ -7,7 +7,8 @@
 		"baseUrl": ".",
 		"rootDirs": [".", "./.react-router/types"],
 		"paths": {
-			"~/*": ["./app/*"]
+			"~/*": ["./app/*"],
+			"#lib/*": ["./app/lib/*"]
 		},
 		// Vite takes care of building everything, not tsc.
 		"noEmit": true,

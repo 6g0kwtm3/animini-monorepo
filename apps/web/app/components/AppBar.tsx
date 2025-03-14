@@ -59,7 +59,7 @@ export function AppBar({
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 
-	const ref = useRef<ComponentRef<"nav">>(undefined)
+	const ref = useRef<ComponentRef<"nav">>(null)
 
 	const styles = appBar({
 		variant,

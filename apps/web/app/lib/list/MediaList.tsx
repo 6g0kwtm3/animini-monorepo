@@ -2,7 +2,7 @@ import { Await, type AwaitProps } from "react-router"
 
 // import {} from 'glob'
 
-import { Library } from "~/lib/entry/MediaListItem"
+import { Library } from "~/lib/entry/Library"
 import { formatWatch } from "~/lib/entry/ToWatch"
 
 import type { AnitomyResult } from "anitomy"
