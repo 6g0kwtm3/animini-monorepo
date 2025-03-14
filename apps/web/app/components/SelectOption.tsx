@@ -1,5 +1,5 @@
+import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
-import { Ariakit } from "~/lib/ariakit"
 import { createMenu } from "~/lib/menu"
 
 const { item } = createMenu({})

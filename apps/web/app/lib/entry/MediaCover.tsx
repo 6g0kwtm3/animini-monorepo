@@ -42,7 +42,9 @@ export function MediaCover({
 		alt: "",
 		...props,
 		style: {
-			backgroundImage: `url(${data.coverImage?.medium})`,
+			backgroundImage: data.coverImage?.medium
+				? `url(${data.coverImage.medium})`
+				: undefined,
 			...props.style,
 		},
 		className: cover({

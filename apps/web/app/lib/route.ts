@@ -1,3 +1,5 @@
+import { numberToString } from "~/lib/numberToString"
+
 export interface Path {
 	pathname: Pathname
 	hash: Hash
@@ -18,13 +20,13 @@ type Pathname =
 
 export type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
 
-export function route_media({ id }: { id: number }): `/media/${number}/` {
-	return `/media/${id}/` satisfies Route
+export function route_media({ id }: { id: number }): `/media/${string}/` {
+	return `/media/${numberToString(id)}/` satisfies Route
 }
 
 export function route_media_edit(params: {
 	id: number
-}): `/media/${number}/edit/` {
+}): `/media/${string}/edit/` {
 	return `${route_media(params)}edit/` satisfies Route
 }
 

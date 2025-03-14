@@ -46,7 +46,7 @@ export function Sheet({
 
 	const y = useMotionValue(0)
 	const h = window.innerHeight
-	let opacity = useTransform(y, [0, h], [0.4, 0])
+	const opacity = useTransform(y, [0, h], [0.4, 0])
 
 	return (
 		<Context.Provider value={styles}>

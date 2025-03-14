@@ -8,6 +8,7 @@ import {
 	type JSX,
 	type ReactNode,
 } from "react"
+import { emptyStringToUndefined } from "~/lib/numberToString"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
 import { Label } from "./Label"
@@ -73,7 +74,7 @@ export const TextFieldOutlinedInput = forwardRef<
 	Omit<ComponentProps<"input">, "id">
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
-	let id = use(LabelId)
+	const id = use(LabelId)
 	return (
 		<input
 			ref={ref}
@@ -136,12 +137,12 @@ export function TextFieldFilled(
 export function TextFieldFilledInput(
 	props: Omit<ComponentProps<"input">, "id">
 ): ReactNode {
-	let id = use(LabelId)
+	const id = use(LabelId)
 	return (
 		<input
 			{...props}
 			id={id}
-			placeholder={props.placeholder || " "}
+			placeholder={emptyStringToUndefined(props.placeholder) ?? " "}
 			className={classes(
 				"text-body-lg text-on-surface caret-primary disabled:text-on-surface/[.38] group-error:caret-error outline-hidden peer flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pb-2 pt-6 placeholder-transparent focus:ring-0",
 				props.className

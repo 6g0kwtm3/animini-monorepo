@@ -12,7 +12,7 @@ import { resolve } from "node:path"
  *   production
  * @property {string} [publicFolder] The path where static assets are served
  *   from.
- * @property {GetLoadContextFunction} [getLoadContext] A function to provide a
+ * @property {()=> import('react-router').unstable_RouterContextProvider} [getLoadContext] A function to provide a
  *   `context` object to your loaders.
  */
 
@@ -55,11 +55,11 @@ export async function initRemix({
 	if (viteDevServer) {
 		server.use(
 			(ctx, next) =>
-				new Promise((resolve) =>
-					viteDevServer.middlewares(ctx.env.incoming, ctx.env.outgoing, () =>
+				new Promise((resolve) => {
+					viteDevServer.middlewares(ctx.env.incoming, ctx.env.outgoing, () => {
 						resolve(next())
-					)
-				)
+					})
+				})
 		)
 	} else {
 		server.use(
@@ -92,8 +92,10 @@ export async function initRemix({
 	const port = 5137
 
 	await new Promise((resolve) =>
-		serve({ fetch: server.fetch, port }, () => resolve(undefined))
+		serve({ fetch: server.fetch, port }, () => {
+			resolve(undefined)
+		})
 	)
 
-	return `http://localhost:${port}/`
+	return `http://localhost:${String(port)}/`
 }

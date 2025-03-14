@@ -5,44 +5,47 @@ import oxlint from "eslint-plugin-oxlint"
 
 // import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
+import path from "path"
 import tseslint from "typescript-eslint"
 
 export default await typegen([
 	{
-		ignores: [
-			"**/*.d.ts",
-			".tsup",
-			"dist",
-			"storybook-static",
-			"public/build",
-			"public/mockServiceWorker.js",
-			"**/schema.graphql",
-			"app/gql",
-			"playwright",
-			".wrangler",
-			".react-router",
-		],
+		ignores: [".tsup/", "dist/", "tmp/", "playwright/", ".wrangler/"],
 	},
 	eslint.configs.recommended,
 	...[
 		...tseslint.configs.strictTypeChecked,
 		...tseslint.configs.stylisticTypeChecked,
-	].map(
-		/** @returns {import('eslint').Linter.Config} */
-		(config) => ({
-			...config,
-			files: ["**/*.ts", "**/*.tsx"],
-			rules: {
-				"@typescript-eslint/only-throw-error": "off",
-			},
-		})
-	),
+	].map((config) => ({
+		files: [
+			"**/*.js",
+			"**/*.cjs",
+			"**/*.mjs",
+			"**/*.jsx",
+			"**/*.cjsx",
+			"**/*.mjsx",
+			"**/*.ts",
+			"**/*.cts",
+			"**/*.mts",
+			"**/*.tsx",
+			"**/*.ctsx",
+			"**/*.mtsx",
+		],
+		...config,
+	})),
 	{
 		languageOptions: {
 			parserOptions: {
 				projectService: true,
-				// tsconfigRootDir: import.meta.dirname,
+				project: ["./apps/*/tsconfig.json", "./packages/*/tsconfig.json"],
+				tsconfigRootDir: path.join("..", "..", import.meta.dirname),
 			},
+		},
+	},
+	{
+		rules: {
+			"@typescript-eslint/triple-slash-reference": "off",
+			"@typescript-eslint/only-throw-error": "off",
 		},
 	},
 	// {

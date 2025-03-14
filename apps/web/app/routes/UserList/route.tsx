@@ -36,7 +36,7 @@ import {
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
-import { Ariakit } from "~/lib/ariakit"
+import * as Ariakit from "@ariakit/react"
 
 import { M3 } from "~/lib/components"
 import { m } from "~/lib/paraglide"
@@ -313,7 +313,7 @@ function ListTabs() {
 }
 
 function FilterButton() {
-	let { pathname } = useLocation()
+	const { pathname } = useLocation()
 
 	const searchParams = useOptimisticSearchParams()
 
@@ -340,7 +340,7 @@ function FilterButton() {
 }
 
 function Filter() {
-	let { pathname } = useLocation()
+	const { pathname } = useLocation()
 
 	const navigate = useNavigate()
 	const searchParams = useOptimisticSearchParams()

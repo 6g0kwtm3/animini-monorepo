@@ -1,8 +1,8 @@
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
 import { useContext } from "react"
 
+import * as Ariakit from "@ariakit/react"
 import { type VariantProps } from "tailwind-variants"
-import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 import { createList, ListContext } from "~/lib/list"
 
@@ -13,7 +13,7 @@ export function ListItem({
 	...props
 }: ComponentPropsWithoutRef<"li"> &
 	ListVariantProps & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}) {
 	const { item } = useContext(ListContext)
 	return createElement("li", {
@@ -23,7 +23,7 @@ export function ListItem({
 }
 export function ListItemContentTitle(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 ): ReactNode {
 	const { itemTitle } = useContext(ListContext)
@@ -35,7 +35,7 @@ export function ListItemContentTitle(
 }
 export function ListItemContent(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 ): ReactNode {
 	const { itemContent } = useContext(ListContext)
@@ -47,7 +47,7 @@ export function ListItemContent(
 }
 export function ListItemContentSubtitle(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 ): ReactNode {
 	const { itemSubtitle } = useContext(ListContext)
@@ -59,7 +59,7 @@ export function ListItemContentSubtitle(
 }
 export function ListItemImg(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 ): ReactNode {
 	const { itemImg } = useContext(ListContext)
@@ -71,7 +71,7 @@ export function ListItemImg(
 }
 export function ListItemAvatar(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 ): ReactNode {
 	const { itemAvatar } = useContext(ListContext)
@@ -83,7 +83,7 @@ export function ListItemAvatar(
 }
 export function ListItemIcon(
 	props: ComponentPropsWithoutRef<"div"> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 ): ReactNode {
 	const { itemIcon } = useContext(ListContext)
@@ -139,7 +139,7 @@ export function List({
 	...props
 }: ComponentPropsWithoutRef<"ul"> &
 	ListVariantProps & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}): ReactNode {
 	const styles = createList({ lines })
 

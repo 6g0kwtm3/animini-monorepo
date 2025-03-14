@@ -88,13 +88,17 @@ export function mutation<P extends MutationParameters>(
 	return new Promise<P["response"]>((resume, reject) => {
 		commitMutation<P>({
 			...config,
-			onCompleted: (value) => resume(value),
-			onError: (error) => reject(error),
+			onCompleted: (value) => {
+				resume(value)
+			},
+			onError: (error) => {
+				reject(error)
+			},
 		})
 	})
 }
 
-type Shift<T> = T extends [any, ...infer U] ? U : []
+type Shift<T> = T extends [unknown, ...infer U] ? U : []
 
 export function fetchQuery<O extends OperationType>(
 	...args: Shift<Parameters<typeof fetchQuery__<O>>>

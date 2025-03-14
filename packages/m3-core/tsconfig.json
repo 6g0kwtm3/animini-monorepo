@@ -3,6 +3,5 @@
 	"extends": ["ts-config/tsconfig.dts.json"],
 	"compilerOptions": {
 		"outDir": "tmp"
-	},
-	"include": ["src"]
+	}
 }

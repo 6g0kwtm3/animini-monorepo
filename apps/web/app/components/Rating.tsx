@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { numberToString } from "~/lib/numberToString"
 
 // const point3Icons = [
 // 	<EmojiSadIcon
@@ -43,8 +44,8 @@ export const Rating = (props: {
 			<div className="group relative flex">
 				{props.children.map((icon, index, { length }) => (
 					<label
-						id={String(length - index)}
-						aria-label={String(length - index)}
+						id={numberToString(length - index)}
+						aria-label={numberToString(length - index)}
 						key={index}
 						data-key={index}
 					>

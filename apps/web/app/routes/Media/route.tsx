@@ -1,8 +1,6 @@
 import {
 	type ClientLoaderFunctionArgs,
 	Link,
-	type MetaArgs,
-	type MetaFunction,
 	type ShouldRevalidateFunction,
 	useLocation,
 	useOutlet,
@@ -46,8 +44,8 @@ import { useRawLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
 
+import * as Ariakit from "@ariakit/react"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
-import { Ariakit } from "~/lib/ariakit"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
@@ -113,14 +111,6 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export const meta = ({
-	data,
-}: MetaArgs<
-	() => ReturnType<typeof clientLoader>
->): ReturnType<MetaFunction> => {
-	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]
-}
-
 export default function Page(): ReactNode {
 	const data = useRawLoaderData<typeof clientLoader>()
 
@@ -168,6 +158,7 @@ export default function Page(): ReactNode {
 							<Card variant="elevated">
 								<div className="sm:p-12">
 									<Ariakit.Heading className="text-display-lg text-balance">
+										<title>Media - {data.Media.title.userPreferred}</title>
 										{data.Media.title.userPreferred}
 									</Ariakit.Heading>
 									<Menu>
@@ -234,7 +225,7 @@ export default function Page(): ReactNode {
 									<div
 										className="text-title-lg"
 										dangerouslySetInnerHTML={{
-											__html: data.Media.description || "",
+											__html: data.Media.description ?? "",
 										}}
 									/>
 								</div>
@@ -280,7 +271,9 @@ function Edit() {
 								}
 								preventScrollReset={true}
 								className={fab({})}
-								onClick={() => store.setOpen(false)}
+								onClick={() => {
+									store.setOpen(false)
+								}}
 							>
 								<MaterialSymbolsEditOutline />
 							</Link>

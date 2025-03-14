@@ -66,14 +66,16 @@ export function Search(): ReactNode {
 
 	// bind command + k
 	useEffect(() => {
-		let listener = (event: KeyboardEvent) => {
+		const listener = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
 				event.preventDefault()
 				void navigate({ search: `?${sheetParams}` })
 			}
 		}
 		window.addEventListener("keydown", listener)
-		return () => window.removeEventListener("keydown", listener)
+		return () => {
+			window.removeEventListener("keydown", listener)
+		}
 	}, [navigate, sheetParams])
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []

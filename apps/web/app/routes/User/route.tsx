@@ -1,4 +1,4 @@
-import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
+import type { ClientLoaderFunctionArgs } from "react-router"
 
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
@@ -49,19 +49,14 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	return { user: data.User }
 }
 
-export const meta = (({ params }) => {
-	return [
-		{
-			title: `${params.userName}'s profile`,
-		},
-	]
-}) satisfies MetaFunction<typeof clientLoader>
+import { numberToString } from "~/lib/numberToString"
+import { Route } from "./+types/route"
 
 const Params = type({
 	userName: "string",
 })
 
-export default function Page(): ReactNode {
+export default function Page({ params }: Route.ComponentProps): ReactNode {
 	const rootData = useRouteLoaderData<typeof rootLoader>("root")
 	const data = useRawLoaderData<typeof clientLoader>()
 
@@ -73,6 +68,8 @@ export default function Page(): ReactNode {
 
 	return (
 		<LayoutBody>
+			<title>{params.userName}&apos;s profile</title>
+
 			<LayoutPane>
 				<nav>
 					<Link to="animelist" className={button()}>
@@ -84,7 +81,10 @@ export default function Page(): ReactNode {
 				</nav>
 
 				{rootData?.Viewer?.name && rootData.Viewer.name !== data.user.name && (
-					<follow.Form method="post" action={`/user/${data.user.id}/follow`}>
+					<follow.Form
+						method="post"
+						action={`/user/${numberToString(data.user.id)}/follow`}
+					>
 						<input
 							type="hidden"
 							name="isFollowing"

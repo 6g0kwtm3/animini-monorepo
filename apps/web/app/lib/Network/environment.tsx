@@ -65,13 +65,17 @@ const fetchQuery_: FetchFunction = async function (
 // Create a network layer from the fetch function
 const network = Network.create(fetchQuery_)
 
-declare global {
-	var __RELAY_STORE__: Store | undefined
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace globalThis {
+	let __RELAY_STORE__: Store | undefined
 }
-const store = (globalThis.__RELAY_STORE__ ??= new Store(new RecordSource(), {
+
+globalThis.__RELAY_STORE__ ??= new Store(new RecordSource(), {
 	gcReleaseBufferSize: Infinity,
 	queryCacheExpirationTime: 60 * 1000,
-}))
+})
+
+const store = globalThis.__RELAY_STORE__
 
 const environment = new Environment({
 	network,
@@ -96,7 +100,7 @@ const environment = new Environment({
 						field.name === "Recommendation") &&
 					Object.hasOwn(argValues, "id")
 				) {
-					return `${field.name}:${argValues.id}`
+					return `${field.name}:${String(argValues.id)}`
 				}
 				return undefined
 			},
@@ -118,7 +122,7 @@ const environment = new Environment({
 		}
 	},
 	getDataID: (data, typeName) =>
-		data.id != null ? `${typeName}:${data.id}` : null,
+		data.id != null ? `${typeName}:${String(data.id)}` : null,
 	// ... other options
 })
 
