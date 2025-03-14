@@ -1,12 +1,12 @@
 import { LabelId } from "#lib/label"
 import * as Ariakit from "@ariakit/react"
 import {
-    forwardRef,
-    use,
-    type ComponentProps,
-    type ComponentPropsWithoutRef,
-    type JSX,
-    type ReactNode,
+	forwardRef,
+	use,
+	type ComponentProps,
+	type ComponentPropsWithoutRef,
+	type JSX,
+	type ReactNode,
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"

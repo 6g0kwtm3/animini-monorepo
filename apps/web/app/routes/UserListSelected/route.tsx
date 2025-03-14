@@ -335,7 +335,7 @@ function sortEntries(
 			)
 			continue
 		}
-		 
+
 		if (sort === MediaListSort.PopularityDesc) {
 			order.push(
 				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)

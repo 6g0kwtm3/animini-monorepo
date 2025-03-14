@@ -2,6 +2,8 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "animini",
 	"private": true,
+	"version": "0.0.0",
+	"type": "module",
 	"scripts": {
 		"build": "turbo run build --continue=dependencies-successful --affected",
 		"check": "turbo run check --continue=dependencies-successful --affected",

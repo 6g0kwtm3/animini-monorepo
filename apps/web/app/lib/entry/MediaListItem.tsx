@@ -5,7 +5,6 @@ import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-
 import type { ReactNode } from "react"
 import { useContext } from "react"
 import {
@@ -51,7 +50,6 @@ const MediaListItem_entry = graphql`
 `
 
 export type ListItem_EntryFragment = typeof MediaListItem_entry
-
 
 export function MediaListItem(props: {
 	entry: MediaListItem_entry$key | null

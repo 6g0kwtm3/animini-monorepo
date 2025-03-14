@@ -1,13 +1,13 @@
 import { LabelId } from "#lib/label"
 import * as Ariakit from "@ariakit/react"
 import {
-    createContext,
-    use,
-    useState,
-    type ComponentProps,
-    type Dispatch,
-    type ReactNode,
-    type SetStateAction,
+	createContext,
+	use,
+	useState,
+	type ComponentProps,
+	type Dispatch,
+	type ReactNode,
+	type SetStateAction,
 } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import { Label } from "./Label"

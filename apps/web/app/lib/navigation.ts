@@ -1,4 +1,3 @@
-
 import { tv } from "~/lib/tailwind-variants"
 
 export const createNavigation = tv(
