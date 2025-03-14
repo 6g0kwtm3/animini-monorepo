@@ -8,12 +8,12 @@
 		"resolveJsonModule": true,
 		"moduleDetection": "force",
 		"isolatedModules": true,
-		"verbatimModuleSyntax": true,
 		// strictness
 		"strict": true,
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
 		// fix resolveJsonModule?
 		"module": "preserve",
 		// lib
