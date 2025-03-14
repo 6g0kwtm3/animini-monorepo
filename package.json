@@ -11,6 +11,7 @@
 		"dev": "turbo watch dev dts relay-watch",
 		"format": "prettier . -w",
 		"knip": "knip",
+		"boundaries": "turbo boundaries",
 		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
 	},
 	"devDependencies": {

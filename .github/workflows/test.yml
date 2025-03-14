@@ -114,4 +114,4 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Boundaries
-        run: pnpm exec turbo boundaries
+        run: pnpm -w boundaries
