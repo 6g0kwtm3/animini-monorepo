@@ -7,6 +7,16 @@ import typegen from "eslint-typegen"
 import graphQLConfig from "./graphql.config.js"
 
 export default typegen([
+	{
+		ignores: [
+			"app/gql/",
+			"app/paraglide/",
+			"public/build/",
+			"public/mockServiceWorker.js",
+			"**/schema.graphql",
+			".react-router/",
+		],
+	},
 	...base,
 	...react,
 	{

@@ -4,6 +4,7 @@ export interface JSONObject {
 	[x: string]: JSONValue
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface JSONArray extends Array<JSONValue> {}
 
 type Letter =

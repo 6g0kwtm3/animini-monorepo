@@ -39,7 +39,7 @@ const MediaListHeaderToWatch_entries = graphql`
 export function MediaListHeaderToWatch(props: {
 	entries: MediaListHeaderToWatch_entries$key
 }): string {
-	let entries = useFragment(MediaListHeaderToWatch_entries, props.entries)
+	const entries = useFragment(MediaListHeaderToWatch_entries, props.entries)
 
 	return formatWatch(
 		entries

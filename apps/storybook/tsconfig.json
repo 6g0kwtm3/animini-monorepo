@@ -1,0 +1,13 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"extends": ["ts-config/tsconfig.json"],
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+
+		// Vite takes care of building everything, not tsc.
+		"noEmit": true,
+		"types": ["unplugin-icons/types/react"]
+	},
+	"include": [".storybook/**/*", "**/*"]
+}

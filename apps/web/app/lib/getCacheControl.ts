@@ -1,4 +1,5 @@
 import * as Predicate from "~/lib/Predicate"
+import { numberToString } from "~/lib/numberToString"
 
 export function getCacheControl(options: {
 	maxAge?: number
@@ -7,11 +8,11 @@ export function getCacheControl(options: {
 }): string {
 	let header = ""
 	if (Predicate.isNumber(options.maxAge)) {
-		header += `max-age=${options.maxAge}`
+		header += `max-age=${numberToString(options.maxAge)}`
 	}
 
 	if (Predicate.isNumber(options.staleWhileRevalidate)) {
-		header += `${header ? ", " : ""}stale-while-revalidate=${options.maxAge}`
+		header += `${header ? ", " : ""}stale-while-revalidate=${numberToString(options.maxAge)}`
 	}
 
 	if (options.private) {

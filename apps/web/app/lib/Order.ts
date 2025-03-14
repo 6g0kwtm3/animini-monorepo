@@ -1,6 +1,4 @@
-export interface Order<T> {
-	(a: T, b: T): number
-}
+export type Order<T> = (a: T, b: T) => number
 
 export function number(a: number, b: number) {
 	return a - b

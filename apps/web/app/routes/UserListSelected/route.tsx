@@ -25,10 +25,10 @@ import type { AnitomyResult } from "anitomy"
 import type { ReactNode } from "react"
 import { Suspense } from "react"
 
+import * as Ariakit from "@ariakit/react"
 import { Card } from "~/components/Card"
 import { List } from "~/components/List"
 import { Loading, Skeleton } from "~/components/Skeleton"
-import { Ariakit } from "~/lib/ariakit"
 
 import { client_get_client } from "~/lib/client"
 
@@ -131,9 +131,10 @@ export const meta = (({ params }) => {
 	return [
 		{
 			title:
-				params.typelist === "animelist"
+				params.userName &&
+				(params.typelist === "animelist"
 					? `${params.userName}'s anime list`
-					: `${params.userName}'s manga list`,
+					: `${params.userName}'s manga list`),
 		},
 	]
 }) satisfies MetaFunction<typeof clientLoader>
@@ -179,13 +180,19 @@ async function setStatus(formData: FormData) {
 
 export const clientAction = (async (args) => {
 	const formData = await args.request.formData()
-	if (formData.get("intent") === "increment") {
+	const intent = formData.get("intent")
+	if (typeof intent !== "string") {
+		throw Response.json(`Unknown intent type: "${typeof intent}"`, {
+			status: 400,
+		})
+	}
+	if (intent === "increment") {
 		return increment(formData)
 	}
-	if (formData.get("intent") === "set_status") {
+	if (intent === "set_status") {
 		return setStatus(formData)
 	}
-	throw Response.json(`Unknown intent ${formData.get("intent")}`, {
+	throw Response.json(`Unknown intent: "${intent}"`, {
 		status: 400,
 	})
 }) satisfies ClientActionFunction
@@ -193,7 +200,7 @@ export const clientAction = (async (args) => {
 async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	const params = invariant(Params(args.params))
 
-	const client = await client_get_client()
+	const client = client_get_client()
 
 	const data = await client.query<routeNavUserListEntriesQuery>(
 		NavUserListEntriesQuery,
@@ -269,7 +276,7 @@ function sortEntries(
 	data: readonly NavUserListEntriesSort_entries$key[],
 	searchParams: URLSearchParams
 ) {
-	let entries = data.map((key) =>
+	const entries = data.map((key) =>
 		readInlineData(NavUserListEntriesSort_entries, key)
 	)
 	const sorts = searchParams.getAll("sort")
@@ -278,72 +285,74 @@ function sortEntries(
 
 	for (const unparsedSort of sorts) {
 		const sort = MediaListSortSchema(unparsedSort)
-		if (sort instanceof ArkErrors) {
-			continue
-		}
-		if (sort === MediaListSort.TitleEnglish) {
-			order.push(
-				Order.reverse(
-					Order.mapInput(
-						Order.string,
-						(entry) => entry.media?.title?.userPreferred ?? ""
+
+		switch (sort) {
+			case MediaListSort.TitleEnglish:
+				order.push(
+					Order.reverse(
+						Order.mapInput(
+							Order.string,
+							(entry) => entry.media?.title?.userPreferred ?? ""
+						)
 					)
 				)
-			)
-			continue
-		}
+				continue
 
-		if (sort === MediaListSort.ScoreDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
-			continue
-		}
+			case MediaListSort.ScoreDesc:
+				order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
+				continue
 
-		if (sort === MediaListSort.ProgressDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
-			continue
-		}
+			case MediaListSort.ProgressDesc:
+				order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
+				continue
 
-		if (sort === MediaListSort.UpdatedTimeDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0))
-			continue
-		}
+			case MediaListSort.UpdatedTimeDesc:
+				order.push(
+					Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0)
+				)
+				continue
 
-		if (sort === MediaListSort.IdDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0))
-			continue
-		}
+			case MediaListSort.IdDesc:
+				order.push(
+					Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0)
+				)
+				continue
 
-		if (sort === MediaListSort.StartedOnDesc) {
-			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
-			continue
-		}
+			case MediaListSort.StartedOnDesc:
+				order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
+				continue
 
-		if (sort === MediaListSort.FinishedOnDesc) {
-			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
-			continue
-		}
+			case MediaListSort.FinishedOnDesc:
+				order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
+				continue
 
-		if (sort === MediaListSort.StartDateDesc) {
-			order.push(
-				Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
-			)
-			continue
-		}
-		if (sort === MediaListSort.AvgScore) {
-			order.push(
-				Order.mapInput(Order.number, (entry) => entry.media?.averageScore ?? 0)
-			)
-			continue
-		}
+			case MediaListSort.StartDateDesc:
+				order.push(
+					Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
+				)
+				continue
 
-		if (sort === MediaListSort.PopularityDesc) {
-			order.push(
-				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
-			)
-			continue
-		}
+			case MediaListSort.AvgScore:
+				order.push(
+					Order.mapInput(
+						Order.number,
+						(entry) => entry.media?.averageScore ?? 0
+					)
+				)
+				continue
 
-		sort satisfies never
+			case MediaListSort.PopularityDesc:
+				order.push(
+					Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
+				)
+				continue
+
+			default:
+				if (sort instanceof ArkErrors) {
+					continue
+				}
+				sort satisfies never
+		}
 	}
 
 	order.push(

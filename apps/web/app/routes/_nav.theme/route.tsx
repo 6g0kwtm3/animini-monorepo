@@ -1,6 +1,6 @@
+import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { Ariakit } from "~/lib/ariakit"
 
 export default function Page(): ReactNode {
 	return (

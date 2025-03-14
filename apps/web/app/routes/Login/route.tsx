@@ -36,7 +36,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		return {}
 	}
 
-	const client = await client_get_client()
+	const client = client_get_client()
 
 	const data = await client.query<NavLoginQuery>(
 		graphql`

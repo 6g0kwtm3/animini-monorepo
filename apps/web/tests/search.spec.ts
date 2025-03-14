@@ -13,7 +13,7 @@ test("when search, ArrowDown should change focus", async ({ page }) => {
 	// when
 	await searchPage.search.press("ArrowDown")
 	// then
-	await expect(await searchPage.active.textContent()).toBe(
+	expect(await searchPage.active.textContent()).toBe(
 		await searchPage.options.nth(1).textContent()
 	)
 })

@@ -11,7 +11,9 @@ import {
 } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import { Label } from "./Label"
-const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {})
+const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {
+	//
+})
 
 export function ChipFilter(
 	props: Omit<ComponentProps<typeof Label>, "data-focus-visible">
@@ -41,8 +43,12 @@ export function ChipFilterCheckbox(
 					clickOnEnter
 					{...props}
 					id={id}
-					onFocusVisible={() => setFocusVisible(true)}
-					onBlur={() => setFocusVisible(false)}
+					onFocusVisible={() => {
+						setFocusVisible(true)
+					}}
+					onBlur={() => {
+						setFocusVisible(false)
+					}}
 				/>
 			</Ariakit.VisuallyHidden>
 			<ChipFilterIcon />
@@ -62,8 +68,12 @@ export function ChipFilterRadio(
 					clickOnEnter
 					{...props}
 					id={id}
-					onFocusVisible={() => setFocusVisible(true)}
-					onBlur={() => setFocusVisible(false)}
+					onFocusVisible={() => {
+						setFocusVisible(true)
+					}}
+					onBlur={() => {
+						setFocusVisible(false)
+					}}
 				/>
 			</Ariakit.VisuallyHidden>
 			<ChipFilterIcon />

@@ -12,6 +12,7 @@ import {
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import { useRawLoaderData } from "~/lib/data"
 import { useFragment } from "~/lib/Network"
+import { numberToString } from "~/lib/numberToString"
 import { languageTag as getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
@@ -43,15 +44,23 @@ export function ActivityLike(props: {
 
 	return (
 		notification.user && (
-			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
+			<ListItem
+				render={
+					<Link to={`/activity/${numberToString(notification.activityId)}`} />
+				}
+			>
 				<ListItemImg>
 					{notification.user.avatar?.large && (
 						<img
 							src={notification.user.avatar.large}
 							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
-							style={{
-								"--bg": `url(${notification.user.avatar.medium})`,
-							}}
+							style={
+								notification.user.avatar.medium
+									? {
+											"--bg": `url(${notification.user.avatar.medium})`,
+										}
+									: undefined
+							}
 							loading="lazy"
 							alt=""
 						/>

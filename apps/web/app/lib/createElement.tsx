@@ -1,12 +1,23 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react"
-import { cloneElement, isValidElement } from "react"
+import type { ElementType, ReactElement, ReactNode } from "react"
+import {
+	cloneElement,
+	createElement as createElement_,
+	isValidElement,
+} from "react"
 
 export function createElement(
 	Type: ElementType,
-	props: ComponentPropsWithoutRef<ElementType>
+	props: {
+		render?: ReactElement
+		className?: string
+	}
 ): ReactNode {
 	const { render, ...rest } = props
-	if (isValidElement<any>(render)) {
+	if (
+		isValidElement<{
+			className?: string
+		}>(render)
+	) {
 		return cloneElement(render, {
 			...rest,
 			...render.props,
@@ -15,5 +26,5 @@ export function createElement(
 				.join(" "),
 		})
 	}
-	return <Type {...rest} />
+	return createElement_(Type, rest) //<Type {...rest} />
 }

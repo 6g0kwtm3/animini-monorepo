@@ -18,11 +18,11 @@ import {
 
 import { fab } from "~/lib/button"
 
+import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
 import { useFragment } from "~/lib/Network"
-import { Ariakit } from "~/lib/ariakit"
 import { client_get_client } from "~/lib/client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
@@ -32,7 +32,7 @@ import { RelatedMediaAddition } from "./RelatedMediaAddition"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
-	const client = await client_get_client()
+	const client = client_get_client()
 
 	const data = await client.query<NavNotificationsQuery>(
 		graphql`
@@ -51,7 +51,7 @@ export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
 }
 
 export const clientAction = (async () => {
-	const client = await client_get_client()
+	const client = client_get_client()
 
 	await client.query(
 		graphql`

@@ -22,3 +22,5 @@ worker-configuration.d.ts
 .eslintcache
 dist
 tmp
+*storybook.log
+build-storybook

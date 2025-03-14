@@ -1,6 +1,7 @@
 import {
 	argbFromHex,
 	blueFromArgb,
+	DynamicColor,
 	greenFromArgb,
 	Hct,
 	MaterialDynamicColors,
@@ -13,14 +14,27 @@ import colors from "~/../colors.json"
 
 export type Theme = CSSProperties
 
+const {
+	contentAccentToneDelta: _contentAccentToneDelta,
+	// eslint-disable-next-line @typescript-eslint/unbound-method
+	highestSurface: _highestSurface,
+	prototype: _prototype,
+	...rest
+} = MaterialDynamicColors
+
+const dynamicColors: Record<string, DynamicColor> = rest
+
 export function getThemeFromHex(hex: string): CSSProperties {
 	const main = Hct.fromInt(argbFromHex(hex))
 
 	return Object.fromEntries(
 		Object.keys(colors.light).flatMap((key) => {
-			const color = key.replaceAll(/-([a-z])/g, (_, l) => l.toUpperCase())
+			const color = key.replaceAll(/-([a-z])/g, (_, l: string) =>
+				l.toUpperCase()
+			)
 
-			if (!(color in MaterialDynamicColors)) {
+			const dynamicColor = dynamicColors[color]
+			if (!dynamicColor) {
 				console.warn(`Unknown color ${color}`)
 				return []
 			}
@@ -41,8 +55,7 @@ export function getThemeFromHex(hex: string): CSSProperties {
 
 					return [
 						`--${key}-${theme}-${contrast}`,
-						// @ts-expect-error color is not narrowed correctly
-						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot)),
+						formatArgb(dynamicColor.getArgb(spot)),
 					]
 				})
 			})

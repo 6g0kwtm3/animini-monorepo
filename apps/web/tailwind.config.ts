@@ -1,6 +1,7 @@
 import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
+import { numberToString } from "./app/lib/numberToString"
 import * as Predicate from "./app/lib/Predicate"
 import colors from "./colors.json"
 import fontSize from "./tailwind.config.fonts"
@@ -37,7 +38,7 @@ export const config = {
 		colors: Object.assign(
 			Object.fromEntries(
 				Object.keys(colors.dark).map((key) => {
-					return [`${key}`, `rgb(var(--${key}) / <alpha-value>)`]
+					return [key, `rgb(var(--${key}) / <alpha-value>)`]
 				})
 			),
 			{ transparent: "transparent" }
@@ -87,27 +88,27 @@ export const config = {
 	plugins: [
 		typography,
 
-		plugin(({ addBase, matchUtilities, theme }) => {
-			addBase({
-				":root": Object.assign({
+		plugin((ctx) => {
+			ctx.addBase({
+				":root": {
 					fontSize: "16px",
-				}),
-				"::backdrop": Object.assign({
+				},
+				"::backdrop": {
 					fontSize: "16px",
-				}),
+				},
 			})
 
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					state: (opacity: string | number) => {
-						const stateColor = `color-mix(in oklab, currentColor, transparent ${
+						const stateColor = `color-mix(in oklab, currentColor, transparent ${numberToString(
 							100 -
-							Number(
-								Predicate.isString(opacity)
-									? opacity.replace("%", "")
-									: Number(opacity) * 100
-							)
-						}%)`
+								Number(
+									Predicate.isString(opacity)
+										? opacity.replace("%", "")
+										: Number(opacity) * 100
+								)
+						)}%)`
 
 						return {
 							backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
@@ -115,12 +116,13 @@ export const config = {
 					},
 				},
 				{
-					values: theme("state") || {},
+					values:
+						(ctx.theme("state") as Record<string, string> | undefined) ?? {},
 					type: ["percentage"],
 				}
 			)
 
-			// matchUtilities(
+			// ctx.matchUtilities(
 			// 	{
 			// 		state: (color) => ({
 			// 			...withAlphaVariable({
@@ -133,28 +135,28 @@ export const config = {
 			// 		})
 			// 	},
 			// 	{
-			// 		values: flattenColorPalette(theme("colors")),
+			// 		values: flattenColorPalette(ctx.theme("colors")),
 			// 		type: ["color", "any"]
 			// 	}
 			// )
 		}),
-		plugin(({ addVariant }) => {
-			addVariant("error", [
+		plugin((ctx) => {
+			ctx.addVariant("error", [
 				"&:has(:is(:user-invalid,:-moz-ui-invalid,:invalid))",
 				"&:has([aria-invalid='true'])",
 			])
-			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
-			addVariant("pressed", ["&[data-active]", "&:active"])
-			addVariant("popover-open", ["&[data-open]", "&:popover-open"])
+			ctx.addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
+			ctx.addVariant("pressed", ["&[data-active]", "&:active"])
+			ctx.addVariant("popover-open", ["&[data-open]", "&:popover-open"])
 
-			// addVariant("dragged", [])
+			// ctx.addVariant("dragged", [])
 		}),
-		plugin(({ addVariant }) => {
-			addVariant("force", "&:not(\\#)")
+		plugin((ctx) => {
+			ctx.addVariant("force", "&:not(\\#)")
 		}),
 
-		plugin(({ addComponents, matchUtilities, theme }) => {
-			matchUtilities(
+		plugin((ctx) => {
+			ctx.matchUtilities(
 				{
 					i: (value) => {
 						return {
@@ -165,9 +167,10 @@ export const config = {
 				{
 					values: Object.assign(
 						Object.fromEntries(
-							Object.entries<string>(theme("spacing") || {}).filter(
-								([key]) => 5 <= Number(key) && Number(key) <= 12
-							)
+							Object.entries<string>(
+								(ctx.theme("spacing") as Record<string, string> | undefined) ??
+									{}
+							).filter(([key]) => 5 <= Number(key) && Number(key) <= 12)
 						),
 						{
 							DEFAULT: "1.5rem",
@@ -176,7 +179,7 @@ export const config = {
 				}
 			)
 
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					contrast: (value) => {
 						return Object.fromEntries(
@@ -199,7 +202,7 @@ export const config = {
 				}
 			)
 
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					theme: (value) => {
 						return Object.fromEntries(
@@ -218,7 +221,7 @@ export const config = {
 				}
 			)
 
-			addComponents({
+			ctx.addComponents({
 				".i-inline": {
 					"vertical-align": "-11.5%",
 				},

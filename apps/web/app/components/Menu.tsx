@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
-import { Ariakit } from "~/lib/ariakit"
+import * as Ariakit from "@ariakit/react"
 
 export function MenuList(props: Ariakit.MenuProps): ReactNode {
 	const { list } = useContext(Context)

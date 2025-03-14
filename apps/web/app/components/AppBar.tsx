@@ -1,9 +1,10 @@
+import * as Ariakit from "@ariakit/react"
 import type { ComponentPropsWithoutRef, ComponentRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
 
+import { numberToString } from "~/lib/numberToString"
 import { tv } from "~/lib/tailwind-variants"
 
 const appBar = tv(
@@ -75,7 +76,9 @@ export function AppBar({
 			})
 		}
 		window.addEventListener("scroll", listener)
-		return () => window.removeEventListener("scroll", listener)
+		return () => {
+			window.removeEventListener("scroll", listener)
+		}
 	}, [])
 
 	const observer = useRef(
@@ -84,7 +87,7 @@ export function AppBar({
 				if (node.target instanceof HTMLElement) {
 					node.target.style.setProperty(
 						"--app-bar-height",
-						`${String(node.target.clientHeight)}px`
+						`${numberToString(node.target.clientHeight)}px`
 					)
 				}
 			}
@@ -94,7 +97,7 @@ export function AppBar({
 	useEffect(() => {
 		const node = ref.current
 		if (!node) return
-		let observerCurrent = observer.current
+		const observerCurrent = observer.current
 		observerCurrent.observe(node)
 		return () => {
 			observerCurrent.unobserve(node)

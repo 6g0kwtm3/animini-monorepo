@@ -23,6 +23,7 @@ import { useFragment } from "../Network"
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
+import { numberToString } from "~/lib/numberToString"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
@@ -67,7 +68,7 @@ export function ProgressIncrement(props: {
 			? Number(optimisticEntry.progress)
 			: entry.progress) ?? 0
 
-	search.set("sheet", String(entry.id))
+	search.set("sheet", numberToString(entry.id))
 
 	const episodes = entry.media.episodes ?? entry.media.chapters
 
@@ -122,7 +123,7 @@ export function ProgressIncrement(props: {
 						const shareData: ShareData = {
 							title: entry.media.title.userPreferred,
 							text: entry.media.title.userPreferred,
-							url: `https://${location.host}/media/${entry.media.id}`,
+							url: `https://${location.host}/media/${numberToString(entry.media.id)}`,
 						}
 
 						const canShare =
@@ -258,7 +259,7 @@ export function Progress(props: { entry: Progress_entry$key }): ReactNode {
 					</span>
 				</>
 			) : (
-				`/${episodes ?? "-"}`
+				`/${Predicate.isNumber(episodes) ? numberToString(episodes) : "-"}`
 			)}
 		</span>
 	)

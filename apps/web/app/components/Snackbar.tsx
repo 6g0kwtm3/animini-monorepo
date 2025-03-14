@@ -1,6 +1,6 @@
 import type {
 	ComponentPropsWithoutRef,
-	ElementRef,
+	ComponentRef,
 	PropsWithChildren,
 	ReactNode,
 } from "react"
@@ -24,7 +24,7 @@ type OnBeforeToggle = (
 const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 	console.warn("Snackbar is outside of SnackbarQueue")
 })
-export function SnackbarQueue(props: PropsWithChildren<{}>): ReactNode {
+export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 	const queue = useRef<HTMLElement[]>([])
 
 	const add = useCallback<OnBeforeToggle>(
@@ -92,7 +92,7 @@ export function Snackbar({
 	timeout?: number
 	open: boolean
 }): ReactNode {
-	const ref = useRef<ElementRef<"div">>(null)
+	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
 	useEffect(() => {
@@ -131,7 +131,9 @@ export function Snackbar({
 		}
 		current.addEventListener("invoke", onInvoke)
 
-		return () => current.removeEventListener("invoke", onInvoke)
+		return () => {
+			current.removeEventListener("invoke", onInvoke)
+		}
 	}, [])
 
 	useEffect(() => {
@@ -141,7 +143,9 @@ export function Snackbar({
 		}
 
 		current.addEventListener("beforetoggle", onBeforeToggle)
-		return () => current.removeEventListener("beforetoggle", onBeforeToggle)
+		return () => {
+			current.removeEventListener("beforetoggle", onBeforeToggle)
+		}
 	}, [onBeforeToggle])
 
 	const id = useId()

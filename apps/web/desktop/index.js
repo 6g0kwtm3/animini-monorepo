@@ -48,5 +48,7 @@ app.on("ready", () => {
 
 /** @param {unknown} error */
 function getErrorStack(error) {
-	return error instanceof Error ? error.stack || error.message : String(error)
+	return error instanceof Error
+		? ((error.stack === "" ? undefined : error.stack) ?? error.message)
+		: String(error)
 }

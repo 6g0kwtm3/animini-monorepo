@@ -13,10 +13,10 @@ import {
 } from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
+import * as Ariakit from "@ariakit/react"
 import { type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
-import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
 
@@ -31,7 +31,7 @@ import environment, {
 	RelayEnvironmentProvider,
 } from "./lib/Network"
 
-let RelayEnvironment = RelayEnvironmentProvider as (props: {
+const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	children: ReactNode
 	environment: IEnvironment
 }) => ReactNode

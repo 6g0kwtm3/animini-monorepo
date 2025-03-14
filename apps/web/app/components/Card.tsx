@@ -46,7 +46,7 @@ export function Card({
 	...props
 }: ComponentPropsWithoutRef<"section"> &
 	VariantProps<typeof card> & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}): ReactNode {
 	return createElement("section", {
 		...props,

@@ -10,6 +10,13 @@ import typegen from "eslint-typegen"
 export default await typegen([
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat["jsx-runtime"],
+	{
+		settings: {
+			react: {
+				version: "detect",
+			},
+		},
+	},
 	reactHooks.configs["recommended-latest"],
 	reactRefresh.configs.vite,
 	reactCompiler.configs.recommended,

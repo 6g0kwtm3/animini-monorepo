@@ -1,10 +1,10 @@
 import { useStoreState } from "@ariakit/react"
 import { motion } from "framer-motion"
 
+import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
 import { createContext, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { Ariakit } from "~/lib/ariakit"
 
 const TabsContext = createContext<string | undefined>(undefined)
 

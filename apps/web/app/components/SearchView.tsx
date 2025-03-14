@@ -58,7 +58,7 @@ export const SearchViewInput = forwardRef<
 	HTMLInputElement,
 	Ariakit.ComboboxProps
 >(function SearchViewInput(props, ref) {
-	let { autoFocus = true } = props
+	const { autoFocus = true } = props
 	const { input } = useContext(SearchViewContext)
 	return (
 		<>
@@ -83,7 +83,7 @@ export const SearchViewInput = forwardRef<
 export const SearchViewItem = forwardRef<
 	HTMLDivElement,
 	Ariakit.ComboboxItemProps & {
-		render?: ReactElement<any>
+		render?: ReactElement
 	}
 >(function SearchViewItem(props, ref) {
 	return (

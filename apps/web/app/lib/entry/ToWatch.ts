@@ -1,5 +1,6 @@
 import ReactRelay from "react-relay"
 import type { ToWatch_entry$key } from "~/gql/ToWatch_entry.graphql"
+import { numberToString } from "~/lib/numberToString"
 import { readFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -33,7 +34,7 @@ export function formatWatch(minutes: number): string {
 		return ""
 	}
 	if (minutes > 60) {
-		return `${Math.floor(minutes / 60)}h ${minutes % 60}min`
+		return `${numberToString(Math.floor(minutes / 60))}h ${numberToString(minutes % 60)}min`
 	}
-	return `${minutes}min`
+	return `${numberToString(minutes)}min`
 }

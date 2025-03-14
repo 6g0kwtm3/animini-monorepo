@@ -113,7 +113,7 @@ function MediaListItemTitle(props: {
 	}
 
 	const libraryHasNextEpisode = library[entry.media.title.userPreferred]?.some(
-		({ episode }) => episode.number === (entry.progress || 0) + 1
+		({ episode }) => episode.number === (entry.progress ?? 0) + 1
 	)
 
 	return (

@@ -3,12 +3,7 @@ import { Link, useFetcher, useRouteLoaderData } from "react-router"
 
 import { ErrorBoundary } from "@sentry/react"
 import marked from "marked"
-import type {
-	ComponentProps,
-	ComponentPropsWithoutRef,
-	JSX,
-	ReactNode,
-} from "react"
+import type { ComponentProps, JSX, ReactNode } from "react"
 import { Suspense, useMemo } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { Card } from "~/components/Card"
@@ -47,6 +42,7 @@ import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphq
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import type { routeUserCardQuery } from "~/gql/routeUserCardQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { numberToString } from "~/lib/numberToString"
 import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
@@ -250,17 +246,23 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 																loading="lazy"
 																src={activity.user.avatar.large}
 																className="bg-(image:--bg) h-10 w-10 rounded-full bg-cover object-cover"
-																style={{
-																	"--bg": `url(${activity.user.avatar.medium})`,
-																}}
+																style={
+																	activity.user.avatar.medium
+																		? {
+																				"--bg": `url(${activity.user.avatar.medium})`,
+																			}
+																		: undefined
+																}
 															/>
 														)}
 													</div>
 													<ListItemContent>
 														<ListItemTitle>
-															<Link to={`/user/${activity.user?.name}`}>
-																{activity.user?.name}
-															</Link>
+															{activity.user?.name && (
+																<Link to={`/user/${activity.user.name}`}>
+																	{activity.user.name}
+																</Link>
+															)}
 														</ListItemTitle>
 														<ListItemSubtitle>
 															{activity.createdAt}
@@ -276,6 +278,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 									</li>
 								)
 							}
+							activity.__typename satisfies "%other"
 							return null
 						})}
 				</ul>
@@ -288,10 +291,10 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	)
 }
 
-interface Options {
+export interface Options {
 	replace: Partial<{
 		[K in keyof JSX.IntrinsicElements]: (
-			props: ComponentPropsWithoutRef<K>
+			props: JSX.IntrinsicElements[K]
 		) => ReactNode
 	}>
 }
@@ -356,7 +359,7 @@ const options = {
 } satisfies Options
 
 function UserCard(props: { userName: string }) {
-	let data = useLazyLoadQuery<routeUserCardQuery>(
+	const data = useLazyLoadQuery<routeUserCardQuery>(
 		graphql`
 			query routeUserCardQuery($userName: String!) {
 				User(name: $userName) {
@@ -379,62 +382,68 @@ function UserCard(props: { userName: string }) {
 	})
 
 	return (
-		<>
-			<div className="-mx-4 -my-2">
-				<List lines={"two"} className="">
-					<ListItem className="hover:state-none">
-						<ListItemAvatar>
-							{data.User?.avatar?.large && (
-								<img
-									src={data.User.avatar.large}
-									className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-									style={{
-										"--bg": `url(${data.User.avatar.medium ?? ""})`,
-									}}
-									loading="lazy"
-									alt=""
+		data.User && (
+			<>
+				<div className="-mx-4 -my-2">
+					<List lines={"two"} className="">
+						<ListItem className="hover:state-none">
+							<ListItemAvatar>
+								{data.User.avatar?.large && (
+									<img
+										src={data.User.avatar.large}
+										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
+										style={{
+											"--bg": `url(${data.User.avatar.medium ?? ""})`,
+										}}
+										loading="lazy"
+										alt=""
+									/>
+								)}
+							</ListItemAvatar>
+							<ListItemContent>
+								<ListItemTitle>{props.userName}</ListItemTitle>
+								<ListItemSubtitle>
+									{data.User.isFollower ? "Follower" : "Not follower"}
+								</ListItemSubtitle>
+							</ListItemContent>
+						</ListItem>
+					</List>
+				</div>
+
+				<TooltipRichActions>
+					{rootData?.Viewer?.name &&
+						rootData.Viewer.name !== props.userName && (
+							<follow.Form
+								method="post"
+								action={`/user/${numberToString(data.User.id)}/follow`}
+							>
+								<input
+									type="hidden"
+									name="isFollowing"
+									value={
+										(follow.formData?.get("isFollowing") ??
+										follow.data?.ToggleFollow.isFollowing ??
+										data.User.isFollowing)
+											? ""
+											: "true"
+									}
+									id=""
 								/>
-							)}
-						</ListItemAvatar>
-						<ListItemContent>
-							<ListItemTitle>{props.userName}</ListItemTitle>
-							<ListItemSubtitle>
-								{data.User?.isFollower ? "Follower" : "Not follower"}
-							</ListItemSubtitle>
-						</ListItemContent>
-					</ListItem>
-				</List>
-			</div>
 
-			<TooltipRichActions>
-				{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName && (
-					<follow.Form method="post" action={`/user/${data.User?.id}/follow`}>
-						<input
-							type="hidden"
-							name="isFollowing"
-							value={
-								(follow.formData?.get("isFollowing") ??
-								follow.data?.ToggleFollow.isFollowing ??
-								data.User?.isFollowing)
-									? ""
-									: "true"
-							}
-							id=""
-						/>
-
-						<Button type="submit" aria-disabled={!data.User?.id}>
-							{(follow.formData?.get("isFollowing") ??
-							follow.data?.ToggleFollow.isFollowing ??
-							data.User?.isFollowing)
-								? m.unfollow_button()
-								: m.follow_button()}
-						</Button>
-					</follow.Form>
-				)}
-			</TooltipRichActions>
-			{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
+								<Button type="submit" aria-disabled={!data.User.id}>
+									{(follow.formData?.get("isFollowing") ??
+									follow.data?.ToggleFollow.isFollowing ??
+									data.User.isFollowing)
+										? m.unfollow_button()
+										: m.follow_button()}
+								</Button>
+							</follow.Form>
+						)}
+				</TooltipRichActions>
+				{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 			<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
-		</>
+			</>
+		)
 	)
 }
 
@@ -529,13 +538,13 @@ function Markdown(props: { children: string }) {
 	)
 }
 
-function getAttributes(attributes: any) {
+function getAttributes(attributes: Record<string, string>) {
 	const {
 		class: className,
 		allowfullscreen: allowFullScreen,
 		frameborder: frameBorder,
 		..._attributes
-	} = attributes ?? {}
+	} = attributes
 
 	return {
 		..._attributes,
@@ -545,23 +554,24 @@ function getAttributes(attributes: any) {
 	}
 }
 
-function traverse(element: ChildNode, options: any): ReactNode {
+function traverse(element: ChildNode, options: Options): ReactNode {
 	if (element.nodeType === Node.TEXT_NODE) {
 		return element.textContent
 	} else if (element instanceof HTMLElement) {
-		const Name = element.tagName.toLowerCase()
+		const Name =
+			element.tagName.toLowerCase() as unknown as keyof JSX.IntrinsicElements
 		const attributes: Record<string, string> = {}
 		for (const attribute of element.attributes) {
 			attributes[attribute.name] = attribute.value
 		}
 
-		const fullProps = {
+		const fullProps: JSX.IntrinsicElements[typeof Name] = {
 			...getAttributes(attributes),
 			children: traverseCollection(element.childNodes, options),
 		}
 
 		if (Name in options.replace) {
-			return options.replace[Name](fullProps)
+			return options.replace[Name]?.(fullProps)
 		}
 
 		return <Name {...fullProps} />
@@ -570,7 +580,7 @@ function traverse(element: ChildNode, options: any): ReactNode {
 
 function traverseCollection(
 	children: NodeListOf<ChildNode>,
-	options: any
+	options: Options
 ): ReactNode {
 	return Array.from(children).reduce<ReactNode>(
 		(acc, node) => (
@@ -583,7 +593,7 @@ function traverseCollection(
 	)
 }
 
-function parse(html: string, options: any): ReactNode {
+function parse(html: string, options: Options): ReactNode {
 	const subdocument = new DOMParser().parseFromString(html, "text/html")
 
 	return traverseCollection(subdocument.body.childNodes, options)
@@ -648,7 +658,7 @@ function markdownHtml(t: string) {
 	const d = new marked.Renderer(),
 		u = new marked.Lexer()
 
-	d.link = (t: string, e: string | undefined, a: string) => {
+	d.link = (t: string, e: string, a: string) => {
 		return `<a href="${t}" title="${e}" target="_blank" rel="noopener noreferrer">${a}</a>`
 	}
 	u.rules.heading = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
@@ -658,9 +668,12 @@ function markdownHtml(t: string) {
 			/(http)(:([/|.|\w|\s|-])*\.(?:jpg|.jpeg|gif|png|mp4|webm))/gi,
 			"$1s$2"
 		)),
-		(t = t.replaceAll(/(^|>| )@([A-Za-z0-9]+)/gm, (group, one, userName) => {
-			return `${one}<a class='user-link' data-user-name='${userName}' href='${route_user({ userName: userName })}'>@${userName}</a>`
-		})),
+		(t = t.replaceAll(
+			/(^|>| )@([A-Za-z0-9]+)/gm,
+			(group, one: string, userName: string) => {
+				return `${one}<a class='user-link' data-user-name='${userName}' href='${route_user({ userName: userName })}'>@${userName}</a>`
+			}
+		)),
 		(t = t.replace(
 			/img\s?(\d+%?)?\s?\((.[\S]+)\)/gi,
 			"<img width='$1' src='$2'>"
@@ -697,8 +710,8 @@ function markdownHtml(t: string) {
 		)),
 		(t = t.replace(
 			/(?:<a.*href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+)(\/\w+)?.*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
-			(group, type, mediaId, slug) => {
-				return `<a class="media-link" href="${route_media({ id: mediaId })}" data-type="${type}" data-slug="${slug}" data-id="${mediaId}">Loading...</a>`
+			(group, type: string, mediaId: string, slug: string) => {
+				return `<a class="media-link" href="${route_media({ id: Number(mediaId) })}" data-type="${type}" data-slug="${slug}" data-id="${mediaId}">Loading...</a>`
 			}
 		)),
 		t
