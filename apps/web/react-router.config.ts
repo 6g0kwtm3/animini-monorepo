@@ -14,4 +14,5 @@ export default {
 		unstable_middleware: true,
 	},
 	ssr: false,
+	buildDirectory: "dist",
 } satisfies Config

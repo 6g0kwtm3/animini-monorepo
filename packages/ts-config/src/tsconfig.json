@@ -1,0 +1,24 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"target": "ES2022",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		// strictness
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		// fix resolveJsonModule?
+		"module": "preserve",
+		// lib
+		"lib": ["DOM", "DOM.Iterable", "ES2022"],
+		// react
+		"jsx": "react-jsx"
+	}
+}

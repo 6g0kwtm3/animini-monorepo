@@ -1,15 +1,16 @@
 import * as Ariakit from "@ariakit/react"
 import {
-	createContext,
-	use,
-	useState,
-	type ComponentProps,
-	type Dispatch,
-	type ReactNode,
-	type SetStateAction,
+    createContext,
+    use,
+    useState,
+    type ComponentProps,
+    type Dispatch,
+    type ReactNode,
+    type SetStateAction,
 } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
-import { Label, LabelId } from "./Label"
+import { Label } from "./Label"
+import { LabelId } from "./LabelId.1"
 const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {})
 
 export function ChipFilter(

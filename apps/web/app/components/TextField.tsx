@@ -1,15 +1,16 @@
 import * as Ariakit from "@ariakit/react"
 import {
-	forwardRef,
-	use,
-	type ComponentProps,
-	type ComponentPropsWithoutRef,
-	type JSX,
-	type ReactNode,
+    forwardRef,
+    use,
+    type ComponentProps,
+    type ComponentPropsWithoutRef,
+    type JSX,
+    type ReactNode,
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
-import { Label, LabelId } from "./Label"
+import { Label } from "./Label"
+import { LabelId } from "./LabelId.1"
 
 export function TextFieldOutlined({
 	children,

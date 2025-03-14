@@ -78,18 +78,38 @@ export function AppBar({
 		return () => window.removeEventListener("scroll", listener)
 	}, [])
 
+	const observer = useRef(
+		new ResizeObserver((nodes) => {
+			for (const node of nodes) {
+				if (node.target instanceof HTMLElement) {
+					node.target.style.setProperty(
+						"--app-bar-height",
+						`${String(node.target.clientHeight)}px`
+					)
+				}
+			}
+		})
+	)
+
+	useEffect(() => {
+		const node = ref.current
+		if (!node) return
+		let observerCurrent = observer.current
+		observerCurrent.observe(node)
+		return () => {
+			observerCurrent.unobserve(node)
+		}
+	}, [])
+
 	return (
 		<AppBarContext.Provider value={styles}>
-			{createElement("nav", {
-				...props,
-				ref,
-				"data-hidden": hidden,
-				"data-elevated": scrolled !== 0,
-				style: {
-					"--app-bar-height": (ref.current?.clientHeight ?? 0) + "px",
-				},
-				className: styles.root({ className: props.className }),
-			})}
+			<nav
+				{...props}
+				ref={ref}
+				data-hidden={hidden}
+				data-elevated={scrolled !== 0}
+				className={styles.root({ className: props.className })}
+			/>
 		</AppBarContext.Provider>
 	)
 }

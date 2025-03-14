@@ -19,3 +19,6 @@ worker-configuration.d.ts
 .million
 .react-router
 .turbo
+.eslintcache
+dist
+tmp
