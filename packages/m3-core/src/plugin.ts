@@ -7,27 +7,27 @@ import { screens } from "./screens"
 
 export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 	return plugin(
-		({ addBase, matchUtilities, addVariant, theme, addComponents }) => {
-			addBase({
-				":root": Object.assign({
+		(ctx) => {
+			ctx.addBase({
+				":root": {
 					fontSize: "16px",
-				}),
-				"::backdrop": Object.assign({
+				},
+				"::backdrop": {
 					fontSize: "16px",
-				}),
+				},
 			})
 
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					state: (opacity: string | number) => {
-						const stateColor = `color-mix(in oklab, currentColor, transparent ${
+						const stateColor = `color-mix(in oklab, currentColor, transparent ${String(
 							100 -
-							Number(
-								typeof opacity === "string"
-									? opacity.replace("%", "")
-									: Number(opacity) * 100
-							)
-						}%)`
+								Number(
+									typeof opacity === "string"
+										? opacity.replace("%", "")
+										: Number(opacity) * 100
+								)
+						)}%)`
 
 						return {
 							backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
@@ -35,7 +35,8 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 					},
 				},
 				{
-					values: theme("state") || {},
+					values:
+						(ctx.theme("state") as Record<string, string> | undefined) ?? {},
 					type: ["percentage"],
 				}
 			)
@@ -57,18 +58,18 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 			// 		type: ["color", "any"]
 			// 	}
 			// )
-			addVariant("error", [
+			ctx.addVariant("error", [
 				"&:has(:is(:user-invalid,:-moz-ui-invalid,:invalid))",
 				"&:has([aria-invalid='true'])",
 			])
-			addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
-			addVariant("pressed", ["&[data-active]", "&:active"])
-			addVariant("popover-open", ["&[data-open]", "&:popover-open"])
+			ctx.addVariant("focused", ["&[data-focus-visible]", "&:focus-visible"])
+			ctx.addVariant("pressed", ["&[data-active]", "&:active"])
+			ctx.addVariant("popover-open", ["&[data-open]", "&:popover-open"])
 
-			addVariant("force", "&:not(\\#)")
+			ctx.addVariant("force", "&:not(\\#)")
 
 			// addVariant("dragged", [])
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					i: (value) => {
 						return {
@@ -79,9 +80,10 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 				{
 					values: Object.assign(
 						Object.fromEntries(
-							Object.entries<string>(theme("spacing") || {}).filter(
-								([key]) => 5 <= Number(key) && Number(key) <= 12
-							)
+							Object.entries<string>(
+								(ctx.theme("spacing") as Record<string, string> | undefined) ??
+									{}
+							).filter(([key]) => 5 <= Number(key) && Number(key) <= 12)
 						),
 						{
 							DEFAULT: "1.5rem",
@@ -90,7 +92,7 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 				}
 			)
 
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					contrast: (value) => {
 						return Object.fromEntries(
@@ -113,7 +115,7 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 				}
 			)
 
-			matchUtilities(
+			ctx.matchUtilities(
 				{
 					theme: (value) => {
 						return Object.fromEntries(
@@ -132,7 +134,7 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 				}
 			)
 
-			addComponents({
+			ctx.addComponents({
 				".i-inline": {
 					"vertical-align": "-11.5%",
 				},
@@ -163,7 +165,7 @@ export function m3Plugin(): NonNullable<Config["plugins"]>[number] {
 				colors: Object.assign(
 					Object.fromEntries(
 						Object.keys(colors.dark).map((key) => {
-							return [`${key}`, `rgb(var(--${key}) / <alpha-value>)`]
+							return [key, `rgb(var(--${key}) / <alpha-value>)`]
 						})
 					),
 					{ transparent: "transparent" }

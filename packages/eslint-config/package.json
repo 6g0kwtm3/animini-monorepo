@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "eslint-config",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"devDependencies": {
+		"@eslint/js": "9.22.0",
+		"eslint-plugin-oxlint": "0.15.14",
+		"eslint-plugin-react-compiler": "0.0.0-experimental-d664a4c-20250313",
+		"eslint-plugin-react-refresh": "0.4.19",
+		"eslint-plugin-turbo": "2.4.5-canary.3",
+		"eslint-typegen": "2.0.0",
+		"ts-config": "workspace:^",
+		"typescript-eslint": "8.26.1"
+	},
+	"exports": {
+		"./base": "./src/base/eslint.config.mjs",
+		"./react": "./src/react/eslint.config.mjs"
+	}
+}

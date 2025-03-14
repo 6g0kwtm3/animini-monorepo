@@ -1,11 +1,9 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
-	"extends": ["./tsconfig.json"],
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"stripInternal": true,
-		"composite": false
-	},
-	"include": ["packages/*/src"]
+		"stripInternal": true
+	}
 }

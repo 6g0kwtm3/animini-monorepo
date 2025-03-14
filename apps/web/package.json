@@ -2,6 +2,7 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "web",
 	"private": true,
+	"version": "0.0.0",
 	"sideEffects": false,
 	"type": "module",
 	"main": "desktop/index.js",
@@ -16,7 +17,8 @@
 		"relay": "relay-compiler",
 		"relay-watch": "relay-compiler --watch",
 		"router": "react-router typegen",
-		"start": "vite preview"
+		"start": "vite preview",
+		"lint": "eslint --cache . --fix"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
@@ -74,10 +76,15 @@
 		"vite-tsconfig-paths": "5.1.4"
 	},
 	"devDependencies": {
+		"@graphql-eslint/eslint-plugin": "4.3.0",
 		"@playwright/test": "1.51.0",
 		"cross-env": "7.0.3",
 		"dotenv": "16.4.7",
+		"eslint": "9.22.0",
+		"eslint-config": "workspace:*",
+		"eslint-typegen": "2.0.0",
 		"nodemon": "3.1.9",
+		"ts-config": "workspace:^",
 		"vite-plugin-inspect": "11.0.0",
 		"vite-plugin-oxlint": "1.2.3"
 	},

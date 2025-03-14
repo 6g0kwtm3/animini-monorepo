@@ -25,3 +25,4 @@ tsconfig.tsbuildinfo
 dist
 tmp
 .tsup
+.eslintcache
