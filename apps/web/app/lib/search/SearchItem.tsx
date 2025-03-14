@@ -1,4 +1,3 @@
-import { forwardRef } from "react"
 import ReactRelay from "react-relay"
 import { Link } from "react-router"
 
@@ -27,17 +26,18 @@ const SearchItem_media = graphql`
 	}
 `
 
-export const SearchItem = forwardRef<
-	HTMLLIElement,
-	{ media: SearchItem_media$key }
->(function SearchItem({ media, ...props }, ref) {
+export function SearchItem({
+	media,
+	...props
+}: {
+	media: SearchItem_media$key
+}) {
 	const data = useFragment(SearchItem_media, media)
 
 	return (
 		data && (
 			<ListItem
 				{...props}
-				ref={ref}
 				render={
 					<Link
 						to={route_media({ id: data.id })}
@@ -63,4 +63,4 @@ export const SearchItem = forwardRef<
 			</ListItem>
 		)
 	)
-})
+}

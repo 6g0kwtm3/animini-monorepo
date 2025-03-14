@@ -106,10 +106,10 @@ function MediaCard(props: { mediaId: number; type: string }) {
 			>
 				<List className="p-0" render={<span />}>
 					<ListItem render={<span />}>
-						<ListItemImg>
+						<ListItemImg render={<span></span>}>
 							<MediaCover media={media} />
 						</ListItemImg>
-						<ListItemContent>
+						<ListItemContent render={<span></span>}>
 							<ListItemTitle render={<span />}>
 								{media.title?.userPreferred}
 							</ListItemTitle>

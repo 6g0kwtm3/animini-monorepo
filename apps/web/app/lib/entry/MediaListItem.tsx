@@ -5,10 +5,8 @@ import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-import type { AnitomyResult } from "anitomy"
-
 import type { ReactNode } from "react"
-import { createContext, useContext } from "react"
+import { useContext } from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -34,6 +32,7 @@ import type {
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
 import * as Predicate from "~/lib/Predicate"
 import { useFragment } from "../Network"
+import { Library } from "./Library"
 
 const { graphql } = ReactRelay
 
@@ -51,9 +50,6 @@ const MediaListItem_entry = graphql`
 `
 
 export type ListItem_EntryFragment = typeof MediaListItem_entry
-export const Library = createContext<
-	Record<string, [AnitomyResult, ...AnitomyResult[]]>
->({})
 
 export function MediaListItem(props: {
 	entry: MediaListItem_entry$key | null

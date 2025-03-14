@@ -1,29 +1,26 @@
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
-import { createContext, forwardRef, useContext } from "react"
+import { useContext } from "react"
 
 import { type VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
 import { createElement } from "~/lib/createElement"
-import { createList } from "~/lib/list"
+import { createList, ListContext } from "~/lib/list"
 
 type ListVariantProps = VariantProps<typeof createList>
 
-const ListContext = createContext(createList())
-
-export const ListItem = forwardRef<
-	HTMLLIElement,
-	ComponentPropsWithoutRef<"li"> &
-		ListVariantProps & {
-			render?: ReactElement<any>
-		}
->(function ListItem({ lines, ...props }, ref) {
+export function ListItem({
+	lines,
+	...props
+}: ComponentPropsWithoutRef<"li"> &
+	ListVariantProps & {
+		render?: ReactElement<any>
+	}) {
 	const { item } = useContext(ListContext)
 	return createElement("li", {
 		...props,
-		ref,
 		className: item({ className: props.className, lines }),
 	})
-})
+}
 export function ListItemContentTitle(
 	props: ComponentPropsWithoutRef<"div"> & {
 		render?: ReactElement<any>
@@ -137,22 +134,21 @@ export function ListItemTrailingSupportingText(
 	)
 }
 
-export const List = forwardRef<
-	HTMLUListElement,
-	ComponentPropsWithoutRef<"ul"> &
-		ListVariantProps & {
-			render?: ReactElement<any>
-		}
->(function List({ lines, ...props }, ref): ReactNode {
+export function List({
+	lines,
+	...props
+}: ComponentPropsWithoutRef<"ul"> &
+	ListVariantProps & {
+		render?: ReactElement<any>
+	}): ReactNode {
 	const styles = createList({ lines })
 
 	return (
 		<ListContext.Provider value={styles}>
 			{createElement("ul", {
 				...props,
-				ref,
 				className: styles.root({ className: props.className }),
 			})}
 		</ListContext.Provider>
 	)
-})
+}

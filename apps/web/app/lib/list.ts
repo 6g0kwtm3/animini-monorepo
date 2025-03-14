@@ -1,3 +1,4 @@
+import { createContext } from "react"
 import { tv } from "~/lib/tailwind-variants"
 
 export const createList = tv(
@@ -44,3 +45,5 @@ export const createList = tv(
 		responsiveVariants: ["sm"],
 	}
 )
+
+export const ListContext = createContext(createList())

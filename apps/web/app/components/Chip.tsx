@@ -1,3 +1,4 @@
+import { LabelId } from "#lib/label"
 import * as Ariakit from "@ariakit/react"
 import {
 	createContext,
@@ -9,7 +10,7 @@ import {
 	type SetStateAction,
 } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
-import { Label, LabelId } from "./Label"
+import { Label } from "./Label"
 const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {})
 
 export function ChipFilter(

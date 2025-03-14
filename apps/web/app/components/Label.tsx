@@ -1,6 +1,5 @@
-import { createContext, use, useId, type ComponentProps } from "react"
-
-export const LabelId = createContext<string | undefined>(undefined)
+import { LabelId } from "#lib/label"
+import { use, useId, type ComponentProps } from "react"
 
 export function Label(props: Omit<ComponentProps<"label">, "htmlFor">) {
 	const newId = useId()

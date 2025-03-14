@@ -1,3 +1,4 @@
+import { LabelId } from "#lib/label"
 import * as Ariakit from "@ariakit/react"
 import {
 	forwardRef,
@@ -9,7 +10,7 @@ import {
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
-import { Label, LabelId } from "./Label"
+import { Label } from "./Label"
 
 export function TextFieldOutlined({
 	children,

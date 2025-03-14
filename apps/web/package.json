@@ -13,6 +13,7 @@
 		"dev": "react-router dev",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
+		"lint": "eslint --cache . --fix",
 		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir ./app/paraglide",
 		"relay": "relay-compiler",
@@ -20,6 +21,9 @@
 		"router": "react-router typegen",
 		"start": "vite preview",
 		"test": "playwright test"
+	},
+	"imports": {
+		"#lib": "./app/lib"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
@@ -90,7 +94,7 @@
 		"eslint-plugin-react-refresh": "0.4.19",
 		"nodemon": "3.1.9",
 		"oxlint-config": "workspace:*",
-		"ts-config": "workspace:^",
+		"ts-config": "workspace:*",
 		"typescript-eslint": "8.26.1",
 		"vite-plugin-inspect": "11.0.0",
 		"vite-plugin-oxlint": "1.2.3"
