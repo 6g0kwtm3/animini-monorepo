@@ -255,8 +255,8 @@ importers:
         specifier: 0.4.19
         version: 0.4.19(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-turbo:
-        specifier: 2.4.5-canary.3
-        version: 2.4.5-canary.3(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4)
+        specifier: 2.4.5-canary.4
+        version: 2.4.5-canary.4(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4)
       eslint-typegen:
         specifier: 2.1.0
         version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
@@ -3307,8 +3307,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-turbo@2.4.5-canary.3:
-    resolution: {integrity: sha512-xLTWK5WNLgJqlfUUzImHPPVQC+L2eh9+5+0Ul+n97aiVZfWEqt+cnplGs3ssu7vVv9SM7Fd79pSN9fjoBh+wxw==}
+  eslint-plugin-turbo@2.4.5-canary.4:
+    resolution: {integrity: sha512-swLIXBb1hmgxtkW8IUVWAZvqo6nB0p2ebI5bgHTEF8LHoCOLDOekoMlQkaiognTlcm8WzGDIUIOqqQY1Aecbtg==}
     peerDependencies:
       eslint: '>6.6.0'
       turbo: '>2.0.0'
@@ -9077,7 +9077,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-turbo@2.4.5-canary.3(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4):
+  eslint-plugin-turbo@2.4.5-canary.4(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4):
     dependencies:
       dotenv: 16.0.3
       eslint: 9.22.0(jiti@2.4.2)

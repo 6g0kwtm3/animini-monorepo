@@ -11,7 +11,7 @@
 		"eslint-plugin-react-compiler": "0.0.0-experimental-fcabbc1-20241106",
 		"eslint-plugin-react-hooks": "5.2.0",
 		"eslint-plugin-react-refresh": "0.4.19",
-		"eslint-plugin-turbo": "2.4.5-canary.3",
+		"eslint-plugin-turbo": "2.4.5-canary.4",
 		"eslint-typegen": "2.1.0",
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
