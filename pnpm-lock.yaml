@@ -36,7 +36,7 @@ importers:
         specifier: 3.2.5
         version: 3.2.5(react@19.0.0)(storybook@8.6.4(prettier@3.5.3))
       '@storybook/addon-a11y':
-        specifier: ^8.6.4
+        specifier: 8.6.4
         version: 8.6.4(storybook@8.6.4(prettier@3.5.3))
       '@storybook/addon-essentials':
         specifier: 8.6.4
@@ -45,7 +45,7 @@ importers:
         specifier: 8.6.4
         version: 8.6.4(storybook@8.6.4(prettier@3.5.3))
       '@storybook/addon-themes':
-        specifier: ^8.6.4
+        specifier: 8.6.4
         version: 8.6.4(storybook@8.6.4(prettier@3.5.3))
       '@storybook/blocks':
         specifier: 8.6.4
