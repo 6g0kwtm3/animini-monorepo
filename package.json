@@ -3,13 +3,12 @@
 	"name": "animini",
 	"private": true,
 	"scripts": {
-		"build": "turbo run build --affected",
-		"check": "turbo run check --affected",
-		"dev": "turbo run dev",
+		"build": "turbo run build --continue=dependencies-successful --affected",
+		"check": "turbo run check --continue=dependencies-successful --affected",
+		"dev": "turbo watch dev dts relay-watch",
 		"format": "prettier . -w",
 		"knip": "knip",
-		"lint": "turbo run lint --affected",
-		"oxlint": "turbo run oxlint --affected"
+		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
 	},
 	"devDependencies": {
 		"knip": "5.46.0",
