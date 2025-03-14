@@ -5,13 +5,13 @@ import {
 	isValidElement,
 } from "react"
 
-export function createElement(
-	Type: ElementType,
-	props: {
+export function createElement<
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+	P extends {
 		render?: ReactElement
 		className?: string
-	}
-): ReactNode {
+	},
+>(Type: ElementType, props: P): ReactNode {
 	const { render, ...rest } = props
 	if (
 		isValidElement<{

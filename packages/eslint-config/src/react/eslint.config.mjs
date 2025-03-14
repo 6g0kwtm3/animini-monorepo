@@ -13,7 +13,7 @@ export default await typegen([
 	{
 		settings: {
 			react: {
-				version: "detect",
+				version: "19",
 			},
 		},
 	},
