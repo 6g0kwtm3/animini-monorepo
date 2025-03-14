@@ -2,6 +2,7 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "web",
 	"private": true,
+	"version": "0.0.0",
 	"sideEffects": false,
 	"type": "module",
 	"main": "desktop/index.js",
@@ -12,10 +13,10 @@
 		"dev": "react-router dev",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
-		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --fix",
 		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir ./app/paraglide",
 		"relay": "relay-compiler",
+		"relay-watch": "relay-compiler --watch",
 		"router": "react-router typegen",
 		"start": "vite preview",
 		"test": "playwright test"
@@ -89,6 +90,7 @@
 		"eslint-plugin-react-refresh": "0.4.19",
 		"nodemon": "3.1.9",
 		"oxlint-config": "workspace:*",
+		"ts-config": "workspace:^",
 		"typescript-eslint": "8.26.1",
 		"vite-plugin-inspect": "11.0.0",
 		"vite-plugin-oxlint": "1.2.3"

@@ -1,5 +1,22 @@
 {
 	"$schema": "https://json.schemastore.org/package",
 	"name": "m3-core",
-	"private": true
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./tmp/src/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"dts": "tsc --noCheck",
+		"check": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"eslint": "9.22.0",
+		"eslint-typegen": "2.0.0",
+		"ts-config": "workspace:^"
+	}
 }
