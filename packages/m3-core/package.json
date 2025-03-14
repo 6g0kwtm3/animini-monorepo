@@ -16,7 +16,6 @@
 	},
 	"devDependencies": {
 		"eslint": "9.22.0",
-		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.0.0",
 		"ts-config": "workspace:^"
 	}
