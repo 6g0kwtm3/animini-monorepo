@@ -280,7 +280,9 @@ function Edit() {
 								}
 								preventScrollReset={true}
 								className={fab({})}
-								onClick={() => store.setOpen(false)}
+								onClick={() => {
+									store.setOpen(false)
+								}}
 							>
 								<MaterialSymbolsEditOutline />
 							</Link>

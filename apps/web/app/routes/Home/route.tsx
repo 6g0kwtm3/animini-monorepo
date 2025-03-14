@@ -356,7 +356,7 @@ const options = {
 } satisfies Options
 
 function UserCard(props: { userName: string }) {
-	let data = useLazyLoadQuery<routeUserCardQuery>(
+	const data = useLazyLoadQuery<routeUserCardQuery>(
 		graphql`
 			query routeUserCardQuery($userName: String!) {
 				User(name: $userName) {

@@ -2,8 +2,7 @@
 /// <reference path="./eslint-typegen.d.ts" />
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
-import reactCompiler from "eslint-plugin-react-compiler"
-import reactRefresh from "eslint-plugin-react-refresh"
+
 // import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import tseslint from "typescript-eslint"
@@ -28,10 +27,16 @@ export default await typegen([
 	...[
 		...tseslint.configs.strictTypeChecked,
 		...tseslint.configs.stylisticTypeChecked,
-	].map((config) => ({
-		...config,
-		files: ["**/*.ts", "**/*.tsx"],
-	})),
+	].map(
+		/** @returns {import('eslint').Linter.Config} */
+		(config) => ({
+			...config,
+			files: ["**/*.ts", "**/*.tsx"],
+			rules: {
+				"@typescript-eslint/only-throw-error": "off",
+			},
+		})
+	),
 	{
 		languageOptions: {
 			parserOptions: {
@@ -60,14 +65,6 @@ export default await typegen([
 	// "@typescript-eslint/no-empty-object-type": "off",
 	// 	},
 	// },
-	{
-		files: ["**/*.{js,jsx,ts,tsx}"],
-		plugins: {
-			"react-refresh": reactRefresh,
-			// compat: compat,
-			"react-compiler": reactCompiler,
-		},
-	},
 
 	// turbo.configs["flat/recommended"],
 
@@ -75,6 +72,7 @@ export default await typegen([
 		rules: {
 			"no-undef": "off",
 			"no-unused-vars": "off",
+			"no-throw-literal": "error",
 		},
 	},
 	...oxlint.buildFromOxlintConfigFile("../../oxlintrc.json"),

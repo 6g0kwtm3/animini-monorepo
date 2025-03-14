@@ -131,7 +131,9 @@ export function Snackbar({
 		}
 		current.addEventListener("invoke", onInvoke)
 
-		return () => current.removeEventListener("invoke", onInvoke)
+		return () => {
+			current.removeEventListener("invoke", onInvoke)
+		}
 	}, [])
 
 	useEffect(() => {
@@ -141,7 +143,9 @@ export function Snackbar({
 		}
 
 		current.addEventListener("beforetoggle", onBeforeToggle)
-		return () => current.removeEventListener("beforetoggle", onBeforeToggle)
+		return () => {
+			current.removeEventListener("beforetoggle", onBeforeToggle)
+		}
 	}, [onBeforeToggle])
 
 	const id = useId()

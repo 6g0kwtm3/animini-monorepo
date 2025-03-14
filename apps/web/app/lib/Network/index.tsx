@@ -88,8 +88,12 @@ export function mutation<P extends MutationParameters>(
 	return new Promise<P["response"]>((resume, reject) => {
 		commitMutation<P>({
 			...config,
-			onCompleted: (value) => resume(value),
-			onError: (error) => reject(error),
+			onCompleted: (value) => {
+				resume(value)
+			},
+			onError: (error) => {
+				reject(error)
+			},
 		})
 	})
 }

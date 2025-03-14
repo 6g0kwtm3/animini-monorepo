@@ -25,7 +25,7 @@ test.describe("fullscreen", () => {
 		test.skip(isMobile)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
-		let indexPage = await FeedPage.new(page)
+		const indexPage = await FeedPage.new(page)
 		// when
 		await indexPage.nav.animeList.click()
 		// then
@@ -36,7 +36,7 @@ test.describe("fullscreen", () => {
 		test.skip(isMobile)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
-		let indexPage = await FeedPage.new(page)
+		const indexPage = await FeedPage.new(page)
 		// when
 		await indexPage.nav.profile.click()
 		// then
@@ -47,7 +47,7 @@ test.describe("fullscreen", () => {
 test("anime list", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
-	let indexPage = await FeedPage.new(page)
+	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
 	// when
@@ -59,7 +59,7 @@ test("anime list", async ({ page }) => {
 test("manga list", async ({ page }) => {
 	await page.goto("/")
 	await page.keyboard.press("Control+.")
-	let indexPage = await FeedPage.new(page)
+	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
 	// when

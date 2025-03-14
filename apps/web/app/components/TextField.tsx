@@ -9,7 +9,8 @@ import {
 } from "react"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
-import { Label, LabelId } from "./Label"
+import { Label } from "./Label"
+import { LabelId } from "./LabelId"
 
 export function TextFieldOutlined({
 	children,
@@ -72,7 +73,7 @@ export const TextFieldOutlinedInput = forwardRef<
 	Omit<ComponentProps<"input">, "id">
 >(function TextFieldOutlinedInput(props, ref) {
 	const { input } = createTextField({ variant: "outlined" })
-	let id = use(LabelId)
+	const id = use(LabelId)
 	return (
 		<input
 			ref={ref}
@@ -135,7 +136,7 @@ export function TextFieldFilled(
 export function TextFieldFilledInput(
 	props: Omit<ComponentProps<"input">, "id">
 ): ReactNode {
-	let id = use(LabelId)
+	const id = use(LabelId)
 	return (
 		<input
 			{...props}

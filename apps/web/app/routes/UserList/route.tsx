@@ -313,7 +313,7 @@ function ListTabs() {
 }
 
 function FilterButton() {
-	let { pathname } = useLocation()
+	const { pathname } = useLocation()
 
 	const searchParams = useOptimisticSearchParams()
 
@@ -340,7 +340,7 @@ function FilterButton() {
 }
 
 function Filter() {
-	let { pathname } = useLocation()
+	const { pathname } = useLocation()
 
 	const navigate = useNavigate()
 	const searchParams = useOptimisticSearchParams()

@@ -7,7 +7,7 @@ import "./tailwind.css"
 const { initializeThemeState, pluckThemeFromContext, useThemeParameters } =
 	DecoratorHelpers
 
-import theme from "../fallback.json"
+import { fallback as theme } from "m3-core"
 
 declare module "@storybook/react" {
 	interface Parameters {

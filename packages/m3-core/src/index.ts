@@ -1,5 +1,7 @@
+export { default as fallback } from "../fallback.json"
 export * from "./components/button"
 export * from "./components/touchTarget"
 export * from "./plugin"
 export * from "./screens"
+export * from "./tailwind-variants"
 export * from "./vite"

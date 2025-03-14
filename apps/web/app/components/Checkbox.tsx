@@ -8,7 +8,7 @@ import { TouchTarget } from "./Tooltip"
 import MaterialSymbolsRadioButtonCheckedOutline from "~icons/material-symbols/radio-button-checked-outline"
 
 import MaterialSymbolsCircleOutline from "~icons/material-symbols/circle-outline"
-import { LabelId } from "./Label"
+import { LabelId } from "./LabelId"
 
 export function Checkbox(props: Omit<Ariakit.CheckboxProps, "id">): ReactNode {
 	const newId = useId()

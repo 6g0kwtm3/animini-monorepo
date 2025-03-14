@@ -25,13 +25,13 @@ import tailwind from "./tailwind.css?url"
 import { useSentryToolbar } from "@sentry/toolbar"
 import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
-import { Route } from "./+types/root"
+import type { Route } from "./+types/root"
 import environment, {
 	loadQueryMiddleware,
 	RelayEnvironmentProvider,
 } from "./lib/Network"
 
-let RelayEnvironment = RelayEnvironmentProvider as (props: {
+const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	children: ReactNode
 	environment: IEnvironment
 }) => ReactNode

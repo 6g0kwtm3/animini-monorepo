@@ -269,7 +269,7 @@ function sortEntries(
 	data: readonly NavUserListEntriesSort_entries$key[],
 	searchParams: URLSearchParams
 ) {
-	let entries = data.map((key) =>
+	const entries = data.map((key) =>
 		readInlineData(NavUserListEntriesSort_entries, key)
 	)
 	const sorts = searchParams.getAll("sort")
@@ -335,7 +335,7 @@ function sortEntries(
 			)
 			continue
 		}
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
 		if (sort === MediaListSort.PopularityDesc) {
 			order.push(
 				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)

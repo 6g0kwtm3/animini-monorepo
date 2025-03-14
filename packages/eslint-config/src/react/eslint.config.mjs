@@ -4,44 +4,35 @@ import oxlint from "eslint-plugin-oxlint"
 import reactCompiler from "eslint-plugin-react-compiler"
 import reactRefresh from "eslint-plugin-react-refresh"
 import typegen from "eslint-typegen"
-import tseslint from "typescript-eslint"
+import reactPlugin from "eslint-plugin-react"
+import * as reactHooks from "eslint-plugin-react-hooks"
 
 export default await typegen([
+	reactPlugin.configs.flat.recommended,
+	reactPlugin.configs.flat["jsx-runtime"],
+	reactHooks.configs["recommended-latest"],
+	reactRefresh.configs.vite,
+	reactCompiler.configs.recommended,
 	{
-		files: ["**/*.{ts,tsx}"],
-		languageOptions: {
-			parserOptions: {
-				projectService: true,
-				tsconfigRootDir: import.meta.dirname,
-			},
-		},
 		rules: {
-			...tseslint.configs.recommended[2].rules,
-			// ...import_.configs.recommended.rules,
-			// ...import_.configs.typescript.rules,
-			"@typescript-eslint/no-unnecessary-condition": "error",
-			"@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-			"@typescript-eslint/dot-notation": "error",
-			"@typescript-eslint/restrict-plus-operands": "warn",
-			"@typescript-eslint/no-floating-promises": "error",
-			// "@typescript-eslint/promise-function-async": "error",
-			"@typescript-eslint/no-misused-promises": "error",
-			"@typescript-eslint/return-await": "error",
-			"@typescript-eslint/no-unused-vars": ["warn"],
-			"@typescript-eslint/explicit-module-boundary-types": "warn",
-			"@typescript-eslint/method-signature-style": ["error", "property"],
-			"@typescript-eslint/no-explicit-any": "off",
-			"@typescript-eslint/no-empty-object-type": "off",
+			"react-refresh/only-export-components": [
+				"error",
+				{
+					allowExportNames: [
+						"meta",
+						"links",
+						"headers",
+						"shouldRevalidate",
+						"handler",
+						"loader",
+						"action",
+						"clientLoader",
+						"clientAction",
+						"unstable_clientMiddleware",
+					],
+				},
+			],
 		},
 	},
-	{
-		files: ["**/*.{js,jsx,ts,tsx}"],
-		plugins: {
-			"react-refresh": reactRefresh,
-			// compat: compat,
-			"react-compiler": reactCompiler,
-		},
-	},
-
 	...oxlint.buildFromOxlintConfigFile("../../oxlintrc.json"),
 ])

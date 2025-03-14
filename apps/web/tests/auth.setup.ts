@@ -14,7 +14,7 @@ const env = invariant(
 setup("authenticate", async ({ page, baseURL }) => {
 	await page.goto(baseURL ?? "/")
 	await page.keyboard.press("Control+.")
-	let indexPage = await FeedPage.new(page)
+	const indexPage = await FeedPage.new(page)
 	const loginPage = await indexPage.nav.gotoLogin()
 	await loginPage.token.fill(env.ANILIST_TEST_TOKEN)
 	await loginPage.login.click()
