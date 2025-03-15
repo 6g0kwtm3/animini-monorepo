@@ -1,8 +1,8 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
+import { useCreateElement, type Options } from "~/lib/createElement"
 
 import { tv } from "~/lib/tailwind-variants"
 
@@ -29,16 +29,18 @@ export function Skeleton({
 	full,
 	...props
 }: ComponentPropsWithoutRef<"div"> &
-	VariantProps<typeof skeleton> & {
-		render?: ReactElement
-	}): ReactNode {
+	VariantProps<typeof skeleton> &
+	Options): ReactNode {
 	const loading = useContext(LoadingContext)
 
-	if (loading)
-		return createElement("div", {
-			...props,
-			className: skeleton({ className: props.className, full }),
-		})
+	const el = useCreateElement("div", {
+		...props,
+		className: skeleton({ className: props.className, full }),
+	})
+
+	if (loading) {
+		return el
+	}
 
 	return props.children
 }

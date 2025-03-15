@@ -2,7 +2,7 @@ import * as Ariakit from "@ariakit/react"
 import type { ComponentPropsWithoutRef, ComponentRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
+import { useCreateElement } from "~/lib/createElement"
 
 import { numberToString } from "~/lib/numberToString"
 import { tv } from "~/lib/tailwind-variants"
@@ -118,7 +118,7 @@ export function AppBar({
 }
 export function AppBarTitle(props: Ariakit.HeadingProps): ReactNode {
 	const styles = useContext(AppBarContext)
-	return createElement(Ariakit.Heading, {
+	return useCreateElement(Ariakit.Heading, {
 		...props,
 		className: styles.title({ className: props.className }),
 	})

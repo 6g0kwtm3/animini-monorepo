@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { createElement } from "~/lib/createElement"
+import { useCreateElement, type Options } from "~/lib/createElement"
 
 import { tv } from "~/lib/tailwind-variants"
 
@@ -45,10 +45,9 @@ export function Card({
 	variant,
 	...props
 }: ComponentPropsWithoutRef<"section"> &
-	VariantProps<typeof card> & {
-		render?: ReactElement
-	}): ReactNode {
-	return createElement("section", {
+	VariantProps<typeof card> &
+	Options): ReactNode {
+	return useCreateElement("section", {
 		...props,
 		className: card({ variant: variant, className: props.className }),
 	})

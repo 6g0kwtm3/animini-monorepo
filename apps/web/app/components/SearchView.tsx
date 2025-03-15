@@ -1,10 +1,10 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactElement } from "react"
 import { forwardRef, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { createSearchView, SearchViewContext } from "~/lib/searchView"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import { Icon } from "./Button"
+import type { Options } from "~/lib/createElement"
 
 export const SearchViewBody = forwardRef<
 	HTMLDivElement,
@@ -82,9 +82,7 @@ export const SearchViewInput = forwardRef<
 
 export const SearchViewItem = forwardRef<
 	HTMLDivElement,
-	Ariakit.ComboboxItemProps & {
-		render?: ReactElement
-	}
+	Ariakit.ComboboxItemProps & Options
 >(function SearchViewItem(props, ref) {
 	return (
 		<Ariakit.ComboboxItem

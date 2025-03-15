@@ -1,9 +1,9 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
 import { type VariantProps } from "tailwind-variants"
 
-import { createElement } from "~/lib/createElement"
+import { useCreateElement, type Options } from "~/lib/createElement"
 
 import { tv } from "~/lib/tailwind-variants"
 
@@ -70,10 +70,9 @@ export function LayoutPane({
 	variant,
 	...props
 }: ComponentPropsWithoutRef<"div"> &
-	VariantProps<typeof pane> & {
-		render?: ReactElement
-	}): ReactNode {
-	return createElement("section", {
+	VariantProps<typeof pane> &
+	Options): ReactNode {
+	return useCreateElement("section", {
 		...props,
 		className: pane({ className: props.className, variant }),
 	})
