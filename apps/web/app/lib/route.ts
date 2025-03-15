@@ -1,4 +1,4 @@
-import { numberToString } from "~/lib/numberToString"
+import { numberToString } from "./numberToString"
 
 export interface Path {
 	pathname: Pathname
@@ -11,38 +11,38 @@ type Hash = `#${string}`
 
 type Pathname =
 	| `/`
-	| `/media/${string}/`
-	| `/media/${string}/edit/`
-	| `/user/${string}/`
-	| `/user/${string}/${"animelist" | "mangalist"}/`
-	| `/user/${string}/${"animelist" | "mangalist"}/${string}/`
-	| `/login/`
+	| `/media/${string}`
+	| `/media/${string}/edit`
+	| `/user/${string}`
+	| `/user/${string}/${"animelist" | "mangalist"}`
+	| `/user/${string}/${"animelist" | "mangalist"}/${string}`
+	| `/login`
 
 export type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
 
-export function route_media({ id }: { id: number }): `/media/${string}/` {
-	return `/media/${numberToString(id)}/` satisfies Route
+export function route_media({ id }: { id: number }): `/media/${string}` {
+	return `/media/${numberToString(id)}` satisfies Route
 }
 
 export function route_media_edit(params: {
 	id: number
-}): `/media/${string}/edit/` {
-	return `${route_media(params)}edit/` satisfies Route
+}): `/media/${string}/edit` {
+	return `${route_media(params)}/edit` satisfies Route
 }
 
 export function route_user({
 	userName,
 }: {
 	userName: string
-}): `/user/${string}/` {
-	return `/user/${userName}/` satisfies Route
+}): `/user/${string}` {
+	return `/user/${userName}` satisfies Route
 }
 
 export function route_user_list(params: {
 	userName: string
 	typelist: "animelist" | "mangalist"
-}): `/user/${string}/animelist/` | `/user/${string}/mangalist/` {
-	return `${route_user(params)}${params.typelist}/` satisfies Route
+}): `/user/${string}/animelist` | `/user/${string}/mangalist` {
+	return `${route_user(params)}/${params.typelist}` satisfies Route
 }
 
 export function route_user_list_selected(params: {
@@ -50,17 +50,18 @@ export function route_user_list_selected(params: {
 	typelist: "animelist" | "mangalist"
 	selected: string
 }):
-	| `/user/${string}/animelist/${string}/`
-	| `/user/${string}/mangalist/${string}/` {
-	return `${route_user_list(params)}${params.selected}/` satisfies Route
+	| `/user/${string}/animelist/${string}`
+	| `/user/${string}/mangalist/${string}` {
+	return `${route_user_list(params)}/${params.selected}` satisfies Route
 }
 
 export function route_login({
 	redirect,
 }: {
 	redirect: string
-}): `/login/?${string}` {
-	return `/login/?${new URLSearchParams({ redirect })}` satisfies Route
+}): `/login?${string}` {
+	const query = new URLSearchParams({ redirect })
+	return `/login?${query}` satisfies Route
 }
 
 export * as Routes from "./route"
