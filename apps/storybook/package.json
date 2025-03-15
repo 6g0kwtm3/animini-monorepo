@@ -11,7 +11,7 @@
 		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix"
 	},
 	"devDependencies": {
-		"@chromatic-com/storybook": "3.2.5",
+		"@chromatic-com/storybook": "3.2.6",
 		"@storybook/addon-a11y": "8.6.4",
 		"@storybook/addon-essentials": "8.6.4",
 		"@storybook/addon-onboarding": "8.6.4",
