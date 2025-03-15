@@ -78,11 +78,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/eslint-config
       eslint-plugin-storybook:
-        specifier: ^0.11.4
+        specifier: 0.11.4
         version: 0.11.4(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.2)
       eslint-typegen:
-        specifier: 2.0.0
-        version: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
       oxlint-config:
         specifier: workspace:*
         version: link:../../packages/oxlint-config
@@ -271,8 +271,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/eslint-config
       eslint-typegen:
-        specifier: 2.0.0
-        version: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
       nodemon:
         specifier: 3.1.9
         version: 3.1.9
@@ -298,26 +298,26 @@ importers:
         specifier: 9.6.1
         version: 9.6.1
       eslint-plugin-oxlint:
-        specifier: 0.15.14
-        version: 0.15.14
+        specifier: 0.15.15
+        version: 0.15.15
       eslint-plugin-react:
-        specifier: ^7.37.4
+        specifier: 7.37.4
         version: 7.37.4(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-react-compiler:
-        specifier: 0.0.0-experimental-d664a4c-20250313
-        version: 0.0.0-experimental-d664a4c-20250313(eslint@9.22.0(jiti@2.4.2))
+        specifier: 0.0.0-experimental-fcabbc1-20241106
+        version: 0.0.0-experimental-fcabbc1-20241106(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-react-hooks:
-        specifier: ^5.2.0
+        specifier: 5.2.0
         version: 5.2.0(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-react-refresh:
         specifier: 0.4.19
         version: 0.4.19(eslint@9.22.0(jiti@2.4.2))
       eslint-plugin-turbo:
-        specifier: 2.4.5-canary.3
-        version: 2.4.5-canary.3(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4)
+        specifier: 2.4.5-canary.4
+        version: 2.4.5-canary.4(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4)
       eslint-typegen:
-        specifier: 2.0.0
-        version: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
       oxlint-config:
         specifier: workspace:*
         version: link:../oxlint-config
@@ -337,8 +337,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       eslint-typegen:
-        specifier: 2.0.0
-        version: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
       ts-config:
         specifier: workspace:^
         version: link:../ts-config
@@ -352,8 +352,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       eslint-typegen:
-        specifier: 2.0.0
-        version: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
       m3-core:
         specifier: workspace:*
         version: link:../m3-core
@@ -3678,11 +3678,11 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-oxlint@0.15.14:
-    resolution: {integrity: sha512-fotP3qqKUDZ+b/waiezSVPFvFeiKs7lXYvZlWNWJvvo3AUfGuFkygl0atxqj2IwR7Wu5OM883g2HsVyRk53I0g==}
+  eslint-plugin-oxlint@0.15.15:
+    resolution: {integrity: sha512-n5RJ3INUx5eqeOvdtr+5+bOK070NF52C0qxa7any7vnvA8GqoFP6vMOYQ966DhmOc69bunzvoVHk/Fis0a/yAQ==}
 
-  eslint-plugin-react-compiler@0.0.0-experimental-d664a4c-20250313:
-    resolution: {integrity: sha512-9JCVW7Ee8fTzepL6WtTLHlj33WSIkR9noBRdVZ04LNIOFMlhnD1PKf8ukrLOc8ztT0JTrZCMsGhg+LbEhVU5nA==}
+  eslint-plugin-react-compiler@0.0.0-experimental-fcabbc1-20241106:
+    resolution: {integrity: sha512-lP00yCyYRWvqGAe4N2iPBSx3lh+cl1jUpO6AefwNw8/zO4Mek4gNUfD0FXvBOmuFoP+/9LfsqGFFDCulK2xiaA==}
     engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
     peerDependencies:
       eslint: '>=7'
@@ -3711,8 +3711,8 @@ packages:
       eslint: '>=8'
       typescript: '>=4.8.4 <5.8.0'
 
-  eslint-plugin-turbo@2.4.5-canary.3:
-    resolution: {integrity: sha512-xLTWK5WNLgJqlfUUzImHPPVQC+L2eh9+5+0Ul+n97aiVZfWEqt+cnplGs3ssu7vVv9SM7Fd79pSN9fjoBh+wxw==}
+  eslint-plugin-turbo@2.4.5-canary.4:
+    resolution: {integrity: sha512-swLIXBb1hmgxtkW8IUVWAZvqo6nB0p2ebI5bgHTEF8LHoCOLDOekoMlQkaiognTlcm8WzGDIUIOqqQY1Aecbtg==}
     peerDependencies:
       eslint: '>6.6.0'
       turbo: '>2.0.0'
@@ -3721,8 +3721,8 @@ packages:
     resolution: {integrity: sha512-pUNxi75F8MJ/GdeKtVLSbYg4ZI34J6C0C7sbL4YOp2exGwen7ZsuBqKzUhXd0qMQ362yET3z+uPwKeg/0C2XCQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-typegen@2.0.0:
-    resolution: {integrity: sha512-70TEVfim9XxuVWQ104cv4x9d3XJt/t7i0u8/m+/6B/Kc21fnznLjF63M/L4/1VtquCoAUw9+N97VzbENuLlexw==}
+  eslint-typegen@2.1.0:
+    resolution: {integrity: sha512-tY9TTx07InS+mQ/+zYnCMHkdsS00GPaQy84PwHiQd2XWwXIptRExKcz1kI8eG1CGg1sBs9mONwSfbGMbvI4fNA==}
     peerDependencies:
       eslint: ^9.0.0
 
@@ -4111,17 +4111,17 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hermes-estree@0.20.1:
+    resolution: {integrity: sha512-SQpZK4BzR48kuOg0v4pb3EAGNclzIlqMj3Opu/mu7bbAoFw6oig6cEt/RAi0zTFW/iW6Iz9X9ggGuZTAZ/yZHg==}
+
   hermes-estree@0.21.1:
     resolution: {integrity: sha512-ayfESdfG0wZM32uGw0CMfcW6pW6RM8htLXZI56A4rr7hIOjmKw+wd3+71wUc1uQfn90ZyY1NMCbQeMnunrIidg==}
 
-  hermes-estree@0.25.1:
-    resolution: {integrity: sha512-0wUoCcLp+5Ev5pDW2OriHC2MJCbwLwuRx+gAqMTOkGKJJiBCLjtrvy4PWUGn6MIVefecRpzoOZ/UV6iGdOr+Cw==}
+  hermes-parser@0.20.1:
+    resolution: {integrity: sha512-BL5P83cwCogI8D7rrDCgsFY0tdYUtmFP9XaXtl2IQjC+2Xo+4okjfXintlTxcIwl4qeGddEl28Z11kbVIw0aNA==}
 
   hermes-parser@0.21.1:
     resolution: {integrity: sha512-ANsRSBqQHzca7AXbsuwKApSQhAdljPip63MgqLebSVzNUI+A3NDzfiH9Ny4df4fA7Ndso3kPR1V/x1YEc7BYxA==}
-
-  hermes-parser@0.25.1:
-    resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -9974,17 +9974,17 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-oxlint@0.15.14:
+  eslint-plugin-oxlint@0.15.15:
     dependencies:
       jsonc-parser: 3.3.1
 
-  eslint-plugin-react-compiler@0.0.0-experimental-d664a4c-20250313(eslint@9.22.0(jiti@2.4.2)):
+  eslint-plugin-react-compiler@0.0.0-experimental-fcabbc1-20241106(eslint@9.22.0(jiti@2.4.2)):
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.26.10
       '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.26.10)
       eslint: 9.22.0(jiti@2.4.2)
-      hermes-parser: 0.25.1
+      hermes-parser: 0.20.1
       zod: 3.24.2
       zod-validation-error: 3.4.0(zod@3.24.2)
     transitivePeerDependencies:
@@ -10030,7 +10030,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-turbo@2.4.5-canary.3(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4):
+  eslint-plugin-turbo@2.4.5-canary.4(eslint@9.22.0(jiti@2.4.2))(turbo@2.4.4):
     dependencies:
       dotenv: 16.0.3
       eslint: 9.22.0(jiti@2.4.2)
@@ -10041,11 +10041,11 @@ snapshots:
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
-  eslint-typegen@2.0.0(eslint@9.22.0(jiti@2.4.2)):
+  eslint-typegen@2.1.0(eslint@9.22.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.22.0(jiti@2.4.2)
       json-schema-to-typescript-lite: 14.1.0
-      ohash: 1.1.6
+      ohash: 2.0.11
 
   eslint-visitor-keys@3.4.3: {}
 
@@ -10469,17 +10469,17 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hermes-estree@0.20.1: {}
+
   hermes-estree@0.21.1: {}
 
-  hermes-estree@0.25.1: {}
+  hermes-parser@0.20.1:
+    dependencies:
+      hermes-estree: 0.20.1
 
   hermes-parser@0.21.1:
     dependencies:
       hermes-estree: 0.21.1
-
-  hermes-parser@0.25.1:
-    dependencies:
-      hermes-estree: 0.25.1
 
   hoist-non-react-statics@3.3.2:
     dependencies:
