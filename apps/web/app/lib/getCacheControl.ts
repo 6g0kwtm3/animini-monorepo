@@ -6,18 +6,20 @@ export function getCacheControl(options: {
 	staleWhileRevalidate?: number
 	private?: boolean
 }): string {
-	let header = ""
-	if (Predicate.isNumber(options.maxAge)) {
-		header += `max-age=${numberToString(options.maxAge)}`
-	}
+	const parts: string[] = []
 
-	if (Predicate.isNumber(options.staleWhileRevalidate)) {
-		header += `${header ? ", " : ""}stale-while-revalidate=${numberToString(options.maxAge)}`
+	if (Predicate.isNumber(options.maxAge)) {
+		parts.push(`max-age=${numberToString(options.maxAge)}`)
+
+		if (Predicate.isNumber(options.staleWhileRevalidate)) {
+			parts.push(`stale-while-revalidate=${numberToString(options.maxAge)}`)
+		}
 	}
 
 	if (options.private) {
-		header += `${header ? ", " : ""}private`
+		parts.push("private")
 	}
 
+	const header = parts.join(", ")
 	return header
 }
