@@ -7,25 +7,27 @@
 	"scripts": {
 		"build": "tsup src/base/eslint.config.ts src/react/eslint.config.ts --format esm --clean",
 		"dev": "tsup src/base/eslint.config.ts src/react/eslint.config.ts --format esm --clean --watch",
-		"dts": "tsc --noCheck",
+		"dts": "tsc --build --noCheck",
 		"check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"eslint-plugin-oxlint": "0.16.0",
-		"eslint": "9.22.0"
-	},
-	"devDependencies": {
 		"@eslint/js": "9.22.0",
+		"eslint-plugin-oxlint": "0.16.0",
 		"eslint-plugin-react": "7.37.4",
-		"eslint-plugin-react-compiler": "0.0.0-experimental-fcabbc1-20241106",
+		"eslint-plugin-react-compiler": "19.0.0-beta-bafa41b-20250307",
 		"eslint-plugin-react-hooks": "5.2.0",
 		"eslint-plugin-react-refresh": "0.4.19",
 		"eslint-plugin-turbo": "2.4.5-canary.4",
 		"eslint-typegen": "2.1.0",
+		"typescript-eslint": "8.26.1"
+	},
+	"peerDependencies": {
+		"eslint": "9.22.0"
+	},
+	"devDependencies": {
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
-		"tsup": "8.4.0",
-		"typescript-eslint": "8.26.1"
+		"tsup": "8.4.0"
 	},
 	"exports": {
 		"./base": {

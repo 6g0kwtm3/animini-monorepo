@@ -1,11 +1,12 @@
 // @ts-check
+// eslint-disable-next-line triple-slash-reference
 /// <reference path="./eslint-typegen.d.ts" />
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
 
 // import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
-import path from "path"
+import path from "node:path"
 import tseslint from "typescript-eslint"
 
 export default await typegen([
@@ -17,6 +18,7 @@ export default await typegen([
 		...tseslint.configs.strictTypeChecked,
 		...tseslint.configs.stylisticTypeChecked,
 	].map((config) => ({
+		...config,
 		files: [
 			"**/*.js",
 			"**/*.cjs",
@@ -31,7 +33,6 @@ export default await typegen([
 			"**/*.ctsx",
 			"**/*.mtsx",
 		],
-		...config,
 	})),
 	{
 		languageOptions: {

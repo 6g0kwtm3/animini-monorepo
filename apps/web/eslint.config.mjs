@@ -6,6 +6,7 @@ import react from "eslint-config/react"
 import typegen from "eslint-typegen"
 import graphQLConfig from "./graphql.config.js"
 
+// @ts-ignore
 export default typegen([
 	{
 		ignores: [

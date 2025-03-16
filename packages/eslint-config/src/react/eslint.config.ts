@@ -1,4 +1,5 @@
 // @ts-check
+// eslint-disable-next-line triple-slash-reference
 /// <reference path="./eslint-typegen.d.ts" />
 import oxlint from "eslint-plugin-oxlint"
 import reactPlugin from "eslint-plugin-react"
@@ -6,6 +7,8 @@ import reactCompiler from "eslint-plugin-react-compiler"
 import * as reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import typegen from "eslint-typegen"
+
+
 
 export default await typegen([
 	reactPlugin.configs.flat.recommended,
