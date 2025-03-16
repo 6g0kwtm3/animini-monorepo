@@ -5,18 +5,47 @@ import type {
 	PropsWithChildren,
 	ReactNode,
 } from "react"
-import { forwardRef } from "react"
+import { createContext, forwardRef, useContext } from "react"
+import MaterialSymbolsArrowDropDown from "~icons/material-symbols/arrow-drop-down"
 
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
 }
 export function TooltipRichTrigger(
-	props: PropsWithChildren<Ariakit.HovercardAnchorProps>
+	props: Ariakit.HovercardAnchorProps
 ): ReactNode {
-	return <Ariakit.HovercardAnchor render={<div />} {...props} />
+	return (
+		<>
+			<Ariakit.HovercardAnchor {...props} />
+		</>
+	)
+}
+
+const Up = createContext(true)
+
+export function TooltipDisclosure({
+	children,
+	...props
+}: Ariakit.HovercardDisclosureProps): ReactNode {
+	const up = useContext(Up)
+
+	return (
+		<>
+			<Ariakit.HovercardDisclosure {...props} className="i i-inline">
+				<Ariakit.VisuallyHidden>{children}</Ariakit.VisuallyHidden>
+
+				{up ? (
+					<MaterialSymbolsArrowDropUp></MaterialSymbolsArrowDropUp>
+				) : (
+					<MaterialSymbolsArrowDropDown></MaterialSymbolsArrowDropDown>
+				)}
+			</Ariakit.HovercardDisclosure>
+		</>
+	)
 }
 
 import { tv } from "~/lib/tailwind-variants"
+import MaterialSymbolsArrowDropUp from "~icons/material-symbols/arrow-drop-up"
 
 const tooltip = tv({
 	slots: { container: "" },
