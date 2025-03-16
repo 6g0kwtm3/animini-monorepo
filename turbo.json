@@ -8,7 +8,7 @@
 			"persistent": true
 		},
 		"build": {
-			"dependsOn": ["^build", "relay", "dts"],
+			"dependsOn": ["^build", "relay"],
 			"outputs": ["dist/**", "storybook-static/**"]
 		},
 		"dts": {
@@ -30,7 +30,7 @@
 			"dependsOn": ["^dts", "transit", "router", "paraglide", "relay"]
 		},
 		"oxlint": {},
-		"lint": { "dependsOn": ["^dts"] },
+		"lint": { "dependsOn": ["^dts", "^build"] },
 		"//#format": {}
 	}
 }

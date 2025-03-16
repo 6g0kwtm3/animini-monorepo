@@ -1,0 +1,6 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"files": [],
+	"include": [],
+	"references": [{ "path": "./src/base" }, { "path": "./src/react" }]
+}

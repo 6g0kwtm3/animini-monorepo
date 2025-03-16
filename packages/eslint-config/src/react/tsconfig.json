@@ -1,0 +1,9 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"extends": ["ts-config/tsconfig.dts.json"],
+	"compilerOptions": {
+		"composite": true,
+		"outDir": "../../tmp/src/react",
+		"types": ["./eslint-plugin-react.d.ts"]
+	}
+}

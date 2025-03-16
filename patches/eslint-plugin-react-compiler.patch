@@ -1,0 +1,15 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 43ea51f2a27f4cc3f7ffbf5250e644ad09757a7c..ad24201017205799b9b937ed9320be85a8163dec 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -15,9 +15,7 @@ declare const configs: {
+                 };
+             };
+         };
+-        rules: {
+-            'react-compiler/react-compiler': string;
+-        };
++        rules: eslint.Linter.RulesRecord;
+     };
+ };
+ 
