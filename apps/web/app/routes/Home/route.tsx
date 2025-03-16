@@ -565,7 +565,7 @@ function traverse(element: ChildNode, options: Options): ReactNode {
 			attributes[attribute.name] = attribute.value
 		}
 
-		const fullProps: JSX.IntrinsicElements[typeof Name] = {
+		const fullProps: object = {
 			...getAttributes(attributes),
 			children: traverseCollection(element.childNodes, options),
 		}
