@@ -1,7 +1,7 @@
 // console.log(R)
 
 import * as Predicate from "~/lib/Predicate"
-import { type Options } from "./Markdown"
+import { type Options } from "markdown"
 import { MediaLink } from "./MediaLink"
 import { UserLink } from "./UserLink"
 

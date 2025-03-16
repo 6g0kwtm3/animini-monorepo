@@ -10,6 +10,9 @@
 		"lint": "eslint --cache . --fix",
 		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix"
 	},
+	"dependencies": {
+		"markdown": "workspace:*"
+	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "3.2.6",
 		"@storybook/addon-a11y": "8.6.6",

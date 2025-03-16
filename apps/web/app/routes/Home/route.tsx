@@ -24,7 +24,7 @@ import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { Route } from "./+types/route"
-import { Markdown } from "./Markdown"
+import { Markdown } from "markdown"
 import { options } from "./options"
 const { graphql } = ReactRelay
 
