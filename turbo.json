@@ -8,7 +8,7 @@
 			"persistent": true
 		},
 		"build": {
-			"dependsOn": ["^build", "relay", "dts"],
+			"dependsOn": ["^build", "relay"],
 			"outputs": ["dist/**", "storybook-static/**"]
 		},
 		"dts": {

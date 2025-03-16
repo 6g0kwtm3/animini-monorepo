@@ -1,3 +1,5 @@
-**/gql
+gql
+paraglide
 pnpm-lock.yaml
 worker-configuration.d.ts
+eslint-typegen.d.ts
