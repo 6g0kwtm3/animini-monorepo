@@ -298,8 +298,8 @@ importers:
         specifier: 9.6.1
         version: 9.6.1
       eslint-plugin-oxlint:
-        specifier: 0.15.15
-        version: 0.15.15
+        specifier: 0.16.0
+        version: 0.16.0
       eslint-plugin-react:
         specifier: 7.37.4
         version: 7.37.4(eslint@9.22.0(jiti@2.4.2))
@@ -3678,8 +3678,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-oxlint@0.15.15:
-    resolution: {integrity: sha512-n5RJ3INUx5eqeOvdtr+5+bOK070NF52C0qxa7any7vnvA8GqoFP6vMOYQ966DhmOc69bunzvoVHk/Fis0a/yAQ==}
+  eslint-plugin-oxlint@0.16.0:
+    resolution: {integrity: sha512-Vo4vIErzTnCGMGQtJBLxTYZVVa/yIKfkeTeooIcganaTkEpmd+syimNjjMp7C4prpbLrfRjmVtbCXDqzvfPpRg==}
 
   eslint-plugin-react-compiler@0.0.0-experimental-fcabbc1-20241106:
     resolution: {integrity: sha512-lP00yCyYRWvqGAe4N2iPBSx3lh+cl1jUpO6AefwNw8/zO4Mek4gNUfD0FXvBOmuFoP+/9LfsqGFFDCulK2xiaA==}
@@ -9975,7 +9975,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-oxlint@0.15.15:
+  eslint-plugin-oxlint@0.16.0:
     dependencies:
       jsonc-parser: 3.3.1
 
