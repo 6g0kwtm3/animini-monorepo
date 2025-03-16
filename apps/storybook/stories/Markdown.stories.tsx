@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { Markdown } from "../../web/app/routes/Home/Markdown"
+import { Markdown } from "markdown"
 
 const meta = {
 	title: "Example/Markdown",

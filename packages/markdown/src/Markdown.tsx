@@ -1,82 +1,13 @@
 import marked from "marked"
 import type { JSX, ReactNode } from "react"
 import { useMemo } from "react"
-import ReactRelay from "react-relay"
-
-import { route_media, route_user } from "../../lib/route"
-
-// console.log(R)
 
 import createDOMPurify from "dompurify"
 
-const { graphql } = ReactRelay
-
-// const options: HTMLReactParserOptions = {
-// 	replace(domNode) {
-// 		if (
-// 			domNode instanceof Element &&
-// 			domNode.name === "a" &&
-// 			!domNode.attribs["href"]?.trim()
-// 		) {
-// 			return (
-// 				<span className="text-primary">
-// 					{domToReact(domNode.children, options)}
-// 				</span>
-// 			)
-// 		}
-// 		if (domNode instanceof Element && domNode.name === "center") {
-// 			return (
-// 				<span className="text-center">
-// 					{domToReact(domNode.children, options)}
-// 				</span>
-// 			)
-// 		}
-// 		if (
-// 			domNode instanceof Element &&
-// 			domNode.attribs["class"] === "media-link" &&
-// 			domNode.attribs["data-id"] &&
-// 			domNode.name === "a"
-// 		) {
-// 			return <MediaLink mediaId={domNode.attribs["data-id"]}></MediaLink>
-// 		}
-// 		if (
-// 			domNode instanceof Element &&
-// 			domNode.attribs["class"] === "user-link" &&
-// 			domNode.attribs["data-user-name"] &&
-// 			domNode.name === "a"
-// 		) {
-// 			return (
-// 				<Link  to={route_user({ userName: domNode.attribs["data-user-name"] })}>
-// 					{domToReact(domNode.children, options)}
-// 				</Link>
-// 			)
-// 		}
-// 		if (domNode instanceof Element && domNode.name === "a") {
-// 			return (
-// 				<a
-// 					{...attributesToProps(domNode.attribs)}
-// 					rel="noopener noreferrer"
-// 					target="_blank"
-// 				>
-// 					{domToReact(domNode.children, options)}
-// 				</a>
-// 			)
-// 		}
-// 	}
-// }
 export function Markdown(props: { children: string; options: Options }) {
-	return (
-		<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:rounded-md prose-video:rounded-md max-w-full overflow-x-auto">
-			{useMemo(
-				() => parse(markdownHtml(props.children), props.options),
-				[props.children, props.options]
-			)}
-			{/* {import.meta.env.DEV && (
-				<div className="not-prose">
-					{props.children}
-				</div>
-			)} */}
-		</div>
+	return useMemo(
+		() => parse(markdownHtml(props.children), props.options),
+		[props.children, props.options]
 	)
 }
 
@@ -211,6 +142,18 @@ function markdownHtml(t: string) {
 		)),
 		t
 	)
+}
+
+function numberToString(n: number) {
+	return String(n)
+}
+
+function route_media(props: { id: number }) {
+	return `/media/${numberToString(props.id)}`
+}
+
+function route_user(props: { userName: string }) {
+	return `/user/${props.userName}`
 }
 
 function getAttributes(attributes: Record<string, string>) {
