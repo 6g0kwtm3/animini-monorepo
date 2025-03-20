@@ -78,7 +78,7 @@
 	},
 	"devDependencies": {
 		"@graphql-eslint/eslint-plugin": "4.3.0",
-		"@playwright/test": "1.51.0",
+		"@playwright/test": "1.51.1",
 		"cross-env": "7.0.3",
 		"dotenv": "16.4.7",
 		"eslint": "9.22.0",
