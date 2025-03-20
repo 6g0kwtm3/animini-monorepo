@@ -3,6 +3,5 @@ pnpm-lock.yaml
 worker-configuration.d.ts
 eslint-typegen.d.ts
 **/.react-router
-**/paraglide
 **/.tsup
 **/dist
