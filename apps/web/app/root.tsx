@@ -92,7 +92,6 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// const { nonce } = useRawLoaderData()
 	// setLanguageTag(locale)
 
-	
 	const isHydrated = useIsHydrated()
 
 	return (
