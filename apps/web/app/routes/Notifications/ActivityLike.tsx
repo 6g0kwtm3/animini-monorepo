@@ -13,7 +13,7 @@ import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notificat
 import { useRawLoaderData } from "~/lib/data"
 import { useFragment } from "~/lib/Network"
 import { numberToString } from "~/lib/numberToString"
-import { languageTag as getLocale } from "~/paraglide/runtime"
+import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
 const { graphql } = ReactRelay

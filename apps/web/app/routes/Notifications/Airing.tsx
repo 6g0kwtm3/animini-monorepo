@@ -17,7 +17,7 @@ import { route_media } from "~/lib/route"
 
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import { useFragment } from "~/lib/Network"
-import { languageTag as getLocale } from "~/paraglide/runtime"
+import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
 const { graphql } = ReactRelay

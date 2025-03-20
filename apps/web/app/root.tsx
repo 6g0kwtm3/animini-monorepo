@@ -129,7 +129,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
 					</SnackbarQueue>
 				</RelayEnvironment>
-				{import.meta.env.DEV && <SentryToolbar></SentryToolbar>}
+				{/* {import.meta.env.DEV && <SentryToolbar></SentryToolbar>} */}
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
