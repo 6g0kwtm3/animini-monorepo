@@ -1,0 +1,157 @@
+import type { ComponentProps, ReactNode } from "react"
+import { createContext, use, useId } from "react"
+
+import type { VariantProps } from "tailwind-variants"
+import { TouchTarget } from "~/components/Tooltip"
+import { tv } from "~/lib/tailwind-variants"
+
+const createNavigation = tv(
+	{
+		slots: {
+			root: "fixed start-0 bottom-0 z-50",
+			label: `group text-on-surface-variant relative flex text-center`,
+			activeIndicator: "bg-secondary-container absolute",
+			icon: "i *:last:hidden",
+			largeBadge:
+				"bg-error text-label-sm text-on-error flex h-4 min-w-4 items-center justify-center rounded-sm px-1",
+		},
+		variants: {
+			align: {
+				center: {},
+				start: {},
+				end: {},
+			},
+			variant: {
+				none: { root: "hidden" },
+				bar: {
+					root: "bg-surface-container end-0 my-0 grid h-20 [grid-auto-columns:minmax(0,1fr)] grid-flow-col gap-2",
+					label: `text-label-md aria-[current='page']:text-on-surface flex-1 flex-col items-center gap-1 pt-3 pb-4`,
+					activeIndicator:
+						"duration-sm ease-emphasized-accelerate h-8 w-16 scale-x-0 rounded-lg transition-transform group-aria-[current='page']:scale-x-100",
+					icon: "group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-focused:state-focus group-pressed:state-pressed relative flex h-8 w-16 items-center justify-center rounded-lg group-aria-[current='page']:*:first:hidden group-aria-[current='page']:*:last:block",
+					largeBadge: "absolute left-1/2",
+				},
+				rail: {
+					root: "bg-surface top-0 my-3 flex h-full w-20 shrink-0 flex-col gap-3",
+					label:
+						"text-label-md aria-[current='page']:text-on-surface grow-0 flex-col items-center gap-1 px-2 py-0",
+					activeIndicator:
+						"duration-sm ease-emphasized-accelerate h-8 w-14 scale-x-0 rounded-lg transition-transform group-aria-[current='page']:scale-x-100",
+					icon: "group-hover:text-on-surface group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-focused:text-on-surface group-focused:state-focus group-pressed:text-on-surface group-pressed:state-pressed relative flex h-8 w-14 items-center justify-center rounded-lg group-aria-[current='page']:*:first:hidden group-aria-[current='page']:*:last:block",
+					largeBadge: "absolute left-1/2",
+				},
+				drawer: {
+					root: "bg-surface top-0 my-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 p-3",
+					label: `text-label-lg hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0`,
+					activeIndicator:
+						"inset-0 -z-10 hidden h-full w-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
+					icon: "group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none h-6 w-6 group-aria-[current='page']:*:first:block group-aria-[current='page']:*:last:hidden",
+					largeBadge: "static ms-auto",
+				},
+			},
+		},
+		defaultVariants: {
+			variant: "bar",
+			align: "end",
+		},
+		compoundVariants: [
+			{
+				align: "start",
+				variant: "rail",
+				className: {
+					root: "justify-start",
+				},
+			},
+			{
+				align: "center",
+				variant: "rail",
+				className: {
+					root: "justify-center",
+				},
+			},
+			{
+				align: "end",
+				variant: "rail",
+				className: {
+					root: "justify-end",
+				},
+			},
+		],
+	},
+	{
+		responsiveVariants: ["sm", "lg"],
+	}
+)
+
+export const NavigationStyles = createContext(createNavigation())
+
+export function NavigationItem({
+	children,
+	active,
+	...props
+}: ComponentProps<"a"> & {
+	active?: boolean
+}): ReactNode {
+	const { label } = use(NavigationStyles)
+
+	return (
+		<a
+			{...props}
+			data-current={active}
+			className={label({ className: props.className })}
+		>
+			<NavigationItemActiveIndicator />
+			{children}
+			<TouchTarget />
+		</a>
+	)
+}
+
+const NavigationId = createContext<{ "--id": string } | undefined>(undefined)
+
+export function NavigationItemActiveIndicator(): ReactNode {
+	const { activeIndicator } = use(NavigationStyles)
+	const style = use(NavigationId)
+
+	return <div className={activeIndicator()} style={style} />
+}
+
+export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
+	const { icon } = use(NavigationStyles)
+
+	return <div {...props} className={icon()} />
+}
+interface NavigationProps
+	extends ComponentProps<"nav">,
+		VariantProps<typeof createNavigation> {}
+
+export function Navigation({
+	variant,
+	align,
+	...props
+}: NavigationProps): ReactNode {
+	const styles = createNavigation({ align, variant })
+
+	return (
+		<NavigationId.Provider
+			value={{
+				"--id": useId().replaceAll(":", "-"),
+			}}
+		>
+			<NavigationStyles.Provider value={styles}>
+				<nav
+					{...props}
+					className={styles.root({ className: props.className })}
+				/>
+			</NavigationStyles.Provider>
+		</NavigationId.Provider>
+	)
+}
+
+export function NavigationItemLargeBadge(
+	props: ComponentProps<"div">
+): ReactNode {
+	const { largeBadge } = use(NavigationStyles)
+
+	return <div {...props} className={largeBadge()} />
+}

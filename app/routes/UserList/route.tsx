@@ -1,0 +1,298 @@
+import {
+	Form,
+	isRouteErrorResponse,
+	Outlet,
+	useLocation,
+	useParams,
+	useSearchParams,
+	useSubmit,
+	type ShouldRevalidateFunction,
+} from "react-router"
+
+import { type ReactNode } from "react"
+import { Card } from "~/components/Card"
+import { TabsList, TabsListItem } from "~/components/Tabs"
+import * as Order from "~/lib/Order"
+import type { Route } from "./+types/route"
+
+import { Ariakit } from "~/lib/ariakit"
+
+import { M3 } from "~/lib/components"
+import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
+import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
+import MaterialSymbolsSearch from "~icons/material-symbols/search"
+
+import { route_user_list } from "~/lib/route"
+
+import ReactRelay from "react-relay"
+import type { routeNavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
+import { btnIcon, button } from "~/lib/button"
+import {
+	useOptimisticLocation,
+	useOptimisticSearchParams,
+} from "~/lib/search/useOptimisticSearchParams"
+
+import { type } from "arktype"
+import { invariant } from "~/lib/invariant"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { ExtraOutlets } from "../User/ExtraOutlet"
+import { FilterInput } from "./FilterInput"
+import { Sheet } from "./Sheet"
+
+const { graphql } = ReactRelay
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	currentParams,
+	nextParams,
+	formMethod,
+	defaultShouldRevalidate,
+}) => {
+	if (
+		formMethod === "GET" &&
+		currentParams.userName === nextParams.userName &&
+		currentParams.typelist === nextParams.typelist
+	) {
+		return false
+	}
+	return defaultShouldRevalidate
+}
+
+const Typelist = type("'animelist'|'mangalist'")
+
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
+	const typelist = invariant(Typelist(args.params.typelist))
+
+	const data = loadQuery<routeNavUserListQuery>(RouteNavUserListQuery, {
+		userName: args.params.userName,
+		type: (
+			{
+				animelist: "ANIME",
+				mangalist: "MANGA",
+			} as const
+		)[typelist],
+	})
+
+	return { routeNavUserListQuery: data, typelist }
+}
+
+const RouteNavUserListQuery = graphql`
+	query routeNavUserListQuery($userName: String!, $type: MediaType!)
+	@raw_response_type {
+		MediaListCollection(userName: $userName, type: $type) {
+			lists {
+				name
+			}
+			user {
+				name
+				mediaListOptions {
+					rowOrder
+					animeList {
+						sectionOrder
+					}
+					mangaList {
+						sectionOrder
+					}
+				}
+				...User_user
+			}
+		}
+	}
+`
+
+function Actions(_props: Route.ComponentProps): ReactNode {
+	return (
+		<>
+			<M3.Icon label="Filter">
+				<MaterialSymbolsSearch />
+			</M3.Icon>
+			<FilterButton />
+			<M3.Icon label="More">
+				<MaterialSymbolsMoreHoriz />
+			</M3.Icon>
+		</>
+	)
+}
+
+function Title({ params }: Route.ComponentProps): ReactNode {
+	return (
+		<>
+			{" | "}
+			{params.typelist === "animelist" ? "Anime list" : "Manga list"}
+		</>
+	)
+}
+
+export default function Index(props: Route.ComponentProps): ReactNode {
+	const params = useParams()
+	const submit = useSubmit()
+	const [searchParams] = useSearchParams()
+	const { pathname } = useLocation()
+
+	return (
+		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
+			<div className="flex flex-col gap-4">
+				<M3.Tabs selectedId={params.selected}>
+					<div className="bg-surface sm:bg-surface-container-low sticky top-16 z-50 grid sm:-mt-4">
+						<ListTabs {...props} />
+					</div>
+					<M3.TabsPanel
+						render={<search />}
+						tabId={params.selected}
+						className="flex flex-col gap-4"
+					>
+						<Form
+							className="px-4"
+							replace
+							action={pathname}
+							onChange={(e) => void submit(e.currentTarget, {})}
+						>
+							<FilterInput
+								name="filter"
+								label="Filter"
+								defaultValue={searchParams.get("filter") ?? ""}
+							/>
+						</Form>
+						<Outlet />
+					</M3.TabsPanel>
+				</M3.Tabs>
+			</div>
+			<Sheet {...props} />
+		</ExtraOutlets>
+	)
+}
+
+function ListTabs({ params, loaderData }: Route.ComponentProps) {
+	const data = usePreloadedQuery(...loaderData.routeNavUserListQuery)
+
+	const options = Object.fromEntries(
+		data.MediaListCollection?.user?.mediaListOptions?.[
+			(
+				{
+					animelist: "animeList",
+					mangalist: "mangaList",
+				} as const
+			)[loaderData.typelist]
+		]?.sectionOrder?.map((key, index) => [key, index]) ?? []
+	)
+
+	const lists = data.MediaListCollection?.lists
+		?.filter((el) => el != null)
+		.sort(
+			Order.mapInput(
+				Order.number,
+				(list) => options[list.name ?? ""] ?? Infinity
+			)
+		)
+
+	const { search } = useOptimisticLocation()
+
+	return (
+		<TabsList>
+			<TabsListItem
+				id={"undefined"}
+				render={
+					<M3.Link
+						to={{
+							pathname: route_user_list(params),
+							search,
+						}}
+						preventScrollReset
+					/>
+				}
+			>
+				All
+			</TabsListItem>
+			{lists?.map((list) => {
+				return (
+					list.name && (
+						<TabsListItem
+							key={list.name}
+							id={list.name}
+							render={
+								<M3.Link
+									to={{
+										pathname: list.name,
+										search,
+									}}
+									preventScrollReset
+								/>
+							}
+						>
+							{list.name}
+						</TabsListItem>
+					)
+				)
+			})}
+		</TabsList>
+	)
+}
+
+function FilterButton() {
+	let { pathname } = useLocation()
+
+	const searchParams = useOptimisticSearchParams()
+	const filterParams = searchParams.set("sheet", "filter")
+
+	return (
+		<M3.TooltipPlain>
+			<M3.TooltipPlainTrigger
+				render={
+					<M3.Link
+						className={btnIcon({
+							className: [searchParams.size && "text-tertiary"],
+						})}
+						to={{
+							search: `?${filterParams}`,
+							pathname,
+						}}
+					>
+						<span className="sr-only">Filter</span>
+						<MaterialSymbolsFilterList />
+					</M3.Link>
+				}
+			/>
+			<M3.TooltipPlainContainer>Filter</M3.TooltipPlainContainer>
+		</M3.TooltipPlain>
+	)
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	let location = useLocation()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+					<M3.Link to={location} className={button()}>
+						Try again
+					</M3.Link>
+				</div>
+			</ExtraOutlets>
+		)
+	}
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<ExtraOutlets>
+			<Card variant="elevated">
+				<Ariakit.Heading className="text-headline-md text-balance">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="text-body-md overflow-auto">{errorMessage}</pre>{" "}
+				<M3.Link to={location} className={button()}>
+					Try again
+				</M3.Link>
+			</Card>
+		</ExtraOutlets>
+	)
+}

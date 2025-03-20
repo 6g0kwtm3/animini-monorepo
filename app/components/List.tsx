@@ -1,0 +1,98 @@
+import type { ComponentProps, ReactNode } from "react"
+import { use } from "react"
+import type { VariantProps } from "tailwind-variants"
+
+import { Ariakit } from "~/lib/ariakit"
+import { createList, ListContext } from "~/lib/list"
+import { subheader } from "./subheader"
+
+interface ListVariantProps
+	extends ComponentProps<"li">,
+		VariantProps<typeof createList> {}
+
+export function ListItem({ lines, ...props }: ListVariantProps): ReactNode {
+	const { item } = use(ListContext)
+	return (
+		<li {...props} className={item({ className: props.className, lines })} />
+	)
+}
+
+export function ListItemContentTitle(props: ComponentProps<"div">): ReactNode {
+	const { itemTitle } = use(ListContext)
+
+	return (
+		<div {...props} className={itemTitle({ className: props.className })} />
+	)
+}
+export function ListItemContent(props: ComponentProps<"div">): ReactNode {
+	const { itemContent } = use(ListContext)
+
+	return (
+		<div {...props} className={itemContent({ className: props.className })} />
+	)
+}
+
+export function ListItemContentSubtitle(
+	props: ComponentProps<"div">
+): ReactNode {
+	const { itemSubtitle } = use(ListContext)
+
+	return (
+		<div {...props} className={itemSubtitle({ className: props.className })} />
+	)
+}
+export function ListItemImg(props: ComponentProps<"div">): ReactNode {
+	const { itemImg } = use(ListContext)
+	return <div {...props} className={itemImg({ className: props.className })} />
+}
+
+export function ListItemAvatar(props: ComponentProps<"div">): ReactNode {
+	const { itemAvatar } = use(ListContext)
+
+	return (
+		<div {...props} className={itemAvatar({ className: props.className })} />
+	)
+}
+export function ListItemIcon(props: ComponentProps<"div">): ReactNode {
+	const { itemIcon } = use(ListContext)
+
+	return <div {...props} className={itemIcon({ className: props.className })} />
+}
+
+export function Subheader({
+	lines,
+	...props
+}: Ariakit.HeadingProps & VariantProps<typeof subheader>): ReactNode {
+	return (
+		<Ariakit.Heading
+			{...props}
+			className={subheader({ className: props.className, lines })}
+		/>
+	)
+}
+
+export function ListItemTrailingSupportingText(
+	props: ComponentProps<"span">
+): ReactNode {
+	const { trailingSupportingText } = use(ListContext)
+
+	return (
+		<span
+			{...props}
+			className={trailingSupportingText({ className: props.className })}
+		/>
+	)
+}
+
+export function List({
+	lines,
+	...props
+}: ComponentProps<"ul"> & ListVariantProps): ReactNode {
+	const styles = createList({ lines })
+
+	return (
+		<ListContext.Provider value={styles}>
+			<ul {...props} className={styles.root({ className: props.className })} />
+		</ListContext.Provider>
+	)
+}
