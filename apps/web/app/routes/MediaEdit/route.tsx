@@ -1,4 +1,16 @@
 // import {
+// 	Link,
+// 	useActionData,
+// 	useNavigate,
+// 	useNavigation
+// } from "react-router"
+// import {
+// 	json,
+// 	redirect,
+// 	type ActionFunction,
+// 	type LoaderFunction
+// } from "@react-router/node"
+// import {
 // 	Button as ButtonText,
 // 	ButtonIcon as ButtonTextIcon
 // } from "~/components/Button"
@@ -20,8 +32,7 @@
 // import * as Ariakit from "@ariakit/react"
 
 // import { motion } from "framer-motion"
-// import type { ComponentPropsWithoutRef } from "react"
-import type { ReactNode } from "react"
+// import type { ComponentProps, ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
 
 // import { ChipFilter } from "~/components/Chip"
@@ -29,7 +40,6 @@ import type { ReactNode } from "react"
 // import { SelectOption } from "~/components/SelectOption"
 // import { Remix } from "~/lib/Remix"
 // import { button } from "~/lib/button"
-// import { useRawLoaderData } from "~/lib/data"
 
 // import {  } from "vite-env-only"
 
@@ -48,8 +58,8 @@ import type { ReactNode } from "react"
 // 	)
 
 //
-
-// export const clientLoader = (async (args) => {
+// import { unstable_defineLoader } from "@react-router/node"
+// export const clientLoader = (async (args: Route.ClientLoaderArgs) => {
 // 	return await pipe(
 // 		Effect.gen(function* () {
 // 			const { mediaId } = await (
@@ -67,8 +77,8 @@ import type { ReactNode } from "react"
 // 			return await (
 // 				client.query(
 // 					graphql`
-// 						query MediaEditQuery($mediaId: Int!, $format: ScoreFormat) {
-// 							Viewer {
+// 						query MediaEditQuery($id: Int!, $format: ScoreFormat) {
+// 							Viewer @include(if: $token)  {
 // 								id
 // 								mediaListOptions {
 // 									scoreFormat
@@ -84,7 +94,7 @@ import type { ReactNode } from "react"
 // 									}
 // 								}
 // 							}
-// 							Media(id: $mediaId) {
+// 							Media(id: $id) {
 // 								id
 // 								episodes
 // 								type
@@ -114,7 +124,7 @@ import type { ReactNode } from "react"
 // 					`,
 // 					{
 // 						format,
-// 						mediaId
+// 						id
 // 					}
 // 				)
 // 			)
@@ -214,7 +224,7 @@ import type { ReactNode } from "react"
 
 // const Score = (
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) => (
@@ -226,202 +236,201 @@ import type { ReactNode } from "react"
 // 		label="Score"
 // 	/>
 // )
-export default function Page(): ReactNode {
-	return null
-	// 	const data = useRawLoaderData<typeof loader >()
+// export default function Page(): ReactNode {
+// 	const data = useLoaderData<typeof loader >()
 
-	// 	const navigation = useNavigation()
+// 	const navigation = useNavigation()
 
-	// 	useActionData<typeof action>()
+// 	useActionData<typeof action>()
 
-	// 	const busy = navigation.state === "submitting"
+// 	const busy = navigation.state === "submitting"
 
-	// 	const advancedScores = pipe(
-	// 		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
-	// 		Option.filter(Predicate.isReadonlyRecord)
-	// 	)
+// 	const advancedScores = pipe(
+// 		Option.fromNullable(data?.Media?.mediaListEntry?.advancedScores),
+// 		Option.filter(Predicate.isReadonlyRecord)
+// 	)
 
-	// 	const defaultAdvancedScores =
-	// 		pipe(
-	// 			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
-	// 				?.filter(el=> el!=null)
-	// 				.map((category) =>
-	// 					pipe(
-	// 						advancedScores,
-	// 						Option.flatMap(ReadonlyRecord.get(category)),
-	// 						Option.filter(Predicate.isNumber),
-	// 						Option.getOrElse(() => 0)
-	// 					)
-	// 				)
-	// 		) ?? []
+// 	const defaultAdvancedScores =
+// 		pipe(
+// 			data?.Viewer?.mediaListOptions?.animeList?.advancedScoring
+// 				?.filter(el=> el!=null)
+// 				.map((category) =>
+// 					pipe(
+// 						advancedScores,
+// 						Option.flatMap(ReadonlyRecord.get(category)),
+// 						Option.filter(Predicate.isNumber),
+// 						Option.getOrElse(() => 0)
+// 					)
+// 				)
+// 		) ?? []
 
-	// 	const navigate = useNavigate()
+// 	const navigate = useNavigate()
 
-	// 	const store = Ariakit.useFormStore({
-	// 		defaultValues: {
-	// 			advancedScores: defaultAdvancedScores,
-	// 			completedAt: pipe(
-	// 				S.decodeUnknownOption(FuzzyDateLift)(
-	// 					data?.Media?.mediaListEntry?.completedAt
-	// 				),
-	// 				Option.flatMap(Option.all),
-	// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-	// 				Option.getOrElse(() => "")
-	// 			),
-	// 			startedAt: pipe(
-	// 				S.decodeUnknownOption(FuzzyDateLift)(
-	// 					data?.Media?.mediaListEntry?.startedAt
-	// 				),
-	// 				Option.flatMap(Option.all),
-	// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
-	// 				Option.getOrElse(() => "")
-	// 			),
-	// 			notes: data?.Media?.mediaListEntry?.notes ?? "",
-	// 			progress: data?.Media?.mediaListEntry?.progress || 0,
-	// 			repeat: data?.Media?.mediaListEntry?.repeat || 0,
-	// 			score: data?.Media?.mediaListEntry?.score || 0,
-	// 			status: pipe(
-	// 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
-	// 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
-	// 				Option.getOrElse(() => OPTIONS[MediaListStatus.Current])
-	// 			),
-	// 			customLists: pipe(
-	// 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
-	// 				Option.filter(Predicate.isReadonlyRecord),
-	// 				Option.getOrElse(ReadonlyRecord.empty),
-	// 				ReadonlyRecord.filter((key) => !!key),
-	// 				Object.keys
-	// 			)
-	// 		}
-	// 	})
+// 	const store = Ariakit.useFormStore({
+// 		defaultValues: {
+// 			advancedScores: defaultAdvancedScores,
+// 			completedAt: pipe(
+// 				S.decodeUnknownOption(FuzzyDateLift)(
+// 					data?.Media?.mediaListEntry?.completedAt
+// 				),
+// 				Option.flatMap(Option.all),
+// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
+// 				Option.getOrElse(() => "")
+// 			),
+// 			startedAt: pipe(
+// 				S.decodeUnknownOption(FuzzyDateLift)(
+// 					data?.Media?.mediaListEntry?.startedAt
+// 				),
+// 				Option.flatMap(Option.all),
+// 				Option.flatMap(S.encodeOption(FuzzyDateInput)),
+// 				Option.getOrElse(() => "")
+// 			),
+// 			notes: data?.Media?.mediaListEntry?.notes ?? "",
+// 			progress: data?.Media?.mediaListEntry?.progress || 0,
+// 			repeat: data?.Media?.mediaListEntry?.repeat || 0,
+// 			score: data?.Media?.mediaListEntry?.score || 0,
+// 			status: pipe(
+// 				Option.fromNullable(data?.Media?.mediaListEntry?.status),
+// 				Option.flatMap((key) => ReadonlyRecord.get(OPTIONS, key)),
+// 				Option.getOrElse(() => OPTIONS[MediaListStatus.Current])
+// 			),
+// 			customLists: pipe(
+// 				Option.fromNullable(data?.Media?.mediaListEntry?.customLists),
+// 				Option.filter(Predicate.isReadonlyRecord),
+// 				Option.getOrElse(ReadonlyRecord.empty),
+// 				ReadonlyRecord.filter((key) => !!key),
+// 				Object.keys
+// 			)
+// 		}
+// 	})
 
-	// 	store.useSubmit(async (state) => {
-	// 		await new Promise((resolve) => setTimeout(resolve, 10_000, state))
-	// 		// fetcher.submit(state.values, { method: "post" })
-	// 	})
+// 	store.useSubmit(async (state) => {
+// 		await new Promise((resolve) => setTimeout(resolve, 10_000, state))
+// 		// fetcher.submit(state.values, { method: "post" })
+// 	})
 
-	// 	const values = store.useState("values")
+// 	const values = store.useState("values")
 
-	// 	const avgScore = pipe(
-	// 		values.advancedScores.map((n) => Number(n)),
-	// 		avg,
-	// 		Option.getOrElse(() => 0),
-	// 		round
-	// 	)
+// 	const avgScore = pipe(
+// 		values.advancedScores.map((n) => Number(n)),
+// 		avg,
+// 		Option.getOrElse(() => 0),
+// 		round
+// 	)
 
-	// 	function avg(numbers: number[]) {
-	// 		return divide(sumAll(numbers), numbers.length)
-	// 	}
+// 	function avg(numbers: number[]) {
+// 		return divide(sumAll(numbers), numbers.length)
+// 	}
 
-	// 	function round(n: number) {
-	// 		return Math.round(n * 10) / 10
-	// 	}
+// 	function round(n: number) {
+// 		return Math.round(n * 10) / 10
+// 	}
 
-	// 	const listOptions =
-	// 		data?.Media?.type === "MANGA"
-	// 			? data?.Viewer?.mediaListOptions?.mangaList
-	// 			: data?.Viewer?.mediaListOptions?.animeList
-	// 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
+// 	const listOptions =
+// 		data?.Media?.type === "MANGA"
+// 			? data.Viewer?.mediaListOptions?.mangaList
+// 			: data?.Viewer?.mediaListOptions?.animeList
+// 	// useEffect(() => store.setValue("score", avgScore), [store, avgScore])
 
-	// 	return (
-	// 		<div>
-	// 			<div>
-	// 				<Ariakit.Dialog
-	//
-	// 					alwaysVisible
-	// 					hideOnInteractOutside={false}
-	// 					className={root()}
-	// 					backdrop={<div className={backdrop()} />}
-	// 					render={<motion.div layoutId="edit" initial={false} />}
-	// 				>
-	// 					<Ariakit.Form store={store} method="post" className={content({})}>
-	// 						<header className={headline({ className: "text-balance" })}>
-	// 							<DialogFullscreenIcon className="sm:hidden">
-	// 								<Ariakit.DialogDismiss
-	// 									render={
-	// 										<Link
-	// 											 to=".."
-	// 											onClick={(e) => (e.preventDefault(), navigate(-1))}
-	// 										/>
-	// 									}
-	// 								>
-	// 									<span className="i">close</span>
-	// 									<div className="sr-only">Cancel</div>
-	// 								</Ariakit.DialogDismiss>
-	// 							</DialogFullscreenIcon>
-	// 							Foo fa ra fa
-	// 							<ButtonText type="submit" className="ms-auto sm:hidden">
-	// 								Save
-	// 							</ButtonText>
-	// 						</header>
-	// 						<div className={body()}>
-	// 							<div className="grid gap-2">
-	// 								<input type="hidden" name="mediaId" value={data?.Media?.id} />
-	// 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
-	// 									<Status name={store.names.status} />
-	// 									<Score name={store.names.score} />
+// 	return (
+// 		<div>
+// 			<div>
+// 				<Ariakit.Dialog
+//
+// 					alwaysVisible
+// 					hideOnInteractOutside={false}
+// 					className={root()}
+// 					backdrop={<div className={backdrop()} />}
+// 					render={<motion.div layoutId="edit" initial={false} />}
+// 				>
+// 					<Ariakit.Form store={store} method="post" className={content({})}>
+// 						<header className={headline({ className: "text-balance" })}>
+// 							<DialogFullscreenIcon className="sm:hidden">
+// 								<Ariakit.DialogDismiss
+// 									render={
+// 										<M3.Link
+// 											 to=".."
+// 											onClick={(e) => (e.preventDefault(), navigate(-1))}
+// 										/>
+// 									}
+// 								>
+// 									<span className="i">close</span>
+// 									<div className="sr-only">Cancel</div>
+// 								</Ariakit.DialogDismiss>
+// 							</DialogFullscreenIcon>
+// 							Foo fa ra fa
+// 							<ButtonText type="submit" className="ms-auto sm:hidden">
+// 								Save
+// 							</ButtonText>
+// 						</header>
+// 						<div className={body()}>
+// 							<div className="grid gap-2">
+// 								<input type="hidden" name="mediaId" value={data?.Media?.id} />
+// 								<div className="grid grid-cols-1 gap-2  sm:grid-cols-2">
+// 									<Status name={store.names.status} />
+// 									<Score name={store.names.score} />
 
-	// 									<Progress name={store.names.progress} media={data?.Media} />
-	// 									<StartDate name={store.names.startedAt} />
-	// 									<FinishDate name={store.names.completedAt} />
-	// 									<Repeat name={store.names.repeat} />
-	// 								</div>
-	// 								<Notes name={store.names.notes} />
+// 									<Progress name={store.names.progress} media={data?.Media} />
+// 									<StartDate name={store.names.startedAt} />
+// 									<FinishDate name={store.names.completedAt} />
+// 									<Repeat name={store.names.repeat} />
+// 								</div>
+// 								<Notes name={store.names.notes} />
 
-	// 								<AdvancedScores advancedScoring={listOptions}>
-	// 									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
-	// 										(label, i) => {
-	// 											const name = store.names.advancedScores[i]
-	// 											return name ? (
-	// 												<AdvancedScore
-	// 													onChange={() => store.setValue("score", avgScore)}
-	// 													key={label} data-key={label}
-	// 													label={label}
-	// 													name={name}
-	// 												/>
-	// 											) : null
-	// 										}
-	// 									)}
-	// 								</AdvancedScores>
+// 								<AdvancedScores advancedScoring={listOptions}>
+// 									{data?.Viewer?.mediaListOptions?.animeList?.advancedScoring?.map(
+// 										(label, i) => {
+// 											const name = store.names.advancedScores[i]
+// 											return name ? (
+// 												<AdvancedScore
+// 													onChange={() => store.setValue("score", avgScore)}
+// 													key={label}
+// 													label={label}
+// 													name={name}
+// 												/>
+// 											) : null
+// 										}
+// 									)}
+// 								</AdvancedScores>
 
-	// 								<CustomLists
-	// 									name={store.names.customLists}
-	// 									listOptions={listOptions}
-	// 								/>
+// 								<CustomLists
+// 									name={store.names.customLists}
+// 									listOptions={listOptions}
+// 								/>
 
-	// 								{/* <Snackbar open={touched}>
-	// 																			Careful - you have unsaved changes!
-	// 																			<dib className="flex-1" /><SnackbarAction type="reset">Reset</SnackbarAction>
-	// 																			<SnackbarAction
-	// 																				onClick={() => form.current!.requestSubmit()}
-	// 																			>
-	// 																				Save changes
-	// 																			</SnackbarAction>
-	// 																		</Snackbar> */}
-	// 							</div>
-	// 						</div>
+// 								{/* <Snackbar open={touched}>
+// 																			Careful - you have unsaved changes!
+// 																			<dib className="flex-1" /><SnackbarAction type="reset">Reset</SnackbarAction>
+// 																			<SnackbarAction
+// 																				onClick={() => form.current.requestSubmit()}
+// 																			>
+// 																				Save changes
+// 																			</SnackbarAction>
+// 																		</Snackbar> */}
+// 							</div>
+// 						</div>
 
-	// 						<div className="mx-6 border-b border-outline-variant max-sm:hidden" />
-	// 						<footer className={actions({ className: "max-sm:hidden" })}>
-	// 							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
-	// 							<Ariakit.FormSubmit className={button()}>
-	// 								{busy && (
-	// 									<ButtonTextIcon className="animate-spin">
-	// 										progress_activity
-	// 									</ButtonTextIcon>
-	// 								)}
-	// 								Save changes
-	// 							</Ariakit.FormSubmit>
-	// 						</footer>
-	// 						{/* <Snackbar timeout={4000} open={saved}>
-	//                   Entry saved
-	//                 </Snackbar> */}
-	// 					</Ariakit.Form>
-	// 				</Ariakit.Dialog>
-	// 			</div>
-	// 		</div>
-	// 	)
-}
+// 						<div className="mx-6 border-b border-outline-variant max-sm:hidden" />
+// 						<footer className={actions({ className: "max-sm:hidden" })}>
+// 							<Ariakit.FormReset className={button()}>Reset</Ariakit.FormReset>
+// 							<Ariakit.FormSubmit className={button()}>
+// 								{busy && (
+// 									<ButtonTextIcon className="animate-spin">
+// 										progress_activity
+// 									</ButtonTextIcon>
+// 								)}
+// 								Save changes
+// 							</Ariakit.FormSubmit>
+// 						</footer>
+// 						{/* <Snackbar timeout={4000} open={saved}>
+//                   Entry saved
+//                 </Snackbar> */}
+// 					</Ariakit.Form>
+// 				</Ariakit.Dialog>
+// 			</div>
+// 		</div>
+// 	)
+// }
 
 // const FuzzyDateLift = S.struct({
 // 	month: S.optionFromNullable(S.number),
@@ -429,12 +438,12 @@ export default function Page(): ReactNode {
 // 	day: S.optionFromNullable(S.number)
 // })
 
-// function Status(props: ComponentPropsWithoutRef<typeof SelectFactory>) {
+// function Status(props: ComponentProps<typeof SelectFactory>) {
 // 	return (
 // 		<SelectFactory
 // 			{...props}
 // 			children={Object.values(OPTIONS).map((value) => {
-// 				return <SelectOption value={value} key={value} data-key={value} />
+// 				return <SelectOption value={value} key={value} />
 // 			})}
 // 			label="Status"
 // 		/>
@@ -443,7 +452,7 @@ export default function Page(): ReactNode {
 
 // function FinishDate(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -452,7 +461,7 @@ export default function Page(): ReactNode {
 
 // function StartDate(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -472,7 +481,7 @@ export default function Page(): ReactNode {
 // function Progress({
 // 	media,
 // 	...props
-// }: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
+// }: ComponentProps<typeof TextFieldOutlinedInput> & {
 // 	media: Progress_media$key | null
 // }) {
 // 	const data = useFragment<typeof Progress_media>(media)
@@ -482,9 +491,9 @@ export default function Page(): ReactNode {
 // 			<TextFieldOutlined.Label name={props.name}>
 // 				Episode Progress
 // 			</TextFieldOutlined.Label>
-// 			{data && Predicate.isNumber(data?.episodes ?? data?.chapters) ? (
+// 			{data && Predicate.isNumber(data.episodes ?? data.chapters) ? (
 // 				<TextFieldOutlined.Suffix className="pointer-events-none">
-// 					/{data?.episodes ?? data?.chapters}
+// 					/{data.episodes ?? data.chapters}
 // 				</TextFieldOutlined.Suffix>
 // 			) : null}
 // 		</TextFieldOutlined>
@@ -493,7 +502,7 @@ export default function Page(): ReactNode {
 
 // function Repeat(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -509,7 +518,7 @@ export default function Page(): ReactNode {
 
 // function Notes(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -522,7 +531,7 @@ export default function Page(): ReactNode {
 // 				e.currentTarget.style.height = ""
 // 				e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
 // 			}}
-// 			className="[field-sizing:content]"
+// 			className="field-sizing-content"
 // 			label="Notes"
 // 		/>
 // 	)
@@ -549,7 +558,7 @@ export default function Page(): ReactNode {
 // 		return null
 // 	}
 
-// 	if (!data?.advancedScoring?.length) {
+// 	if (!data.advancedScoring?.length) {
 // 		return null
 // 	}
 
@@ -562,7 +571,7 @@ export default function Page(): ReactNode {
 // }
 
 // function AdvancedScore(
-// 	props: ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>
+// 	props: ComponentProps<typeof TextFieldOutlinedFactory>
 // ): ReactNode {
 // 	return (
 // 		<TextFieldOutlinedFactory
@@ -605,7 +614,7 @@ export default function Page(): ReactNode {
 // 			<div className="flex flex-wrap gap-2">
 // 				{customLists.map((list, i) => {
 // 					return (
-// 						<ChipFilter {...props} key={list} data-key={list}>
+// 						<ChipFilter {...props} key={list}>
 // 							{list}
 // 						</ChipFilter>
 // 					)
@@ -614,3 +623,5 @@ export default function Page(): ReactNode {
 // 		</fieldset>
 // 	)
 // }
+
+export {}

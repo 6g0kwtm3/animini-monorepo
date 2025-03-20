@@ -1,71 +1,67 @@
 import {
-	Await,
-	Outlet,
+	data,
 	isRouteErrorResponse,
-	useRouteError,
+	Outlet,
+	useLocation,
 	useSearchParams,
 	type ClientActionFunction,
-	type ClientLoaderFunctionArgs,
-	type MetaFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
-import { useRawLoaderData } from "~/lib/data"
 
-import {
-	AwaitLibrary,
-	MediaListHeader,
-	MediaListHeaderItem,
-	MediaListHeaderToWatch,
-} from "~/lib/list/MediaList"
+import type { MetaFunction } from "react-router"
+
+import * as Order from "~/lib/Order"
 
 // import {} from 'glob'
 
-import type { AnitomyResult } from "anitomy"
-
-import type { ReactNode } from "react"
-import { Suspense } from "react"
-
-import { Card } from "~/components/Card"
+import type { ComponentRef, ReactNode } from "react"
+import { Suspense, use, useRef } from "react"
 import { List } from "~/components/List"
-import { Loading, Skeleton } from "~/components/Skeleton"
 import { Ariakit } from "~/lib/ariakit"
 
-import { client_get_client } from "~/lib/client"
-
-import { MediaListItem } from "~/lib/entry/MediaListItem"
+import { MediaListItem, MockMediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 import { MediaListSort, MediaListSortSchema } from "~/lib/MediaListSort"
-import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
-import { readInlineData } from "~/lib/Network"
+import {
+	loadQuery,
+	mutation,
+	readInlineData,
+	usePreloadedQuery,
+} from "~/lib/Network"
 
-import type {
-	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
-	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
-} from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
-import type {
+import {
 	MediaStatus,
 	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
+	routeNavUserListEntriesSort_entries$data,
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
-import { captureException } from "@sentry/react"
-import { ArkErrors, type } from "arktype"
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
+
+import { useVirtualizer } from "@tanstack/react-virtual"
+import { PaneContext } from "~/components/Layout"
+import type { routeNavUserListEntriesSort_user$key } from "~/gql/routeNavUserListEntriesSort_user.graphql"
+import { button } from "~/lib/button"
+import { M3 } from "~/lib/components"
+import { ExtraOutlets } from "../User/ExtraOutlet"
+import { isVisible } from "./isVisible"
+
+import { ArkErrors, type } from "arktype"
+import type { routeIsQuery_entry$key } from "~/gql/routeIsQuery_entry.graphql"
 import { invariant } from "~/lib/invariant"
-import * as Order from "~/lib/Order"
+import { parse, type SearchParserResult } from "~/lib/searchQueryParser"
+import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 
 const NavUserListEntriesSort_entries = graphql`
 	fragment routeNavUserListEntriesSort_entries on MediaList @inline {
 		id
-		...MediaListItem_entry
 		progress
 		score
-		toWatch
 		startedAt {
 			...routeFuzzyDateOrder_fuzzyDate
 		}
@@ -78,53 +74,104 @@ const NavUserListEntriesSort_entries = graphql`
 			startDate {
 				...routeFuzzyDateOrder_fuzzyDate
 			}
+			endDate {
+				...routeFuzzyDateOrder_fuzzyDate
+			}
 			averageScore
-
 			status(version: 2)
 			title {
 				userPreferred
 			}
 		}
 		updatedAt
-	}
-`
-
-const NavUserListEntriesFilter_entries = graphql`
-	fragment routeNavUserListEntriesFilter_entries on MediaList @inline {
-		id
-		...routeNavUserListEntriesSort_entries
-		...MediaListHeaderToWatch_entries
 		toWatch
-		progress
-		media {
-			id
-			status(version: 2)
-			format
-		}
+		behind
+		...MediaListItem_entry
 	}
 `
 
-const NavUserListEntriesQuery = graphql`
-	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!) {
-		MediaListCollection(userName: $userName, type: $type) {
-			lists {
-				name
+const RouteNavUserListEntriesQuery = graphql`
+	query routeNavUserListEntriesQuery(
+		$userName: String!
+		$type: MediaType!
+		$token: Boolean!
+	) @raw_response_type {
+		Viewer @include(if: $token) {
+			id
+			...MediaListItem_viewer
+		}
+		MediaListCollection(userName: $userName, type: $type)
+			@required(action: LOG) {
+			user {
+				id
+				...routeNavUserListEntriesSort_user
+				...MediaListItemScore_user
+			}
+			lists @required(action: LOG) {
+				name @required(action: LOG)
 				entries {
 					id
-					...routeNavUserListEntriesFilter_entries
+					...routeIsQuery_entry
+					...isVisible_entry
+					...routeNavUserListEntriesSort_entries
+					...MediaListItem_entry
+					...routeSidePanel_entry # @defer
 				}
 			}
 		}
 	}
 `
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => {
+const keywords = [
+	"tags",
+	"status",
+	"score",
+	"format",
+	"to_watch",
+	"asc",
+	"desc",
+	"progress",
+	"media-status",
+] as const
+
+const Typelist = type("'animelist'|'mangalist'")
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
+	const params = args.params
+	const typelist = invariant(Typelist(params.typelist))
+
+	const data = loadQuery<routeNavUserListEntriesQuery>(
+		RouteNavUserListEntriesQuery,
+		{
+			token: !!sessionStorage.getItem("anilist-token"),
+			userName: params.userName,
+			type: (
+				{
+					animelist: "ANIME",
+					mangalist: "MANGA",
+				} as const
+			)[typelist],
+		}
+	)
+
 	return {
-		Library: Promise.resolve<
-			Record<string, [AnitomyResult, ...AnitomyResult[]]>
-		>({}),
-		query: fetchSelectedList(args),
+		NavUserListEntriesQuery: data,
 	}
+}
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+	defaultShouldRevalidate,
+	formMethod,
+	currentParams,
+	nextParams,
+}) => {
+	if (
+		formMethod === "GET" &&
+		currentParams.userName === nextParams.userName &&
+		currentParams.typelist === nextParams.typelist
+	) {
+		return false
+	}
+	return defaultShouldRevalidate
 }
 
 export const meta = (({ params }) => {
@@ -139,10 +186,8 @@ export const meta = (({ params }) => {
 }) satisfies MetaFunction<typeof clientLoader>
 
 const UserSetStatus = graphql`
-	mutation routeUserSetStatusMutation(
-		$mediaId: Int!
-		$status: MediaListStatus!
-	) {
+	mutation routeUserSetStatusMutation($mediaId: Int!, $status: MediaListStatus!)
+	@raw_response_type {
 		SaveMediaListEntry(mediaId: $mediaId, status: $status) {
 			id
 			progress
@@ -159,8 +204,7 @@ const SetStatusFormData = type({
 async function setStatus(formData: FormData) {
 	const variables = invariant(SetStatusFormData(Object.fromEntries(formData)))
 
-	const client = client_get_client()
-	const data = await client.mutation<routeUserSetStatusMutation>({
+	const data = await mutation<routeUserSetStatusMutation>({
 		mutation: UserSetStatus,
 		variables: variables,
 		updater: (store) => {
@@ -177,6 +221,9 @@ async function setStatus(formData: FormData) {
 	return { SaveMediaListEntry: data.SaveMediaListEntry }
 }
 
+// import {type} from 'arktype'
+// const action = type('parse.formData')
+
 export const clientAction = (async (args) => {
 	const formData = await args.request.formData()
 	if (formData.get("intent") === "increment") {
@@ -185,59 +232,10 @@ export const clientAction = (async (args) => {
 	if (formData.get("intent") === "set_status") {
 		return setStatus(formData)
 	}
-	throw Response.json(`Unknown intent ${formData.get("intent")}`, {
+	throw data(`Unknown intent ${formData.get("intent")}`, {
 		status: 400,
 	})
 }) satisfies ClientActionFunction
-
-async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
-	const params = invariant(Params(args.params))
-
-	const client = await client_get_client()
-
-	const data = await client.query<routeNavUserListEntriesQuery>(
-		NavUserListEntriesQuery,
-		{
-			userName: params.userName,
-			type: (
-				{
-					animelist: "ANIME",
-					mangalist: "MANGA",
-				} as const
-			)[params.typelist],
-		}
-	)
-
-	if (typeof params.selected !== "string") {
-		return {
-			selectedList: {
-				name: "All",
-				entries: Object.values(
-					Object.fromEntries(
-						data?.MediaListCollection?.lists
-							?.flatMap((list) => list?.entries)
-							.filter((entry) => entry != null)
-							.map((entry) => [entry.id, entry]) ?? []
-					)
-				),
-			},
-		}
-	}
-
-	const selectedList = data?.MediaListCollection?.lists?.find(
-		(list) => list?.name === params.selected
-	)
-
-	if (!selectedList) {
-		throw Response.json("List not found", {
-			status: 404,
-		})
-	}
-
-	return {
-		selectedList,
-	}
-}
 
 const FuzzyDate = graphql`
 	fragment routeFuzzyDateOrder_fuzzyDate on FuzzyDate @inline {
@@ -265,94 +263,136 @@ const OrderFuzzyDate = Order.combineAll([
 	),
 ])
 
+const NavUserListEntriesSort_user = graphql`
+	fragment routeNavUserListEntriesSort_user on User @inline {
+		id
+		mediaListOptions {
+			rowOrder
+		}
+	}
+`
+
 function sortEntries(
-	data: readonly NavUserListEntriesSort_entries$key[],
-	searchParams: URLSearchParams
-) {
-	let entries = data.map((key) =>
-		readInlineData(NavUserListEntriesSort_entries, key)
+	entryKeys: readonly NavUserListEntriesSort_entries$key[],
+	{
+		search: searchParams,
+		user: userKey,
+	}: {
+		search: URLSearchParams
+		user: routeNavUserListEntriesSort_user$key | null | undefined
+	}
+): routeNavUserListEntriesSort_entries$data[] {
+	let entries = entryKeys.map((entryKey) =>
+		readInlineData(NavUserListEntriesSort_entries, entryKey)
 	)
-	const sorts = searchParams.getAll("sort")
 
-	const order: Order.Order<(typeof entries)[number]>[] = []
+	const user = readInlineData(NavUserListEntriesSort_user, userKey)
 
-	for (const unparsedSort of sorts) {
+	const parsed = parse(searchParams.get("filter")?.toLocaleLowerCase() ?? "", {
+		keywords: keywords,
+	})
+
+	const sorts = parsed.entries.flatMap(([key, value]) =>
+		key === "asc" || key === "desc" ? ([[key, value]] as const) : []
+	)
+
+	sorts.push(
+		...((
+			{
+				title: [["desc", MediaListSort.TitleEnglish]],
+				score: [["desc", MediaListSort.Score]],
+			} as const
+		)[String(user?.mediaListOptions?.rowOrder)] ?? [])
+	)
+
+	const orders: Order.Order<(typeof entries)[number]>[] = []
+
+	for (const [dir, unparsedSort] of sorts) {
 		const sort = MediaListSortSchema(unparsedSort)
 		if (sort instanceof ArkErrors) {
 			continue
 		}
+
+		function orderEntry<A>(
+			self: Order.Order<A>,
+			f: (b: (typeof entries)[number]) => A
+		) {
+			const order = Order.mapInput(self, f)
+			orders.push(dir === "desc" ? Order.reverse(order) : order)
+		}
+
 		if (sort === MediaListSort.TitleEnglish) {
-			order.push(
-				Order.reverse(
-					Order.mapInput(
-						Order.string,
-						(entry) => entry.media?.title?.userPreferred ?? ""
-					)
-				)
+			orderEntry(
+				Order.string,
+				(entry) => entry.media?.title?.userPreferred ?? ""
 			)
 			continue
 		}
 
-		if (sort === MediaListSort.ScoreDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
+		if (sort === MediaListSort.Score) {
+			orderEntry(Order.number, (entry) => entry.score ?? 0)
 			continue
 		}
 
-		if (sort === MediaListSort.ProgressDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
+		if (sort === MediaListSort.Progress) {
+			orderEntry(Order.number, (entry) => entry.progress ?? 0)
 			continue
 		}
 
-		if (sort === MediaListSort.UpdatedTimeDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0))
+		if (sort === MediaListSort.UpdatedTime) {
+			orderEntry(Order.number, (entry) => entry.updatedAt ?? 0)
 			continue
 		}
 
 		if (sort === MediaListSort.IdDesc) {
-			order.push(Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0))
+			orderEntry(Order.number, (entry) => entry.media?.id ?? 0)
 			continue
 		}
 
-		if (sort === MediaListSort.StartedOnDesc) {
-			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
+		if (sort === MediaListSort.StartedOn) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.startedAt)
 			continue
 		}
 
-		if (sort === MediaListSort.FinishedOnDesc) {
-			order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
+		if (sort === MediaListSort.FinishedOn) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.completedAt)
 			continue
 		}
 
-		if (sort === MediaListSort.StartDateDesc) {
-			order.push(
-				Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
-			)
+		if (sort === MediaListSort.StartDate) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.media?.startDate)
+			continue
+		}
+		if (sort === MediaListSort.EndDate) {
+			orderEntry(OrderFuzzyDate, (entry) => entry.media?.endDate)
 			continue
 		}
 		if (sort === MediaListSort.AvgScore) {
-			order.push(
-				Order.mapInput(Order.number, (entry) => entry.media?.averageScore ?? 0)
-			)
-			continue
-		}
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (sort === MediaListSort.PopularityDesc) {
-			order.push(
-				Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
-			)
+			orderEntry(Order.number, (entry) => entry.media?.averageScore ?? 0)
 			continue
 		}
 
-		sort satisfies never
-	}
-
-	order.push(
-		Order.reverse(
-			Order.mapInput(
+		if (sort === MediaListSort.ToWatch) {
+			orderEntry(
 				Order.number,
 				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
 			)
-		),
+			continue
+		}
+		if (sort === MediaListSort.Behind) {
+			orderEntry(
+				Order.number,
+				(entry) => (entry.behind ?? 1) || Number.POSITIVE_INFINITY
+			)
+			continue
+		}
+
+		sort satisfies MediaListSort.Popularity
+		orderEntry(Order.number, (entry) => entry.media?.popularity ?? 0)
+		continue
+	}
+
+	orders.push(
 		Order.reverse(
 			Order.mapInput(Order.number, (entry) => {
 				return [
@@ -363,83 +403,19 @@ function sortEntries(
 		)
 	)
 
-	return entries.sort(Order.reverse(Order.combineAll(order)))
+	return entries.sort(Order.combineAll(orders))
 }
 
-function filterEntries(
-	data: readonly NavUserListEntriesFilter_entries$key[],
-	searchParams: URLSearchParams
-): NavUserListEntriesFilter_entries$data[] {
-	let entries = data.map((key) =>
-		readInlineData(NavUserListEntriesFilter_entries, key)
-	)
-	const status = searchParams.getAll("status")
-	const format = searchParams.getAll("format")
-	const progresses = searchParams.getAll("progress")
-
-	if (status.length) {
-		entries = entries.filter((entry) =>
-			status.includes(entry.media?.status ?? "")
-		)
-	}
-
-	if (format.length) {
-		entries = entries.filter((entry) =>
-			format.includes(entry.media?.format ?? "")
-		)
-	}
-
-	for (const progress of progresses) {
-		if (progress === "UNSEEN") {
-			entries = entries.filter((entry) => (entry.toWatch ?? 1) > 0)
-		}
-		if (progress === "STARTED") {
-			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
-		}
-	}
-
-	return entries
-}
-
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	currentParams,
-	nextParams,
-	formMethod,
-	defaultShouldRevalidate,
-}) => {
-	if (
-		formMethod?.toLocaleUpperCase() === "GET" &&
-		currentParams.userName === nextParams.userName &&
-		currentParams.typelist === nextParams.typelist &&
-		currentParams.selected === nextParams.selected
-	) {
-		return false
-	}
-	return defaultShouldRevalidate
-}
-
-const Params = type({
-	"selected?": "string",
-	userName: "string",
-	typelist: '"animelist"|"mangalist"',
-})
-
-export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
-	const [search] = useSearchParams()
-
+export default function Page(props: Route.ComponentProps): ReactNode {
 	return (
-		<>
-			<MediaListHeader>
+		<ExtraOutlets>
+			{/* <MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-						<Await resolve={data.query}>
-							{({ selectedList }) => (
+						<Await resolve={lists}>
+							{(lists) => (
 								<MediaListHeaderToWatch
-									entries={filterEntries(
-										selectedList.entries?.filter((el) => el != null) ?? [],
-										search
-									)}
+									entries={lists.flatMap((list) => list?.entries ?? [])}
 								/>
 							)}
 						</Await>
@@ -447,77 +423,236 @@ export default function Page(): ReactNode {
 				</MediaListHeaderItem>
 				<MediaListHeaderItem subtitle={m.total_entries()}>
 					<Suspense fallback={<Skeleton>80</Skeleton>}>
-						<Await resolve={data.query}>
-							{({ selectedList }) =>
-								filterEntries(
-									selectedList.entries?.filter((el) => el != null) ?? [],
-									search
-								).length
-							}
-						</Await>
+						<Await resolve={lists}>{({ entries }) => entries.length}</Await>
 					</Suspense>
 				</MediaListHeaderItem>
-			</MediaListHeader>
+			</MediaListHeader> */}
 
-			<div className="-mx-4">
-				<div className={``}>
-					<List className="@container">
-						<Suspense
-							fallback={
-								<Loading>
-									{Array.from({ length: 7 }, (_, i) => (
-										<MediaListItem key={i} data-key={i} entry={null} />
-									))}
-								</Loading>
-							}
-						>
-							<Await resolve={data.query}>
-								{({ selectedList }) => {
-									const mediaList = sortEntries(
-										filterEntries(
-											selectedList.entries?.filter((el) => el != null) ?? [],
-											search
-										),
-										search
-									).map((entry) => (
-										<MediaListItem
-											key={entry.id}
-											data-key={entry.id}
-											entry={entry}
-										/>
-									))
-
-									return (
-										<Suspense fallback={mediaList}>
-											<AwaitLibrary resolve={data.Library}>
-												{mediaList}
-											</AwaitLibrary>
-										</Suspense>
-									)
-								}}
-							</Await>
-						</Suspense>
-					</List>
-				</div>
+			<div className="">
+				<Suspense
+					fallback={
+						<List className="@container">
+							{Array.from({ length: 7 }, (_, i) => (
+								<MockMediaListItem key={i} />
+							))}
+						</List>
+					}
+				>
+					<AwaitQuery {...props} />
+				</Suspense>
 			</div>
 			<Outlet />
-		</>
+		</ExtraOutlets>
 	)
 }
-export function ErrorBoundary(): ReactNode {
-	const error = useRouteError()
+
+const routeIsQuery_entry = graphql`
+	fragment routeIsQuery_entry on MediaList @inline {
+		id
+		status
+		score
+		progress
+		media {
+			id
+			status(version: 2)
+			tags {
+				id
+				name
+			}
+		}
+		toWatch
+	}
+`
+
+function isQuery(
+	entry: routeIsQuery_entry$key,
+	{ values: query }: SearchParserResult<string>
+) {
+	const data = readInlineData(routeIsQuery_entry, entry)
+
+	return (
+		(query.status?.some(inRange(data.status)) ?? true) &&
+		(query["media-status"]?.some(inRange(data.media?.status)) ?? true) &&
+		(query.tags?.every((name) =>
+			data.media?.tags?.some((tag) => inRange(tag?.name)(name))
+		) ??
+			true) &&
+		(query.score?.every(inRange(data.score ?? 0)) ?? true) &&
+		(query.progress?.every(inRange(data.progress ?? 0)) ?? true) &&
+		(query.to_watch?.every(inRange(data.toWatch)) ?? true)
+	)
+}
+
+function inRange(b: number | string | null | undefined) {
+	return (a: string) => {
+		if (typeof b === "string") {
+			return b.toLocaleLowerCase().includes(a)
+		}
+
+		if (typeof b === "number") {
+			return a.startsWith(">=")
+				? b >= Number(a.slice(2))
+				: a.startsWith("<=")
+					? b <= Number(a.slice(2))
+					: a.startsWith(">")
+						? b > Number(a.slice(1))
+						: a.startsWith("<")
+							? b < Number(a.slice(1))
+							: b === Number(a)
+		}
+		return false
+	}
+}
+
+function AwaitQuery({ loaderData, actionData, params }: Route.ComponentProps) {
+	const data = usePreloadedQuery(...loaderData.NavUserListEntriesQuery)
+
+	if (!data?.MediaListCollection) {
+		throw new Error("No list collection found")
+	}
+
+	const lists = (
+		typeof params.selected === "string"
+			? [
+					data.MediaListCollection.lists.find(
+						(list) => list?.name === params.selected
+					),
+				]
+			: data.MediaListCollection.lists
+	).filter((el) => el != null)
+
+	if (lists.length < 1) {
+		throw new Error("No list selected")
+	}
+
+	// const search = useOptimisticSearchParams()
+	const search = new URLSearchParams(useSearchParams()[0])
+
+	const parsed = parse(search.get("filter")?.toLocaleLowerCase() ?? "", {
+		keywords: keywords,
+	})
+
+	const elements = lists.flatMap((list) => {
+		const entries = sortEntries(
+			list.entries?.flatMap((el) =>
+				el != null && isVisible(el, search) && isQuery(el, parsed) ? [el] : []
+			) ?? [],
+			{ search, user: data.MediaListCollection.user }
+		)
+
+		return entries.length > 0
+			? [
+					{ type: "MediaListGroup" as const, list },
+					...entries.map((entry) => ({
+						type: "MediaList" as const,
+						entry,
+						name: list.name,
+					})),
+				]
+			: []
+	})
+
+	const ref = useRef<ComponentRef<"div">>(null)
+
+	const pane = use(PaneContext)
+
+	const virtualizer = useVirtualizer({
+		getScrollElement: () => pane.current,
+		count: elements.length,
+		scrollMargin: ref.current?.offsetTop ?? 0,
+		estimateSize: (index) => {
+			const element = elements[index]
+
+			if (element?.type === "MediaListGroup") {
+				return 36
+			}
+
+			if (element?.type === "MediaList") {
+				return 72
+			}
+
+			element satisfies undefined
+
+			return 0
+		},
+		overscan: 10,
+	})
+
+	return (
+		<div ref={ref} className="">
+			<List
+				className="@container relative"
+				lines={"two"}
+				style={{ height: `${virtualizer.getTotalSize()}px` }}
+			>
+				{virtualizer.getVirtualItems().map((item) => {
+					const element = elements[item.index]
+
+					if (element?.type === "MediaListGroup") {
+						return (
+							<li
+								key={element.list.name}
+								style={{
+									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
+								}}
+								className="absolute left-0 top-0 w-full"
+								ref={virtualizer.measureElement}
+								data-index={item.index}
+							>
+								<M3.Subheader>{element.list.name}</M3.Subheader>
+							</li>
+						)
+					}
+
+					if (element?.type === "MediaList") {
+						return (
+							<li
+								style={{
+									transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)`,
+								}}
+								className="absolute left-0 top-0 w-full"
+								ref={virtualizer.measureElement}
+								data-index={item.index}
+								key={`${element.name}:${element.entry.id}`}
+							>
+								<MediaListItem
+									actionData={actionData}
+									data-id={element.entry.id}
+									entry={element.entry}
+									user={data.MediaListCollection.user}
+									viewer={data.Viewer}
+								/>
+							</li>
+						)
+					}
+
+					element satisfies undefined
+					return null
+				})}
+			</List>
+		</div>
+	)
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	const location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<div>
-				<Ariakit.Heading>Oops</Ariakit.Heading>
-				<p>Status: {error.status}</p>
-				<p>{error.data}</p>
-			</div>
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+					<M3.Link to={location} className={button()}>
+						Try again
+					</M3.Link>
+				</div>
+			</ExtraOutlets>
 		)
 	}
-	captureException(error)
+
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
@@ -526,15 +661,15 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<Card
-			variant="elevated"
-			className="bg-error-container text-on-error-container m-4"
-		>
-			<Ariakit.Heading className="text-headline-md text-balance">
+		<ExtraOutlets>
+			<Ariakit.Heading className="text-balance text-headline-md">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-		</Card>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<M3.Link to={location} className={button()}>
+				Try again
+			</M3.Link>
+		</ExtraOutlets>
 	)
 }

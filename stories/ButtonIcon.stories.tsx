@@ -1,0 +1,56 @@
+import type { Meta, StoryObj } from "@storybook/react"
+import { expect, fn } from "@storybook/test"
+import { Icon } from "~/components/Button"
+
+import MaterialSymbolsPresentToAllOutline from "~icons/material-symbols/present-to-all-outline"
+
+import MaterialSymbolsSendOutline from "~icons/material-symbols/send-outline"
+
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+const meta = {
+	title: "Example/Icon",
+	component: Icon,
+	parameters: {
+		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
+		layout: "centered",
+	},
+	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+	tags: ["autodocs"],
+	// More on argTypes: https://storybook.js.org/docs/api/argtypes
+	argTypes: {
+		"aria-disabled": {
+			control: "boolean",
+		},
+	},
+	// Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
+	args: { onClick: fn(), label: "" },
+} satisfies Meta<typeof Icon>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+export const Default: Story = {
+	args: {
+		children: <MaterialSymbolsPresentToAllOutline />,
+	},
+}
+
+export const IconRtl: Story = {
+	args: {
+		children: <MaterialSymbolsSendOutline />,
+	},
+	parameters: {
+		dir: "rtl",
+	},
+}
+
+export const IconDisabled: Story = {
+	args: {
+		...IconRtl.args,
+		"aria-disabled": true,
+	},
+	async play() {
+		await expect("TODO: Implement disabled state").toBe(true)
+	},
+}

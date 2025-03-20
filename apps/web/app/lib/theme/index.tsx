@@ -11,9 +11,11 @@ import type { CSSProperties } from "react"
 
 import colors from "~/../colors.json"
 
-export type Theme = CSSProperties
+export type Theme = {
+	[k: string]: string
+}
 
-export function getThemeFromHex(hex: string): CSSProperties {
+export function getThemeFromHex(hex: string): Theme {
 	const main = Hct.fromInt(argbFromHex(hex))
 
 	return Object.fromEntries(
@@ -41,7 +43,7 @@ export function getThemeFromHex(hex: string): CSSProperties {
 
 					return [
 						`--${key}-${theme}-${contrast}`,
-						// @ts-expect-error color is not narrowed correctly
+						// @ts-expect-error this is fine
 						formatArgb(MaterialDynamicColors[color]?.getArgb?.(spot)),
 					]
 				})

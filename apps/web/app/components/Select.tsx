@@ -1,13 +1,13 @@
 import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
-import { createTextField } from "~/lib/textField"
-import { TextFieldOutlined } from "./TextField"
+import { createTextFieldInput } from "~/lib/textField"
+import { FieldContainer, FieldTextLabel } from "./TextField"
 
 // const onClient = Promise.resolve(null)
 import { forwardRef } from "react"
 import { createMenu } from "~/lib/menu"
 
-const { input } = createTextField({})
+const { input } = createTextFieldInput({})
 
 export function SelectFactory({
 	label,
@@ -19,13 +19,13 @@ export function SelectFactory({
 }): ReactNode {
 	return (
 		<Ariakit.SelectProvider>
-			<TextFieldOutlined>
-				<Select {...props} />
-				<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
-				<TextFieldOutlined.Label htmlFor={props.name}>
-					{label}
-				</TextFieldOutlined.Label>
-			</TextFieldOutlined>
+			<FieldContainer>
+				<div className="group/suffix peer relative flex flex-1 items-center">
+					<Select {...props} />
+					<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
+					<FieldTextLabel htmlFor={props.name}>{label}</FieldTextLabel>
+				</div>
+			</FieldContainer>
 		</Ariakit.SelectProvider>
 	)
 }

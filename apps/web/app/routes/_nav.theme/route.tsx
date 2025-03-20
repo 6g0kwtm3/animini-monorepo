@@ -1,22 +1,23 @@
 import type { ReactNode } from "react"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Ariakit } from "~/lib/ariakit"
+import { getThemeFromHex } from "~/lib/theme"
 
 export default function Page(): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
 				<div className="grid grid-cols-2 gap-8">
-					<div className="theme-[AccentColor]">
+					<div
+						style={getThemeFromHex("#6751a4")}
+						className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+					>
 						<Palette />
 					</div>
-					<div className="theme-[#6751a4]">
-						<Palette />
-					</div>
-					<div className="theme-[#d6ae6b]">
-						<Palette />
-					</div>
-					<div className="theme-content-[#d6ae6b]">
+					<div
+						style={getThemeFromHex("#d6ae6b")}
+						className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+					>
 						<Palette />
 					</div>
 				</div>
@@ -56,7 +57,7 @@ function Palette() {
 		<ul className="grid">
 			{["primary", "secondary", "tertiary", "error"].map((color) => {
 				return (
-					<li key={color} data-key={color}>
+					<li key={color}>
 						<Ariakit.Heading>
 							{color.substring(0, 1).toUpperCase() + color.substring(1)}
 						</Ariakit.Heading>

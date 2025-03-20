@@ -1,19 +1,6 @@
-import {
-	type ClientLoaderFunctionArgs,
-	Link,
-	type MetaArgs,
-	type MetaFunction,
-	type ShouldRevalidateFunction,
-	useLocation,
-	useOutlet,
-	useParams,
-	useRouteLoaderData,
-} from "react-router"
-
-import { AnimatePresence, motion } from "framer-motion"
+import { Outlet, useParams, type ShouldRevalidateFunction } from "react-router"
 
 import { useTooltipStore } from "@ariakit/react"
-import { cloneElement } from "react"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
@@ -33,7 +20,6 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
-import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
 import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
@@ -42,58 +28,58 @@ import MaterialSymbolsKeyboardCommandKey from "~icons/material-symbols/keyboard-
 import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
 import { Button } from "~/components/Button"
-import { useRawLoaderData } from "~/lib/data"
 
-import type { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { Ariakit } from "~/lib/ariakit"
-import { client_get_client } from "~/lib/client"
+
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
-import * as Predicate from "~/lib/Predicate"
 import { route_login, route_media_edit } from "~/lib/route"
-import { getThemeFromHex } from "~/lib/theme"
-import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
+// type X = HTMLAttributes<any>
+import { MediaTitle } from "~/lib/MediaTitle"
+import { loadQuery, useFragment, usePreloadedQuery } from "~/lib/Network"
+
+import { motion } from "motion/react"
+import type { routeEdit_viewer$key } from "~/gql/routeEdit_viewer.graphql"
+import { M3 } from "~/lib/components"
+import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
-	const client = client_get_client()
-
-	const data = await client.query<routeNavMediaQuery>(
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
+	const routeNavMediaQuery = loadQuery<routeNavMediaQuery>(
 		graphql`
-			query routeNavMediaQuery($id: Int!) {
+			query routeNavMediaQuery($id: Int!, $token: Boolean!) @raw_response_type {
+				Viewer @include(if: $token) {
+					id
+					...routeEdit_viewer
+				}
 				Media(id: $id) {
 					id
 					coverImage {
-						color
+						theme
 					}
-					...MediaCover_media @arguments(extraLarge: true)
 					bannerImage
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
+						...MediaTitle_mediaTitle
 					}
 					description
+					...MediaCover_media @arguments(extraLarge: true)
 				}
 			}
 		`,
 		{
+			token: !!sessionStorage.getItem("anilist-token"),
 			id: Number(args.params.mediaId),
 		}
 	)
 
-	if (!data?.Media) {
-		throw Response.json("Media not found", {
-			status: 404,
-		})
-	}
-
 	return {
-		Media: data.Media,
-		theme: Predicate.isString(data.Media.coverImage?.color)
-			? getThemeFromHex(data.Media.coverImage.color)
-			: {},
+		routeNavMediaQuery,
 	}
 }
 
@@ -103,166 +89,161 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	nextParams,
 	currentParams,
 }) => {
-	if (
-		formMethod?.toLocaleUpperCase() === "GET" &&
-		currentParams.mediaId === nextParams.mediaId
-	) {
+	if (formMethod === "GET" && currentParams.mediaId === nextParams.mediaId) {
 		return false
 	}
 
 	return defaultShouldRevalidate
 }
 
-export const meta = ({
-	data,
-}: MetaArgs<
-	() => ReturnType<typeof clientLoader>
->): ReturnType<MetaFunction> => {
-	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]
-}
+export default function MediaPage({
+	loaderData,
+}: Route.ComponentProps): ReactNode {
+	const data = usePreloadedQuery(...loaderData.routeNavMediaQuery)
 
-export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
-
-	const outlet = useOutlet()
-	const { pathname } = useLocation()
+	if (!data.Media) {
+		throw new Error("Media not found")
+	}
 
 	return (
-		<LayoutBody
-			style={data.theme}
-			className={
-				"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
-			}
-		>
-			<PaneFlexible>
-				<div>
-					<Card
-						variant="filled"
-						className="grid flex-1 gap-4 rounded-[2.75rem]"
-					>
-						<MediaCover
-							media={data.Media}
-							className="rounded-xl [view-transition-name:media-cover]"
-						/>
-
-						<div className="flex flex-wrap gap-2">
-							<Button variant="filled">Favourite</Button>
-							<Button variant="outlined">Favourite</Button>
-							<Button>Favourite</Button>
-							<Button variant="elevated">Favourite</Button>
-							<Button variant="tonal" type="button" invoketarget="edit">
-								Edit
-							</Button>
-						</div>
-
-						{/* <div className="grid gap-4 flex-1">
-              <img
-                src={data?.Media?.bannerImage ?? ""}
-                loading="lazy"
-                className="rounded-xl"
-                alt=""
-              />
-              </div>
-              <div className="border-outline-variant border-r min-h-full"></div> */}
-						<div className="overflow-hidden rounded-xl">
-							<Card variant="elevated">
-								<div className="sm:p-12">
-									<Ariakit.Heading className="text-display-lg text-balance">
-										{data.Media.title.userPreferred}
-									</Ariakit.Heading>
-									<Menu>
-										<MenuTrigger
-											className={button({
-												className: "cursor-default",
-											})}
-										>
-											Format
-										</MenuTrigger>
-
-										<MenuList className="top-auto">
-											{/* <MenuListItem render={<a href="" />}>
-												<MenuItemLeadingIcon>
-													<MaterialSymbolsVisibility />
-												</MenuItemLeadingIcon>
-												Item 1
-											</MenuListItem> */}
-
-											<MenuListItem>
-												<MenuItemLeadingIcon>
-													<MaterialSymbolsContentCopy />
-												</MenuItemLeadingIcon>
-												Item 2
-												<MenuItemTrailingText>
-													<span className="i">
-														<MaterialSymbolsKeyboardCommandKey />
-													</span>
-													+Shift+X
-												</MenuItemTrailingText>
-											</MenuListItem>
-											<MenuListItem>
-												<MenuItemLeadingIcon>
-													<MaterialSymbolsEdit />
-												</MenuItemLeadingIcon>
-												Item 3
-												<MenuItemTrailingIcon>
-													<MaterialSymbolsCheck />
-												</MenuItemTrailingIcon>
-											</MenuListItem>
-											<MenuDivider />
-
-											<Menu>
-												<MenuListItem render={<MenuTrigger />}>
+		<>
+			<title>Media - {data.Media.title.userPreferred}</title>
+			<LayoutBody
+				style={data.Media.coverImage?.theme ?? {}}
+				className={
+					"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
+				}
+			>
+				<PaneFlexible>
+					<div>
+						<Card
+							variant="filled"
+							className="grid flex-1 gap-4 rounded-[2.75rem]"
+						>
+							<MediaCover media={data.Media} className="rounded-xl" />
+							<div className="flex flex-wrap gap-2">
+								<Button variant="filled">Favourite</Button>
+								<Button variant="outlined">Favourite</Button>
+								<Button>Favourite</Button>
+								<Button variant="elevated">Favourite</Button>
+								<Button variant="tonal" type="button" invoketarget="edit">
+									Edit
+								</Button>
+							</div>
+							{/* <div className="grid gap-4 flex-1">
+									{data?.Media?.bannerImage&&  <img
+											src={data?.Media?.bannerImage}
+											loading="lazy"
+											className="rounded-xl"
+											alt=""
+										/>}
+										</div>
+										<div className="border-outline-variant border-r min-h-full"></div> */}
+							<div className="overflow-hidden rounded-xl">
+								<Card variant="elevated">
+									<div className="sm:p-12">
+										<Ariakit.Heading className="text-balance text-display-lg">
+											<MediaTitle mediaTitle={data.Media.title} />
+										</Ariakit.Heading>
+										<Menu>
+											<MenuTrigger
+												className={button({
+													className: "cursor-default",
+												})}
+											>
+												Format
+											</MenuTrigger>
+											<MenuList className="top-auto">
+												<MenuListItem render={<a href="" />}>
 													<MenuItemLeadingIcon>
-														<MaterialSymbolsCloud />
+														<MaterialSymbolsVisibility />
 													</MenuItemLeadingIcon>
-													Item 4
-													<MenuItemTrailingIcon className="group-open:rotate-180">
-														<MaterialSymbolsChevronRight />
+													Item 1
+												</MenuListItem>
+												<MenuListItem>
+													<MenuItemLeadingIcon>
+														<MaterialSymbolsContentCopy />
+													</MenuItemLeadingIcon>
+													Item 2
+													<MenuItemTrailingText>
+														<span className="i">
+															<MaterialSymbolsKeyboardCommandKey />
+														</span>
+														+Shift+X
+													</MenuItemTrailingText>
+												</MenuListItem>
+												<MenuListItem>
+													<MenuItemLeadingIcon>
+														<MaterialSymbolsEdit />
+													</MenuItemLeadingIcon>
+													Item 3
+													<MenuItemTrailingIcon>
+														<MaterialSymbolsCheck />
 													</MenuItemTrailingIcon>
 												</MenuListItem>
-												<MenuList className="-top-2 left-full">
-													<MenuListItem>
+												<MenuDivider />
+												<Menu>
+													<MenuListItem render={<MenuTrigger />}>
 														<MenuItemLeadingIcon>
-															<MaterialSymbolsVisibility />
+															<MaterialSymbolsCloud />
 														</MenuItemLeadingIcon>
-														Item 1
+														Item 4
+														<MenuItemTrailingIcon className="group-open:rotate-180">
+															<MaterialSymbolsChevronRight />
+														</MenuItemTrailingIcon>
 													</MenuListItem>
-												</MenuList>
-											</Menu>
-										</MenuList>
-									</Menu>
-									<div
-										className="text-title-lg"
-										dangerouslySetInnerHTML={{
-											__html: data.Media.description || "",
-										}}
-									/>
-								</div>
-							</Card>
-						</div>
-					</Card>
-				</div>
-
-				<Edit />
-
-				{outlet && (
-					<AnimatePresence mode="wait">
-						{cloneElement(outlet, {
-							key: pathname,
-						})}
-					</AnimatePresence>
-				)}
-			</PaneFlexible>
-		</LayoutBody>
+													<MenuList className="-top-2 left-full">
+														<MenuListItem>
+															<MenuItemLeadingIcon>
+																<MaterialSymbolsVisibility />
+															</MenuItemLeadingIcon>
+															Item 1
+														</MenuListItem>
+													</MenuList>
+												</Menu>
+											</MenuList>
+										</Menu>
+										<div
+											className="text-title-lg"
+											dangerouslySetInnerHTML={{
+												__html: data.Media.description || "",
+											}}
+										/>
+									</div>
+								</Card>
+							</div>
+						</Card>
+					</div>
+					<Edit viewer={data.Viewer} />
+					<Outlet />
+				</PaneFlexible>
+			</LayoutBody>
+		</>
 	)
 }
+declare global {
+	namespace React {
+		interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+			popover?: "" | "auto" | "manual" | undefined
+			popoverTargetAction?: "toggle" | "show" | "hide" | undefined
+			popoverTarget?: string | undefined
+		}
+	}
+}
 
-function Edit() {
+const routeEdit_viewer = graphql`
+	fragment routeEdit_viewer on User {
+		id
+		name
+	}
+`
+
+function Edit(props: { viewer: routeEdit_viewer$key | null | undefined }) {
 	const { mediaId } = useParams()
 
 	const store = useTooltipStore()
 
-	const root = useRouteLoaderData<typeof rootLoader>("root")
+	const viewer = useFragment(routeEdit_viewer, props.viewer)
 
 	return (
 		<motion.div layoutId="edit" className="fixed bottom-24 end-4 sm:bottom-4">
@@ -270,9 +251,9 @@ function Edit() {
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger
 						render={
-							<Link
+							<M3.Link
 								to={
-									root?.Viewer
+									viewer
 										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
 												redirect: route_media_edit({ id: Number(mediaId) }),
@@ -283,7 +264,7 @@ function Edit() {
 								onClick={() => store.setOpen(false)}
 							>
 								<MaterialSymbolsEditOutline />
-							</Link>
+							</M3.Link>
 						}
 					/>
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>

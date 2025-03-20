@@ -1,21 +1,20 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactElement } from "react"
-import { createContext, forwardRef, useContext } from "react"
+import { createContext, forwardRef, use, type ReactNode } from "react"
 import type { VariantProps } from "tailwind-variants"
-import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
-import { Icon } from "./Button"
-
 import { tv } from "~/lib/tailwind-variants"
+import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
+import MaterialSymbolsClose from "~icons/material-symbols/close"
+import { Icon } from "./Button"
 
 const createSearchView = tv(
 	{
 		slots: {
-			root: "bg-surface-container-high fixed mt-0 flex overflow-hidden",
+			root: "fixed mt-0 flex overflow-hidden bg-surface-container-high",
 			input:
-				"text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant w-full bg-transparent p-4 [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4",
+				"w-full bg-transparent p-4 text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4",
 			backdrop:
-				"bg-scrim/40 data-enter:opacity-100 opacity-0 transition-[opacity]",
-			body: "text-body-md text-on-surface overflow-auto overscroll-contain",
+				"data-enter:opacity-100 bg-scrim/40 opacity-0 transition-[opacity]",
+			body: "overflow-auto overscroll-contain text-body-md text-on-surface",
 		},
 		variants: {
 			variant: {
@@ -25,7 +24,7 @@ const createSearchView = tv(
 				},
 				docked: {
 					input: "h-14",
-					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0",
+					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66svh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0",
 				},
 			},
 		},
@@ -40,7 +39,7 @@ export const SearchViewBody = forwardRef<
 	HTMLDivElement,
 	Ariakit.ComboboxListProps
 >(function SearchViewBody(props, ref) {
-	const { body } = useContext(SearchViewContext)
+	const { body } = use(SearchViewContext)
 
 	return (
 		<Ariakit.ComboboxList
@@ -56,7 +55,6 @@ export const SearchView = forwardRef<
 	Ariakit.DialogProps & {
 		open?: Ariakit.DialogStoreProps["open"]
 		onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
-		onSearch?: Ariakit.ComboboxProviderProps["setValue"]
 	} & VariantProps<typeof createSearchView>
 >(function SearchView({ variant, ...props }, ref) {
 	const styles = createSearchView({ variant })
@@ -83,46 +81,44 @@ export const SearchView = forwardRef<
 
 export const SearchViewBodyGroup = Ariakit.ComboboxGroup
 export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
+export function SearchViewInput(props: Ariakit.ComboboxProps): ReactNode {
+	const { input } = use(SearchViewContext)
 
-export const SearchViewInput = forwardRef<
-	HTMLInputElement,
-	Ariakit.ComboboxProps
->(function SearchViewInput(props, ref) {
-	let { autoFocus = true } = props
-	const { input } = useContext(SearchViewContext)
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss autoFocus={!autoFocus} render={<Icon />}>
-					<MaterialSymbolsArrowBack />
-				</Ariakit.DialogDismiss>
+				<Ariakit.DialogDismiss
+					render={
+						<Icon label={"Close"}>
+							<MaterialSymbolsArrowBack />
+						</Icon>
+					}
+				/>
 				<Ariakit.Combobox
-					ref={ref}
 					autoSelect={"always"}
 					{...props}
-					autoFocus={autoFocus}
 					className={input({ className: props.className })}
 				/>
-				<Ariakit.ComboboxCancel render={<Icon />} />
+				<Ariakit.ComboboxCancel
+					render={
+						<Icon label={"Clear"}>
+							<MaterialSymbolsClose />
+						</Icon>
+					}
+				/>
 			</div>
-			<div className="border-outline-variant border-b sm:last:hidden" />
+			<div className="border-b border-outline-variant sm:last:hidden" />
 		</>
 	)
-})
+}
 
-export const SearchViewItem = forwardRef<
-	HTMLDivElement,
-	Ariakit.ComboboxItemProps & {
-		render?: ReactElement<any>
-	}
->(function SearchViewItem(props, ref) {
+export function SearchViewItem(props: Ariakit.ComboboxItemProps): ReactNode {
 	return (
 		<Ariakit.ComboboxItem
-			ref={ref}
 			hideOnClick
 			focusOnHover
 			blurOnHoverEnd={false}
 			{...props}
 		/>
 	)
-})
+}

@@ -1,8 +1,8 @@
-import { Link } from "react-router"
+import { useLoaderData } from "react-router"
 
+import { use, type ReactNode } from "react"
 import ReactRelay from "react-relay"
 import {
-	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
@@ -10,16 +10,17 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
-import { useRawLoaderData } from "~/lib/data"
+import { ListContext } from "~/lib/list"
 import { useFragment } from "~/lib/Network"
-import { languageTag as getLocale } from "~/paraglide/runtime"
+import { getLocale as useLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import type { clientLoader } from "./route"
+import type { Route } from "./+types/route"
+import { M3 } from "~/lib/components"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
 	notification: ActivityLike_notification$key
-}) {
+}): ReactNode {
 	const notification = useFragment(
 		graphql`
 			fragment ActivityLike_notification on ActivityLikeNotification {
@@ -39,16 +40,23 @@ export function ActivityLike(props: {
 		`,
 		props.notification
 	)
-	const data = useRawLoaderData<typeof clientLoader>()
+
+	const data = useLoaderData() as Route.ComponentProps["loaderData"]
+
+	const list = use(ListContext)
+	const locale = useLocale()
 
 	return (
 		notification.user && (
-			<ListItem render={<Link to={`/activity/${notification.activityId}`} />}>
+			<M3.Link
+				to={`/activity/${notification.activityId}`}
+				className={list.item()}
+			>
 				<ListItemImg>
 					{notification.user.avatar?.large && (
 						<img
 							src={notification.user.avatar.large}
-							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
+							className="h-14 w-14 bg-[image:--bg] bg-cover object-cover"
 							style={{
 								"--bg": `url(${notification.user.avatar.medium})`,
 							}}
@@ -60,8 +68,8 @@ export function ActivityLike(props: {
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0) >
-							(data?.Viewer?.unreadNotificationCount ?? 0) && (
-							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+							(data.Viewer?.unreadNotificationCount ?? 0) && (
+							<MaterialSymbolsWarningOutline className="i-inline inline text-tertiary" />
 						)}{" "}
 						{notification.context}
 					</ListItemContentTitle>
@@ -71,16 +79,16 @@ export function ActivityLike(props: {
 				</ListItemContent>
 				{notification.createdAt && (
 					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - Date.now() / 1000)}
+						{format(notification.createdAt - Date.now() / 1000, locale)}
 					</ListItemTrailingSupportingText>
 				)}
-			</ListItem>
+			</M3.Link>
 		)
 	)
 }
 
-function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(getLocale(), {})
+function format(seconds: number, locale: string) {
+	const rtf = new Intl.RelativeTimeFormat(locale, {})
 
 	if (Math.abs(seconds) < 60) {
 		return rtf.format(Math.trunc(seconds), "seconds")

@@ -1,0 +1,12 @@
+@layer base {
+	button {
+		cursor: unset;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		[data-focus-visible],
+		:focus-visible {
+			@apply outline-3 -outline-offset-3 rounded-xs outline-primary;
+		}
+	}
+}

@@ -1,6 +1,5 @@
 import * as Ariakit from "@ariakit/react"
 
-import { List } from "~/components/List"
 import {
 	SearchViewBody,
 	SearchViewBodyGroup,
@@ -11,10 +10,18 @@ import { SearchItem } from "./SearchItem"
 
 import type { ReactNode } from "react"
 import { M3 } from "../components"
-import { useFragment } from "../Network"
+import {
+	useFragment,
+	usePreloadedQuery,
+	type NodeAndQueryFragment,
+} from "../Network"
+
+import { createList, ListContext } from "../list"
 
 import ReactRelay from "react-relay"
+import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
+
 const { graphql } = ReactRelay
 
 const SearchTrending_query = graphql`
@@ -29,9 +36,12 @@ const SearchTrending_query = graphql`
 `
 
 export function SearchTrending(props: {
-	query: SearchTrending_query$key
+	query: NodeAndQueryFragment<routeNavTrendingQuery>
 }): ReactNode {
-	const data = useFragment(SearchTrending_query, props.query)
+	const query: SearchTrending_query$key = usePreloadedQuery(...props.query)
+	const data = useFragment(SearchTrending_query, query)
+
+	const list = createList({ lines: "one" })
 
 	return data.trending?.media && data.trending.media.length > 0 ? (
 		<SearchViewBody>
@@ -40,17 +50,20 @@ export function SearchTrending(props: {
 					Trending
 				</Ariakit.ComboboxGroupLabel>
 
-				<List lines={"one"} render={<div />} className="-mt-2">
-					{data.trending.media
-						.filter((el) => el != null)
-						.map((media) => (
-							<SearchViewItem
-								key={media.id}
-								data-key={media.id}
-								render={<SearchItem media={media} />}
-							/>
-						))}
-				</List>
+				<ListContext value={list}>
+					<div className={list.root({ className: "-mt-2" })}>
+						{data.trending.media.map(
+							(media) =>
+								media && (
+									<SearchViewItem
+										key={media.id}
+										data-id={media.id}
+										render={<SearchItem media={media} />}
+									/>
+								)
+						)}
+					</div>
+				</ListContext>
 			</SearchViewBodyGroup>
 		</SearchViewBody>
 	) : null

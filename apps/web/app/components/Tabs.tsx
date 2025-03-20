@@ -1,39 +1,58 @@
-import { useStoreState } from "@ariakit/react"
-import { motion } from "framer-motion"
-
+import { motion } from "motion/react"
 import type { ReactNode } from "react"
-import { createContext, useContext, useId } from "react"
+import { createContext, use, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 import { Ariakit } from "~/lib/ariakit"
-
-const TabsContext = createContext<string | undefined>(undefined)
-
 import { tv } from "~/lib/tailwind-variants"
 
-const tabs = tv({
-	slots: {
-		root: "border-surface-container-highest border-b",
-	},
-	variants: {
-		variant: {
-			primary: {},
-			secondary: {},
+const tabs = tv(
+	{
+		slots: {
+			root: "border-b border-surface-container-highest",
+			item: "grid h-12 items-center justify-center whitespace-nowrap px-4 text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed",
 		},
-		grow: {
-			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
-			false: { root: "flex overflow-x-auto" },
+		variants: {
+			variant: {
+				primary: {},
+				secondary: {},
+			},
+			grow: {
+				true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
+				false: { root: "flex overflow-x-auto" },
+			},
 		},
+		defaultVariants: { primary: true, grow: false },
 	},
-	defaultVariants: { primary: true, grow: false },
-})
+	{
+		responsiveVariants: ["md"],
+	}
+)
 
-export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
-	return <Ariakit.TabProvider selectOnMove={false} {...props} />
+export function Tabs({
+	selectedId,
+	...props
+}: Ariakit.TabProviderProps): ReactNode {
+	const prefix = useId()
+
+	return (
+		<Prefix value={prefix}>
+			<Ariakit.TabProvider
+				selectOnMove={false}
+				{...props}
+				selectedId={`${prefix}/${selectedId}`}
+			/>
+		</Prefix>
+	)
 }
 
-export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
-	return <Ariakit.TabPanel {...props} />
+export function TabsPanel({
+	tabId,
+	...props
+}: Ariakit.TabPanelProps): ReactNode {
+	const prefix = use(Prefix)
+	return <Ariakit.TabPanel {...props} tabId={`${prefix}/${tabId}`} />
 }
+const Styles = createContext(tabs())
 
 export function TabsList({
 	grow,
@@ -41,7 +60,7 @@ export function TabsList({
 }: Ariakit.TabListProps & VariantProps<typeof tabs>): ReactNode {
 	const styles = tabs({ grow })
 	return (
-		<TabsContext.Provider value={useId()}>
+		<Styles value={styles}>
 			<Ariakit.TabList
 				{...props}
 				className={styles.root({
@@ -49,38 +68,38 @@ export function TabsList({
 				})}
 				render={<nav />}
 			/>
-		</TabsContext.Provider>
+		</Styles>
 	)
 }
 
+const Prefix = createContext<string | undefined>(undefined)
+
 export function TabsListItem({
 	children,
+	id,
 	...props
 }: Ariakit.TabProps): ReactNode {
-	const layoutId = useContext(TabsContext)
-
 	const context = Ariakit.useTabContext()
-	if (!context) {
-		throw new Error("TabsListItem must be wrapped in TabsList")
-	}
 
-	const selectedId = useStoreState(context, "selectedId")
+	const selectedId = Ariakit.useStoreState(context, "selectedId")
+
+	const prefix = use(Prefix)
+
+	const { item } = use(Styles)
 
 	return (
 		<Ariakit.Tab
 			{...props}
-			className="text-title-sm text-on-surface-variant hover:text-on-surface hover:state-hover aria-selected:text-primary focused:text-on-surface focused:state-focus pressed:state-pressed flex justify-center px-4"
+			id={`${prefix}/${id}`}
+			className={item({ className: props.className })}
 		>
-			<div className={`relative flex h-12 items-center whitespace-nowrap`}>
-				{children}
-
-				{selectedId === props.id && (
-					<motion.div
-						layoutId={layoutId}
-						className="bg-primary absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem]"
-					/>
-				)}
-			</div>
+			<div className="col-start-1 row-start-1">{children}</div>
+			{selectedId === `${prefix}/${id}` && (
+				<motion.div
+					className="col-start-1 row-start-1 h-[0.1875rem] self-end rounded-t-[0.1875rem] bg-primary"
+					layoutId={prefix}
+				/>
+			)}
 		</Ariakit.Tab>
 	)
 }

@@ -1,14 +1,11 @@
 import ReactRelay from "react-relay"
 
-import {} from "vite-env-only"
-
 import type { Behind_entry$key } from "~/gql/Behind_entry.graphql"
 import { readFragment } from "../Network"
 const { graphql } = ReactRelay
 
 const Behind_entry = graphql`
 	fragment Behind_entry on MediaList {
-		id
 		progress
 		media {
 			id

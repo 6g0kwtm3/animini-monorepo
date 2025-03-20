@@ -1,4 +1,3 @@
-import { captureException, startSpan } from "@sentry/react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -6,35 +5,31 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	useRouteError,
-	type ClientLoaderFunctionArgs,
+	useLocation,
+	useRevalidator,
 	type LinksFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
+import type { Route } from "./+types/root"
 import { SnackbarQueue } from "./components/Snackbar"
 
-import { type ReactNode } from "react"
+import { createContext, use, useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Viewer } from "./lib/Remix"
 import { Ariakit } from "./lib/ariakit"
 
 import theme from "~/../fallback.json"
 
 import tailwind from "./tailwind.css?url"
 
-import { useSentryToolbar } from "@sentry/toolbar"
-import type { IEnvironment } from "relay-runtime"
-import { useIsHydrated } from "~/lib/useIsHydrated"
-import { Route } from "./+types/root"
-import environment, {
-	loadQueryMiddleware,
-	RelayEnvironmentProvider,
-} from "./lib/Network"
-
-let RelayEnvironment = RelayEnvironmentProvider as (props: {
-	children: ReactNode
-	environment: IEnvironment
-}) => ReactNode
+import { M3 } from "~/lib/components"
+import RelayEnvironment from "./lib/Network/components"
+import { button } from "./lib/button"
+import {
+	assertIsLocale,
+	baseLocale,
+	defineGetLocale,
+	isLocale,
+} from "./paraglide/runtime"
 
 export const links: LinksFunction = () => {
 	return [
@@ -50,19 +45,26 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: "stylesheet",
-			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap",
+			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&family=Noto+Sans+Mono&display=swap",
+		},
+		{
+			rel: "dns-prefetch",
+			href: "https://graphql.anilist.co",
 		},
 	]
 }
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => {
-	const viewer = Viewer()
-
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return {
-		Viewer: viewer,
-		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
+		// 	// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
+		locale: isLocale(args.params.locale) ? args.params.locale : baseLocale,
 	}
+}
+
+const LocaleContextSSR = createContext(baseLocale)
+if (import.meta.env.SSR) {
+	defineGetLocale(() => assertIsLocale(use(LocaleContextSSR)))
 }
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -76,23 +78,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	)
 }
 
-function SentryToolbar() {
-	useSentryToolbar({
-		initProps: {
-			organizationSlug: "animini",
-			projectIdOrSlug: "javascript-react",
-		},
-	})
-	return null
-}
-
 export function Layout({ children }: { children: ReactNode }): ReactNode {
-	// const { theme } = useRawLoaderData<typeof loader>()
+	// const { theme } = useLoaderData<typeof loader>()
 	// const { locale, dir } = useLocale()
-	// const { nonce } = useRawLoaderData()
+	// const { nonce } = useLoaderData()
 	// setLanguageTag(locale)
-
-	const isHydrated = useIsHydrated()
 
 	return (
 		<html
@@ -100,8 +90,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			// lang={locale}
 			// dir={dir}
 			style={theme}
-			data-testid={isHydrated && "hydrated"}
-			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Noto_Sans',sans-serif] [color-scheme:light_dark]"
+			className="scheme-light-dark bg-background font-['Noto_Sans',sans-serif] text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -115,21 +104,21 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
  report-uri https://csp.example.com;`}
 				/> */}
 				<Meta />
-				<Links />
 				{import.meta.env.DEV && (
 					<script
-						async
-						src="https://unpkg.com/react-scan/dist/auto.global.js"
-					></script>
+						crossOrigin="anonymous"
+						src="//unpkg.com/react-scan/dist/auto.global.js"
+					/>
 				)}
+				<Links />
 			</head>
 			<body>
-				<RelayEnvironment environment={environment}>
+				<RelayEnvironment>
 					<SnackbarQueue>
 						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
 					</SnackbarQueue>
 				</RelayEnvironment>
-				{import.meta.env.DEV && <SentryToolbar></SentryToolbar>}
+
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
@@ -141,27 +130,25 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	)
 }
 
-const clientLoggerMiddleware: Route.unstable_ClientMiddlewareFunction = (
-	{ request },
-	next
-) => {
-	return startSpan({ name: `Navigated to ${request.url}` }, () => {
-		// Run the remaining middlewares and all route loaders
-		return next()
-	})
+function useOnFocus(callback: () => void) {
+	useEffect(() => {
+		const onFocus = () => callback()
+		window.addEventListener("focus", onFocus)
+		return () => window.removeEventListener("focus", onFocus)
+	}, [callback])
 }
 
-export const unstable_clientMiddleware = [
-	clientLoggerMiddleware,
-	loadQueryMiddleware,
-]
-
-export default function App(): ReactNode {
-	return <Outlet />
+export default function App(props: Route.ComponentProps): ReactNode {
+	return (
+		<LocaleContextSSR.Provider value={props.loaderData.locale}>
+			{import.meta.env.PROD && <RevalidateOnFocus />}
+			<Outlet />
+		</LocaleContextSSR.Provider>
+	)
 }
 
-export function ErrorBoundary(): ReactNode {
-	const error = useRouteError()
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	let location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
@@ -170,10 +157,13 @@ export function ErrorBoundary(): ReactNode {
 				<Ariakit.Heading>Oops</Ariakit.Heading>
 				<p>Status: {error.status}</p>
 				<p>{error.data}</p>
+				<M3.Link to={location} className={button()}>
+					Try again
+				</M3.Link>
 			</div>
 		)
 	}
-	captureException(error)
+
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
@@ -182,15 +172,27 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<Card
-			variant="elevated"
-			className="bg-error-container text-on-error-container m-4"
-		>
-			<Ariakit.Heading className="text-headline-md text-balance">
+		<Card variant="elevated">
+			<Ariakit.Heading className="text-balance text-headline-md">
 				Uh oh ...
 			</Ariakit.Heading>
 			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+			<pre className="overflow-auto text-body-md">{errorMessage}</pre>
+			<M3.Link to={location} className={button()}>
+				Try again
+			</M3.Link>
 		</Card>
 	)
+}
+
+function RevalidateOnFocus() {
+	const revalidator = useRevalidator()
+
+	useOnFocus(() => {
+		if (revalidator.state === "idle") {
+			void revalidator.revalidate()
+		}
+	})
+
+	return null
 }

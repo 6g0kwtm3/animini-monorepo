@@ -1,65 +1,76 @@
-import type {
-	ComponentPropsWithoutRef,
-	PropsWithChildren,
-	ReactNode,
-} from "react"
-import { createContext, forwardRef, useContext } from "react"
+import type { ComponentProps, ReactNode } from "react"
+import { createContext, use } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton } from "~/lib/button"
-import { TouchTarget } from "./Tooltip"
+import {
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
+	TouchTarget,
+} from "./Tooltip"
 
 interface ButtonProps
-	extends Ariakit.ButtonProps,
+	extends Omit<Ariakit.ButtonProps, "render">,
 		VariantProps<typeof createButton> {
 	invoketarget?: string
 	invokeaction?: string
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-	function Button({ variant, ...props }, ref) {
-		const styles = createButton({ variant })
+export function Button({ variant, ...props }: ButtonProps): ReactNode {
+	const styles = createButton({ variant })
 
-		return (
-			<ButtonContext.Provider value={styles}>
-				<BaseButton
-					ref={ref}
-					{...props}
-					className={styles.root({
-						className: props.className,
-					})}
-				/>
-			</ButtonContext.Provider>
-		)
-	}
-)
-
-export const BaseButton = forwardRef<HTMLButtonElement, Ariakit.ButtonProps>(
-	function BaseButton(props, ref) {
-		return <Ariakit.Button ref={ref} {...props} />
-	}
-)
+	return (
+		<ButtonContext.Provider value={styles}>
+			<Ariakit.Button
+				{...props}
+				className={styles.root({
+					className: props.className,
+				})}
+			/>
+		</ButtonContext.Provider>
+	)
+}
 
 const ButtonContext = createContext(createButton())
-export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
-	const { icon } = useContext(ButtonContext)
+export function ButtonIcon(props: ComponentProps<"div">): ReactNode {
+	const { icon } = use(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-export const Icon = forwardRef<
-	HTMLButtonElement,
-	VariantProps<typeof btnIcon> &
-		PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
->(function ButtonIcon({ children, variant, className, ...props }, ref) {
-	return (
-		<BaseButton
-			ref={ref}
+export function Icon({
+	children,
+	variant,
+	className,
+	tooltip = true,
+	label,
+	...props
+}: VariantProps<typeof btnIcon> &
+	Omit<Ariakit.ButtonProps, "render"> & {
+		label: string
+		tooltip?: boolean
+	}): ReactNode {
+	const btn = (
+		<Ariakit.Button
 			{...props}
 			className={btnIcon({ variant, className })}
+			title={label}
 		>
+			<span className="sr-only">{label}</span>
 			{children}
 			<TouchTarget />
-		</BaseButton>
+		</Ariakit.Button>
 	)
-})
+
+	if (!tooltip) {
+		return btn
+	}
+
+	return (
+		<TooltipPlain>
+			<TooltipPlainTrigger render={btn} showOnHover={false} />
+			<TooltipPlainContainer>{label}</TooltipPlainContainer>
+		</TooltipPlain>
+	)
+}

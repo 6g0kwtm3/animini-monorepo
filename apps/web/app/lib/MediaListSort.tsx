@@ -1,18 +1,21 @@
 import { type } from "arktype"
 
-export const MediaListSortSchema = type(
-	"'MediaSort.TitleEnglish'|'MediaListSort.ScoreDesc'|'MediaListSort.ProgressDesc'|'MediaListSort.UpdatedTimeDesc'|'MediaSort.IdDesc'|'MediaListSort.StartedOnDesc'|'MediaListSort.FinishedOnDesc'|'MediaSort.StartDateDesc'|'AVG_SCORE'|'MediaSort.PopularityDesc'"
-)
+export enum MediaListSort {
+	TitleEnglish = "title_english",
+	Score = "score",
+	Progress = "progress",
+	UpdatedTime = "updated_time",
+	IdDesc = "id",
+	StartedOn = "started_on",
+	FinishedOn = "finished_on",
+	StartDate = "start_date",
+	EndDate = "end_date",
+	AvgScore = "avg_score",
+	Behind = "behind",
+	Popularity = "popularity",
+	ToWatch = "to_watch",
+}
 
-export const MediaListSort = {
-	TitleEnglish: "MediaSort.TitleEnglish",
-	ScoreDesc: "MediaListSort.ScoreDesc",
-	ProgressDesc: "MediaListSort.ProgressDesc",
-	UpdatedTimeDesc: "MediaListSort.UpdatedTimeDesc",
-	IdDesc: "MediaSort.IdDesc",
-	StartedOnDesc: "MediaListSort.StartedOnDesc",
-	FinishedOnDesc: "MediaListSort.FinishedOnDesc",
-	StartDateDesc: "MediaSort.StartDateDesc",
-	AvgScore: "AVG_SCORE",
-	PopularityDesc: "MediaSort.PopularityDesc",
-} satisfies Record<string, typeof MediaListSortSchema.infer>
+export const MediaListSortSchema = type.enumerated(
+	...Object.values(MediaListSort)
+)

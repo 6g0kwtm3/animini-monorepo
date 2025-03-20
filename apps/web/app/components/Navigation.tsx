@@ -1,28 +1,19 @@
-import type { NavLink } from "react-router"
-
-import type {
-	ComponentProps,
-	ComponentPropsWithoutRef,
-	CSSProperties,
-	ReactNode,
-} from "react"
-import { createContext, forwardRef, useContext, useId } from "react"
+import type { ComponentProps, ReactNode } from "react"
+import { createContext, use, useId } from "react"
 
 import type { VariantProps } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-import { HashNavLink } from "~/lib/search/HashNavLink"
-
 import { tv } from "~/lib/tailwind-variants"
 
-export const createNavigation = tv(
+const createNavigation = tv(
 	{
 		slots: {
 			root: "fixed bottom-0 start-0 z-50",
-			label: `group relative flex text-center`,
-			activeIndicator: "bg-secondary-container absolute",
+			label: `group relative flex text-center text-on-surface-variant`,
+			activeIndicator: "absolute bg-secondary-container",
 			icon: "i *:last:hidden",
 			largeBadge:
-				"bg-error text-label-sm text-on-error flex h-4 min-w-4 items-center justify-center rounded-sm px-1",
+				"flex h-4 min-w-4 items-center justify-center rounded-sm bg-error px-1 text-label-sm text-on-error",
 		},
 		variants: {
 			align: {
@@ -31,29 +22,30 @@ export const createNavigation = tv(
 				end: {},
 			},
 			variant: {
+				none: { root: "hidden" },
 				bar: {
-					root: "bg-surface-container end-0 grid h-20 grid-flow-col gap-2 [grid-auto-columns:minmax(0,1fr)]",
-					label: `text-label-md text-on-surface-variant aria-[current='page']:text-on-surface flex-1 flex-col items-center gap-1 pb-4 pt-3`,
+					root: "end-0 my-0 grid h-20 grid-flow-col gap-2 bg-surface-container [grid-auto-columns:minmax(0,1fr)]",
+					label: `flex-1 flex-col items-center gap-1 pb-4 pt-3 text-label-md aria-[current='page']:text-on-surface`,
 					activeIndicator:
-						"h-8 w-16 scale-x-0 rounded-lg transition-transform group-aria-[current='page']:scale-x-100",
-					icon: "group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-focused:state-focus group-pressed:state-pressed relative flex h-8 w-16 items-center justify-center rounded-lg *:first:group-aria-[current='page']:hidden *:last:group-aria-[current='page']:block",
+						"h-8 w-16 scale-x-0 rounded-lg transition-transform duration-sm ease-emphasized-accelerate group-aria-[current='page']:scale-x-100",
+					icon: "group-focused:state-focus group-pressed:state-pressed relative flex h-8 w-16 items-center justify-center rounded-lg group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:*:first:hidden group-aria-[current='page']:*:last:block",
 					largeBadge: "absolute left-1/2",
 				},
 				rail: {
-					root: "bg-surface top-0 flex h-full w-20 shrink-0 flex-col gap-3",
+					root: "top-0 my-3 flex h-full w-20 shrink-0 flex-col gap-3 bg-surface",
 					label:
-						"text-label-md text-on-surface-variant aria-[current='page']:text-on-surface grow-0 flex-col items-center gap-1 px-2 py-0",
+						"grow-0 flex-col items-center gap-1 px-2 py-0 text-label-md aria-[current='page']:text-on-surface",
 					activeIndicator:
-						"h-8 w-14 scale-x-0 rounded-lg transition-transform group-aria-[current='page']:scale-x-100",
-					icon: "group-hover:text-on-surface group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-focused:text-on-surface group-focused:state-focus group-pressed:text-on-surface group-pressed:state-pressed relative flex h-8 w-14 items-center justify-center rounded-lg *:first:group-aria-[current='page']:hidden *:last:group-aria-[current='page']:block",
+						"h-8 w-14 scale-x-0 rounded-lg transition-transform duration-sm ease-emphasized-accelerate group-aria-[current='page']:scale-x-100",
+					icon: "group-focused:text-on-surface group-focused:state-focus group-pressed:text-on-surface group-pressed:state-pressed relative flex h-8 w-14 items-center justify-center rounded-lg group-hover:text-on-surface group-hover:state-hover group-aria-[current='page']:text-on-secondary-container group-aria-[current='page']:*:first:hidden group-aria-[current='page']:*:last:block",
 					largeBadge: "absolute left-1/2",
 				},
 				drawer: {
-					root: "bg-surface top-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 p-3",
-					label: `text-label-lg text-on-surface-variant hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0`,
+					root: "top-0 my-0 flex h-full w-[22.5rem] shrink-0 flex-col justify-start gap-0 bg-surface p-3",
+					label: `min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0 text-label-lg hover:state-hover aria-[current='page']:text-on-secondary-container focused:state-focus pressed:state-pressed`,
 					activeIndicator:
 						"inset-0 -z-10 hidden h-full w-full scale-x-100 rounded-xl group-aria-[current='page']:block group-aria-[current='page']:[view-transition-name:var(--id)]",
-					icon: "group-hover:text-on-surface group-hover:state-none group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none h-6 w-6 *:first:group-aria-[current='page']:block *:last:group-aria-[current='page']:hidden",
+					icon: "group-focused:text-on-surface group-focused:state-none group-pressed:text-on-surface group-pressed:state-none h-6 w-6 group-hover:text-on-surface group-hover:state-none group-aria-[current='page']:*:first:block group-aria-[current='page']:*:last:hidden",
 					largeBadge: "static ms-auto",
 				},
 			},
@@ -91,87 +83,75 @@ export const createNavigation = tv(
 	}
 )
 
-const Context = createContext(createNavigation())
+export const NavigationStyles = createContext(createNavigation())
 
-export const NavigationItem = forwardRef<
-	HTMLAnchorElement,
-	ComponentProps<typeof NavLink> & {
-		children?: ReactNode
-		style?: CSSProperties
-		className?: string
-		icon: ReactNode
-		activeIcon: ReactNode
-		badge?: ReactNode
-	}
->(function NavigationItem(
-	{ activeIcon, icon, badge, children, ...props },
-	ref
-) {
-	const { label } = useContext(Context)
+export function NavigationItem({
+	children,
+	active,
+	...props
+}: ComponentProps<"a"> & {
+	active?: boolean
+}): ReactNode {
+	const { label } = use(NavigationStyles)
 
 	return (
-		<HashNavLink
-			ref={ref}
+		<a
 			{...props}
+			data-current={active}
 			className={label({ className: props.className })}
 		>
-			<NavigationActiveIndicator />
-			<NavigationItemIcon>
-				{icon}
-				{activeIcon}
-			</NavigationItemIcon>
-			<div className="max-w-full break-words">{children}</div>
-			{badge}
+			<NavigationItemActiveIndicator />
+			{children}
 			<TouchTarget />
-		</HashNavLink>
+		</a>
 	)
-})
+}
 
-const NavigationContext = createContext<{ "--id": string } | undefined>(
-	undefined
-)
+const NavigationId = createContext<{ "--id": string } | undefined>(undefined)
 
-function NavigationActiveIndicator() {
-	const { activeIndicator } = useContext(Context)
-	const style = useContext(NavigationContext)
+export function NavigationItemActiveIndicator(): ReactNode {
+	const { activeIndicator } = use(NavigationStyles)
+	const style = use(NavigationId)
 
 	return <div className={activeIndicator()} style={style} />
 }
 
-export function NavigationItemIcon(
-	props: ComponentPropsWithoutRef<"div">
-): ReactNode {
-	const { icon } = useContext(Context)
+export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
+	const { icon } = use(NavigationStyles)
 
 	return <div {...props} className={icon()} />
 }
+interface NavigationProps
+	extends ComponentProps<"nav">,
+		VariantProps<typeof createNavigation> {}
+
 export function Navigation({
 	variant,
+	align,
 	...props
-}: ComponentPropsWithoutRef<"nav"> &
-	VariantProps<typeof createNavigation>): ReactNode {
-	const styles = createNavigation({ variant })
+}: NavigationProps): ReactNode {
+	const styles = createNavigation({ align, variant })
 
 	return (
-		<NavigationContext.Provider
+		<NavigationId.Provider
 			value={{
-				"--id": useId(),
+				"--id": useId().replaceAll(":", "-"),
 			}}
 		>
-			<Context.Provider value={styles}>
+			<NavigationStyles.Provider value={styles}>
 				<nav
 					{...props}
 					className={styles.root({ className: props.className })}
 				/>
-			</Context.Provider>
-		</NavigationContext.Provider>
+			</NavigationStyles.Provider>
+		</NavigationId.Provider>
 	)
 }
 
 export function NavigationItemLargeBadge(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentProps<"div">
 ): ReactNode {
-	const { largeBadge } = useContext(Context)
+	const { largeBadge } = use(NavigationStyles)
 
 	return <div {...props} className={largeBadge()} />
 }

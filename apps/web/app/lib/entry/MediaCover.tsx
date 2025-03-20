@@ -1,52 +1,59 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 
 import ReactRelay from "react-relay"
 import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
-import { createElement } from "../createElement"
 import { useFragment } from "../Network"
+import { tv } from "../tailwind-variants"
 
 const { graphql } = ReactRelay
 
 const MediaCover_media = graphql`
 	fragment MediaCover_media on Media
-	@argumentDefinitions(extraLarge: { type: "Boolean", defaultValue: false }) {
+	@argumentDefinitions(
+		large: { type: "Boolean", defaultValue: true }
+		extraLarge: { type: "Boolean", defaultValue: true }
+	) {
 		id
 		coverImage {
-			extraLarge @include(if: $extraLarge)
-			large
 			medium
+			src(extraLarge: $extraLarge, large: $large) @required(action: LOG)
+			srcset(extraLarge: $extraLarge, large: $large) @required(action: LOG)
 		}
 	}
 `
 
-import { tv } from "~/lib/tailwind-variants"
-
 const cover = tv({
-	base: "in-[.transitioning]:[view-transition-name:media-cover] bg-cover bg-center object-cover object-center",
+	base: "bg-cover bg-center object-cover object-center",
 })
+
 export function MediaCover({
 	media,
 	...props
-}: ComponentPropsWithoutRef<"img"> & {
+}: ComponentProps<"img"> & {
 	media: MediaCover_media$key
 }): ReactNode {
 	const data = useFragment(MediaCover_media, media)
 
-	return createElement("img", {
-		src:
-			data.coverImage?.extraLarge ??
-			data.coverImage?.large ??
-			data.coverImage?.medium ??
-			"",
-		loading: "lazy",
-		alt: "",
-		...props,
-		style: {
-			backgroundImage: `url(${data.coverImage?.medium})`,
-			...props.style,
-		},
-		className: cover({
-			className: props.className,
-		}),
-	})
+	if (!data.coverImage) {
+		return null
+	}
+
+	return (
+		<img
+			loading="lazy"
+			alt=""
+			width={100}
+			height={150}
+			src={data.coverImage.src}
+			srcSet={data.coverImage.srcset}
+			{...props}
+			style={{
+				...props.style,
+				backgroundImage: `url(${data.coverImage.medium})`,
+			}}
+			className={cover({
+				className: props.className,
+			})}
+		/>
+	)
 }

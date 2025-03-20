@@ -1,24 +1,19 @@
 import ReactRelay from "react-relay"
 import {
-	Await,
 	Outlet,
-	useLoaderData,
 	useLocation,
-	useRouteLoaderData,
-	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
 } from "react-router"
 
-import { Viewer } from "~/lib/Remix"
-import type { clientLoader as rootLoader } from "~/root"
+import type { Route } from "./+types/route"
 
 import {
 	Navigation,
-	NavigationItem,
+	NavigationItemIcon,
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
-import { Suspense, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
 
@@ -35,48 +30,56 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 
 import { Layout } from "~/components/Layout"
 
-import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
-
-import { client_get_client } from "~/lib/client"
+import { fab } from "~/lib/button"
+import MaterialSymbolsHome from "~icons/material-symbols/home"
+import MaterialSymbolsHomeOutline from "~icons/material-symbols/home-outline"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
+import { NavigationItem } from "./NavigationItem"
+
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+
+import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
+
+import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
+
+import { M3 } from "~/lib/components"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = async (_args: ClientLoaderFunctionArgs) => {
-	const client = client_get_client()
-	const viewer = Viewer()
+export const clientLoader = (_args: Route.ClientLoaderArgs) => {
+	const data = loadQuery<routeNavTrendingQuery>(RouteNavTrendingQuery, {
+		token: !!sessionStorage.getItem("anilist-token"),
+	})
 
-	const data = await client.query<NavQuery>(
-		graphql`
-			query routeNavQuery($isToken: Boolean = false) {
-				Viewer @include(if: $isToken) {
-					id
-					unreadNotificationCount
-				}
-				...SearchTrending_query
-			}
-		`,
-		{ isToken: viewer != null }
-	)
-
-	return { trending: data }
+	return {
+		RouteNavTrendingQuery: data,
+	}
 }
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 	formMethod,
 }) => {
-	if (formMethod?.toLocaleUpperCase() === "GET") {
+	if (formMethod === "GET") {
 		return false
 	}
 	return defaultShouldRevalidate
 }
 
-export default function NavRoute(): ReactNode {
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
-	const data = useLoaderData<typeof clientLoader>()
+const RouteNavTrendingQuery = graphql`
+	query routeNavTrendingQuery($token: Boolean!) @raw_response_type {
+		Viewer @include(if: $token) {
+			id
+			name
+			unreadNotificationCount
+		}
+		...SearchTrending_query
+	}
+`
 
+export default function NavRoute(props: Route.ComponentProps): ReactNode {
+	const data = usePreloadedQuery(...props.loaderData.RouteNavTrendingQuery)
 	const { pathname } = useLocation()
 
 	return (
@@ -84,76 +87,75 @@ export default function NavRoute(): ReactNode {
 			navigation={{
 				initial: "bar",
 				sm: "rail",
-				lg: "drawer",
 			}}
 		>
-			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
-      {data?.Viewer ? (
-        <>
-
-        </>
-      ) : (
-        <>
-          <Link
-             to={route_login(({
-              redirect: pathname
-            }))}
-            className={button()}
-          >
-            Login
-          </Link>
-        </>
-      )}
-
-      <div className="self-end">
-        <Search></Search>
-      </div>
-    </nav> */}
-
 			<Navigation
 				variant={{
 					initial: "bar",
 					sm: "rail",
-					lg: "drawer",
 				}}
 			>
-				<NavigationItem
-					to="/"
-					icon={<MaterialSymbolsFeedOutline />}
-					activeIcon={<MaterialSymbolsFeed />}
-				>
-					Feed
-				</NavigationItem>
-				{rootData?.Viewer ? (
-					<>
-						<NavigationItem
-							to={route_user({ userName: rootData.Viewer.name })}
-							icon={<MaterialSymbolsPersonOutline />}
-							activeIcon={<MaterialSymbolsPerson />}
+				<SearchButton
+					render={
+						<M3.Link
+							className={fab({ className: "mx-3 max-sm:hidden" })}
+							to={{
+								search: `?sheet=search`,
+							}}
 						>
-							Profile
+							<MaterialSymbolsTravelExplore />
+						</M3.Link>
+					}
+				/>
+
+				<NavigationItem to="/">
+					<NavigationItemIcon>
+						<MaterialSymbolsHomeOutline />
+						<MaterialSymbolsHome />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Home</div>
+				</NavigationItem>
+				<NavigationItem to="/feed" className="max-sm:hidden">
+					<NavigationItemIcon>
+						<MaterialSymbolsFeedOutline />
+						<MaterialSymbolsFeed />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Feed</div>
+				</NavigationItem>
+				{data.Viewer ? (
+					<>
+						<NavigationItem to={route_user({ userName: data.Viewer.name })} end>
+							<NavigationItemIcon>
+								<MaterialSymbolsPersonOutline />
+								<MaterialSymbolsPerson />
+							</NavigationItemIcon>
+							<div className="max-w-full break-words">Profile</div>
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
 							to={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: data.Viewer.name,
 								typelist: "animelist",
 							})}
-							icon={<MaterialSymbolsPlayArrowOutline />}
-							activeIcon={<MaterialSymbolsPlayArrow />}
 						>
-							Anime List
+							<NavigationItemIcon>
+								<MaterialSymbolsPlayArrowOutline />
+								<MaterialSymbolsPlayArrow />
+							</NavigationItemIcon>
+							<div className="max-w-full break-words">Anime List</div>
 						</NavigationItem>
 						<NavigationItem
 							to={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: data.Viewer.name,
 								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
-							icon={<MaterialSymbolsMenuBookOutline />}
-							activeIcon={<MaterialSymbolsMenuBook />}
 						>
-							Manga List
+							<NavigationItemIcon>
+								<MaterialSymbolsMenuBookOutline />
+								<MaterialSymbolsMenuBook />
+							</NavigationItemIcon>
+							<div className="max-w-full break-words">Manga List</div>
 						</NavigationItem>
 					</>
 				) : (
@@ -161,36 +163,43 @@ export default function NavRoute(): ReactNode {
 						to={route_login({
 							redirect: pathname,
 						})}
-						icon={<MaterialSymbolsPersonOutline />}
-						activeIcon={<MaterialSymbolsPerson />}
 					>
-						Login
+						<NavigationItemIcon>
+							<MaterialSymbolsPersonOutline />
+							<MaterialSymbolsPerson />
+						</NavigationItemIcon>
+						<div className="max-w-full break-words">Login</div>
 					</NavigationItem>
 				)}
-				<NavigationItem
-					to="/notifications"
-					icon={<MaterialSymbolsNotificationsOutline />}
-					activeIcon={<MaterialSymbolsNotifications />}
-					badge={
-						<Suspense>
-							<Await resolve={data.trending} errorElement={null}>
-								{(data) =>
-									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-										<NavigationItemLargeBadge>
-											{data?.Viewer?.unreadNotificationCount}
-										</NavigationItemLargeBadge>
-									)
-								}
-							</Await>
-						</Suspense>
-					}
-				>
-					Notifications
+				<NavigationItem to="/notifications">
+					<NavigationItemIcon>
+						<MaterialSymbolsNotificationsOutline />
+						<MaterialSymbolsNotifications />
+					</NavigationItemIcon>
+					<div className="max-w-full break-words">Notifications</div>
+
+					{(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+						<NavigationItemLargeBadge>
+							{data.Viewer?.unreadNotificationCount}
+						</NavigationItemLargeBadge>
+					)}
 				</NavigationItem>
-				<SearchButton />
+				<SearchButton
+					render={
+						<NavigationItem to={"/search"} className={"sm:hidden"}>
+							<NavigationItemIcon>
+								<MaterialSymbolsTravelExplore />
+								<MaterialSymbolsTravelExplore />
+							</NavigationItemIcon>
+
+							<div className="max-w-full break-words">Explore</div>
+						</NavigationItem>
+					}
+				/>
 			</Navigation>
+
 			<Outlet />
-			<Search />
+			<Search {...props} />
 		</Layout>
 	)
 }

@@ -1,18 +1,18 @@
-import { type } from "arktype"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { useActionData, type ClientActionFunction } from "react-router"
+import { type ClientActionFunction } from "react-router"
 import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
 
+import { type } from "arktype"
 import { Ariakit } from "~/lib/ariakit"
-
-import { client_get_client } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
+import { mutation } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
+import type { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 const UserFollow = graphql`
-	mutation routeUserFollowMutation($userId: Int!) {
+	mutation routeUserFollowMutation($userId: Int!) @raw_response_type {
 		ToggleFollow(userId: $userId) {
 			id
 			name @required(action: LOG)
@@ -24,12 +24,11 @@ const UserFollow = graphql`
 const Params = type({
 	userId: "string.integer.parse",
 })
+
 export const clientAction = (async (args) => {
 	const params = invariant(Params(args.params))
 
-	const client = client_get_client()
-
-	const data = await client.mutation<routeUserFollowMutation>({
+	const data = await mutation<routeUserFollowMutation>({
 		mutation: UserFollow,
 		variables: { userId: params.userId },
 	})
@@ -41,9 +40,9 @@ export const clientAction = (async (args) => {
 	return { ToggleFollow: data.ToggleFollow }
 }) satisfies ClientActionFunction
 
-export default function Page(): ReactNode {
-	const data = useActionData<typeof clientAction>()
-
+export default function Page({
+	actionData: data,
+}: Route.ComponentProps): ReactNode {
 	return (
 		<main>
 			{data ? (

@@ -8,9 +8,7 @@ import RelayRuntime, {
 	type OperationType,
 } from "relay-runtime"
 
-import { unstable_createContext } from "react-router"
 import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
-import type { Route } from "../../+types/root"
 import environment from "./environment"
 
 export const { readFragment } = ResolverFragments
@@ -28,7 +26,6 @@ export const {
 	useFragment,
 	usePreloadedQuery,
 	useRelayEnvironment,
-	RelayEnvironmentProvider,
 } = ReactRelay
 
 export function useQueryLoader<T extends RelayRuntime.OperationType>(
@@ -47,27 +44,11 @@ export function useQueryLoader<T extends RelayRuntime.OperationType>(
 export type NodeAndQueryFragment<T extends RelayRuntime.OperationType> =
 	readonly [ReactRelay.GraphQLTaggedNode, PreloadedQuery<T>]
 
-type LoadQuery = <T extends RelayRuntime.OperationType>(
+export function loadQuery<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode,
 	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
-) => NodeAndQueryFragment<T>
-
-export const loadQuery = unstable_createContext<LoadQuery>()
-
-export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
-	{ context, request },
-	next
-) => {
-	// TODO: dispose on route leave
-	context.set(loadQuery, (query, ...args) => {
-		const queryRef = loadQuery_(environment, query, ...args)
-		request.signal.addEventListener("abort", () => {
-			queryRef.dispose()
-		})
-		return [query, queryRef]
-	})
-
-	return next()
+): NodeAndQueryFragment<T> {
+	return [query, loadQuery_<T>(environment, query, ...args)]
 }
 
 export function commitLocalUpdate(
@@ -98,7 +79,7 @@ type Shift<T> = T extends [any, ...infer U] ? U : []
 
 export function fetchQuery<O extends OperationType>(
 	...args: Shift<Parameters<typeof fetchQuery__<O>>>
-): Promise<O["response"] | undefined> {
+): Promise<O["response"]> {
 	return fetchQuery__<O>(environment, ...args).toPromise()
 }
 

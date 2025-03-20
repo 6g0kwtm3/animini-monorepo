@@ -1,12 +1,8 @@
 import ReactRelay from "react-relay"
 
 import { useTooltipStore } from "@ariakit/react"
-import type {
-	ActionFunction,
-	ClientLoaderFunctionArgs,
-	MetaFunction,
-} from "react-router"
-import { Form, redirect, useLoaderData } from "react-router"
+import type { ActionFunction, MetaFunction } from "react-router"
+import { Form, redirect } from "react-router"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
@@ -21,41 +17,39 @@ import { fab } from "~/lib/button"
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as NavNotificationsQuery } from "~/gql/routeNavNotificationsQuery.graphql"
 import type { routeNavNotifications_query$key } from "~/gql/routeNavNotifications_query.graphql"
-import { useFragment } from "~/lib/Network"
+import { commitLocalUpdate, fetchQuery, useFragment } from "~/lib/Network"
 import { Ariakit } from "~/lib/ariakit"
-import { client_get_client } from "~/lib/client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
+import type { routeNavNotificationsUpdateQuery } from "~/gql/routeNavNotificationsUpdateQuery.graphql"
+import type { Route } from "./+types/route"
+
 const { graphql } = ReactRelay
 
-export const clientLoader = async (_: ClientLoaderFunctionArgs) => {
-	const client = await client_get_client()
-
-	const data = await client.query<NavNotificationsQuery>(
+export const clientLoader = async () => {
+	const data = await fetchQuery<NavNotificationsQuery>(
 		graphql`
-			query routeNavNotificationsQuery {
-				Viewer {
+			query routeNavNotificationsQuery($token: Boolean!) @raw_response_type {
+				Viewer @include(if: $token) {
 					id
 					unreadNotificationCount
 				}
 				...routeNavNotifications_query
 			}
 		`,
-		{}
+		{ token: !!sessionStorage.getItem("anilist-token") }
 	)
 
 	return data
 }
 
 export const clientAction = (async () => {
-	const client = await client_get_client()
-
-	await client.query(
+	await fetchQuery(
 		graphql`
-			query routeNavNotificationsReadQuery {
+			query routeNavNotificationsReadQuery @raw_response_type {
 				Page(perPage: 0) {
 					notifications(resetNotificationCount: true) {
 						__typename
@@ -66,12 +60,31 @@ export const clientAction = (async () => {
 		{}
 	)
 
+	commitLocalUpdate((store) => {
+		const { updatableData } =
+			store.readUpdatableQuery<routeNavNotificationsUpdateQuery>(
+				graphql`
+					query routeNavNotificationsUpdateQuery @updatable {
+						Viewer {
+							id
+							unreadNotificationCount
+						}
+					}
+				`,
+				{}
+			)
+
+		if (updatableData.Viewer) {
+			updatableData.Viewer.unreadNotificationCount = 0
+		}
+	})
+
 	return redirect(".")
 }) satisfies ActionFunction
 
-export default function Notifications(): ReactNode {
-	const data = useLoaderData<typeof clientLoader>()
-
+export default function Notifications({
+	loaderData: data,
+}: Route.ComponentProps): ReactNode {
 	const key: routeNavNotifications_query$key | undefined = data
 
 	const query = useFragment(
@@ -103,12 +116,12 @@ export default function Notifications(): ReactNode {
 
 	const store = useTooltipStore()
 
-	const someNotRead = data?.Viewer?.unreadNotificationCount ?? 0
+	const someNotRead = data.Viewer?.unreadNotificationCount ?? 0
 
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				{someNotRead && (
+				{someNotRead > 0 && (
 					<Form method="post">
 						<div className="fixed bottom-24 end-4 sm:bottom-4">
 							<div className="relative">
@@ -129,20 +142,20 @@ export default function Notifications(): ReactNode {
 					</Form>
 				)}
 				<Card variant="elevated" className="max-sm:contents">
-					{!query?.Page?.notifications?.length && (
+					{!query.Page?.notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
 					)}
 
 					<div className="-mx-4 sm:-my-4">
 						<List lines={{ initial: "three", sm: "two" }}>
-							{query?.Page?.notifications
+							{query.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
 									if (notification.__typename === "AiringNotification") {
 										return (
 											<Airing
+												data-id={notification.id}
 												key={notification.id}
-												data-key={notification.id}
 												notification={notification}
 											/>
 										)
@@ -153,8 +166,8 @@ export default function Notifications(): ReactNode {
 									) {
 										return (
 											<RelatedMediaAddition
+												data-id={notification.id}
 												key={notification.id}
-												data-key={notification.id}
 												notification={notification}
 											/>
 										)
@@ -162,12 +175,15 @@ export default function Notifications(): ReactNode {
 									if (notification.__typename === "ActivityLikeNotification") {
 										return (
 											<ActivityLike
+												data-id={notification.id}
 												key={notification.id}
-												data-key={notification.id}
 												notification={notification}
 											/>
 										)
 									}
+
+									notification.__typename satisfies "%other"
+
 									return null
 								})}
 						</List>

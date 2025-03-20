@@ -1,20 +1,20 @@
 import type {
-	ComponentPropsWithoutRef,
-	ElementRef,
+	ComponentProps,
+	ComponentRef,
 	PropsWithChildren,
 	ReactNode,
 } from "react"
 import {
 	createContext,
+	use,
 	useCallback,
-	useContext,
 	useEffect,
 	useId,
 	useRef,
 	useState,
 } from "react"
 import * as Predicate from "~/lib/Predicate"
-import { BaseButton } from "./Button"
+import { Ariakit } from "~/lib/ariakit"
 
 type OnBeforeToggle = (
 	this: HTMLElement,
@@ -88,12 +88,12 @@ export function Snackbar({
 	timeout,
 	open,
 	...props
-}: ComponentPropsWithoutRef<"div"> & {
+}: ComponentProps<"div"> & {
 	timeout?: number
 	open: boolean
 }): ReactNode {
-	const ref = useRef<ElementRef<"div">>(null)
-	const onBeforeToggle = useContext(SnackbarQueueContext)
+	const ref = useRef<ComponentRef<"div">>(null)
+	const onBeforeToggle = use(SnackbarQueueContext)
 
 	useEffect(() => {
 		if (open) {
@@ -146,15 +146,9 @@ export function Snackbar({
 
 	const id = useId()
 
-	useEffect(() => {
-		if (!Predicate.isNumber(timeout)) {
-			return
-		}
-		if (4000 <= timeout && timeout <= 10_000) {
-			return
-		}
-		console.warn(`Recommended <Snackbar /> timeout is between 4s and 10s`)
-	}, [timeout])
+	if (Predicate.isNumber(timeout) && !(4_000 <= timeout && timeout <= 10_000)) {
+		console.warn(`Recommeneded <Snackbar /> timeout is between 4s and 10s`)
+	}
 
 	return (
 		<SnackbarContext.Provider value={props.id ?? id}>
@@ -166,7 +160,7 @@ export function Snackbar({
 				popover="manual"
 				data-timeout={timeout}
 				ref={ref}
-				className="bg-inverse-surface text-body-md text-inverse-on-surface rounded-xs mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 p-4 shadow-sm [&:popover-open]:flex"
+				className="mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs bg-inverse-surface p-4 text-body-md text-inverse-on-surface shadow open:flex"
 			/>
 		</SnackbarContext.Provider>
 	)
@@ -180,21 +174,17 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 	return "action" in event
 }
 
-export function SnackbarAction(
-	props: ComponentPropsWithoutRef<"button">
-): ReactNode {
-	const invoketarget = useContext(SnackbarContext)
+export function SnackbarAction(props: ComponentProps<"button">): ReactNode {
+	const invoketarget = use(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)
 
 	useEffect(() => {
-		setSupportsPopover(
-			Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover")
-		)
+		setSupportsPopover(Object.hasOwn(HTMLElement.prototype, "popover"))
 	}, [])
 
 	return (
-		<BaseButton
+		<Ariakit.Button
 			type="button"
 			{...props}
 			{...(supportsPopover
@@ -206,7 +196,7 @@ export function SnackbarAction(
 						invokeaction: "hide",
 						invoketarget,
 					})}
-			className="text-label-lg text-inverse-primary hover:state-hover focus:state-focus -my-1 -me-2 rounded-[1.25rem] px-3 py-1"
+			className="-my-1 -me-2 rounded-[1.25rem] px-3 py-1 text-label-lg text-inverse-primary hover:state-hover focus:state-focus"
 		/>
 	)
 }

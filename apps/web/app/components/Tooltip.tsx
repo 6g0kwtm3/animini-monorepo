@@ -1,11 +1,6 @@
 import * as Ariakit from "@ariakit/react"
-import { AnimatePresence, motion } from "framer-motion"
-import type {
-	ComponentPropsWithoutRef,
-	PropsWithChildren,
-	ReactNode,
-} from "react"
-import { forwardRef } from "react"
+import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
+import { tv } from "~/lib/tailwind-variants"
 
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
@@ -16,13 +11,11 @@ export function TooltipRichTrigger(
 	return <Ariakit.HovercardAnchor render={<div />} {...props} />
 }
 
-import { tv } from "~/lib/tailwind-variants"
-
 const tooltip = tv({
 	slots: { container: "" },
 	variants: {
 		variant: {
-			rich: { container: "bg-surface-container rounded-md px-4 pb-2 pt-3" },
+			rich: { container: "rounded-md bg-surface-container px-4 pb-2 pt-3" },
 		},
 	},
 })
@@ -31,7 +24,6 @@ export function TooltipRichContainer(props: Ariakit.HovercardProps): ReactNode {
 	return (
 		<Ariakit.Hovercard
 			gutter={8}
-			portal={true}
 			{...props}
 			className={container({ className: props.className })}
 		/>
@@ -43,12 +35,12 @@ export function TooltipRichSubhead(
 	return (
 		<Ariakit.HovercardHeading
 			{...props}
-			className="text-title-sm text-on-surface-variant mb-2"
+			className="mb-2 text-title-sm text-on-surface-variant"
 		/>
 	)
 }
 export function TooltipRichSupportingText(
-	props: ComponentPropsWithoutRef<"p">
+	props: ComponentProps<"p">
 ): ReactNode {
 	return (
 		<Ariakit.HovercardDescription
@@ -57,55 +49,36 @@ export function TooltipRichSupportingText(
 		/>
 	)
 }
-export function TooltipRichActions(
-	props: ComponentPropsWithoutRef<"div">
-): ReactNode {
+export function TooltipRichActions(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
 export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
 	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
-export const TooltipPlainTrigger = forwardRef<
-	HTMLDivElement,
-	PropsWithChildren<Ariakit.TooltipAnchorProps>
->(function TooltipPlainTrigger({ children, ...props }, ref): ReactNode {
-	return (
-		<Ariakit.TooltipAnchor ref={ref} {...props}>
-			{children}
-		</Ariakit.TooltipAnchor>
-	)
-})
+export function TooltipPlainTrigger(
+	props: Ariakit.TooltipAnchorProps
+): ReactNode {
+	return <Ariakit.TooltipAnchor {...props} />
+}
+
 export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
 	if (!tooltip) {
 		throw new Error("Tooltip must be wrapped in TooltipProvider")
 	}
 
-	const mounted = Ariakit.useStoreState(tooltip, "mounted")
-
 	const y = Ariakit.useStoreState(tooltip, (state) => {
-		const dir = state.currentPlacement.split("-")[0]
+		const dir = state.currentPlacement.split("-")[0]!
 		return dir === "top" ? -8 : 8
 	})
 
 	return (
-		<AnimatePresence>
-			{mounted && (
-				<Ariakit.Tooltip
-					gutter={4}
-					alwaysVisible
-					{...props}
-					className="bg-inverse-surface text-body-sm text-inverse-on-surface rounded-xs flex min-h-6 items-center px-2"
-					render={
-						<motion.div
-							initial={{ opacity: 0, y }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y }}
-						/>
-					}
-				/>
-			)}
-		</AnimatePresence>
+		<Ariakit.Tooltip
+			gutter={4}
+			{...props}
+			style={{ "--y": `${y}px` }}
+			className="translate-y-(--y) data-open:translate-y-0 data-open:opacity-100 starting:data-open:translate-y-(--y) starting:data-open:opacity-0 z-50 flex min-h-6 items-center rounded-xs bg-inverse-surface px-2 text-body-sm text-inverse-on-surface opacity-0 duration-4sm ease-emphasized-accelerate motion-safe:transition-all"
+		/>
 	)
 }
 export function TouchTarget(): ReactNode {

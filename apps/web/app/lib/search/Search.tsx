@@ -1,17 +1,8 @@
 import * as Ariakit from "@ariakit/react"
-import {
-	Await,
-	Form,
-	useFetcher,
-	useLocation,
-	useNavigate,
-	useNavigation,
-	useRouteLoaderData,
-} from "react-router"
+import { Form, useFetcher, useNavigate } from "react-router"
 
-import type { ReactNode } from "react"
-import { Suspense, useEffect } from "react"
-import type { clientLoader as searchLoader } from "~/routes/Search/route"
+import type { ComponentProps, ComponentRef, ReactNode } from "react"
+import { Suspense, useEffect, useRef } from "react"
 
 import {
 	TooltipPlain,
@@ -19,8 +10,6 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { List } from "~/components/List"
-import { NavigationItem } from "~/components/Navigation"
 import {
 	SearchView,
 	SearchViewBody,
@@ -28,46 +17,36 @@ import {
 	SearchViewInput,
 	SearchViewItem,
 } from "~/components/SearchView"
-import { copySearchParams } from "~/lib/copySearchParams"
-import type { clientLoader as navLoader } from "~/routes/Nav/route"
-import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 import { M3 } from "../components"
 
+import { createList, ListContext } from "../list"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
+import { useOptimisticSearchParams } from "./useOptimisticSearchParams"
 
-function useOptimisticSearchParams() {
-	const { search } = useOptimisticLocation()
+import type { Route as SearchRoute } from "../../routes/Search/+types/route"
+import type { Route as NavRoute } from "../../routes/Nav/+types/route"
 
-	return new URLSearchParams(search)
-}
-
-function useOptimisticLocation() {
-	let location = useLocation()
-	const navigation = useNavigation()
-
-	if (navigation.location?.pathname === location.pathname) {
-		location = navigation.location
-	}
-	return location
-}
-
-export function Search(): ReactNode {
+export function Search({ loaderData }: NavRoute.ComponentProps): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
-	const submit = useFetcher<typeof searchLoader>()
+	const submit = useFetcher<SearchRoute.ComponentProps["loaderData"]>()
+
+	let ref = useRef<ComponentRef<"input">>(null)
 
 	const show = searchParams.get("sheet") === "search"
-	searchParams.delete("sheet")
 
-	const sheetParams = copySearchParams(searchParams)
-	sheetParams.set("sheet", "search")
+	const sheetParams = searchParams.set("sheet", "search")
+
 	const navigate = useNavigate()
 
 	// bind command + k
 	useEffect(() => {
 		let listener = (event: KeyboardEvent) => {
-			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+			if (
+				(event.metaKey || event.ctrlKey) &&
+				event.key.toLocaleLowerCase() === "k"
+			) {
 				event.preventDefault()
 				void navigate({ search: `?${sheetParams}` })
 			}
@@ -78,15 +57,16 @@ export function Search(): ReactNode {
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
 
-	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
+	const list = createList({ lines: "one" })
 
 	return (
 		<SearchView
 			aria-label="Search anime or manga"
 			open={show}
 			onClose={() => {
-				void navigate({ search: `?${searchParams}` })
+				void navigate({ search: `?${searchParams.delete("sheet")}` })
 			}}
+			initialFocus={ref.current}
 			variant={{
 				initial: "fullscreen",
 				sm: "docked",
@@ -94,62 +74,55 @@ export function Search(): ReactNode {
 			defaultValue={searchParams.get("q") ?? ""}
 		>
 			<Form role="search" action="/search" className={"flex w-full flex-col"}>
-				<>
-					<SearchViewInput
-						placeholder="Search anime or manga"
-						onChange={(e) => void submit.submit(e.currentTarget.form, {})}
-						name="q"
-					/>
+				<SearchViewInput
+					ref={ref}
+					placeholder="Search anime or manga"
+					onChange={(e) => void submit.submit(e.currentTarget.form, {})}
+					name="q"
+				/>
 
-					{media.length > 0 ? (
-						<SearchViewBody>
-							<SearchViewBodyGroup>
-								<Ariakit.ComboboxGroupLabel
-									render={<M3.Subheader lines={"one"} />}
+				{media.length > 0 ? (
+					<SearchViewBody>
+						<SearchViewBodyGroup>
+							<Ariakit.ComboboxGroupLabel
+								render={<M3.Subheader lines={"one"} />}
+							>
+								Results
+							</Ariakit.ComboboxGroupLabel>
+
+							<ListContext value={list}>
+								<div
+									className={list.root({
+										className: "-mt-2",
+									})}
 								>
-									Results
-								</Ariakit.ComboboxGroupLabel>
-
-								<List lines={"one"} render={<div />} className="-mt-2">
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}
-											data-key={media.id}
+											data-id={media.id}
 											render={<SearchItem media={media} />}
 										/>
 									))}
-								</List>
-							</SearchViewBodyGroup>
-						</SearchViewBody>
-					) : data ? (
-						<Suspense fallback="">
-							<Await resolve={data.trending} errorElement={"Error"}>
-								{(data) => data && <SearchTrending query={data} />}
-							</Await>
-						</Suspense>
-					) : null}
-				</>
+								</div>
+							</ListContext>
+						</SearchViewBodyGroup>
+					</SearchViewBody>
+				) : (
+					<Suspense fallback="">
+						<SearchTrending query={loaderData.RouteNavTrendingQuery} />
+					</Suspense>
+				)}
 			</Form>
 		</SearchView>
 	)
 }
 
-export function SearchButton(): ReactNode {
+export function SearchButton(
+	props: ComponentProps<typeof TooltipPlainTrigger>
+): ReactNode {
 	return (
 		<TooltipPlain>
-			<TooltipPlainTrigger
-				render={
-					<NavigationItem
-						to={{
-							search: `?q=`,
-						}}
-						icon={<MaterialSymbolsTravelExplore />}
-						activeIcon={<MaterialSymbolsTravelExplore />}
-					/>
-				}
-			>
-				Explore
-			</TooltipPlainTrigger>
+			<TooltipPlainTrigger {...props} />
 			<TooltipPlainContainer>
 				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
 			</TooltipPlainContainer>
