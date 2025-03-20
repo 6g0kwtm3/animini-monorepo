@@ -10,7 +10,14 @@ import tseslint from "typescript-eslint"
 
 export default await typegen([
 	{
-		ignores: [".tsup/", "dist/", "tmp/", "playwright/", ".wrangler/"],
+		ignores: [
+			".tsup/",
+			"dist/",
+			"tmp/",
+			"playwright/",
+			".wrangler/",
+			"eslint-typegen.d.ts",
+		],
 	},
 	eslint.configs.recommended,
 	...[
