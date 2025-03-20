@@ -9,7 +9,8 @@
 		},
 		"build": {
 			"dependsOn": ["^build", "relay", "dts"],
-			"outputs": ["dist/**", "storybook-static/**"]
+			"outputs": ["dist/**", "storybook-static/**"],
+			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
 		},
 		"dts": {
 			"outputs": ["tmp/**"]
