@@ -5,54 +5,113 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
+  merge_group:
 
 permissions:
   contents: read
 
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  TURBO_REMOTE_ONLY: true
+
 jobs:
-  test:
-    name: Test E2E
+  deploy-sentry:
+    name: Deploy Sentry
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.45.3-jammy
     steps:
-      - uses: actions/checkout@v3
-      - name: Install unzip
-        shell: bash
-        run: |
-          apt-get update
-          apt-get install -y unzip
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version-file: "package.json"
+          cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: bun run build
+        run: pnpm exec turbo web#build
 
-      - name: Test E2E
-        run: bun run test:e2e
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
         env:
-          HOME: /root
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: apps/web/build
+  # test:
+  #   name: Test E2E
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: mcr.microsoft.com/playwright:v1.45.3-jammy
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #   - name: Install pnpm
+  #   uses: pnpm/action-setup@v4
+
+  # - name: Use Node.js
+  #   uses: actions/setup-node@v4
+  #   with:
+  #     cache: "pnpm"
+
+  #     - name: Install dependencies 📦
+  #       run: pnpm install --frozen-lockfile
+
+  #     - name: Await CF Pages
+  #       uses: WalshyDev/cf-pages-await@v1
+  #       id: cf-pages
+  #       with:
+  #         apiToken: ${{ secrets.CF_API_TOKEN  }}
+  #         accountId: "e9b0348e83d33e46fbb82c3271317d70"
+  #         project: "animini-pwa"
+
+  #     - name: Test E2E
+  #       run: pnpm run test
+  #       env:
+  #         ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
+  #         BASE_URL: ${{ steps.cf-pages.outputs.url }}
+  #         HOME: /root
 
   typecheck:
     runs-on: ubuntu-latest
-
     name: Typecheck
     steps:
-      - uses: actions/checkout@v3
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version-file: "package.json"
+          cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Typecheck
-        run: bun run check
+        run: pnpm run check
+
+  boundaries:
+    runs-on: ubuntu-latest
+
+    name: Boundaries
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: "pnpm"
+
+      - name: Install dependencies 📦
+        run: pnpm install --frozen-lockfile
+
+      - name: Boundaries
+        run: pnpm exec turbo boundaries

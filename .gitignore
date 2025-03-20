@@ -17,10 +17,5 @@ worker-configuration.d.ts
 /playwright/.cache/
 /playwright/.auth
 .million
-*storybook.log
-storybook-static
-/.react-router
-.eslintcache
-/lib/
-.bsb.lock
-**/*.res.mjs
+.react-router
+.turbo
