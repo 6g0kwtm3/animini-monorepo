@@ -28,7 +28,18 @@
 			"dependsOn": ["^transit"]
 		},
 		"check": {
-			"dependsOn": ["^dts", "transit", "router", "paraglide", "relay"]
+			"dependsOn": [
+				"^dts",
+				"transit",
+				"router",
+				"paraglide",
+				"relay",
+				"eslint-typegen"
+			]
+		},
+		"eslint-typegen": {
+			"inputs": ["eslint.config.mjs"],
+			"outputs": ["eslint-typegen.d.ts"]
 		},
 		"oxlint": {},
 		"lint": {
