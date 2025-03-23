@@ -380,6 +380,9 @@ importers:
       eslint-typegen:
         specifier: 2.1.0
         version: 2.1.0(eslint@9.22.0(jiti@2.4.2))
+      oxlint-config:
+        specifier: workspace:*
+        version: link:../oxlint-config
       ts-config:
         specifier: workspace:^
         version: link:../ts-config
