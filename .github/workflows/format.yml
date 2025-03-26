@@ -51,6 +51,6 @@ jobs:
 
       - name: Commit changes
         if: ${{ !cancelled() }}
-        uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79
+        uses: stefanzweifel/git-auto-commit-action@e256565ae56ff1c64fad2e063453107bf88f6aa1
         with:
           commit_message: "refactor: run format"
