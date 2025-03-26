@@ -52,7 +52,7 @@
 		"@types/react-relay": "18.2.0",
 		"@types/relay-runtime": "18.2.5",
 		"anitomy": "0.0.35",
-		"arktype": "2.1.9",
+		"arktype": "2.1.13",
 		"chokidar": "4.0.3",
 		"cookie": "1.0.2",
 		"electron": "35.0.1",
