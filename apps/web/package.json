@@ -59,7 +59,7 @@
 		"electron-devtools-installer": "4.0.0",
 		"framer-motion": "12.5.0",
 		"graphql": "16.10.0",
-		"hono": "4.7.4",
+		"hono": "4.7.5",
 		"isbot": "5.1.23",
 		"markdown": "workspace:*",
 		"react": "19.0.0",
