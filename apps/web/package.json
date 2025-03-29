@@ -57,7 +57,7 @@
 		"cookie": "1.0.2",
 		"electron": "35.0.1",
 		"electron-devtools-installer": "4.0.0",
-		"framer-motion": "12.5.0",
+		"framer-motion": "12.6.2",
 		"graphql": "16.10.0",
 		"hono": "4.7.5",
 		"isbot": "5.1.25",
