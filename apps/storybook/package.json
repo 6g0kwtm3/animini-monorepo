@@ -34,7 +34,7 @@
 		"eslint-typegen": "2.1.0",
 		"oxlint-config": "workspace:*",
 		"prop-types": "15.8.1",
-		"react": "19.0.0",
+		"react": "19.1.0",
 		"storybook": "8.6.10",
 		"ts-config": "workspace:*",
 		"unplugin-icons": "22.1.0",
