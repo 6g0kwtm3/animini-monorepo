@@ -60,7 +60,7 @@
 		"framer-motion": "12.6.5",
 		"graphql": "16.10.0",
 		"hono": "4.7.6",
-		"isbot": "5.1.25",
+		"isbot": "5.1.26",
 		"markdown": "workspace:*",
 		"react": "19.1.0",
 		"react-dom": "19.1.0",
