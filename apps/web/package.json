@@ -55,7 +55,7 @@
 		"arktype": "2.1.19",
 		"chokidar": "4.0.3",
 		"cookie": "1.0.2",
-		"electron": "35.0.1",
+		"electron": "35.1.5",
 		"electron-devtools-installer": "4.0.0",
 		"framer-motion": "12.6.5",
 		"graphql": "16.10.0",
