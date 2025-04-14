@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       knip:
-        specifier: 5.50.2
-        version: 5.50.2(@types/node@22.14.1)(typescript@5.8.3)
+        specifier: 5.50.3
+        version: 5.50.3(@types/node@22.14.1)(typescript@5.8.3)
       oxlint:
         specifier: 0.16.6
         version: 0.16.6
@@ -300,7 +300,7 @@ importers:
         version: 7.37.5(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-compiler:
         specifier: beta
-        version: 19.0.0-beta-e993439-20250405(eslint@9.24.0(jiti@2.4.2))
+        version: 19.0.0-beta-ebf51a3-20250411(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-hooks:
         specifier: 5.2.0
         version: 5.2.0(eslint@9.24.0(jiti@2.4.2))
@@ -3307,8 +3307,8 @@ packages:
   eslint-plugin-oxlint@0.16.5:
     resolution: {integrity: sha512-Hzj4jpPw+eESux/r9bC8qozc4PVh25S2JGLXit1BrlghfAHQJWNU1Yhz56p0Tj4Zd+xLA79NimpwbOmLI2isgg==}
 
-  eslint-plugin-react-compiler@19.0.0-beta-e993439-20250405:
-    resolution: {integrity: sha512-8ZQU4qGc8NOfsM7u7tf7gXmZ+d4tSK+7BFb+Fvs4s9ItQ12m/G6ttSGxompH/Jq7nXgnJ20EqQRshwVG6GwUdA==}
+  eslint-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411:
+    resolution: {integrity: sha512-R7ncuwbCPFAoeMlS56DGGSJFxmRtlWafYH/iWyep5Ks0RaPqTCL4k5gA87axUBBcITsaIgUGkbqAxDxl8Xfm5A==}
     engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
     peerDependencies:
       eslint: '>=7'
@@ -4086,8 +4086,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  knip@5.50.2:
-    resolution: {integrity: sha512-TGpfeeSMlaRd5wUkcb4HsVGSiQrE289LZF9qtW2TLHkAZbB2rM53wVQbXSf1KjOvJfBSZYSyYQ6q79lufrwsPw==}
+  knip@5.50.3:
+    resolution: {integrity: sha512-0A4G7UPucGTCpNh5vHSfL0+tVQIuKfJKdg8sAq6EC3COKbAchEbM+TeN4w32OrnJW9CesHs71lqftlggMVfW2A==}
     engines: {node: '>=18.18.0'}
     hasBin: true
     peerDependencies:
@@ -9025,7 +9025,7 @@ snapshots:
     dependencies:
       jsonc-parser: 3.3.1
 
-  eslint-plugin-react-compiler@19.0.0-beta-e993439-20250405(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.27.0
@@ -9845,7 +9845,7 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  knip@5.50.2(@types/node@22.14.1)(typescript@5.8.3):
+  knip@5.50.3(@types/node@22.14.1)(typescript@5.8.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 22.14.1

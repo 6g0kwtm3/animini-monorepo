@@ -15,7 +15,7 @@
 		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
 	},
 	"devDependencies": {
-		"knip": "5.50.2",
+		"knip": "5.50.3",
 		"oxlint": "0.16.6",
 		"prettier": "3.5.3",
 		"prettier-plugin-tailwindcss": "0.6.11",
