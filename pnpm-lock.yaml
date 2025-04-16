@@ -119,7 +119,7 @@ importers:
         version: 4.20250415.0
       '@hono/node-server':
         specifier: 1.14.1
-        version: 1.14.1(hono@4.7.6)
+        version: 1.14.1(hono@4.7.7)
       '@iconify-json/material-symbols':
         specifier: 1.2.19
         version: 1.2.19
@@ -196,8 +196,8 @@ importers:
         specifier: 16.10.0
         version: 16.10.0
       hono:
-        specifier: 4.7.6
-        version: 4.7.6
+        specifier: 4.7.7
+        version: 4.7.7
       isbot:
         specifier: 5.1.26
         version: 5.1.26
@@ -3578,8 +3578,8 @@ packages:
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
 
-  hono@4.7.6:
-    resolution: {integrity: sha512-564rVzELU+9BRqqx5k8sT2NFwGD3I3Vifdb6P7CmM6FiarOSY+fDC+6B+k9wcCb86ReoayteZP2ki0cRLN1jbw==}
+  hono@4.7.7:
+    resolution: {integrity: sha512-2PCpQRbN87Crty8/L/7akZN3UyZIAopSoRxCwRbJgUuV1+MHNFHzYFxZTg4v/03cXUm+jce/qa2VSBZpKBm3Qw==}
     engines: {node: '>=16.9.0'}
 
   hosted-git-info@6.1.3:
@@ -6575,9 +6575,9 @@ snapshots:
     dependencies:
       graphql: 16.10.0
 
-  '@hono/node-server@1.14.1(hono@4.7.6)':
+  '@hono/node-server@1.14.1(hono@4.7.7)':
     dependencies:
-      hono: 4.7.6
+      hono: 4.7.7
 
   '@humanfs/core@0.19.1': {}
 
@@ -6796,7 +6796,7 @@ snapshots:
       '@axiomhq/js': 1.0.0-rc.3
       '@babel/core': 7.26.0
       '@babel/types': 7.26.0
-      '@hono/node-server': 1.14.1(hono@4.7.6)
+      '@hono/node-server': 1.14.1(hono@4.7.7)
       '@million/install': 1.0.14
       '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
       '@rrweb/types': 2.0.0-alpha.16
@@ -6804,7 +6804,7 @@ snapshots:
       ci-info: 4.2.0
       esbuild: 0.20.2
       faster-babel-types: 0.1.0(@babel/types@7.26.0)
-      hono: 4.7.6
+      hono: 4.7.7
       isomorphic-fetch: 3.0.0
       nanoid: 5.1.5
       ohash: 1.1.6
@@ -9258,7 +9258,7 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  hono@4.7.6: {}
+  hono@4.7.7: {}
 
   hosted-git-info@6.1.3:
     dependencies:
