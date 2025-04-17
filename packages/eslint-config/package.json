@@ -19,13 +19,7 @@
 	},
 	"devDependencies": {},
 	"exports": {
-		"./base": {
-			"types": "./types.d.ts",
-			"default": "./src/base/eslint.config.mjs"
-		},
-		"./react": {
-			"types": "./types.d.ts",
-			"default": "./src/react/eslint.config.mjs"
-		}
+		"./base": "./src/base/eslint.config.ts",
+		"./react": "./src/react/eslint.config.ts"
 	}
 }

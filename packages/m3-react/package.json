@@ -4,14 +4,8 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": {
-		".": {
-			"types": "./tmp/src/index.d.ts",
-			"default": "./dist/index.js"
-		}
-	},
+	"exports": "./src/index.ts",
 	"scripts": {
-		"dts": "tsc --noCheck",
 		"lint": "eslint --cache . --fix",
 		"check": "tsc --noEmit"
 	},
