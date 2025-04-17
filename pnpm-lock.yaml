@@ -102,6 +102,9 @@ importers:
       ts-config:
         specifier: workspace:*
         version: link:../../packages/ts-config
+      tsx:
+        specifier: 4.19.3
+        version: 4.19.3
       unplugin-icons:
         specifier: 22.1.0
         version: 22.1.0(@svgr/core@8.1.0(typescript@5.8.3))
@@ -134,7 +137,7 @@ importers:
         version: 1.0.14(rollup@4.40.0)
       '@react-router/dev':
         specifier: 7.5.1
-        version: 7.5.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(vite@6.3.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2))(wrangler@4.12.0(@cloudflare/workers-types@4.20250417.0))
+        version: 7.5.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(tsx@4.19.3)(typescript@5.8.3)(vite@6.3.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))(wrangler@4.12.0(@cloudflare/workers-types@4.20250417.0))
       '@react-router/node':
         specifier: 7.5.1
         version: 7.5.1(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
@@ -337,6 +340,9 @@ importers:
       ts-config:
         specifier: workspace:^
         version: link:../ts-config
+      tsx:
+        specifier: 4.19.3
+        version: 4.19.3
 
   packages/m3-react:
     devDependencies:
@@ -355,6 +361,9 @@ importers:
       ts-config:
         specifier: workspace:^
         version: link:../ts-config
+      tsx:
+        specifier: 4.19.3
+        version: 4.19.3
 
   packages/markdown:
     dependencies:
@@ -6951,7 +6960,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@react-router/dev@7.5.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(vite@6.3.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2))(wrangler@4.12.0(@cloudflare/workers-types@4.20250417.0))':
+  '@react-router/dev@7.5.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(tsx@4.19.3)(typescript@5.8.3)(vite@6.3.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))(wrangler@4.12.0(@cloudflare/workers-types@4.20250417.0))':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/generator': 7.27.0

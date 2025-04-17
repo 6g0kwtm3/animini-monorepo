@@ -6,6 +6,7 @@
 	"type": "module",
 	"exports": "./src/index.ts",
 	"scripts": {
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
 		"check": "tsc --noEmit"
 	},
@@ -14,6 +15,7 @@
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.1.0",
 		"m3-core": "workspace:*",
-		"ts-config": "workspace:^"
+		"ts-config": "workspace:^",
+		"tsx": "4.19.3"
 	}
 }
