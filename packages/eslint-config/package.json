@@ -21,11 +21,11 @@
 	"exports": {
 		"./base": {
 			"types": "./types.d.ts",
-			"default": "./src/base/eslint.config.mjs"
+			"default": "./src/base/eslint.config.ts"
 		},
 		"./react": {
 			"types": "./types.d.ts",
-			"default": "./src/react/eslint.config.mjs"
+			"default": "./src/react/eslint.config.ts"
 		}
 	}
 }

@@ -38,7 +38,7 @@
 			]
 		},
 		"eslint-typegen": {
-			"inputs": ["eslint.config.mjs"],
+			"inputs": ["eslint.config.ts"],
 			"outputs": ["eslint-typegen.d.ts"]
 		},
 		"oxlint": {},
