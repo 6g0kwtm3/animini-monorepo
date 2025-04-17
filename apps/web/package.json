@@ -9,7 +9,7 @@
 	"scripts": {
 		"build": "cross-env NODE_ENV=production react-router build",
 		"check": "tsc",
-		"eslint-typegen": "node eslint.config.mjs",
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"deploy": "wrangler pages deploy ./build/client",
 		"dev": "react-router dev",
 		"electron:dev": "nodemon .",
