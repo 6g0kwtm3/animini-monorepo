@@ -28,7 +28,7 @@ importers:
         version: 5.8.3
       wrangler:
         specifier: 4.11.1
-        version: 4.11.1(@cloudflare/workers-types@4.20250416.0)
+        version: 4.11.1(@cloudflare/workers-types@4.20250417.0)
 
   apps/storybook:
     dependencies:
@@ -115,8 +115,8 @@ importers:
         specifier: 0.4.17
         version: 0.4.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@cloudflare/workers-types':
-        specifier: 4.20250416.0
-        version: 4.20250416.0
+        specifier: 4.20250417.0
+        version: 4.20250417.0
       '@hono/node-server':
         specifier: 1.14.1
         version: 1.14.1(hono@4.7.6)
@@ -134,7 +134,7 @@ importers:
         version: 1.0.14(rollup@4.40.0)
       '@react-router/dev':
         specifier: 7.5.0
-        version: 7.5.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(vite@6.3.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2))(wrangler@4.11.1(@cloudflare/workers-types@4.20250416.0))
+        version: 7.5.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(vite@6.3.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2))(wrangler@4.11.1(@cloudflare/workers-types@4.20250417.0))
       '@react-router/node':
         specifier: 7.5.0
         version: 7.5.0(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
@@ -658,8 +658,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-types@4.20250416.0':
-    resolution: {integrity: sha512-i37TX0Clp+MrPdXMBdvKZM7JghCrWD9GtG7E+8ANOAPmtZjUkZfEy9qq46IG3XlNpagPaWDkY3SgJ3s01gPxCw==}
+  '@cloudflare/workers-types@4.20250417.0':
+    resolution: {integrity: sha512-YsLXtMc1DezXW2x1KTiB7Hgqy9M4d2tbdohSO98npc208ZWD5W0UNjr6ej7sh5/jgqptIcP5jV4Czh+mpPYhcQ==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -6111,7 +6111,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20250410.0':
     optional: true
 
-  '@cloudflare/workers-types@4.20250416.0': {}
+  '@cloudflare/workers-types@4.20250417.0': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -7013,7 +7013,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@react-router/dev@7.5.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(vite@6.3.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2))(wrangler@4.11.1(@cloudflare/workers-types@4.20250416.0))':
+  '@react-router/dev@7.5.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(vite@6.3.0(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2))(wrangler@4.11.1(@cloudflare/workers-types@4.20250417.0))':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/generator': 7.27.0
@@ -7046,7 +7046,7 @@ snapshots:
       vite-node: 3.0.0-beta.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)
     optionalDependencies:
       typescript: 5.8.3
-      wrangler: 4.11.1(@cloudflare/workers-types@4.20250416.0)
+      wrangler: 4.11.1(@cloudflare/workers-types@4.20250417.0)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -11365,7 +11365,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20250410.0
       '@cloudflare/workerd-windows-64': 1.20250410.0
 
-  wrangler@4.11.1(@cloudflare/workers-types@4.20250416.0):
+  wrangler@4.11.1(@cloudflare/workers-types@4.20250417.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@cloudflare/unenv-preset': 2.3.1(unenv@2.0.0-rc.15)(workerd@1.20250410.0)
@@ -11376,7 +11376,7 @@ snapshots:
       unenv: 2.0.0-rc.15
       workerd: 1.20250410.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250416.0
+      '@cloudflare/workers-types': 4.20250417.0
       fsevents: 2.3.3
       sharp: 0.33.5
     transitivePeerDependencies:
