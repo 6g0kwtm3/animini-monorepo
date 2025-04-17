@@ -25,3 +25,4 @@ tmp
 *storybook.log
 build-storybook
 storybook-static
+**/eslint-typegen.d.ts
