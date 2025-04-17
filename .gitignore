@@ -24,5 +24,4 @@ dist
 tmp
 *storybook.log
 build-storybook
-eslint-typegen.d.ts
 storybook-static
