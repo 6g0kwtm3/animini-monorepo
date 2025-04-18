@@ -4,5 +4,7 @@
 	"tailwindFunctions": ["tv"],
 	"useTabs": true,
 	"endOfLine": "auto",
-	"trailingComma": "es5"
+	"trailingComma": "es5",
+	"experimentalOperatorPosition": "start",
+	"objectWrap": "collapse"
 }
