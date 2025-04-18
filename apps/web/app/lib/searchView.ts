@@ -1,31 +1,43 @@
-import { createContext } from "react"
-import { tv } from "~/lib/tailwind-variants"
+import plugin from "tailwindcss/plugin"
 
-export const createSearchView = tv(
-	{
-		slots: {
-			root: "bg-surface-container-high fixed mt-0 flex overflow-hidden",
-			input:
-				"text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant w-full bg-transparent p-4 [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4",
-			backdrop:
-				"bg-scrim/40 data-enter:opacity-100 opacity-0 transition-[opacity]",
-			body: "text-body-md text-on-surface overflow-auto overscroll-contain",
-		},
-		variants: {
-			variant: {
-				fullscreen: {
-					input: "h-[4.5rem]",
-					root: `inset-0`,
-				},
-				docked: {
-					input: "h-14",
-					root: "inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0",
-				},
+export const classGroups = {
+	"search-view": ["search-view-docked", "search-view-fullscreen"],
+}
+
+export const searchView = plugin(({ addComponents }) => {
+	addComponents({
+		".search-view": {
+			"@apply bg-surface-container-high fixed mt-0 flex overflow-hidden": {},
+
+			"& .search-view-input": {
+				"@apply text-body-lg text-on-surface placeholder:text-body-lg placeholder:text-on-surface-variant w-full bg-transparent p-4 [&::-webkit-search-cancel-button]:me-0 [&::-webkit-search-cancel-button]:ms-4":
+					{},
+			},
+			"& .search-view-backdrop": {
+				"@apply bg-scrim/40 data-enter:opacity-100 opacity-0 transition-[opacity]":
+					{},
+			},
+
+			"& .search-view-body": {
+				"@apply text-body-md text-on-surface overflow-auto overscroll-contain":
+					{},
 			},
 		},
-		defaultVariants: { variant: "docked" },
-	},
-	{ responsiveVariants: ["sm"] }
-)
 
-export const SearchViewContext = createContext(createSearchView())
+		".search-view-fullscreen": {
+			"@apply inset-0": {},
+			"& .search-view-input": {
+				"@apply h-[4.5rem]": {},
+			},
+		},
+
+		".search-view-docked": {
+			"@apply inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0":
+				{},
+
+			"& .search-view-input": {
+				"@apply h-14": {},
+			},
+		},
+	})
+})

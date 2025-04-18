@@ -1,22 +1,22 @@
 import * as Ariakit from "@ariakit/react"
-import { forwardRef, useContext } from "react"
-import type { VariantProps } from "tailwind-variants"
-import { createSearchView, SearchViewContext } from "~/lib/searchView"
+import { forwardRef } from "react"
+
+import type { Options } from "~/lib/createElement"
+import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import { Icon } from "./Button"
-import type { Options } from "~/lib/createElement"
 
 export const SearchViewBody = forwardRef<
 	HTMLDivElement,
 	Ariakit.ComboboxListProps
 >(function SearchViewBody(props, ref) {
-	const { body } = useContext(SearchViewContext)
-
 	return (
 		<Ariakit.ComboboxList
 			ref={ref}
 			{...props}
-			className={body({ className: props.className })}
+			className={tv({ base: "search-view-body" })({
+				className: props.className,
+			})}
 		/>
 	)
 })
@@ -27,27 +27,25 @@ export const SearchView = forwardRef<
 		open?: Ariakit.DialogStoreProps["open"]
 		onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
 		onSearch?: Ariakit.ComboboxProviderProps["setValue"]
-	} & VariantProps<typeof createSearchView>
->(function SearchView({ variant, ...props }, ref) {
-	const styles = createSearchView({ variant })
-
+	}
+>(function SearchView({ ...props }, ref) {
 	return (
-		<SearchViewContext.Provider value={styles}>
-			<Ariakit.Dialog
-				ref={ref}
-				backdrop={<div className={styles.backdrop()} />}
-				{...props}
-				className={styles.root({ className: props.className })}
+		<Ariakit.Dialog
+			ref={ref}
+			backdrop={<div className={"search-view-backdrop"} />}
+			{...props}
+			className={tv({ base: "search-view search-view-fullscreen" })({
+				className: props.className,
+			})}
+		>
+			<Ariakit.ComboboxProvider
+				focusLoop={true}
+				open={props.open}
+				includesBaseElement={true}
 			>
-				<Ariakit.ComboboxProvider
-					focusLoop={true}
-					open={props.open}
-					includesBaseElement={true}
-				>
-					{props.children}
-				</Ariakit.ComboboxProvider>
-			</Ariakit.Dialog>
-		</SearchViewContext.Provider>
+				{props.children}
+			</Ariakit.ComboboxProvider>
+		</Ariakit.Dialog>
 	)
 })
 
@@ -59,7 +57,7 @@ export const SearchViewInput = forwardRef<
 	Ariakit.ComboboxProps
 >(function SearchViewInput(props, ref) {
 	const { autoFocus = true } = props
-	const { input } = useContext(SearchViewContext)
+
 	return (
 		<>
 			<div className="flex items-center px-4">
@@ -71,7 +69,9 @@ export const SearchViewInput = forwardRef<
 					autoSelect={"always"}
 					{...props}
 					autoFocus={autoFocus}
-					className={input({ className: props.className })}
+					className={tv({ base: "search-view-input" })({
+						className: props.className,
+					})}
 				/>
 				<Ariakit.ComboboxCancel render={<Icon />} />
 			</div>

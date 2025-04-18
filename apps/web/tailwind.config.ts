@@ -1,8 +1,10 @@
 import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
+import { layout } from "./app/lib/layout"
 import { numberToString } from "./app/lib/numberToString"
 import * as Predicate from "./app/lib/Predicate"
+import { searchView } from "./app/lib/searchView"
 import colors from "./colors.json"
 import fontSize from "./tailwind.config.fonts"
 
@@ -227,6 +229,8 @@ export const config = {
 				},
 			})
 		}),
+		searchView,
+		layout
 	],
 } as const satisfies Config
 
