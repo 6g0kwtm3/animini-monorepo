@@ -1,2 +1,1 @@
-export * from "react-router/route-module";
-
+export * from "react-router/route-module"
