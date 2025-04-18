@@ -109,7 +109,7 @@ export function Search(): ReactNode {
 									Results
 								</Ariakit.ComboboxGroupLabel>
 
-								<List lines={"one"} render={<div />} className="-mt-2">
+								<List render={<div />} className="-mt-2 list-one">
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}

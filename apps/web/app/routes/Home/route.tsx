@@ -18,13 +18,13 @@ import { client_operation } from "~/lib/client"
 
 // console.log(R)
 
+import { Markdown } from "markdown"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { Route } from "./+types/route"
-import { Markdown } from "markdown"
 import { options } from "./options"
 const { graphql } = ReactRelay
 
@@ -141,11 +141,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											render={<article />}
 											className="grid max-w-7xl gap-4 rounded-[1.75rem]"
 										>
-											<List
-												lines="two"
-												className="-mx-4 -my-4"
-												render={<address />}
-											>
+											<List className="-mx-4 -my-4" render={<address />}>
 												<ListItem className="hover:state-none">
 													<div className="col-start-1 h-10 w-10">
 														{activity.user?.avatar?.large && (
