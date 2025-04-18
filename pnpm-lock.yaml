@@ -114,6 +114,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@animini/react-router':
+        specifier: workspace:*
+        version: link:../../packages/react-router
       '@ariakit/react':
         specifier: 0.4.17
         version: 0.4.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -216,9 +219,6 @@ importers:
       react-relay:
         specifier: 18.2.0
         version: 18.2.0(react@19.1.0)
-      react-router:
-        specifier: 7.5.1
-        version: 7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       relay-compiler:
         specifier: 18.2.0
         version: 18.2.0
@@ -306,7 +306,7 @@ importers:
         version: 7.37.5(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-compiler:
         specifier: beta
-        version: 19.0.0-beta-ebf51a3-20250411(eslint@9.24.0(jiti@2.4.2))
+        version: 19.0.0-beta-3229e95-20250315(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-hooks:
         specifier: 5.2.0
         version: 5.2.0(eslint@9.24.0(jiti@2.4.2))
@@ -403,6 +403,37 @@ importers:
         version: 4.19.3
 
   packages/oxlint-config: {}
+
+  packages/react-router:
+    dependencies:
+      '@types/react':
+        specifier: 19.1.2
+        version: 19.1.2
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-router:
+        specifier: 7.5.1
+        version: 7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+    devDependencies:
+      eslint:
+        specifier: 9.24.0
+        version: 9.24.0(jiti@2.4.2)
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint-typegen:
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.24.0(jiti@2.4.2))
+      oxlint-config:
+        specifier: workspace:*
+        version: link:../oxlint-config
+      ts-config:
+        specifier: workspace:^
+        version: link:../ts-config
+      tsx:
+        specifier: 4.19.3
+        version: 4.19.3
 
   packages/ts-config: {}
 
@@ -3169,8 +3200,8 @@ packages:
   eslint-plugin-oxlint@0.16.6:
     resolution: {integrity: sha512-LeEvYMBMUhvzzWPu60HUtm1aQE2JqwQTb3WjFO4fiowEOboE7Va8KI21qvW20AZf5FAwSOan1vGcL3M6Dmiuow==}
 
-  eslint-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411:
-    resolution: {integrity: sha512-R7ncuwbCPFAoeMlS56DGGSJFxmRtlWafYH/iWyep5Ks0RaPqTCL4k5gA87axUBBcITsaIgUGkbqAxDxl8Xfm5A==}
+  eslint-plugin-react-compiler@19.0.0-beta-3229e95-20250315:
+    resolution: {integrity: sha512-cJL+A3P3nIBAugbZ/RroaixQ6ygnKYMVM1sRnAE26dqHZRVRfqT8+PCyGtB2tgLmQWZhv6glQ+PRoiXqLMcRug==}
     engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
     peerDependencies:
       eslint: '>=7'
@@ -8738,7 +8769,7 @@ snapshots:
     dependencies:
       jsonc-parser: 3.3.1
 
-  eslint-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-react-compiler@19.0.0-beta-3229e95-20250315(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.27.0
