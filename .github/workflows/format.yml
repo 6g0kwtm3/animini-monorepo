@@ -30,6 +30,7 @@ jobs:
           ref: ${{ github.head_ref }} # This is required in order to work with the pull_request event (or any other non-push event).
           token: ${{ secrets.PAT }}
           fetch-depth: 0
+          filter: blob:none
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
