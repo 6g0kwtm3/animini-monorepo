@@ -1,4 +1,6 @@
 import * as Ariakit from "@ariakit/react"
+import type { ComponentProps, ReactNode } from "react"
+import { Suspense, useEffect } from "react"
 import {
 	Await,
 	Form,
@@ -8,9 +10,6 @@ import {
 	useNavigation,
 	useRouteLoaderData,
 } from "react-router"
-
-import type { ReactNode } from "react"
-import { Suspense, useEffect } from "react"
 import type { clientLoader as searchLoader } from "~/routes/Search/route"
 
 import {
@@ -20,7 +19,6 @@ import {
 } from "~/components/Tooltip"
 
 import { List } from "~/components/List"
-import { NavigationItem } from "~/components/Navigation"
 import {
 	SearchView,
 	SearchViewBody,
@@ -30,7 +28,7 @@ import {
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
 import type { clientLoader as navLoader } from "~/routes/Nav/route"
-import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
+
 import { M3 } from "../components"
 
 import { SearchItem } from "./SearchItem"
@@ -133,20 +131,12 @@ export function Search(): ReactNode {
 	)
 }
 
-export function SearchButton(): ReactNode {
+export function SearchButton(
+	props: ComponentProps<typeof TooltipPlainTrigger>
+): ReactNode {
 	return (
 		<TooltipPlain>
-			<TooltipPlainTrigger
-				render={
-					<NavigationItem
-						to={{ search: `?q=` }}
-						icon={<MaterialSymbolsTravelExplore />}
-						activeIcon={<MaterialSymbolsTravelExplore />}
-					/>
-				}
-			>
-				Explore
-			</TooltipPlainTrigger>
+			<TooltipPlainTrigger {...props}></TooltipPlainTrigger>
 			<TooltipPlainContainer>
 				<kbd>Ctrl</kbd>+<kbd className="font-bold">K</kbd>
 			</TooltipPlainContainer>
