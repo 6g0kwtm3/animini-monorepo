@@ -9,7 +9,7 @@
 		"check": "turbo run check --continue=dependencies-successful --affected",
 		"lint": "turbo run lint --continue=dependencies-successful --affected",
 		"dev": "turbo watch dev dts relay-watch",
-		"format": "prettier . -w",
+		"format": "prettier . -w --cache --cache-strategy metadata",
 		"knip": "knip",
 		"boundaries": "turbo boundaries",
 		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
