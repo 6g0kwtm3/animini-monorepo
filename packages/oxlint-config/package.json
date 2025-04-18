@@ -1,5 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "oxlint-config",
-	"private": true
+	"private": true,
+	"exports": "./oxlintrc.json"
 }
