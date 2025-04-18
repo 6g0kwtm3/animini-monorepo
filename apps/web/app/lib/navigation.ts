@@ -101,5 +101,15 @@ export const navigation = plugin((ctx) => {
 				"@apply static ms-auto": {},
 			},
 		},
+
+		".navigation-start": {
+			"@apply justify-start": {},
+		},
+		".navigation-center": {
+			"@apply justify-center": {},
+		},
+		".navigation-end": {
+			"@apply justify-end": {},
+		},
 	})
 })

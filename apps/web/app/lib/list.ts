@@ -4,8 +4,8 @@ export const classGroups = {
 	list: ["list-one", "list-two", "list-three"],
 }
 
-export const list = plugin(({ addComponents }) => {
-	addComponents({
+export const list = plugin((ctx) => {
+	ctx.addComponents({
 		".list": {
 			"@apply grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4": {},
 
