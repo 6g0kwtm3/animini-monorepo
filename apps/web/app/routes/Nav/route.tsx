@@ -8,9 +8,9 @@ import {
 	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
 } from "react-router"
-
 import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
+import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 import {
 	Navigation,
@@ -81,32 +81,9 @@ export default function NavRoute(): ReactNode {
 
 	return (
 		<Layout className="layout-navigation-bar sm:layout-navigation-rail lg:layout-navigation-drawer">
-			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
-      {data?.Viewer ? (
-        <>
-
-        </>
-      ) : (
-        <>
-          <Link
-             to={route_login(({
-              redirect: pathname
-            }))}
-            className={button()}
-          >
-            Login
-          </Link>
-        </>
-      )}
-
-      <div className="self-end">
-        <Search></Search>
-      </div>
-    </nav> */}
-
 			<Navigation className="navigation-bar sm:navigation-rail lg:navigation-drawer">
 				<NavigationItem
-					to="/"
+					href="/"
 					icon={<MaterialSymbolsFeedOutline />}
 					activeIcon={<MaterialSymbolsFeed />}
 				>
@@ -115,7 +92,7 @@ export default function NavRoute(): ReactNode {
 				{rootData?.Viewer ? (
 					<>
 						<NavigationItem
-							to={route_user({ userName: rootData.Viewer.name })}
+							href={route_user({ userName: rootData.Viewer.name })}
 							icon={<MaterialSymbolsPersonOutline />}
 							activeIcon={<MaterialSymbolsPerson />}
 						>
@@ -123,7 +100,7 @@ export default function NavRoute(): ReactNode {
 						</NavigationItem>
 						<NavigationItem
 							className="max-sm:hidden"
-							to={route_user_list({
+							href={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "animelist",
 							})}
@@ -133,7 +110,7 @@ export default function NavRoute(): ReactNode {
 							Anime List
 						</NavigationItem>
 						<NavigationItem
-							to={route_user_list({
+							href={route_user_list({
 								userName: rootData.Viewer.name,
 								typelist: "mangalist",
 							})}
@@ -146,7 +123,7 @@ export default function NavRoute(): ReactNode {
 					</>
 				) : (
 					<NavigationItem
-						to={route_login({ redirect: pathname })}
+						href={route_login({ redirect: pathname })}
 						icon={<MaterialSymbolsPersonOutline />}
 						activeIcon={<MaterialSymbolsPerson />}
 					>
@@ -154,7 +131,7 @@ export default function NavRoute(): ReactNode {
 					</NavigationItem>
 				)}
 				<NavigationItem
-					to="/notifications"
+					href="/notifications"
 					icon={<MaterialSymbolsNotificationsOutline />}
 					activeIcon={<MaterialSymbolsNotifications />}
 					badge={
@@ -173,7 +150,18 @@ export default function NavRoute(): ReactNode {
 				>
 					Notifications
 				</NavigationItem>
-				<SearchButton />
+				<SearchButton
+					render={
+						<NavigationItem
+							href={"/search"}
+							className={"sm:hidden"}
+							icon={<MaterialSymbolsTravelExplore />}
+							activeIcon={<MaterialSymbolsTravelExplore />}
+						>
+							Explore
+						</NavigationItem>
+					}
+				/>
 			</Navigation>
 			<Outlet />
 			<Search />

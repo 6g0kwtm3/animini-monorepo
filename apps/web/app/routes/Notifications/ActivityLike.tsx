@@ -1,5 +1,3 @@
-import { Link } from "react-router"
-
 import ReactRelay from "react-relay"
 import {
 	ListItem,
@@ -16,6 +14,7 @@ import { numberToString } from "~/lib/numberToString"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
+import { A } from "a"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -46,7 +45,7 @@ export function ActivityLike(props: {
 		notification.user && (
 			<ListItem
 				render={
-					<Link to={`/activity/${numberToString(notification.activityId)}`} />
+					<A href={`/activity/${numberToString(notification.activityId)}`} />
 				}
 			>
 				<ListItemImg>

@@ -26,6 +26,7 @@ import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { Route } from "./+types/route"
 import { options } from "./options"
+import { A } from "a"
 const { graphql } = ReactRelay
 
 function matchMediaId(s: string) {
@@ -163,9 +164,9 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 													<ListItemContent>
 														<ListItemTitle>
 															{activity.user?.name && (
-																<Link to={`/user/${activity.user.name}`}>
+																<A href={`/user/${activity.user.name}`}>
 																	{activity.user.name}
-																</Link>
+																</A>
 															)}
 														</ListItemTitle>
 														<ListItemSubtitle>

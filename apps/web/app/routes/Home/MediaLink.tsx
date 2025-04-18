@@ -21,6 +21,7 @@ import { route_media } from "~/lib/route"
 import { MediaCover } from "~/lib/entry/MediaCover"
 
 import type { MediaLinkCardQuery } from "~/gql/MediaLinkCardQuery.graphql"
+import { A } from "a"
 const { graphql } = ReactRelay
 
 export function MediaLink({
@@ -41,13 +42,13 @@ export function MediaLink({
 	)
 
 	return (
-		<Link to={route_media({ id: mediaId })} {...props}>
+		<A href={route_media({ id: mediaId })} {...props}>
 			<ErrorBoundary fallback={fallback}>
 				<Suspense fallback={fallback}>
 					<MediaCard mediaId={mediaId} type={type}></MediaCard>
 				</Suspense>
 			</ErrorBoundary>
-		</Link>
+		</A>
 	)
 }
 

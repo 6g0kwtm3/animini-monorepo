@@ -1,5 +1,3 @@
-import type { NavLink } from "react-router"
-
 import type {
 	ComponentProps,
 	ComponentPropsWithoutRef,
@@ -15,7 +13,7 @@ import { tv } from "~/lib/tailwind-variants"
 
 export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
-	ComponentProps<typeof NavLink> & {
+	ComponentProps<typeof HashNavLink> & {
 		children?: ReactNode
 		style?: CSSProperties
 		className?: string
