@@ -14,15 +14,11 @@ export const layout = plugin((ctx) => {
 		".layout": {
 			"@apply isolate": {},
 
-			"& .layout-body": {
-				"@apply flex gap-6 pe-4 sm:pe-6": {},
-			},
+			"& .layout-body": { "@apply flex gap-6 pe-4 sm:pe-6": {} },
 		},
 
 		".layout-navigation-none": {
-			"& .layout-body": {
-				"@apply pb-0 ps-4 sm:ps-6": {},
-			},
+			"& .layout-body": { "@apply pb-0 ps-4 sm:ps-6": {} },
 		},
 		".layout-navigation-bar": {
 			"& .layout-body": { "@apply pb-20 ps-4 sm:ps-6": {} },

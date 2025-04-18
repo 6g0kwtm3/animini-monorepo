@@ -1,4 +1,1 @@
-export default {
-	schema: "./schema.graphql",
-	documents: "./app/**/*.{ts,tsx}",
-}
+export default { schema: "./schema.graphql", documents: "./app/**/*.{ts,tsx}" }

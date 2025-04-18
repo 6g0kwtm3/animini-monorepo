@@ -20,21 +20,14 @@ export default typegen([
 	},
 	...base,
 	...react,
-	{
-		files: ["**/*.{js,jsx,ts,tsx}"],
-		processor: graphql.processors.graphql,
-	},
+	{ files: ["**/*.{js,jsx,ts,tsx}"], processor: graphql.processors.graphql },
 	{
 		files: ["**/*.graphql"],
 		languageOptions: {
 			parser: graphql.parser,
-			parserOptions: {
-				graphQLConfig: graphQLConfig,
-			},
+			parserOptions: { graphQLConfig: graphQLConfig },
 		},
-		plugins: {
-			"@graphql-eslint": { rules: graphql.rules },
-		},
+		plugins: { "@graphql-eslint": { rules: graphql.rules } },
 		rules: {
 			"@graphql-eslint/no-deprecated": "error",
 			"@graphql-eslint/no-duplicate-fields": "error",

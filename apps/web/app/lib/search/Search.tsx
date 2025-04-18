@@ -139,9 +139,7 @@ export function SearchButton(): ReactNode {
 			<TooltipPlainTrigger
 				render={
 					<NavigationItem
-						to={{
-							search: `?q=`,
-						}}
+						to={{ search: `?q=` }}
 						icon={<MaterialSymbolsTravelExplore />}
 						activeIcon={<MaterialSymbolsTravelExplore />}
 					/>

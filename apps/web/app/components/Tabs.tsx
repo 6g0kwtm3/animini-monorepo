@@ -11,14 +11,9 @@ const TabsContext = createContext<string | undefined>(undefined)
 import { tv } from "~/lib/tailwind-variants"
 
 const tabs = tv({
-	slots: {
-		root: "border-surface-container-highest border-b",
-	},
+	slots: { root: "border-surface-container-highest border-b" },
 	variants: {
-		variant: {
-			primary: {},
-			secondary: {},
-		},
+		variant: { primary: {}, secondary: {} },
 		grow: {
 			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
 			false: { root: "flex overflow-x-auto" },
@@ -44,9 +39,7 @@ export function TabsList({
 		<TabsContext.Provider value={useId()}>
 			<Ariakit.TabList
 				{...props}
-				className={styles.root({
-					className: props.className,
-				})}
+				className={styles.root({ className: props.className })}
 				render={<nav />}
 			/>
 		</TabsContext.Provider>

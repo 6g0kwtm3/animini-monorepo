@@ -7,21 +7,13 @@ const config = {
 	],
 	addons: [
 		"@storybook/addon-onboarding",
-		{
-			name: "@storybook/addon-essentials",
-			options: {
-				backgrounds: false,
-			},
-		},
+		{ name: "@storybook/addon-essentials", options: { backgrounds: false } },
 		"@chromatic-com/storybook",
 		"@storybook/addon-a11y",
 		"@storybook/addon-themes",
 		"@storybook/experimental-addon-test",
 	],
-	framework: {
-		name: "@storybook/react-vite",
-		options: {},
-	},
+	framework: { name: "@storybook/react-vite", options: {} },
 } satisfies StorybookConfig
 
 export default config

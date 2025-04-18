@@ -11,13 +11,7 @@ import oxlintConfig from "oxlint-config"
 export default await typegen([
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat["jsx-runtime"],
-	{
-		settings: {
-			react: {
-				version: "19",
-			},
-		},
-	},
+	{ settings: { react: { version: "19" } } },
 	reactHooks.configs["recommended-latest"],
 	reactRefresh.configs.vite,
 	reactCompiler.configs.recommended,

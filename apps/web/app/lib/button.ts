@@ -2,14 +2,8 @@ import { tv } from "~/lib/tailwind-variants"
 
 export const btnIcon = tv({
 	base: "text-on-surface-variant i hover:state-hover focused:state-focus pressed:state-pressed relative h-10 w-10 select-none rounded-full bg-center p-2",
-	variants: {
-		variant: {
-			standard: "",
-		},
-	},
-	defaultVariants: {
-		variant: "standard",
-	},
+	variants: { variant: { standard: "" } },
+	defaultVariants: { variant: "standard" },
 })
 
 export const createButton = tv({
@@ -41,9 +35,7 @@ export const createButton = tv({
 			},
 		},
 	},
-	defaultVariants: {
-		variant: "text",
-	},
+	defaultVariants: { variant: "text" },
 })
 
 const { root: button } = createButton()
@@ -64,8 +56,5 @@ export const fab = tv({
 			tertiary: "bg-tertiary-container text-on-tertiary-container",
 		},
 	},
-	defaultVariants: {
-		size: "default",
-		color: "primary",
-	},
+	defaultVariants: { size: "default", color: "primary" },
 })

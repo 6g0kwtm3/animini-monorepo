@@ -7,9 +7,7 @@ export function SelectOption(props: Ariakit.SelectItemProps): ReactNode {
 	return (
 		<Ariakit.SelectItem
 			{...props}
-			className={item({
-				className: "data-active-item:state-focus",
-			})}
+			className={item({ className: "data-active-item:state-focus" })}
 		/>
 	)
 }

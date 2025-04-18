@@ -1,8 +1,6 @@
 import plugin from "tailwindcss/plugin"
 
-export const classGroups = {
-	list: ["list-one", "list-two", "list-three"],
-}
+export const classGroups = { list: ["list-one", "list-two", "list-three"] }
 
 export const list = plugin((ctx) => {
 	ctx.addComponents({
@@ -22,9 +20,7 @@ export const list = plugin((ctx) => {
 				"@apply h-14 w-14 overflow-hidden *:h-full *:w-full": {},
 			},
 
-			"& .list-item-icon": {
-				"@apply i": {},
-			},
+			"& .list-item-icon": { "@apply i": {} },
 
 			"& .list-item-content": {
 				"@apply flex h-full flex-col first:col-span-2 last:col-span-2 first:last:col-span-3":
@@ -45,45 +41,27 @@ export const list = plugin((ctx) => {
 		},
 
 		".list-one": {
-			"& .list-item": {
-				"@apply min-h-[3.5rem] items-center": {},
-			},
+			"& .list-item": { "@apply min-h-[3.5rem] items-center": {} },
 
-			"& .list-item-subtitle": {
-				"@apply hidden": {},
-			},
+			"& .list-item-subtitle": { "@apply hidden": {} },
 
-			"& .list-item-content": {
-				"@apply justify-center py-2": {},
-			},
+			"& .list-item-content": { "@apply justify-center py-2": {} },
 		},
 
 		".list-two": {
-			"& .list-item": {
-				"@apply min-h-[4.5rem] items-center": {},
-			},
+			"& .list-item": { "@apply min-h-[4.5rem] items-center": {} },
 
-			"& .list-item-subtitle": {
-				"@apply block truncate": {},
-			},
+			"& .list-item-subtitle": { "@apply block truncate": {} },
 
-			"& .list-item-content": {
-				"@apply justify-center py-2": {},
-			},
+			"& .list-item-content": { "@apply justify-center py-2": {} },
 		},
 
 		".list-three": {
-			"& .list-item": {
-				"@apply min-h-[5.5rem] items-start": {},
-			},
+			"& .list-item": { "@apply min-h-[5.5rem] items-start": {} },
 
-			"& .list-item-subtitle": {
-				"@apply line-clamp-2": {},
-			},
+			"& .list-item-subtitle": { "@apply line-clamp-2": {} },
 
-			"& .list-item-content": {
-				"@apply justify-start py-3": {},
-			},
+			"& .list-item-content": { "@apply justify-start py-3": {} },
 		},
 	})
 })

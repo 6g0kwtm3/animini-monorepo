@@ -3,30 +3,21 @@
 	"ui": "tui",
 	"envMode": "strict",
 	"tasks": {
-		"dev": {
-			"cache": false,
-			"persistent": true
-		},
+		"dev": { "cache": false, "persistent": true },
 		"build": {
 			"dependsOn": ["^build", "relay", "dts"],
 			"outputs": ["dist/**", "storybook-static/**"],
 			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
 		},
-		"dts": {
-			"outputs": ["tmp/**"]
-		},
-		"router": {
-			"outputs": [".react-router/**"]
-		},
+		"dts": { "outputs": ["tmp/**"] },
+		"router": { "outputs": [".react-router/**"] },
 		"relay": { "outputs": ["app/gql/**"] },
 		"relay-watch": { "cache": false, "persistent": true },
 		"paraglide": {
 			"outputs": ["app/paraglide/**"],
 			"inputs": ["messages/**", "project.inlang/settings.json"]
 		},
-		"transit": {
-			"dependsOn": ["^transit"]
-		},
+		"transit": { "dependsOn": ["^transit"] },
 		"check": {
 			"dependsOn": [
 				"^dts",

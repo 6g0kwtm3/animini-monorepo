@@ -47,21 +47,15 @@ export function RelatedMediaAddition(props: {
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
 				<ListItem
-					render={
-						<Link
-							to={route_media({
-								id: notification.media.id,
-							})}
-						/>
-					}
+					render={<Link to={route_media({ id: notification.media.id })} />}
 				>
 					<ListItemImg>
 						<MediaCover media={notification.media} />
 					</ListItemImg>
 					<ListItemContent>
 						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) >
-								(data?.Viewer?.unreadNotificationCount ?? 0) && (
+							{(notification.createdAt ?? 0)
+								> (data?.Viewer?.unreadNotificationCount ?? 0) && (
 								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 							)}{" "}
 							{m.recently_added()}

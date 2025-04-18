@@ -59,9 +59,7 @@ export const MenuListItem = forwardRef<HTMLDivElement, Ariakit.MenuItemProps>(
 			<Ariakit.MenuItem
 				ref={ref}
 				{...props}
-				className={listItem({
-					className: props.className,
-				})}
+				className={listItem({ className: props.className })}
 			/>
 		)
 	}

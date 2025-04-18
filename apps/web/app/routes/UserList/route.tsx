@@ -64,31 +64,25 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 }) => {
 	if (
-		formMethod?.toLocaleUpperCase() === "GET" &&
-		currentParams.userName === nextParams.userName &&
-		currentParams.typelist === nextParams.typelist
+		formMethod?.toLocaleUpperCase() === "GET"
+		&& currentParams.userName === nextParams.userName
+		&& currentParams.typelist === nextParams.typelist
 	) {
 		return false
 	}
 	return defaultShouldRevalidate
 }
 
-const Params = type({
-	userName: "string",
-	typelist: '"animelist"|"mangalist"',
-})
+const Params = type({ userName: "string", typelist: '"animelist"|"mangalist"' })
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const params = invariant(Params(args.params))
 
 	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
 		userName: params.userName,
-		type: (
-			{
-				animelist: "ANIME",
-				mangalist: "MANGA",
-			} as const
-		)[params.typelist],
+		type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
+			params.typelist
+		],
 	})
 
 	return { data, params }
@@ -325,14 +319,7 @@ function FilterButton() {
 	return (
 		<Icon
 			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
-			render={
-				<Link
-					to={{
-						search: `?${filterParams}`,
-						pathname,
-					}}
-				/>
-			}
+			render={<Link to={{ search: `?${filterParams}`, pathname }} />}
 		>
 			<MaterialSymbolsFilterList />
 		</Icon>
@@ -369,9 +356,7 @@ function Filter() {
 			<Sheet
 				open={filter || sort}
 				onClose={() => {
-					void navigate({
-						search: `?${searchParams}`,
-					})
+					void navigate({ search: `?${searchParams}` })
 				}}
 			>
 				<M3.Tabs selectedId={sheet}>
@@ -546,15 +531,9 @@ const ANIME_FORMAT_OPTIONS = {
 	"MediaFormat.Music": m.media_format_music(),
 }
 
-const ANIME_PROGRESS_OPTIONS = {
-	UNSEEN: "Unwatched",
-	STARTED: "Started",
-}
+const ANIME_PROGRESS_OPTIONS = { UNSEEN: "Unwatched", STARTED: "Started" }
 
-const MANGA_PROGRESS_OPTIONS = {
-	UNSEEN: "Unread",
-	STARTED: "Started",
-}
+const MANGA_PROGRESS_OPTIONS = { UNSEEN: "Unread", STARTED: "Started" }
 
 const ANIME_SORT_OPTIONS = {
 	[MediaListSort.TitleEnglish]: m.media_sort_title(),

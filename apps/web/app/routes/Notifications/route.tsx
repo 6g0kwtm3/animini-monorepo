@@ -148,8 +148,8 @@ export default function Notifications(): ReactNode {
 										)
 									}
 									if (
-										notification.__typename ===
-										"RelatedMediaAdditionNotification"
+										notification.__typename
+										=== "RelatedMediaAdditionNotification"
 									) {
 										return (
 											<RelatedMediaAddition
@@ -179,9 +179,5 @@ export default function Notifications(): ReactNode {
 }
 
 export const meta = (() => {
-	return [
-		{
-			title: `Notifications`,
-		},
-	]
+	return [{ title: `Notifications` }]
 }) satisfies MetaFunction<typeof clientLoader>

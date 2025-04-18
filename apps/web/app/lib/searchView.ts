@@ -26,18 +26,14 @@ export const searchView = plugin((ctx) => {
 
 		".search-view-fullscreen": {
 			"@apply inset-0": {},
-			"& .search-view-input": {
-				"@apply h-[4.5rem]": {},
-			},
+			"& .search-view-input": { "@apply h-[4.5rem]": {} },
 		},
 
 		".search-view-docked": {
 			"@apply inset-[3.5rem] mx-auto mt-0 h-fit max-h-[66dvh] w-fit min-w-[22.5rem] max-w-[45rem] rounded-xl py-0":
 				{},
 
-			"& .search-view-input": {
-				"@apply h-14": {},
-			},
+			"& .search-view-input": { "@apply h-14": {} },
 		},
 	})
 })

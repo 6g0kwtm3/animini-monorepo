@@ -13,17 +13,13 @@ export const navigation = plugin((ctx) => {
 		".navigation": {
 			"@apply fixed bottom-0 start-0 z-50": {},
 
-			"& .navigation-label": {
-				"@apply relative flex text-center": {},
-			},
+			"& .navigation-label": { "@apply relative flex text-center": {} },
 
 			"& .navigation-active-indicator": {
 				"@apply bg-secondary-container absolute": {},
 			},
 
-			"& .navigation-icon": {
-				"@apply i *:last:hidden": {},
-			},
+			"& .navigation-icon": { "@apply i *:last:hidden": {} },
 
 			"& .navigation-large-badge": {
 				"@apply bg-error text-label-sm text-on-error flex h-4 min-w-4 items-center justify-center rounded-sm px-1":
@@ -50,9 +46,7 @@ export const navigation = plugin((ctx) => {
 					{},
 			},
 
-			"& .navigation-large-badge": {
-				"@apply absolute left-1/2": {},
-			},
+			"& .navigation-large-badge": { "@apply absolute left-1/2": {} },
 		},
 
 		".navigation-rail": {
@@ -73,9 +67,7 @@ export const navigation = plugin((ctx) => {
 					{},
 			},
 
-			"& .navigation-large-badge": {
-				"@apply absolute left-1/2": {},
-			},
+			"& .navigation-large-badge": { "@apply absolute left-1/2": {} },
 		},
 
 		".navigation-drawer": {
@@ -97,19 +89,11 @@ export const navigation = plugin((ctx) => {
 					{},
 			},
 
-			"& .navigation-large-badge": {
-				"@apply static ms-auto": {},
-			},
+			"& .navigation-large-badge": { "@apply static ms-auto": {} },
 		},
 
-		".navigation-start": {
-			"@apply justify-start": {},
-		},
-		".navigation-center": {
-			"@apply justify-center": {},
-		},
-		".navigation-end": {
-			"@apply justify-end": {},
-		},
+		".navigation-start": { "@apply justify-start": {} },
+		".navigation-center": { "@apply justify-center": {} },
+		".navigation-end": { "@apply justify-end": {} },
 	})
 })

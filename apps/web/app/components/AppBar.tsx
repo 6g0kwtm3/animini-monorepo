@@ -25,15 +25,9 @@ const appBar = tv(
 				false: { root: "" },
 			},
 			variant: {
-				centered: {
-					root: "",
-				},
-				small: {
-					root: "h-16 px-2 pb-3 pt-3",
-				},
-				medium: {
-					root: "",
-				},
+				centered: { root: "" },
+				small: { root: "h-16 px-2 pb-3 pt-3" },
+				medium: { root: "" },
 				large: {
 					root: "animate-app-bar-large h-28 px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]",
 				},
@@ -62,11 +56,7 @@ export function AppBar({
 
 	const ref = useRef<ComponentRef<"nav">>(null)
 
-	const styles = appBar({
-		variant,
-		elevate,
-		hide,
-	})
+	const styles = appBar({ variant, elevate, hide })
 
 	useEffect(() => {
 		function listener() {

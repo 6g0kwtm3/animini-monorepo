@@ -131,8 +131,8 @@ export const meta = (({ params }) => {
 	return [
 		{
 			title:
-				params.userName &&
-				(params.typelist === "animelist"
+				params.userName
+				&& (params.typelist === "animelist"
 					? `${params.userName}'s anime list`
 					: `${params.userName}'s manga list`),
 		},
@@ -192,9 +192,7 @@ export const clientAction = (async (args) => {
 	if (intent === "set_status") {
 		return setStatus(formData)
 	}
-	throw Response.json(`Unknown intent: "${intent}"`, {
-		status: 400,
-	})
+	throw Response.json(`Unknown intent: "${intent}"`, { status: 400 })
 }) satisfies ClientActionFunction
 
 async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
@@ -206,12 +204,9 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 		NavUserListEntriesQuery,
 		{
 			userName: params.userName,
-			type: (
-				{
-					animelist: "ANIME",
-					mangalist: "MANGA",
-				} as const
-			)[params.typelist],
+			type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
+				params.typelist
+			],
 		}
 	)
 
@@ -236,14 +231,10 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	)
 
 	if (!selectedList) {
-		throw Response.json("List not found", {
-			status: 404,
-		})
+		throw Response.json("List not found", { status: 404 })
 	}
 
-	return {
-		selectedList,
-	}
+	return { selectedList }
 }
 
 const FuzzyDate = graphql`
@@ -417,10 +408,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 }) => {
 	if (
-		formMethod?.toLocaleUpperCase() === "GET" &&
-		currentParams.userName === nextParams.userName &&
-		currentParams.typelist === nextParams.typelist &&
-		currentParams.selected === nextParams.selected
+		formMethod?.toLocaleUpperCase() === "GET"
+		&& currentParams.userName === nextParams.userName
+		&& currentParams.typelist === nextParams.typelist
+		&& currentParams.selected === nextParams.selected
 	) {
 		return false
 	}

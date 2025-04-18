@@ -37,8 +37,8 @@ export function useQueryLoader<T extends RelayRuntime.OperationType>(
 	const [queryReference, loadQuery, disposeQuery] = useQueryLoader_<T>(query)
 
 	return [
-		queryReference &&
-			([query, queryReference] satisfies NodeAndQueryFragment<T>),
+		queryReference
+			&& ([query, queryReference] satisfies NodeAndQueryFragment<T>),
 		loadQuery,
 		disposeQuery,
 	] as const

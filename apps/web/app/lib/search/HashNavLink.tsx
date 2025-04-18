@@ -4,9 +4,7 @@ import { Link, useLocation, useResolvedPath } from "react-router"
 
 export const HashNavLink = forwardRef<
 	HTMLAnchorElement,
-	ComponentPropsWithoutRef<typeof Link> & {
-		children?: ReactNode
-	}
+	ComponentPropsWithoutRef<typeof Link> & { children?: ReactNode }
 >(function HashNavLink({ children, ...props }, ref) {
 	const { search, pathname } = useLocation()
 

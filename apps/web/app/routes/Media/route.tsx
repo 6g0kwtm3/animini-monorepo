@@ -76,15 +76,11 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 				}
 			}
 		`,
-		{
-			id: Number(args.params.mediaId),
-		}
+		{ id: Number(args.params.mediaId) }
 	)
 
 	if (!data?.Media) {
-		throw Response.json("Media not found", {
-			status: 404,
-		})
+		throw Response.json("Media not found", { status: 404 })
 	}
 
 	return {
@@ -102,8 +98,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
 }) => {
 	if (
-		formMethod?.toLocaleUpperCase() === "GET" &&
-		currentParams.mediaId === nextParams.mediaId
+		formMethod?.toLocaleUpperCase() === "GET"
+		&& currentParams.mediaId === nextParams.mediaId
 	) {
 		return false
 	}
@@ -163,9 +159,7 @@ export default function Page(): ReactNode {
 									</Ariakit.Heading>
 									<Menu>
 										<MenuTrigger
-											className={button({
-												className: "cursor-default",
-											})}
+											className={button({ className: "cursor-default" })}
 										>
 											Format
 										</MenuTrigger>
@@ -238,9 +232,7 @@ export default function Page(): ReactNode {
 
 				{outlet && (
 					<AnimatePresence mode="wait">
-						{cloneElement(outlet, {
-							key: pathname,
-						})}
+						{cloneElement(outlet, { key: pathname })}
 					</AnimatePresence>
 				)}
 			</PaneFlexible>

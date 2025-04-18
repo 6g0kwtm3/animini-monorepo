@@ -6,10 +6,7 @@
 		"moduleResolution": "Bundler",
 		"baseUrl": ".",
 		"rootDirs": [".", "./.react-router/types"],
-		"paths": {
-			"~/*": ["./app/*"],
-			"#lib/*": ["./app/lib/*"]
-		},
+		"paths": { "~/*": ["./app/*"], "#lib/*": ["./app/lib/*"] },
 		// Vite takes care of building everything, not tsc.
 		"noEmit": true,
 		"types": ["unplugin-icons/types/react"]

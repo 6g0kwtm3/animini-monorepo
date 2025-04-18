@@ -71,16 +71,12 @@ export function Navigation({
 	...props
 }: ComponentPropsWithoutRef<"nav">): ReactNode {
 	return (
-		<NavigationContext.Provider
-			value={{
-				"--id": useId(),
-			}}
-		>
+		<NavigationContext.Provider value={{ "--id": useId() }}>
 			<nav
 				{...props}
-				className={tv({
-					base: "navigation navigation-bar navigation-end",
-				})({ className: props.className })}
+				className={tv({ base: "navigation navigation-bar navigation-end" })({
+					className: props.className,
+				})}
 			/>
 		</NavigationContext.Provider>
 	)
@@ -89,12 +85,5 @@ export function Navigation({
 export function NavigationItemLargeBadge(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
-	return (
-		<div
-			{...props}
-			className={tv({
-				base: "navigation-large-badge",
-			})()}
-		/>
-	)
+	return <div {...props} className={tv({ base: "navigation-large-badge" })()} />
 }

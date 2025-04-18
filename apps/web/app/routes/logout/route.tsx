@@ -17,8 +17,6 @@ export const clientAction = (args: ClientLoaderFunctionArgs) => {
 		store.invalidateStore()
 	})
 	return redirect(url.searchParams.get("redirect") ?? "/", {
-		headers: {
-			"Set-Cookie": setCookie,
-		},
+		headers: { "Set-Cookie": setCookie },
 	})
 }

@@ -1,9 +1,6 @@
 import { tv } from "~/lib/tailwind-variants"
 export const createTextField = tv({
-	slots: {
-		input: "",
-		root: "",
-	},
+	slots: { input: "", root: "" },
 	variants: {
 		variant: {
 			outlined: {
@@ -13,7 +10,5 @@ export const createTextField = tv({
 			},
 		},
 	},
-	defaultVariants: {
-		variant: "outlined",
-	},
+	defaultVariants: { variant: "outlined" },
 })

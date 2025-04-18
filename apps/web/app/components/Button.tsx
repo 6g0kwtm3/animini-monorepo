@@ -26,9 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				<BaseButton
 					ref={ref}
 					{...props}
-					className={styles.root({
-						className: props.className,
-					})}
+					className={styles.root({ className: props.className })}
 				/>
 			</ButtonContext.Provider>
 		)
@@ -49,8 +47,8 @@ export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 
 export const Icon = forwardRef<
 	HTMLButtonElement,
-	VariantProps<typeof btnIcon> &
-		PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
+	VariantProps<typeof btnIcon>
+		& PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
 >(function ButtonIcon({ children, variant, className, ...props }, ref) {
 	return (
 		<BaseButton

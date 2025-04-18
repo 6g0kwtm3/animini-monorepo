@@ -2,17 +2,7 @@
 	"name": "animini-pwa",
 	"pages_build_output_dir": "apps/web/dist/client",
 	"compatibility_date": "2024-11-11",
-	"placement": {
-		"mode": "smart"
-	},
-	"env": {
-		"production": {
-			"vars": {
-				"NODE_VERSION": "23.6.0"
-			}
-		}
-	},
-	"vars": {
-		"NODE_VERSION": "23.6.0"
-	}
+	"placement": { "mode": "smart" },
+	"env": { "production": { "vars": { "NODE_VERSION": "23.6.0" } } },
+	"vars": { "NODE_VERSION": "23.6.0" }
 }
