@@ -51,6 +51,7 @@ import { route_user_list } from "~/lib/route"
 import { captureException } from "@sentry/react"
 import { A } from "a"
 import { type } from "arktype"
+import { ExtraOutlets } from "extra-outlet"
 import ReactRelay from "react-relay"
 import { Label } from "~/components/Label"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
@@ -125,7 +126,7 @@ export default function Filters(): ReactNode {
 	const params = useParams()
 
 	return (
-		<>
+		<ExtraOutlets>
 			<LayoutBody>
 				<LayoutPane variant="fixed" className="max-md:hidden">
 					<Card variant="elevated" className="max-h-full overflow-y-auto">
@@ -266,7 +267,7 @@ export default function Filters(): ReactNode {
 			</LayoutBody>
 
 			<Filter />
-		</>
+		</ExtraOutlets>
 	)
 }
 
@@ -564,18 +565,20 @@ export function ErrorBoundary(): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<LayoutBody>
-				<LayoutPane>
-					<div>
-						<Ariakit.Heading>Oops</Ariakit.Heading>
-						<p>Status: {error.status}</p>
-						<p>{error.data}</p>
-						<A href={location} className={button()}>
-							Try again
-						</A>
-					</div>
-				</LayoutPane>
-			</LayoutBody>
+			<ExtraOutlets>
+				<LayoutBody>
+					<LayoutPane>
+						<div>
+							<Ariakit.Heading>Oops</Ariakit.Heading>
+							<p>Status: {error.status}</p>
+							<p>{error.data}</p>
+							<A href={location} className={button()}>
+								Try again
+							</A>
+						</div>
+					</LayoutPane>
+				</LayoutBody>
+			</ExtraOutlets>
 		)
 	}
 	captureException(error)
@@ -587,19 +590,21 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<LayoutBody>
-			<LayoutPane>
-				<Card
-					variant="elevated"
-					className="bg-error-container text-on-error-container m-4"
-				>
-					<Ariakit.Heading className="text-headline-md text-balance">
-						Uh oh ...
-					</Ariakit.Heading>
-					<p className="text-headline-sm">Something went wrong.</p>
-					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-				</Card>
-			</LayoutPane>
-		</LayoutBody>
+		<ExtraOutlets>
+			<LayoutBody>
+				<LayoutPane>
+					<Card
+						variant="elevated"
+						className="bg-error-container text-on-error-container m-4"
+					>
+						<Ariakit.Heading className="text-headline-md text-balance">
+							Uh oh ...
+						</Ariakit.Heading>
+						<p className="text-headline-sm">Something went wrong.</p>
+						<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+					</Card>
+				</LayoutPane>
+			</LayoutBody>
+		</ExtraOutlets>
 	)
 }

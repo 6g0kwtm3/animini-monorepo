@@ -52,6 +52,7 @@ import type {
 
 import { captureException } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
+import { ExtraOutlets } from "extra-outlet"
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { invariant } from "~/lib/invariant"
@@ -429,7 +430,7 @@ export default function Page(): ReactNode {
 	const [search] = useSearchParams()
 
 	return (
-		<>
+		<ExtraOutlets>
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
@@ -501,7 +502,7 @@ export default function Page(): ReactNode {
 				</div>
 			</div>
 			<Outlet />
-		</>
+		</ExtraOutlets>
 	)
 }
 export function ErrorBoundary(): ReactNode {
@@ -510,11 +511,13 @@ export function ErrorBoundary(): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<div>
-				<Ariakit.Heading>Oops</Ariakit.Heading>
-				<p>Status: {error.status}</p>
-				<p>{error.data}</p>
-			</div>
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+				</div>
+			</ExtraOutlets>
 		)
 	}
 	captureException(error)
@@ -526,15 +529,17 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<Card
-			variant="elevated"
-			className="bg-error-container text-on-error-container m-4"
-		>
-			<Ariakit.Heading className="text-headline-md text-balance">
-				Uh oh ...
-			</Ariakit.Heading>
-			<p className="text-headline-sm">Something went wrong.</p>
-			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-		</Card>
+		<ExtraOutlets>
+			<Card
+				variant="elevated"
+				className="bg-error-container text-on-error-container m-4"
+			>
+				<Ariakit.Heading className="text-headline-md text-balance">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+			</Card>
+		</ExtraOutlets>
 	)
 }
