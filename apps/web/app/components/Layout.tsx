@@ -1,5 +1,4 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { createContext, useContext } from "react"
 
 import { type VariantProps } from "tailwind-variants"
 
@@ -7,53 +6,26 @@ import { useCreateElement, type Options } from "~/lib/createElement"
 
 import { tv } from "~/lib/tailwind-variants"
 
-const createLayout = tv(
-	{
-		slots: {
-			root: "isolate",
-			body: "flex gap-6 pe-4 sm:pe-6",
-		},
-		variants: {
-			navigation: {
-				none: { body: "pb-0 ps-4 sm:ps-6" },
-				bar: {
-					root: "",
-					body: "pb-20 ps-4 sm:ps-6",
-				},
-				rail: {
-					root: "",
-					body: "pb-0 ps-20 sm:ps-20",
-				},
-				drawer: {
-					root: "",
-					body: "pb-0 ps-[22.5rem] sm:ps-[22.5rem]",
-				},
-			},
-		},
-		defaultVariants: { navigation: "none" },
-	},
-	{ responsiveVariants: ["sm", "lg"] }
-)
-
-const LayoutContext = createContext(createLayout())
-export function Layout({
-	navigation,
-	...props
-}: ComponentPropsWithoutRef<"div"> &
-	VariantProps<typeof createLayout>): ReactNode {
-	const styles = createLayout({ navigation })
-
+export function Layout({ ...props }: ComponentPropsWithoutRef<"div">) {
 	return (
-		<LayoutContext.Provider value={styles}>
-			<div className={styles.root({ className: props.className })}>
-				{props.children}
-			</div>
-		</LayoutContext.Provider>
+		<div
+			className={tv({
+				base: "layout layout-navigation-none",
+			})({ className: props.className })}
+		>
+			{props.children}
+		</div>
 	)
 }
 export function LayoutBody(props: ComponentPropsWithoutRef<"main">): ReactNode {
-	const { body } = useContext(LayoutContext)
-	return <main {...props} className={body({ className: props.className })} />
+	return (
+		<main
+			{...props}
+			className={tv({
+				base: "layout-body",
+			})({ className: props.className })}
+		/>
+	)
 }
 
 const pane = tv({

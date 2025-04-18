@@ -80,13 +80,7 @@ export default function NavRoute(): ReactNode {
 	const { pathname } = useLocation()
 
 	return (
-		<Layout
-			navigation={{
-				initial: "bar",
-				sm: "rail",
-				lg: "drawer",
-			}}
-		>
+		<Layout className="layout-navigation-bar sm:layout-navigation-rail lg:layout-navigation-drawer">
 			{/* <nav className="flex flex-wrap gap-2 px-2 py-1">
       {data?.Viewer ? (
         <>
@@ -110,13 +104,7 @@ export default function NavRoute(): ReactNode {
       </div>
     </nav> */}
 
-			<Navigation
-				variant={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer",
-				}}
-			>
+			<Navigation className="navigation-bar sm:navigation-rail lg:navigation-drawer">
 				<NavigationItem
 					to="/"
 					icon={<MaterialSymbolsFeedOutline />}

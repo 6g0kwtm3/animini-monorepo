@@ -8,12 +8,10 @@ import type {
 } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
-import type { VariantProps } from "tailwind-variants"
 import { TouchTarget } from "~/components/Tooltip"
-import { createNavigation } from "~/lib/navigation"
-import { HashNavLink } from "~/lib/search/HashNavLink"
 
-const Context = createContext(createNavigation())
+import { HashNavLink } from "~/lib/search/HashNavLink"
+import { tv } from "~/lib/tailwind-variants"
 
 export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
@@ -29,13 +27,13 @@ export const NavigationItem = forwardRef<
 	{ activeIcon, icon, badge, children, ...props },
 	ref
 ) {
-	const { label } = useContext(Context)
-
 	return (
 		<HashNavLink
 			ref={ref}
 			{...props}
-			className={label({ className: props.className })}
+			className={tv({ base: "navigation-label group" })({
+				className: props.className,
+			})}
 		>
 			<NavigationActiveIndicator />
 			<NavigationItemIcon>
@@ -54,38 +52,36 @@ const NavigationContext = createContext<{ "--id": string } | undefined>(
 )
 
 function NavigationActiveIndicator() {
-	const { activeIndicator } = useContext(Context)
 	const style = useContext(NavigationContext)
 
-	return <div className={activeIndicator()} style={style} />
+	return (
+		<div
+			style={style}
+			className={tv({ base: "navigation-active-indicator" })()}
+		/>
+	)
 }
 
 export function NavigationItemIcon(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
-	const { icon } = useContext(Context)
-
-	return <div {...props} className={icon()} />
+	return <div {...props} className={tv({ base: "navigation-icon" })()} />
 }
 export function Navigation({
-	variant,
 	...props
-}: ComponentPropsWithoutRef<"nav"> &
-	VariantProps<typeof createNavigation>): ReactNode {
-	const styles = createNavigation({ variant })
-
+}: ComponentPropsWithoutRef<"nav">): ReactNode {
 	return (
 		<NavigationContext.Provider
 			value={{
 				"--id": useId(),
 			}}
 		>
-			<Context.Provider value={styles}>
-				<nav
-					{...props}
-					className={styles.root({ className: props.className })}
-				/>
-			</Context.Provider>
+			<nav
+				{...props}
+				className={tv({
+					base: "navigation navigation-bar navigation-end",
+				})({ className: props.className })}
+			/>
 		</NavigationContext.Provider>
 	)
 }
@@ -93,7 +89,12 @@ export function Navigation({
 export function NavigationItemLargeBadge(
 	props: ComponentPropsWithoutRef<"div">
 ): ReactNode {
-	const { largeBadge } = useContext(Context)
-
-	return <div {...props} className={largeBadge()} />
+	return (
+		<div
+			{...props}
+			className={tv({
+				base: "navigation-large-badge",
+			})()}
+		/>
+	)
 }

@@ -84,7 +84,7 @@ export function UserCard(props: { userName: string }) {
 		data.User && (
 			<>
 				<div className="-mx-4 -my-2">
-					<List lines={"two"} className="">
+					<List className="">
 						<ListItem className="hover:state-none">
 							<ListItemAvatar>
 								{data.User.avatar?.large && (

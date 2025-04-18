@@ -89,10 +89,7 @@ export function Search(): ReactNode {
 			onClose={() => {
 				void navigate({ search: `?${searchParams}` })
 			}}
-			variant={{
-				initial: "fullscreen",
-				sm: "docked",
-			}}
+			className="search-view-fullscreen sm:search-view-docked"
 			defaultValue={searchParams.get("q") ?? ""}
 		>
 			<Form role="search" action="/search" className={"flex w-full flex-col"}>
@@ -112,7 +109,7 @@ export function Search(): ReactNode {
 									Results
 								</Ariakit.ComboboxGroupLabel>
 
-								<List lines={"one"} render={<div />} className="-mt-2">
+								<List render={<div />} className="list-one -mt-2">
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}
