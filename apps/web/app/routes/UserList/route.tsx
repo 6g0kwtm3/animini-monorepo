@@ -54,6 +54,7 @@ import { type } from "arktype"
 import ReactRelay from "react-relay"
 import { Label } from "~/components/Label"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
+import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
 
@@ -558,6 +559,7 @@ const MANGA_FORMAT_OPTIONS = {
 
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
+	const location = useLocation()
 
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
@@ -568,7 +570,9 @@ export function ErrorBoundary(): ReactNode {
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
 						<p>{error.data}</p>
-						<M3.Button render={<A href="." />}>Try again</M3.Button>
+						<A href={location} className={button()}>
+							Try again
+						</A>
 					</div>
 				</LayoutPane>
 			</LayoutBody>

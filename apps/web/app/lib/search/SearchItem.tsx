@@ -1,5 +1,4 @@
 import ReactRelay from "react-relay"
-import { Link } from "react-router"
 
 import {
 	ListItem,
@@ -9,11 +8,11 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components/List"
 
+import { A } from "a"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
 import { MediaCover } from "../entry/MediaCover"
 import { useFragment } from "../Network"
 import { route_media } from "../route"
-import { A } from "a"
 const { graphql } = ReactRelay
 
 const SearchItem_media = graphql`
