@@ -12,12 +12,12 @@
 			"groupName": "eslint"
 		},
 		{
-			"matchUpdateTypes": ["minor"],
-			"matchCurrentVersion": "!/^0/",
+			"matchDepTypes": ["devDependencies", "action"],
 			"automerge": true
 		},
 		{
-			"matchDepTypes": ["devDependencies", "action"],
+			"matchUpdateTypes": ["minor"],
+			"matchCurrentVersion": "!/^0/",
 			"automerge": true
 		},
 		{
