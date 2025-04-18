@@ -6,6 +6,7 @@ import * as reactCompiler from "eslint-plugin-react-compiler"
 import * as reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import typegen from "eslint-typegen"
+import oxlintConfig from 'oxlint-config'
 
 export default await typegen([
 	reactPlugin.configs.flat.recommended,
@@ -41,7 +42,7 @@ export default await typegen([
 			],
 		},
 	},
-	...oxlint.buildFromOxlintConfigFile(
-		"./node_modules/oxlint-config/oxlintrc.json"
+	...oxlint.buildFromOxlintConfig(
+		oxlintConfig
 	),
 ])
