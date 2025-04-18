@@ -7,7 +7,7 @@ import oxlint from "eslint-plugin-oxlint"
 import typegen from "eslint-typegen"
 import path from "path"
 import tseslint from "typescript-eslint"
-import oxlintConfig from 'oxlint-config'
+import oxlintConfig from "oxlint-config"
 
 export default await typegen([
 	{
@@ -86,7 +86,5 @@ export default await typegen([
 			"no-throw-literal": "error",
 		},
 	},
-	...oxlint.buildFromOxlintConfig(
-		oxlintConfig
-	),
+	...oxlint.buildFromOxlintConfig(oxlintConfig),
 ])
