@@ -1,5 +1,4 @@
 import type { MetaFunction } from "react-router"
-import { Link } from "react-router"
 
 import { ErrorBoundary } from "@sentry/react"
 import type { ReactNode } from "react"
@@ -18,6 +17,7 @@ import { client_operation } from "~/lib/client"
 
 // console.log(R)
 
+import { A } from "a"
 import { Markdown } from "markdown"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
@@ -26,7 +26,6 @@ import * as Predicate from "~/lib/Predicate"
 import { getThemeFromHex } from "~/lib/theme"
 import type { Route } from "./+types/route"
 import { options } from "./options"
-import { A } from "a"
 const { graphql } = ReactRelay
 
 function matchMediaId(s: string) {
