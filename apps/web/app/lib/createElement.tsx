@@ -85,16 +85,16 @@ export function mergeRefs<T>(
 export type HTMLProps<T extends ElementType, P extends object = object> = Omit<
 	ComponentPropsWithRef<T>,
 	keyof P
-> &
-	Record<`data-${string}`, unknown>
+>
+	& Record<`data-${string}`, unknown>
 
 /**
  * Props based on the element type, including custom props.
  * @template T The element type.
  * @template P Custom props.
  */
-export type Props<T extends ElementType, P extends object = object> = P &
-	HTMLProps<T, P>
+export type Props<T extends ElementType, P extends object = object> = P
+	& HTMLProps<T, P>
 
 /**
  * Merges two sets of props.

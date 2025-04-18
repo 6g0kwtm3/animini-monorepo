@@ -44,9 +44,9 @@ const card = tv({
 export function Card({
 	variant,
 	...props
-}: ComponentPropsWithoutRef<"section"> &
-	VariantProps<typeof card> &
-	Options): ReactNode {
+}: ComponentPropsWithoutRef<"section">
+	& VariantProps<typeof card>
+	& Options): ReactNode {
 	return useCreateElement("section", {
 		...props,
 		className: card({ variant: variant, className: props.className }),

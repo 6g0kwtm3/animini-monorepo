@@ -11,11 +11,7 @@ export const Header = ({
 	onLogout,
 	onCreateAccount,
 }: {
-	user:
-		| {
-				name: string
-		  }
-		| undefined
+	user: { name: string } | undefined
 	onLogin: () => void
 	onLogout: () => void
 	onCreateAccount: () => void
@@ -71,9 +67,7 @@ export const Header = ({
 )
 
 Header.propTypes = {
-	user: PropTypes.shape({
-		name: PropTypes.string.isRequired,
-	}),
+	user: PropTypes.shape({ name: PropTypes.string.isRequired }),
 	onLogin: PropTypes.func.isRequired,
 	onLogout: PropTypes.func.isRequired,
 	onCreateAccount: PropTypes.func.isRequired,

@@ -30,15 +30,15 @@ export function avalible(key: Avalible_media$key): number | null | undefined {
 	}
 
 	if (
-		media.status === ("FINISHED" satisfies MediaStatus) ||
-		media.status === ("CANCELLED" satisfies MediaStatus)
+		media.status === ("FINISHED" satisfies MediaStatus)
+		|| media.status === ("CANCELLED" satisfies MediaStatus)
 	) {
 		return media.episodes ?? media.chapters
 	}
 
 	if (
-		media.status === ("RELEASING" satisfies MediaStatus) ||
-		media.status === ("HIATUS" satisfies MediaStatus)
+		media.status === ("RELEASING" satisfies MediaStatus)
+		|| media.status === ("HIATUS" satisfies MediaStatus)
 	) {
 		return typeof media.nextAiringEpisode?.episode === "number"
 			? media.nextAiringEpisode.episode - 1

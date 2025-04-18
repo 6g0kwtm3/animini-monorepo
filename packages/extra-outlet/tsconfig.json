@@ -1,7 +1,5 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
 	"extends": ["ts-config/tsconfig.dts.json"],
-	"compilerOptions": {
-		"outDir": "tmp"
-	}
+	"compilerOptions": { "outDir": "tmp" }
 }

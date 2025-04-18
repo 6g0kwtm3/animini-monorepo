@@ -13,12 +13,7 @@ export const config = {
 	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
-		screens: {
-			sm: "600px",
-			md: "840px",
-			lg: "1200px",
-			xl: "1600px",
-		},
+		screens: { sm: "600px", md: "840px", lg: "1200px", xl: "1600px" },
 		borderRadius: {
 			none: "0",
 			xs: "0.25rem",
@@ -82,9 +77,7 @@ export const config = {
 					from: { opacity: "0", scale: ".8" },
 					to: { opacity: "1", scale: "1" },
 				},
-				"app-bar-large": {
-					to: { height: "4rem", paddingBottom: "0.75rem" },
-				},
+				"app-bar-large": { to: { height: "4rem", paddingBottom: "0.75rem" } },
 			},
 		},
 	},
@@ -93,20 +86,16 @@ export const config = {
 
 		plugin((ctx) => {
 			ctx.addBase({
-				":root": {
-					fontSize: "16px",
-				},
-				"::backdrop": {
-					fontSize: "16px",
-				},
+				":root": { fontSize: "16px" },
+				"::backdrop": { fontSize: "16px" },
 			})
 
 			ctx.matchUtilities(
 				{
 					state: (opacity: string | number) => {
 						const stateColor = `color-mix(in oklab, currentColor, transparent ${numberToString(
-							100 -
-								Number(
+							100
+								- Number(
 									Predicate.isString(opacity)
 										? opacity.replace("%", "")
 										: Number(opacity) * 100
@@ -162,22 +151,18 @@ export const config = {
 			ctx.matchUtilities(
 				{
 					i: (value) => {
-						return {
-							"font-size": value,
-						}
+						return { "font-size": value }
 					},
 				},
 				{
 					values: Object.assign(
 						Object.fromEntries(
 							Object.entries<string>(
-								(ctx.theme("spacing") as Record<string, string> | undefined) ??
-									{}
+								(ctx.theme("spacing") as Record<string, string> | undefined)
+									?? {}
 							).filter(([key]) => 5 <= Number(key) && Number(key) <= 12)
 						),
-						{
-							DEFAULT: "1.5rem",
-						}
+						{ DEFAULT: "1.5rem" }
 					),
 				}
 			)
@@ -197,11 +182,7 @@ export const config = {
 				},
 				{
 					type: ["any"],
-					values: {
-						high: "high",
-						medium: "medium",
-						standard: "standard",
-					},
+					values: { high: "high", medium: "medium", standard: "standard" },
 				}
 			)
 
@@ -215,20 +196,10 @@ export const config = {
 						)
 					},
 				},
-				{
-					type: ["any"],
-					values: {
-						dark: "dark",
-						light: "light",
-					},
-				}
+				{ type: ["any"], values: { dark: "dark", light: "light" } }
 			)
 
-			ctx.addComponents({
-				".i-inline": {
-					"vertical-align": "-11.5%",
-				},
-			})
+			ctx.addComponents({ ".i-inline": { "vertical-align": "-11.5%" } })
 		}),
 		searchView,
 		layout,

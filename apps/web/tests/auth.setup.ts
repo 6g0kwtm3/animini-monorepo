@@ -5,11 +5,7 @@ import { FeedPage } from "./pages/IndexPage"
 
 const authFile = "playwright/.auth/user.json"
 
-const env = invariant(
-	type({
-		ANILIST_TEST_TOKEN: "string",
-	})(process.env)
-)
+const env = invariant(type({ ANILIST_TEST_TOKEN: "string" })(process.env))
 
 setup("authenticate", async ({ page, baseURL }) => {
 	await page.goto(baseURL ?? "/")

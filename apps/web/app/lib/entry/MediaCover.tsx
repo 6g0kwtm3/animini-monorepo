@@ -28,18 +28,16 @@ const cover = tv({
 export function MediaCover({
 	media,
 	...props
-}: ComponentPropsWithRef<"img"> &
-	Options & {
-		media: MediaCover_media$key
-	}): ReactNode {
+}: ComponentPropsWithRef<"img">
+	& Options & { media: MediaCover_media$key }): ReactNode {
 	const data = useFragment(MediaCover_media, media)
 
 	return useCreateElement("img", {
 		src:
-			data.coverImage?.extraLarge ??
-			data.coverImage?.large ??
-			data.coverImage?.medium ??
-			"",
+			data.coverImage?.extraLarge
+			?? data.coverImage?.large
+			?? data.coverImage?.medium
+			?? "",
 		loading: "lazy",
 		alt: "",
 		...props,
@@ -49,8 +47,6 @@ export function MediaCover({
 				: undefined,
 			...props.style,
 		},
-		className: cover({
-			className: props.className,
-		}),
+		className: cover({ className: props.className }),
 	})
 }

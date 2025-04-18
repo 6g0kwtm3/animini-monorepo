@@ -14,9 +14,7 @@ const skeleton = tv({
 			false: "my-[calc((1lh-1ic)/2)] block h-[1ic] w-full max-w-[65ch]",
 		},
 	},
-	defaultVariants: {
-		full: false,
-	},
+	defaultVariants: { full: false },
 })
 
 const LoadingContext = createContext(false)
@@ -28,9 +26,9 @@ export function Loading(
 export function Skeleton({
 	full,
 	...props
-}: ComponentPropsWithoutRef<"div"> &
-	VariantProps<typeof skeleton> &
-	Options): ReactNode {
+}: ComponentPropsWithoutRef<"div">
+	& VariantProps<typeof skeleton>
+	& Options): ReactNode {
 	const loading = useContext(LoadingContext)
 
 	const el = useCreateElement("div", {

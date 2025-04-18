@@ -9,9 +9,7 @@ export function ListItem({
 }: ComponentPropsWithoutRef<"li"> & Options) {
 	return useCreateElement("li", {
 		...props,
-		className: tv({ base: "group list-item" })({
-			className: props.className,
-		}),
+		className: tv({ base: "group list-item" })({ className: props.className }),
 	})
 }
 export function ListItemContentTitle(
@@ -19,9 +17,7 @@ export function ListItemContentTitle(
 ): ReactNode {
 	return useCreateElement("div", {
 		...props,
-		className: tv({
-			base: "list-item-title",
-		})({ className: props.className }),
+		className: tv({ base: "list-item-title" })({ className: props.className }),
 	})
 }
 export function ListItemContent(
@@ -29,9 +25,9 @@ export function ListItemContent(
 ): ReactNode {
 	return useCreateElement("div", {
 		...props,
-		className: tv({
-			base: "list-item-content",
-		})({ className: props.className }),
+		className: tv({ base: "list-item-content" })({
+			className: props.className,
+		}),
 	})
 }
 export function ListItemContentSubtitle(
@@ -39,9 +35,9 @@ export function ListItemContentSubtitle(
 ): ReactNode {
 	return useCreateElement("div", {
 		...props,
-		className: tv({
-			base: "list-item-subtitle",
-		})({ className: props.className }),
+		className: tv({ base: "list-item-subtitle" })({
+			className: props.className,
+		}),
 	})
 }
 export function ListItemImg(
@@ -49,9 +45,7 @@ export function ListItemImg(
 ): ReactNode {
 	return useCreateElement("div", {
 		...props,
-		className: tv({
-			base: "list-item-img",
-		})({ className: props.className }),
+		className: tv({ base: "list-item-img" })({ className: props.className }),
 	})
 }
 export function ListItemAvatar(
@@ -59,9 +53,7 @@ export function ListItemAvatar(
 ): ReactNode {
 	return useCreateElement("div", {
 		...props,
-		className: tv({
-			base: "list-item-avatar",
-		})({ className: props.className }),
+		className: tv({ base: "list-item-avatar" })({ className: props.className }),
 	})
 }
 export function ListItemIcon(
@@ -76,16 +68,8 @@ export function ListItemIcon(
 import { tv } from "~/lib/tailwind-variants"
 const subheader = tv({
 	base: "text-body-md text-on-surface-variant truncate px-4",
-	variants: {
-		lines: {
-			one: "py-2",
-			two: "py-2",
-			three: "py-3",
-		},
-	},
-	defaultVariants: {
-		lines: "two",
-	},
+	variants: { lines: { one: "py-2", two: "py-2", three: "py-3" } },
+	defaultVariants: { lines: "two" },
 })
 
 export function Subheader({
@@ -118,8 +102,6 @@ export function List({
 }: ComponentPropsWithoutRef<"ul"> & Options): ReactNode {
 	return useCreateElement("ul", {
 		...props,
-		className: tv({ base: "list list-two" })({
-			className: props.className,
-		}),
+		className: tv({ base: "list list-two" })({ className: props.className }),
 	})
 }

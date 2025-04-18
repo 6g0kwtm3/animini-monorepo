@@ -21,9 +21,7 @@ const UserFollow = graphql`
 	}
 `
 
-const Params = type({
-	userId: "string.integer.parse",
-})
+const Params = type({ userId: "string.integer.parse" })
 export const clientAction = (async (args) => {
 	const params = invariant(Params(args.params))
 

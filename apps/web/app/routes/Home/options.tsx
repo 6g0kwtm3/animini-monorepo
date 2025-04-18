@@ -15,13 +15,13 @@ export const options: Options = {
 			let mediaId: number
 
 			if (
-				props.className === "media-link" &&
-				"data-id" in props &&
-				"data-type" in props &&
-				"data-slug" in props &&
-				Predicate.isString(props["data-type"]) &&
-				Predicate.isString(props["data-slug"]) &&
-				isFinite((mediaId = Number(props["data-id"])))
+				props.className === "media-link"
+				&& "data-id" in props
+				&& "data-type" in props
+				&& "data-slug" in props
+				&& Predicate.isString(props["data-type"])
+				&& Predicate.isString(props["data-slug"])
+				&& isFinite((mediaId = Number(props["data-id"])))
 			) {
 				return (
 					<MediaLink
@@ -34,8 +34,8 @@ export const options: Options = {
 			}
 
 			if (
-				"data-user-name" in props &&
-				Predicate.isString(props["data-user-name"])
+				"data-user-name" in props
+				&& Predicate.isString(props["data-user-name"])
 			) {
 				return (
 					<UserLink userName={props["data-user-name"]}>

@@ -116,10 +116,7 @@ function markdownHtml(t: string) {
 		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
 		(t = sanitizeHtml(
 			// @ts-expect-error marked error types are not correct
-			marked(t, {
-				renderer: d,
-				lexer: u,
-			})
+			marked(t, { renderer: d, lexer: u })
 		)),
 		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
 		(t = t.replace(

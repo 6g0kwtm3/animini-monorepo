@@ -76,22 +76,12 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	})
 
 	document.cookie = setCookie
-	setUser({
-		id: data.Viewer.id,
-		username: data.Viewer.name,
-	})
+	setUser({ id: data.Viewer.id, username: data.Viewer.name })
 
 	return redirect(
-		searchParams.get("redirect") ??
-			route_user_list({
-				typelist: "animelist",
-				userName: data.Viewer.name,
-			}),
-		{
-			headers: {
-				"Set-Cookie": setCookie,
-			},
-		}
+		searchParams.get("redirect")
+			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name }),
+		{ headers: { "Set-Cookie": setCookie } }
 	)
 }
 
@@ -116,10 +106,7 @@ export default function Login(): ReactNode {
 						<a
 							target="_blank"
 							href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
-								{
-									client_id: String(ANILIST_CLIENT_ID),
-									response_type: "token",
-								}
+								{ client_id: String(ANILIST_CLIENT_ID), response_type: "token" }
 							)}`}
 							rel="noreferrer"
 							className={button({})}

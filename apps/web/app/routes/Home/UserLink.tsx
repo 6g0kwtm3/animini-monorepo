@@ -91,9 +91,7 @@ export function UserCard(props: { userName: string }) {
 									<img
 										src={data.User.avatar.large}
 										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-										style={{
-											"--bg": `url(${data.User.avatar.medium ?? ""})`,
-										}}
+										style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
 										loading="lazy"
 										alt=""
 									/>
@@ -110,8 +108,8 @@ export function UserCard(props: { userName: string }) {
 				</div>
 
 				<TooltipRichActions>
-					{rootData?.Viewer?.name &&
-						rootData.Viewer.name !== props.userName && (
+					{rootData?.Viewer?.name
+						&& rootData.Viewer.name !== props.userName && (
 							<follow.Form
 								method="post"
 								action={`/user/${numberToString(data.User.id)}/follow`}
@@ -120,9 +118,9 @@ export function UserCard(props: { userName: string }) {
 									type="hidden"
 									name="isFollowing"
 									value={
-										(follow.formData?.get("isFollowing") ??
-										follow.data?.ToggleFollow.isFollowing ??
-										data.User.isFollowing)
+										(follow.formData?.get("isFollowing")
+										?? follow.data?.ToggleFollow.isFollowing
+										?? data.User.isFollowing)
 											? ""
 											: "true"
 									}
@@ -130,9 +128,9 @@ export function UserCard(props: { userName: string }) {
 								/>
 
 								<Button type="submit" aria-disabled={!data.User.id}>
-									{(follow.formData?.get("isFollowing") ??
-									follow.data?.ToggleFollow.isFollowing ??
-									data.User.isFollowing)
+									{(follow.formData?.get("isFollowing")
+									?? follow.data?.ToggleFollow.isFollowing
+									?? data.User.isFollowing)
 										? m.unfollow_button()
 										: m.follow_button()}
 								</Button>

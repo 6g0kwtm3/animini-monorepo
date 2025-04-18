@@ -42,9 +42,9 @@ function ColorItem({
 				color: text ? `var(--${text})` : `var(--on-${color})`,
 			}}
 		>
-			{children ??
-				color.substring(0, 1).toUpperCase() +
-					color
+			{children
+				?? color.substring(0, 1).toUpperCase()
+					+ color
 						.replaceAll(/-[a-z]/g, (s) => s.substring(1).toUpperCase())
 						.substring(1)}
 		</li>

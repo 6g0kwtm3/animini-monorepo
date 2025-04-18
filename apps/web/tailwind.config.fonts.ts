@@ -1,27 +1,15 @@
 export default {
 	"display-lg": [
 		"3.5625rem",
-		{
-			lineHeight: "1.1228070175438596",
-			letterSpacing: "0",
-			fontWeight: 400,
-		},
+		{ lineHeight: "1.1228070175438596", letterSpacing: "0", fontWeight: 400 },
 	],
 	"display-md": [
 		"2.8125rem",
-		{
-			lineHeight: "1.1555555555555554",
-			letterSpacing: "0",
-			fontWeight: 400,
-		},
+		{ lineHeight: "1.1555555555555554", letterSpacing: "0", fontWeight: 400 },
 	],
 	"display-sm": [
 		"2.25rem",
-		{
-			lineHeight: "1.2222222222222223",
-			letterSpacing: "0",
-			fontWeight: 400,
-		},
+		{ lineHeight: "1.2222222222222223", letterSpacing: "0", fontWeight: 400 },
 	],
 	"headline-lg": [
 		"2rem",
@@ -29,27 +17,15 @@ export default {
 	],
 	"headline-md": [
 		"1.75rem",
-		{
-			lineHeight: "1.2857142857142858",
-			letterSpacing: "0",
-			fontWeight: 400,
-		},
+		{ lineHeight: "1.2857142857142858", letterSpacing: "0", fontWeight: 400 },
 	],
 	"headline-sm": [
 		"1.5rem",
-		{
-			lineHeight: "1.3333333333333333",
-			letterSpacing: "0",
-			fontWeight: 400,
-		},
+		{ lineHeight: "1.3333333333333333", letterSpacing: "0", fontWeight: 400 },
 	],
 	"title-lg": [
 		"1.375rem",
-		{
-			lineHeight: "1.2727272727272727",
-			letterSpacing: "0",
-			fontWeight: 400,
-		},
+		{ lineHeight: "1.2727272727272727", letterSpacing: "0", fontWeight: 400 },
 	],
 	"title-md": [
 		"1rem",

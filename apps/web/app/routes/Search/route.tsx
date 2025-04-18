@@ -29,9 +29,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 				}
 			}
 		`,
-		{
-			q: searchParams.get("q"),
-		}
+		{ q: searchParams.get("q") }
 	)
 	return data
 }

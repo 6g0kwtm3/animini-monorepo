@@ -146,9 +146,7 @@ export default function NavRoute(): ReactNode {
 					</>
 				) : (
 					<NavigationItem
-						to={route_login({
-							redirect: pathname,
-						})}
+						to={route_login({ redirect: pathname })}
 						icon={<MaterialSymbolsPersonOutline />}
 						activeIcon={<MaterialSymbolsPerson />}
 					>

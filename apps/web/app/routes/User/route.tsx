@@ -41,9 +41,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	)
 
 	if (!data?.User) {
-		throw Response.json("User not found", {
-			status: 404,
-		})
+		throw Response.json("User not found", { status: 404 })
 	}
 
 	return { user: data.User }
@@ -52,9 +50,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 import { numberToString } from "~/lib/numberToString"
 import { Route } from "./+types/route"
 
-const Params = type({
-	userName: "string",
-})
+const Params = type({ userName: "string" })
 
 export default function Page({ params }: Route.ComponentProps): ReactNode {
 	const rootData = useRouteLoaderData<typeof rootLoader>("root")
@@ -89,9 +85,9 @@ export default function Page({ params }: Route.ComponentProps): ReactNode {
 							type="hidden"
 							name="isFollowing"
 							value={
-								(follow.formData?.get("isFollowing") ??
-								follow.data?.ToggleFollow.isFollowing ??
-								data.user.isFollowing)
+								(follow.formData?.get("isFollowing")
+								?? follow.data?.ToggleFollow.isFollowing
+								?? data.user.isFollowing)
 									? ""
 									: "true"
 							}
@@ -99,9 +95,9 @@ export default function Page({ params }: Route.ComponentProps): ReactNode {
 						/>
 
 						<Button type="submit" aria-disabled={!data.user.id}>
-							{(follow.formData?.get("isFollowing") ??
-							follow.data?.ToggleFollow.isFollowing ??
-							data.user.isFollowing)
+							{(follow.formData?.get("isFollowing")
+							?? follow.data?.ToggleFollow.isFollowing
+							?? data.user.isFollowing)
 								? m.unfollow_button()
 								: m.follow_button()}
 						</Button>
@@ -111,9 +107,7 @@ export default function Page({ params }: Route.ComponentProps): ReactNode {
 				{rootData?.Viewer?.name === data.user.name && (
 					<Form
 						method="post"
-						action={`/logout/?${new URLSearchParams({
-							redirect: pathname,
-						})}`}
+						action={`/logout/?${new URLSearchParams({ redirect: pathname })}`}
 					>
 						<ButtonText type="submit">Logout</ButtonText>
 					</Form>

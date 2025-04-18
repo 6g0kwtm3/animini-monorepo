@@ -20,19 +20,10 @@ const sheet = tv({
 			"text-body-md text-on-surface flex w-full flex-col overflow-auto overscroll-contain",
 	},
 	variants: {
-		variant: {
-			bottom: {},
-			side: {},
-		},
-		modal: {
-			true: {},
-			false: {},
-		},
+		variant: { bottom: {}, side: {} },
+		modal: { true: {}, false: {} },
 	},
-	defaultVariants: {
-		variant: "bottom",
-		modal: true,
-	},
+	defaultVariants: { variant: "bottom", modal: true },
 })
 
 const Context = createContext(sheet())
@@ -71,10 +62,7 @@ export function Sheet({
 								exit={{ y: window.innerHeight }}
 								dragConstraints={{ top: 0 }}
 								dragElastic={{ top: 0 }}
-								transition={{
-									duration: 0.5,
-									ease: [0.32, 0.72, 0, 1],
-								}}
+								transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
 								onDragEnd={(e, { offset, velocity }) => {
 									if (offset.y > window.innerHeight * 0.75 || velocity.y > 10) {
 										props.onClose?.(e)

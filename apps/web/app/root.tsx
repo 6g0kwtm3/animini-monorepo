@@ -38,10 +38,7 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 
 export const links: LinksFunction = () => {
 	return [
-		{
-			rel: "stylesheet",
-			href: tailwind,
-		},
+		{ rel: "stylesheet", href: tailwind },
 		{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 		{
 			rel: "preconnect",
@@ -70,9 +67,9 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	defaultShouldRevalidate,
 }) => {
 	return (
-		formAction === "/login" ||
-		formAction === "/logout" ||
-		defaultShouldRevalidate
+		formAction === "/login"
+		|| formAction === "/logout"
+		|| defaultShouldRevalidate
 	)
 }
 

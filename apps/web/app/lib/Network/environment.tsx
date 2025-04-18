@@ -35,10 +35,7 @@ const fetchQuery_: FetchFunction = async function (
 		token = parsedToken instanceof ArkErrors ? undefined : parsedToken.token
 	}
 
-	const body = JSON.stringify({
-		query: operation.text,
-		variables: variables,
-	})
+	const body = JSON.stringify({ query: operation.text, variables: variables })
 
 	let headers = type(["instanceof", Headers])(cacheConfig.metadata?.headers)
 	if (headers instanceof ArkErrors) {
@@ -51,11 +48,7 @@ const fetchQuery_: FetchFunction = async function (
 		headers.set("Authorization", `Bearer ${token}`)
 	}
 
-	const request = await fetch(API_URL, {
-		body: body,
-		method: "POST",
-		headers,
-	})
+	const request = await fetch(API_URL, { body: body, method: "POST", headers })
 
 	const response = invariant(GraphQLResponse(await request.json()))
 
@@ -84,21 +77,21 @@ const environment = new Environment({
 		{
 			handle(field, record, argValues) {
 				if (
-					record != null &&
-					record.getType() === ROOT_TYPE &&
-					(field.name === "User" ||
-						field.name === "Media" ||
-						field.name === "AiringSchedule" ||
-						field.name === "Character" ||
-						field.name === "Staff" ||
-						field.name === "MediaList" ||
-						field.name === "Studio" ||
-						field.name === "Review" ||
-						field.name === "ActivityReply" ||
-						field.name === "Thread" ||
-						field.name === "ThreadComment" ||
-						field.name === "Recommendation") &&
-					Object.hasOwn(argValues, "id")
+					record != null
+					&& record.getType() === ROOT_TYPE
+					&& (field.name === "User"
+						|| field.name === "Media"
+						|| field.name === "AiringSchedule"
+						|| field.name === "Character"
+						|| field.name === "Staff"
+						|| field.name === "MediaList"
+						|| field.name === "Studio"
+						|| field.name === "Review"
+						|| field.name === "ActivityReply"
+						|| field.name === "Thread"
+						|| field.name === "ThreadComment"
+						|| field.name === "Recommendation")
+					&& Object.hasOwn(argValues, "id")
 				) {
 					return `${field.name}:${String(argValues.id)}`
 				}
@@ -108,11 +101,7 @@ const environment = new Environment({
 		},
 	],
 	relayFieldLogger(event) {
-		addBreadcrumb({
-			level: "info",
-			category: "relay",
-			data: event,
-		})
+		addBreadcrumb({ level: "info", category: "relay", data: event })
 		if (event.kind === "relay_resolver.error") {
 			// Log this somewhere!
 			console.warn(

@@ -32,9 +32,9 @@ export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 			const state = queue.current.at(0) === this ? "open" : "closed"
 
 			if (
-				state === "closed" &&
-				"newState" in event &&
-				event.newState === "open"
+				state === "closed"
+				&& "newState" in event
+				&& event.newState === "open"
 			) {
 				event.preventDefault()
 
@@ -115,16 +115,16 @@ export function Snackbar({
 			}
 
 			if (
-				(event.action === "show" || event.action === "auto") &&
-				!this.matches(":popover-open")
+				(event.action === "show" || event.action === "auto")
+				&& !this.matches(":popover-open")
 			) {
 				this.showPopover()
 				return
 			}
 
 			if (
-				(event.action === "hide" || event.action === "auto") &&
-				this.matches(":popover-open")
+				(event.action === "hide" || event.action === "auto")
+				&& this.matches(":popover-open")
 			) {
 				this.hidePopover()
 			}
@@ -202,14 +202,8 @@ export function SnackbarAction(
 			type="button"
 			{...props}
 			{...(supportsPopover
-				? {
-						popovertargetaction: "hide",
-						popovertarget: invoketarget,
-					}
-				: {
-						invokeaction: "hide",
-						invoketarget,
-					})}
+				? { popovertargetaction: "hide", popovertarget: invoketarget }
+				: { invokeaction: "hide", invoketarget })}
 			className="text-label-lg text-inverse-primary hover:state-hover focus:state-focus -my-1 -me-2 rounded-[1.25rem] px-3 py-1"
 		/>
 	)

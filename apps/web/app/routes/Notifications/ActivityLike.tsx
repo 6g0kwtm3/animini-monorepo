@@ -56,9 +56,7 @@ export function ActivityLike(props: {
 							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
 							style={
 								notification.user.avatar.medium
-									? {
-											"--bg": `url(${notification.user.avatar.medium})`,
-										}
+									? { "--bg": `url(${notification.user.avatar.medium})` }
 									: undefined
 							}
 							loading="lazy"
@@ -68,8 +66,8 @@ export function ActivityLike(props: {
 				</ListItemImg>
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
-						{(notification.createdAt ?? 0) >
-							(data?.Viewer?.unreadNotificationCount ?? 0) && (
+						{(notification.createdAt ?? 0)
+							> (data?.Viewer?.unreadNotificationCount ?? 0) && (
 							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 						)}{" "}
 						{notification.context}

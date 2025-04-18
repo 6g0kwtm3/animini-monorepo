@@ -66,9 +66,7 @@ export function MediaCard(props: { mediaId: number; type: string }) {
 				}
 			}
 		`,
-		{
-			id: props.mediaId,
-		}
+		{ id: props.mediaId }
 	).Media
 
 	return (
