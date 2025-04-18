@@ -134,7 +134,7 @@ export default function Notifications(): ReactNode {
 					)}
 
 					<div className="-mx-4 sm:-my-4">
-						<List lines={{ initial: "three", sm: "two" }}>
+						<List className="list-three sm:list-two">
 							{query?.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {

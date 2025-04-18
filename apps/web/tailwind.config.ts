@@ -3,12 +3,12 @@ import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import { layout } from "./app/lib/layout"
 import { navigation } from "./app/lib/navigation"
+import { list } from "./app/lib/list"
 import { numberToString } from "./app/lib/numberToString"
 import * as Predicate from "./app/lib/Predicate"
 import { searchView } from "./app/lib/searchView"
 import colors from "./colors.json"
 import fontSize from "./tailwind.config.fonts"
-
 export const config = {
 	content: ["app/**/*.{ts,tsx}"],
 
@@ -233,6 +233,7 @@ export const config = {
 		searchView,
 		layout,
 		navigation,
+		list,
 	],
 } as const satisfies Config
 
