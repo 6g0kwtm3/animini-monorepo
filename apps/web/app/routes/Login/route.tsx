@@ -16,6 +16,7 @@ import { button } from "~/lib/button"
 import { setUser } from "@sentry/react"
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"
 import { client_get_client } from "~/lib/client"
+import { commitLocalUpdate } from "~/lib/Network"
 import { route_user_list } from "~/lib/route"
 import { type Token } from "~/lib/viewer"
 const { graphql } = ReactRelay
@@ -37,7 +38,9 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	}
 
 	const client = client_get_client()
-
+	commitLocalUpdate((store) => {
+		store.invalidateStore()
+	})
 	const data = await client.query<NavLoginQuery>(
 		graphql`
 			query routeNavLoginQuery {
