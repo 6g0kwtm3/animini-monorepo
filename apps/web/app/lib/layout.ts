@@ -9,8 +9,8 @@ export const classGroups = {
 	],
 }
 
-export const layout = plugin(({ addComponents }) => {
-	addComponents({
+export const layout = plugin((ctx) => {
+	ctx.addComponents({
 		".layout": {
 			"@apply isolate": {},
 

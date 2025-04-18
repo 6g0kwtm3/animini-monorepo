@@ -4,8 +4,8 @@ export const classGroups = {
 	"search-view": ["search-view-docked", "search-view-fullscreen"],
 }
 
-export const searchView = plugin(({ addComponents }) => {
-	addComponents({
+export const searchView = plugin((ctx) => {
+	ctx.addComponents({
 		".search-view": {
 			"@apply bg-surface-container-high fixed mt-0 flex overflow-hidden": {},
 

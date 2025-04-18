@@ -104,13 +104,7 @@ export default function NavRoute(): ReactNode {
       </div>
     </nav> */}
 
-			<Navigation
-				variant={{
-					initial: "bar",
-					sm: "rail",
-					lg: "drawer",
-				}}
-			>
+			<Navigation className="navigation-bar sm:navigation-rail lg:navigation-drawer">
 				<NavigationItem
 					to="/"
 					icon={<MaterialSymbolsFeedOutline />}
