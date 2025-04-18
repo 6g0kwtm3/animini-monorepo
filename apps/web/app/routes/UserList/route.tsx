@@ -405,13 +405,14 @@ function SheetSort() {
 	const params = useParams<"typelist">()
 
 	const lines = "one"
+	const listLines = "list-one"
 
 	return (
 		<Group>
 			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
 				Sort
 			</M3.Subheader>
-			<M3.List lines={lines} render={<div />}>
+			<M3.List className={listLines} render={<div />}>
 				<CheckboxProvider value={searchParams.getAll("sort")}>
 					{Object.entries(
 						params.typelist === "animelist"
@@ -439,14 +440,14 @@ function SheetFilter() {
 	const params = useParams<"typelist">()
 
 	const lines = "one"
-
+	const listLines = "list-one"
 	return (
 		<>
 			<Group>
 				<M3.Subheader lines={lines} render={<GroupLabel />}>
 					Status
 				</M3.Subheader>
-				<M3.List lines={lines} render={<div />} className="-mt-2">
+				<M3.List render={<div />} className={`-mt-2 ${listLines}`}>
 					<CheckboxProvider value={searchParams.getAll("status")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -469,7 +470,7 @@ function SheetFilter() {
 				<M3.Subheader lines={lines} render={<GroupLabel />}>
 					Format
 				</M3.Subheader>
-				<M3.List lines={lines} render={<div />} className="-mt-2">
+				<M3.List render={<div />} className={`-mt-2 ${listLines}`}>
 					<CheckboxProvider value={searchParams.getAll("format")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -492,7 +493,7 @@ function SheetFilter() {
 				<M3.Subheader lines={lines} render={<GroupLabel />}>
 					Progress
 				</M3.Subheader>
-				<M3.List lines={lines} render={<div />} className="-mt-2">
+				<M3.List render={<div />} className={`-mt-2 ${listLines}`}>
 					<CheckboxProvider value={searchParams.getAll("progress")}>
 						{Object.entries(
 							params.typelist === "animelist"
