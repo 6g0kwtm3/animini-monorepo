@@ -13,6 +13,7 @@ import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
 import { MediaCover } from "../entry/MediaCover"
 import { useFragment } from "../Network"
 import { route_media } from "../route"
+import { A } from "a"
 const { graphql } = ReactRelay
 
 const SearchItem_media = graphql`
@@ -39,8 +40,8 @@ export function SearchItem({
 			<ListItem
 				{...props}
 				render={
-					<Link
-						to={route_media({ id: data.id })}
+					<A
+						href={route_media({ id: data.id })}
 						title={data.title.userPreferred}
 					/>
 				}

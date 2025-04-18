@@ -1,4 +1,4 @@
-import { Link, useFetcher, useRouteLoaderData } from "react-router"
+import { useFetcher, useRouteLoaderData } from "react-router"
 
 import { ErrorBoundary } from "@sentry/react"
 import type { ReactNode } from "react"
@@ -32,6 +32,7 @@ import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
 import { numberToString } from "~/lib/numberToString"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
+import { A } from "a"
 const { graphql } = ReactRelay
 
 export function UserLink(props: { userName: string; children: ReactNode }) {
@@ -39,9 +40,9 @@ export function UserLink(props: { userName: string; children: ReactNode }) {
 		<TooltipRich placement="top">
 			<TooltipRichTrigger
 				render={
-					<Link to={route_user({ userName: props.userName })}>
+					<A href={route_user({ userName: props.userName })}>
 						{props.children}
-					</Link>
+					</A>
 				}
 			/>
 			<TooltipDisclosure>More about {props.userName}</TooltipDisclosure>

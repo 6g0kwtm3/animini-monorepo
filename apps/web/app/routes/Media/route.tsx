@@ -54,6 +54,7 @@ import { route_login, route_media_edit } from "~/lib/route"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
+import { A } from "a"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
@@ -253,8 +254,8 @@ function Edit() {
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger
 						render={
-							<Link
-								to={
+							<A
+								href={
 									root?.Viewer
 										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
@@ -268,7 +269,7 @@ function Edit() {
 								}}
 							>
 								<MaterialSymbolsEditOutline />
-							</Link>
+							</A>
 						}
 					/>
 					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>

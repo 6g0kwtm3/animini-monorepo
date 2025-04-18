@@ -1,5 +1,4 @@
 import ReactRelay from "react-relay"
-import { Link } from "react-router"
 import {
 	ListItem,
 	ListItemContent,
@@ -15,6 +14,7 @@ import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
+import { A } from "a"
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import { useFragment } from "~/lib/Network"
 import { getLocale } from "~/paraglide/runtime"
@@ -46,7 +46,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
 				<ListItem
-					render={<Link to={route_media({ id: notification.media.id })} />}
+					render={<A href={route_media({ id: notification.media.id })} />}
 				>
 					<ListItemImg>
 						<MediaCover media={notification.media} />

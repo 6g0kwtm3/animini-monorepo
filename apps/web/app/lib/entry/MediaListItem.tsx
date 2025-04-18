@@ -1,5 +1,3 @@
-import { Link } from "react-router"
-
 import { Skeleton } from "~/components/Skeleton"
 import { m } from "~/lib/paraglide"
 
@@ -24,6 +22,7 @@ import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { ProgressIncrement } from "./Progress"
 
+import { A } from "a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
 	MediaListItemSubtitle_entry$key,
@@ -67,7 +66,7 @@ export function MediaListItem(props: {
 				<ListItemContent
 					render={
 						entry?.media ? (
-							<Link viewTransition to={route_media({ id: entry.media.id })} />
+							<A viewTransition href={route_media({ id: entry.media.id })} />
 						) : (
 							<div />
 						)

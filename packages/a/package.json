@@ -1,0 +1,28 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "a",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": "./src/index.tsx",
+	"scripts": {
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
+		"lint": "eslint --cache . --fix",
+		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
+		"check": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@types/react": "19.1.2",
+		"react": "19.1.0",
+		"react-router": "7.5.1"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"eslint": "9.25.0",
+		"eslint-config": "workspace:*",
+		"eslint-typegen": "2.1.0",
+		"oxlint-config": "workspace:*",
+		"ts-config": "workspace:^",
+		"tsx": "4.19.3"
+	}
+}

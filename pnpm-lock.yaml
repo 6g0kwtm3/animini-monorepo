@@ -177,6 +177,9 @@ importers:
       '@types/relay-runtime':
         specifier: 18.2.5
         version: 18.2.5
+      a:
+        specifier: workspace:*
+        version: link:../../packages/a
       anitomy:
         specifier: 0.0.35
         version: 0.0.35
@@ -295,6 +298,37 @@ importers:
       vite-plugin-oxlint:
         specifier: 1.3.1
         version: 1.3.1(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))
+
+  packages/a:
+    dependencies:
+      '@types/react':
+        specifier: 19.1.2
+        version: 19.1.2
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-router:
+        specifier: 7.5.1
+        version: 7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+    devDependencies:
+      eslint:
+        specifier: 9.25.0
+        version: 9.25.0(jiti@2.4.2)
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint-typegen:
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.25.0(jiti@2.4.2))
+      oxlint-config:
+        specifier: workspace:*
+        version: link:../oxlint-config
+      ts-config:
+        specifier: workspace:^
+        version: link:../ts-config
+      tsx:
+        specifier: 4.19.3
+        version: 4.19.3
 
   packages/eslint-config:
     dependencies:

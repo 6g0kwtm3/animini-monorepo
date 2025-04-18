@@ -7,7 +7,6 @@ import {
 import {
 	Form,
 	isRouteErrorResponse,
-	Link,
 	Outlet,
 	useLoaderData,
 	useLocation,
@@ -50,6 +49,7 @@ import { copySearchParams } from "~/lib/copySearchParams"
 import { route_user_list } from "~/lib/route"
 
 import { captureException } from "@sentry/react"
+import { A } from "a"
 import { type } from "arktype"
 import ReactRelay from "react-relay"
 import { Label } from "~/components/Label"
@@ -284,7 +284,7 @@ function ListTabs() {
 		<TabsList>
 			<TabsListItem
 				id={"undefined"}
-				render={<Link to={`${route_user_list(params)}?${searchParams}`} />}
+				render={<A href={`${route_user_list(params)}?${searchParams}`} />}
 			>
 				All
 			</TabsListItem>
@@ -295,7 +295,7 @@ function ListTabs() {
 							key={list.name}
 							data-key={list.name}
 							id={list.name}
-							render={<Link to={`${list.name}?${searchParams}`} />}
+							render={<A href={`${list.name}?${searchParams}`} />}
 						>
 							{list.name}
 						</TabsListItem>
@@ -319,7 +319,7 @@ function FilterButton() {
 	return (
 		<Icon
 			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
-			render={<Link to={{ search: `?${filterParams}`, pathname }} />}
+			render={<A href={{ search: `?${filterParams}`, pathname }} />}
 		>
 			<MaterialSymbolsFilterList />
 		</Icon>
@@ -364,10 +364,10 @@ function Filter() {
 						grow
 						className="bg-surface-container-low sticky top-0 z-10 rounded-t-xl"
 					>
-						<TabsListItem id="filter" render={<Link to={`?${filterParams}`} />}>
+						<TabsListItem id="filter" render={<A href={`?${filterParams}`} />}>
 							Filter
 						</TabsListItem>
-						<TabsListItem id="sort" render={<Link to={`?${sortParams}`} />}>
+						<TabsListItem id="sort" render={<A href={`?${sortParams}`} />}>
 							Sort
 						</TabsListItem>
 					</TabsList>
@@ -568,7 +568,7 @@ export function ErrorBoundary(): ReactNode {
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
 						<p>{error.data}</p>
-						<M3.Button render={<Link to="." />}>Try again</M3.Button>
+						<M3.Button render={<A href="." />}>Try again</M3.Button>
 					</div>
 				</LayoutPane>
 			</LayoutBody>

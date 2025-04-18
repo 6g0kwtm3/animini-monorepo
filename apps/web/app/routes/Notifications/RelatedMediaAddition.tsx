@@ -1,6 +1,6 @@
 import ReactRelay from "react-relay"
 
-import { Link, useLoaderData } from "react-router"
+import { useLoaderData } from "react-router"
 import {
 	ListItem,
 	ListItemContent,
@@ -15,6 +15,7 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { getLocale } from "~/paraglide/runtime"
 
+import { A } from "a"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import { useFragment } from "~/lib/Network"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
@@ -47,7 +48,7 @@ export function RelatedMediaAddition(props: {
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
 				<ListItem
-					render={<Link to={route_media({ id: notification.media.id })} />}
+					render={<A href={route_media({ id: notification.media.id })} />}
 				>
 					<ListItemImg>
 						<MediaCover media={notification.media} />

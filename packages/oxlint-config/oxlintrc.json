@@ -18,16 +18,49 @@
 		"typescript/no-unnecessary-type-constraint": "error",
 		"eslint/require-await": "error",
 		"unicorn/no-document-cookie": "off",
-		"jsx-a11y/no-autofocus": "off"
+		"jsx-a11y/no-autofocus": "off",
+		"jsx-a11y/anchor-has-content": [
+			"warn",
+			{
+				"components": [
+					"Link",
+					"NavLink",
+					"HashNavLink",
+					"NavigationItem",
+					"Button",
+					"BaseButton",
+					"Icon"
+				]
+			}
+		],
+		"jsx-a11y/anchor-is-valid": [
+			"warn",
+			{
+				"components": ["Link", "NavLink", "HashNavLink", "NavigationItem", "A"],
+				"specialLink": ["to", "href"]
+			}
+		]
 	},
 	"settings": {
 		"react": {
 			"version": "19",
 			"linkComponents": [
 				{ "name": "Link", "attribute": "to" },
-				{ "name": "NavLink", "attribute": "to" }
+				{ "name": "NavLink", "attribute": "to" },
+				{ "name": "HashNavLink", "attribute": "to" },
+				{ "name": "NavigationItem", "attribute": "to" },
+				{ "name": "A", "attribute": "href" }
 			],
-			"formComponents": ["Form"]
+			"formComponents": ["Form"],
+			"buttonComponents": ["Button", "BaseButton", "Icon"]
+		},
+		"jsx-a11y": {
+			"components": {
+				"Link": "a",
+				"NavLink": "a",
+				"HashNavLink": "a",
+				"A": "a"
+			}
 		}
 	}
 }
