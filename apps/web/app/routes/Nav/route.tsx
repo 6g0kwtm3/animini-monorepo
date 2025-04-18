@@ -82,8 +82,8 @@ export default function NavRoute(): ReactNode {
 	const { pathname } = useLocation()
 
 	return (
-		<Layout className="layout-navigation-bar sm:layout-navigation-rail lg:layout-navigation-drawer">
-			<Navigation className="navigation-bar sm:navigation-rail lg:navigation-drawer">
+		<Layout className="layout-navigation-bar sm:layout-navigation-rail">
+			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
 				<SearchButton
 					render={
 						<A
