@@ -13,7 +13,9 @@ export const navigation = plugin((ctx) => {
 		".navigation": {
 			"@apply fixed bottom-0 start-0 z-50": {},
 
-			"& .navigation-label": { "@apply relative flex text-center": {} },
+			"& .navigation-label": {
+				"@apply relative flex text-center text-on-surface-variant": {},
+			},
 
 			"& .navigation-active-indicator": {
 				"@apply bg-secondary-container absolute": {},
@@ -32,7 +34,7 @@ export const navigation = plugin((ctx) => {
 				{},
 
 			"& .navigation-label": {
-				'@apply text-label-md text-on-surface-variant aria-[current="page"]:text-on-surface flex-1 flex-col items-center gap-1 pb-4 pt-3':
+				'@apply text-label-md aria-[current="page"]:text-on-surface flex-1 flex-col items-center gap-1 pb-4 pt-3':
 					{},
 			},
 
@@ -50,10 +52,11 @@ export const navigation = plugin((ctx) => {
 		},
 
 		".navigation-rail": {
-			"@apply bg-surface top-0 flex h-full w-20 shrink-0 flex-col gap-3": {},
+			"@apply bg-surface my-3 top-0 flex h-full w-20 shrink-0 flex-col gap-3":
+				{},
 
 			"& .navigation-label": {
-				'@apply text-label-md text-on-surface-variant aria-[current="page"]:text-on-surface grow-0 flex-col items-center gap-1 px-2 py-0':
+				'@apply text-label-md aria-[current="page"]:text-on-surface grow-0 flex-col items-center gap-1 px-2 py-0':
 					{},
 			},
 
@@ -75,7 +78,7 @@ export const navigation = plugin((ctx) => {
 				{},
 
 			"& .navigation-label": {
-				'@apply text-label-lg text-on-surface-variant hover:state-hover aria-[current="page"]:text-on-secondary-container focused:state-focus pressed:state-pressed min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0':
+				'@apply text-label-lg hover:state-hover aria-[current="page"]:text-on-secondary-container focused:state-focus pressed:state-pressed min-h-14 grow-0 flex-row items-center gap-3 rounded-xl px-4 py-0':
 					{},
 			},
 
