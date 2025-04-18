@@ -10,7 +10,8 @@ permissions:
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-  TURBO_REMOTE_ONLY: true
+  TURBO_CACHE: remote:rw
+  TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
@@ -26,8 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref }} # This is required in order to work with the pull_request event (or any other non-push event).
           token: ${{ secrets.PAT }}
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4

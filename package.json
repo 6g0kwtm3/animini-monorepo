@@ -5,14 +5,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"build": "TURBO_SCM_BASE=master turbo run build --continue=dependencies-successful --affected",
-		"check": "TURBO_SCM_BASE=master turbo run check --continue=dependencies-successful --affected",
-		"lint": "TURBO_SCM_BASE=master turbo run lint --continue=dependencies-successful --affected",
+		"build": "turbo run build --continue=dependencies-successful --affected",
+		"check": "turbo run check --continue=dependencies-successful --affected",
+		"lint": "turbo run lint --continue=dependencies-successful --affected",
 		"dev": "turbo watch dev dts relay-watch",
 		"format": "prettier . -w --cache --cache-strategy metadata",
 		"knip": "knip",
 		"boundaries": "turbo boundaries",
-		"oxlint": "TURBO_SCM_BASE=master turbo run oxlint --continue=dependencies-successful --affected"
+		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
 	},
 	"devDependencies": {
 		"knip": "5.50.5",
