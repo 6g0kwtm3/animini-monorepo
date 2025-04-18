@@ -37,6 +37,8 @@ import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
 
+import { A } from "a"
+import { fab } from "~/lib/button"
 import { client_get_client } from "~/lib/client"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
@@ -82,6 +84,16 @@ export default function NavRoute(): ReactNode {
 	return (
 		<Layout className="layout-navigation-bar sm:layout-navigation-rail lg:layout-navigation-drawer">
 			<Navigation className="navigation-bar sm:navigation-rail lg:navigation-drawer">
+				<SearchButton
+					render={
+						<A
+							className={fab({ className: "mx-3 max-sm:hidden" })}
+							href={{ search: `?sheet=search` }}
+						>
+							<MaterialSymbolsTravelExplore />
+						</A>
+					}
+				/>
 				<NavigationItem
 					href="/"
 					icon={<MaterialSymbolsFeedOutline />}
