@@ -27,7 +27,9 @@ export function Intersection(props: IntersectionProps) {
 		)
 
 		observer.observe(current)
-		return () => { observer.unobserve(current); }
+		return () => {
+			observer.unobserve(current)
+		}
 	}, [root, rootMargin, threshold])
 
 	return <div ref={ref}>{props.children}</div>
