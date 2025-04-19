@@ -20,33 +20,34 @@ export const SearchViewBody = forwardRef<
 	)
 })
 
-export const SearchView = forwardRef<
-	HTMLDivElement,
-	Ariakit.DialogProps & {
-		open?: Ariakit.DialogStoreProps["open"]
-		onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
-		onSearch?: Ariakit.ComboboxProviderProps["setValue"]
-	}
->(function SearchView({ ...props }, ref) {
-	return (
-		<Ariakit.Dialog
-			ref={ref}
-			backdrop={<div className={"search-view-backdrop"} />}
-			{...props}
-			className={tv({ base: "search-view search-view-fullscreen" })({
-				className: props.className,
-			})}
-		>
-			<Ariakit.ComboboxProvider
-				focusLoop={true}
-				open={props.open}
-				includesBaseElement={true}
+interface SearchViewProps extends Ariakit.DialogProps {
+	open?: Ariakit.DialogStoreProps["open"]
+	onOpenChange?: Ariakit.DialogStoreProps["setOpen"] 
+	onSearch?: Ariakit.ComboboxProviderProps["setValue"]
+}
+
+export const SearchView = forwardRef<HTMLDivElement, SearchViewProps>(
+	function SearchView({ ...props }, ref) {
+		return (
+			<Ariakit.Dialog
+				ref={ref}
+				backdrop={<div className={"search-view-backdrop"} />}
+				{...props}
+				className={tv({ base: "search-view search-view-fullscreen" })({
+					className: props.className,
+				})}
 			>
-				{props.children}
-			</Ariakit.ComboboxProvider>
-		</Ariakit.Dialog>
-	)
-})
+				<Ariakit.ComboboxProvider
+					focusLoop={true}
+					open={props.open}
+					includesBaseElement={true}
+				>
+					{props.children}
+				</Ariakit.ComboboxProvider>
+			</Ariakit.Dialog>
+		)
+	}
+)
 
 export const SearchViewBodyGroup = Ariakit.ComboboxGroup
 export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel

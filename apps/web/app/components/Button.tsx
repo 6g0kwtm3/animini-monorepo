@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
 import * as Ariakit from "@ariakit/react"
@@ -32,7 +32,7 @@ export function Button({ variant, ...props }: ButtonProps) {
 }
 
 const ButtonContext = createContext(createButton())
-export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
+export function ButtonIcon(props: ComponentProps<"div">): ReactNode {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }

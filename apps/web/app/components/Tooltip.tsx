@@ -1,7 +1,7 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
 import type {
-	ComponentPropsWithoutRef,
+	ComponentProps,
 	PropsWithChildren,
 	ReactNode,
 } from "react"
@@ -71,7 +71,7 @@ export function TooltipRichSubhead(
 	)
 }
 export function TooltipRichSupportingText(
-	props: ComponentPropsWithoutRef<"p">
+	props: ComponentProps<"p">
 ): ReactNode {
 	return (
 		<Ariakit.HovercardDescription
@@ -81,7 +81,7 @@ export function TooltipRichSupportingText(
 	)
 }
 export function TooltipRichActions(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentProps<"div">
 ): ReactNode {
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }

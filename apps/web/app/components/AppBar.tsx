@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentPropsWithoutRef, ComponentRef, ReactNode } from "react"
+import type { ComponentProps, ComponentRef, ReactNode } from "react"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import type { VariantProps } from "tailwind-variants"
 
@@ -43,13 +43,16 @@ const appBar = tv(
 )
 
 const AppBarContext = createContext(appBar())
+interface AppBarProps
+	extends ComponentProps<"nav">,
+		VariantProps<typeof appBar> {}
+
 export function AppBar({
 	variant,
 	elevate,
 	hide,
-
 	...props
-}: ComponentPropsWithoutRef<"nav"> & VariantProps<typeof appBar>): ReactNode {
+}: AppBarProps): ReactNode {
 	const [scrolled, setScrolled] = useState(0)
 	const [hidden, setHidden] = useState(false)
 

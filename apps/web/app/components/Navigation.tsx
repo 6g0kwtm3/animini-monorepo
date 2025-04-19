@@ -1,8 +1,7 @@
 import type {
-	ComponentProps,
-	ComponentPropsWithoutRef,
-	CSSProperties,
-	ReactNode,
+    ComponentProps,
+    CSSProperties,
+    ReactNode
 } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
@@ -11,39 +10,34 @@ import { TouchTarget } from "~/components/Tooltip"
 import { HashNavLink } from "~/lib/search/HashNavLink"
 import { tv } from "~/lib/tailwind-variants"
 
-export const NavigationItem = forwardRef<
-	HTMLAnchorElement,
-	ComponentProps<typeof HashNavLink> & {
-		children?: ReactNode
-		style?: CSSProperties
-		className?: string
-		icon: ReactNode
-		activeIcon: ReactNode
-		badge?: ReactNode
+interface NavigationItemProps extends ComponentProps<typeof HashNavLink> {
+	icon: ReactNode
+	activeIcon: ReactNode
+	badge?: ReactNode
+}
+
+export const NavigationItem = forwardRef<HTMLAnchorElement, NavigationItemProps>(
+	function NavigationItem({ activeIcon, icon, badge, children, ...props }, ref) {
+		return (
+			<HashNavLink
+				ref={ref}
+				{...props}
+				className={tv({ base: "navigation-label group" })({
+					className: props.className,
+				})}
+			>
+				<NavigationActiveIndicator />
+				<NavigationItemIcon>
+					{icon}
+					{activeIcon}
+				</NavigationItemIcon>
+				<div className="max-w-full break-words">{children}</div>
+				{badge}
+				<TouchTarget />
+			</HashNavLink>
+		)
 	}
->(function NavigationItem(
-	{ activeIcon, icon, badge, children, ...props },
-	ref
-) {
-	return (
-		<HashNavLink
-			ref={ref}
-			{...props}
-			className={tv({ base: "navigation-label group" })({
-				className: props.className,
-			})}
-		>
-			<NavigationActiveIndicator />
-			<NavigationItemIcon>
-				{icon}
-				{activeIcon}
-			</NavigationItemIcon>
-			<div className="max-w-full break-words">{children}</div>
-			{badge}
-			<TouchTarget />
-		</HashNavLink>
-	)
-})
+)
 
 const NavigationContext = createContext<{ "--id": string } | undefined>(
 	undefined
@@ -61,13 +55,13 @@ function NavigationActiveIndicator() {
 }
 
 export function NavigationItemIcon(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentProps<"div">
 ): ReactNode {
 	return <div {...props} className={tv({ base: "navigation-icon" })()} />
 }
 export function Navigation({
 	...props
-}: ComponentPropsWithoutRef<"nav">): ReactNode {
+}: ComponentProps<"nav">): ReactNode {
 	return (
 		<NavigationContext.Provider value={{ "--id": useId() }}>
 			<nav
@@ -81,7 +75,7 @@ export function Navigation({
 }
 
 export function NavigationItemLargeBadge(
-	props: ComponentPropsWithoutRef<"div">
+	props: ComponentProps<"div">
 ): ReactNode {
 	return <div {...props} className={tv({ base: "navigation-large-badge" })()} />
 }
