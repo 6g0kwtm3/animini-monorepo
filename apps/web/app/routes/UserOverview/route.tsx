@@ -1,6 +1,10 @@
 import { Suspense, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { type ShouldRevalidateFunction } from "react-router"
+import {
+	isRouteErrorResponse,
+	useLocation,
+	type ShouldRevalidateFunction,
+} from "react-router"
 
 import type { Route } from "./+types/route"
 
@@ -15,10 +19,13 @@ import { fetchQuery, loadQuery } from "~/lib/Network"
 
 const { graphql } = ReactRelay
 
-import { ErrorBoundary } from "@sentry/react"
+import * as Sentry from "@sentry/react"
+import { A } from "a"
 import { data as json } from "react-router"
+import { Card } from "~/components"
 import { List } from "~/components/List"
 import type { UserActivitiesQuery as UserActivitiesQueryOperation } from "~/gql/UserActivitiesQuery.graphql"
+import { button } from "~/lib/button"
 import { options } from "../Home/options"
 import { UserActivities, UserActivitiesQuery } from "./UserActivities"
 export const clientLoader = async (args: Route.ClientLoaderArgs) => {
@@ -93,7 +100,7 @@ export default function UserOverview(props: Route.ComponentProps): ReactNode {
 			title=" | Overview"
 			actions={<></>}
 		>
-			<ErrorBoundary>
+			<Sentry.ErrorBoundary fallback={<>Error</>}>
 				<Suspense fallback="Loading...">
 					<List>
 						<UserActivities
@@ -102,7 +109,51 @@ export default function UserOverview(props: Route.ComponentProps): ReactNode {
 						></UserActivities>
 					</List>
 				</Suspense>
-			</ErrorBoundary>
+			</Sentry.ErrorBoundary>
+		</ExtraOutlets>
+	)
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	const location = useLocation()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+					<A href={location} className={button()}>
+						Try again
+					</A>
+				</div>
+			</ExtraOutlets>
+		)
+	}
+
+	console.log({ error })
+
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<ExtraOutlets>
+			<Card variant="elevated">
+				<Ariakit.Heading className="text-headline-md text-balance">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+				<A href={location} className={button()}>
+					Try again
+				</A>
+			</Card>
 		</ExtraOutlets>
 	)
 }
