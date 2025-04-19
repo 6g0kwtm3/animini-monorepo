@@ -14,7 +14,6 @@ import {
 	useState,
 } from "react"
 import * as Predicate from "~/lib/Predicate"
-import { BaseButton } from "./Button"
 
 type OnBeforeToggle = (
 	this: HTMLElement,
@@ -184,9 +183,9 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 	return "action" in event
 }
 
-export function SnackbarAction(
-	props: ComponentPropsWithoutRef<"button">
-): ReactNode {
+import * as Ariakit from "@ariakit/react"
+
+export function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)
@@ -198,7 +197,7 @@ export function SnackbarAction(
 	}, [])
 
 	return (
-		<BaseButton
+		<Ariakit.Button
 			type="button"
 			{...props}
 			{...(supportsPopover
