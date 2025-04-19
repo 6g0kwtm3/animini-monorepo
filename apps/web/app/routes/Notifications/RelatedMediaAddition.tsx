@@ -50,7 +50,6 @@ export function RelatedMediaAddition(props: {
 				<ListItem
 					render={<A href={route_media({ id: notification.media.id })}></A>}
 				>
-				
 					<ListItemImg>
 						<MediaCover media={notification.media} />
 					</ListItemImg>

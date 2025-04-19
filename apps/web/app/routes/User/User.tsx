@@ -64,7 +64,9 @@ export function User({ user, ...props }: UserProps): ReactNode {
 				<M3.TabsListItem
 					id="undefined"
 					render={<A href={route_user({ userName: data.name })}></A>}
-				>Overview</M3.TabsListItem>
+				>
+					Overview
+				</M3.TabsListItem>
 				<M3.TabsListItem
 					id="animelist"
 					render={

@@ -298,7 +298,9 @@ function ListTabs() {
 							data-key={list.name}
 							id={list.name}
 							render={<A href={`${list.name}?${searchParams}`}></A>}
-						>{list.name}</TabsListItem>
+						>
+							{list.name}
+						</TabsListItem>
 					)
 				)
 			})}
@@ -321,12 +323,10 @@ function FilterButton() {
 			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
 			tooltip
 			title={"Show list filters"}
-			render={
-				<A href={{ search: `?${filterParams}`, pathname }}>
-					
-				</A>
-			}
-		><MaterialSymbolsFilterList /></Icon>
+			render={<A href={{ search: `?${filterParams}`, pathname }}></A>}
+		>
+			<MaterialSymbolsFilterList />
+		</Icon>
 	)
 }
 
@@ -371,11 +371,12 @@ function Filter() {
 						<TabsListItem
 							id="filter"
 							render={<A href={`?${filterParams}`}></A>}
-						>Filter</TabsListItem>
-						<TabsListItem
-							id="sort"
-							render={<A href={`?${sortParams}`}></A>}
-						>Sort</TabsListItem>
+						>
+							Filter
+						</TabsListItem>
+						<TabsListItem id="sort" render={<A href={`?${sortParams}`}></A>}>
+							Sort
+						</TabsListItem>
 					</TabsList>
 
 					<M3.TabsPanel tabId={sheet}>

@@ -129,9 +129,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 										<M3.Icon
 											type="submit"
 											tooltip
-											title={
-												isFollow ? m.unfollow_button() : m.follow_button()
-											}
+											title={isFollow ? m.unfollow_button() : m.follow_button()}
 										>
 											{isFollow ? (
 												<MaterialSymbolsPersonRemoveOutline />
