@@ -1,3 +1,4 @@
+import { A } from "a"
 import ReactRelay from "react-relay"
 import {
 	ListItem,
@@ -14,7 +15,6 @@ import { numberToString } from "~/lib/numberToString"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import type { clientLoader } from "./route"
-import { A } from "a"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -45,42 +45,42 @@ export function ActivityLike(props: {
 		notification.user && (
 			<ListItem
 				render={
-					<A href={`/activity/${numberToString(notification.activityId)}`} />
+					<A href={`/activity/${numberToString(notification.activityId)}`}>
+						<ListItemImg>
+							{notification.user.avatar?.large && (
+								<img
+									src={notification.user.avatar.large}
+									className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
+									style={
+										notification.user.avatar.medium
+											? { "--bg": `url(${notification.user.avatar.medium})` }
+											: undefined
+									}
+									loading="lazy"
+									alt=""
+								/>
+							)}
+						</ListItemImg>
+						<ListItemContent className="grid grid-cols-subgrid">
+							<ListItemContentTitle>
+								{(notification.createdAt ?? 0)
+									> (data?.Viewer?.unreadNotificationCount ?? 0) && (
+									<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+								)}{" "}
+								{notification.context}
+							</ListItemContentTitle>
+							<ListItemContentSubtitle title={notification.user.name}>
+								{notification.user.name}
+							</ListItemContentSubtitle>
+						</ListItemContent>
+						{notification.createdAt && (
+							<ListItemTrailingSupportingText>
+								{format(notification.createdAt - Date.now() / 1000)}
+							</ListItemTrailingSupportingText>
+						)}
+					</A>
 				}
-			>
-				<ListItemImg>
-					{notification.user.avatar?.large && (
-						<img
-							src={notification.user.avatar.large}
-							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
-							style={
-								notification.user.avatar.medium
-									? { "--bg": `url(${notification.user.avatar.medium})` }
-									: undefined
-							}
-							loading="lazy"
-							alt=""
-						/>
-					)}
-				</ListItemImg>
-				<ListItemContent className="grid grid-cols-subgrid">
-					<ListItemContentTitle>
-						{(notification.createdAt ?? 0)
-							> (data?.Viewer?.unreadNotificationCount ?? 0) && (
-							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
-						)}{" "}
-						{notification.context}
-					</ListItemContentTitle>
-					<ListItemContentSubtitle title={notification.user.name}>
-						{notification.user.name}
-					</ListItemContentSubtitle>
-				</ListItemContent>
-				{notification.createdAt && (
-					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - Date.now() / 1000)}
-					</ListItemTrailingSupportingText>
-				)}
-			</ListItem>
+			></ListItem>
 		)
 	)
 }

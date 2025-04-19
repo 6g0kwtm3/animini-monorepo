@@ -1,9 +1,9 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createContext, useContext } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { useCreateElement, type Options } from "~/lib/createElement"
 
+import * as Ariakit from "@ariakit/react"
 import { tv } from "~/lib/tailwind-variants"
 
 const skeleton = tv({
@@ -19,22 +19,23 @@ const skeleton = tv({
 
 const LoadingContext = createContext(false)
 export function Loading(
-	props: Partial<ComponentPropsWithoutRef<typeof LoadingContext.Provider>>
+	props: Partial<ComponentProps<typeof LoadingContext.Provider>>
 ): ReactNode {
 	return <LoadingContext.Provider value={true} {...props} />
 }
-export function Skeleton({
-	full,
-	...props
-}: ComponentPropsWithoutRef<"div">
-	& VariantProps<typeof skeleton>
-	& Options): ReactNode {
+interface SkeletonProps
+	extends Ariakit.RoleProps<"div">,
+		VariantProps<typeof skeleton> {}
+
+export function Skeleton({ full, ...props }: SkeletonProps): ReactNode {
 	const loading = useContext(LoadingContext)
 
-	const el = useCreateElement("div", {
-		...props,
-		className: skeleton({ className: props.className, full }),
-	})
+	const el = (
+		<Ariakit.Role.div
+			{...props}
+			className={skeleton({ className: props.className, full })}
+		></Ariakit.Role.div>
+	)
 
 	if (loading) {
 		return el

@@ -2,8 +2,6 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react"
 
 import { type VariantProps } from "tailwind-variants"
 
-import { useCreateElement, type Options } from "~/lib/createElement"
-
 import { tv } from "~/lib/tailwind-variants"
 
 export function Layout({ ...props }: ComponentPropsWithoutRef<"div">) {
@@ -31,14 +29,15 @@ const pane = tv({
 	variants: { variant: { fixed: "w-[22.5rem] shrink-0", flexible: "flex-1" } },
 	defaultVariants: { variant: "flexible" },
 })
-export function LayoutPane({
-	variant,
-	...props
-}: ComponentPropsWithoutRef<"div">
-	& VariantProps<typeof pane>
-	& Options): ReactNode {
-	return useCreateElement("section", {
-		...props,
-		className: pane({ className: props.className, variant }),
-	})
+
+import * as Ariakit from "@ariakit/react"
+interface LayoutPaneProps extends Ariakit.RoleProps<"section">, VariantProps<typeof pane> {}
+
+export function LayoutPane({ variant, ...props }: LayoutPaneProps): ReactNode {
+	return (
+		<Ariakit.Role.section
+			{...props}
+			className={pane({ className: props.className, variant })}
+		></Ariakit.Role.section>
+	)
 }
