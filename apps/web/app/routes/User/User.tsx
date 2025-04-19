@@ -22,10 +22,11 @@ const User_user = graphql`
 	}
 `
 
-export function User({
-	user,
-	...props
-}: ComponentProps<"div"> & { user: User_user$key }): ReactNode {
+interface UserProps extends ComponentProps<"div"> {
+	user: User_user$key
+}
+
+export function User({ user, ...props }: UserProps): ReactNode {
 	const data = useFragment(User_user, user)
 	const src = data.avatar?.large ?? data.avatar?.medium
 
@@ -45,7 +46,11 @@ export function User({
 							src={src}
 							alt=""
 							className="col-start-1 row-start-1 self-end bg-cover object-cover"
-							style={{ backgroundImage: `url(${data.avatar.medium})` }}
+							style={
+								data.avatar.medium
+									? { backgroundImage: `url(${data.avatar.medium})` }
+									: undefined
+							}
 						/>
 					)}
 				</div>
@@ -58,8 +63,8 @@ export function User({
 			<M3.TabsList className="md:tabs-grow">
 				<M3.TabsListItem
 					id="undefined"
-					render={<A href={route_user({ userName: data.name })}>Overview</A>}
-				></M3.TabsListItem>
+					render={<A href={route_user({ userName: data.name })}></A>}
+				>Overview</M3.TabsListItem>
 				<M3.TabsListItem
 					id="animelist"
 					render={
@@ -68,11 +73,11 @@ export function User({
 								userName: data.name,
 								typelist: "animelist",
 							})}
-						>
-							Anime List
-						</A>
+						></A>
 					}
-				></M3.TabsListItem>
+				>
+					Anime List
+				</M3.TabsListItem>
 				<M3.TabsListItem
 					id="mangalist"
 					render={
@@ -81,31 +86,26 @@ export function User({
 								userName: data.name,
 								typelist: "mangalist",
 							})}
-						>
-							Manga List
-						</A>
+						></A>
 					}
-				></M3.TabsListItem>
-				<M3.TabsListItem
-					id="favorites"
-					render={<A href={"favorites"}>Favorites</A>}
-				></M3.TabsListItem>
-				<M3.TabsListItem
-					id="stats"
-					render={<A href={"stats"}>Stats</A>}
-				></M3.TabsListItem>
-				<M3.TabsListItem
-					id="social"
-					render={<A href={"social"}>Social</A>}
-				></M3.TabsListItem>
-				<M3.TabsListItem
-					id="reviews"
-					render={<A href={"reviews"}>Reviews</A>}
-				></M3.TabsListItem>
-				<M3.TabsListItem
-					id="submissions"
-					render={<A href={"submissions"}>Submissions</A>}
-				></M3.TabsListItem>
+				>
+					Manga List
+				</M3.TabsListItem>
+				<M3.TabsListItem id="favorites" render={<A href={"favorites"}></A>}>
+					Favorites
+				</M3.TabsListItem>
+				<M3.TabsListItem id="stats" render={<A href={"stats"}></A>}>
+					Stats
+				</M3.TabsListItem>
+				<M3.TabsListItem id="social" render={<A href={"social"}></A>}>
+					Social
+				</M3.TabsListItem>
+				<M3.TabsListItem id="reviews" render={<A href={"reviews"}></A>}>
+					Reviews
+				</M3.TabsListItem>
+				<M3.TabsListItem id="submissions" render={<A href={"submissions"}></A>}>
+					Submissions
+				</M3.TabsListItem>
 			</M3.TabsList>
 		</>
 	)

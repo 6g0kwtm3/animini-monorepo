@@ -115,11 +115,14 @@ export default function Notifications(): ReactNode {
 								<TooltipPlain store={store}>
 									<TooltipPlainTrigger
 										render={
-											<button type="submit" className={fab({ className: "" })}>
-												<MaterialSymbolsDone />
-											</button>
+											<button
+												type="submit"
+												className={fab({ className: "" })}
+											></button>
 										}
-									/>
+									>
+										<MaterialSymbolsDone />
+									</TooltipPlainTrigger>
 									<TooltipPlainContainer>
 										Mark all as read
 									</TooltipPlainContainer>

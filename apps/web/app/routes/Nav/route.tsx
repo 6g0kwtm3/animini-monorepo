@@ -89,11 +89,11 @@ export default function NavRoute(): ReactNode {
 						<A
 							className={fab({ className: "mx-3 max-sm:hidden" })}
 							href={{ search: `?sheet=search` }}
-						>
-							<MaterialSymbolsTravelExplore />
-						</A>
+						></A>
 					}
-				/>
+				>
+					<MaterialSymbolsTravelExplore />
+				</SearchButton>
 				<NavigationItem
 					href="/"
 					icon={<MaterialSymbolsFeedOutline />}
@@ -169,11 +169,11 @@ export default function NavRoute(): ReactNode {
 							className={"sm:hidden"}
 							icon={<MaterialSymbolsTravelExplore />}
 							activeIcon={<MaterialSymbolsTravelExplore />}
-						>
-							Explore
-						</NavigationItem>
+						></NavigationItem>
 					}
-				/>
+				>
+					Explore
+				</SearchButton>
 			</Navigation>
 			<Outlet />
 			<Search />

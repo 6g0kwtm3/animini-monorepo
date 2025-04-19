@@ -74,6 +74,7 @@ import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 import { data as json } from "react-router"
 import { A } from "a"
+import { numberToString } from "~/lib/numberToString"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(...loaderData.routeNavUserQuery)
@@ -116,7 +117,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 								{data.Viewer?.name && data.Viewer.name !== data.user.name && (
 									<follow.Form
 										method="post"
-										action={`/user/${data.user.id}/follow`}
+										action={`/user/${numberToString(data.user.id)}/follow`}
 									>
 										<input
 											type="hidden"
@@ -127,7 +128,8 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 
 										<M3.Icon
 											type="submit"
-											tooltip={
+											tooltip
+											title={
 												isFollow ? m.unfollow_button() : m.follow_button()
 											}
 										>
@@ -163,7 +165,7 @@ function Logout(): ReactNode {
 			method="post"
 			action={`/logout/?${new URLSearchParams({ redirect: pathname })}`}
 		>
-			<Icon type="submit" tooltip="Logout">
+			<Icon type="submit" tooltip title="Logout">
 				<MaterialSymbolsLogout />
 			</Icon>
 		</Form>

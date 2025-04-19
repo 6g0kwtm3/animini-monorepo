@@ -39,12 +39,10 @@ export function UserLink(props: { userName: string; children: ReactNode }) {
 	return (
 		<TooltipRich placement="top">
 			<TooltipRichTrigger
-				render={
-					<A href={route_user({ userName: props.userName })}>
-						{props.children}
-					</A>
-				}
-			/>
+				render={<A href={route_user({ userName: props.userName })}></A>}
+			>
+				{props.children}
+			</TooltipRichTrigger>
 			<TooltipDisclosure>More about {props.userName}</TooltipDisclosure>
 
 			<ErrorBoundary>

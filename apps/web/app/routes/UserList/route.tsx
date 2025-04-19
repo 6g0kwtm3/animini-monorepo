@@ -233,7 +233,7 @@ export default function Filters(): ReactNode {
 										variant="large"
 										className="sm:bg-surface-container-low"
 									>
-										<Icon>
+										<Icon tooltip title="Show list search">
 											<MaterialSymbolsSearch />
 										</Icon>
 										<AppBarTitle>
@@ -242,11 +242,11 @@ export default function Filters(): ReactNode {
 												: "Manga list"}
 										</AppBarTitle>
 										<div className="flex-1" />
-										<Icon>
+										<Icon tooltip title="Show list search">
 											<MaterialSymbolsSearch />
 										</Icon>
 										<FilterButton />
-										<Icon>
+										<Icon tooltip title="Show more options">
 											<MaterialSymbolsMoreHoriz />
 										</Icon>
 									</AppBar>
@@ -286,8 +286,10 @@ function ListTabs() {
 		<TabsList>
 			<TabsListItem
 				id={"undefined"}
-				render={<A href={`${route_user_list(params)}?${searchParams}`}>All</A>}
-			></TabsListItem>
+				render={<A href={`${route_user_list(params)}?${searchParams}`}></A>}
+			>
+				All
+			</TabsListItem>
 			{lists?.map((list) => {
 				return (
 					list.name && (
@@ -295,8 +297,8 @@ function ListTabs() {
 							key={list.name}
 							data-key={list.name}
 							id={list.name}
-							render={<A href={`${list.name}?${searchParams}`}>{list.name}</A>}
-						></TabsListItem>
+							render={<A href={`${list.name}?${searchParams}`}></A>}
+						>{list.name}</TabsListItem>
 					)
 				)
 			})}
@@ -317,12 +319,14 @@ function FilterButton() {
 	return (
 		<Icon
 			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
+			tooltip
+			title={"Show list filters"}
 			render={
 				<A href={{ search: `?${filterParams}`, pathname }}>
-					<MaterialSymbolsFilterList />
+					
 				</A>
 			}
-		></Icon>
+		><MaterialSymbolsFilterList /></Icon>
 	)
 }
 
@@ -366,12 +370,12 @@ function Filter() {
 					>
 						<TabsListItem
 							id="filter"
-							render={<A href={`?${filterParams}`}>Filter</A>}
-						></TabsListItem>
+							render={<A href={`?${filterParams}`}></A>}
+						>Filter</TabsListItem>
 						<TabsListItem
 							id="sort"
-							render={<A href={`?${sortParams}`}>Sort</A>}
-						></TabsListItem>
+							render={<A href={`?${sortParams}`}></A>}
+						>Sort</TabsListItem>
 					</TabsList>
 
 					<M3.TabsPanel tabId={sheet}>
