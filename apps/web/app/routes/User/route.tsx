@@ -77,7 +77,7 @@ import { A } from "a"
 import { numberToString } from "~/lib/numberToString"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(...loaderData.routeNavUserQuery)
+	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
 
 	if (!data.user) {
 		throw json("User not found", { status: 404 })

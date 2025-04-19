@@ -26,7 +26,7 @@ const {
 export const {
 	readInlineData,
 	useFragment,
-	usePreloadedQuery,
+	usePreloadedQuery: usePreloadedQuery_,
 	useRelayEnvironment,
 	RelayEnvironmentProvider,
 } = ReactRelay
@@ -34,18 +34,20 @@ export const {
 export function useQueryLoader<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode
 ) {
-	const [queryReference, loadQuery, disposeQuery] = useQueryLoader_<T>(query)
+	const [queryRef, loadQuery, disposeQuery] = useQueryLoader_<T>(query)
 
 	return [
-		queryReference
-			&& ([query, queryReference] satisfies NodeAndQueryFragment<T>),
+		queryRef && ([query, queryRef] satisfies NodeAndQueryFragment<T>),
 		loadQuery,
 		disposeQuery,
 	] as const
 }
 
 export type NodeAndQueryFragment<T extends RelayRuntime.OperationType> =
-	readonly [ReactRelay.GraphQLTaggedNode, PreloadedQuery<T>]
+	readonly [
+		gqlQuery: ReactRelay.GraphQLTaggedNode,
+		preloadedQuery: PreloadedQuery<T>,
+	]
 
 type LoadQuery = <T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode,
@@ -68,6 +70,13 @@ export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	})
 
 	return next()
+}
+
+export function usePreloadedQuery<T extends OperationType>(
+	nodeAndQuery: NodeAndQueryFragment<T>,
+	options?: { UNSTABLE_renderPolicy?: RelayRuntime.RenderPolicy | undefined }
+) {
+	return usePreloadedQuery_(...nodeAndQuery, options)
 }
 
 export function commitLocalUpdate(
