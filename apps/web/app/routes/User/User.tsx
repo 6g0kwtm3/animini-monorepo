@@ -58,10 +58,8 @@ export function User({
 			<M3.TabsList className="md:tabs-grow">
 				<M3.TabsListItem
 					id="undefined"
-					render={<A href={route_user({ userName: data.name })} />}
-				>
-					Overview
-				</M3.TabsListItem>
+					render={<A href={route_user({ userName: data.name })}>Overview</A>}
+				></M3.TabsListItem>
 				<M3.TabsListItem
 					id="animelist"
 					render={
@@ -70,11 +68,11 @@ export function User({
 								userName: data.name,
 								typelist: "animelist",
 							})}
-						/>
+						>
+							Anime List
+						</A>
 					}
-				>
-					Anime List
-				</M3.TabsListItem>
+				></M3.TabsListItem>
 				<M3.TabsListItem
 					id="mangalist"
 					render={
@@ -83,26 +81,31 @@ export function User({
 								userName: data.name,
 								typelist: "mangalist",
 							})}
-						/>
+						>
+							Manga List
+						</A>
 					}
-				>
-					Manga List
-				</M3.TabsListItem>
-				<M3.TabsListItem id="favorites" render={<A href={""} />}>
-					Favorites
-				</M3.TabsListItem>
-				<M3.TabsListItem id="stats" render={<A href={""} />}>
-					Stats
-				</M3.TabsListItem>
-				<M3.TabsListItem id="social" render={<A href={""} />}>
-					Social
-				</M3.TabsListItem>
-				<M3.TabsListItem id="reviews" render={<A href={""} />}>
-					Reviews
-				</M3.TabsListItem>
-				<M3.TabsListItem id="submissions" render={<A href={""} />}>
-					Submissions
-				</M3.TabsListItem>
+				></M3.TabsListItem>
+				<M3.TabsListItem
+					id="favorites"
+					render={<A href={"favorites"}>Favorites</A>}
+				></M3.TabsListItem>
+				<M3.TabsListItem
+					id="stats"
+					render={<A href={"stats"}>Stats</A>}
+				></M3.TabsListItem>
+				<M3.TabsListItem
+					id="social"
+					render={<A href={"social"}>Social</A>}
+				></M3.TabsListItem>
+				<M3.TabsListItem
+					id="reviews"
+					render={<A href={"reviews"}>Reviews</A>}
+				></M3.TabsListItem>
+				<M3.TabsListItem
+					id="submissions"
+					render={<A href={"submissions"}>Submissions</A>}
+				></M3.TabsListItem>
 			</M3.TabsList>
 		</>
 	)
