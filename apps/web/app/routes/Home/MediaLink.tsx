@@ -30,12 +30,7 @@ interface MediaLinkProps extends Omit<ComponentProps<typeof A>, "href"> {
 	slug?: string
 }
 
-export function MediaLink({
-	mediaId,
-	type,
-	slug,
-	...props
-}: MediaLinkProps) {
+export function MediaLink({ mediaId, type, slug, ...props }: MediaLinkProps) {
 	const fallback = (
 		<>
 			{route_media({ id: mediaId })}

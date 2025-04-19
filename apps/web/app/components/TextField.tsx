@@ -1,11 +1,11 @@
 import { LabelId } from "#lib/label"
 import * as Ariakit from "@ariakit/react"
 import {
-    forwardRef,
-    use,
-    type ComponentProps,
-    type JSX,
-    type ReactNode
+	forwardRef,
+	use,
+	type ComponentProps,
+	type JSX,
+	type ReactNode,
 } from "react"
 import { emptyStringToUndefined } from "~/lib/numberToString"
 import { createTextField } from "~/lib/textField"
@@ -86,7 +86,8 @@ export const TextFieldOutlinedInput = forwardRef<
 	)
 })
 
-interface TextFieldOutlinedFactoryProps extends ComponentProps<typeof TextFieldOutlinedInput> {
+interface TextFieldOutlinedFactoryProps
+	extends ComponentProps<typeof TextFieldOutlinedInput> {
 	label: ReactNode
 }
 
@@ -228,9 +229,7 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
-TextFieldFilled.Suffix = function Suffix(
-	props: ComponentProps<"span">
-) {
+TextFieldFilled.Suffix = function Suffix(props: ComponentProps<"span">) {
 	return (
 		<span
 			{...props}

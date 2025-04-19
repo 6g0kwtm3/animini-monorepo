@@ -1,8 +1,4 @@
-import type {
-    ComponentProps,
-    CSSProperties,
-    ReactNode
-} from "react"
+import type { ComponentProps, CSSProperties, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import { TouchTarget } from "~/components/Tooltip"
@@ -16,28 +12,32 @@ interface NavigationItemProps extends ComponentProps<typeof HashNavLink> {
 	badge?: ReactNode
 }
 
-export const NavigationItem = forwardRef<HTMLAnchorElement, NavigationItemProps>(
-	function NavigationItem({ activeIcon, icon, badge, children, ...props }, ref) {
-		return (
-			<HashNavLink
-				ref={ref}
-				{...props}
-				className={tv({ base: "navigation-label group" })({
-					className: props.className,
-				})}
-			>
-				<NavigationActiveIndicator />
-				<NavigationItemIcon>
-					{icon}
-					{activeIcon}
-				</NavigationItemIcon>
-				<div className="max-w-full break-words">{children}</div>
-				{badge}
-				<TouchTarget />
-			</HashNavLink>
-		)
-	}
-)
+export const NavigationItem = forwardRef<
+	HTMLAnchorElement,
+	NavigationItemProps
+>(function NavigationItem(
+	{ activeIcon, icon, badge, children, ...props },
+	ref
+) {
+	return (
+		<HashNavLink
+			ref={ref}
+			{...props}
+			className={tv({ base: "navigation-label group" })({
+				className: props.className,
+			})}
+		>
+			<NavigationActiveIndicator />
+			<NavigationItemIcon>
+				{icon}
+				{activeIcon}
+			</NavigationItemIcon>
+			<div className="max-w-full break-words">{children}</div>
+			{badge}
+			<TouchTarget />
+		</HashNavLink>
+	)
+})
 
 const NavigationContext = createContext<{ "--id": string } | undefined>(
 	undefined
@@ -54,14 +54,10 @@ function NavigationActiveIndicator() {
 	)
 }
 
-export function NavigationItemIcon(
-	props: ComponentProps<"div">
-): ReactNode {
+export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className={tv({ base: "navigation-icon" })()} />
 }
-export function Navigation({
-	...props
-}: ComponentProps<"nav">): ReactNode {
+export function Navigation({ ...props }: ComponentProps<"nav">): ReactNode {
 	return (
 		<NavigationContext.Provider value={{ "--id": useId() }}>
 			<nav

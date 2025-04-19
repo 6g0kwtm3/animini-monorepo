@@ -14,7 +14,10 @@ import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
 
-interface AwaitLibraryProps extends AwaitProps<Promise<Record<string, [AnitomyResult, ...AnitomyResult[]]>>> {
+interface AwaitLibraryProps
+	extends AwaitProps<
+		Promise<Record<string, [AnitomyResult, ...AnitomyResult[]]>>
+	> {
 	children: ReactNode
 }
 

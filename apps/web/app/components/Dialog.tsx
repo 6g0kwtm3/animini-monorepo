@@ -11,8 +11,6 @@ export function DialogIcon(props: ComponentProps<"div">): ReactNode {
 		</div>
 	)
 }
-export function DialogFullscreenIcon(
-	props: ComponentProps<"div">
-): ReactNode {
+export function DialogFullscreenIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className={classes("i-6 h-6 w-6", props.className)} />
 }

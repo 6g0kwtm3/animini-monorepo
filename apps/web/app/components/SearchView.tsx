@@ -22,7 +22,7 @@ export const SearchViewBody = forwardRef<
 
 interface SearchViewProps extends Ariakit.DialogProps {
 	open?: Ariakit.DialogStoreProps["open"]
-	onOpenChange?: Ariakit.DialogStoreProps["setOpen"] 
+	onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
 	onSearch?: Ariakit.ComboboxProviderProps["setValue"]
 }
 

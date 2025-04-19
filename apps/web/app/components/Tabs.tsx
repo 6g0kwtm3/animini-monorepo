@@ -30,12 +30,11 @@ export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
 	return <Ariakit.TabPanel {...props} />
 }
 
-interface TabsListProps extends Ariakit.TabListProps, VariantProps<typeof tabs> {}
+interface TabsListProps
+	extends Ariakit.TabListProps,
+		VariantProps<typeof tabs> {}
 
-export function TabsList({
-	grow,
-	...props
-}: TabsListProps): ReactNode {
+export function TabsList({ grow, ...props }: TabsListProps): ReactNode {
 	const styles = tabs({ grow })
 	return (
 		<TabsContext.Provider value={useId()}>

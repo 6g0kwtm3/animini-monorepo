@@ -65,26 +65,18 @@ export const MenuListItem = forwardRef<HTMLDivElement, Ariakit.MenuItemProps>(
 	}
 )
 
-export function MenuItemIcon(
-	props: ComponentProps<"div">
-): ReactNode {
+export function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant h-6 w-6" />
 }
-export function MenuItemLeadingIcon(
-	props: ComponentProps<"div">
-): ReactNode {
+export function MenuItemLeadingIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant i h-6 w-6" />
 }
-export function MenuItemTrailingIcon(
-	props: ComponentProps<"div">
-): ReactNode {
+export function MenuItemTrailingIcon(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div {...props} className="text-on-surface-variant i ms-auto h-6 w-6" />
 	)
 }
-export function MenuItemTrailingText(
-	props: ComponentProps<"div">
-): ReactNode {
+export function MenuItemTrailingText(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant ms-auto" />
 }
 export function MenuDivider(props: ComponentProps<"li">): ReactNode {

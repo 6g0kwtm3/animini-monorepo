@@ -1,10 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
-import type {
-	ComponentProps,
-	PropsWithChildren,
-	ReactNode,
-} from "react"
+import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 import MaterialSymbolsArrowDropDown from "~icons/material-symbols/arrow-drop-down"
 
@@ -80,9 +76,7 @@ export function TooltipRichSupportingText(
 		/>
 	)
 }
-export function TooltipRichActions(
-	props: ComponentProps<"div">
-): ReactNode {
+export function TooltipRichActions(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="mt-3 flex flex-wrap gap-2" />
 }
 export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
