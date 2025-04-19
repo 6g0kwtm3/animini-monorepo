@@ -51,6 +51,7 @@ import { route_user_list } from "~/lib/route"
 import { captureException } from "@sentry/react"
 import { A } from "a"
 import { type } from "arktype"
+import { ExtraOutlets } from "extra-outlet"
 import ReactRelay from "react-relay"
 import { Label } from "~/components/Label"
 import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
@@ -125,7 +126,7 @@ export default function Filters(): ReactNode {
 	const params = useParams()
 
 	return (
-		<>
+		<ExtraOutlets>
 			<LayoutBody>
 				<LayoutPane variant="fixed" className="max-md:hidden">
 					<Card variant="elevated" className="max-h-full overflow-y-auto">
@@ -232,7 +233,7 @@ export default function Filters(): ReactNode {
 										variant="large"
 										className="sm:bg-surface-container-low"
 									>
-										<Icon>
+										<Icon tooltip title="Show list search">
 											<MaterialSymbolsSearch />
 										</Icon>
 										<AppBarTitle>
@@ -241,11 +242,11 @@ export default function Filters(): ReactNode {
 												: "Manga list"}
 										</AppBarTitle>
 										<div className="flex-1" />
-										<Icon>
+										<Icon tooltip title="Show list search">
 											<MaterialSymbolsSearch />
 										</Icon>
 										<FilterButton />
-										<Icon>
+										<Icon tooltip title="Show more options">
 											<MaterialSymbolsMoreHoriz />
 										</Icon>
 									</AppBar>
@@ -266,7 +267,7 @@ export default function Filters(): ReactNode {
 			</LayoutBody>
 
 			<Filter />
-		</>
+		</ExtraOutlets>
 	)
 }
 
@@ -285,8 +286,10 @@ function ListTabs() {
 		<TabsList>
 			<TabsListItem
 				id={"undefined"}
-				render={<A href={`${route_user_list(params)}?${searchParams}`}>All</A>}
-			></TabsListItem>
+				render={<A href={`${route_user_list(params)}?${searchParams}`}></A>}
+			>
+				All
+			</TabsListItem>
 			{lists?.map((list) => {
 				return (
 					list.name && (
@@ -294,8 +297,10 @@ function ListTabs() {
 							key={list.name}
 							data-key={list.name}
 							id={list.name}
-							render={<A href={`${list.name}?${searchParams}`}>{list.name}</A>}
-						></TabsListItem>
+							render={<A href={`${list.name}?${searchParams}`}></A>}
+						>
+							{list.name}
+						</TabsListItem>
 					)
 				)
 			})}
@@ -316,12 +321,12 @@ function FilterButton() {
 	return (
 		<Icon
 			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
-			render={
-				<A href={{ search: `?${filterParams}`, pathname }}>
-					<MaterialSymbolsFilterList />
-				</A>
-			}
-		></Icon>
+			tooltip
+			title={"Show list filters"}
+			render={<A href={{ search: `?${filterParams}`, pathname }}></A>}
+		>
+			<MaterialSymbolsFilterList />
+		</Icon>
 	)
 }
 
@@ -365,12 +370,13 @@ function Filter() {
 					>
 						<TabsListItem
 							id="filter"
-							render={<A href={`?${filterParams}`}>Filter</A>}
-						></TabsListItem>
-						<TabsListItem
-							id="sort"
-							render={<A href={`?${sortParams}`}>Sort</A>}
-						></TabsListItem>
+							render={<A href={`?${filterParams}`}></A>}
+						>
+							Filter
+						</TabsListItem>
+						<TabsListItem id="sort" render={<A href={`?${sortParams}`}></A>}>
+							Sort
+						</TabsListItem>
 					</TabsList>
 
 					<M3.TabsPanel tabId={sheet}>
@@ -564,18 +570,20 @@ export function ErrorBoundary(): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<LayoutBody>
-				<LayoutPane>
-					<div>
-						<Ariakit.Heading>Oops</Ariakit.Heading>
-						<p>Status: {error.status}</p>
-						<p>{error.data}</p>
-						<A href={location} className={button()}>
-							Try again
-						</A>
-					</div>
-				</LayoutPane>
-			</LayoutBody>
+			<ExtraOutlets>
+				<LayoutBody>
+					<LayoutPane>
+						<div>
+							<Ariakit.Heading>Oops</Ariakit.Heading>
+							<p>Status: {error.status}</p>
+							<p>{error.data}</p>
+							<A href={location} className={button()}>
+								Try again
+							</A>
+						</div>
+					</LayoutPane>
+				</LayoutBody>
+			</ExtraOutlets>
 		)
 	}
 	captureException(error)
@@ -587,19 +595,21 @@ export function ErrorBoundary(): ReactNode {
 	}
 
 	return (
-		<LayoutBody>
-			<LayoutPane>
-				<Card
-					variant="elevated"
-					className="bg-error-container text-on-error-container m-4"
-				>
-					<Ariakit.Heading className="text-headline-md text-balance">
-						Uh oh ...
-					</Ariakit.Heading>
-					<p className="text-headline-sm">Something went wrong.</p>
-					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-				</Card>
-			</LayoutPane>
-		</LayoutBody>
+		<ExtraOutlets>
+			<LayoutBody>
+				<LayoutPane>
+					<Card
+						variant="elevated"
+						className="bg-error-container text-on-error-container m-4"
+					>
+						<Ariakit.Heading className="text-headline-md text-balance">
+							Uh oh ...
+						</Ariakit.Heading>
+						<p className="text-headline-sm">Something went wrong.</p>
+						<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+					</Card>
+				</LayoutPane>
+			</LayoutBody>
+		</ExtraOutlets>
 	)
 }

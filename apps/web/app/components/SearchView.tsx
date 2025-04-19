@@ -60,7 +60,10 @@ export const SearchViewInput = forwardRef<
 	return (
 		<>
 			<div className="flex items-center px-4">
-				<Ariakit.DialogDismiss autoFocus={!autoFocus} render={<Icon />}>
+				<Ariakit.DialogDismiss
+					autoFocus={!autoFocus}
+					render={<Icon title="Close search" tooltip />}
+				>
 					<MaterialSymbolsArrowBack />
 				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
@@ -72,7 +75,9 @@ export const SearchViewInput = forwardRef<
 						className: props.className,
 					})}
 				/>
-				<Ariakit.ComboboxCancel render={<Icon />} />
+				<Ariakit.ComboboxCancel
+					render={<Icon title="Clear search" tooltip />}
+				/>
 			</div>
 			<div className="border-outline-variant border-b sm:last:hidden" />
 		</>

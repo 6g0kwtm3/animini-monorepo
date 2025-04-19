@@ -102,7 +102,7 @@ export function ProgressIncrement(props: {
 					</Form>
 				)}
 			<M3.Menu>
-				<M3.Icon render={<M3.MenuTrigger />}>
+				<M3.Icon title="Show more options" tooltip render={<M3.MenuTrigger />}>
 					<MaterialSymbolsMoreHoriz />
 				</M3.Icon>
 				<M3.MenuList>

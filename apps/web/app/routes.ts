@@ -14,9 +14,10 @@ export default [
 		]),
 		route("notifications", "./routes/Notifications/route.tsx"),
 		route("search", "./routes/Search/route.tsx"),
-		route("user/:userName", "./routes/User/route.tsx"),
-		route("user/:userName/:typelist", "./routes/UserList/route.tsx", [
-			route(":selected?", "./routes/UserListSelected/route.tsx"),
+		route("user/:userName", "./routes/User/route.tsx", [
+			route(":typelist", "./routes/UserList/route.tsx", [
+				route(":selected?", "./routes/UserListSelected/route.tsx"),
+			]),
 		]),
 	]),
 	route("logout", "./routes/logout/route.tsx"),

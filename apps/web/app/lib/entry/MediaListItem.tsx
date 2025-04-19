@@ -65,20 +65,20 @@ export function MediaListItem(props: {
 				</ListItemImg>
 				<ListItemContent
 					render={
-						<A href={entry?.media ? route_media({ id: entry.media.id }) : ""}>
-							<ListItemContentTitle>
-								<Skeleton>
-									{entry && <MediaListItemTitle entry={entry} />}
-								</Skeleton>
-							</ListItemContentTitle>
-							<ListItemContentSubtitle className="flex flex-wrap gap-1">
-								<Skeleton className="max-w-[21.666666666666668ch]">
-									{entry && <MediaListItemSubtitle entry={entry} />}
-								</Skeleton>
-							</ListItemContentSubtitle>
-						</A>
+						<A
+							href={entry?.media ? route_media({ id: entry.media.id }) : ""}
+						></A>
 					}
-				></ListItemContent>
+				>
+					<ListItemContentTitle>
+						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
+					</ListItemContentTitle>
+					<ListItemContentSubtitle className="flex flex-wrap gap-1">
+						<Skeleton className="max-w-[21.666666666666668ch]">
+							{entry && <MediaListItemSubtitle entry={entry} />}
+						</Skeleton>
+					</ListItemContentSubtitle>
+				</ListItemContent>
 
 				<Skeleton>{entry && <ProgressIncrement entry={entry} />}</Skeleton>
 			</ListItem>

@@ -1,10 +1,15 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import { createContext, forwardRef, useContext } from "react"
+import { createContext, useContext } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton } from "~/lib/button"
-import { TouchTarget } from "./Tooltip"
+import {
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
+	TouchTarget,
+} from "./Tooltip"
 
 interface ButtonProps
 	extends Ariakit.ButtonProps,
@@ -32,13 +37,31 @@ export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-interface IconProps extends Ariakit.ButtonProps, VariantProps<typeof btnIcon> {}
+interface IconProps extends Ariakit.ButtonProps, VariantProps<typeof btnIcon> {
+	tooltip: boolean
+	title: string
+}
 
-export function Icon({ children, variant, className, ...props }: IconProps) {
-	return (
+export function Icon({
+	tooltip,
+	children,
+	variant,
+	className,
+	...props
+}: IconProps) {
+	const button = (
 		<Ariakit.Button {...props} className={btnIcon({ variant, className })}>
 			{children}
 			<TouchTarget />
 		</Ariakit.Button>
+	)
+	if (!tooltip) {
+		return button
+	}
+	return (
+		<TooltipPlain>
+			<TooltipPlainTrigger render={button}></TooltipPlainTrigger>
+			<TooltipPlainContainer>{props.title}</TooltipPlainContainer>
+		</TooltipPlain>
 	)
 }
