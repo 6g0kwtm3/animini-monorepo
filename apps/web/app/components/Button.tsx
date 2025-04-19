@@ -1,4 +1,5 @@
 import type {
+	ComponentProps,
 	ComponentPropsWithoutRef,
 	PropsWithChildren,
 	ReactNode,
@@ -45,19 +46,15 @@ export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-export const Icon = forwardRef<
-	HTMLButtonElement,
-	VariantProps<typeof btnIcon>
-		& PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
->(function ButtonIcon({ children, variant, className, ...props }, ref) {
+interface IconProps
+	extends Omit<ComponentProps<typeof Button>, "variant">,
+		VariantProps<typeof btnIcon> {}
+
+export function Icon({ children, variant, className, ...props }: IconProps) {
 	return (
-		<BaseButton
-			ref={ref}
-			{...props}
-			className={btnIcon({ variant, className })}
-		>
+		<BaseButton {...props} className={btnIcon({ variant, className })}>
 			{children}
 			<TouchTarget />
 		</BaseButton>
 	)
-})
+}
