@@ -1,7 +1,7 @@
 // console.log(R)
 
-import * as Predicate from "~/lib/Predicate"
 import { type Options } from "markdown"
+import * as Predicate from "~/lib/Predicate"
 import { MediaLink } from "./MediaLink"
 import { UserLink } from "./UserLink"
 
@@ -9,7 +9,7 @@ export const options: Options = {
 	replace: {
 		a(props) {
 			if (!props.href?.trim()) {
-				return <a className="text-primary">{props.children}</a>
+				return <span className="text-primary">{props.children}</span>
 			}
 
 			let mediaId: number

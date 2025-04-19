@@ -285,10 +285,8 @@ function ListTabs() {
 		<TabsList>
 			<TabsListItem
 				id={"undefined"}
-				render={<A href={`${route_user_list(params)}?${searchParams}`} />}
-			>
-				All
-			</TabsListItem>
+				render={<A href={`${route_user_list(params)}?${searchParams}`}>All</A>}
+			></TabsListItem>
 			{lists?.map((list) => {
 				return (
 					list.name && (
@@ -296,10 +294,8 @@ function ListTabs() {
 							key={list.name}
 							data-key={list.name}
 							id={list.name}
-							render={<A href={`${list.name}?${searchParams}`} />}
-						>
-							{list.name}
-						</TabsListItem>
+							render={<A href={`${list.name}?${searchParams}`}>{list.name}</A>}
+						></TabsListItem>
 					)
 				)
 			})}
@@ -320,10 +316,12 @@ function FilterButton() {
 	return (
 		<Icon
 			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
-			render={<A href={{ search: `?${filterParams}`, pathname }} />}
-		>
-			<MaterialSymbolsFilterList />
-		</Icon>
+			render={
+				<A href={{ search: `?${filterParams}`, pathname }}>
+					<MaterialSymbolsFilterList />
+				</A>
+			}
+		></Icon>
 	)
 }
 
@@ -365,12 +363,14 @@ function Filter() {
 						grow
 						className="bg-surface-container-low sticky top-0 z-10 rounded-t-xl"
 					>
-						<TabsListItem id="filter" render={<A href={`?${filterParams}`} />}>
-							Filter
-						</TabsListItem>
-						<TabsListItem id="sort" render={<A href={`?${sortParams}`} />}>
-							Sort
-						</TabsListItem>
+						<TabsListItem
+							id="filter"
+							render={<A href={`?${filterParams}`}>Filter</A>}
+						></TabsListItem>
+						<TabsListItem
+							id="sort"
+							render={<A href={`?${sortParams}`}>Sort</A>}
+						></TabsListItem>
 					</TabsList>
 
 					<M3.TabsPanel tabId={sheet}>

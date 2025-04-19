@@ -46,31 +46,33 @@ export function Airing(props: { notification: Airing_notification$key }) {
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
 				<ListItem
-					render={<A href={route_media({ id: notification.media.id })} />}
-				>
-					<ListItemImg>
-						<MediaCover media={notification.media} />
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{(notification.createdAt ?? 0)
-								> (data?.Viewer?.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
-							)}{" "}
-							{m.episode_aired({ episode: notification.episode })}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred}
-						>
-							{notification.media.title.userPreferred}
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					{notification.createdAt && (
-						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - Date.now() / 1000)}
-						</ListItemTrailingSupportingText>
-					)}
-				</ListItem>
+					render={
+						<A href={route_media({ id: notification.media.id })}>
+							<ListItemImg>
+								<MediaCover media={notification.media} />
+							</ListItemImg>
+							<ListItemContent>
+								<ListItemContentTitle>
+									{(notification.createdAt ?? 0)
+										> (data?.Viewer?.unreadNotificationCount ?? 0) && (
+										<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+									)}{" "}
+									{m.episode_aired({ episode: notification.episode })}
+								</ListItemContentTitle>
+								<ListItemContentSubtitle
+									title={notification.media.title.userPreferred}
+								>
+									{notification.media.title.userPreferred}
+								</ListItemContentSubtitle>
+							</ListItemContent>
+							{notification.createdAt && (
+								<ListItemTrailingSupportingText>
+									{format(notification.createdAt - Date.now() / 1000)}
+								</ListItemTrailingSupportingText>
+							)}
+						</A>
+					}
+				></ListItem>
 			</li>
 		)
 	)

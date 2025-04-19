@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import { Role } from "@ariakit/react"
+import type { ReactNode } from "react"
 
 import type { VariantProps } from "tailwind-variants"
-import { useCreateElement, type Options } from "~/lib/createElement"
 
 import { tv } from "~/lib/tailwind-variants"
 
@@ -41,14 +41,17 @@ const card = tv({
 	],
 	defaultVariants: { variant: "outlined", interactive: false },
 })
-export function Card({
-	variant,
-	...props
-}: ComponentPropsWithoutRef<"section">
-	& VariantProps<typeof card>
-	& Options): ReactNode {
-	return useCreateElement("section", {
-		...props,
-		className: card({ variant: variant, className: props.className }),
-	})
+
+import * as Ariakit from "@ariakit/react"
+interface CardProps
+	extends Ariakit.RoleProps<"section">,
+		VariantProps<typeof card> {}
+
+export function Card({ variant, ...props }: CardProps): ReactNode {
+	return (
+		<Role.section
+			{...props}
+			className={card({ variant: variant, className: props.className })}
+		></Role.section>
+	)
 }

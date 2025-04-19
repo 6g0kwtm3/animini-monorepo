@@ -1,8 +1,7 @@
-import type { ComponentPropsWithRef, ReactNode } from "react"
+import type { ReactNode } from "react"
 
 import ReactRelay from "react-relay"
 import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
-import { useCreateElement, type Options } from "../createElement"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -25,28 +24,33 @@ const cover = tv({
 	base: "in-[.transitioning]:[view-transition-name:media-cover] bg-cover bg-center object-cover object-center",
 })
 
-export function MediaCover({
-	media,
-	...props
-}: ComponentPropsWithRef<"img">
-	& Options & { media: MediaCover_media$key }): ReactNode {
+import * as Ariakit from "@ariakit/react"
+
+interface MediaCoverProps extends Ariakit.RoleProps<"img"> {
+	media: MediaCover_media$key
+}
+
+export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 	const data = useFragment(MediaCover_media, media)
 
-	return useCreateElement("img", {
-		src:
-			data.coverImage?.extraLarge
-			?? data.coverImage?.large
-			?? data.coverImage?.medium
-			?? "",
-		loading: "lazy",
-		alt: "",
-		...props,
-		style: {
-			backgroundImage: data.coverImage?.medium
-				? `url(${data.coverImage.medium})`
-				: undefined,
-			...props.style,
-		},
-		className: cover({ className: props.className }),
-	})
+	return (
+		<Ariakit.Role.img
+			src={
+				data.coverImage?.extraLarge
+				?? data.coverImage?.large
+				?? data.coverImage?.medium
+				?? ""
+			}
+			loading="lazy"
+			alt=""
+			{...props}
+			style={{
+				backgroundImage: data.coverImage?.medium
+					? `url(${data.coverImage.medium})`
+					: undefined,
+				...props.style,
+			}}
+			className={cover({ className: props.className })}
+		></Ariakit.Role.img>
+	)
 }

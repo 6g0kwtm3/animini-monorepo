@@ -14,11 +14,7 @@ export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 export function TooltipRichTrigger(
 	props: Ariakit.HovercardAnchorProps
 ): ReactNode {
-	return (
-		<>
-			<Ariakit.HovercardAnchor {...props} />
-		</>
-	)
+	return <Ariakit.HovercardAnchor {...props} />
 }
 
 const Up = createContext(true)
@@ -30,17 +26,15 @@ export function TooltipDisclosure({
 	const up = useContext(Up)
 
 	return (
-		<>
-			<Ariakit.HovercardDisclosure {...props} className="i i-inline">
-				<Ariakit.VisuallyHidden>{children}</Ariakit.VisuallyHidden>
+		<Ariakit.HovercardDisclosure {...props} className="i i-inline">
+			<Ariakit.VisuallyHidden>{children}</Ariakit.VisuallyHidden>
 
-				{up ? (
-					<MaterialSymbolsArrowDropUp></MaterialSymbolsArrowDropUp>
-				) : (
-					<MaterialSymbolsArrowDropDown></MaterialSymbolsArrowDropDown>
-				)}
-			</Ariakit.HovercardDisclosure>
-		</>
+			{up ? (
+				<MaterialSymbolsArrowDropUp></MaterialSymbolsArrowDropUp>
+			) : (
+				<MaterialSymbolsArrowDropDown></MaterialSymbolsArrowDropDown>
+			)}
+		</Ariakit.HovercardDisclosure>
 	)
 }
 

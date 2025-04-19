@@ -1,7 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 import { forwardRef } from "react"
 
-import type { Options } from "~/lib/createElement"
 import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import { Icon } from "./Button"
@@ -82,7 +81,7 @@ export const SearchViewInput = forwardRef<
 
 export const SearchViewItem = forwardRef<
 	HTMLDivElement,
-	Ariakit.ComboboxItemProps & Options
+	Ariakit.ComboboxItemProps
 >(function SearchViewItem(props, ref) {
 	return (
 		<Ariakit.ComboboxItem
