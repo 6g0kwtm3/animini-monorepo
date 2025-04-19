@@ -13,21 +13,18 @@ interface ButtonProps
 	invokeaction?: string
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-	function Button({ variant, ...props }, ref) {
-		const styles = createButton({ variant })
+export function Button({ variant, ...props }: ButtonProps) {
+	const styles = createButton({ variant })
 
-		return (
-			<ButtonContext.Provider value={styles}>
-				<Ariakit.Button
-					ref={ref}
-					{...props}
-					className={styles.root({ className: props.className })}
-				/>
-			</ButtonContext.Provider>
-		)
-	}
-)
+	return (
+		<ButtonContext.Provider value={styles}>
+			<Ariakit.Button
+				{...props}
+				className={styles.root({ className: props.className })}
+			/>
+		</ButtonContext.Provider>
+	)
+}
 
 const ButtonContext = createContext(createButton())
 export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
