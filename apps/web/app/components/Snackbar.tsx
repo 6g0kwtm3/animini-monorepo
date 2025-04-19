@@ -1,5 +1,5 @@
 import type {
-	ComponentPropsWithoutRef,
+	ComponentProps,
 	ComponentRef,
 	PropsWithChildren,
 	ReactNode,
@@ -83,14 +83,16 @@ export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 }
 
 const SnackbarContext = createContext<string | undefined>(undefined)
+interface SnackbarProps extends ComponentProps<"div"> {
+	timeout?: number
+	open: boolean
+}
+
 export function Snackbar({
 	timeout,
 	open,
 	...props
-}: ComponentPropsWithoutRef<"div"> & {
-	timeout?: number
-	open: boolean
-}): ReactNode {
+}: SnackbarProps): ReactNode {
 	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 

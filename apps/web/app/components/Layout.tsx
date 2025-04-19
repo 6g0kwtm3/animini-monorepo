@@ -1,10 +1,10 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 
 import { type VariantProps } from "tailwind-variants"
 
 import { tv } from "~/lib/tailwind-variants"
 
-export function Layout({ ...props }: ComponentPropsWithoutRef<"div">) {
+export function Layout({ ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			className={tv({ base: "layout layout-navigation-none" })({
@@ -15,7 +15,7 @@ export function Layout({ ...props }: ComponentPropsWithoutRef<"div">) {
 		</div>
 	)
 }
-export function LayoutBody(props: ComponentPropsWithoutRef<"main">): ReactNode {
+export function LayoutBody(props: ComponentProps<"main">): ReactNode {
 	return (
 		<main
 			{...props}

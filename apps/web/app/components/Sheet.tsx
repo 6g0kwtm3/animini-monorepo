@@ -6,7 +6,7 @@ import {
 	useMotionValue,
 	useTransform,
 } from "framer-motion"
-import type { ComponentPropsWithoutRef, JSX, ReactNode } from "react"
+import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
 
@@ -28,11 +28,9 @@ const sheet = tv({
 
 const Context = createContext(sheet())
 
-export function Sheet({
-	modal,
-	variant,
-	...props
-}: VariantProps<typeof sheet> & Ariakit.DialogProps): JSX.Element {
+interface SheetProps extends VariantProps<typeof sheet>, Ariakit.DialogProps {}
+
+export function Sheet({ modal, variant, ...props }: SheetProps): JSX.Element {
 	const styles = sheet({ modal, variant })
 
 	const y = useMotionValue(0)
@@ -86,7 +84,7 @@ export function Sheet({
 	)
 }
 
-export function SheetHandle(props: ComponentPropsWithoutRef<"div">): ReactNode {
+export function SheetHandle(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div
 			className="bg-on-surface-variant/[.4] rounded-xs mx-auto my-[1.375rem] h-1 w-8"
@@ -95,7 +93,7 @@ export function SheetHandle(props: ComponentPropsWithoutRef<"div">): ReactNode {
 	)
 }
 
-export function SheetBody(props: ComponentPropsWithoutRef<"div">): ReactNode {
+export function SheetBody(props: ComponentProps<"div">): ReactNode {
 	const styles = useContext(Context)
 	return (
 		<div

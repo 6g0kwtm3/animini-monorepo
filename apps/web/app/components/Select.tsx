@@ -8,15 +8,16 @@ import { forwardRef } from "react"
 import { createMenu } from "~/lib/menu"
 
 const { input } = createTextField({})
+interface SelectFactoryProps extends Ariakit.SelectProps {
+	children: ReactNode
+	label: ReactNode
+	name: string
+}
 
 export function SelectFactory({
 	label,
 	...props
-}: Ariakit.SelectProps & {
-	children: ReactNode
-	label: ReactNode
-	name: string
-}): ReactNode {
+}: SelectFactoryProps): ReactNode {
 	return (
 		<Ariakit.SelectProvider>
 			<TextFieldOutlined>

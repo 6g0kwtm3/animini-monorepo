@@ -20,7 +20,7 @@
 // import * as Ariakit from "@ariakit/react"
 
 // import { motion } from "framer-motion"
-// import type { ComponentPropsWithoutRef } from "react"
+// import type { ComponentProps } from "react"
 import type { ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
 
@@ -214,7 +214,7 @@ import type { ReactNode } from "react"
 
 // const Score = (
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) => (
@@ -429,7 +429,7 @@ export default function Page(): ReactNode {
 // 	day: S.optionFromNullable(S.number)
 // })
 
-// function Status(props: ComponentPropsWithoutRef<typeof SelectFactory>) {
+// function Status(props: ComponentProps<typeof SelectFactory>) {
 // 	return (
 // 		<SelectFactory
 // 			{...props}
@@ -443,7 +443,7 @@ export default function Page(): ReactNode {
 
 // function FinishDate(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -452,7 +452,7 @@ export default function Page(): ReactNode {
 
 // function StartDate(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -472,7 +472,7 @@ export default function Page(): ReactNode {
 // function Progress({
 // 	media,
 // 	...props
-// }: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
+// }: ComponentProps<typeof TextFieldOutlinedInput> & {
 // 	media: Progress_media$key | null
 // }) {
 // 	const data = useFragment<typeof Progress_media>(media)
@@ -493,7 +493,7 @@ export default function Page(): ReactNode {
 
 // function Repeat(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -509,7 +509,7 @@ export default function Page(): ReactNode {
 
 // function Notes(
 // 	props: Omit<
-// 		ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>,
+// 		ComponentProps<typeof TextFieldOutlinedFactory>,
 // 		"label"
 // 	>
 // ) {
@@ -562,7 +562,7 @@ export default function Page(): ReactNode {
 // }
 
 // function AdvancedScore(
-// 	props: ComponentPropsWithoutRef<typeof TextFieldOutlinedFactory>
+// 	props: ComponentProps<typeof TextFieldOutlinedFactory>
 // ): ReactNode {
 // 	return (
 // 		<TextFieldOutlinedFactory

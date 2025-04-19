@@ -24,16 +24,13 @@ import type { MediaLinkCardQuery } from "~/gql/MediaLinkCardQuery.graphql"
 import { A } from "a"
 const { graphql } = ReactRelay
 
-export function MediaLink({
-	mediaId,
-	type,
-	slug,
-	...props
-}: Omit<ComponentProps<typeof Link>, "to"> & {
+interface MediaLinkProps extends Omit<ComponentProps<typeof A>, "href"> {
 	mediaId: number
 	type: string
 	slug?: string
-}) {
+}
+
+export function MediaLink({ mediaId, type, slug, ...props }: MediaLinkProps) {
 	const fallback = (
 		<>
 			{route_media({ id: mediaId })}

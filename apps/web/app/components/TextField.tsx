@@ -4,7 +4,6 @@ import {
 	forwardRef,
 	use,
 	type ComponentProps,
-	type ComponentPropsWithoutRef,
 	type JSX,
 	type ReactNode,
 } from "react"
@@ -17,7 +16,7 @@ export function TextFieldOutlined({
 	children,
 
 	...props
-}: ComponentPropsWithoutRef<"label">): ReactNode {
+}: ComponentProps<"label">): ReactNode {
 	return (
 		<Label
 			{...props}
@@ -87,12 +86,15 @@ export const TextFieldOutlinedInput = forwardRef<
 	)
 })
 
+interface TextFieldOutlinedFactoryProps
+	extends ComponentProps<typeof TextFieldOutlinedInput> {
+	label: ReactNode
+}
+
 export function TextFieldOutlinedFactory({
 	label,
 	...props
-}: ComponentPropsWithoutRef<typeof TextFieldOutlinedInput> & {
-	label: ReactNode
-}): ReactNode {
+}: TextFieldOutlinedFactoryProps): ReactNode {
 	return (
 		<TextFieldOutlined>
 			<TextFieldOutlinedInput {...props} />
@@ -107,7 +109,7 @@ export function TextFieldOutlinedFactory({
 TextFieldOutlined.Label = OutlinedLabel
 
 export function TextFieldFilled(
-	props: ComponentPropsWithoutRef<typeof Label>
+	props: ComponentProps<typeof Label>
 ): JSX.Element {
 	return (
 		<Label
@@ -171,7 +173,7 @@ export function TextFieldFilledLabel(
 	)
 }
 
-function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
+function LeadingIcon(props: ComponentProps<"div">) {
 	return (
 		<div
 			{...props}
@@ -183,7 +185,7 @@ function LeadingIcon(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
+function TrailingIcon(props: ComponentProps<"div">) {
 	return (
 		<div
 			{...props}
@@ -198,7 +200,7 @@ function TrailingIcon(props: ComponentPropsWithoutRef<"div">) {
 	)
 }
 
-function Suffix(props: ComponentPropsWithoutRef<"span">) {
+function Suffix(props: ComponentProps<"span">) {
 	return (
 		<span
 			{...props}
@@ -210,7 +212,7 @@ function Suffix(props: ComponentPropsWithoutRef<"span">) {
 	)
 }
 
-function Prefix(props: ComponentPropsWithoutRef<"span">) {
+function Prefix(props: ComponentProps<"span">) {
 	return (
 		<span
 			{...props}
@@ -227,9 +229,7 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
-TextFieldFilled.Suffix = function Suffix(
-	props: ComponentPropsWithoutRef<"span">
-) {
+TextFieldFilled.Suffix = function Suffix(props: ComponentProps<"span">) {
 	return (
 		<span
 			{...props}
