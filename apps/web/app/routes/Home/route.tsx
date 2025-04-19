@@ -120,7 +120,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 }
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(...loaderData.page)
+	const data = usePreloadedQuery(loaderData.page)
 
 	return (
 		<LayoutBody>
