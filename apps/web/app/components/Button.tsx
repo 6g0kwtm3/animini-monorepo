@@ -1,7 +1,4 @@
-import type {
-	ComponentPropsWithoutRef,
-	ReactNode
-} from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
 import * as Ariakit from "@ariakit/react"
@@ -38,9 +35,7 @@ export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-interface IconProps
-	extends Ariakit.ButtonProps,
-		VariantProps<typeof btnIcon> {}
+interface IconProps extends Ariakit.ButtonProps, VariantProps<typeof btnIcon> {}
 
 export function Icon({ children, variant, className, ...props }: IconProps) {
 	return (
