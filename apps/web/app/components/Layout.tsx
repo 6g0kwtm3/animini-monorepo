@@ -31,7 +31,9 @@ const pane = tv({
 })
 
 import * as Ariakit from "@ariakit/react"
-interface LayoutPaneProps extends Ariakit.RoleProps<"section">, VariantProps<typeof pane> {}
+interface LayoutPaneProps
+	extends Ariakit.RoleProps<"section">,
+		VariantProps<typeof pane> {}
 
 export function LayoutPane({ variant, ...props }: LayoutPaneProps): ReactNode {
 	return (

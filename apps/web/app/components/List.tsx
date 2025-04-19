@@ -15,9 +15,7 @@ export function ListItem({ ...props }: Ariakit.RoleProps<"li">) {
 	)
 }
 
-export function ListItemContentTitle(
-	props: Ariakit.RoleProps<"div">
-): ReactNode {
+export function ListItemContentTitle(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
@@ -28,7 +26,7 @@ export function ListItemContentTitle(
 	)
 }
 
-export function ListItemContent(props: Ariakit.RoleProps<"div">): ReactNode {
+export function ListItemContent(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
@@ -39,9 +37,7 @@ export function ListItemContent(props: Ariakit.RoleProps<"div">): ReactNode {
 	)
 }
 
-export function ListItemContentSubtitle(
-	props: Ariakit.RoleProps<"div">
-): ReactNode {
+export function ListItemContentSubtitle(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
@@ -52,7 +48,7 @@ export function ListItemContentSubtitle(
 	)
 }
 
-export function ListItemImg(props: Ariakit.RoleProps<"div">): ReactNode {
+export function ListItemImg(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
@@ -61,7 +57,7 @@ export function ListItemImg(props: Ariakit.RoleProps<"div">): ReactNode {
 	)
 }
 
-export function ListItemAvatar(props: Ariakit.RoleProps<"div">): ReactNode {
+export function ListItemAvatar(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
@@ -72,7 +68,7 @@ export function ListItemAvatar(props: Ariakit.RoleProps<"div">): ReactNode {
 	)
 }
 
-export function ListItemIcon(props: Ariakit.RoleProps<"div">): ReactNode {
+export function ListItemIcon(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}

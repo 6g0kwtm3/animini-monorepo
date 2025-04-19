@@ -4,7 +4,7 @@ import {
 	useLocation,
 	useOutlet,
 	useParams,
-	useRouteLoaderData
+	useRouteLoaderData,
 } from "react-router"
 
 import { AnimatePresence, motion } from "framer-motion"
