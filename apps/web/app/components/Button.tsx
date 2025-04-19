@@ -1,8 +1,4 @@
-import type {
-	ComponentPropsWithoutRef,
-	PropsWithChildren,
-	ReactNode,
-} from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createContext, forwardRef, useContext } from "react"
 
 import * as Ariakit from "@ariakit/react"
@@ -23,7 +19,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 		return (
 			<ButtonContext.Provider value={styles}>
-				<BaseButton
+				<Ariakit.Button
 					ref={ref}
 					{...props}
 					className={styles.root({ className: props.className })}
@@ -33,31 +29,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	}
 )
 
-export const BaseButton = forwardRef<HTMLButtonElement, Ariakit.ButtonProps>(
-	function BaseButton(props, ref) {
-		return <Ariakit.Button ref={ref} {...props} />
-	}
-)
-
 const ButtonContext = createContext(createButton())
 export function ButtonIcon(props: ComponentPropsWithoutRef<"div">): ReactNode {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-export const Icon = forwardRef<
-	HTMLButtonElement,
-	VariantProps<typeof btnIcon>
-		& PropsWithChildren<ComponentPropsWithoutRef<typeof Button>>
->(function ButtonIcon({ children, variant, className, ...props }, ref) {
+interface IconProps extends Ariakit.ButtonProps, VariantProps<typeof btnIcon> {}
+
+export function Icon({ children, variant, className, ...props }: IconProps) {
 	return (
-		<BaseButton
-			ref={ref}
-			{...props}
-			className={btnIcon({ variant, className })}
-		>
+		<Ariakit.Button {...props} className={btnIcon({ variant, className })}>
 			{children}
 			<TouchTarget />
-		</BaseButton>
+		</Ariakit.Button>
 	)
-})
+}
