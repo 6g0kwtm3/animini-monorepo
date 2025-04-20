@@ -7,8 +7,7 @@ import { useFragment } from "../Network"
 const { graphql } = ReactRelay
 
 const MediaCover_media = graphql`
-	fragment MediaCover_media on Media
-	@argumentDefinitions(extraLarge: { type: "Boolean", defaultValue: false }) {
+	fragment MediaCover_media on Media @argumentDefinitions(extraLarge: { type: "Boolean", defaultValue: false }) {
 		id
 		coverImage {
 			extraLarge @include(if: $extraLarge)

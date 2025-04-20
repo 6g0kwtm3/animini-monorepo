@@ -69,18 +69,17 @@ const routeNavNotificationsQuery = graphql`
 		}
 		Page {
 			notifications(type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]) {
-				__typename
 				... on AiringNotification {
 					id
-					...Airing_notification
+					...Airing_notification @alias
 				}
 				... on RelatedMediaAdditionNotification {
 					id
-					...RelatedMediaAddition_notification
+					...RelatedMediaAddition_notification @alias
 				}
 				... on ActivityLikeNotification {
 					id
-					...ActivityLike_notification
+					...ActivityLike_notification @alias
 				}
 			}
 		}
@@ -128,39 +127,39 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 							{data.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
-									if (notification.__typename === "AiringNotification") {
+									if (notification.Airing_notification) {
 										return (
 											<Airing
 												key={notification.id}
 												data-key={notification.id}
-												notification={notification}
+												notification={notification.Airing_notification}
 												viewer={data.Viewer}
 											/>
 										)
 									}
-									if (
-										notification.__typename
-										=== "RelatedMediaAdditionNotification"
-									) {
+									if (notification.RelatedMediaAddition_notification) {
 										return (
 											<RelatedMediaAddition
 												key={notification.id}
 												data-key={notification.id}
-												notification={notification}
+												notification={
+													notification.RelatedMediaAddition_notification
+												}
 												viewer={data.Viewer}
 											/>
 										)
 									}
-									if (notification.__typename === "ActivityLikeNotification") {
+									if (notification.ActivityLike_notification) {
 										return (
 											<ActivityLike
 												key={notification.id}
 												data-key={notification.id}
-												notification={notification}
+												notification={notification.ActivityLike_notification}
 												viewer={data.Viewer}
 											/>
 										)
 									}
+
 									return null
 								})}
 						</List>
