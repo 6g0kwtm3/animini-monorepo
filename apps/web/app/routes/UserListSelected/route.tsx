@@ -9,7 +9,6 @@ import {
 	type MetaFunction,
 	type ShouldRevalidateFunction,
 } from "react-router"
-import { useRawLoaderData } from "~/lib/data"
 
 import {
 	AwaitLibrary,
@@ -57,6 +56,7 @@ import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { invariant } from "~/lib/invariant"
 import * as Order from "~/lib/Order"
+import { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 
@@ -425,8 +425,8 @@ const Params = type({
 	typelist: '"animelist"|"mangalist"',
 })
 
-export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = loaderData
 	const [search] = useSearchParams()
 
 	return (

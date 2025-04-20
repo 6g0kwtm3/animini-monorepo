@@ -39,7 +39,6 @@ import MaterialSymbolsKeyboardCommandKey from "~icons/material-symbols/keyboard-
 import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
 import { Button } from "~/components/Button"
-import { useRawLoaderData } from "~/lib/data"
 
 import type { ReactNode } from "react"
 
@@ -54,6 +53,7 @@ import { route_login, route_media_edit } from "~/lib/route"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
+import { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
@@ -106,9 +106,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 	return defaultShouldRevalidate
 }
-
-export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = loaderData
 
 	const outlet = useOutlet()
 	const { pathname } = useLocation()

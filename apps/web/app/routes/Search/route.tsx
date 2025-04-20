@@ -7,8 +7,8 @@ import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { List } from "~/components/List"
 import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
 import { client_get_client } from "~/lib/client"
-import { useRawLoaderData } from "~/lib/data"
 import { SearchItem } from "~/lib/search/SearchItem"
+import { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
@@ -34,8 +34,8 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	return data
 }
 
-export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = loaderData
 
 	return (
 		<LayoutBody>
