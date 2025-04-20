@@ -36,6 +36,7 @@
 		"lint": {
 			"dependsOn": ["^dts", "transit", "router", "paraglide", "relay"]
 		},
-		"//#format": {}
+		"//#format": {},
+		"//#knip": {}
 	}
 }

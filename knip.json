@@ -1,0 +1,16 @@
+{
+	"workspaces": {
+		"apps/storybook": { "entry": ["env.ts", ".storybook/modes.ts"] },
+		"apps/web": {
+			"paths": { "~icons/*": ["node_modules/unplugin-icons/types/react.d.ts"] },
+			"playwright": { "entry": ["**/*.@(spec|test|setup).?(c|m)[jt]s?(x)"] },
+			"project": [
+				"**/*.{js,mjs,cjs,jsx,ts,tsx,mts,cts}!",
+				"!app/paraglide/**",
+				"!app/gql/**"
+			],
+			"ignore": "app/lib/dialog.tsx",
+			"entry": ["env.ts", "app/lib/urql.ts"]
+		}
+	}
+}

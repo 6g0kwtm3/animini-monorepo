@@ -6,6 +6,7 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useParams,
 	useRouteError,
 	type ClientLoaderFunctionArgs,
 	type LinksFunction,
@@ -30,6 +31,7 @@ import environment, {
 	loadQueryMiddleware,
 	RelayEnvironmentProvider,
 } from "./lib/Network"
+import { languageToLocale } from "./lib/useLocale"
 
 const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	children: ReactNode
@@ -90,12 +92,15 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// setLanguageTag(locale)
 
 	const isHydrated = useIsHydrated()
+	const params = useParams()
+	const { lang, dir } =
+		languageToLocale(params.locale ?? null)
+		?? ({ lang: "en", dir: "ltr" } as const)
 
 	return (
 		<html
-			lang="en"
-			// lang={locale}
-			// dir={dir}
+			lang={lang}
+			dir={dir}
 			style={theme}
 			data-testid={isHydrated && "hydrated"}
 			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Noto_Sans',sans-serif] [color-scheme:light_dark]"
