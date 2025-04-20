@@ -31,7 +31,7 @@ import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	return {
 		routeNavNotificationsQuery: args.context.get(
 			loadQuery
@@ -60,7 +60,7 @@ export const clientAction = (async () => {
 
 const routeNavNotificationsQuery = graphql`
 	query routeNavNotificationsQuery {
-		Viewer {
+		Viewer @required(action: LOG) {
 			id
 			unreadNotificationCount
 			...Airing_viewer
@@ -90,7 +90,7 @@ const routeNavNotificationsQuery = graphql`
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavNotificationsQuery)
 	const store = useTooltipStore()
-	const someNotRead = data?.Viewer?.unreadNotificationCount ?? 0
+	const someNotRead = data?.Viewer.unreadNotificationCount ?? 0
 
 	return (
 		<LayoutBody>

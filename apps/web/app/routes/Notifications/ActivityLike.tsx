@@ -14,7 +14,6 @@ import { useFragment } from "~/lib/Network"
 import { numberToString } from "~/lib/numberToString"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -76,7 +75,7 @@ export function ActivityLike(props: {
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0)
-							> (viewer?.unreadNotificationCount ?? 0) && (
+							> (viewer.unreadNotificationCount ?? 0) && (
 							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 						)}{" "}
 						{notification.context}
