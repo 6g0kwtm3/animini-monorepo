@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from "react"
-import { createContext, forwardRef, useContext, useId } from "react"
+import { createContext, useContext, useId } from "react"
 
 import * as Ariakit from "@ariakit/react"
 
@@ -23,20 +23,16 @@ export function Menu(props: Ariakit.MenuProviderProps): ReactNode {
 	)
 }
 
-export const MenuTrigger = forwardRef<
-	HTMLButtonElement,
-	Ariakit.MenuButtonProps
->(function MenuTrigger(props, ref): ReactNode {
+export function MenuTrigger(props: Ariakit.MenuButtonProps): ReactNode {
 	const { button } = useContext(Context)
 
 	return (
 		<Ariakit.MenuButton
 			{...props}
 			className={button({ className: props.className })}
-			ref={ref}
 		/>
 	)
-})
+}
 
 import { tv } from "~/lib/tailwind-variants"
 
@@ -45,25 +41,27 @@ const createMenu = tv({
 		button: "",
 		listItem:
 			"elevation-2 bg-surface-container text-label-lg text-on-surface hover:state-hover focus:state-focus group inset-[unset] flex h-12 items-center gap-3 px-3",
-		list: "bg-surface-container text-label-lg text-on-surface duration-4sm ease-emphasized-accelerate popover-open:transform-none popover-open:opacity-100 popover-open:starting:-translate-y-4 popover-open:starting:opacity-0 max-h-(--popover-avalible-height) rounded-xs transition-discrete top-[anchor(bottom)] z-50 flex min-w-[7rem] max-w-[17.5rem] translate-y-12 flex-col overflow-visible overscroll-contain py-2 opacity-0 motion-safe:transition-all",
+		list: "bg-surface-container text-label-lg text-on-surface duration-4sm ease-emphasized-accelerate popover-open:transform-none popover-open:opacity-100 popover-open:starting:-translate-y-4 popover-open:starting:opacity-0 max-h-(--popover-available-height) rounded-xs transition-discrete top-[anchor(bottom)] z-50 flex min-w-[7rem] max-w-[17.5rem] translate-y-12 flex-col overflow-visible overscroll-contain py-2 opacity-0 motion-safe:transition-all",
 	},
 })
 
 const Context = createContext(createMenu())
 
-export const MenuListItem = forwardRef<HTMLDivElement, Ariakit.MenuItemProps>(
-	function MenuListItem(props, ref): ReactNode {
-		const { listItem } = useContext(Context)
+export function MenuListItem({
+	children,
+	...props
+}: Ariakit.MenuItemProps): ReactNode {
+	const { listItem } = useContext(Context)
 
-		return (
-			<Ariakit.MenuItem
-				ref={ref}
-				{...props}
-				className={listItem({ className: props.className })}
-			/>
-		)
-	}
-)
+	return (
+		<Ariakit.MenuItem
+			{...props}
+			className={listItem({ className: props.className })}
+		>
+			{children}
+		</Ariakit.MenuItem>
+	)
+}
 
 export function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant h-6 w-6" />

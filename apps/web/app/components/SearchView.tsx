@@ -1,24 +1,19 @@
 import * as Ariakit from "@ariakit/react"
-import { forwardRef } from "react"
 
 import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import { Icon } from "./Button"
 
-export const SearchViewBody = forwardRef<
-	HTMLDivElement,
-	Ariakit.ComboboxListProps
->(function SearchViewBody(props, ref) {
+export function SearchViewBody(props: Ariakit.ComboboxListProps) {
 	return (
 		<Ariakit.ComboboxList
-			ref={ref}
 			{...props}
 			className={tv({ base: "search-view-body" })({
 				className: props.className,
 			})}
 		/>
 	)
-})
+}
 
 interface SearchViewProps extends Ariakit.DialogProps {
 	open?: Ariakit.DialogStoreProps["open"]
@@ -26,36 +21,30 @@ interface SearchViewProps extends Ariakit.DialogProps {
 	onSearch?: Ariakit.ComboboxProviderProps["setValue"]
 }
 
-export const SearchView = forwardRef<HTMLDivElement, SearchViewProps>(
-	function SearchView({ ...props }, ref) {
-		return (
-			<Ariakit.Dialog
-				ref={ref}
-				backdrop={<div className={"search-view-backdrop"} />}
-				{...props}
-				className={tv({ base: "search-view search-view-fullscreen" })({
-					className: props.className,
-				})}
+export function SearchView({ ...props }: SearchViewProps) {
+	return (
+		<Ariakit.Dialog
+			backdrop={<div className={"search-view-backdrop"} />}
+			{...props}
+			className={tv({ base: "search-view search-view-fullscreen" })({
+				className: props.className,
+			})}
+		>
+			<Ariakit.ComboboxProvider
+				focusLoop={true}
+				open={props.open}
+				includesBaseElement={true}
 			>
-				<Ariakit.ComboboxProvider
-					focusLoop={true}
-					open={props.open}
-					includesBaseElement={true}
-				>
-					{props.children}
-				</Ariakit.ComboboxProvider>
-			</Ariakit.Dialog>
-		)
-	}
-)
+				{props.children}
+			</Ariakit.ComboboxProvider>
+		</Ariakit.Dialog>
+	)
+}
 
 export const SearchViewBodyGroup = Ariakit.ComboboxGroup
 export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
 
-export const SearchViewInput = forwardRef<
-	HTMLInputElement,
-	Ariakit.ComboboxProps
->(function SearchViewInput(props, ref) {
+export function SearchViewInput(props: Ariakit.ComboboxProps) {
 	const { autoFocus = true } = props
 
 	return (
@@ -68,7 +57,6 @@ export const SearchViewInput = forwardRef<
 					<MaterialSymbolsArrowBack />
 				</Ariakit.DialogDismiss>
 				<Ariakit.Combobox
-					ref={ref}
 					autoSelect={"always"}
 					{...props}
 					autoFocus={autoFocus}
@@ -83,19 +71,15 @@ export const SearchViewInput = forwardRef<
 			<div className="border-outline-variant border-b sm:last:hidden" />
 		</>
 	)
-})
+}
 
-export const SearchViewItem = forwardRef<
-	HTMLDivElement,
-	Ariakit.ComboboxItemProps
->(function SearchViewItem(props, ref) {
+export function SearchViewItem(props: Ariakit.ComboboxItemProps) {
 	return (
 		<Ariakit.ComboboxItem
-			ref={ref}
 			hideOnClick
 			focusOnHover
 			blurOnHoverEnd={false}
 			{...props}
 		/>
 	)
-})
+}

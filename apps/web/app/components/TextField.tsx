@@ -1,12 +1,6 @@
 import { LabelId } from "#lib/label"
 import * as Ariakit from "@ariakit/react"
-import {
-	forwardRef,
-	use,
-	type ComponentProps,
-	type JSX,
-	type ReactNode,
-} from "react"
+import { use, type ComponentProps, type JSX, type ReactNode } from "react"
 import { emptyStringToUndefined } from "~/lib/numberToString"
 import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
@@ -68,23 +62,20 @@ function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 	)
 }
 
-export const TextFieldOutlinedInput = forwardRef<
-	HTMLInputElement,
-	Omit<ComponentProps<"input">, "id">
->(function TextFieldOutlinedInput(props, ref) {
+export function TextFieldOutlinedInput(
+	props: Omit<ComponentProps<"input">, "id">
+) {
 	const { input } = createTextField({ variant: "outlined" })
 	const id = use(LabelId)
 	return (
 		<input
-			ref={ref}
-			type="text"
 			{...props}
 			id={id}
 			placeholder=" "
 			className={input({ className: props.className })}
 		/>
 	)
-})
+}
 
 interface TextFieldOutlinedFactoryProps
 	extends ComponentProps<typeof TextFieldOutlinedInput> {
@@ -229,7 +220,9 @@ TextFieldOutlined.displayName = "TextField.Outlined"
 
 TextFieldFilled.Prefix = Prefix
 TextFieldFilled.TrailingIcon = TrailingIcon
-TextFieldFilled.Suffix = function Suffix(props: ComponentProps<"span">) {
+TextFieldFilled.Suffix = function TextFieldFilledSuffix(
+	props: ComponentProps<"span">
+) {
 	return (
 		<span
 			{...props}

@@ -1,7 +1,7 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "framer-motion"
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
-import { createContext, forwardRef, useContext } from "react"
+import { createContext, useContext } from "react"
 import MaterialSymbolsArrowDropDown from "~icons/material-symbols/arrow-drop-down"
 
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
@@ -82,16 +82,12 @@ export function TooltipRichActions(props: ComponentProps<"div">): ReactNode {
 export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
 	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
-export const TooltipPlainTrigger = forwardRef<
-	HTMLDivElement,
-	PropsWithChildren<Ariakit.TooltipAnchorProps>
->(function TooltipPlainTrigger({ children, ...props }, ref): ReactNode {
-	return (
-		<Ariakit.TooltipAnchor ref={ref} {...props}>
-			{children}
-		</Ariakit.TooltipAnchor>
-	)
-})
+export function TooltipPlainTrigger({
+	children,
+	...props
+}: PropsWithChildren<Ariakit.TooltipAnchorProps>): ReactNode {
+	return <Ariakit.TooltipAnchor {...props}>{children}</Ariakit.TooltipAnchor>
+}
 export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
 	if (!tooltip) {
