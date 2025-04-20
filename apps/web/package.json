@@ -21,7 +21,8 @@
 		"relay-watch": "relay-compiler --watch",
 		"router": "react-router typegen",
 		"start": "vite preview",
-		"test": "playwright test"
+		"test": "playwright test",
+		"bundlewatch": "bundlewatch"
 	},
 	"imports": {
 		"#lib": "./app/lib"
@@ -83,6 +84,7 @@
 	"devDependencies": {
 		"@graphql-eslint/eslint-plugin": "4.4.0",
 		"@playwright/test": "1.52.0",
+		"bundlewatch": "0.4.1",
 		"cross-env": "7.0.3",
 		"dotenv": "16.5.0",
 		"eslint": "9.25.0",
@@ -97,5 +99,17 @@
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.5.1"
+	},
+	"bundlewatch": {
+		"files": [
+			{
+				"path": "dist/client/assets/*.js",
+				"maxSize": "150kB"
+			},
+			{
+				"path": "dist/client/assets/*.css",
+				"maxSize": "25kB"
+			}
+		]
 	}
 }
