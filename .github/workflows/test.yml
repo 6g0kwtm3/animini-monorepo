@@ -117,6 +117,9 @@ jobs:
 
       - name: Install dependencies 📦
         run: pnpm install --frozen-lockfile
+        
+      - name: Relay
+        run: pnpm exec turbo relay
 
       - name: Knip
         run: pnpm -w knip
