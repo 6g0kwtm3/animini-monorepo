@@ -58,7 +58,6 @@ import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUs
 import { button } from "~/lib/button"
 import { client_operation } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
-import type { Route } from "./+types/route"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -78,7 +77,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 const Params = type({ userName: "string", typelist: '"animelist"|"mangalist"' })
 
-export const clientLoader = async (args: Route.ClientLoaderArgs) => {
+export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	const params = invariant(Params(args.params))
 
 	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
