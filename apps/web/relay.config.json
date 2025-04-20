@@ -9,7 +9,7 @@
 	"featureFlags": { "enable_strict_custom_scalars": true },
 	"requireCustomScalarTypes": true,
 	"useImportTypeSyntax": false,
-	"isDevVariableName": "import.meta.env.DEV",
+	"isDevVariableName": "import.meta.env?.DEV",
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",
 		"Json": { "name": "JSONValue", "path": "../lib/urql" },

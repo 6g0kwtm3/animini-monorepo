@@ -1,6 +1,4 @@
 import { isLocale } from "~/paraglide/runtime"
-import type { clientLoader as rootLoader } from "~/root"
-import { useRawRouteLoaderData } from "./data"
 
 const rtlLngs = new Set([
 	"ar",
@@ -67,21 +65,17 @@ const rtlLngs = new Set([
 	"ckb",
 ])
 
-export function useLocale(): {
-	readonly locale: "en" | "ja"
-	readonly dir: "rtl" | "ltr"
-} {
-	const acceptLanguage =
-		useRawRouteLoaderData<typeof rootLoader>("root")?.language
-
+export function languageToLocale(
+	acceptLanguage: string | null
+): { readonly lang: "en" | "ja"; readonly dir: "rtl" | "ltr" } | null {
 	const locales =
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []
 
 	for (const locale of locales) {
 		if (isLocale(locale)) {
-			return { locale, dir: rtlLngs.has(locale) ? "rtl" : "ltr" } as const
+			return { lang: locale, dir: rtlLngs.has(locale) ? "rtl" : "ltr" } as const
 		}
 	}
 
-	return { locale: "en", dir: "ltr" } as const
+	return null
 }
