@@ -117,12 +117,13 @@ jobs:
 
       - name: Install dependencies 📦
         run: pnpm install --frozen-lockfile
-        
+
       - name: Relay
-        run: pnpm exec turbo relay
+        run: pnpm exec turbo relay router paraglide
 
       - name: Knip
-        run: pnpm -w knip
+        run: pnpm exec turbo knip
+
   boundaries:
     runs-on: ubuntu-latest
 
