@@ -1,6 +1,6 @@
 import ReactRelay from "react-relay"
 
-import {} from "vite-env-only"
+
 
 import type { Behind_entry$key } from "~/gql/Behind_entry.graphql"
 import { readFragment } from "../Network"

@@ -2,6 +2,13 @@
 	"$schema": "https://turbo.build/schema.json",
 	"ui": "tui",
 	"envMode": "strict",
+	"globalPassThroughEnv": [
+		"DEV",
+		"CF_PAGES_BRANCH",
+		"NODE_ENV",
+		"CI",
+		"BASE_URL"
+	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true },
 		"build": {
