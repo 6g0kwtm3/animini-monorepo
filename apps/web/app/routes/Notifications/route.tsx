@@ -119,13 +119,13 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					</Form>
 				)}
 				<Card variant="elevated" className="max-sm:contents">
-					{!data?.Page?.notifications?.length && (
+					{!data.Page?.notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
 					)}
 
 					<div className="-mx-4 sm:-my-4">
 						<List className="list-three sm:list-two">
-							{data?.Page?.notifications
+							{data.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
 									if (notification.__typename === "AiringNotification") {
