@@ -60,7 +60,7 @@ export const clientAction = (async () => {
 
 const routeNavNotificationsQuery = graphql`
 	query routeNavNotificationsQuery {
-		Viewer @required(action: LOG) {
+		Viewer @required(action: THROW) {
 			id
 			unreadNotificationCount
 			...Airing_viewer
@@ -90,7 +90,7 @@ const routeNavNotificationsQuery = graphql`
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavNotificationsQuery)
 	const store = useTooltipStore()
-	const someNotRead = data?.Viewer.unreadNotificationCount ?? 0
+	const someNotRead = data.Viewer.unreadNotificationCount ?? 0
 
 	return (
 		<LayoutBody>
@@ -119,13 +119,13 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					</Form>
 				)}
 				<Card variant="elevated" className="max-sm:contents">
-					{!query?.Page?.notifications?.length && (
+					{!data?.Page?.notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
 					)}
 
 					<div className="-mx-4 sm:-my-4">
 						<List className="list-three sm:list-two">
-							{query?.Page?.notifications
+							{data?.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
 									if (notification.__typename === "AiringNotification") {
