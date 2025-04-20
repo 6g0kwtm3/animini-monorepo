@@ -6,6 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "turbo run build --continue=dependencies-successful --affected",
+		"bundlewatch": "turbo run bundlewatch --continue=dependencies-successful --affected",
 		"check": "turbo run check --continue=dependencies-successful --affected",
 		"lint": "turbo run lint --continue=dependencies-successful --affected",
 		"dev": "turbo watch dev dts relay-watch",
