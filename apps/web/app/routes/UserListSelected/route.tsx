@@ -1,21 +1,20 @@
 import {
-	Await,
-	Outlet,
-	isRouteErrorResponse,
-	useRouteError,
-	useSearchParams,
-	type ClientActionFunction,
-	type ClientLoaderFunctionArgs,
-	type MetaFunction,
-	type ShouldRevalidateFunction,
+    Await,
+    Outlet,
+    isRouteErrorResponse,
+    useRouteError,
+    useSearchParams,
+    type ClientActionFunction,
+    type ClientLoaderFunctionArgs,
+    type MetaFunction,
+    type ShouldRevalidateFunction,
 } from "react-router"
-import { useRawLoaderData } from "~/lib/data"
 
 import {
-	AwaitLibrary,
-	MediaListHeader,
-	MediaListHeaderItem,
-	MediaListHeaderToWatch,
+    AwaitLibrary,
+    MediaListHeader,
+    MediaListHeaderItem,
+    MediaListHeaderToWatch,
 } from "~/lib/list/MediaList"
 
 // import {} from 'glob'
@@ -41,13 +40,13 @@ import ReactRelay from "react-relay"
 import { readInlineData } from "~/lib/Network"
 
 import type {
-	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
-	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
+    routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
+    routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
 } from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 import type {
-	MediaStatus,
-	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
+    MediaStatus,
+    routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
 } from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
 import { captureException } from "@sentry/react"
@@ -57,6 +56,7 @@ import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { invariant } from "~/lib/invariant"
 import * as Order from "~/lib/Order"
+import { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 
@@ -425,8 +425,8 @@ const Params = type({
 	typelist: '"animelist"|"mangalist"',
 })
 
-export default function Page(): ReactNode {
-	const data = useRawLoaderData<typeof clientLoader>()
+export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = loaderData
 	const [search] = useSearchParams()
 
 	return (
