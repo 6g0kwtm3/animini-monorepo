@@ -3,7 +3,7 @@
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
 
-// import turbo from "eslint-plugin-turbo"
+import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import path from "path"
 import tseslint from "typescript-eslint"
@@ -20,6 +20,7 @@ export default await typegen([
 			"eslint-typegen.d.ts",
 		],
 	},
+	turbo.configs["flat/recommended"],
 	eslint.configs.recommended,
 	...[
 		...tseslint.configs.strictTypeChecked,

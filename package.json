@@ -10,7 +10,7 @@
 		"lint": "turbo run lint --continue=dependencies-successful --affected",
 		"dev": "turbo watch dev dts relay-watch",
 		"format": "prettier . -w --cache --cache-strategy metadata",
-		"knip": "knip --files --cache",
+		"knip": "knip --files --dependencies --cache",
 		"boundaries": "turbo boundaries",
 		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
 	},
