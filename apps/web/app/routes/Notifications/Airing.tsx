@@ -7,22 +7,24 @@ import {
 	ListItemImg,
 	ListItemTrailingSupportingText,
 } from "~/components/List"
-import type { clientLoader } from "./route"
 
-import { useRawLoaderData } from "~/lib/data"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
 import { A } from "a"
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
+import type { Airing_viewer$key } from "~/gql/Airing_viewer.graphql"
 import { useFragment } from "~/lib/Network"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
 const { graphql } = ReactRelay
 
-export function Airing(props: { notification: Airing_notification$key }) {
+export function Airing(props: {
+	notification: Airing_notification$key
+	viewer: Airing_viewer$key
+}) {
 	const notification = useFragment(
 		graphql`
 			fragment Airing_notification on AiringNotification {
@@ -40,7 +42,16 @@ export function Airing(props: { notification: Airing_notification$key }) {
 		`,
 		props.notification
 	)
-	const data = useRawLoaderData<typeof clientLoader>()
+
+	const viewer = useFragment(
+		graphql`
+			fragment Airing_viewer on User {
+				id
+				unreadNotificationCount
+			}
+		`,
+		props.viewer
+	)
 
 	return (
 		notification && (
@@ -54,7 +65,7 @@ export function Airing(props: { notification: Airing_notification$key }) {
 					<ListItemContent>
 						<ListItemContentTitle>
 							{(notification.createdAt ?? 0)
-								> (data?.Viewer?.unreadNotificationCount ?? 0) && (
+								> (viewer?.unreadNotificationCount ?? 0) && (
 								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 							)}{" "}
 							{m.episode_aired({ episode: notification.episode })}

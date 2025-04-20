@@ -9,16 +9,17 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
-import { useRawLoaderData } from "~/lib/data"
+import type { ActivityLike_viewer$key } from "~/gql/ActivityLike_viewer.graphql"
 import { useFragment } from "~/lib/Network"
 import { numberToString } from "~/lib/numberToString"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import type { clientLoader } from "./route"
+import { Route } from "./+types/route"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
 	notification: ActivityLike_notification$key
+	viewer: ActivityLike_viewer$key
 }) {
 	const notification = useFragment(
 		graphql`
@@ -39,7 +40,16 @@ export function ActivityLike(props: {
 		`,
 		props.notification
 	)
-	const data = useRawLoaderData<typeof clientLoader>()
+
+	const viewer = useFragment(
+		graphql`
+			fragment ActivityLike_viewer on User {
+				id
+				unreadNotificationCount
+			}
+		`,
+		props.viewer
+	)
 
 	return (
 		notification.user && (
@@ -66,7 +76,7 @@ export function ActivityLike(props: {
 				<ListItemContent className="grid grid-cols-subgrid">
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0)
-							> (data?.Viewer?.unreadNotificationCount ?? 0) && (
+							> (viewer?.unreadNotificationCount ?? 0) && (
 							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 						)}{" "}
 						{notification.context}
