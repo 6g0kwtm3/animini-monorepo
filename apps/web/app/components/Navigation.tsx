@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from "react"
-import { createContext, forwardRef, useContext, useId } from "react"
+import { createContext, useContext, useId } from "react"
 
 import { TouchTarget } from "~/components/Tooltip"
 
@@ -12,16 +12,15 @@ interface NavigationItemProps extends ComponentProps<typeof HashNavLink> {
 	badge?: ReactNode
 }
 
-export const NavigationItem = forwardRef<
-	HTMLAnchorElement,
-	NavigationItemProps
->(function NavigationItem(
-	{ activeIcon, icon, badge, children, ...props }: NavigationItemProps,
-	ref
-) {
+export function NavigationItem({
+	activeIcon,
+	icon,
+	badge,
+	children,
+	...props
+}: NavigationItemProps) {
 	return (
 		<HashNavLink
-			ref={ref}
 			{...props}
 			className={tv({ base: "navigation-label group" })({
 				className: props.className,
@@ -37,7 +36,7 @@ export const NavigationItem = forwardRef<
 			<TouchTarget />
 		</HashNavLink>
 	)
-})
+}
 
 const NavigationContext = createContext<{ "--id": string } | undefined>(
 	undefined

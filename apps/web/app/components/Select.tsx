@@ -4,7 +4,6 @@ import { createTextField } from "~/lib/textField"
 import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
-import { forwardRef } from "react"
 import { createMenu } from "~/lib/menu"
 
 const { input } = createTextField({})
@@ -33,14 +32,10 @@ export function SelectFactory({
 
 const { root } = createMenu()
 
-export const Select = forwardRef<HTMLButtonElement>(function Select(
-	{ children, ...props }: Ariakit.SelectProps,
-	ref
-) {
+export function Select({ children, ...props }: Ariakit.SelectProps) {
 	return (
 		<>
 			<Ariakit.Select
-				ref={ref}
 				{...props}
 				className={input({ className: "cursor-default" })}
 			/>
@@ -55,4 +50,4 @@ export const Select = forwardRef<HTMLButtonElement>(function Select(
 			</Ariakit.SelectPopover>
 		</>
 	)
-})
+}

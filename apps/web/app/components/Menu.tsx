@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from "react"
-import { createContext, forwardRef, useContext, useId } from "react"
+import { createContext, useContext, useId } from "react"
 
 import * as Ariakit from "@ariakit/react"
 
@@ -23,20 +23,16 @@ export function Menu(props: Ariakit.MenuProviderProps): ReactNode {
 	)
 }
 
-export const MenuTrigger = forwardRef<HTMLButtonElement>(function MenuTrigger(
-	props: Ariakit.MenuButtonProps,
-	ref
-): ReactNode {
+export function MenuTrigger(props: Ariakit.MenuButtonProps): ReactNode {
 	const { button } = useContext(Context)
 
 	return (
 		<Ariakit.MenuButton
 			{...props}
 			className={button({ className: props.className })}
-			ref={ref}
 		/>
 	)
-})
+}
 
 import { tv } from "~/lib/tailwind-variants"
 
@@ -51,22 +47,21 @@ const createMenu = tv({
 
 const Context = createContext(createMenu())
 
-export const MenuListItem = forwardRef<HTMLDivElement>(function MenuListItem(
-	{ children, ...props }: Ariakit.MenuItemProps,
-	ref
-): ReactNode {
+export function MenuListItem({
+	children,
+	...props
+}: Ariakit.MenuItemProps): ReactNode {
 	const { listItem } = useContext(Context)
 
 	return (
 		<Ariakit.MenuItem
-			ref={ref}
 			{...props}
 			className={listItem({ className: props.className })}
 		>
 			{children}
 		</Ariakit.MenuItem>
 	)
-})
+}
 
 export function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant h-6 w-6" />
