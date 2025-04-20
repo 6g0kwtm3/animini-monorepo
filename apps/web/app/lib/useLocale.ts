@@ -1,4 +1,4 @@
-import { isLocale } from "~/paraglide/runtime";
+import { isLocale } from "~/paraglide/runtime"
 
 const rtlLngs = new Set([
 	"ar",

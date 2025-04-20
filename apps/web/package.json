@@ -89,7 +89,7 @@
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.1.0",
 		"nodemon": "3.1.9",
-	"oxlint-config": "workspace:*",
+		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:*",
 		"tsx": "4.19.3",
 		"vite-plugin-inspect": "11.0.1",
