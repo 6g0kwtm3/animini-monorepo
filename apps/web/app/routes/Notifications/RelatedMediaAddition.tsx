@@ -1,6 +1,5 @@
 import ReactRelay from "react-relay"
 
-import { useLoaderData } from "react-router"
 import {
 	ListItem,
 	ListItemContent,
@@ -17,14 +16,15 @@ import { getLocale } from "~/paraglide/runtime"
 
 import { A } from "a"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
+import type { RelatedMediaAddition_viewer$key } from "~/gql/RelatedMediaAddition_viewer.graphql"
 import { useFragment } from "~/lib/Network"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import type { clientLoader } from "./route"
 
 const { graphql } = ReactRelay
 
 export function RelatedMediaAddition(props: {
 	notification: RelatedMediaAddition_notification$key
+	viewer: RelatedMediaAddition_viewer$key
 }) {
 	const notification = useFragment(
 		graphql`
@@ -42,7 +42,16 @@ export function RelatedMediaAddition(props: {
 		`,
 		props.notification
 	)
-	const data = useLoaderData<typeof clientLoader>()
+
+	const viewer = useFragment(
+		graphql`
+			fragment RelatedMediaAddition_viewer on User {
+				id
+				unreadNotificationCount
+			}
+		`,
+		props.viewer
+	)
 
 	return (
 		notification && (
@@ -56,7 +65,7 @@ export function RelatedMediaAddition(props: {
 					<ListItemContent>
 						<ListItemContentTitle>
 							{(notification.createdAt ?? 0)
-								> (data?.Viewer?.unreadNotificationCount ?? 0) && (
+								> (viewer.unreadNotificationCount ?? 0) && (
 								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 							)}{" "}
 							{m.recently_added()}
