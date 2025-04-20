@@ -1,4 +1,4 @@
-import type { ComponentProps, CSSProperties, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { createContext, forwardRef, useContext, useId } from "react"
 
 import { TouchTarget } from "~/components/Tooltip"
@@ -16,7 +16,7 @@ export const NavigationItem = forwardRef<
 	HTMLAnchorElement,
 	NavigationItemProps
 >(function NavigationItem(
-	{ activeIcon, icon, badge, children, ...props },
+	{ activeIcon, icon, badge, children, ...props }: NavigationItemProps,
 	ref
 ) {
 	return (

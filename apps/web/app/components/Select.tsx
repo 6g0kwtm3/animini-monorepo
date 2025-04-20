@@ -33,25 +33,26 @@ export function SelectFactory({
 
 const { root } = createMenu()
 
-export const Select = forwardRef<HTMLButtonElement, Ariakit.SelectProps>(
-	function Select({ children, ...props }, ref) {
-		return (
-			<>
-				<Ariakit.Select
-					ref={ref}
-					{...props}
-					className={input({ className: "cursor-default" })}
-				/>
-				<Ariakit.SelectPopover
-					sameWidth
-					className={root({
-						className:
-							"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
-					})}
-				>
-					{children}
-				</Ariakit.SelectPopover>
-			</>
-		)
-	}
-)
+export const Select = forwardRef<HTMLButtonElement>(function Select(
+	{ children, ...props }: Ariakit.SelectProps,
+	ref
+) {
+	return (
+		<>
+			<Ariakit.Select
+				ref={ref}
+				{...props}
+				className={input({ className: "cursor-default" })}
+			/>
+			<Ariakit.SelectPopover
+				sameWidth
+				className={root({
+					className:
+						"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
+				})}
+			>
+				{children}
+			</Ariakit.SelectPopover>
+		</>
+	)
+})

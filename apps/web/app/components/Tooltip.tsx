@@ -82,16 +82,18 @@ export function TooltipRichActions(props: ComponentProps<"div">): ReactNode {
 export function TooltipPlain(props: Ariakit.TooltipProviderProps): ReactNode {
 	return <Ariakit.TooltipProvider hideTimeout={250} {...props} />
 }
-export const TooltipPlainTrigger = forwardRef<
-	HTMLDivElement,
-	PropsWithChildren<Ariakit.TooltipAnchorProps>
->(function TooltipPlainTrigger({ children, ...props }, ref): ReactNode {
-	return (
-		<Ariakit.TooltipAnchor ref={ref} {...props}>
-			{children}
-		</Ariakit.TooltipAnchor>
-	)
-})
+export const TooltipPlainTrigger = forwardRef<HTMLDivElement>(
+	function TooltipPlainTrigger(
+		{ children, ...props }: PropsWithChildren<Ariakit.TooltipAnchorProps>,
+		ref
+	): ReactNode {
+		return (
+			<Ariakit.TooltipAnchor ref={ref} {...props}>
+				{children}
+			</Ariakit.TooltipAnchor>
+		)
+	}
+)
 export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
 	if (!tooltip) {

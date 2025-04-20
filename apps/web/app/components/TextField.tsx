@@ -68,23 +68,25 @@ function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 	)
 }
 
-export const TextFieldOutlinedInput = forwardRef<
-	HTMLInputElement,
-	Omit<ComponentProps<"input">, "id">
->(function TextFieldOutlinedInput(props, ref) {
-	const { input } = createTextField({ variant: "outlined" })
-	const id = use(LabelId)
-	return (
-		<input
-			ref={ref}
-			type="text"
-			{...props}
-			id={id}
-			placeholder=" "
-			className={input({ className: props.className })}
-		/>
-	)
-})
+export const TextFieldOutlinedInput = forwardRef<HTMLInputElement>(
+	function TextFieldOutlinedInput(
+		props: Omit<ComponentProps<"input">, "id">,
+		ref
+	) {
+		const { input } = createTextField({ variant: "outlined" })
+		const id = use(LabelId)
+		return (
+			<input
+				ref={ref}
+				type="text"
+				{...props}
+				id={id}
+				placeholder=" "
+				className={input({ className: props.className })}
+			/>
+		)
+	}
+)
 
 interface TextFieldOutlinedFactoryProps
 	extends ComponentProps<typeof TextFieldOutlinedInput> {
