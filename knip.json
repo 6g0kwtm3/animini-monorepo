@@ -21,6 +21,7 @@
 		"packages/extra-outlet": { "ignoreDependencies": ["oxlint-config"] },
 		"packages/m3-react": { "ignoreDependencies": ["oxlint-config", "m3-core"] },
 		"packages/markdown": { "ignoreDependencies": ["oxlint-config"] },
-		"packages/m3-core": { "ignoreDependencies": ["oxlint-config"] }
+		"packages/m3-core": { "ignoreDependencies": ["oxlint-config"] },
+		"packages/eslint-plugin-relay": { "ignoreDependencies": ["oxlint-config"] }
 	}
 }
