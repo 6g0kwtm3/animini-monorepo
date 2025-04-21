@@ -1,8 +1,10 @@
-import type { Rule, SourceCode } from "eslint"
+import type { Rule } from "eslint"
 import type * as ESTree from "estree"
 import {
+	OperationTypeNode,
 	parse,
-	type ASTNode,
+	TokenKind,
+	visit,
 	type DocumentNode,
 	type FieldNode,
 	type NameNode,
@@ -17,10 +19,10 @@ function getRange(
 	templateNode: ESTree.TaggedTemplateExpression,
 	graphQLNode: NameNode
 ): [number, number] {
-	const graphQLStart = templateNode.quasi.quasis[0].range[0] + 1
+	const graphQLStart = templateNode.quasi.quasis[0]!.range![0] + 1
 	return [
-		graphQLStart + graphQLNode.loc.start,
-		graphQLStart + graphQLNode.loc.end,
+		graphQLStart + graphQLNode.loc!.start,
+		graphQLStart + graphQLNode.loc!.end,
 	]
 }
 
@@ -36,25 +38,9 @@ function getLoc(
 	const start = startAndEnd[0]
 	const end = startAndEnd[1]
 	return {
-		start: getLocFromIndex(context.sourceCode, start),
-		end: getLocFromIndex(context.sourceCode, end),
+		start: context.sourceCode.getLocFromIndex(start),
+		end: context.sourceCode.getLocFromIndex(end),
 	}
-}
-
-// TODO remove after we no longer have to support ESLint 3.5.0
-function getLocFromIndex(sourceCode: SourceCode, index: number) {
-	if (sourceCode.getLocFromIndex) {
-		return sourceCode.getLocFromIndex(index)
-	}
-	let pos = 0
-	for (let line = 0; line < sourceCode.lines.length; line++) {
-		const lineLength = sourceCode.lines[line].length
-		if (index <= pos + lineLength) {
-			return { line: line + 1, column: index - pos }
-		}
-		pos += lineLength + 1
-	}
-	return null
 }
 
 function isGraphQLTag(tag: ESTree.Expression) {
@@ -73,11 +59,13 @@ function getGraphQLAST(
 	}
 	const quasi = taggedTemplateExpression.quasi.quasis[0]
 	try {
-		return parse(quasi.value.cooked)
-	} catch (_error) {
+		if (typeof quasi?.value.cooked === "string") {
+			return parse(quasi.value.cooked)
+		}
+	} catch {
 		// Invalid syntax, covered by graphql-syntax rule
-		return null
 	}
+	return null
 }
 
 function hasPrecedingEslintDisableComment(
@@ -85,7 +73,10 @@ function hasPrecedingEslintDisableComment(
 	commentText: string
 ) {
 	const prevNode = node.loc?.startToken.prev
-	return prevNode?.kind === "Comment" && prevNode.value.startsWith(commentText)
+	return (
+		prevNode?.kind === TokenKind.COMMENT
+		&& prevNode.value.startsWith(commentText)
+	)
 }
 
 const ESLINT_DISABLE_COMMENT = " eslint-disable-next-line relay/unused-fields"
@@ -93,45 +84,26 @@ const ESLINT_DISABLE_COMMENT = " eslint-disable-next-line relay/unused-fields"
 function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 	const fieldNames: Record<string, NameNode> = {}
 
-	function walkAST(node: ASTNode, ignoreLevel?: boolean) {
-		if (node.kind === "Field" && !ignoreLevel) {
+	visit(graphQLAst, {
+		Field(node) {
+			// TODO: Ignore fields that are direct children of query as used in mutation or query definitions.
 			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
-				return
+				return false
 			}
-			const nameNode = node.alias || node.name
+			const nameNode = node.alias ?? node.name
 			fieldNames[nameNode.value] = nameNode
-		}
-		if (node.kind === "OperationDefinition") {
+		},
+		OperationDefinition(node) {
 			if (
-				node.operation === "mutation"
-				|| node.operation === "subscription"
+				node.operation === OperationTypeNode.MUTATION
+				|| node.operation === OperationTypeNode.SUBSCRIPTION
 				|| hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)
 			) {
-				return
+				return false
 			}
-			// Ignore fields that are direct children of query as used in mutation
-			// or query definitions.
-			node.selectionSet.selections.forEach((selection) => {
-				walkAST(selection, true)
-			})
-			return
-		}
-		for (const prop in node) {
-			const value = node[prop]
-			if (prop === "loc") {
-				continue
-			}
-			if (value && typeof value === "object") {
-				walkAST(value)
-			} else if (Array.isArray(value)) {
-				value.forEach((child) => {
-					walkAST(child)
-				})
-			}
-		}
-	}
+		},
+	})
 
-	walkAST(graphQLAst)
 	return fieldNames
 }
 
@@ -168,7 +140,7 @@ function isPageInfoField(field: string) {
 }
 
 export const rule: Rule.RuleModule = {
-	meta: { docs: {}, schema: [] },
+	meta: { type: "problem", docs: {}, schema: [] },
 	create(context) {
 		let currentMethod: string[] = []
 		let foundMemberAccesses = new Set<string>()
@@ -222,17 +194,20 @@ export const rule: Rule.RuleModule = {
 					const queriedFields = getGraphQLFieldNames(graphQLAst)
 					for (const field in queriedFields) {
 						if (
-							!foundMemberAccesses.has(field)
+							queriedFields[field] != undefined
+							&& !foundMemberAccesses.has(field)
 							&& !isPageInfoField(field)
 							// Do not warn for unused __typename which can be a workaround
 							// when only interested in existence of an object.
 							&& field !== "__typename"
+							&& field !== "id"
 						) {
 							context.report({
 								node: templateLiteral,
 								loc: getLoc(context, templateLiteral, queriedFields[field]),
+								data: { field },
 								message:
-									`This queries for the field \`${field}\` but this file does `
+									`This queries for the field \`{{ field }}\` but this file does `
 									+ "not seem to use it directly. If a different file needs this "
 									+ "information that file should export a fragment and colocate "
 									+ "the query for the data with the usage.\n"
@@ -268,13 +243,19 @@ export const rule: Rule.RuleModule = {
 			OptionalMemberExpression: visitMemberExpression,
 			ObjectPattern(node) {
 				node.properties.forEach((node) => {
-					if (node.type === "Property" && !node.computed) {
+					if (
+						node.type === "Property"
+						&& !node.computed
+						&& "name" in node.key
+					) {
 						foundMemberAccesses.add(node.key.name)
 					}
 				})
 			},
 			MethodDefinition(node) {
-				currentMethod.push(node.key.name)
+				if ("name" in node.key) {
+					currentMethod.push(node.key.name)
+				}
 			},
 			"MethodDefinition:exit"(_node) {
 				currentMethod.pop()
