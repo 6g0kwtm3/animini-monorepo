@@ -60,6 +60,8 @@
 import type { Rule } from "eslint"
 import {
 	BREAK,
+	Kind,
+	OperationTypeNode,
 	visit,
 	type DocumentNode,
 	type FragmentSpreadNode,
@@ -76,7 +78,7 @@ import {
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads"
 
-function isReadonlyArray<T>(value: unknown): value is readonly T[] {
+function isReadonlyArray(value: unknown): value is readonly unknown[] {
 	return Array.isArray(value)
 }
 
@@ -88,13 +90,12 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 				if (isReadonlyArray(ancestorNode)) {
 					continue
 				}
-				if (ancestorNode.kind === "OperationDefinition") {
-					if (
-						ancestorNode.operation === "mutation"
-						|| ancestorNode.operation === "subscription"
-					) {
-						return
-					}
+				if (
+					ancestorNode.kind === Kind.OPERATION_DEFINITION
+					&& (ancestorNode.operation === OperationTypeNode.MUTATION
+						|| ancestorNode.operation === OperationTypeNode.SUBSCRIPTION)
+				) {
+					return
 				}
 			}
 			for (const directiveNode of node.directives ?? []) {
