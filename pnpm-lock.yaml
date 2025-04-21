@@ -390,6 +390,9 @@ importers:
       tsx:
         specifier: 4.19.3
         version: 4.19.3
+      vitest:
+        specifier: 3.1.1
+        version: 3.1.1(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)
 
   packages/extra-outlet:
     dependencies:

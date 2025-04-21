@@ -4,14 +4,14 @@ import { describe } from "node:test"
 import { expect, test } from "vitest"
 import { rule } from "./rule-must-colocate-fragment-spreads"
 
-describe("rule-must-colocate-fragment-spreads", () => {
+void describe("rule-must-colocate-fragment-spreads", () => {
 	const { valid, invalid } = createRuleTester({
 		rule,
 		languageOptions: { ecmaVersion: 6, parser: typescriptParser },
 	})
 
-	test("allows fragment spread when component is imported", () => {
-		valid(
+	test("allows fragment spread when component is imported", async () => {
+		await valid(
 			`
       import { Component } from '../shared/component.js';
       graphql\`fragment foo on Page {
@@ -21,8 +21,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread when component is required", () => {
-		valid(
+	test("allows fragment spread when component is required", async () => {
+		await valid(
 			`
       const Component = require('../shared/component.js');
       graphql\`fragment foo on Page {
@@ -32,8 +32,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread when component is dynamically imported", () => {
-		valid(
+	test("allows fragment spread when component is dynamically imported", async () => {
+		await valid(
 			`
       const Component = import('../shared/component.js');
       graphql\`fragment foo on Page {
@@ -43,8 +43,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread with nested component path", () => {
-		valid(
+	test("allows fragment spread with nested component path", async () => {
+		await valid(
 			`
       import { Component } from './nested/componentModule.js';
       graphql\`fragment foo on Page {
@@ -54,8 +54,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread with component module naming convention", () => {
-		valid(
+	test("allows fragment spread with component module naming convention", async () => {
+		await valid(
 			`
       import { Component } from './component-module.js';
       graphql\`fragment foo on Page {
@@ -65,8 +65,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread in query", () => {
-		valid(
+	test("allows fragment spread in query", async () => {
+		await valid(
 			`
       import { Component } from './component-module.js';
       graphql\`query Root {
@@ -76,8 +76,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows local fragment spreads within same file", () => {
-		valid(
+	test("allows local fragment spreads within same file", async () => {
+		await valid(
 			`
       graphql\`fragment foo1 on Page {
         name
@@ -89,8 +89,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spreads in mutations", () => {
-		valid(
+	test("allows fragment spreads in mutations", async () => {
+		await valid(
 			`
       graphql\`mutation {
         page_unlike(data: $input) {
@@ -103,24 +103,24 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread with relay mask directive", () => {
-		valid(
+	test("allows fragment spread with relay mask directive", async () => {
+		await valid(
 			`
       graphql\`fragment foo on Page { ...Fragment @relay(mask: false) }\`;
       `
 		)
 	})
 
-	test("allows fragment spread with relay module directive", () => {
-		valid(
+	test("allows fragment spread with relay module directive", async () => {
+		await valid(
 			`
       graphql\`fragment foo on Page { ...Fragment @module(name: "ComponentName.react") }\`;
       `
 		)
 	})
 
-	test("allows dynamic imports with template literal paths", () => {
-		valid(
+	test("allows dynamic imports with template literal paths", async () => {
+		await valid(
 			"\
       const getOperation = (reference) => {\
         return import(`./src/__generated__/${reference}`);\
@@ -129,8 +129,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows dynamic imports with variable paths", () => {
-		valid(
+	test("allows dynamic imports with variable paths", async () => {
+		await valid(
 			"\
       const getOperation = (reference) => {\
         return import(reference);\
@@ -139,8 +139,8 @@ describe("rule-must-colocate-fragment-spreads", () => {
 		)
 	})
 
-	test("allows fragment spread with eslint disable comment", () => {
-		valid(
+	test("allows fragment spread with eslint disable comment", async () => {
+		await valid(
 			`
       graphql\`fragment foo on Page {
         # eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads
