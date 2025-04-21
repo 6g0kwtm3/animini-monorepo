@@ -8,18 +8,14 @@ import {
 	Form,
 	isRouteErrorResponse,
 	Outlet,
-	useLoaderData,
 	useLocation,
 	useNavigate,
 	useNavigation,
 	useParams,
 	useRouteError,
-	useSearchParams,
 	useSubmit,
-	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
 } from "react-router"
-import * as Order from "~/lib/Order"
 
 import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
@@ -27,6 +23,7 @@ import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
+import { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
 import {
 	ListItem,
 	ListItemContent,
@@ -46,19 +43,17 @@ import MaterialSymbolsSearch from "~icons/material-symbols/search"
 import { MediaListSort } from "~/lib/MediaListSort"
 
 import { copySearchParams } from "~/lib/copySearchParams"
-import { route_user_list } from "~/lib/route"
 
 import { captureException } from "@sentry/react"
 import { A } from "a"
 import { type } from "arktype"
 import { ExtraOutlets } from "extra-outlet"
-import ReactRelay from "react-relay"
 import { Label } from "~/components/Label"
-import type { routeNavUserListQuery as NavUserListQuery } from "~/gql/routeNavUserListQuery.graphql"
 import { button } from "~/lib/button"
-import { client_operation } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
+import { loadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
+import { UserListTabs, UserListTabsQuery } from "./UserListTabs"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -76,33 +71,6 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-const Params = type({ userName: "string", typelist: '"animelist"|"mangalist"' })
-
-export const clientLoader = async (args: Route.ClientLoaderArgs) => {
-	const params = invariant(Params(args.params))
-
-	const data = await client_operation<NavUserListQuery>(routeNavUserListQuery, {
-		userName: params.userName,
-		type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
-			params.typelist
-		],
-	})
-
-	return { data, params }
-}
-
-const { graphql } = ReactRelay
-
-const routeNavUserListQuery = graphql`
-	query routeNavUserListQuery($userName: String!, $type: MediaType!) {
-		MediaListCollection(userName: $userName, type: $type) {
-			lists {
-				name
-			}
-		}
-	}
-`
-
 function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()
 
@@ -119,7 +87,24 @@ function useOptimisticLocation() {
 	return location
 }
 
-export default function Filters(): ReactNode {
+const Typelist = type('"animelist"|"mangalist"')
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
+	const typelist = invariant(Typelist(args.params.typelist))
+
+	return {
+		UserListTabsQuery: args.context.get(loadQuery)<UserListTabsQueryOperation>(
+			UserListTabsQuery,
+			{
+				userName: args.params.userName,
+				type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[typelist],
+			}
+		),
+	}
+}
+
+export default function Filters({
+	loaderData,
+}: Route.ComponentProps): ReactNode {
 	const submit = useSubmit()
 
 	const searchParams = useOptimisticSearchParams()
@@ -251,7 +236,7 @@ export default function Filters(): ReactNode {
 											<MaterialSymbolsMoreHoriz />
 										</Icon>
 									</AppBar>
-									<ListTabs />
+									<UserListTabs queryRef={loaderData.UserListTabsQuery} />
 								</div>
 								<M3.TabsPanel
 									tabId={params.selected}
@@ -269,43 +254,6 @@ export default function Filters(): ReactNode {
 
 			<Filter />
 		</ExtraOutlets>
-	)
-}
-
-function ListTabs() {
-	const { data, params } = useLoaderData<typeof clientLoader>()
-
-	const lists = data?.MediaListCollection?.lists
-		?.filter((el) => el != null)
-		.sort(
-			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
-		)
-
-	const [searchParams] = useSearchParams()
-
-	return (
-		<TabsList>
-			<TabsListItem
-				id={"undefined"}
-				render={<A href={`${route_user_list(params)}?${searchParams}`}></A>}
-			>
-				All
-			</TabsListItem>
-			{lists?.map((list) => {
-				return (
-					list.name && (
-						<TabsListItem
-							key={list.name}
-							data-key={list.name}
-							id={list.name}
-							render={<A href={`${list.name}?${searchParams}`}></A>}
-						>
-							{list.name}
-						</TabsListItem>
-					)
-				)
-			})}
-		</TabsList>
 	)
 }
 

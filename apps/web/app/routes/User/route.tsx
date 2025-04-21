@@ -41,7 +41,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 				user: User(name: $userName) {
 					id
 					isFollowing
-					about
 					name
 					options {
 						profileTheme
@@ -72,8 +71,8 @@ import * as Ariakit from "@ariakit/react"
 import { button } from "~/lib/button"
 import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
-import { data as json } from "react-router"
 import { A } from "a"
+import { data as json } from "react-router"
 import { numberToString } from "~/lib/numberToString"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {

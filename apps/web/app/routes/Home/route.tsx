@@ -22,8 +22,6 @@ import { Markdown } from "markdown"
 import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
-import * as Predicate from "~/lib/Predicate"
-import { getThemeFromHex } from "~/lib/theme"
 import type { Route } from "./+types/route"
 import { options } from "./options"
 const { graphql } = ReactRelay
@@ -41,13 +39,9 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 				Page {
 					media(id_in: $ids) {
 						id
-						title @required(action: LOG) {
-							userPreferred @required(action: LOG)
-						}
-						type
 						...MediaCover_media
 						coverImage {
-							color
+							theme
 						}
 					}
 				}
@@ -61,15 +55,7 @@ async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
 			?.filter((el) => el != null)
 			.map(
 				(media) =>
-					[
-						String(media.id),
-						{
-							media,
-							theme: Predicate.isString(media.coverImage?.color)
-								? getThemeFromHex(media.coverImage.color)
-								: {},
-						},
-					] as const
+					[String(media.id), { media, theme: media.coverImage?.theme }] as const
 			) ?? []
 	)
 }

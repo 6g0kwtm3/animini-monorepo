@@ -33,7 +33,6 @@ const ProgressIncrement_entry = graphql`
 		...Progress_entry
 		media @required(action: LOG) {
 			avalible
-			type
 			id
 			episodes
 			chapters
