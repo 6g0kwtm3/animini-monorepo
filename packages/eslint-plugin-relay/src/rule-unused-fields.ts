@@ -2,84 +2,20 @@ import type { Rule } from "eslint"
 import type * as ESTree from "estree"
 import {
 	OperationTypeNode,
-	parse,
-	TokenKind,
 	visit,
 	type DocumentNode,
-	type FieldNode,
 	type NameNode,
-	type OperationDefinitionNode,
 } from "graphql"
+import {
+	getGraphQLAST,
+	getLoc,
+	hasPrecedingEslintDisableComment,
+	isGraphQLTemplate,
+	type GraphqlTemplateExpression,
+} from "./utils"
 
-/**
- * Returns a range object for auto fixers.
- */
-function getRange(
-	context: Rule.RuleContext,
-	templateNode: ESTree.TaggedTemplateExpression,
-	graphQLNode: NameNode
-): [number, number] {
-	const graphQLStart = templateNode.quasi.quasis[0]!.range![0] + 1
-	return [
-		graphQLStart + graphQLNode.loc!.start,
-		graphQLStart + graphQLNode.loc!.end,
-	]
-}
-
-/**
- * Returns a loc object for error reporting.
- */
-function getLoc(
-	context: Rule.RuleContext,
-	templateNode: ESTree.TaggedTemplateExpression,
-	graphQLNode: NameNode
-): ESTree.SourceLocation {
-	const startAndEnd = getRange(context, templateNode, graphQLNode)
-	const start = startAndEnd[0]
-	const end = startAndEnd[1]
-	return {
-		start: context.sourceCode.getLocFromIndex(start),
-		end: context.sourceCode.getLocFromIndex(end),
-	}
-}
-
-function isGraphQLTag(tag: ESTree.Expression) {
-	return tag.type === "Identifier" && tag.name === "graphql"
-}
-
-function getGraphQLAST(
-	taggedTemplateExpression: ESTree.TaggedTemplateExpression
-) {
-	if (!isGraphQLTag(taggedTemplateExpression.tag)) {
-		return null
-	}
-	if (taggedTemplateExpression.quasi.quasis.length !== 1) {
-		// has substitutions, covered by graphql-syntax rule
-		return null
-	}
-	const quasi = taggedTemplateExpression.quasi.quasis[0]
-	try {
-		if (typeof quasi?.value.cooked === "string") {
-			return parse(quasi.value.cooked)
-		}
-	} catch {
-		// Invalid syntax, covered by graphql-syntax rule
-	}
-	return null
-}
-
-function hasPrecedingEslintDisableComment(
-	node: FieldNode | OperationDefinitionNode,
-	commentText: string
-) {
-	const prevNode = node.loc?.startToken.prev
-	return (
-		prevNode?.kind === TokenKind.COMMENT
-		&& prevNode.value.startsWith(commentText)
-	)
-}
-
-const ESLINT_DISABLE_COMMENT = " eslint-disable-next-line relay/unused-fields"
+const ESLINT_DISABLE_COMMENT =
+	" eslint-disable-next-line eslint-plugin-relay/unused-fields"
 
 function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 	const fieldNames: Record<string, NameNode> = {}
@@ -105,14 +41,6 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 	})
 
 	return fieldNames
-}
-
-function isGraphQLTemplate(node: ESTree.TaggedTemplateExpression) {
-	return (
-		node.tag.type === "Identifier"
-		&& node.tag.name === "graphql"
-		&& node.quasi.quasis.length === 1
-	)
 }
 
 function isStringNode(
@@ -144,7 +72,7 @@ export const rule: Rule.RuleModule = {
 	create(context) {
 		let currentMethod: string[] = []
 		let foundMemberAccesses = new Set<string>()
-		let templateLiterals: ESTree.TaggedTemplateExpression[] = []
+		let templateLiterals: GraphqlTemplateExpression[] = []
 
 		function visitGetByPathCall(node: ESTree.CallExpression) {
 			// The `getByPath` utility accesses nested fields in the form
