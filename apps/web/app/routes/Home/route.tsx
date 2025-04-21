@@ -13,52 +13,15 @@ import {
 	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
-import { client_operation } from "~/lib/client"
-
 // console.log(R)
 
 import { A } from "a"
 import { Markdown } from "markdown"
-import type { routeNavFeedMediaQuery } from "~/gql/routeNavFeedMediaQuery.graphql"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { options } from "./options"
 const { graphql } = ReactRelay
-
-function matchMediaId(s: string) {
-	return [...s.matchAll(/https:\/\/anilist.co\/(anime|manga)\/(\d+)/g)]
-		.map((group) => Number(group[2]))
-		.filter(isFinite)
-}
-
-async function getMedia(variables: routeNavFeedMediaQuery["variables"]) {
-	const data = await client_operation<routeNavFeedMediaQuery>(
-		graphql`
-			query routeNavFeedMediaQuery($ids: [Int]) {
-				Page {
-					media(id_in: $ids) {
-						id
-						...MediaCover_media
-						coverImage {
-							theme
-						}
-					}
-				}
-			}
-		`,
-		variables
-	)
-
-	return Object.fromEntries(
-		data?.Page?.media
-			?.filter((el) => el != null)
-			.map(
-				(media) =>
-					[String(media.id), { media, theme: media.coverImage?.theme }] as const
-			) ?? []
-	)
-}
 
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const page = args.context.get(loadQuery)<routeNavFeedQuery>(
@@ -95,14 +58,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	// 		return []
 	// 	}) ?? []
 
-	return {
-		page,
-		media:
-			// ids.length > 0
-			// 	? getMedia({ ids: ids })
-			// 	:
-			Promise.resolve<Awaited<ReturnType<typeof getMedia>>>({}),
-	}
+	return { page }
 }
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
