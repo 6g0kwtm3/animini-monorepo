@@ -20,7 +20,7 @@ export function hasPrecedingEslintDisableComment(
 export function getRange(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
-	graphQLNode: NameNode
+	graphQLNode: ASTNode
 ): [number, number] {
 	const graphQLStart = templateNode.quasi.quasis[0].range![0] + 1
 	return [
@@ -35,7 +35,7 @@ export function getRange(
 export function getLoc(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
-	graphQLNode: NameNode
+	graphQLNode: ASTNode
 ): ESTree.SourceLocation {
 	const startAndEnd = getRange(context, templateNode, graphQLNode)
 	const start = startAndEnd[0]
@@ -86,7 +86,7 @@ export function getModuleName(filePath: string) {
 
 	// foo-bar -> fooBar
 	// Relay compatibility mode splits on _, so we can't use that here.
-	moduleName = moduleName.replace(/[^a-zA-Z0-9]+(\w?)/g, (match, next) =>
+	moduleName = moduleName.replace(/[^a-zA-Z0-9]+(\w?)/g, (_, next: string) =>
 		next.toUpperCase()
 	)
 

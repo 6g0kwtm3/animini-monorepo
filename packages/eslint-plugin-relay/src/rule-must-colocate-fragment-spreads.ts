@@ -58,29 +58,36 @@
 "use strict"
 
 import type { Rule } from "eslint"
-import type { TaggedTemplateExpression } from "estree"
 import {
-	BREAK,
-	visit,
-	type DocumentNode,
-	type FragmentSpreadNode,
+  BREAK,
+  visit,
+  type DocumentNode,
+  type FragmentSpreadNode,
 } from "graphql"
 import {
-	getGraphQLAST,
-	getLoc,
-	getModuleName,
-	hasPrecedingEslintDisableComment,
-	isGraphQLTemplate,
+  getGraphQLAST,
+  getLoc,
+  getModuleName,
+  hasPrecedingEslintDisableComment,
+  isGraphQLTemplate,
+  type GraphqlTemplateExpression,
 } from "./utils"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads"
+
+function isReadonlyArray<T>(value: unknown): value is ReadonlyArray<T> {
+	return Array.isArray(value)
+}
 
 function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 	const fragmentSpreads: Record<string, FragmentSpreadNode> = {}
 	visit(graphQLAst, {
 		FragmentSpread(node, key, parent, path, ancestors) {
 			for (const ancestorNode of ancestors) {
+				if (isReadonlyArray(ancestorNode)) {
+					continue
+				}
 				if (ancestorNode.kind === "OperationDefinition") {
 					if (
 						ancestorNode.operation === "mutation"
@@ -90,14 +97,15 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 					}
 				}
 			}
-			for (const directiveNode of node.directives) {
+			for (const directiveNode of node.directives ?? []) {
 				if (directiveNode.name.value === "module") {
 					return
 				}
 				if (directiveNode.name.value === "relay") {
-					for (const argumentNode of directiveNode.arguments) {
+					for (const argumentNode of directiveNode.arguments ?? []) {
 						if (
 							argumentNode.name.value === "mask"
+							&& "value" in argumentNode.value
 							&& argumentNode.value.value === false
 						) {
 							return
@@ -132,7 +140,7 @@ export const rule: Rule.RuleModule = {
 	create(context) {
 		const foundImportedModules: string[] = []
 		const graphqlLiterals: {
-			node: TaggedTemplateExpression
+			node: GraphqlTemplateExpression
 			graphQLAst: DocumentNode
 		}[] = []
 
@@ -152,7 +160,8 @@ export const rule: Rule.RuleModule = {
 							fragment.startsWith(name)
 						)
 						if (
-							!matchedModuleName
+							queriedFragments[fragment]
+							&& !matchedModuleName
 							&& !fragmentsInTheSameModule.includes(fragment)
 						) {
 							context.report({
@@ -168,13 +177,16 @@ export const rule: Rule.RuleModule = {
 			},
 
 			ImportDeclaration(node) {
-				if (node.importKind === "value") {
+				if (typeof node.source.value === "string") {
 					foundImportedModules.push(getModuleName(node.source.value))
 				}
 			},
 
 			ImportExpression(node) {
-				if (node.source.type === "Literal") {
+				if (
+					node.source.type === "Literal"
+					&& typeof node.source.value === "string"
+				) {
 					// Allow dynamic imports like import(`test/${fileName}`); and (path) => import(path);
 					// These would have node.source.value undefined
 					foundImportedModules.push(getModuleName(node.source.value))
