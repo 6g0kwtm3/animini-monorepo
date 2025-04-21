@@ -16,6 +16,7 @@ export default prefix(":locale?", [
 		route("notifications", "./routes/Notifications/route.tsx"),
 		route("search", "./routes/Search/route.tsx"),
 		route("user/:userName", "./routes/User/route.tsx", [
+			index("./routes/UserOverview/route.tsx"),
 			route(":typelist", "./routes/UserList/route.tsx", [
 				route(":selected?", "./routes/UserListSelected/route.tsx"),
 			]),
