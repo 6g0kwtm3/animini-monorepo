@@ -59,24 +59,24 @@
 
 import type { Rule } from "eslint"
 import {
-  BREAK,
-  visit,
-  type DocumentNode,
-  type FragmentSpreadNode,
+	BREAK,
+	visit,
+	type DocumentNode,
+	type FragmentSpreadNode,
 } from "graphql"
 import {
-  getGraphQLAST,
-  getLoc,
-  getModuleName,
-  hasPrecedingEslintDisableComment,
-  isGraphQLTemplate,
-  type GraphqlTemplateExpression,
+	getGraphQLAST,
+	getLoc,
+	getModuleName,
+	hasPrecedingEslintDisableComment,
+	isGraphQLTemplate,
+	type GraphqlTemplateExpression,
 } from "./utils"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads"
 
-function isReadonlyArray<T>(value: unknown): value is ReadonlyArray<T> {
+function isReadonlyArray<T>(value: unknown): value is readonly T[] {
 	return Array.isArray(value)
 }
 
