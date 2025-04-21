@@ -9,6 +9,7 @@ import graphQLConfig from "./graphql.config.js"
 // @ts-expect-error TODO: fix types
 export default typegen([
 	{
+		name: "web/ignores",
 		ignores: [
 			"app/gql/",
 			"app/paraglide/",

@@ -6,7 +6,7 @@ import * as reactCompiler from "eslint-plugin-react-compiler"
 import * as reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import typegen from "eslint-typegen"
-import oxlintConfig from "oxlint-config"
+import oxlintConfig from "oxlint-config" with { type: "json" }
 
 export default await typegen([
 	reactPlugin.configs.flat.recommended,
@@ -16,6 +16,7 @@ export default await typegen([
 	reactRefresh.configs.vite,
 	reactCompiler.configs.recommended,
 	{
+		name: "eslint-config/react/react-refresh/rules",
 		rules: {
 			"react-refresh/only-export-components": [
 				"error",
