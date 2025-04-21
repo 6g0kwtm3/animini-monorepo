@@ -5,12 +5,13 @@ import oxlint from "eslint-plugin-oxlint"
 
 import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
+import oxlintConfig from "oxlint-config" with { type: "json" }
 import path from "path"
 import tseslint from "typescript-eslint"
-import oxlintConfig from "oxlint-config"
 
 export default await typegen([
 	{
+		name: "eslint-config/base/ignores",
 		ignores: [
 			".tsup/",
 			"dist/",
@@ -43,6 +44,7 @@ export default await typegen([
 		...config,
 	})),
 	{
+		name: "eslint-config/base/typescript-eslint/parser-options",
 		languageOptions: {
 			parserOptions: {
 				projectService: true,
@@ -52,6 +54,7 @@ export default await typegen([
 		},
 	},
 	{
+		name: "eslint-config/base/typescript-eslint/rules",
 		rules: {
 			"@typescript-eslint/triple-slash-reference": "off",
 			"@typescript-eslint/only-throw-error": "off",
