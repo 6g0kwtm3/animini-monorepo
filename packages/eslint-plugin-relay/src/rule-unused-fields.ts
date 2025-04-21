@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of https://github.com/relayjs/eslint-plugin-relay.
  */
 
-
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
 import {
