@@ -69,17 +69,18 @@ const routeNavNotificationsQuery = graphql`
 		}
 		Page {
 			notifications(type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]) {
+				__typename
 				... on AiringNotification {
 					id
-					...Airing_notification @alias
+					...Airing_notification
 				}
 				... on RelatedMediaAdditionNotification {
 					id
-					...RelatedMediaAddition_notification @alias
+					...RelatedMediaAddition_notification
 				}
 				... on ActivityLikeNotification {
 					id
-					...ActivityLike_notification @alias
+					...ActivityLike_notification
 				}
 			}
 		}
@@ -127,39 +128,39 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 							{data.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
-									if (notification.Airing_notification) {
+									if (notification.__typename === "AiringNotification") {
 										return (
 											<Airing
 												key={notification.id}
 												data-key={notification.id}
-												notification={notification.Airing_notification}
+												notification={notification}
 												viewer={data.Viewer}
 											/>
 										)
 									}
-									if (notification.RelatedMediaAddition_notification) {
+									if (
+										notification.__typename
+										=== "RelatedMediaAdditionNotification"
+									) {
 										return (
 											<RelatedMediaAddition
 												key={notification.id}
 												data-key={notification.id}
-												notification={
-													notification.RelatedMediaAddition_notification
-												}
+												notification={notification}
 												viewer={data.Viewer}
 											/>
 										)
 									}
-									if (notification.ActivityLike_notification) {
+									if (notification.__typename === "ActivityLikeNotification") {
 										return (
 											<ActivityLike
 												key={notification.id}
 												data-key={notification.id}
-												notification={notification.ActivityLike_notification}
+												notification={notification}
 												viewer={data.Viewer}
 											/>
 										)
 									}
-
 									return null
 								})}
 						</List>
