@@ -137,7 +137,15 @@ function getGraphQLFragmentDefinitionName(
 }
 
 export const rule: Rule.RuleModule = {
-	meta: { docs: {}, schema: [] },
+	meta: {
+		docs: {},
+		schema: [],
+		messages: {
+			"must-colocate-fragment-spreads":
+				`This spreads the fragment \`{{ fragment }}\` but `
+				+ "this module does not use it directly.",
+		},
+	},
 	create(context) {
 		const foundImportedModules: string[] = []
 		const graphqlLiterals: {
@@ -167,10 +175,9 @@ export const rule: Rule.RuleModule = {
 						) {
 							context.report({
 								node,
+								messageId: "must-colocate-fragment-spreads",
 								loc: getLoc(context, node, queriedFragments[fragment]),
-								message:
-									`This spreads the fragment \`${fragment}\` but `
-									+ "this module does not use it directly.",
+								data: { fragment },
 							})
 						}
 					}
@@ -178,7 +185,11 @@ export const rule: Rule.RuleModule = {
 			},
 
 			ImportDeclaration(node) {
-				if (typeof node.source.value === "string") {
+				if (
+					"importKind" in node
+					&& node.importKind === "value"
+					&& typeof node.source.value === "string"
+				) {
 					foundImportedModules.push(getModuleName(node.source.value))
 				}
 			},
