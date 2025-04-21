@@ -9,11 +9,10 @@
 	"featureFlags": {
 		"enable_strict_custom_scalars": true,
 		"enforce_fragment_alias_where_ambiguous": { "kind": "enabled" },
-		"compact_query_text": { "kind": "enabled" },
-		"omit_resolver_type_assertions_for_confirmed_types": { "kind": "enabled" }
+		"compact_query_text": { "kind": "enabled" }
 	},
 	"requireCustomScalarTypes": true,
-	"useImportTypeSyntax": true,
+	"useImportTypeSyntax": false,
 	"isDevVariableName": "import.meta.env?.DEV",
 	"customScalarTypes": {
 		"FuzzyDateInt": "number",
