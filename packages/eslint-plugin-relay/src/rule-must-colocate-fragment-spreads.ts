@@ -59,20 +59,20 @@
 
 import type { Rule } from "eslint"
 import {
-  BREAK,
-  Kind,
-  OperationTypeNode,
-  visit,
-  type DocumentNode,
-  type FragmentSpreadNode,
+	BREAK,
+	Kind,
+	OperationTypeNode,
+	visit,
+	type DocumentNode,
+	type FragmentSpreadNode,
 } from "graphql"
 import {
-  getGraphQLAST,
-  getLoc,
-  getModuleName,
-  hasPrecedingEslintDisableComment,
-  isGraphQLTemplate,
-  type GraphqlTemplateExpression,
+	getGraphQLAST,
+	getLoc,
+	getModuleName,
+	hasPrecedingEslintDisableComment,
+	isGraphQLTemplate,
+	type GraphqlTemplateExpression,
 } from "./utils"
 
 const ESLINT_DISABLE_COMMENT =
