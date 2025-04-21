@@ -155,7 +155,7 @@ const UserSetStatus = graphql`
 const SetStatusFormData = type({
 	mediaId: "string.integer.parse",
 	status:
-		"'COMPLETED'|'CURRENT'|'DROPPED'|'PAUSED'|'PLANNING'|'REPEATING'|'%future added value'",
+		"'COMPLETED'|'CURRENT'|'DROPPED'|'PAUSED'|'PLANNING'|'REPEATING'",
 })
 
 async function setStatus(formData: FormData) {
