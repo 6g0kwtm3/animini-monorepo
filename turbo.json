@@ -44,6 +44,7 @@
 			"dependsOn": ["^dts", "transit", "router", "paraglide", "relay"]
 		},
 		"//#format": {},
-		"//#knip": {}
+		"//#knip": {},
+		"//#test": {}
 	}
 }
