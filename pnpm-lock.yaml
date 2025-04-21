@@ -250,9 +250,6 @@ importers:
       '@playwright/test':
         specifier: 1.52.0
         version: 1.52.0
-      '@types/estree':
-        specifier: 1.0.7
-        version: 1.0.7
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
@@ -265,6 +262,9 @@ importers:
       eslint-config:
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      eslint-plugin-relay:
+        specifier: workspace:*
+        version: link:../../packages/eslint-plugin-relay
       eslint-typegen:
         specifier: 2.1.0
         version: 2.1.0(eslint@9.25.0(jiti@2.4.2))
@@ -356,6 +356,34 @@ importers:
       typescript-eslint:
         specifier: 8.30.1
         version: 8.30.1(eslint@9.25.0(jiti@2.4.2))(typescript@5.8.3)
+
+  packages/eslint-plugin-relay:
+    dependencies:
+      graphql:
+        specifier: 16.10.0
+        version: 16.10.0
+    devDependencies:
+      '@types/estree':
+        specifier: 1.0.7
+        version: 1.0.7
+      eslint:
+        specifier: 9.25.0
+        version: 9.25.0(jiti@2.4.2)
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint-typegen:
+        specifier: 2.1.0
+        version: 2.1.0(eslint@9.25.0(jiti@2.4.2))
+      oxlint-config:
+        specifier: workspace:*
+        version: link:../oxlint-config
+      ts-config:
+        specifier: workspace:^
+        version: link:../ts-config
+      tsx:
+        specifier: 4.19.3
+        version: 4.19.3
 
   packages/extra-outlet:
     dependencies:
