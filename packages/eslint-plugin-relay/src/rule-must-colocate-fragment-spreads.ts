@@ -60,17 +60,17 @@
 import type { Rule } from "eslint"
 import type { TaggedTemplateExpression } from "estree"
 import {
-  BREAK,
-  visit,
-  type DocumentNode,
-  type FragmentSpreadNode,
+	BREAK,
+	visit,
+	type DocumentNode,
+	type FragmentSpreadNode,
 } from "graphql"
 import {
-  getGraphQLAST,
-  getLoc,
-  getModuleName,
-  hasPrecedingEslintDisableComment,
-  isGraphQLTemplate,
+	getGraphQLAST,
+	getLoc,
+	getModuleName,
+	hasPrecedingEslintDisableComment,
+	isGraphQLTemplate,
 } from "./utils"
 
 const ESLINT_DISABLE_COMMENT =

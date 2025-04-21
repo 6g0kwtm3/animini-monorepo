@@ -1,11 +1,6 @@
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
-import {
-  parse,
-  TokenKind,
-  type ASTNode,
-  type NameNode
-} from "graphql"
+import { parse, TokenKind, type ASTNode, type NameNode } from "graphql"
 import path from "path"
 
 export function hasPrecedingEslintDisableComment(
@@ -27,7 +22,7 @@ export function getRange(
 	templateNode: GraphqlTemplateExpression,
 	graphQLNode: NameNode
 ): [number, number] {
-	const graphQLStart = templateNode.quasi.quasis[0]!.range![0] + 1
+	const graphQLStart = templateNode.quasi.quasis[0].range![0] + 1
 	return [
 		graphQLStart + graphQLNode.loc!.start,
 		graphQLStart + graphQLNode.loc!.end,
@@ -103,7 +98,7 @@ export function getGraphQLAST(
 ) {
 	const quasi = taggedTemplateExpression.quasi.quasis[0]
 	try {
-		if (typeof quasi?.value.cooked === "string") {
+		if (typeof quasi.value.cooked === "string") {
 			return parse(quasi.value.cooked)
 		}
 	} catch {
