@@ -68,7 +68,6 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 						color
 					}
 					...MediaCover_media @arguments(extraLarge: true)
-					bannerImage
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}

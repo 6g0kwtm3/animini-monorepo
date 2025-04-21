@@ -23,12 +23,14 @@ export default typegen([
 	...base,
 	...react,
 	{
+		name: "web/graphql-processor",
 		files: ["**/*.{js,jsx,ts,tsx}"],
 		processor: graphql.processors.graphql,
 		plugins: { "@anilist-graphql": { rules: { "rule-unused-fields": rule } } },
 		rules: { "@anilist-graphql/rule-unused-fields": "error" },
 	},
 	{
+		name: "web/@graphql-eslint/eslint-plugin/rules",
 		files: ["**/*.graphql"],
 		languageOptions: {
 			parser: graphql.parser,
