@@ -69,13 +69,12 @@ jobs:
       - name: Build
         run: pnpm exec turbo web#build
 
-      - name: Publish
-        uses: cloudflare/pages-action@v1
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: animini
-          directory: apps/web/dist/client
+          command: pages deploy apps/web/dist/client --project-name=animini
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
   # test:
   #   name: Test E2E
