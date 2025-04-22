@@ -144,6 +144,23 @@ jobs:
 
       - name: Boundaries
         run: pnpm -w boundaries
+  doctor:
+    runs-on: ubuntu-latest
+
+    name: Doctor
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: "pnpm"
+
+      - name: Doctor
+        run: pnpm doctor
   test:
     runs-on: ubuntu-latest
     strategy:
