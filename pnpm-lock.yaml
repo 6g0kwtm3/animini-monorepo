@@ -482,8 +482,8 @@ importers:
         specifier: 3.2.5
         version: 3.2.5
       marked:
-        specifier: 0.3.19
-        version: 0.3.19
+        specifier: 4.0.10
+        version: 4.0.10
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -3762,9 +3762,9 @@ packages:
   map-or-similar@1.5.0:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
 
-  marked@0.3.19:
-    resolution: {integrity: sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==}
-    engines: {node: '>=0.10.0'}
+  marked@4.0.10:
+    resolution: {integrity: sha512-+QvuFj0nGgO970fySghXGmuw+Fd0gD2x3+MqCWLIPf5oxdv1Ka6b2q+z9RP01P/IaKPMEramy+7cNy/Lw8c3hw==}
+    engines: {node: '>= 12'}
     hasBin: true
 
   matcher@3.0.0:
@@ -8793,7 +8793,7 @@ snapshots:
 
   map-or-similar@1.5.0: {}
 
-  marked@0.3.19: {}
+  marked@4.0.10: {}
 
   matcher@3.0.0:
     dependencies:
