@@ -85,7 +85,7 @@
 		"eslint-typegen": "2.1.0",
 		"graphql-config": "5.1.4",
 		"isbot": "5.1.26",
-		"nodemon": "3.1.9",
+		"nodemon": "3.1.10",
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:*",
 		"tsx": "4.19.3",
