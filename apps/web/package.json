@@ -70,7 +70,7 @@
 		"tailwind-variants": "npm:@patryk_walach/tailwind-variants@0.2.1",
 		"tailwindcss": "4.1.4",
 		"unplugin-icons": "22.1.0",
-		"vite": "6.3.2",
+		"vite": "6.3.3",
 		"vite-plugin-relay": "2.1.0",
 		"vite-tsconfig-paths": "5.1.4"
 	},
