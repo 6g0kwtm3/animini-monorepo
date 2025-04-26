@@ -1,6 +1,9 @@
 name: Format
 
 on:
+  push:
+    branches:
+      - renovate/**
   pull_request:
   merge_group:
 
