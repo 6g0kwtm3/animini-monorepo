@@ -57,7 +57,7 @@
 		"electron-devtools-installer": "4.0.0",
 		"extra-outlet": "workspace:*",
 		"framer-motion": "12.9.1",
-		"graphql": "16.10.0",
+		"graphql": "16.11.0",
 		"hono": "4.7.7",
 		"isbot": "5.1.26",
 		"markdown": "workspace:*",
