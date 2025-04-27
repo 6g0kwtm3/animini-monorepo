@@ -348,8 +348,8 @@ importers:
         specifier: beta
         version: 19.0.0-beta-af1b7da-20250417(eslint@9.25.1(jiti@2.4.2))
       eslint-plugin-react-hooks:
-        specifier: 6.0.0-rc.1
-        version: 6.0.0-rc.1(eslint@9.25.1(jiti@2.4.2))
+        specifier: 6.0.0-rc1
+        version: 6.0.0-rc1(eslint@9.25.1(jiti@2.4.2))
       eslint-plugin-react-refresh:
         specifier: 0.4.20
         version: 0.4.20(eslint@9.25.1(jiti@2.4.2))
@@ -2911,8 +2911,8 @@ packages:
     peerDependencies:
       eslint: '>=7'
 
-  eslint-plugin-react-hooks@6.0.0-rc.1:
-    resolution: {integrity: sha512-7C4c7bdtd/B7Q+HruZxYhGjwZVvJawvQpilEYlRG1Jncuk1ZNqrFy9bO8SJNieyj3iDh8WPQA7BzzPO7sNAyEA==}
+  eslint-plugin-react-hooks@6.0.0-rc1:
+    resolution: {integrity: sha512-I4ntWyjqgGemGtOU85FUdVo00h0i0Y5xvQ7a8EVxyzjOZsxXaxvkKBcYoXbP97QDvDjMzY/nGIvfdB/WRLTGxQ==}
     engines: {node: '>=18'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -7876,7 +7876,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-react-hooks@6.0.0-rc.1(eslint@9.25.1(jiti@2.4.2)):
+  eslint-plugin-react-hooks@6.0.0-rc1(eslint@9.25.1(jiti@2.4.2)):
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.27.0
