@@ -20,11 +20,15 @@ export function NavigationItem({
 	...props
 }: NavigationItemProps) {
 	return (
-		<HashNavLink
-			{...props}
-			className={tv({ base: "navigation-label group" })({
-				className: props.className,
-			})}
+		<Ariakit.ToolbarItem
+			render={
+				<HashNavLink
+					{...props}
+					className={tv({ base: "navigation-label group" })({
+						className: props.className,
+					})}
+				/>
+			}
 		>
 			<NavigationActiveIndicator />
 			<NavigationItemIcon>
@@ -34,7 +38,7 @@ export function NavigationItem({
 			<div className="max-w-full break-words">{children}</div>
 			{badge}
 			<TouchTarget />
-		</HashNavLink>
+		</Ariakit.ToolbarItem>
 	)
 }
 
@@ -53,17 +57,25 @@ function NavigationActiveIndicator() {
 	)
 }
 
+import * as Ariakit from "@ariakit/react"
+
 export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className={tv({ base: "navigation-icon" })()} />
 }
+
 export function Navigation({ ...props }: ComponentProps<"nav">): ReactNode {
 	return (
 		<NavigationContext.Provider value={{ "--id": useId() }}>
-			<nav
-				{...props}
-				className={tv({ base: "navigation navigation-bar navigation-end" })({
-					className: props.className,
-				})}
+			<Ariakit.Toolbar
+				orientation="both"
+				render={
+					<nav
+						{...props}
+						className={tv({ base: "navigation navigation-bar navigation-end" })(
+							{ className: props.className }
+						)}
+					/>
+				}
 			/>
 		</NavigationContext.Provider>
 	)

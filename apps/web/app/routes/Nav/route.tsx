@@ -37,6 +37,7 @@ import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
 
+import * as Ariakit from "@ariakit/react"
 import { A } from "a"
 import { fab } from "~/lib/button"
 import { client_get_client } from "~/lib/client"
@@ -84,16 +85,20 @@ export default function NavRoute(): ReactNode {
 	return (
 		<Layout className="layout-navigation-bar sm:layout-navigation-rail">
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
-				<SearchButton
+				<Ariakit.ToolbarItem
 					render={
-						<A
-							className={fab({ className: "mx-3 max-sm:hidden" })}
-							href={{ search: `?sheet=search` }}
-						></A>
+						<SearchButton
+							render={
+								<A
+									className={fab({ className: "mx-3 max-sm:hidden" })}
+									href={{ search: `?sheet=search` }}
+								></A>
+							}
+						></SearchButton>
 					}
 				>
 					<MaterialSymbolsTravelExplore />
-				</SearchButton>
+				</Ariakit.ToolbarItem>
 				<NavigationItem
 					href="/"
 					icon={<MaterialSymbolsFeedOutline />}
