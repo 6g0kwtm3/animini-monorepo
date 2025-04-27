@@ -37,7 +37,7 @@ import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
 
-import * as Ariakit from '@ariakit/react'
+import * as Ariakit from "@ariakit/react"
 import { A } from "a"
 import { fab } from "~/lib/button"
 import { client_get_client } from "~/lib/client"
