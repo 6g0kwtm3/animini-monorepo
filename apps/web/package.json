@@ -75,7 +75,7 @@
 		"vite-tsconfig-paths": "5.1.4"
 	},
 	"devDependencies": {
-		"@babel/preset-typescript": "7.27.0",
+		"@babel/preset-typescript": "7.27.1",
 		"@graphql-eslint/eslint-plugin": "4.4.0",
 		"@playwright/test": "1.52.0",
 		"babel-plugin-react-compiler": "19.1.0-rc.1",
