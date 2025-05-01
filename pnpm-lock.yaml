@@ -12,8 +12,8 @@ importers:
         specifier: 22.15.3
         version: 22.15.3
       knip:
-        specifier: 5.51.1
-        version: 5.51.1(@types/node@22.15.3)(typescript@5.8.3)
+        specifier: 5.52.0
+        version: 5.52.0(@types/node@22.15.3)(typescript@5.8.3)
       oxlint:
         specifier: 0.16.8
         version: 0.16.8
@@ -2657,10 +2657,6 @@ packages:
   clone-response@1.0.3:
     resolution: {integrity: sha512-ROoL94jJH2dUVML2Y/5PEDNaSHgeOdSDicUyS7izcF63G6sTc/FTjLub4b8Il9S8S0beOfYt0TaA5qvFK+w0wA==}
 
-  clone@1.0.4:
-    resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
-    engines: {node: '>=0.8'}
-
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
     engines: {node: '>=7.0.0'}
@@ -2820,9 +2816,6 @@ packages:
     resolution: {integrity: sha512-WY/3TUME0x3KPYdRRxEJJvXRHV4PyPoUsxtZa78lwItwRQRHhd2U9xOscaT/YTf8uCXIAjeJOFBVEh/7FtD8Xg==}
     engines: {node: '>=18'}
 
-  defaults@1.0.4:
-    resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
-
   defer-to-connect@2.0.1:
     resolution: {integrity: sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==}
     engines: {node: '>=10'}
@@ -2899,9 +2892,6 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
-
-  easy-table@1.2.0:
-    resolution: {integrity: sha512-OFzVOv03YpvtcWGe5AayU5G2hgybsg3iqA6drU8UaoZyB9jLGMTrz9+asnLp/E+6qPh88yEI1gvyZFZ41dmgww==}
 
   electron-devtools-installer@4.0.0:
     resolution: {integrity: sha512-9Tntu/jtfSn0n6N/ZI6IdvRqXpDyLQiDuuIbsBI+dL+1Ef7C8J2JwByw58P3TJiNeuqyV3ZkphpNWuZK5iSY2w==}
@@ -3710,8 +3700,8 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
 
-  knip@5.51.1:
-    resolution: {integrity: sha512-LIv9sQXA0wveWjCbKeKxOPKlCvs+0MXztB8lF0/i4rshxYOb7WZ2B5nCk0fMTodIk1pHdW5h7e0Dv0CsN1TjdQ==}
+  knip@5.52.0:
+    resolution: {integrity: sha512-Jac+wJvfrGSYp664sQbEMPCs9m4z0VSdvzSZAgvVIA9gXuE+a2I2O5YnDpiitHTZ2eGbbMNJyewO/4me6LFMHQ==}
     engines: {node: '>=18.18.0'}
     hasBin: true
     peerDependencies:
@@ -5179,9 +5169,6 @@ packages:
         optional: true
       jsdom:
         optional: true
-
-  wcwidth@1.0.1:
-    resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
   web-streams-polyfill@3.3.3:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
@@ -7689,9 +7676,6 @@ snapshots:
     dependencies:
       mimic-response: 1.0.1
 
-  clone@1.0.4:
-    optional: true
-
   color-convert@2.0.1:
     dependencies:
       color-name: 1.1.4
@@ -7835,11 +7819,6 @@ snapshots:
       bundle-name: 4.1.0
       default-browser-id: 5.0.0
 
-  defaults@1.0.4:
-    dependencies:
-      clone: 1.0.4
-    optional: true
-
   defer-to-connect@2.0.1: {}
 
   define-data-property@1.1.4:
@@ -7905,12 +7884,6 @@ snapshots:
       gopd: 1.2.0
 
   eastasianwidth@0.2.0: {}
-
-  easy-table@1.2.0:
-    dependencies:
-      ansi-regex: 5.0.1
-    optionalDependencies:
-      wcwidth: 1.0.1
 
   electron-devtools-installer@4.0.0:
     dependencies:
@@ -8877,11 +8850,10 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  knip@5.51.1(@types/node@22.15.3)(typescript@5.8.3):
+  knip@5.52.0(@types/node@22.15.3)(typescript@5.8.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 22.15.3
-      easy-table: 1.2.0
       enhanced-resolve: 5.18.1
       fast-glob: 3.3.3
       jiti: 2.4.2
@@ -10368,11 +10340,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-
-  wcwidth@1.0.1:
-    dependencies:
-      defaults: 1.0.4
-    optional: true
 
   web-streams-polyfill@3.3.3: {}
 
