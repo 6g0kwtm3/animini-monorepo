@@ -8,4 +8,14 @@ declare module "react" {
 	}
 }
 
-export {}
+declare global {
+	interface SetConstructor {
+		new (): Set<never>
+	}
+	interface MapConstructor {
+		new (): Map<never, never>
+	}
+}
+
+export { }
+
