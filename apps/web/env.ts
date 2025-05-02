@@ -9,13 +9,8 @@ declare module "react" {
 }
 
 declare global {
-	interface SetConstructor {
-		new (): Set<never>
-	}
-	interface MapConstructor {
-		new (): Map<never, never>
-	}
+	type SetConstructor = new () => Set<never>
+	type MapConstructor = new () => Map<never, never>
 }
 
-export { }
-
+export {}
