@@ -9,6 +9,7 @@
 	],
 	"lockFileMaintenance": { "enabled": true, "automerge": true },
 	"packageRules": [
+		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
 		{
 			"matchDepTypes": ["action"],
