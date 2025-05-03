@@ -223,8 +223,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0
       relay-runtime:
-        specifier: 18.2.0
-        version: 18.2.0
+        specifier: 19.0.0
+        version: 19.0.0
       tailwind-variants:
         specifier: npm:@patryk_walach/tailwind-variants@0.2.1
         version: '@patryk_walach/tailwind-variants@0.2.1(tailwindcss@4.1.5)'
@@ -4433,6 +4433,9 @@ packages:
 
   relay-runtime@18.2.0:
     resolution: {integrity: sha512-r4FYWlx1dPwFW+KQnuF1ugwVKR4toIFduCGheEf2paRc6nEEcCIgd2p2Jx2gRF+4niO3mCbRZvqdCoKaznUDzg==}
+
+  relay-runtime@19.0.0:
+    resolution: {integrity: sha512-uQqizN6d/7ZkTm2C0sTUAFfHk65BQEFLkfp0IBsXPTsXLL3fAJ2iHkemA621vuphtiKsF06C5ZKxypmC5lduFg==}
 
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
@@ -9524,6 +9527,14 @@ snapshots:
   relay-compiler@18.2.0: {}
 
   relay-runtime@18.2.0:
+    dependencies:
+      '@babel/runtime': 7.27.0
+      fbjs: 3.0.5
+      invariant: 2.2.4
+    transitivePeerDependencies:
+      - encoding
+
+  relay-runtime@19.0.0:
     dependencies:
       '@babel/runtime': 7.27.0
       fbjs: 3.0.5
