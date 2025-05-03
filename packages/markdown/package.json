@@ -21,7 +21,7 @@
 		"marked": "0.3.19"
 	},
 	"devDependencies": {
-		"eslint": "9.25.1",
+		"eslint": "9.26.0",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.1.0",
 		"oxlint-config": "workspace:*",
