@@ -39,6 +39,6 @@
 		"ts-config": "workspace:*",
 		"tsx": "4.19.4",
 		"unplugin-icons": "22.1.0",
-		"vite": "6.3.4"
+		"vite": "6.3.5"
 	}
 }
