@@ -16,7 +16,7 @@
 		"oxlint": "turbo run oxlint --continue=dependencies-successful --affected"
 	},
 	"devDependencies": {
-		"@types/node": "22.15.12",
+		"@types/node": "22.15.14",
 		"knip": "5.54.1",
 		"oxlint": "0.16.9",
 		"prettier": "3.5.3",
