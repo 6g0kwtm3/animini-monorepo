@@ -63,5 +63,3 @@ export function route_login({
 	const query = new URLSearchParams({ redirect })
 	return `/login?${query}` satisfies Route
 }
-
-export * as Routes from "./route"

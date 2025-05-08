@@ -18,5 +18,3 @@ export * from "./Snackbar"
 export * from "./Tabs"
 export * from "./TextField"
 export * from "./Tooltip"
-
-export * as m3 from "./index"

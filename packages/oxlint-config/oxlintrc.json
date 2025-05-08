@@ -1,5 +1,5 @@
 {
-	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"$schema": "../../node_modules/oxlint/configuration_schema.json",
 	"plugins": [
 		"react",
 		"unicorn",
@@ -7,10 +7,12 @@
 		"oxc",
 		"import",
 		"jsx-a11y",
-		"react-perf"
+		"react-perf",
+		"vitest"
 	],
 	"env": { "node": true, "browser": true },
 	"rules": {
+		"import/no-cycle": "error",
 		"react/jsx-no-useless-fragment": "warn",
 		"react/rules-of-hooks": "error",
 		"react/exhaustive-deps": "error",

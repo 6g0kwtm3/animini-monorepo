@@ -15,5 +15,3 @@ export function Viewer(): {
 	const result = isString(token) ? JsonToToken(token) : null
 	return result instanceof ArkErrors ? null : (result?.viewer ?? null)
 }
-
-export * as Remix from "./Remix"
