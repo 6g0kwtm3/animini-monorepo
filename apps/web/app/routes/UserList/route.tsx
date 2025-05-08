@@ -179,10 +179,7 @@ export default function Filters({
 										).map(([value, label]) => {
 											return (
 												<ChipFilter key={value} data-key={value}>
-													<ChipFilterCheckbox
-														name="progress"
-														value={value}
-													/>
+													<ChipFilterCheckbox name="progress" value={value} />
 													{label}
 												</ChipFilter>
 											)

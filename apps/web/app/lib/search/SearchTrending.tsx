@@ -2,9 +2,9 @@ import * as Ariakit from "@ariakit/react"
 
 import { List, Subheader } from "~/components/List"
 import {
-    SearchViewBody,
-    SearchViewBodyGroup,
-    SearchViewItem,
+	SearchViewBody,
+	SearchViewBodyGroup,
+	SearchViewItem,
 } from "~/components/SearchView"
 
 import { SearchItem } from "./SearchItem"
