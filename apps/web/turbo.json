@@ -1,0 +1,19 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"dev": { "with": ["relay-watch", "check"] },
+		"build": { "dependsOn": ["^build", "relay"] },
+		"relay-watch": { "cache": false, "persistent": true },
+		"paraglide": {
+			"outputs": ["app/paraglide/**"],
+			"inputs": ["messages/**", "project.inlang/settings.json"]
+		},
+		"router": { "outputs": [".react-router/**"] },
+		"relay": { "outputs": ["app/gql/**"] },
+		"check": {
+			"dependsOn": ["transit", "router", "paraglide", "relay", "eslint-typegen"]
+		},
+		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] }
+	}
+}
