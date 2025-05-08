@@ -59,7 +59,7 @@ function NavigationActiveIndicator() {
 
 import * as Ariakit from "@ariakit/react"
 
-export function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
+function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className={tv({ base: "navigation-icon" })()} />
 }
 

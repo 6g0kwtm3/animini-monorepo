@@ -56,9 +56,7 @@ export function TooltipRichContainer(props: Ariakit.HovercardProps): ReactNode {
 		/>
 	)
 }
-export function TooltipRichSubhead(
-	props: Ariakit.HovercardHeadingProps
-): ReactNode {
+function TooltipRichSubhead(props: Ariakit.HovercardHeadingProps): ReactNode {
 	return (
 		<Ariakit.HovercardHeading
 			{...props}
@@ -66,9 +64,7 @@ export function TooltipRichSubhead(
 		/>
 	)
 }
-export function TooltipRichSupportingText(
-	props: ComponentProps<"p">
-): ReactNode {
+function TooltipRichSupportingText(props: ComponentProps<"p">): ReactNode {
 	return (
 		<Ariakit.HovercardDescription
 			{...props}

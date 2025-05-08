@@ -68,7 +68,7 @@ export function ListItemAvatar(props: Ariakit.RoleProps): ReactNode {
 	)
 }
 
-export function ListItemIcon(props: Ariakit.RoleProps): ReactNode {
+function ListItemIcon(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}

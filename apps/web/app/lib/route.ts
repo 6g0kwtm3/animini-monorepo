@@ -1,6 +1,6 @@
 import { numberToString } from "./numberToString"
 
-export interface Path {
+interface Path {
 	pathname: Pathname
 	hash: Hash
 	search: SearchParams
@@ -18,7 +18,7 @@ type Pathname =
 	| `/user/${string}/${"animelist" | "mangalist"}/${string}`
 	| `/login`
 
-export type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
+type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
 
 export function route_media({ id }: { id: number }): `/media/${string}` {
 	return `/media/${numberToString(id)}` satisfies Route
@@ -45,7 +45,7 @@ export function route_user_list(params: {
 	return `${route_user(params)}/${params.typelist}` satisfies Route
 }
 
-export function route_user_list_selected(params: {
+function route_user_list_selected(params: {
 	userName: string
 	typelist: "animelist" | "mangalist"
 	selected: string

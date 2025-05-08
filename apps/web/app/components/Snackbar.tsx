@@ -88,11 +88,7 @@ interface SnackbarProps extends ComponentProps<"div"> {
 	open: boolean
 }
 
-export function Snackbar({
-	timeout,
-	open,
-	...props
-}: SnackbarProps): ReactNode {
+function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
@@ -187,7 +183,7 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 
 import * as Ariakit from "@ariakit/react"
 
-export function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
+function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)

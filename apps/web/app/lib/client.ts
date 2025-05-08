@@ -10,4 +10,4 @@ export function client_get_client(): Client {
 	return new Client()
 }
 
-export const client_operation = fetchQuery
+const client_operation = fetchQuery

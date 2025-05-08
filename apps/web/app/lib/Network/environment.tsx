@@ -115,14 +115,8 @@ const environment = new Environment({
 	// ... other options
 })
 
-export const { readFragment } = ResolverFragments
+export const {} = ResolverFragments
 
-export const {
-	commitMutation,
-	fetchQuery,
-	RelayEnvironmentProvider,
-	useFragment,
-	readInlineData,
-} = ReactRelay
+export const {} = ReactRelay
 
 export default environment

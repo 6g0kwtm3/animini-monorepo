@@ -1,6 +1,6 @@
 import { type } from "arktype"
 
-export class Timeout extends Error {
+class Timeout extends Error {
 	reset: string
 	constructor(reset: string) {
 		super()
@@ -42,7 +42,7 @@ const GraphQLResponseWithoutData = type({
 	"path?": "(string|number)[]",
 })
 
-export const GraphQLSingularResponse = GraphQLResponseWithExtensionsOnly.or(
+const GraphQLSingularResponse = GraphQLResponseWithExtensionsOnly.or(
 	GraphQLResponseWithoutData
 ).or(GraphQLResponseWithData)
 

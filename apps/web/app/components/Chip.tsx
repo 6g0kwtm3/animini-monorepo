@@ -81,7 +81,7 @@ export function ChipFilterRadio(
 	)
 }
 
-export function ChipFilterIcon(): ReactNode {
+function ChipFilterIcon(): ReactNode {
 	return (
 		<div className="ease-standard-accelerate i-[1.125rem] peer-has-checked:w-[1.125rem] peer-has-checked:opacity-100 -ms-2 w-0 opacity-0 transition-all">
 			<MaterialSymbolsCheck />
