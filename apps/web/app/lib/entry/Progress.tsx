@@ -23,18 +23,19 @@ import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
 import { numberToString } from "~/lib/numberToString"
-import { Button, type MenuList } from "@ariakit/react"
-import type { Menu } from "electron"
-import type { ButtonIcon, Icon } from "~/components/Button"
-import type {
-	MenuTrigger,
-	MenuListItem,
+
+import { Button, ButtonIcon, Icon } from "~/components/Button"
+import {
+	Menu,
 	MenuItemLeadingIcon,
+	MenuList,
+	MenuListItem,
+	MenuTrigger,
 } from "~/components/Menu"
-import type {
+import {
 	TooltipPlain,
-	TooltipPlainTrigger,
 	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 const { graphql } = ReactRelay
 

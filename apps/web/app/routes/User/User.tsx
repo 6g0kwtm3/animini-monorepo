@@ -5,7 +5,7 @@ import { route_user, route_user_list } from "~/lib/route"
 
 import { A } from "a"
 import ReactRelay from "react-relay"
-import type { TabsList, TabsListItem } from "~/components/Tabs"
+import { TabsList, TabsListItem } from "~/components/Tabs"
 import type { User_user$key } from "~/gql/User_user.graphql"
 
 const { graphql } = ReactRelay
