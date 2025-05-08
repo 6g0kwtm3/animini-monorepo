@@ -1,20 +1,20 @@
 import {
-    CheckboxProvider,
-    Group,
-    GroupLabel,
-    RadioProvider,
+	CheckboxProvider,
+	Group,
+	GroupLabel,
+	RadioProvider,
 } from "@ariakit/react"
 import {
-    Form,
-    isRouteErrorResponse,
-    Outlet,
-    useLocation,
-    useNavigate,
-    useNavigation,
-    useParams,
-    useRouteError,
-    useSubmit,
-    type ShouldRevalidateFunction,
+	Form,
+	isRouteErrorResponse,
+	Outlet,
+	useLocation,
+	useNavigate,
+	useNavigation,
+	useParams,
+	useRouteError,
+	useSubmit,
+	type ShouldRevalidateFunction,
 } from "react-router"
 
 import type { ReactNode } from "react"
@@ -25,10 +25,10 @@ import { Checkbox, Radio } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
 	List,
-    ListItem,
-    ListItemContent,
-    ListItemContentTitle,
-		Subheader,
+	ListItem,
+	ListItemContent,
+	ListItemContentTitle,
+	Subheader,
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { Tabs, TabsList, TabsListItem, TabsPanel } from "~/components/Tabs"
@@ -49,13 +49,17 @@ import { captureException } from "@sentry/react"
 import { A } from "a"
 import { type } from "arktype"
 import { ExtraOutlets } from "extra-outlet"
+import {
+	ChipFilter,
+	ChipFilterCheckbox,
+	ChipFilterRadio,
+} from "~/components/Chip"
 import { Label } from "~/components/Label"
 import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
 import { loadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs, UserListTabsQuery } from "./UserListTabs"
-import { type ChipFilter, type ChipFilterCheckbox, ChipFilterRadio } from "~/components/Chip"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,

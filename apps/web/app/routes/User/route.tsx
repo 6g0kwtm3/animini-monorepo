@@ -73,9 +73,9 @@ import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 import { A } from "a"
 import { data as json } from "react-router"
-import { numberToString } from "~/lib/numberToString"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import type { Tabs, TabsPanel } from "~/components/Tabs"
+import { Tabs, TabsPanel } from "~/components/Tabs"
+import { numberToString } from "~/lib/numberToString"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)

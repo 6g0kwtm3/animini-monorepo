@@ -1,27 +1,24 @@
 {
 	"workspaces": {
-		"apps/storybook": {
-			"entry": ["env.ts", ".storybook/modes.ts"],
-			"ignoreDependencies": ["oxlint-config"]
-		},
+		"apps/storybook": { "entry": ["env.ts", ".storybook/modes.ts"] },
 		"apps/web": {
 			"paths": { "~icons/*": ["node_modules/unplugin-icons/types/react.d.ts"] },
 			"playwright": { "entry": ["**/*.@(spec|test|setup).?(c|m)[jt]s?(x)"] },
-			"ignore": ["app/lib/dialog.tsx"],
+			"ignore": [
+				"app/components/Dialog.tsx",
+				"app/components/Rating.tsx",
+				"app/components/Select.tsx",
+				"app/components/SelectOption.tsx",
+				"app/lib/menu.tsx",
+				"app/lib/dialog.tsx"
+			],
 			"entry": ["env.ts", "app/lib/urql.ts", "app/paraglide/**", "app/gql/**"],
 			"ignoreDependencies": [
 				"@iconify-json/material-symbols",
-				"oxlint-config",
 				"isbot",
-				"@svgr/core",
 				"@svgr/plugin-jsx"
 			]
 		},
-		"packages/a": { "ignoreDependencies": ["oxlint-config"] },
-		"packages/extra-outlet": { "ignoreDependencies": ["oxlint-config"] },
-		"packages/m3-react": { "ignoreDependencies": ["oxlint-config", "m3-core"] },
-		"packages/markdown": { "ignoreDependencies": ["oxlint-config"] },
-		"packages/m3-core": { "ignoreDependencies": ["oxlint-config"] },
-		"packages/eslint-plugin-relay": { "ignoreDependencies": ["oxlint-config"] }
+		"packages/m3-react": { "ignoreDependencies": ["m3-core"] }
 	}
 }

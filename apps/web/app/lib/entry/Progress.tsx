@@ -26,8 +26,16 @@ import { numberToString } from "~/lib/numberToString"
 import { Button, type MenuList } from "@ariakit/react"
 import type { Menu } from "electron"
 import type { ButtonIcon, Icon } from "~/components/Button"
-import type { MenuTrigger, MenuListItem, MenuItemLeadingIcon } from "~/components/Menu"
-import type { TooltipPlain, TooltipPlainTrigger, TooltipPlainContainer } from "~/components/Tooltip"
+import type {
+	MenuTrigger,
+	MenuListItem,
+	MenuItemLeadingIcon,
+} from "~/components/Menu"
+import type {
+	TooltipPlain,
+	TooltipPlainTrigger,
+	TooltipPlainContainer,
+} from "~/components/Tooltip"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
