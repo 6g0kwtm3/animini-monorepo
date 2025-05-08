@@ -1,20 +1,20 @@
 import {
-	CheckboxProvider,
-	Group,
-	GroupLabel,
-	RadioProvider,
+    CheckboxProvider,
+    Group,
+    GroupLabel,
+    RadioProvider,
 } from "@ariakit/react"
 import {
-	Form,
-	isRouteErrorResponse,
-	Outlet,
-	useLocation,
-	useNavigate,
-	useNavigation,
-	useParams,
-	useRouteError,
-	useSubmit,
-	type ShouldRevalidateFunction,
+    Form,
+    isRouteErrorResponse,
+    Outlet,
+    useLocation,
+    useNavigate,
+    useNavigation,
+    useParams,
+    useRouteError,
+    useSubmit,
+    type ShouldRevalidateFunction,
 } from "react-router"
 
 import type { ReactNode } from "react"
@@ -23,18 +23,19 @@ import { Button as ButtonText, Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
 import {
-	ListItem,
-	ListItemContent,
-	ListItemContentTitle,
+	List,
+    ListItem,
+    ListItemContent,
+    ListItemContentTitle,
+		Subheader,
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
-import { TabsList, TabsListItem } from "~/components/Tabs"
+import { Tabs, TabsList, TabsListItem, TabsPanel } from "~/components/Tabs"
+import { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
 
 import * as Ariakit from "@ariakit/react"
 
-import { M3 } from "~/lib/components"
 import { m } from "~/lib/paraglide"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
@@ -54,6 +55,7 @@ import { invariant } from "~/lib/invariant"
 import { loadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs, UserListTabsQuery } from "./UserListTabs"
+import { type ChipFilter, type ChipFilterCheckbox, ChipFilterRadio } from "~/components/Chip"
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
 	currentParams,
@@ -134,10 +136,10 @@ export default function Filters({
 												: MANGA_STATUS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value} data-key={value}>
-													<M3.ChipFilterCheckbox name="status" value={value} />
+												<ChipFilter key={value} data-key={value}>
+													<ChipFilterCheckbox name="status" value={value} />
 													{label}
-												</M3.ChipFilter>
+												</ChipFilter>
 											)
 										})}
 									</div>
@@ -153,10 +155,10 @@ export default function Filters({
 												: MANGA_FORMAT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value} data-key={value}>
-													<M3.ChipFilterCheckbox name="format" value={value} />
+												<ChipFilter key={value} data-key={value}>
+													<ChipFilterCheckbox name="format" value={value} />
 													{label}
-												</M3.ChipFilter>
+												</ChipFilter>
 											)
 										})}
 									</div>
@@ -172,13 +174,13 @@ export default function Filters({
 												: MANGA_PROGRESS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value} data-key={value}>
-													<M3.ChipFilterCheckbox
+												<ChipFilter key={value} data-key={value}>
+													<ChipFilterCheckbox
 														name="progress"
 														value={value}
 													/>
 													{label}
-												</M3.ChipFilter>
+												</ChipFilter>
 											)
 										})}
 									</div>
@@ -195,10 +197,10 @@ export default function Filters({
 												: MANGA_SORT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<M3.ChipFilter key={value} data-key={value}>
-													<M3.ChipFilterRadio name="sort" value={value} />
+												<ChipFilter key={value} data-key={value}>
+													<ChipFilterRadio name="sort" value={value} />
 													{label}
-												</M3.ChipFilter>
+												</ChipFilter>
 											)
 										})}
 									</div>
@@ -213,7 +215,7 @@ export default function Filters({
 				<LayoutPane>
 					<Card variant="elevated" className="max-sm:contents">
 						<div className="flex flex-col gap-4">
-							<M3.Tabs selectedId={String(params.selected)}>
+							<Tabs selectedId={String(params.selected)}>
 								<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 -mx-4 grid sm:-mt-4">
 									<AppBar
 										variant="large"
@@ -238,15 +240,15 @@ export default function Filters({
 									</AppBar>
 									<UserListTabs queryRef={loaderData.UserListTabsQuery} />
 								</div>
-								<M3.TabsPanel
+								<TabsPanel
 									tabId={params.selected}
 									className="flex flex-col gap-4"
 								>
 									<Ariakit.HeadingLevel>
 										<Outlet />
 									</Ariakit.HeadingLevel>
-								</M3.TabsPanel>
-							</M3.Tabs>
+								</TabsPanel>
+							</Tabs>
 						</div>
 					</Card>
 				</LayoutPane>
@@ -312,7 +314,7 @@ function Filter() {
 					void navigate({ search: `?${searchParams}` })
 				}}
 			>
-				<M3.Tabs selectedId={sheet}>
+				<Tabs selectedId={sheet}>
 					<TabsList
 						grow
 						className="bg-surface-container-low sticky top-0 z-10 rounded-t-xl"
@@ -328,13 +330,13 @@ function Filter() {
 						</TabsListItem>
 					</TabsList>
 
-					<M3.TabsPanel tabId={sheet}>
+					<TabsPanel tabId={sheet}>
 						<SheetBody>
 							{filter && <SheetFilter />}
 							{sort && <SheetSort />}
 						</SheetBody>
-					</M3.TabsPanel>
-				</M3.Tabs>
+					</TabsPanel>
+				</Tabs>
 			</Sheet>
 		</Form>
 	)
@@ -350,10 +352,10 @@ function SheetSort() {
 
 	return (
 		<Group>
-			<M3.Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
+			<Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
 				Sort
-			</M3.Subheader>
-			<M3.List className={listLines} render={<div />}>
+			</Subheader>
+			<List className={listLines} render={<div />}>
 				<CheckboxProvider value={searchParams.getAll("sort")}>
 					{Object.entries(
 						params.typelist === "animelist"
@@ -370,7 +372,7 @@ function SheetSort() {
 						)
 					})}
 				</CheckboxProvider>
-			</M3.List>
+			</List>
 		</Group>
 	)
 }
@@ -385,10 +387,10 @@ function SheetFilter() {
 	return (
 		<>
 			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
+				<Subheader lines={lines} render={<GroupLabel />}>
 					Status
-				</M3.Subheader>
-				<M3.List render={<div />} className={`-mt-2 ${listLines}`}>
+				</Subheader>
+				<List render={<div />} className={`-mt-2 ${listLines}`}>
 					<CheckboxProvider value={searchParams.getAll("status")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -405,13 +407,13 @@ function SheetFilter() {
 							)
 						})}
 					</CheckboxProvider>
-				</M3.List>
+				</List>
 			</Group>
 			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
+				<Subheader lines={lines} render={<GroupLabel />}>
 					Format
-				</M3.Subheader>
-				<M3.List render={<div />} className={`-mt-2 ${listLines}`}>
+				</Subheader>
+				<List render={<div />} className={`-mt-2 ${listLines}`}>
 					<CheckboxProvider value={searchParams.getAll("format")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -428,13 +430,13 @@ function SheetFilter() {
 							)
 						})}
 					</CheckboxProvider>
-				</M3.List>
+				</List>
 			</Group>
 			<Group>
-				<M3.Subheader lines={lines} render={<GroupLabel />}>
+				<Subheader lines={lines} render={<GroupLabel />}>
 					Progress
-				</M3.Subheader>
-				<M3.List render={<div />} className={`-mt-2 ${listLines}`}>
+				</Subheader>
+				<List render={<div />} className={`-mt-2 ${listLines}`}>
 					<CheckboxProvider value={searchParams.getAll("progress")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -451,7 +453,7 @@ function SheetFilter() {
 							)
 						})}
 					</CheckboxProvider>
-				</M3.List>
+				</List>
 			</Group>
 		</>
 	)

@@ -2,34 +2,33 @@ import * as Ariakit from "@ariakit/react"
 import type { ComponentProps, ReactNode } from "react"
 import { Suspense, useEffect } from "react"
 import {
-	Await,
-	Form,
-	useFetcher,
-	useLocation,
-	useNavigate,
-	useNavigation,
-	useRouteLoaderData,
+    Await,
+    Form,
+    useFetcher,
+    useLocation,
+    useNavigate,
+    useNavigation,
+    useRouteLoaderData,
 } from "react-router"
 import type { clientLoader as searchLoader } from "~/routes/Search/route"
 
 import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
+    TooltipPlain,
+    TooltipPlainContainer,
+    TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { List } from "~/components/List"
+import { List, Subheader } from "~/components/List"
 import {
-	SearchView,
-	SearchViewBody,
-	SearchViewBodyGroup,
-	SearchViewInput,
-	SearchViewItem,
+    SearchView,
+    SearchViewBody,
+    SearchViewBodyGroup,
+    SearchViewInput,
+    SearchViewItem,
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
 import type { clientLoader as navLoader } from "~/routes/Nav/route"
 
-import { M3 } from "../components"
 
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
@@ -102,7 +101,7 @@ export function Search(): ReactNode {
 						<SearchViewBody>
 							<SearchViewBodyGroup>
 								<Ariakit.ComboboxGroupLabel
-									render={<M3.Subheader lines={"one"} />}
+									render={<Subheader lines={"one"} />}
 								>
 									Results
 								</Ariakit.ComboboxGroupLabel>

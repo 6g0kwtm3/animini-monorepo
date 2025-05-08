@@ -17,13 +17,17 @@ import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsPlaylistAdd from "~icons/material-symbols/playlist-add"
-import { M3 } from "../components"
 import { useFragment } from "../Network"
 
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
 import { numberToString } from "~/lib/numberToString"
+import { Button, type MenuList } from "@ariakit/react"
+import type { Menu } from "electron"
+import type { ButtonIcon, Icon } from "~/components/Button"
+import type { MenuTrigger, MenuListItem, MenuItemLeadingIcon } from "~/components/Menu"
+import type { TooltipPlain, TooltipPlainTrigger, TooltipPlainContainer } from "~/components/Tooltip"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
@@ -79,15 +83,15 @@ export function ProgressIncrement(props: {
 						<input type="hidden" name="progress" value={progress + 1} />
 						<input type="hidden" name="id" value={entry.id} />
 						<input type="hidden" name="intent" value="increment" />
-						<M3.TooltipPlain>
-							<M3.TooltipPlainTrigger render={<M3.Button type="submit" />}>
+						<TooltipPlain>
+							<TooltipPlainTrigger render={<Button type="submit" />}>
 								<Progress entry={entry} />
-								<M3.ButtonIcon>
+								<ButtonIcon>
 									<MaterialSymbolsAdd />
-								</M3.ButtonIcon>
-							</M3.TooltipPlainTrigger>
+								</ButtonIcon>
+							</TooltipPlainTrigger>
 							{entry.media.avalible !== episodes && (
-								<M3.TooltipPlainContainer>
+								<TooltipPlainContainer>
 									{!episodes ? (
 										<>some more to release</>
 									) : Predicate.isNumber(entry.media.avalible) ? (
@@ -95,28 +99,28 @@ export function ProgressIncrement(props: {
 									) : (
 										<>more to release</>
 									)}
-								</M3.TooltipPlainContainer>
+								</TooltipPlainContainer>
 							)}
-						</M3.TooltipPlain>
+						</TooltipPlain>
 					</Form>
 				)}
-			<M3.Menu>
-				<M3.Icon title="Show more options" tooltip render={<M3.MenuTrigger />}>
+			<Menu>
+				<Icon title="Show more options" tooltip render={<MenuTrigger />}>
 					<MaterialSymbolsMoreHoriz />
-				</M3.Icon>
-				<M3.MenuList>
+				</Icon>
+				<MenuList>
 					{/* <form action="">
-						<M3.MenuListItem>
-							<M3.MenuItemLeadingIcon>
+						<MenuListItem>
+							<MenuItemLeadingIcon>
 								<MaterialSymbolsPlaylistAdd />
-							</M3.MenuItemLeadingIcon>
+							</MenuItemLeadingIcon>
 							Save
-						</M3.MenuListItem>
+						</MenuListItem>
 					</form> */}
-					<M3.MenuListItem>
-						<M3.MenuItemLeadingIcon />
+					<MenuListItem>
+						<MenuItemLeadingIcon />
 						Edit
-					</M3.MenuListItem>
+					</MenuListItem>
 
 					{(() => {
 						const shareData: ShareData = {
@@ -131,7 +135,7 @@ export function ProgressIncrement(props: {
 
 						return (
 							canShare && (
-								<M3.MenuListItem
+								<MenuListItem
 									render={<button type="button" />}
 									onClick={() => {
 										void (async () => {
@@ -139,36 +143,36 @@ export function ProgressIncrement(props: {
 										})()
 									}}
 								>
-									<M3.MenuItemLeadingIcon>
+									<MenuItemLeadingIcon>
 										<MaterialSymbolsForward />
-									</M3.MenuItemLeadingIcon>
+									</MenuItemLeadingIcon>
 									Share
-								</M3.MenuListItem>
+								</MenuListItem>
 							)
 						)
 					})()}
 
-					<M3.MenuListItem>
-						<M3.MenuItemLeadingIcon>
+					<MenuListItem>
+						<MenuItemLeadingIcon>
 							<MaterialSymbolsFavorite />
-						</M3.MenuItemLeadingIcon>
+						</MenuItemLeadingIcon>
 						Favourite
-					</M3.MenuListItem>
+					</MenuListItem>
 
 					<Form action="" method="post">
 						<input type="hidden" name="intent" value="set_status" />
 						<input type="hidden" name="mediaId" value={entry.media.id} />
 
-						<M3.Menu>
-							<M3.MenuListItem render={<M3.MenuTrigger />}>
-								<M3.MenuItemLeadingIcon>
+						<Menu>
+							<MenuListItem render={<MenuTrigger />}>
+								<MenuItemLeadingIcon>
 									<MaterialSymbolsPlaylistAdd />
-								</M3.MenuItemLeadingIcon>
+								</MenuItemLeadingIcon>
 								Set status
-							</M3.MenuListItem>
+							</MenuListItem>
 
-							<M3.MenuList shift={-9}>
-								<M3.MenuListItem
+							<MenuList shift={-9}>
+								<MenuListItem
 									render={
 										<button
 											type="submit"
@@ -178,8 +182,8 @@ export function ProgressIncrement(props: {
 									}
 								>
 									Completed
-								</M3.MenuListItem>
-								<M3.MenuListItem
+								</MenuListItem>
+								<MenuListItem
 									render={
 										<button
 											type="submit"
@@ -189,8 +193,8 @@ export function ProgressIncrement(props: {
 									}
 								>
 									Paused
-								</M3.MenuListItem>
-								<M3.MenuListItem
+								</MenuListItem>
+								<MenuListItem
 									render={
 										<button
 											type="submit"
@@ -200,12 +204,12 @@ export function ProgressIncrement(props: {
 									}
 								>
 									Dropped
-								</M3.MenuListItem>
-							</M3.MenuList>
-						</M3.Menu>
+								</MenuListItem>
+							</MenuList>
+						</Menu>
 					</Form>
-				</M3.MenuList>
-			</M3.Menu>
+				</MenuList>
+			</Menu>
 		</div>
 	)
 }

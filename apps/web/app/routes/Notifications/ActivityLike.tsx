@@ -7,7 +7,7 @@ import {
 	ListItemContentTitle,
 	ListItemImg,
 	ListItemTrailingSupportingText,
-} from "~/components"
+} from "~/components/List"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import type { ActivityLike_viewer$key } from "~/gql/ActivityLike_viewer.graphql"
 import { useFragment } from "~/lib/Network"

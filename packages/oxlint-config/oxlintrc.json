@@ -12,6 +12,7 @@
 	],
 	"env": { "node": true, "browser": true },
 	"rules": {
+		"oxc/no-barrel-file": "error",
 		"import/no-cycle": "error",
 		"react/jsx-no-useless-fragment": "warn",
 		"react/rules-of-hooks": "error",
