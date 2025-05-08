@@ -4,7 +4,14 @@
 		"apps/web": {
 			"paths": { "~icons/*": ["node_modules/unplugin-icons/types/react.d.ts"] },
 			"playwright": { "entry": ["**/*.@(spec|test|setup).?(c|m)[jt]s?(x)"] },
-			"ignore": ["app/lib/dialog.tsx"],
+			"ignore": [
+				"app/components/Dialog.tsx",
+				"app/components/Rating.tsx",
+				"app/components/Select.tsx",
+				"app/components/SelectOption.tsx",
+				"app/lib/menu.tsx",
+				"app/lib/dialog.tsx"
+			],
 			"entry": ["env.ts", "app/lib/urql.ts", "app/paraglide/**", "app/gql/**"],
 			"ignoreDependencies": [
 				"@iconify-json/material-symbols",

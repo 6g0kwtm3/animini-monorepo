@@ -18,7 +18,7 @@ import {
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 
-import { List } from "~/components/List"
+import { List, Subheader } from "~/components/List"
 import {
 	SearchView,
 	SearchViewBody,
@@ -28,8 +28,6 @@ import {
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
 import type { clientLoader as navLoader } from "~/routes/Nav/route"
-
-import { M3 } from "../components"
 
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
@@ -102,7 +100,7 @@ export function Search(): ReactNode {
 						<SearchViewBody>
 							<SearchViewBodyGroup>
 								<Ariakit.ComboboxGroupLabel
-									render={<M3.Subheader lines={"one"} />}
+									render={<Subheader lines={"one"} />}
 								>
 									Results
 								</Ariakit.ComboboxGroupLabel>

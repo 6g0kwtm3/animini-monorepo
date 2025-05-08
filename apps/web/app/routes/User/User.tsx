@@ -1,11 +1,11 @@
 import type { ComponentProps, ReactNode } from "react"
 
-import { M3 } from "~/lib/components"
 import { useFragment } from "~/lib/Network"
 import { route_user, route_user_list } from "~/lib/route"
 
 import { A } from "a"
 import ReactRelay from "react-relay"
+import { TabsList, TabsListItem } from "~/components/Tabs"
 import type { User_user$key } from "~/gql/User_user.graphql"
 
 const { graphql } = ReactRelay
@@ -60,14 +60,14 @@ export function User({ user, ...props }: UserProps): ReactNode {
 				</Ariakit.Heading>
 			</div> */}
 			</div>
-			<M3.TabsList className="md:tabs-grow">
-				<M3.TabsListItem
+			<TabsList className="md:tabs-grow">
+				<TabsListItem
 					id="undefined"
 					render={<A href={route_user({ userName: data.name })}></A>}
 				>
 					Overview
-				</M3.TabsListItem>
-				<M3.TabsListItem
+				</TabsListItem>
+				<TabsListItem
 					id="animelist"
 					render={
 						<A
@@ -79,8 +79,8 @@ export function User({ user, ...props }: UserProps): ReactNode {
 					}
 				>
 					Anime List
-				</M3.TabsListItem>
-				<M3.TabsListItem
+				</TabsListItem>
+				<TabsListItem
 					id="mangalist"
 					render={
 						<A
@@ -92,23 +92,23 @@ export function User({ user, ...props }: UserProps): ReactNode {
 					}
 				>
 					Manga List
-				</M3.TabsListItem>
-				<M3.TabsListItem id="favorites" render={<A href={"favorites"}></A>}>
+				</TabsListItem>
+				<TabsListItem id="favorites" render={<A href={"favorites"}></A>}>
 					Favorites
-				</M3.TabsListItem>
-				<M3.TabsListItem id="stats" render={<A href={"stats"}></A>}>
+				</TabsListItem>
+				<TabsListItem id="stats" render={<A href={"stats"}></A>}>
 					Stats
-				</M3.TabsListItem>
-				<M3.TabsListItem id="social" render={<A href={"social"}></A>}>
+				</TabsListItem>
+				<TabsListItem id="social" render={<A href={"social"}></A>}>
 					Social
-				</M3.TabsListItem>
-				<M3.TabsListItem id="reviews" render={<A href={"reviews"}></A>}>
+				</TabsListItem>
+				<TabsListItem id="reviews" render={<A href={"reviews"}></A>}>
 					Reviews
-				</M3.TabsListItem>
-				<M3.TabsListItem id="submissions" render={<A href={"submissions"}></A>}>
+				</TabsListItem>
+				<TabsListItem id="submissions" render={<A href={"submissions"}></A>}>
 					Submissions
-				</M3.TabsListItem>
-			</M3.TabsList>
+				</TabsListItem>
+			</TabsList>
 		</>
 	)
 }

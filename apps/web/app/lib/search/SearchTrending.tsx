@@ -1,6 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 
-import { List } from "~/components/List"
+import { List, Subheader } from "~/components/List"
 import {
 	SearchViewBody,
 	SearchViewBodyGroup,
@@ -10,7 +10,6 @@ import {
 import { SearchItem } from "./SearchItem"
 
 import type { ReactNode } from "react"
-import { M3 } from "../components"
 import { useFragment } from "../Network"
 
 import ReactRelay from "react-relay"
@@ -36,7 +35,7 @@ export function SearchTrending(props: {
 	return data.trending?.media && data.trending.media.length > 0 ? (
 		<SearchViewBody>
 			<SearchViewBodyGroup>
-				<Ariakit.ComboboxGroupLabel render={<M3.Subheader lines={"one"} />}>
+				<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>
 					Trending
 				</Ariakit.ComboboxGroupLabel>
 

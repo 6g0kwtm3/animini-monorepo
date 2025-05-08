@@ -12,8 +12,8 @@ import {
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
 
-import { AppBar, AppBarTitle, Card } from "~/components"
-import { M3 } from "~/lib/components"
+import { AppBar, AppBarTitle } from "~/components/AppBar"
+import { Card } from "~/components/Card"
 import { m } from "~/lib/paraglide"
 
 import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
@@ -73,6 +73,8 @@ import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 import { A } from "a"
 import { data as json } from "react-router"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
+import { Tabs, TabsPanel } from "~/components/Tabs"
 import { numberToString } from "~/lib/numberToString"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
@@ -94,16 +96,16 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 		?? data.user.isFollowing
 
 	return (
-		<M3.LayoutBody
+		<LayoutBody
 			style={data.user.options?.profileTheme ?? undefined}
 			className="max-sm:pe-0 max-sm:ps-0"
 		>
-			<M3.LayoutPane>
-				<M3.Card
+			<LayoutPane>
+				<Card
 					variant="elevated"
 					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark p-0 max-sm:contents"
 				>
-					<M3.Tabs selectedId={params.typelist}>
+					<Tabs selectedId={params.typelist}>
 						<div className="sticky top-0 z-50">
 							<AppBar variant="large" className="sm:bg-surface-container-low">
 								<AppBarTitle>
@@ -125,7 +127,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											id=""
 										/>
 
-										<M3.Icon
+										<Icon
 											type="submit"
 											tooltip
 											title={isFollow ? m.unfollow_button() : m.follow_button()}
@@ -135,7 +137,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											) : (
 												<MaterialSymbolsPersonAddOutline />
 											)}
-										</M3.Icon>
+										</Icon>
 									</follow.Form>
 								)}
 								{data.Viewer?.name === data.user.name && <Logout />}
@@ -144,14 +146,14 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 						</div>
 
 						<User user={data.user} />
-						<M3.TabsPanel tabId={params.typelist ?? "undefined"}>
+						<TabsPanel tabId={params.typelist ?? "undefined"}>
 							<Outlet />
-						</M3.TabsPanel>
-					</M3.Tabs>
-				</M3.Card>
-			</M3.LayoutPane>
+						</TabsPanel>
+					</Tabs>
+				</Card>
+			</LayoutPane>
 			<ExtraOutlet id="side" />
-		</M3.LayoutBody>
+		</LayoutBody>
 	)
 }
 function Logout(): ReactNode {
@@ -175,8 +177,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`
 	if (isRouteErrorResponse(error)) {
 		return (
-			<M3.LayoutBody>
-				<M3.LayoutPane>
+			<LayoutBody>
+				<LayoutPane>
 					<div>
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
@@ -185,8 +187,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 							Try again
 						</A>
 					</div>
-				</M3.LayoutPane>
-			</M3.LayoutBody>
+				</LayoutPane>
+			</LayoutBody>
 		)
 	}
 
@@ -200,8 +202,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	}
 
 	return (
-		<M3.LayoutBody>
-			<M3.LayoutPane>
+		<LayoutBody>
+			<LayoutPane>
 				<Card variant="elevated">
 					<Ariakit.Heading className="text-headline-md text-balance">
 						Uh oh ...
@@ -212,7 +214,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 						Try again
 					</A>
 				</Card>
-			</M3.LayoutPane>
-		</M3.LayoutBody>
+			</LayoutPane>
+		</LayoutBody>
 	)
 }
