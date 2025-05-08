@@ -84,7 +84,7 @@ export function Sheet({ modal, variant, ...props }: SheetProps): JSX.Element {
 	)
 }
 
-export function SheetHandle(props: ComponentProps<"div">): ReactNode {
+function SheetHandle(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div
 			className="bg-on-surface-variant/[.4] rounded-xs mx-auto my-[1.375rem] h-1 w-8"

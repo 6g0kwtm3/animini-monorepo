@@ -49,7 +49,7 @@ export function MediaLink({ mediaId, type, slug, ...props }: MediaLinkProps) {
 	)
 }
 
-export function MediaCard(props: { mediaId: number; type: string }) {
+function MediaCard(props: { mediaId: number; type: string }) {
 	const media = useLazyLoadQuery<MediaLinkCardQuery>(
 		graphql`
 			query MediaLinkCardQuery($id: Int) {

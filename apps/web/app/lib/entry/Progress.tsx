@@ -235,7 +235,7 @@ const Progress_entry = graphql`
 	}
 `
 
-export function Progress(props: { entry: Progress_entry$key }): ReactNode {
+function Progress(props: { entry: Progress_entry$key }): ReactNode {
 	const entry = useFragment(Progress_entry, props.entry)
 
 	const actionData = useActionData<typeof selectedAction>()

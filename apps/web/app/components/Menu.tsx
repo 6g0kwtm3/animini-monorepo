@@ -63,7 +63,7 @@ export function MenuListItem({
 	)
 }
 
-export function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
+function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant h-6 w-6" />
 }
 export function MenuItemLeadingIcon(props: ComponentProps<"div">): ReactNode {

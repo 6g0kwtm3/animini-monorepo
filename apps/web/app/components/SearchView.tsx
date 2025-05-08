@@ -42,7 +42,7 @@ export function SearchView({ ...props }: SearchViewProps) {
 }
 
 export const SearchViewBodyGroup = Ariakit.ComboboxGroup
-export const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
+const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
 
 export function SearchViewInput(props: Ariakit.ComboboxProps) {
 	const { autoFocus = true } = props

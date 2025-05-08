@@ -88,7 +88,7 @@ interface SnackbarProps extends ComponentProps<"div"> {
 	open: boolean
 }
 
-export function Snackbar({
+function Snackbar({
 	timeout,
 	open,
 	...props
@@ -187,7 +187,7 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 
 import * as Ariakit from "@ariakit/react"
 
-export function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
+function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
 	const [supportsPopover, setSupportsPopover] = useState(true)

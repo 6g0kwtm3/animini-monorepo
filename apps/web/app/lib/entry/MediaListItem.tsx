@@ -48,8 +48,6 @@ const MediaListItem_entry = graphql`
 	}
 `
 
-export type ListItem_EntryFragment = typeof MediaListItem_entry
-
 export function MediaListItem(props: {
 	entry: MediaListItem_entry$key | null
 }): ReactNode {

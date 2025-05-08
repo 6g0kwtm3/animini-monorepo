@@ -27,11 +27,11 @@ export const {
 	readInlineData,
 	useFragment,
 	usePreloadedQuery: usePreloadedQuery_,
-	useRelayEnvironment,
+	
 	RelayEnvironmentProvider,
 } = ReactRelay
 
-export function useQueryLoader<T extends RelayRuntime.OperationType>(
+function useQueryLoader<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode
 ) {
 	const [queryRef, loadQuery, disposeQuery] = useQueryLoader_<T>(query)
@@ -85,7 +85,7 @@ export function commitLocalUpdate(
 	commitLocalUpdate_(environment, ...args)
 }
 
-export function commitMutation<P extends MutationParameters>(
+function commitMutation<P extends MutationParameters>(
 	...args: Shift<Parameters<typeof commitMutation_<P>>>
 ): Disposable {
 	return commitMutation_<P>(environment, ...args)

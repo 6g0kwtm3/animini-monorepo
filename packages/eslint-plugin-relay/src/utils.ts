@@ -17,7 +17,7 @@ export function hasPrecedingEslintDisableComment(
 /**
  * Returns a range object for auto fixers.
  */
-export function getRange(
+function getRange(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
 	graphQLNode: ASTNode
@@ -46,11 +46,11 @@ export function getLoc(
 	}
 }
 
-export interface GraphqlIdentifier extends ESTree.Identifier {
+interface GraphqlIdentifier extends ESTree.Identifier {
 	name: "graphql"
 }
 
-export interface GraphqlTemplateLiteral extends ESTree.TemplateLiteral {
+interface GraphqlTemplateLiteral extends ESTree.TemplateLiteral {
 	quasis: [ESTree.TemplateElement]
 }
 
