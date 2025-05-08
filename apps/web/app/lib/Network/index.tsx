@@ -27,7 +27,7 @@ export const {
 	readInlineData,
 	useFragment,
 	usePreloadedQuery: usePreloadedQuery_,
-	
+
 	RelayEnvironmentProvider,
 } = ReactRelay
 

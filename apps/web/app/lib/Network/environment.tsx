@@ -115,14 +115,8 @@ const environment = new Environment({
 	// ... other options
 })
 
-export const {  } = ResolverFragments
+export const {} = ResolverFragments
 
-export const {
-	
-	
-	
-	
-	
-} = ReactRelay
+export const {} = ReactRelay
 
 export default environment

@@ -23,9 +23,7 @@ export function TextFieldOutlined({
 	)
 }
 
-function TextFieldOutlinedSupporting(
-	props: Ariakit.FormErrorProps
-): ReactNode {
+function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps): ReactNode {
 	return (
 		<Ariakit.FormError
 			{...props}
@@ -99,9 +97,7 @@ function TextFieldOutlinedFactory({
 
 TextFieldOutlined.Label = OutlinedLabel
 
-function TextFieldFilled(
-	props: ComponentProps<typeof Label>
-): JSX.Element {
+function TextFieldFilled(props: ComponentProps<typeof Label>): JSX.Element {
 	return (
 		<Label
 			{...props}
@@ -144,9 +140,7 @@ function TextFieldFilledInput(
 	)
 }
 
-function TextFieldFilledLabel(
-	props: ComponentProps<"label">
-): ReactNode {
+function TextFieldFilledLabel(props: ComponentProps<"label">): ReactNode {
 	return (
 		<Label
 			{...props}

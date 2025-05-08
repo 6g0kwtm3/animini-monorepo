@@ -88,11 +88,7 @@ interface SnackbarProps extends ComponentProps<"div"> {
 	open: boolean
 }
 
-function Snackbar({
-	timeout,
-	open,
-	...props
-}: SnackbarProps): ReactNode {
+function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
