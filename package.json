@@ -18,7 +18,7 @@
 	"devDependencies": {
 		"@types/node": "22.15.17",
 		"knip": "5.55.1",
-		"oxlint": "0.16.9",
+		"oxlint": "0.16.10",
 		"prettier": "3.5.3",
 		"prettier-plugin-tailwindcss": "0.6.11",
 		"turbo": "2.5.3",
