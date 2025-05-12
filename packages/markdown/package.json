@@ -23,7 +23,7 @@
 	"devDependencies": {
 		"eslint": "9.26.0",
 		"eslint-config": "workspace:*",
-		"eslint-typegen": "2.1.0",
+		"eslint-typegen": "2.2.0",
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
 		"tsx": "4.19.4"
