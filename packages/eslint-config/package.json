@@ -13,7 +13,7 @@
 		"eslint-plugin-react-hooks": "6.0.0-rc1",
 		"eslint-plugin-react-refresh": "0.4.20",
 		"eslint-plugin-turbo": "2.5.3",
-		"eslint-typegen": "2.1.0",
+		"eslint-typegen": "2.2.0",
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "8.32.0"
 	},
