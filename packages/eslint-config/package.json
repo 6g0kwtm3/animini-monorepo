@@ -15,7 +15,7 @@
 		"eslint-plugin-turbo": "2.5.3",
 		"eslint-typegen": "2.2.0",
 		"oxlint-config": "workspace:*",
-		"typescript-eslint": "8.32.0"
+		"typescript-eslint": "8.32.1"
 	},
 	"devDependencies": {},
 	"exports": {

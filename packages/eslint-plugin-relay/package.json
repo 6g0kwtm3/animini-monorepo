@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"@types/estree": "1.0.7",
-		"@typescript-eslint/parser": "8.32.0",
+		"@typescript-eslint/parser": "8.32.1",
 		"eslint": "9.26.0",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.2.0",
