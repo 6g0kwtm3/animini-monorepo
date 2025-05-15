@@ -73,7 +73,7 @@ function Image({ src, ...props }: ComponentProps<"img">) {
 				resolve(src)
 			}
 			img.onerror = () => {
-				reject(src)
+				reject(new Error("Failed to load image " + src))
 			}
 			img.src = src
 		})
