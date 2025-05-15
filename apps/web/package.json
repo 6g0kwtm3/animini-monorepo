@@ -78,7 +78,7 @@
 		"@babel/preset-typescript": "7.27.1",
 		"@graphql-eslint/eslint-plugin": "4.4.0",
 		"@playwright/test": "1.52.0",
-		"babel-plugin-react-compiler": "19.1.0-rc.1",
+		"babel-plugin-react-compiler": "19.1.0-rc.2",
 		"cross-env": "7.0.3",
 		"dotenv": "16.5.0",
 		"eslint": "9.26.0",
