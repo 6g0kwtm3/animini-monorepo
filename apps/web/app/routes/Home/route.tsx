@@ -118,9 +118,13 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 												</ListItem>
 											</List>
 											<ErrorBoundary fallback={<>Failed to parse markdown</>}>
-												{activity.text && (
-													<Markdown options={options}>{activity.text}</Markdown>
-												)}
+												<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto">
+													{activity.text && (
+														<Markdown options={options}>
+															{activity.text}
+														</Markdown>
+													)}
+												</div>
 											</ErrorBoundary>
 										</Card>
 									</li>
