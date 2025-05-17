@@ -2,8 +2,8 @@ import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import { layout } from "./app/lib/layout"
-import { navigation } from "./app/lib/navigation"
 import { list } from "./app/lib/list"
+import { navigation } from "./app/lib/navigation"
 import { numberToString } from "./app/lib/numberToString"
 import * as Predicate from "./app/lib/Predicate"
 import { searchView } from "./app/lib/searchView"
@@ -28,8 +28,8 @@ export const config = {
 		state: {
 			none: "0",
 			hover: "8%",
-			focus: "12%",
-			pressed: "12%",
+			focus: "10%",
+			pressed: "10%",
 			dragged: "16%",
 		},
 		fontSize,

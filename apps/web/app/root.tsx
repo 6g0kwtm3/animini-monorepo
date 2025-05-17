@@ -38,6 +38,13 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	environment: IEnvironment
 }) => ReactNode
 
+import fonts from "../tailwind.config.fonts"
+import { numberToString } from "./lib/numberToString"
+
+const fontWeights = [
+	...new Set(Object.values(fonts).map(([, font]) => font.fontWeight)),
+]
+
 export const links: LinksFunction = () => {
 	return [
 		{ rel: "stylesheet", href: tailwind },
@@ -49,7 +56,12 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: "stylesheet",
-			href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap",
+			href:
+				"https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@"
+				+ fontWeights
+					.map((fontWeight) => `8..144,${numberToString(fontWeight)}`)
+					.join(";")
+				+ "&display=swap",
 		},
 	]
 }
@@ -103,7 +115,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			dir={dir}
 			style={theme}
 			data-testid={isHydrated && "hydrated"}
-			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Noto_Sans',sans-serif] [color-scheme:light_dark]"
+			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Roboto_Flex','Noto_Sans',sans-serif] [color-scheme:light_dark] [font-optical-sizing:auto]"
 		>
 			<head>
 				<meta charSet="utf-8" />
