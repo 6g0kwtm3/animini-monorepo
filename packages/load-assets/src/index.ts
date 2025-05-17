@@ -1,11 +1,13 @@
 import { markdownToHtml } from "markdown"
-
+function numberToString(n: number): string {
+	return String(n)
+}
 export async function loadAssets(
 	assets: Record<string, string>,
 	outputDir: string
 ) {
 	for (const [key, rawSnapshot] of Object.entries(assets)) {
-		let images: Record<string, string> = {}
+		const images: Record<string, string> = {}
 
 		const rewriter = new HTMLRewriter().on("img", {
 			element(img) {
@@ -29,20 +31,20 @@ export async function loadAssets(
 		outer: for (let i = 0; i < rawSnapshot.length; i++) {
 			for (const [index, url] of urls.entries()) {
 				if (rawSnapshot.startsWith(url, i)) {
-					result += `\${img${index}}`
+					result += `\${img${numberToString(index)}}`
 					i += url.length - 1
 					continue outer
 				}
 			}
 
-			result += rawSnapshot[i]
+			result += rawSnapshot.substring(i, i + 1)
 		}
 
 		await Promise.all(
 			Object.entries(images).map(([src, ext], i) => {
 				return fetch(src).then((response) => {
 					return Bun.write(
-						path.join(outputDir, key, `img${i}.${ext}`),
+						path.join(outputDir, key, `img${numberToString(i)}.${ext}`),
 						response
 					)
 				})
@@ -50,7 +52,8 @@ export async function loadAssets(
 		)
 
 		const output = Object.entries(images).map(
-			([, ext], i) => `import img${i} from "./img${i}.${ext}?url"`
+			([, ext], i) =>
+				`import img${numberToString(i)} from "./img${numberToString(i)}.${ext}?url"`
 		)
 		output.push(`export default \`${result}\``)
 		await Bun.write(path.join(outputDir, key, `snapshot.ts`), output.join("\n"))

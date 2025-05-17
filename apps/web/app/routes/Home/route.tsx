@@ -16,7 +16,7 @@ import {
 // console.log(R)
 
 import { A } from "a"
-import { Markdown } from "markdown"
+import { Markdown } from "markdown/Markdown"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"

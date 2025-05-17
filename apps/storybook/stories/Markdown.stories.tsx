@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { Markdown, type Options } from "markdown"
+import { Markdown, type Options } from "markdown/Markdown"
 import { use, type ComponentProps } from "react"
 import snapshot1 from "./assets/Markdown/Snapshot1/snapshot"
 import snapshot2 from "./assets/Markdown/Snapshot2/snapshot"
@@ -20,20 +20,25 @@ type Story = StoryObj<typeof meta>
 function convert(src: string) {
 	return new Promise<string>((resolve, reject) => {
 		const img = new globalThis.Image()
-		img.src = src
-		img.onerror = () => reject(new Error("Failed to load image"))
+		img.onerror = () => {
+			reject(new Error("Failed to load image"))
+		}
 		img.onload = () => {
-			URL.revokeObjectURL(img.src)
-			let canvas = document.createElement("canvas")
+			const canvas = document.createElement("canvas")
 
-			let ctx = canvas.getContext("2d")
-			if (!ctx) return reject(new Error("Failed to get canvas context"))
-			canvas.width = img.width // set size = image, draw
+			const ctx = canvas.getContext("2d")
+			if (!ctx) {
+				reject(new Error("Failed to get canvas context"))
+				return
+			}
+			canvas.width = img.width
 			canvas.height = img.height
 			ctx.drawImage(img, 0, 0)
 
-			resolve(canvas.toDataURL("image/jpeg", 0.75))
+			resolve(canvas.toDataURL("image/png", 1))
+			URL.revokeObjectURL(img.src)
 		}
+		img.src = src
 	})
 }
 
