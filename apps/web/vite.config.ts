@@ -16,7 +16,7 @@ export default defineConfig({
 		oxlint({ configFile: "./node_modules/oxlint-config/oxlintrc.json" }),
 
 		tailwindcss(),
-		babel({ include: ["./app/**/*.tsx"], filter: /\.[jt]sx?$/ }),
+		babel({ filter: /\.[jt]sx?$/, exclude: [/~icons/] }),
 		paraglide({ project: "./project.inlang", outdir: "./app/paraglide" }),
 
 		reactRouter(),
