@@ -1,1 +1,1 @@
-export { Markdown, type Options } from "./Markdown"
+export { Markdown, markdownToHtml, type Options } from "./Markdown"

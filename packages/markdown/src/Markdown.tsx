@@ -6,8 +6,8 @@ import createDOMPurify from "dompurify"
 
 export function Markdown(props: { children: string; options: Options }) {
 	return useMemo(
-		() => parse(markdownHtml(props.children), props.options),
-		[props.children, props.options]
+		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),
+		[props.children, props.options, sanitizeHtml]
 	)
 }
 
@@ -70,7 +70,10 @@ function sanitizeHtml(t: string) {
 	return out
 }
 
-function markdownHtml(t: string) {
+export function markdownToHtml(
+	markdown: string,
+	sanitizeHtml: (html: string) => string
+) {
 	marked.setOptions({
 		gfm: true,
 		tables: true,
@@ -90,54 +93,57 @@ function markdownHtml(t: string) {
 	u.rules.heading = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/
 
 	return (
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/(http)(:([/|.|\w|\s|-])*\.(?:jpg|.jpeg|gif|png|mp4|webm))/gi,
 			"$1s$2"
 		)),
-		(t = t.replaceAll(
+		(markdown = markdown.replaceAll(
 			/(^|>| )@([A-Za-z0-9]+)/gm,
 			(group, one: string, userName: string) => {
 				return `${one}<a class='user-link' data-user-name='${userName}' href='${route_user({ userName: userName })}'>@${userName}</a>`
 			}
 		)),
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/img\s?(\d+%?)?\s?\((.[\S]+)\)/gi,
 			"<img width='$1' src='$2'>"
 		)),
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/youtube\s?\([^]*?([-_0-9A-Za-z]{10,15})[^]*?\)/gi,
 			"youtube ($1)"
 		)),
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/webm\s?\(h?([A-Za-z0-9-._~:/?#[\]@!$&()*+,;=%]+)\)/gi,
 			"webmv(`$1`)"
 		)),
-		(t = t.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
-		(t = t.replace(/~!([^]*?)!~/gm, '<div rel="spoiler">$1</div>')),
-		(t = sanitizeHtml(
-			// @ts-expect-error marked error types are not correct
-			marked(t, { renderer: d, lexer: u })
+		(markdown = markdown.replace(/~{3}([^]*?)~{3}/gm, "+++$1+++")),
+		(markdown = markdown.replace(
+			/~!([^]*?)!~/gm,
+			'<div rel="spoiler">$1</div>'
 		)),
-		(t = t.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
-		(t = t.replace(
+		(markdown = sanitizeHtml(
+			// @ts-expect-error marked error types are not correct
+			marked(markdown, { renderer: d, lexer: u })
+		)),
+		(markdown = markdown.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
+		(markdown = markdown.replace(
 			/<div rel="spoiler">([\s\S]*?)<\/div>/gm,
 			"<details><summary>Show spoiler</summary>$1</details>"
 		)),
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/youtube\s?\(([-_0-9A-Za-z]{10,15})\)/gi,
 			"<iframe width='450' height='315' src='https://www.youtube.com/embed/$1/' title='YouTube video player' frameBorder='0' name='1' class='rounded-md' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;' allowfullscreen loading='lazy'>Your browser does not support iframes</iframe>"
 		)),
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/webmv\s?\(<code>([A-Za-z0-9-._~:/?#[\]@!$&()*+,;=%]+)<\/code>\)/gi,
 			"<video muted loop controls><source src='h$1' type='video/webm'>Your browser does not support the video tag.</video>"
 		)),
-		(t = t.replace(
+		(markdown = markdown.replace(
 			/(?:<a href="https?:\/\/anilist.co\/(anime|manga)\/)([0-9]+)(\/\w+)?.*?>(?:https?:\/\/anilist.co\/(?:anime|manga)\/[0-9]+).*?<\/a>/gm,
 			(group, type: string, mediaId: string, slug: string) => {
 				return `<a class="media-link" href="${route_media({ id: Number(mediaId) })}" data-type="${type}" data-slug="${slug}" data-id="${mediaId}">${route_media({ id: Number(mediaId) })}${slug}</a>`
 			}
 		)),
-		t
+		markdown
 	)
 }
 
