@@ -39,6 +39,11 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 }) => ReactNode
 
 import fonts from "../tailwind.config.fonts"
+import { numberToString } from "./lib/numberToString"
+
+const fontWeights = [
+	...new Set(Object.values(fonts).map(([, font]) => font.fontWeight)),
+]
 
 export const links: LinksFunction = () => {
 	return [
@@ -53,8 +58,8 @@ export const links: LinksFunction = () => {
 			rel: "stylesheet",
 			href:
 				"https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@"
-				+ Object.values(fonts)
-					.map(([, font]) => font.fontWeight)
+				+ fontWeights
+					.map((fontWeight) => `8..144,${numberToString(fontWeight)}`)
 					.join(";")
 				+ "&display=swap",
 		},
