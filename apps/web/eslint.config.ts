@@ -2,6 +2,7 @@
 /// <reference path="./eslint-typegen.d.ts" />
 import * as graphql from "@graphql-eslint/eslint-plugin"
 import base from "eslint-config/base"
+import panda from "eslint-config/panda"
 import react from "eslint-config/react"
 import relay from "eslint-plugin-relay"
 import typegen from "eslint-typegen"
@@ -22,6 +23,7 @@ export default typegen([
 	},
 	...base,
 	...react,
+	...panda,
 	relay.configs.recommended,
 	{
 		name: "web/@graphql-eslint/eslint-plugin/processor",

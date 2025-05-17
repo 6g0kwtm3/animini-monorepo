@@ -17,11 +17,17 @@
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "8.32.1"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"@pandacss/eslint-plugin": "0.2.9"
+	},
 	"exports": {
 		"./base": {
 			"types": "./types.d.ts",
 			"default": "./src/base/eslint.config.ts"
+		},
+		"./panda": {
+			"types": "./types.d.ts",
+			"default": "./src/panda/eslint.config.ts"
 		},
 		"./react": {
 			"types": "./types.d.ts",

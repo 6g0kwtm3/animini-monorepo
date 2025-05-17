@@ -1,5 +1,7 @@
 import { fn } from "@storybook/test"
 
+import type { Meta, StoryObj } from "@storybook/react"
+import { button } from "../styled-system/recipes"
 import { Button } from "./Button"
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -16,13 +18,47 @@ export default {
 	argTypes: {},
 	// Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
 	args: { onClick: fn() },
+} satisfies Meta<typeof Button>
+
+type Story = StoryObj<typeof Button>
+// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+export const Filled = { args: { children: "Button" } } satisfies Story
+
+export const Elevated = {
+	args: { children: "Button", ...button.raw({ color: "elevated" }) },
+} satisfies Story
+export const Outlined = {
+	args: { children: "Button", ...button.raw({ color: "outlined" }) },
+} satisfies Story
+export const Text = {
+	args: { children: "Button", ...button.raw({ color: "text" }) },
+} satisfies Story
+export const Tonal = {
+	args: { ...Outlined.args, ...button.raw({ color: "tonal" }) },
+} satisfies Story
+
+export const ExtraSmall = {
+	args: { ...Outlined.args, ...button.raw({ size: "xs" }) },
+} satisfies Story
+
+export const Small = {
+	args: { ...Outlined.args, ...button.raw({ size: "sm" }) },
+} satisfies Story
+
+export const Medium = {
+	args: { ...Outlined.args, ...button.raw({ size: "md" }) },
 }
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = { args: { primary: true, children: "Button" } }
+export const Large = {
+	args: { ...Outlined.args, ...button.raw({ size: "lg" }) },
+} satisfies Story
 
-export const Secondary = { args: { children: "Button" } }
+export const ExtraLarge = {
+	args: { ...Outlined.args, ...button.raw({ size: "xl" }) },
+}
 
-export const Large = { args: { size: "large", children: "Button" } }
-
-export const Small = { args: { size: "small", children: "Button" } }
+export const FilledDisabled = { args: { ...Filled.args, disabled: true } }
+export const ElevatedDisabled = { args: { ...Elevated.args, disabled: true } }
+export const OutlinedDisabled = { args: { ...Outlined.args, disabled: true } }
+export const TextDisabled = { args: { ...Text.args, disabled: true } }
+export const TonalDisabled = { args: { ...Tonal.args, disabled: true } }
