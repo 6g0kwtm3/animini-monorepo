@@ -58,7 +58,7 @@
 		"extra-outlet": "workspace:*",
 		"framer-motion": "12.11.4",
 		"graphql": "16.11.0",
-		"hono": "4.7.9",
+		"hono": "4.7.10",
 		"isbot": "5.1.28",
 		"markdown": "workspace:*",
 		"react": "19.1.0",
