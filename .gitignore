@@ -28,3 +28,7 @@ storybook-static
 **/eslint-typegen.d.ts
 # stryker temp files
 .stryker-tmp
+
+## Panda
+styled-system
+styled-system-studio

@@ -16,5 +16,8 @@
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
+	},
+	"dependencies": {
+		"@pandacss/dev": "0.53.6"
 	}
 }
