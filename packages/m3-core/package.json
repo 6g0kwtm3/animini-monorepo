@@ -12,7 +12,7 @@
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"eslint": "9.26.0",
+		"eslint": "9.27.0",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.2.0",
 		"oxlint-config": "workspace:*",
