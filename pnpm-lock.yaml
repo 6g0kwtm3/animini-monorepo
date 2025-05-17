@@ -15,8 +15,8 @@ importers:
         specifier: 5.56.0
         version: 5.56.0(@types/node@22.15.18)(typescript@5.8.3)
       oxlint:
-        specifier: 0.16.10
-        version: 0.16.10
+        specifier: 0.16.11
+        version: 0.16.11
       prettier:
         specifier: 3.5.3
         version: 3.5.3
@@ -375,8 +375,8 @@ importers:
         specifier: 9.26.0
         version: 9.26.0(jiti@2.4.2)
       eslint-plugin-oxlint:
-        specifier: 0.16.10
-        version: 0.16.10
+        specifier: 0.16.11
+        version: 0.16.11
       eslint-plugin-react:
         specifier: 7.37.5
         version: 7.37.5(eslint@9.26.0(jiti@2.4.2))
@@ -1534,8 +1534,18 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@oxlint/darwin-arm64@0.16.11':
+    resolution: {integrity: sha512-zjDMBVWbP/0KhzcAdlOkZaYJtoMnJEZDc2BAXqfrXQvr1JFor7vTxZUFvWKF0B1XbSNGpJPvFWmho02bjPiR3g==}
+    cpu: [arm64]
+    os: [darwin]
+
   '@oxlint/darwin-x64@0.16.10':
     resolution: {integrity: sha512-axqbGX//v+AF/73OZUfUGG5pZidnZf9T+wc+1Jf19O0DViPpcmbVH7l0aLImFQuRn6Nl9LAbfBbKAgO1BS+OSg==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxlint/darwin-x64@0.16.11':
+    resolution: {integrity: sha512-KS9Y0rs0vwvJLc9AmxI73rUWuIdJLlyAshPuSycQN+i2p8uW8r/ZBAPBB/vFyKdPaSs8j8ymPXmfN4D1yFXG9Q==}
     cpu: [x64]
     os: [darwin]
 
@@ -1544,8 +1554,18 @@ packages:
     cpu: [arm64]
     os: [linux]
 
+  '@oxlint/linux-arm64-gnu@0.16.11':
+    resolution: {integrity: sha512-wULkYyufJz91NAjLtZyb3ycEw9w7sg0iFoGG9rHABqRtRHkFieaFT8BjjJTvUwRf2ZolQk+YZL4edE88h85QFQ==}
+    cpu: [arm64]
+    os: [linux]
+
   '@oxlint/linux-arm64-musl@0.16.10':
     resolution: {integrity: sha512-jidO59qo6RZ1HRk7a27noIgUeJmzju13NcKm7+5zZObPPGuXXO1OT3ZYabyO4Zz3eU+wqMTgjM4yphbJerkxPQ==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oxlint/linux-arm64-musl@0.16.11':
+    resolution: {integrity: sha512-c7Evd7fCpocr2LFzHcl9eQF0BxXZauTraIiCxpKK7ddIuCnpbuPllkMpAUE9vob20mqnGy5WLHZby9v7vqSr+Q==}
     cpu: [arm64]
     os: [linux]
 
@@ -1554,8 +1574,18 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@oxlint/linux-x64-gnu@0.16.11':
+    resolution: {integrity: sha512-LbjKo4seS7m6rOzw/r9H3VLvnjhuo/fFuRJ8OG6pYCbkZNtChdhk88DFN8Qr0n8Qe9PFwweIvQxXBZK7IEUu6A==}
+    cpu: [x64]
+    os: [linux]
+
   '@oxlint/linux-x64-musl@0.16.10':
     resolution: {integrity: sha512-V7oXFLCowIEOnYBph4J2KSiHYtBIrx00xmwzKzSvwMzVOxDkw1LmPUYLCz/AEU6MctE6S2ZR947IXJY7ch4HeQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oxlint/linux-x64-musl@0.16.11':
+    resolution: {integrity: sha512-kKuIf5hD12rtmJFSe/EGv8jXi0QWwCMDpcL2F0cRVvq6RSAxwSBF/RTEq40PJBBGAf6KJeqgV9j4glxhFn5f7w==}
     cpu: [x64]
     os: [linux]
 
@@ -1564,8 +1594,18 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@oxlint/win32-arm64@0.16.11':
+    resolution: {integrity: sha512-lx9x2EEbyHW5t2aooWtXI2AWd3WzDs+4T/p3RBp/HPp9ziwL2hEdzmjMC3DgdnbmwUmUGvfquSElF6ZGC9L5pA==}
+    cpu: [arm64]
+    os: [win32]
+
   '@oxlint/win32-x64@0.16.10':
     resolution: {integrity: sha512-V5LHfgB5uiiKNpOFOAfygsL36pN6qSuQ0moiuEyZFfWL2Iyx5026ksefiD9nXcygQsLYU7f6xQbOINAY3uIvcw==}
+    cpu: [x64]
+    os: [win32]
+
+  '@oxlint/win32-x64@0.16.11':
+    resolution: {integrity: sha512-k/ZfoIR5V6bPoemFvMb9EJu3YkSoF2AAKhC7AfKM4tg9UfJ1Wj/9J/edTv1aRQCRTzPiWoS+W5v1SPogVE80Qg==}
     cpu: [x64]
     os: [win32]
 
@@ -3135,8 +3175,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-oxlint@0.16.10:
-    resolution: {integrity: sha512-Kk66qL33TQyJ2vg59s4jllFb1iUxt49tkAw1xKiyyz3dNRIsFoF/U0NPGZK+ws/2MiMEpI/4dS9JPRtzIYpVRw==}
+  eslint-plugin-oxlint@0.16.11:
+    resolution: {integrity: sha512-/pemn48rNR9L85TIqZki7XYg7wOcU8/NNnTvoAHBPkTYmCWuvhOjET5f6B2hybEHknn2uaw0B0pPo9ECAFrc7A==}
 
   eslint-plugin-react-compiler@19.0.0-beta-af1b7da-20250417:
     resolution: {integrity: sha512-m3eVzHqtXFtu6rViWx/kBhv9Jcpj+Q4pkfRWyF47TIBa+Jo8DAB90OoeDh0JR896rtG1OXogLKKd+b6lzFup0A==}
@@ -4341,6 +4381,11 @@ packages:
 
   oxlint@0.16.10:
     resolution: {integrity: sha512-xSHmXzQ8cuoeUFoHsc0NIab81KsXNNUKJbK7ZaoCcSWcWSDc4oyc9giPnaVOnVCye5XR7FfX2x4OXqJ9nQdKHw==}
+    engines: {node: '>=8.*'}
+    hasBin: true
+
+  oxlint@0.16.11:
+    resolution: {integrity: sha512-JjeOwCeDfA9Y5vLswScJZlMyWBXEVz0LKKksgfkO3cgRV/XXvVzLzBEZ0h5bBiCBK1eS+jCFWh0bycECQkoWUQ==}
     engines: {node: '>=8.*'}
     hasBin: true
 
@@ -6682,25 +6727,49 @@ snapshots:
   '@oxlint/darwin-arm64@0.16.10':
     optional: true
 
+  '@oxlint/darwin-arm64@0.16.11':
+    optional: true
+
   '@oxlint/darwin-x64@0.16.10':
+    optional: true
+
+  '@oxlint/darwin-x64@0.16.11':
     optional: true
 
   '@oxlint/linux-arm64-gnu@0.16.10':
     optional: true
 
+  '@oxlint/linux-arm64-gnu@0.16.11':
+    optional: true
+
   '@oxlint/linux-arm64-musl@0.16.10':
+    optional: true
+
+  '@oxlint/linux-arm64-musl@0.16.11':
     optional: true
 
   '@oxlint/linux-x64-gnu@0.16.10':
     optional: true
 
+  '@oxlint/linux-x64-gnu@0.16.11':
+    optional: true
+
   '@oxlint/linux-x64-musl@0.16.10':
+    optional: true
+
+  '@oxlint/linux-x64-musl@0.16.11':
     optional: true
 
   '@oxlint/win32-arm64@0.16.10':
     optional: true
 
+  '@oxlint/win32-arm64@0.16.11':
+    optional: true
+
   '@oxlint/win32-x64@0.16.10':
+    optional: true
+
+  '@oxlint/win32-x64@0.16.11':
     optional: true
 
   '@patryk_walach/tailwind-variants@0.2.1(tailwindcss@4.1.7)':
@@ -8498,7 +8567,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-oxlint@0.16.10:
+  eslint-plugin-oxlint@0.16.11:
     dependencies:
       jsonc-parser: 3.3.1
 
@@ -9796,6 +9865,17 @@ snapshots:
       '@oxlint/linux-x64-musl': 0.16.10
       '@oxlint/win32-arm64': 0.16.10
       '@oxlint/win32-x64': 0.16.10
+
+  oxlint@0.16.11:
+    optionalDependencies:
+      '@oxlint/darwin-arm64': 0.16.11
+      '@oxlint/darwin-x64': 0.16.11
+      '@oxlint/linux-arm64-gnu': 0.16.11
+      '@oxlint/linux-arm64-musl': 0.16.11
+      '@oxlint/linux-x64-gnu': 0.16.11
+      '@oxlint/linux-x64-musl': 0.16.11
+      '@oxlint/win32-arm64': 0.16.11
+      '@oxlint/win32-x64': 0.16.11
 
   p-cancelable@2.1.1: {}
 
