@@ -18,5 +18,8 @@
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
 		"tsx": "4.19.4"
+	},
+	"dependencies": {
+		"@pandacss/dev": "0.53.6"
 	}
 }
