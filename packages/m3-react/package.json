@@ -4,7 +4,9 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/index.ts",
+	"exports": {
+		"./Button": "./src/Button.tsx"
+	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
@@ -12,6 +14,7 @@
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
+		"@types/react": "19.1.4",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "catalog:",
@@ -19,5 +22,9 @@
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
+	},
+	"dependencies": {
+		"@ariakit/react": "0.4.17",
+		"@stylexjs/stylex": "0.12.0"
 	}
 }
