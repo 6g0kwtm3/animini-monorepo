@@ -10,39 +10,20 @@
 		"BASE_URL"
 	],
 	"tasks": {
-		"dev": { "cache": false, "persistent": true },
+		"dev": { "cache": false, "persistent": true, "with": ["check"] },
 		"build": {
-			"dependsOn": ["^build", "relay", "dts"],
+			"dependsOn": ["^build"],
 			"outputs": ["dist/**", "storybook-static/**"],
 			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
 		},
-		"dts": { "outputs": ["tmp/**"] },
-		"router": { "outputs": [".react-router/**"] },
-		"relay": { "outputs": ["app/gql/**"] },
-		"relay-watch": { "cache": false, "persistent": true },
-		"paraglide": {
-			"outputs": ["app/paraglide/**"],
-			"inputs": ["messages/**", "project.inlang/settings.json"]
-		},
 		"transit": { "dependsOn": ["^transit"] },
-		"check": {
-			"dependsOn": [
-				"^dts",
-				"transit",
-				"router",
-				"paraglide",
-				"relay",
-				"eslint-typegen"
-			]
-		},
+		"check": { "dependsOn": ["transit", "eslint-typegen"] },
 		"eslint-typegen": {
 			"inputs": ["eslint.config.ts"],
 			"outputs": ["eslint-typegen.d.ts"]
 		},
 		"oxlint": {},
-		"lint": {
-			"dependsOn": ["^dts", "transit", "router", "paraglide", "relay"]
-		},
+		"lint": { "dependsOn": ["transit"] },
 		"//#format": {},
 		"//#knip": {},
 		"//#test": {}
