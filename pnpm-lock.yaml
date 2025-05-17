@@ -187,8 +187,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2
       electron:
-        specifier: 35.2.2
-        version: 35.2.2
+        specifier: 36.2.1
+        version: 36.2.1
       electron-devtools-installer:
         specifier: 4.0.0
         version: 4.0.0
@@ -2237,9 +2237,6 @@ packages:
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
 
-  '@types/node@22.15.17':
-    resolution: {integrity: sha512-wIX2aSZL5FE+MR0JlvF87BNVrtFWf6AE6rxSE9X7OwnVvoyCQjpzSRJ+M87se/4QCkCiebQAqrJ0y6fwIyi7nw==}
-
   '@types/node@22.15.18':
     resolution: {integrity: sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg==}
 
@@ -2954,8 +2951,8 @@ packages:
   electron-to-chromium@1.5.151:
     resolution: {integrity: sha512-Rl6uugut2l9sLojjS4H4SAr3A4IgACMLgpuEMPYCVcKydzfyPrn5absNRju38IhQOf/NwjJY8OGWjlteqYeBCA==}
 
-  electron@35.2.2:
-    resolution: {integrity: sha512-jZnCOtIgrt28esWP5z/PKndj/vPQ/Zt+cvNRlb/qOGnK/AjW1mASwPMtQ099NlSodf69RR3JrhnZCYbTWeDR4g==}
+  electron@36.2.1:
+    resolution: {integrity: sha512-mm1Y+Ms46xcOTA69h8hpqfX392HfV4lga9aEkYkd/Syx1JBStvcACOIouCgGrnZpxNZPVS1jM8NTcMkNjuK6BQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -5309,6 +5306,7 @@ packages:
   wrangler@4.15.2:
     resolution: {integrity: sha512-Rv7zP61DOVzIS3af+/1UzJkRVpqu6VDRi6uIVMiwD1LkXG5Ov08tv94jgnE9bSjVf0paQg3dl0E89h+wQ0x/Bw==}
     engines: {node: '>=18.0.0'}
+    deprecated: '⚠️ Deprecated: 4.15.1 has a regression with R2 bucket validation with wrangler pages dev. Please downgrade to 4.14.4 or upgrade to 4.15.2 when it is published.'
     hasBin: true
     peerDependencies:
       '@cloudflare/workers-types': ^4.20250508.0
@@ -7160,10 +7158,6 @@ snapshots:
 
   '@types/mdx@2.0.13': {}
 
-  '@types/node@22.15.17':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@22.15.18':
     dependencies:
       undici-types: 6.21.0
@@ -7938,10 +7932,10 @@ snapshots:
 
   electron-to-chromium@1.5.151: {}
 
-  electron@35.2.2:
+  electron@36.2.1:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.15.17
+      '@types/node': 22.15.18
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
