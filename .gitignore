@@ -26,6 +26,7 @@ tmp
 build-storybook
 storybook-static
 **/eslint-typegen.d.ts
+
 ## Panda
 styled-system
 styled-system-studio

@@ -1,8 +1,8 @@
 import { fn } from "@storybook/test"
 
 import type { Meta, StoryObj } from "@storybook/react"
-import { button } from "../styled-system/recipes"
-import { Button } from "./Button"
+import { Button } from "m3-react/Button"
+import { button } from "m3-styled-system/recipes"
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {

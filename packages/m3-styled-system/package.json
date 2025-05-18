@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "m3-styled-system",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "eslint-typegen": "node --import=tsx eslint.config.ts",
+    "lint": "eslint --cache . --fix",
+    "oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
+    "check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@types/react": "19.1.4",
+    "react": "19.1.0",
+    "react-router": "7.6.0"
+  },
+  "devDependencies": {
+    "@types/bun": "1.2.13",
+    "eslint": "9.26.0",
+    "eslint-config": "workspace:*",
+    "eslint-typegen": "2.2.0",
+    "oxlint-config": "workspace:*",
+    "ts-config": "workspace:^",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "@pandacss/dev": "0.53.6",
+    "m3-core": "workspace:*",
+    "markdown": "workspace:*"
+  },
+  "exports": {
+    "./css": {
+      "types": "./styled-system/css/index.d.ts",
+      "require": "./styled-system/css/index.mjs",
+      "import": "./styled-system/css/index.mjs"
+    },
+    "./tokens": {
+      "types": "./styled-system/tokens/index.d.ts",
+      "require": "./styled-system/tokens/index.mjs",
+      "import": "./styled-system/tokens/index.mjs"
+    },
+    "./types": {
+      "types": "./styled-system/types/index.d.ts",
+      "require": "./styled-system/types/index.mjs",
+      "import": "./styled-system/types/index.mjs"
+    },
+    "./patterns": {
+      "types": "./styled-system/patterns/index.d.ts",
+      "require": "./styled-system/patterns/index.mjs",
+      "import": "./styled-system/patterns/index.mjs"
+    },
+    "./recipes": {
+      "types": "./styled-system/recipes/index.d.ts",
+      "require": "./styled-system/recipes/index.mjs",
+      "import": "./styled-system/recipes/index.mjs"
+    },
+    "./jsx": {
+      "types": "./styled-system/jsx/index.d.ts",
+      "require": "./styled-system/jsx/index.mjs",
+      "import": "./styled-system/jsx/index.mjs"
+    },
+    "./styles.css": "./styled-system/styles.css"
+  }
+}

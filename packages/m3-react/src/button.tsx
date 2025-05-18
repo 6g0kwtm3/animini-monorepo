@@ -1,7 +1,7 @@
 import * as Ariakit from "@ariakit/react"
-import { styled } from "../styled-system/jsx"
-import { button } from "../styled-system/recipes"
-/** Primary UI component for user interaction */
+import { styled } from "m3-styled-system/jsx"
+import { button } from "m3-styled-system/recipes"
+
 export const Button = styled(Ariakit.Button, button, {
 	defaultProps: {
 		type: "button",

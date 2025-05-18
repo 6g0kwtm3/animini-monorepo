@@ -7,8 +7,7 @@ export default defineConfig({
 	preflight: true,
 	// Where to look for your css declarations
 	include: [
-		"./.storybook/**/*.{js,jsx,ts,tsx}",
-		"./stories/**/*.{js,jsx,ts,tsx}",
+		"./app/**/*.{js,jsx,ts,tsx}",
 		"./node_modules/m3-react/src/**/*.{js,jsx,ts,tsx}",
 		"./node_modules/m3-core/src/**/*.{js,jsx,ts,tsx}",
 	],

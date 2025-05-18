@@ -5,13 +5,9 @@ export default defineConfig({
 	presets: [preset],
 	// Whether to use css reset
 	preflight: true,
+
 	// Where to look for your css declarations
-	include: [
-		"./.storybook/**/*.{js,jsx,ts,tsx}",
-		"./stories/**/*.{js,jsx,ts,tsx}",
-		"./node_modules/m3-react/src/**/*.{js,jsx,ts,tsx}",
-		"./node_modules/m3-core/src/**/*.{js,jsx,ts,tsx}",
-	],
+	include: [],
 
 	// Files to exclude
 	exclude: [],
@@ -19,11 +15,9 @@ export default defineConfig({
 	// Useful for theme customization
 	theme: { extend: {} },
 
-	importMap: "m3-styled-system",
 	// The output directory for your css system
-	outdir: "./node_modules/m3-styled-system/styled-system",
+	outdir: "styled-system",
 	jsxFramework: "react",
 	strictTokens: true,
 	strictPropertyValues: true,
-	staticCss: { recipes: "*" },
 })

@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react"
+import { css } from "m3-styled-system/css"
 import { useInsertionEffect } from "react"
 import fallback from "../../web/fallback.json"
-import { css } from "../styled-system/css"
 import "./index.css"
 
 const preview = {

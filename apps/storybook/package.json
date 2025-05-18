@@ -18,6 +18,8 @@
 		"@pandacss/dev": "0.53.6",
 		"load-assets": "workspace:*",
 		"m3-core": "workspace:*",
+		"m3-react": "workspace:*",
+		"m3-styled-system": "workspace:*",
 		"markdown": "workspace:*",
 		"motion": "12.12.1"
 	},

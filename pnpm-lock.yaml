@@ -50,6 +50,12 @@ importers:
       m3-core:
         specifier: workspace:*
         version: link:../../packages/m3-core
+      m3-react:
+        specifier: workspace:*
+        version: link:../../packages/m3-react
+      m3-styled-system:
+        specifier: workspace:*
+        version: link:../../packages/m3-styled-system
       markdown:
         specifier: workspace:*
         version: link:../../packages/markdown
@@ -525,6 +531,13 @@ importers:
         version: 4.19.4
 
   packages/m3-react:
+    dependencies:
+      '@pandacss/dev':
+        specifier: 0.53.6
+        version: 0.53.6(typescript@5.8.3)
+      m3-styled-system:
+        specifier: workspace:*
+        version: link:../m3-styled-system
     devDependencies:
       eslint:
         specifier: 9.26.0
@@ -547,6 +560,52 @@ importers:
       tsx:
         specifier: 4.19.4
         version: 4.19.4
+
+  packages/m3-styled-system:
+    dependencies:
+      '@pandacss/dev':
+        specifier: 0.53.6
+        version: 0.53.6(typescript@5.8.3)
+      '@types/react':
+        specifier: 19.1.4
+        version: 19.1.4
+      m3-core:
+        specifier: workspace:*
+        version: link:../m3-core
+      markdown:
+        specifier: workspace:*
+        version: link:../markdown
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-router:
+        specifier: 7.6.0
+        version: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+    devDependencies:
+      '@types/bun':
+        specifier: 1.2.13
+        version: 1.2.13
+      eslint:
+        specifier: 9.26.0
+        version: 9.26.0(jiti@2.4.2)
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint-typegen:
+        specifier: 2.2.0
+        version: 2.2.0(eslint@9.26.0(jiti@2.4.2))
+      oxlint-config:
+        specifier: workspace:*
+        version: link:../oxlint-config
+      ts-config:
+        specifier: workspace:^
+        version: link:../ts-config
+      tsx:
+        specifier: 4.19.4
+        version: 4.19.4
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
 
   packages/markdown:
     dependencies:
