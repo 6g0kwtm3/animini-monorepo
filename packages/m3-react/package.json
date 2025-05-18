@@ -18,5 +18,9 @@
 		"m3-core": "workspace:*",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
+	},
+	"dependencies": {
+		"@pandacss/dev": "0.53.6",
+		"m3-styled-system": "workspace:*"
 	}
 }

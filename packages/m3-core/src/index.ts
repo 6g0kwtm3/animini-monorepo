@@ -7,6 +7,55 @@ export function numberToString(n: number): string {
 	return String(n)
 }
 
+const ring = {
+	"--tw-shadow": { syntax: "*", inherits: false, "initialValue": "0 0 #0000" },
+	"--tw-shadow-color": { syntax: "*", inherits: false },
+	"--tw-shadow-alpha": {
+		syntax: "<percentage>",
+		inherits: false,
+		"initialValue": "100%",
+	},
+	"--tw-inset-shadow": {
+		syntax: "*",
+		inherits: false,
+		"initialValue": "0 0 #0000",
+	},
+	"--tw-inset-shadow-color": { syntax: "*", inherits: false },
+	"--tw-inset-shadow-alpha": {
+		syntax: "<percentage>",
+		inherits: false,
+		"initialValue": "100%",
+	},
+	"--tw-ring-color": { syntax: "*", inherits: false },
+	"--tw-ring-shadow": {
+		syntax: "*",
+		inherits: false,
+		"initialValue": "0 0 #0000",
+	},
+	"--tw-inset-ring-color": { syntax: "*", inherits: false },
+	"--tw-inset-ring-shadow": {
+		syntax: "*",
+		inherits: false,
+		"initialValue": "0 0 #0000",
+	},
+	"--tw-ring-inset": { syntax: "*", inherits: false },
+	"--tw-ring-offset-width": {
+		syntax: "<length>",
+		inherits: false,
+		"initialValue": "0px",
+	},
+	"--tw-ring-offset-color": {
+		syntax: "*",
+		inherits: false,
+		"initialValue": "#fff",
+	},
+	"--tw-ring-offset-shadow": {
+		syntax: "*",
+		inherits: false,
+		"initialValue": "0 0 #0000",
+	},
+}
+
 export const preset = definePreset({
 	name: "m3-core",
 	// Useful for theme customization
