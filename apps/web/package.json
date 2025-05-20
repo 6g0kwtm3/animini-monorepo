@@ -34,7 +34,7 @@
 		"@ariakit/react": "0.4.17",
 		"@hono/node-server": "1.14.2",
 		"@iconify-json/material-symbols": "1.2.21",
-		"@inlang/paraglide-js": "2.0.12",
+		"@inlang/paraglide-js": "2.0.13",
 		"@material/material-color-utilities": "0.3.0",
 		"@react-router/dev": "7.6.0",
 		"@react-router/node": "7.6.0",
