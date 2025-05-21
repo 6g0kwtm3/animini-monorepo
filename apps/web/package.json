@@ -40,7 +40,7 @@
 		"@react-router/node": "7.6.0",
 		"@sentry/react": "9.22.0",
 		"@sentry/toolbar": "1.0.0-beta.11",
-		"@sentry/vite-plugin": "3.4.0",
+		"@sentry/vite-plugin": "3.5.0",
 		"@svgr/core": "8.1.0",
 		"@svgr/plugin-jsx": "8.1.0",
 		"@tailwindcss/typography": "0.5.16",
