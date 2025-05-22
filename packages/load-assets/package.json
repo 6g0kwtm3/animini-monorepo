@@ -17,7 +17,7 @@
 		"react-router": "7.6.0"
 	},
 	"devDependencies": {
-		"@types/bun": "1.2.13",
+		"@types/bun": "1.2.14",
 		"eslint": "9.27.0",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "2.2.0",
