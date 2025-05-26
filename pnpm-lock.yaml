@@ -193,8 +193,8 @@ catalogs:
       specifier: 5.58.1
       version: 5.58.1
     marked:
-      specifier: 0.3.19
-      version: 0.3.19
+      specifier: 15.0.12
+      version: 15.0.12
     nodemon:
       specifier: 3.1.10
       version: 3.1.10
@@ -811,7 +811,7 @@ importers:
         version: 3.2.5
       marked:
         specifier: 'catalog:'
-        version: 0.3.19
+        version: 15.0.12
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -4129,9 +4129,9 @@ packages:
   map-or-similar@1.5.0:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
 
-  marked@0.3.19:
-    resolution: {integrity: sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==}
-    engines: {node: '>=0.10.0'}
+  marked@15.0.12:
+    resolution: {integrity: sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==}
+    engines: {node: '>= 18'}
     hasBin: true
 
   matcher@3.0.0:
@@ -9180,7 +9180,7 @@ snapshots:
 
   map-or-similar@1.5.0: {}
 
-  marked@0.3.19: {}
+  marked@15.0.12: {}
 
   matcher@3.0.0:
     dependencies:
