@@ -18,12 +18,12 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"eslint": "9.27.0",
+		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
-		"eslint-typegen": "2.2.0",
+		"eslint-typegen": "catalog:",
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
-		"tsx": "4.19.4",
-		"typescript": "5.8.3"
+		"tsx": "catalog:",
+		"typescript": "catalog:"
 	}
 }
