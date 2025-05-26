@@ -15,8 +15,8 @@
 		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
-		"@types/react": "19.1.5",
-		"react": "19.1.0"
+		"@types/react": "catalog:",
+		"react": "catalog:"
 	},
 	"dependencies": {
 		"@types/marked": "catalog:",

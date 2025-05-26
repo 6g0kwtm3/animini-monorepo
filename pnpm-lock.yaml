@@ -602,13 +602,13 @@ importers:
   packages/a:
     dependencies:
       '@types/react':
-        specifier: 19.1.5
+        specifier: 'catalog:'
         version: 19.1.5
       react:
-        specifier: 19.1.0
+        specifier: 'catalog:'
         version: 19.1.0
       react-router:
-        specifier: 7.6.0
+        specifier: 'catalog:'
         version: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       eslint:
@@ -678,7 +678,7 @@ importers:
   packages/eslint-plugin-relay:
     dependencies:
       graphql:
-        specifier: 16.11.0
+        specifier: 'catalog:'
         version: 16.11.0
     devDependencies:
       '@types/estree':
@@ -715,13 +715,13 @@ importers:
   packages/extra-outlet:
     dependencies:
       '@types/react':
-        specifier: 19.1.5
+        specifier: 'catalog:'
         version: 19.1.5
       react:
-        specifier: 19.1.0
+        specifier: 'catalog:'
         version: 19.1.0
       react-router:
-        specifier: 7.6.0
+        specifier: 'catalog:'
         version: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       eslint:
@@ -746,16 +746,16 @@ importers:
   packages/load-assets:
     dependencies:
       '@types/react':
-        specifier: 19.1.5
+        specifier: 'catalog:'
         version: 19.1.5
       markdown:
         specifier: workspace:*
         version: link:../markdown
       react:
-        specifier: 19.1.0
+        specifier: 'catalog:'
         version: 19.1.0
       react-router:
-        specifier: 7.6.0
+        specifier: 'catalog:'
         version: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/bun':
@@ -844,7 +844,7 @@ importers:
         specifier: 'catalog:'
         version: 0.3.0
       '@types/react':
-        specifier: 19.1.5
+        specifier: 'catalog:'
         version: 19.1.5
       dompurify:
         specifier: 'catalog:'
@@ -853,7 +853,7 @@ importers:
         specifier: 'catalog:'
         version: 0.3.19
       react:
-        specifier: 19.1.0
+        specifier: 'catalog:'
         version: 19.1.0
     devDependencies:
       eslint:
