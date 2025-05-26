@@ -15,15 +15,15 @@
 		"graphql": "16.11.0"
 	},
 	"devDependencies": {
-		"@types/estree": "1.0.7",
-		"@typescript-eslint/parser": "8.32.1",
-		"eslint": "9.27.0",
+		"@types/estree": "catalog:",
+		"@typescript-eslint/parser": "catalog:",
+		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
-		"eslint-typegen": "2.2.0",
-		"eslint-vitest-rule-tester": "2.2.0",
+		"eslint-typegen": "catalog:",
+		"eslint-vitest-rule-tester": "catalog:",
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
-		"tsx": "4.19.4",
-		"vitest": "3.1.4"
+		"tsx": "catalog:",
+		"vitest": "catalog:"
 	}
 }
