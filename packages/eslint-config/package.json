@@ -5,19 +5,19 @@
 	"version": "0.0.0",
 	"type": "module",
 	"dependencies": {
-		"@eslint/js": "9.27.0",
+		"@eslint/js": "catalog:",
 		"@stylexjs/eslint-plugin": "0.12.0",
 		"@stylexjs/stylex": "0.12.0",
-		"eslint": "9.27.0",
-		"eslint-plugin-oxlint": "0.16.12",
-		"eslint-plugin-react": "7.37.5",
+		"eslint": "catalog:",
+		"eslint-plugin-oxlint": "catalog:",
+		"eslint-plugin-react": "catalog:",
 		"eslint-plugin-react-compiler": "beta",
-		"eslint-plugin-react-hooks": "6.0.0-rc1",
-		"eslint-plugin-react-refresh": "0.4.20",
-		"eslint-plugin-turbo": "2.5.3",
-		"eslint-typegen": "2.2.0",
+		"eslint-plugin-react-hooks": "catalog:",
+		"eslint-plugin-react-refresh": "catalog:",
+		"eslint-plugin-turbo": "catalog:",
+		"eslint-typegen": "catalog:",
 		"oxlint-config": "workspace:*",
-		"typescript-eslint": "8.32.1"
+		"typescript-eslint": "catalog:"
 	},
 	"exports": {
 		"./base": {
