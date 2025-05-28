@@ -94,8 +94,8 @@ catalogs:
       specifier: 1.0.7
       version: 1.0.7
     '@types/marked':
-      specifier: 0.3.0
-      version: 0.3.0
+      specifier: 0.7.4
+      version: 0.7.4
     '@types/node':
       specifier: 22.15.23
       version: 22.15.23
@@ -193,8 +193,8 @@ catalogs:
       specifier: 5.58.1
       version: 5.58.1
     marked:
-      specifier: 0.3.19
-      version: 0.3.19
+      specifier: 0.8.2
+      version: 0.8.2
     nodemon:
       specifier: 3.1.10
       version: 3.1.10
@@ -802,7 +802,7 @@ importers:
     dependencies:
       '@types/marked':
         specifier: 'catalog:'
-        version: 0.3.0
+        version: 0.7.4
       '@types/react':
         specifier: 'catalog:'
         version: 19.1.6
@@ -811,7 +811,7 @@ importers:
         version: 3.2.5
       marked:
         specifier: 'catalog:'
-        version: 0.3.19
+        version: 0.8.2
       react:
         specifier: 'catalog:'
         version: 19.1.0
@@ -2464,8 +2464,8 @@ packages:
   '@types/keyv@3.1.4':
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
 
-  '@types/marked@0.3.0':
-    resolution: {integrity: sha512-CSf9YWJdX1DkTNu9zcNtdCcn6hkRtB5ILjbhRId4ZOQqx30fXmdecuaXhugQL6eyrhuXtaHJ7PHI+Vm7k9ZJjg==}
+  '@types/marked@0.7.4':
+    resolution: {integrity: sha512-fdg0NO4qpuHWtZk6dASgsrBggY+8N4dWthl1bAQG9ceKUNKFjqpHaDKCAhRUI6y8vavG7hLSJ4YBwJtZyZEXqw==}
 
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
@@ -4132,9 +4132,9 @@ packages:
   map-or-similar@1.5.0:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
 
-  marked@0.3.19:
-    resolution: {integrity: sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==}
-    engines: {node: '>=0.10.0'}
+  marked@0.8.2:
+    resolution: {integrity: sha512-EGwzEeCcLniFX51DhTpmTom+dSA/MG/OBUDjnWtHbEnjAH180VzUeAw+oE4+Zv+CoYBWyRlYOTR0N8SO9R1PVw==}
+    engines: {node: '>= 8.16.2'}
     hasBin: true
 
   matcher@3.0.0:
@@ -7341,7 +7341,7 @@ snapshots:
     dependencies:
       '@types/node': 22.15.21
 
-  '@types/marked@0.3.0': {}
+  '@types/marked@0.7.4': {}
 
   '@types/mdx@2.0.13': {}
 
@@ -9187,7 +9187,7 @@ snapshots:
 
   map-or-similar@1.5.0: {}
 
-  marked@0.3.19: {}
+  marked@0.8.2: {}
 
   matcher@3.0.0:
     dependencies:
