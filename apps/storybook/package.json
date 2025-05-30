@@ -1,46 +1,43 @@
 {
-	"$schema": "https://json.schemastore.org/package.json",
-	"name": "storybook",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "storybook dev -p 6006",
-		"build": "storybook build",
-		"build-storybook": "storybook build",
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix",
-		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
-		"load-assets": "bun bin/loadAssets.ts"
-	},
-	"dependencies": {
-		"load-assets": "workspace:*",
-		"markdown": "workspace:*"
-	},
-	"devDependencies": {
-		"@chromatic-com/storybook": "catalog:",
-		"@storybook/addon-a11y": "catalog:",
-		"@storybook/addon-essentials": "catalog:",
-		"@storybook/addon-onboarding": "catalog:",
-		"@storybook/addon-themes": "catalog:",
-		"@storybook/experimental-addon-test": "catalog:",
-		"@storybook/react": "catalog:",
-		"@storybook/react-vite": "catalog:",
-		"@storybook/test": "catalog:",
-		"@types/prop-types": "catalog:",
-		"@types/react": "catalog:",
-		"csstype": "catalog:",
-		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-plugin-storybook": "catalog:",
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*",
-		"prop-types": "catalog:",
-		"react": "catalog:",
-		"storybook": "catalog:",
-		"ts-config": "workspace:*",
-		"tsx": "catalog:",
-		"unplugin-icons": "catalog:",
-		"vite": "catalog:"
-	}
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "storybook",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "build-storybook": "storybook build",
+    "eslint-typegen": "node --import=tsx eslint.config.ts",
+    "lint": "eslint --cache . --fix",
+    "oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
+    "load-assets": "bun bin/loadAssets.ts"
+  },
+  "dependencies": {
+    "load-assets": "workspace:*",
+    "markdown": "workspace:*"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "4.0.0-next.16",
+    "@storybook/addon-a11y": "9.1.0-alpha.1",
+    "@storybook/addon-onboarding": "9.1.0-alpha.1",
+    "@storybook/addon-themes": "9.1.0-alpha.1",
+    "@storybook/addon-vitest": "9.1.0-alpha.1",
+    "@storybook/react-vite": "9.1.0-alpha.1",
+    "@types/prop-types": "catalog:",
+    "@types/react": "catalog:",
+    "csstype": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config": "workspace:*",
+    "eslint-plugin-storybook": "9.1.0-alpha.1",
+    "eslint-typegen": "catalog:",
+    "oxlint-config": "workspace:*",
+    "prop-types": "catalog:",
+    "react": "catalog:",
+    "storybook": "9.1.0-alpha.1",
+    "ts-config": "workspace:*",
+    "tsx": "catalog:",
+    "unplugin-icons": "catalog:",
+    "vite": "catalog:"
+  }
 }
