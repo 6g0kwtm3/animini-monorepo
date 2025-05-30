@@ -291,6 +291,9 @@ importers:
       '@storybook/addon-a11y':
         specifier: 9.1.0-alpha.1
         version: 9.1.0-alpha.1(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))
+      '@storybook/addon-docs':
+        specifier: 9.1.0-alpha.1
+        version: 9.1.0-alpha.1(@types/react@19.1.6)(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))
       '@storybook/addon-onboarding':
         specifier: 9.1.0-alpha.1
         version: 9.1.0-alpha.1(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))
@@ -1606,6 +1609,12 @@ packages:
   '@material/material-color-utilities@0.3.0':
     resolution: {integrity: sha512-ztmtTd6xwnuh2/xu+Vb01btgV8SQWYCaK56CkRK8gEkWe5TuDyBcYJ0wgkMRn+2VcE9KUmhvkz+N9GHrqw/C0g==}
 
+  '@mdx-js/react@3.1.0':
+    resolution: {integrity: sha512-QjHtSaoameoalGnKDT3FoIl4+9RwyTmo9ZJGBdLOks/YOiWHoRDI3PUwEzOE7kEmGcV3AFcp9K6dYu9rEuKLAQ==}
+    peerDependencies:
+      '@types/react': '>=16'
+      react: '>=16'
+
   '@mjackson/node-fetch-server@0.2.0':
     resolution: {integrity: sha512-EMlH1e30yzmTpGLQjlFmaDAjyOeZhng1/XCd7DExR8PNAnG/G1tyruZxEoUe11ClnwGhGrtsdnyyUx1frSzjng==}
 
@@ -2012,6 +2021,11 @@ packages:
     peerDependencies:
       storybook: ^9.1.0-alpha.1
 
+  '@storybook/addon-docs@9.1.0-alpha.1':
+    resolution: {integrity: sha512-l8M2G+EBKmGImfmpHpADhaRBjJM7nVZozOws1hpdBgIZbfDp/Rg3rhkJWw4xI0lBAe8Mpfp1XjchES+WIUiOSA==}
+    peerDependencies:
+      storybook: ^9.1.0-alpha.1
+
   '@storybook/addon-onboarding@9.1.0-alpha.1':
     resolution: {integrity: sha512-WwnaY2ro/rtEl95Z99eIkYtCKMWrUs+yuXZFAQrSgyXuC1qfENdeE5PIMcql7yUg4cS1nckYiB05htowMKpuSQ==}
     peerDependencies:
@@ -2311,6 +2325,9 @@ packages:
 
   '@types/marked@0.3.0':
     resolution: {integrity: sha512-CSf9YWJdX1DkTNu9zcNtdCcn6hkRtB5ILjbhRId4ZOQqx30fXmdecuaXhugQL6eyrhuXtaHJ7PHI+Vm7k9ZJjg==}
+
+  '@types/mdx@2.0.13':
+    resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
 
   '@types/node@22.15.29':
     resolution: {integrity: sha512-LNdjOkUDlU1RZb8e1kOIUpN1qQUlzGkEtbVNo53vbrwDg5om6oduhm4SiUaPW5ASTXhAiP0jInWG8Qx9fVlOeQ==}
@@ -6303,6 +6320,12 @@ snapshots:
 
   '@material/material-color-utilities@0.3.0': {}
 
+  '@mdx-js/react@3.1.0(@types/react@19.1.6)(react@19.1.0)':
+    dependencies:
+      '@types/mdx': 2.0.13
+      '@types/react': 19.1.6
+      react: 19.1.0
+
   '@mjackson/node-fetch-server@0.2.0': {}
 
   '@napi-rs/wasm-runtime@0.2.10':
@@ -6679,6 +6702,19 @@ snapshots:
       axe-core: 4.10.3
       storybook: 9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3)
 
+  '@storybook/addon-docs@9.1.0-alpha.1(@types/react@19.1.6)(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))':
+    dependencies:
+      '@mdx-js/react': 3.1.0(@types/react@19.1.6)(react@19.1.0)
+      '@storybook/csf-plugin': 9.1.0-alpha.1(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))
+      '@storybook/icons': 1.4.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@storybook/react-dom-shim': 9.1.0-alpha.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      storybook: 9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3)
+      ts-dedent: 2.2.0
+    transitivePeerDependencies:
+      - '@types/react'
+
   '@storybook/addon-onboarding@9.1.0-alpha.1(storybook@9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3))':
     dependencies:
       storybook: 9.1.0-alpha.1(@testing-library/dom@10.4.0)(prettier@3.5.3)
@@ -6992,6 +7028,8 @@ snapshots:
       '@types/node': 22.15.29
 
   '@types/marked@0.3.0': {}
+
+  '@types/mdx@2.0.13': {}
 
   '@types/node@22.15.29':
     dependencies:
