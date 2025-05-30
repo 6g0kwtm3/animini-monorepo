@@ -1,5 +1,5 @@
 import type { StoryObj } from "@storybook/react"
-import { fn } from "@storybook/test"
+import { fn } from "storybook/test"
 
 import { Button } from "m3-react/Button"
 
