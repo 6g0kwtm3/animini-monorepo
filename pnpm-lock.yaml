@@ -106,8 +106,8 @@ catalogs:
       specifier: 18.2.1
       version: 18.2.1
     '@types/relay-runtime':
-      specifier: 19.0.1
-      version: 19.0.1
+      specifier: 19.0.2
+      version: 19.0.2
     '@typescript-eslint/parser':
       specifier: 8.33.0
       version: 8.33.0
@@ -434,7 +434,7 @@ importers:
         version: 18.2.1
       '@types/relay-runtime':
         specifier: 'catalog:'
-        version: 19.0.1
+        version: 19.0.2
       a:
         specifier: workspace:*
         version: link:../../packages/a
@@ -2376,8 +2376,8 @@ packages:
   '@types/react@19.1.6':
     resolution: {integrity: sha512-JeG0rEWak0N6Itr6QUx+X60uQmN+5t3j9r/OVDtWzFXKaj6kD1BwJzOksD0FF6iWxZlbE1kB0q9vtnU2ekqa1Q==}
 
-  '@types/relay-runtime@19.0.1':
-    resolution: {integrity: sha512-CL+qytiGVqWDi3mLSKpwxnTFQbVq0Z0ejWWeutquqnNfSxwxN0p+FyoG6lb2ZIjzxBJazdLW2iX4NGAKS1LM0Q==}
+  '@types/relay-runtime@19.0.2':
+    resolution: {integrity: sha512-lcWb+/7cPG21UgtK/fdpt8QgtV2GYc8TQIusZUBL1k2oy+8oNwYQAAj0/j1pkg77sk/p5MQPQZYOWN9i8wpUhg==}
 
   '@types/resolve@1.20.6':
     resolution: {integrity: sha512-A4STmOXPhMUtHH+S6ymgE2GiBSMqf4oTvcQZMcHzokuTLVYzXTB8ttjcgxOVaAp2lGwEdzZ0J+cRbbeevQj1UQ==}
@@ -7048,13 +7048,13 @@ snapshots:
   '@types/react-relay@18.2.1':
     dependencies:
       '@types/react': 19.1.6
-      '@types/relay-runtime': 19.0.1
+      '@types/relay-runtime': 19.0.2
 
   '@types/react@19.1.6':
     dependencies:
       csstype: 3.1.3
 
-  '@types/relay-runtime@19.0.1': {}
+  '@types/relay-runtime@19.0.2': {}
 
   '@types/resolve@1.20.6': {}
 
