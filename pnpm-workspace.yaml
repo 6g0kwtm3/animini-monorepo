@@ -37,7 +37,7 @@ catalog:
   "@types/react": 19.1.6
   "@types/react-dom": 19.1.5
   "@types/react-relay": 18.2.1
-  "@types/relay-runtime": 19.0.2
+  "@types/relay-runtime": 19.0.1
   "@typescript-eslint/parser": 8.33.0
   anitomy: 0.0.35
   arktype: 2.1.20
@@ -63,7 +63,7 @@ catalog:
   graphql-config: 5.1.5
   hono: 4.7.10
   isbot: 5.1.28
-  knip: 5.58.1
+  knip: 5.59.1
   marked: 0.3.19
   nodemon: 3.1.10
   oxlint: 0.16.12
