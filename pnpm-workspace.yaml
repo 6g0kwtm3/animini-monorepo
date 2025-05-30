@@ -52,7 +52,7 @@ catalog:
   electron: 35.2.2
   electron-devtools-installer: 4.0.0
   eslint: 9.27.0
-  eslint-plugin-oxlint: 0.16.12
+  eslint-plugin-oxlint: 0.17.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-hooks: 6.0.0-rc1
   eslint-plugin-react-refresh: 0.4.20
@@ -68,7 +68,7 @@ catalog:
   knip: 5.58.1
   marked: 0.3.19
   nodemon: 3.1.10
-  oxlint: 0.16.12
+  oxlint: 0.17.0
   prettier: 3.5.3
   prettier-plugin-tailwindcss: 0.6.11
   prop-types: 15.8.1
