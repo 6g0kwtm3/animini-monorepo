@@ -12,8 +12,8 @@ catalog:
   "@inlang/paraglide-js": 2.0.13
   "@material/material-color-utilities": 0.3.0
   "@playwright/test": 1.52.0
-  "@react-router/dev": 7.6.0
-  "@react-router/node": 7.6.0
+  "@react-router/dev": 7.6.1
+  "@react-router/node": 7.6.1
   "@sentry/react": 9.22.0
   "@sentry/toolbar": 1.0.0-beta.11
   "@sentry/vite-plugin": 3.5.0
@@ -73,7 +73,7 @@ catalog:
   react: 19.1.0
   react-dom: 19.1.0
   react-relay: 19.0.0
-  react-router: 7.6.0
+  react-router: 7.6.1
   relay-compiler: 19.0.0
   relay-runtime: 19.0.0
   storybook: 8.6.14
