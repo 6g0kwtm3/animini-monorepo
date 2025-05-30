@@ -7,7 +7,7 @@ import * as storybook from "eslint-plugin-storybook"
 import typegen from "eslint-typegen"
 
 declare module "eslint-plugin-storybook" {
-	export const configs: { ["flat/recommended"]: Linter.Config[] }
+	export const configs: { "flat/recommended": Linter.Config[] }
 }
 
 export default typegen([
