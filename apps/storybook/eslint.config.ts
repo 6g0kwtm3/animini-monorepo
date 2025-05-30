@@ -1,14 +1,14 @@
 // @ts-check
 /// <reference path="./eslint-typegen.d.ts" />
-import type { Linter } from "eslint"
 import base from "eslint-config/base"
 import react from "eslint-config/react"
-import * as storybook from "eslint-plugin-storybook"
 import typegen from "eslint-typegen"
+import { createRequire } from "node:module"
 
-declare module "eslint-plugin-storybook" {
-	export const configs: { "flat/recommended": Linter.Config[] }
-}
+const require = createRequire(import.meta.url)
+
+const storybook =
+	require("eslint-plugin-storybook") as typeof import("eslint-plugin-storybook").default
 
 export default typegen([
 	{ ignores: ["storybook-static/"] },
