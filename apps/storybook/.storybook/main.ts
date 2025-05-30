@@ -22,6 +22,14 @@ const config = {
 
 export default config
 
+<<<<<<< ours
+function getAbsolutePath(value: string): string {
+    return dirname(require.resolve(join(value, "package.json")));
+||||||| ancestor
+function getAbsolutePath(value: string): any {
+    return dirname(require.resolve(join(value, "package.json")));
+=======
 function getAbsolutePath(value: string): any {
 	return dirname(require.resolve(join(value, "package.json")))
+>>>>>>> theirs
 }
