@@ -70,7 +70,7 @@
 		"tailwind-variants": "catalog:",
 		"tailwindcss": "catalog:",
 		"unplugin-icons": "catalog:",
-		"vite": "catalog:",
+		"vite": "catalog:experimental",
 		"vite-plugin-relay": "catalog:",
 		"vite-tsconfig-paths": "catalog:"
 	},
