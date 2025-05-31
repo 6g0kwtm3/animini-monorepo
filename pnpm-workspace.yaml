@@ -5,7 +5,7 @@ catalog:
   "@ariakit/react": 0.4.17
   "@babel/preset-typescript": 7.27.1
   "@chromatic-com/storybook": 4.0.0
-  "@eslint/js": 9.27.0
+  "@eslint/js": 9.28.0
   "@graphql-eslint/eslint-plugin": 4.4.0
   "@hono/node-server": 1.14.3
   "@iconify-json/material-symbols": 1.2.23
@@ -24,13 +24,13 @@ catalog:
   "@storybook/addon-themes": 9.1.0-alpha.1
   "@storybook/addon-vitest": 9.1.0-alpha.1
   "@storybook/experimental-addon-test": 8.6.14
-  "@storybook/react": 8.6.14
+  "@storybook/react": 9.0.1
   "@storybook/react-vite": 9.1.0-alpha.1
   "@storybook/test": 8.6.14
   "@svgr/core": 8.1.0
   "@svgr/plugin-jsx": 8.1.0
   "@tailwindcss/typography": 0.5.16
-  "@tailwindcss/vite": 4.1.7
+  "@tailwindcss/vite": 4.1.8
   "@types/bun": 1.2.15
   "@types/estree": 1.0.7
   "@types/marked": 0.3.0
@@ -51,13 +51,13 @@ catalog:
   dotenv: 16.5.0
   electron: 35.2.2
   electron-devtools-installer: 4.0.0
-  eslint: 9.27.0
+  eslint: 9.28.0
   eslint-plugin-oxlint: 0.17.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-hooks: 6.0.0-rc1
   eslint-plugin-react-refresh: 0.4.20
   eslint-plugin-storybook: 9.1.0-alpha.1
-  eslint-plugin-turbo: 2.5.3
+  eslint-plugin-turbo: 2.5.4
   eslint-typegen: 2.2.0
   eslint-vitest-rule-tester: 2.2.0
   framer-motion: 12.15.0
@@ -80,9 +80,9 @@ catalog:
   relay-runtime: 19.0.0
   storybook: 9.1.0-alpha.1
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
-  tailwindcss: 4.1.7
+  tailwindcss: 4.1.8
   tsx: 4.19.4
-  turbo: 2.5.3
+  turbo: 2.5.4
   typescript: 5.8.3
   typescript-eslint: 8.33.0
   unplugin-icons: 22.1.0
