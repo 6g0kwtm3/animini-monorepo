@@ -8,5 +8,5 @@ interface LinkProps extends Omit<ComponentProps<typeof MemoLink>, "to"> {
 }
 
 export function A({ href, ...props }: LinkProps) {
-	return <MemoLink {...props} to={href} />
+	return <MemoLink prefetch="intent" {...props} to={href} />
 }
