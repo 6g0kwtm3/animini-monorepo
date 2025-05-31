@@ -33,7 +33,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Build
         run: pnpm exec turbo web#build
@@ -62,7 +62,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Build
         run: pnpm exec turbo web#build
@@ -88,7 +88,7 @@ jobs:
   #     cache: "pnpm"
 
   #     - name: Install dependencies 📦
-  #       run: pnpm install --frozen-lockfile
+  #       run: pnpm install --frozen-lockfile --prefer-offline
 
   #     - name: Await CF Pages
   #       uses: WalshyDev/cf-pages-await@v1
@@ -120,7 +120,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Typecheck
         run: pnpm -w check
@@ -141,7 +141,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Relay
         run: pnpm exec turbo relay router paraglide
@@ -165,7 +165,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Boundaries
         run: pnpm -w boundaries
@@ -199,7 +199,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Test
         run: pnpm exec turbo test
