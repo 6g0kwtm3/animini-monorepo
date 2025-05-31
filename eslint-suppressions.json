@@ -1,0 +1,5 @@
+{
+	"pnpm-workspace.yaml": {
+		"pnpm/yaml-no-duplicate-catalog-item": { "count": 1 }
+	}
+}
