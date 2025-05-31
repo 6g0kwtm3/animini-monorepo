@@ -6,6 +6,8 @@
 	"type": "module",
 	"dependencies": {
 		"@eslint/js": "catalog:",
+		"@stylexjs/eslint-plugin": "0.12.0",
+		"@stylexjs/stylex": "0.12.0",
 		"eslint": "catalog:",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
@@ -17,7 +19,6 @@
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "catalog:"
 	},
-	"devDependencies": {},
 	"exports": {
 		"./base": {
 			"types": "./types.d.ts",
