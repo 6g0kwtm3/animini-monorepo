@@ -22,8 +22,13 @@
 			"inputs": ["eslint.config.ts"],
 			"outputs": ["eslint-typegen.d.ts"]
 		},
+		"//#eslint-typegen": {
+			"inputs": ["eslint.config.ts"],
+			"outputs": ["eslint-typegen.d.ts"]
+		},
 		"oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
+		"//#lint": {},
 		"//#format": {},
 		"//#knip": {},
 		"//#test": {}

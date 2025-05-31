@@ -44,12 +44,8 @@ jobs:
           node-version-file: package.json
           cache: "pnpm"
 
-      - name: Catalog
-        if: ${{ !cancelled() }}
-        run: pnpx codemod pnpm/catalog
-
       - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile=false
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         if: ${{ !cancelled() }}

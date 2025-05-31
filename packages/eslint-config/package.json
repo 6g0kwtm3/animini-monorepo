@@ -9,7 +9,7 @@
 		"eslint": "catalog:",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
-		"eslint-plugin-react-compiler": "beta",
+		"eslint-plugin-react-compiler": "catalog:",
 		"eslint-plugin-react-hooks": "catalog:",
 		"eslint-plugin-react-refresh": "catalog:",
 		"eslint-plugin-turbo": "catalog:",
