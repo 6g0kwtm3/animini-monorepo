@@ -426,7 +426,7 @@ importers:
         version: 0.5.16(tailwindcss@4.1.8)
       '@tailwindcss/vite':
         specifier: 'catalog:'
-        version: 4.1.7(rolldown-vite@6.3.14(@types/node@22.15.29)(esbuild@0.25.4)(jiti@2.4.2)(tsx@4.19.4))
+        version: 4.1.8(rolldown-vite@6.3.14(@types/node@22.15.29)(esbuild@0.25.4)(jiti@2.4.2)(tsx@4.19.4))
       '@types/react':
         specifier: 'catalog:'
         version: 19.1.6
@@ -7176,11 +7176,11 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.1.8
 
-  '@tailwindcss/vite@4.1.7(rolldown-vite@6.3.14(@types/node@22.15.29)(esbuild@0.25.4)(jiti@2.4.2)(tsx@4.19.4))':
+  '@tailwindcss/vite@4.1.8(rolldown-vite@6.3.14(@types/node@22.15.29)(esbuild@0.25.4)(jiti@2.4.2)(tsx@4.19.4))':
     dependencies:
-      '@tailwindcss/node': 4.1.7
-      '@tailwindcss/oxide': 4.1.7
-      tailwindcss: 4.1.7
+      '@tailwindcss/node': 4.1.8
+      '@tailwindcss/oxide': 4.1.8
+      tailwindcss: 4.1.8
       vite: rolldown-vite@6.3.14(@types/node@22.15.29)(esbuild@0.25.4)(jiti@2.4.2)(tsx@4.19.4)
 
   '@testing-library/dom@10.4.0':
