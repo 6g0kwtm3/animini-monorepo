@@ -24,7 +24,7 @@ catalog:
   "@storybook/addon-themes": 9.1.0-alpha.1
   "@storybook/addon-vitest": 9.1.0-alpha.1
   "@storybook/experimental-addon-test": 8.6.14
-  "@storybook/react": 9.0.1
+  "@storybook/react": 9.0.2
   "@storybook/react-vite": 9.1.0-alpha.1
   "@storybook/test": 8.6.14
   "@svgr/core": 8.1.0
