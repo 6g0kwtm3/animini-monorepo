@@ -136,8 +136,8 @@ catalogs:
       specifier: 16.5.0
       version: 16.5.0
     electron:
-      specifier: 35.2.2
-      version: 35.2.2
+      specifier: 35.5.1
+      version: 35.5.1
     electron-devtools-installer:
       specifier: 4.0.0
       version: 4.0.0
@@ -471,7 +471,7 @@ importers:
         version: 1.0.2
       electron:
         specifier: 'catalog:'
-        version: 35.2.2
+        version: 35.5.1
       electron-devtools-installer:
         specifier: 'catalog:'
         version: 4.0.0
@@ -3372,8 +3372,8 @@ packages:
   electron-to-chromium@1.5.161:
     resolution: {integrity: sha512-hwtetwfKNZo/UlwHIVBlKZVdy7o8bIZxxKs0Mv/ROPiQQQmDgdm5a+KvKtBsxM8ZjFzTaCeLoodZ8jiBE3o9rA==}
 
-  electron@35.2.2:
-    resolution: {integrity: sha512-jZnCOtIgrt28esWP5z/PKndj/vPQ/Zt+cvNRlb/qOGnK/AjW1mASwPMtQ099NlSodf69RR3JrhnZCYbTWeDR4g==}
+  electron@35.5.1:
+    resolution: {integrity: sha512-kkbGXz56safvXcxqAZyMS2nJGYK9NFG/iKOJsAO5e0HPH8y3EnV4Fi87tvbfFpeLiaruFS+eN0YFy6f1StpSgQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -8396,7 +8396,7 @@ snapshots:
 
   electron-to-chromium@1.5.161: {}
 
-  electron@35.2.2:
+  electron@35.5.1:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.15.29
