@@ -7,7 +7,7 @@ catalog:
   "@chromatic-com/storybook": 4.0.0
   "@eslint/js": 9.28.0
   "@graphql-eslint/eslint-plugin": 4.4.0
-  "@hono/node-server": 1.14.3
+  "@hono/node-server": 1.14.4
   "@iconify-json/material-symbols": 1.2.24
   "@inlang/paraglide-js": 2.0.13
   "@material/material-color-utilities": 0.3.0
