@@ -155,11 +155,11 @@ export const rule: Rule.RuleModule = {
 
 		return {
 			"Program:exit"(_node) {
-				const fragmentsInTheSameModule: string[] = []
+				const fragmentsInTheSameModule = new Set<string>()
 				graphqlLiterals.forEach(({ graphQLAst }) => {
 					const fragmentName = getGraphQLFragmentDefinitionName(graphQLAst)
 					if (fragmentName) {
-						fragmentsInTheSameModule.push(fragmentName)
+						fragmentsInTheSameModule.add(fragmentName)
 					}
 				})
 				graphqlLiterals.forEach(({ node, graphQLAst }) => {
@@ -171,7 +171,7 @@ export const rule: Rule.RuleModule = {
 						if (
 							queriedFragments[fragment]
 							&& !matchedModuleName
-							&& !fragmentsInTheSameModule.includes(fragment)
+							&& !fragmentsInTheSameModule.has(fragment)
 						) {
 							context.report({
 								node,
