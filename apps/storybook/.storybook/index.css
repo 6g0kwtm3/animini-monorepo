@@ -1,3 +1,25 @@
 @layer base;
 @import "tailwindcss/preflight.css" layer(base);
 @stylex;
+
+@layer base {
+	button {
+		cursor: unset;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		[data-focus-visible],
+		:focus-visible {
+			outline-color: rgb(var(--primary) / 1);
+			outline-style: var(--tw-outline-style);
+			outline-width: 3px;
+			outline-offset: calc(3px * -1);
+		}
+	}
+}
+
+@property --tw-outline-style {
+	syntax: "*";
+	inherits: false;
+	initial-value: solid;
+}

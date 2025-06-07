@@ -86,10 +86,11 @@ export default await typegen([
 	{
 		plugins: { "@stylexjs": stylexjs },
 		rules: {
+			"@stylexjs/no-legacy-contextual-styles": "error",
 			"@stylexjs/valid-styles": "error",
 			"@stylexjs/no-unused": "error",
 			"@stylexjs/valid-shorthands": "warn",
-			"@stylexjs/sort-keys": "off",
+			"@stylexjs/sort-keys": "error",
 		},
 	},
 	{

@@ -6,8 +6,8 @@
 	"type": "module",
 	"dependencies": {
 		"@eslint/js": "catalog:",
-		"@stylexjs/eslint-plugin": "0.12.0",
-		"@stylexjs/stylex": "0.12.0",
+		"@stylexjs/eslint-plugin": "catalog:",
+		"@stylexjs/stylex": "catalog:",
 		"eslint": "catalog:",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",

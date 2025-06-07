@@ -7,7 +7,7 @@
 		"allowJs": true,
 		"resolveJsonModule": true,
 		"moduleDetection": "force",
-		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
 		// strictness
 		"strict": true,
 		"noUncheckedIndexedAccess": true,
