@@ -85,8 +85,8 @@ catalogs:
       specifier: 1.2.15
       version: 1.2.15
     '@types/estree':
-      specifier: 1.0.7
-      version: 1.0.7
+      specifier: 1.0.8
+      version: 1.0.8
     '@types/marked':
       specifier: 0.3.0
       version: 0.3.0
@@ -663,7 +663,7 @@ importers:
     devDependencies:
       '@types/estree':
         specifier: 'catalog:'
-        version: 1.0.7
+        version: 1.0.8
       '@typescript-eslint/parser':
         specifier: 'catalog:'
         version: 8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
@@ -2628,6 +2628,9 @@ packages:
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
+
+  '@types/estree@1.0.8':
+    resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
@@ -7590,10 +7593,12 @@ snapshots:
 
   '@types/eslint@9.6.1':
     dependencies:
-      '@types/estree': 1.0.7
+      '@types/estree': 1.0.8
       '@types/json-schema': 7.0.15
 
   '@types/estree@1.0.7': {}
+
+  '@types/estree@1.0.8': {}
 
   '@types/http-cache-semantics@4.0.4': {}
 
@@ -8777,7 +8782,7 @@ snapshots:
 
   estree-walker@3.0.3:
     dependencies:
-      '@types/estree': 1.0.7
+      '@types/estree': 1.0.8
 
   esutils@2.0.3: {}
 
