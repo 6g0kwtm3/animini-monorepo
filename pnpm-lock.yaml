@@ -72,6 +72,9 @@ catalogs:
     '@stryker-mutator/api':
       specifier: 9.0.1
       version: 9.0.1
+    '@stryker-mutator/core':
+      specifier: 9.0.1
+      version: 9.0.1
     '@stryker-mutator/vitest-runner':
       specifier: 9.0.1
       version: 9.0.1
@@ -297,6 +300,9 @@ importers:
       '@stryker-mutator/api':
         specifier: 'catalog:'
         version: 9.0.1
+      '@stryker-mutator/core':
+        specifier: 'catalog:'
+        version: 9.0.1(@types/node@22.15.30)
       '@stryker-mutator/vitest-runner':
         specifier: 'catalog:'
         version: 9.0.1(@stryker-mutator/core@9.0.1(@types/node@22.15.30))(vitest@3.2.2(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(tsx@4.19.4)(yaml@2.8.0))
