@@ -13,7 +13,7 @@
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"@types/react": "19.1.4",
+		"@types/react": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-config-react": "workspace:*",
@@ -22,8 +22,8 @@
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
 	},
-	"dependencies": {
-		"@ariakit/react": "0.4.17",
-		"@stylexjs/stylex": "0.12.0"
+	"peerDependencies": {
+		"@ariakit/react": "catalog:",
+		"@stylexjs/stylex": "catalog:"
 	}
 }
