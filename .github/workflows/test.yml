@@ -240,6 +240,6 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Coverage
-        run: pnpm -w stryker
+        run: pnpm exec turbo stryker
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_KEY }}
