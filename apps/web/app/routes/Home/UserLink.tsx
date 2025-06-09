@@ -111,7 +111,7 @@ function UserCard(props: { userName: string }) {
 						&& rootData.Viewer.name !== props.userName && (
 							<follow.Form
 								method="post"
-								action={`/user/${numberToString(data.User.id)}/follow`}
+								action={`/follow/${numberToString(data.User.id)}`}
 							>
 								<input
 									type="hidden"
