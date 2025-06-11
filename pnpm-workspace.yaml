@@ -83,7 +83,7 @@ catalog:
   stryker-cli: 1.0.2
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.1.8
-  tsx: 4.19.4
+  tsx: 4.20.0
   turbo: 2.5.4
   typescript: 5.8.3
   typescript-eslint: 8.34.0
