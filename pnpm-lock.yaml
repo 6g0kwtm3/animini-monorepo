@@ -28,8 +28,8 @@ catalogs:
       specifier: 1.2.25
       version: 1.2.25
     '@inlang/paraglide-js':
-      specifier: 2.0.13
-      version: 2.0.13
+      specifier: 2.1.0
+      version: 2.1.0
     '@material/material-color-utilities':
       specifier: 0.3.0
       version: 0.3.0
@@ -438,7 +438,7 @@ importers:
         version: 1.2.25
       '@inlang/paraglide-js':
         specifier: 'catalog:'
-        version: 2.0.13
+        version: 2.1.0
       '@material/material-color-utilities':
         specifier: 'catalog:'
         version: 0.3.0
@@ -1788,15 +1788,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@inlang/paraglide-js@2.0.13':
-    resolution: {integrity: sha512-8tccsLzGa9uw0rufFqbHSM6GDF8+X1BgfBOyjG7PweBF2zGhN5fMu/nVNbsZiVKpXyR7lcfMxajIBwKhZ/zGKw==}
+  '@inlang/paraglide-js@2.1.0':
+    resolution: {integrity: sha512-hpj5AglQphR91IH2qXPRp78fTkRVdhlNl09rZZBTtB18fcmJpCScDFckUEaR0UhOARySd4SiH/7/GbVenFcrbQ==}
     hasBin: true
 
   '@inlang/recommend-sherlock@0.2.1':
     resolution: {integrity: sha512-ckv8HvHy/iTqaVAEKrr+gnl+p3XFNwe5D2+6w6wJk2ORV2XkcRkKOJ/XsTUJbPSiyi4PI+p+T3bqbmNx/rDUlg==}
 
-  '@inlang/sdk@2.4.8':
-    resolution: {integrity: sha512-tyXNe/5+1Vn/eDt3mVklVjZh5qxFwqdF9+hdB6wRUCexVRw6w/w854TIRFrHuaAwFq/0N/ij/yXzll9oScAB+Q==}
+  '@inlang/sdk@2.4.9':
+    resolution: {integrity: sha512-cvz/C1rF5WBxzHbEoiBoI6Sz6q6M+TdxfWkEGBYTD77opY8i8WN01prUWXEM87GPF4SZcyIySez9U0Ccm12oFQ==}
     engines: {node: '>=18.0.0'}
 
   '@inquirer/checkbox@4.1.8':
@@ -7250,10 +7250,10 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inlang/paraglide-js@2.0.13':
+  '@inlang/paraglide-js@2.1.0':
     dependencies:
       '@inlang/recommend-sherlock': 0.2.1
-      '@inlang/sdk': 2.4.8
+      '@inlang/sdk': 2.4.9
       commander: 11.1.0
       consola: 3.4.0
       json5: 2.2.3
@@ -7266,7 +7266,7 @@ snapshots:
     dependencies:
       comment-json: 4.2.5
 
-  '@inlang/sdk@2.4.8':
+  '@inlang/sdk@2.4.9':
     dependencies:
       '@lix-js/sdk': 0.4.7
       '@sinclair/typebox': 0.31.28
