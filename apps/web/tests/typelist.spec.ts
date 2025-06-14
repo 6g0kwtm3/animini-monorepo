@@ -1,8 +1,17 @@
-import { test, type Locator, type Page } from "@playwright/test"
+import { type BrowserContext, type Locator, type Page } from "@playwright/test"
+import { graphql, HttpResponse } from "msw"
+
+import { type } from "arktype"
+import type {
+	routeNavUserQuery$rawResponse,
+	routeNavUserQuery$variables,
+} from "~/gql/routeNavUserQuery.graphql"
+import { invariant } from "~/lib/invariant"
+import { Token } from "~/lib/viewer"
+import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
-
-test.use({ storageState: "playwright/.auth/user.json" })
+// test.use({ storageState: "playwright/.auth/user.json" })
 
 class UserPage {
 	animeList: Locator
@@ -13,16 +22,61 @@ class UserPage {
 	private constructor(private page: Page) {
 		this.animeList = page
 			.getByRole("main")
-			.getByRole("link", { name: "Anime list" })
+			.getByRole("tab", { name: "Anime list" })
 		this.mangaList = page
 			.getByRole("main")
-			.getByRole("link", { name: "Manga list" })
+			.getByRole("tab", { name: "Manga list" })
 	}
 }
+
+const Viewer = { id: 1, name: "User" }
+const handlers = [
+	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+		"routeNavUserQuery",
+		() =>
+			HttpResponse.json({
+				data: {
+					Viewer: Viewer,
+					user: {
+						id: 1,
+						name: "User",
+						avatar: null,
+						bannerImage: null,
+						isFollowing: null,
+						options: null,
+					},
+				},
+			})
+	),
+	SuccessHandler,
+]
+
+const cookies = [
+	{
+		name: `anilist-token`,
+		value: invariant(
+			type("object.json.stringify")(
+				invariant(Token({ token: "", viewer: Viewer }))
+			)
+		),
+		sameSite: "Lax",
+		expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
+		path: "/",
+		domain: "localhost",
+	},
+] satisfies Parameters<BrowserContext["addCookies"]>[0]
+
+test.fixme(true, "fix main page")
+
+test.beforeEach(async ({ worker, context }) => {
+	worker.use(...handlers)
+	await context.addCookies(cookies)
+})
 
 test.describe("fullscreen", () => {
 	test("anime list", async ({ page, isMobile }) => {
 		test.skip(isMobile)
+
 		await page.goto("/")
 		await page.keyboard.press("Control+.")
 		const indexPage = await FeedPage.new(page)

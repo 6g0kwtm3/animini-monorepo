@@ -7,10 +7,12 @@
 		"CF_PAGES_BRANCH",
 		"NODE_ENV",
 		"CI",
-		"BASE_URL"
+		"BASE_URL",
+		"PLAYWRIGHT_BROWSERS_PATH"
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
+		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
 		"build": {
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**", "storybook-static/**"],
@@ -29,9 +31,10 @@
 		"oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},
+		"test-e2e": {},
+		"//#test": {},
 		"//#format": {},
 		"//#knip": {},
-		"//#test": {},
 		"//#stryker": {}
 	}
 }

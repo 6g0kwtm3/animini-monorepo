@@ -37,6 +37,7 @@ export default defineConfig({
 			authToken: process.env.SENTRY_AUTH_TOKEN,
 		}),
 	],
+	preview: { port: 3000 },
 	server: { port: 3000 },
 	build: { sourcemap: true },
 	envPrefix: ["VITE_", "CF_", "NODE_"],

@@ -77,39 +77,30 @@ jobs:
         run: pnpm exec wrangler pages deploy --branch=${{ github.head_ref || github.ref_name  }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  # test:
-  #   name: Test E2E
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: mcr.microsoft.com/playwright:v1.45.3-jammy
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #   - name: Install pnpm
-  #   uses: pnpm/action-setup@v4
+  test-e2e:
+    name: Test E2E
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.53.0-jammy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-  # - name: Use Node.js
-  #   uses: actions/setup-node@v4
-  #   with:
-  #     node-version-file: package.json
-  #     cache: "pnpm"
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: "pnpm"
 
-  #     - name: Install dependencies 📦
-  #       run: pnpm install --frozen-lockfile --prefer-offline
+      - name: Install dependencies 📦
+        run: pnpm install --frozen-lockfile --prefer-offline
 
-  #     - name: Await CF Pages
-  #       uses: WalshyDev/cf-pages-await@v1
-  #       id: cf-pages
-  #       with:
-  #         apiToken: ${{ secrets.CF_API_TOKEN  }}
-  #         accountId: "e9b0348e83d33e46fbb82c3271317d70"
-  #         project: "animini-pwa"
-
-  #     - name: Test E2E
-  #       run: pnpm run test
-  #       env:
-  #         ANILIST_TEST_TOKEN: ${{ secrets.ANILIST_TEST_TOKEN }}
-  #         BASE_URL: ${{ steps.cf-pages.outputs.url }}
-  #         HOME: /root
+      - name: Test E2E
+        run: pnpm -w test-e2e
 
   typecheck:
     runs-on: ubuntu-latest

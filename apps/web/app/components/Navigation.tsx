@@ -20,7 +20,7 @@ export function NavigationItem({
 	...props
 }: NavigationItemProps) {
 	return (
-		<Ariakit.ToolbarItem
+		<Ariakit.CompositeItem
 			render={
 				<HashNavLink
 					{...props}
@@ -38,7 +38,7 @@ export function NavigationItem({
 			<div className="max-w-full break-words">{children}</div>
 			{badge}
 			<TouchTarget />
-		</Ariakit.ToolbarItem>
+		</Ariakit.CompositeItem>
 	)
 }
 
@@ -66,17 +66,18 @@ function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
 export function Navigation({ ...props }: ComponentProps<"nav">): ReactNode {
 	return (
 		<NavigationContext.Provider value={{ "--id": useId() }}>
-			<Ariakit.Toolbar
-				orientation="both"
-				render={
-					<nav
-						{...props}
-						className={tv({ base: "navigation navigation-bar navigation-end" })(
-							{ className: props.className }
-						)}
-					/>
-				}
-			/>
+			<Ariakit.CompositeProvider>
+				<Ariakit.Composite
+					render={
+						<nav
+							{...props}
+							className={tv({
+								base: "navigation navigation-bar navigation-end",
+							})({ className: props.className })}
+						/>
+					}
+				/>
+			</Ariakit.CompositeProvider>
 		</NavigationContext.Provider>
 	)
 }
