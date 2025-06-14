@@ -1,5 +1,4 @@
 import * as cookie from "cookie"
-import ReactRelay from "react-relay"
 import RelayRuntime, {
 	Environment,
 	Network,
@@ -14,7 +13,6 @@ import { GraphQLResponse } from "./schema"
 import { addBreadcrumb } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
 
-import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
 const { ROOT_TYPE } = RelayRuntime
@@ -114,9 +112,5 @@ const environment = new Environment({
 		data.id != null ? `${typeName}:${String(data.id)}` : null,
 	// ... other options
 })
-
-export const {} = ResolverFragments
-
-export const {} = ReactRelay
 
 export default environment

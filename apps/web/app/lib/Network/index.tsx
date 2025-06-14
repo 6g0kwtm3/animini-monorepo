@@ -9,11 +9,10 @@ import RelayRuntime, {
 } from "relay-runtime"
 
 import { unstable_createContext } from "react-router"
-import ResolverFragments from "relay-runtime/lib/store/ResolverFragments"
 import type { Route } from "../../+types/root"
 import environment from "./environment"
 
-export const { readFragment } = ResolverFragments
+export const { readFragment } = RelayRuntime
 
 const {
 	commitMutation: commitMutation_,
