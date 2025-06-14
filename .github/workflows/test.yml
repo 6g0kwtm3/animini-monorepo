@@ -103,10 +103,7 @@ jobs:
         run: pnpm -w test-e2e
         env:
           HOME: /root
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-          TURBO_CACHE: remote:rw
-          TURBO_SCM_BASE: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.before }}
+          TURBO_SCM_HEAD: ${{ github.event.merge_group.head_sha || github.event.pull_request.head.sha || github.event.head }}
 
   typecheck:
     runs-on: ubuntu-latest
