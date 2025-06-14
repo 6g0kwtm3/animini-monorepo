@@ -7,7 +7,8 @@
 		"CF_PAGES_BRANCH",
 		"NODE_ENV",
 		"CI",
-		"BASE_URL"
+		"BASE_URL",
+		"PLAYWRIGHT_BROWSERS_PATH"
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
