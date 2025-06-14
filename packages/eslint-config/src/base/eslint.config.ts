@@ -58,6 +58,7 @@ export default await typegen([
 		rules: {
 			"@typescript-eslint/triple-slash-reference": "off",
 			"@typescript-eslint/only-throw-error": "off",
+			"@typescript-eslint/no-floating-promises": "error",
 		},
 	},
 	// {
