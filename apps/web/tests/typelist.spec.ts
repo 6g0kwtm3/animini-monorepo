@@ -2,7 +2,7 @@ import { type BrowserContext, type Locator, type Page } from "@playwright/test"
 import { graphql, HttpResponse } from "msw"
 
 import { type } from "arktype"
-import routeNavUserQueryRequest, {
+import {
 	type routeNavUserQuery$rawResponse,
 	type routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
@@ -31,7 +31,7 @@ class UserPage {
 const Viewer = { id: 1, name: "User" }
 const handlers = [
 	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
-		routeNavUserQueryRequest.fragment.name,
+		"routeNavUserQuery",
 		() =>
 			HttpResponse.json({
 				data: {
