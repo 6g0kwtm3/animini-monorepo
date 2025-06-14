@@ -23,4 +23,5 @@ export default prefix(":locale?", [
 	]),
 	route("logout", "./routes/logout/route.tsx"),
 	route("follow/:userId", "./routes/UserFollow/route.tsx"),
+	route("*", "./routes/404/route.tsx"),
 ]) satisfies RouteConfig
