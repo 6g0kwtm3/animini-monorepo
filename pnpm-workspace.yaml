@@ -29,7 +29,7 @@ catalog:
   "@svgr/core": 8.1.0
   "@svgr/plugin-jsx": 8.1.0
   "@tailwindcss/typography": 0.5.16
-  "@tailwindcss/vite": 4.1.8
+  "@tailwindcss/vite": 4.1.10
   "@types/bun": 1.2.16
   "@types/estree": 1.0.8
   "@types/marked": 0.3.0
@@ -82,7 +82,7 @@ catalog:
   storybook: 9.1.0-alpha.6
   stryker-cli: 1.0.2
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
-  tailwindcss: 4.1.8
+  tailwindcss: 4.1.10
   tsx: 4.20.3
   turbo: 2.5.4
   typescript: 5.8.3
