@@ -113,12 +113,12 @@ export const rule: Rule.RuleModule = {
 		}
 
 		return {
-			Program(_node) {
+			Program() {
 				currentMethod = []
 				foundMemberAccesses = new Set<string>()
 				templateLiterals = []
 			},
-			"Program:exit"(_node) {
+			"Program:exit"() {
 				templateLiterals.forEach((templateLiteral) => {
 					const graphQLAst = getGraphQLAST(templateLiteral)
 					if (!graphQLAst) {
@@ -188,7 +188,7 @@ export const rule: Rule.RuleModule = {
 					currentMethod.push(node.key.name)
 				}
 			},
-			"MethodDefinition:exit"(_node) {
+			"MethodDefinition:exit"() {
 				currentMethod.pop()
 			},
 		}
