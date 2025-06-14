@@ -101,8 +101,6 @@ jobs:
 
       - name: Test E2E
         run: pnpm -w test-e2e
-        env:
-          HOME: /root
 
   typecheck:
     runs-on: ubuntu-latest
