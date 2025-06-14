@@ -2,13 +2,11 @@ import * as Ariakit from "@ariakit/react"
 import type { ComponentProps, ReactNode } from "react"
 import { Suspense, useEffect } from "react"
 import {
-	Await,
 	Form,
 	useFetcher,
 	useLocation,
 	useNavigate,
 	useNavigation,
-	useRouteLoaderData,
 } from "react-router"
 import type { clientLoader as searchLoader } from "~/routes/Search/route"
 
@@ -27,8 +25,9 @@ import {
 	SearchViewItem,
 } from "~/components/SearchView"
 import { copySearchParams } from "~/lib/copySearchParams"
-import type { clientLoader as navLoader } from "~/routes/Nav/route"
 
+import { ErrorBoundary } from "@sentry/react"
+import { usePreloadedQuery, type NodeAndQueryFragment } from "../Network"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 
@@ -48,7 +47,13 @@ function useOptimisticLocation() {
 	return location
 }
 
-export function Search(): ReactNode {
+import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+
+export function Search({
+	queryRef,
+}: {
+	queryRef: NodeAndQueryFragment<routeNavQuery>
+}): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
 	const submit = useFetcher<typeof searchLoader>()
@@ -75,8 +80,6 @@ export function Search(): ReactNode {
 	}, [navigate, sheetParams])
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
-
-	const data = useRouteLoaderData<typeof navLoader>("routes/_nav")
 
 	return (
 		<SearchView
@@ -116,17 +119,27 @@ export function Search(): ReactNode {
 								</List>
 							</SearchViewBodyGroup>
 						</SearchViewBody>
-					) : data ? (
-						<Suspense fallback="">
-							<Await resolve={data.trending} errorElement={"Error"}>
-								{(data) => data && <SearchTrending query={data} />}
-							</Await>
-						</Suspense>
-					) : null}
+					) : (
+						<ErrorBoundary fallback={<>Error</>}>
+							<Suspense fallback="">
+								<SearchTrendingData queryRef={queryRef} />
+							</Suspense>
+						</ErrorBoundary>
+					)}
 				</>
 			</Form>
 		</SearchView>
 	)
+}
+
+function SearchTrendingData({
+	queryRef,
+}: {
+	queryRef: NodeAndQueryFragment<routeNavQuery>
+}) {
+	const data = usePreloadedQuery(queryRef)
+
+	return <SearchTrending query={data} />
 }
 
 export function SearchButton(

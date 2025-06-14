@@ -1,11 +1,8 @@
 import ReactRelay from "react-relay"
 import {
-	Await,
 	Outlet,
-	useLoaderData,
 	useLocation,
 	useRouteLoaderData,
-	type ClientLoaderFunctionArgs,
 	type ShouldRevalidateFunction,
 } from "react-router"
 import { Viewer } from "~/lib/Remix"
@@ -35,22 +32,27 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 
 import { Layout } from "~/components/Layout"
 
-import type { routeNavQuery as NavQuery } from "~/gql/routeNavQuery.graphql"
+import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 
 import * as Ariakit from "@ariakit/react"
+import { ErrorBoundary } from "@sentry/react"
 import { A } from "a"
 import { fab } from "~/lib/button"
-import { client_get_client } from "~/lib/client"
+import {
+	loadQuery,
+	usePreloadedQuery,
+	type NodeAndQueryFragment,
+} from "~/lib/Network"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
+import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = async (_args: ClientLoaderFunctionArgs) => {
-	const client = client_get_client()
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const viewer = Viewer()
 
-	const data = await client.query<NavQuery>(
+	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
 			query routeNavQuery($isToken: Boolean = false) {
 				Viewer @include(if: $isToken) {
@@ -76,9 +78,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 	return defaultShouldRevalidate
 }
 
-export default function NavRoute(): ReactNode {
+export default function NavRoute({
+	loaderData,
+}: Route.ComponentProps): ReactNode {
 	const rootData = useRouteLoaderData<typeof rootLoader>("root")
-	const data = useLoaderData<typeof clientLoader>()
 
 	const { pathname } = useLocation()
 
@@ -152,17 +155,11 @@ export default function NavRoute(): ReactNode {
 					icon={<MaterialSymbolsNotificationsOutline />}
 					activeIcon={<MaterialSymbolsNotifications />}
 					badge={
-						<Suspense>
-							<Await resolve={data.trending} errorElement={null}>
-								{(data) =>
-									(data?.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-										<NavigationItemLargeBadge>
-											{data?.Viewer?.unreadNotificationCount}
-										</NavigationItemLargeBadge>
-									)
-								}
-							</Await>
-						</Suspense>
+						<ErrorBoundary>
+							<Suspense>
+								<UnreadNotificationBadge queryRef={loaderData.trending} />
+							</Suspense>
+						</ErrorBoundary>
 					}
 				>
 					Notifications
@@ -181,7 +178,23 @@ export default function NavRoute(): ReactNode {
 				</SearchButton>
 			</Navigation>
 			<Outlet />
-			<Search />
+			<Search queryRef={loaderData.trending} />
 		</Layout>
+	)
+}
+
+function UnreadNotificationBadge({
+	queryRef,
+}: {
+	queryRef: NodeAndQueryFragment<routeNavQuery>
+}): ReactNode {
+	const data = usePreloadedQuery(queryRef)
+
+	return (
+		(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
+			<NavigationItemLargeBadge>
+				{data.Viewer?.unreadNotificationCount}
+			</NavigationItemLargeBadge>
+		)
 	)
 }
