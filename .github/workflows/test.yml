@@ -82,13 +82,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.53.0-jammy
-      env:
-        TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-        TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-        TURBO_CACHE: remote:rw
-        TURBO_SCM_BASE: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.before }}
-        TURBO_SCM_HEAD: ${{ github.event.merge_group.head_sha || github.event.pull_request.head.sha || github.event.head }}
-
     steps:
       - uses: actions/checkout@v4
         with:
