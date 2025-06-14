@@ -1,5 +1,6 @@
 {
 	"$schema": "../../node_modules/oxlint/configuration_schema.json",
+	"categories": { "suspicious": "error" },
 	"plugins": [
 		"react",
 		"unicorn",
@@ -19,6 +20,7 @@
 		"react/exhaustive-deps": "error",
 		"typescript/no-non-null-assertion": "warn",
 		"typescript/no-unnecessary-type-constraint": "error",
+		"react/react-in-jsx-scope": "off",
 		"eslint/require-await": "error",
 		"unicorn/no-document-cookie": "off",
 		"jsx-a11y/no-autofocus": "off",
