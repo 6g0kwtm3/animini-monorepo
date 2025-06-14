@@ -11,6 +11,7 @@
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
+		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
 		"build": {
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**", "storybook-static/**"],
