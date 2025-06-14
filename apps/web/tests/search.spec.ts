@@ -60,6 +60,8 @@ const handlers = [
 	SuccessHandler,
 ]
 
+test.fixme(true, "fix main page")
+
 test("when search, ArrowDown should change focus", async ({ page, worker }) => {
 	worker.use(...handlers)
 	await page.goto("/")

@@ -14,7 +14,7 @@ dotenv.config()
 export default defineConfig({
 	testDir: "./tests",
 	timeout: 60000,
-	expect: { timeout: 30000 },
+	expect: { timeout: 10000 },
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -76,7 +76,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: "pnpm exec turbo web#start --only",
+		command: "pnpm exec turbo web#start",
 		url: "http://localhost:3000",
 		reuseExistingServer: !process.env.CI,
 	},

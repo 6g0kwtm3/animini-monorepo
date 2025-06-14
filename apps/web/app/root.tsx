@@ -174,6 +174,10 @@ export default function App(): ReactNode {
 	return <Outlet />
 }
 
+export function HydrateFallback() {
+	return <p>Loading App...</p>
+}
+
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
 
