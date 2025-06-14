@@ -8,7 +8,7 @@ declare module "react" {
 	}
 }
 
-export { }
+export {}
 
 declare module "relay-runtime" {
 	export const readFragment: typeof import("react-relay").readInlineData
