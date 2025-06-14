@@ -42,6 +42,12 @@ export default await typegen([
 			"**/*.mtsx",
 		],
 		...config,
+		rules: {
+			...config.rules,
+			"@typescript-eslint/triple-slash-reference": "off",
+			"@typescript-eslint/only-throw-error": "off",
+			"@typescript-eslint/no-floating-promises": "error",
+		},
 	})),
 	{
 		name: "eslint-config/base/typescript-eslint/parser-options",
@@ -51,14 +57,6 @@ export default await typegen([
 				project: ["./apps/*/tsconfig.json", "./packages/*/tsconfig.json"],
 				tsconfigRootDir: path.join("..", "..", import.meta.dirname),
 			},
-		},
-	},
-	{
-		name: "eslint-config/base/typescript-eslint/rules",
-		rules: {
-			"@typescript-eslint/triple-slash-reference": "off",
-			"@typescript-eslint/only-throw-error": "off",
-			"@typescript-eslint/no-floating-promises": "error",
 		},
 	},
 	// {
