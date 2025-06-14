@@ -61,7 +61,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 
 	const data = await client.query<routeNavMediaQuery>(
 		graphql`
-			query routeNavMediaQuery($id: Int!) {
+			query routeNavMediaQuery($id: Int!) @raw_response_type {
 				Media(id: $id) {
 					id
 					coverImage {
@@ -105,6 +105,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 	return defaultShouldRevalidate
 }
+
+export const meta = (({ data }) => {
+	return [{ title: `Media - ${data.Media.title.userPreferred}` }]
+}) satisfies Route.MetaFunction
+
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = loaderData
 
@@ -152,7 +157,6 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 							<Card variant="elevated">
 								<div className="sm:p-12">
 									<Ariakit.Heading className="text-display-lg text-balance">
-										<title>Media - {data.Media.title.userPreferred}</title>
 										{data.Media.title.userPreferred}
 									</Ariakit.Heading>
 									<Menu>

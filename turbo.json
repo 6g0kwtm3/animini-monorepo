@@ -29,9 +29,10 @@
 		"oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},
+		"test": {},
+		"//#test": {},
 		"//#format": {},
 		"//#knip": {},
-		"//#test": {},
 		"//#stryker": {}
 	}
 }

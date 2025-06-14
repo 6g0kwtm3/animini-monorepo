@@ -20,7 +20,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 			query routeNavSearchQuery(
 				$q: String
 				$sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
-			) {
+			) @raw_response_type {
 				page: Page(perPage: 10) {
 					media(search: $q, sort: $sort) {
 						id

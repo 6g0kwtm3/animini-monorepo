@@ -77,6 +77,8 @@
 	"devDependencies": {
 		"@babel/preset-typescript": "catalog:",
 		"@graphql-eslint/eslint-plugin": "catalog:",
+		"@graphql-tools/mock": "catalog:",
+		"@msw/playwright": "catalog:",
 		"@playwright/test": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
 		"cross-env": "catalog:",
@@ -87,6 +89,7 @@
 		"eslint-typegen": "catalog:",
 		"graphql-config": "catalog:",
 		"isbot": "catalog:",
+		"msw": "catalog:",
 		"nodemon": "catalog:",
 		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:*",

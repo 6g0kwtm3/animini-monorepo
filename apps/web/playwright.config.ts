@@ -36,7 +36,7 @@ export default defineConfig({
 
 	/* Configure projects for major browsers */
 	projects: [
-		{ name: "setup", testMatch: /.*\.setup\.ts/ },
+		// { name: "setup", testMatch: /.*\.setup\.ts/ },
 
 		// {
 		//   name: 'chromium',
@@ -57,12 +57,12 @@ export default defineConfig({
 		{
 			name: "mobile-chrome",
 			use: { ...devices["Pixel 5"] },
-			dependencies: ["setup"],
+			// dependencies: ["setup"],
 		},
 		{
 			name: "mobile-webkit",
 			use: { ...devices["iPhone 12"] },
-			dependencies: ["setup"],
+			// dependencies: ["setup"],
 		},
 
 		/* Test against branded browsers. */
@@ -77,9 +77,9 @@ export default defineConfig({
 	],
 
 	/* Run your local dev server before starting the tests */
-	// webServer: {
-	// 	command: "pnpm run build && pnpm run start",
-	// 	url: "http://localhost:3000",
-	// 	reuseExistingServer: !process.env.CI
-	// }
+	webServer: {
+		command: "pnpm exec turbo web#start",
+		url: "http://localhost:3000",
+		reuseExistingServer: !process.env.CI,
+	},
 })

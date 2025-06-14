@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - apps/*
+
 catalog:
   "@ariakit/react": 0.4.17
   "@babel/preset-typescript": 7.27.1
@@ -96,6 +97,9 @@ catalog:
   vite-tsconfig-paths: 5.1.4
   vitest: 3.2.3
   wrangler: 4.20.0
+  '@msw/playwright': 0.3.1
+  msw: 2.10.2
+  "@graphql-tools/mock": 9.0.23
 
 catalogs:
   experimental:

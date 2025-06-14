@@ -2,7 +2,7 @@
 	"$schema": "https://turbo.build/schema.json",
 	"extends": ["//"],
 	"tasks": {
-		"dev": { "with": ["relay-watch", "check"] },
+		"dev": { "with": ["relay-watch"] },
 		"build": { "dependsOn": ["^build", "relay"] },
 		"relay-watch": { "cache": false, "persistent": true },
 		"paraglide": {
