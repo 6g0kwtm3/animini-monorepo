@@ -28,7 +28,7 @@ const schema = cached(async () => {
 	return addMocksToSchema({ schema: buildSchema(raw) })
 })
 
-export const SuccessHandler = graphql.operation<any, any>(async (args) => {
+export const SuccessHandler = graphql.operation<object>(async (args) => {
 	return HttpResponse.json(
 		await execute({
 			document: parse(args.query),
