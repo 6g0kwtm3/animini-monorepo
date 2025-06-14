@@ -154,7 +154,7 @@ export const rule: Rule.RuleModule = {
 		}[] = []
 
 		return {
-			"Program:exit"(_node) {
+			"Program:exit"() {
 				const fragmentsInTheSameModule = new Set<string>()
 				graphqlLiterals.forEach(({ graphQLAst }) => {
 					const fragmentName = getGraphQLFragmentDefinitionName(graphQLAst)

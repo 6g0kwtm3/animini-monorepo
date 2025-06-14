@@ -1,6 +1,6 @@
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
-import { parse, TokenKind, type ASTNode, type NameNode } from "graphql"
+import { parse, TokenKind, type ASTNode } from "graphql"
 import path from "path"
 
 export function hasPrecedingEslintDisableComment(

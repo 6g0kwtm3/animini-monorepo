@@ -1,5 +1,3 @@
-import { Link } from "react-router"
-
 import { ErrorBoundary } from "@sentry/react"
 import type { ComponentProps } from "react"
 import { Suspense } from "react"
