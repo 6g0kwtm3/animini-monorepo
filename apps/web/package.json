@@ -21,8 +21,7 @@
 		"relay-watch": "relay-compiler --watch",
 		"router": "react-router typegen",
 		"start": "vite preview",
-		"test": "playwright test",
-		"playwright-install": "playwright install"
+		"test-e2e": "playwright test"
 	},
 	"imports": {
 		"#lib": "./app/lib"

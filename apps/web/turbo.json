@@ -14,8 +14,6 @@
 		"check": {
 			"dependsOn": ["transit", "router", "paraglide", "relay", "eslint-typegen"]
 		},
-		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] },
-		"test": { "dependsOn": ["playwright-install"] },
-		"playwright-install": {}
+		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] }
 	}
 }

@@ -30,7 +30,7 @@
 		"oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},
-		"test": {},
+		"test-e2e": {},
 		"//#test": {},
 		"//#format": {},
 		"//#knip": {},
