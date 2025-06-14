@@ -14,6 +14,7 @@
 		"check": {
 			"dependsOn": ["transit", "router", "paraglide", "relay", "eslint-typegen"]
 		},
-		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] }
+		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] },
+		"test-e2e": { "dependsOn": ["build"] }
 	}
 }
