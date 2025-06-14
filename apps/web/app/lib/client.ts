@@ -9,5 +9,3 @@ class Client {
 export function client_get_client(): Client {
 	return new Client()
 }
-
-
