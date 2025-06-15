@@ -6,7 +6,7 @@ import {
 	Outlet,
 	useFetcher,
 	useLocation,
-	useParams
+	useParams,
 } from "react-router"
 
 import * as Ariakit from "@ariakit/react"
@@ -17,8 +17,6 @@ import { A } from "a"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"
 import { numberToString } from "~/lib/numberToString"
-
-
 
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
