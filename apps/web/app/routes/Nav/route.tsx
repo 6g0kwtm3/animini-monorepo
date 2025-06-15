@@ -68,8 +68,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return { trending: data }
 }
 
-
-
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {

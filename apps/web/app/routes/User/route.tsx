@@ -55,8 +55,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return { routeNavUserQuery: data }
 }
 
-
-
 import * as Ariakit from "@ariakit/react"
 import { button } from "~/lib/button"
 import type { Route as FollowRoute } from "../UserFollow/+types/route"

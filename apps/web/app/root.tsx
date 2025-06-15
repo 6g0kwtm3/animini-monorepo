@@ -76,8 +76,6 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	}
 }
 
-
-
 function SentryToolbar() {
 	useSentryToolbar({
 		initProps: {

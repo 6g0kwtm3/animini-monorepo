@@ -401,8 +401,6 @@ function filterEntries(
 	return entries
 }
 
-
-
 const Params = type({
 	"selected?": "string",
 	userName: "string",
