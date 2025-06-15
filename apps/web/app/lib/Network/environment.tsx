@@ -18,7 +18,7 @@ import { isString } from "../Predicate"
 const { ROOT_TYPE } = RelayRuntime
 
 const API_URL = "https://graphql.anilist.co"
-const fetchQuery_: FetchFunction = async function (
+const fetchQuery: FetchFunction = async function (
 	operation,
 	variables,
 	cacheConfig,
@@ -54,7 +54,7 @@ const fetchQuery_: FetchFunction = async function (
 }
 
 // Create a network layer from the fetch function
-const network = Network.create(fetchQuery_)
+const network = Network.create(fetchQuery)
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace globalThis {
@@ -63,7 +63,7 @@ declare namespace globalThis {
 
 globalThis.__RELAY_STORE__ ??= new Store(new RecordSource(), {
 	gcReleaseBufferSize: Infinity,
-	queryCacheExpirationTime: 60 * 1000,
+	// queryCacheExpirationTime: 5 * 60 * 1000,
 })
 
 const store = globalThis.__RELAY_STORE__

@@ -68,16 +68,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return { trending: data }
 }
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	defaultShouldRevalidate,
-	formMethod,
-}) => {
-	if (formMethod?.toLocaleUpperCase() === "GET") {
-		return false
-	}
-	return defaultShouldRevalidate
-}
-
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {

@@ -90,22 +90,6 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	}
 }
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	defaultShouldRevalidate,
-	formMethod,
-	nextParams,
-	currentParams,
-}) => {
-	if (
-		formMethod?.toLocaleUpperCase() === "GET"
-		&& currentParams.mediaId === nextParams.mediaId
-	) {
-		return false
-	}
-
-	return defaultShouldRevalidate
-}
-
 export const meta = (({ data }) => {
 	return [{ title: `Media - ${data.Media.title.userPreferred}` }]
 }) satisfies Route.MetaFunction
