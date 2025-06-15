@@ -333,6 +333,9 @@ importers:
       oxlint:
         specifier: 'catalog:'
         version: 1.1.0
+      oxlint-config:
+        specifier: workspace:*
+        version: link:packages/oxlint-config
       prettier:
         specifier: 'catalog:'
         version: 3.5.3
