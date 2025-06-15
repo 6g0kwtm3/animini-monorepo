@@ -10,7 +10,6 @@
 		"build-storybook": "storybook build",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
-		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {
@@ -32,7 +31,6 @@
 		"eslint-config": "workspace:*",
 		"eslint-plugin-storybook": "catalog:",
 		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*",
 		"prop-types": "catalog:",
 		"react": "catalog:",
 		"storybook": "catalog:",

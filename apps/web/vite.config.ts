@@ -6,15 +6,12 @@ import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import babel from "vite-plugin-babel"
 import inspect from "vite-plugin-inspect"
-import oxlint from "vite-plugin-oxlint"
 import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
 		inspect(),
-		oxlint({ configFile: "./node_modules/oxlint-config/oxlintrc.json" }),
-
 		tailwindcss(),
 		babel({ filter: /\.[jt]sx?$/, exclude: [/~icons/], apply: () => false }),
 		paraglide({ project: "./project.inlang", outdir: "./app/paraglide" }),
