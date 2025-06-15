@@ -6,16 +6,16 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useNavigation,
 	useParams,
 	useRouteError,
 	type ClientLoaderFunctionArgs,
 	type LinksFunction,
-	type ShouldRevalidateFunction,
 } from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
 import * as Ariakit from "@ariakit/react"
-import { type ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 
@@ -29,6 +29,7 @@ import { useIsHydrated } from "~/lib/useIsHydrated"
 import type { Route } from "./+types/root"
 import environment, {
 	loadQueryMiddleware,
+	queue,
 	RelayEnvironmentProvider,
 } from "./lib/Network"
 import { languageToLocale } from "./lib/useLocale"
@@ -97,6 +98,18 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const { lang, dir } =
 		languageToLocale(params.locale ?? null)
 		?? ({ lang: "en", dir: "ltr" } as const)
+
+	const navigation = useNavigation()
+	useEffect(() => {
+		if (navigation.state === "idle") {
+			while (queue[0] && queue[1]) {
+				for (const ref of queue[0]) {
+					ref.dispose()
+				}
+				queue.shift()
+			}
+		}
+	}, [navigation.state])
 
 	return (
 		<html
