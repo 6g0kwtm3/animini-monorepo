@@ -28,7 +28,7 @@
 			"inputs": ["eslint.config.ts"],
 			"outputs": ["eslint-typegen.d.ts"]
 		},
-		"oxlint": {},
+		"//#oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},
 		"test-e2e": {},
