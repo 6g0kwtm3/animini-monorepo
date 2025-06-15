@@ -61,21 +61,7 @@ import { loadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs, UserListTabsQuery } from "./UserListTabs"
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	currentParams,
-	nextParams,
-	formMethod,
-	defaultShouldRevalidate,
-}) => {
-	if (
-		formMethod?.toLocaleUpperCase() === "GET"
-		&& currentParams.userName === nextParams.userName
-		&& currentParams.typelist === nextParams.typelist
-	) {
-		return false
-	}
-	return defaultShouldRevalidate
-}
+
 
 function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()

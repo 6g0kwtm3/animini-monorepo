@@ -401,22 +401,7 @@ function filterEntries(
 	return entries
 }
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	currentParams,
-	nextParams,
-	formMethod,
-	defaultShouldRevalidate,
-}) => {
-	if (
-		formMethod?.toLocaleUpperCase() === "GET"
-		&& currentParams.userName === nextParams.userName
-		&& currentParams.typelist === nextParams.typelist
-		&& currentParams.selected === nextParams.selected
-	) {
-		return false
-	}
-	return defaultShouldRevalidate
-}
+
 
 const Params = type({
 	"selected?": "string",

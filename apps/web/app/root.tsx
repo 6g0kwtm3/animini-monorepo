@@ -76,16 +76,7 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	}
 }
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	formAction,
-	defaultShouldRevalidate,
-}) => {
-	return (
-		formAction === "/login"
-		|| formAction === "/logout"
-		|| defaultShouldRevalidate
-	)
-}
+
 
 function SentryToolbar() {
 	useSentryToolbar({

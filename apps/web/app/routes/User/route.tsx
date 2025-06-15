@@ -55,17 +55,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return { routeNavUserQuery: data }
 }
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-	defaultShouldRevalidate,
-	formMethod,
-	currentParams,
-	nextParams,
-}) => {
-	if (formMethod === "GET" && currentParams.userName === nextParams.userName) {
-		return false
-	}
-	return defaultShouldRevalidate
-}
+
 
 import * as Ariakit from "@ariakit/react"
 import { button } from "~/lib/button"

@@ -26,7 +26,6 @@ export const {
 	readInlineData,
 	useFragment,
 	usePreloadedQuery: usePreloadedQuery_,
-
 	RelayEnvironmentProvider,
 } = ReactRelay
 
@@ -55,15 +54,23 @@ type LoadQuery = <T extends RelayRuntime.OperationType>(
 
 export const loadQuery = unstable_createContext<LoadQuery>()
 
+const refs = new Set<PreloadedQuery<OperationType, {}>>()
+
 export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	{ context, request },
 	next
 ) => {
-	// TODO: dispose on route leave
+	for (const ref of refs) {
+		ref.dispose()
+	}
+	refs.clear()
+
 	context.set(loadQuery, (query, ...args) => {
 		const queryRef = loadQuery_(environment, query, ...args)
+		refs.add(queryRef)
 		request.signal.addEventListener("abort", () => {
 			queryRef.dispose()
+			refs.delete(queryRef)
 		})
 		return [query, queryRef]
 	})
