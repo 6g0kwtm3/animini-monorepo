@@ -11,7 +11,6 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
-		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix",
 		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
@@ -27,7 +26,6 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
 	}
