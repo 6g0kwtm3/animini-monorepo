@@ -54,7 +54,7 @@ type LoadQuery = <T extends RelayRuntime.OperationType>(
 
 export const loadQuery = unstable_createContext<LoadQuery>()
 
-const refs = new Set<PreloadedQuery<OperationType, Record<string, unknown>>>()
+const refs = new Set<PreloadedQuery<OperationType>>()
 
 export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	{ context, request },
