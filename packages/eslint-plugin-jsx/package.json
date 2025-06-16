@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "eslint-plugin-jsx",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": "./src/index.ts",
+	"scripts": {
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
+		"lint": "eslint --cache . --fix",
+		"check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@typescript-eslint/utils": "latest"
+	},
+	"peerDependencies": {
+		"graphql": "catalog:"
+	},
+	"devDependencies": {
+		"@types/estree": "catalog:",
+		"@typescript-eslint/parser": "catalog:",
+		"@typescript-eslint/typescript-estree": "latest",
+		"eslint": "catalog:",
+		"eslint-config": "workspace:*",
+		"eslint-typegen": "catalog:",
+		"eslint-vitest-rule-tester": "catalog:",
+		"ts-config": "workspace:^",
+		"tsx": "catalog:",
+		"vitest": "catalog:"
+	}
+}
