@@ -54,7 +54,7 @@ type LoadQuery = <T extends RelayRuntime.OperationType>(
 
 export const loadQuery = unstable_createContext<LoadQuery>()
 
-export const queue: Set<PreloadedQuery<OperationType>>[] = []
+export const queue = new Set<Set<PreloadedQuery<OperationType>>>()
 
 export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	{ context, request },
@@ -65,14 +65,17 @@ export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	context.set(loadQuery, (query, ...args) => {
 		const queryRef = loadQuery_(environment, query, ...args)
 		refs.add(queryRef)
-		request.signal.addEventListener("abort", () => {
-			queryRef.dispose()
-			refs.delete(queryRef)
-		})
 		return [query, queryRef]
 	})
 
-	queue.push(refs)
+	request.signal.addEventListener("abort", () => {
+		for (const ref of refs) {
+			ref.dispose()
+		}
+		queue.delete(refs)
+	})
+
+	queue.add(refs)
 
 	return next()
 }
