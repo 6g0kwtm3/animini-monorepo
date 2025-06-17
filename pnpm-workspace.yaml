@@ -67,7 +67,7 @@ catalog:
   graphql-config: 5.1.5
   hono: 4.7.11
   isbot: 5.1.28
-  knip: 5.61.0
+  knip: 5.61.1
   marked: 0.3.19
   nodemon: 3.1.10
   oxlint: 1.1.0
