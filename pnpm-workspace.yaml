@@ -15,7 +15,7 @@ catalog:
   "@playwright/test": 1.53.0
   "@react-router/dev": 7.6.0
   "@react-router/node": 7.6.0
-  "@sentry/react": 9.29.0
+  "@sentry/react": 9.30.0
   "@sentry/toolbar": 1.0.0-beta.11
   "@sentry/vite-plugin": 3.5.0
   "@storybook/addon-a11y": 9.1.0-alpha.6
@@ -67,7 +67,7 @@ catalog:
   graphql-config: 5.1.5
   hono: 4.7.11
   isbot: 5.1.28
-  knip: 5.61.1
+  knip: 5.61.0
   marked: 0.3.19
   nodemon: 3.1.10
   oxlint: 1.1.0
