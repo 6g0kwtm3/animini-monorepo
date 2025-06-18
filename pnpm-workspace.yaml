@@ -9,7 +9,7 @@ catalog:
   "@eslint/js": 9.29.0
   "@graphql-eslint/eslint-plugin": 4.4.0
   "@hono/node-server": 1.14.4
-  "@iconify-json/material-symbols": 1.2.26
+  "@iconify-json/material-symbols": 1.2.27
   "@inlang/paraglide-js": 2.1.0
   "@material/material-color-utilities": 0.3.0
   "@playwright/test": 1.53.0
