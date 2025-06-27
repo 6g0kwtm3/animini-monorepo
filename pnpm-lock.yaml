@@ -208,8 +208,8 @@ catalogs:
       specifier: 5.61.2
       version: 5.61.2
     marked:
-      specifier: 0.3.19
-      version: 0.3.19
+      specifier: 16.0.0
+      version: 16.0.0
     msw:
       specifier: 2.10.2
       version: 2.10.2
@@ -836,7 +836,7 @@ importers:
         version: 3.2.5
       marked:
         specifier: 'catalog:'
-        version: 0.3.19
+        version: 16.0.0
       react:
         specifier: 'catalog:'
         version: 19.1.0
@@ -4760,9 +4760,9 @@ packages:
     resolution: {integrity: sha512-ISQTe55T2ao7XtlAStud6qwYPZjE4GK1S/BeVPus4jrq6JuOnQ00YKQC581RWhR122W7msZV263KzVeLoqidyQ==}
     engines: {node: '>=12'}
 
-  marked@0.3.19:
-    resolution: {integrity: sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==}
-    engines: {node: '>=0.10.0'}
+  marked@16.0.0:
+    resolution: {integrity: sha512-MUKMXDjsD/eptB7GPzxo4xcnLS6oo7/RHimUMHEDRhUooPwmN9BEpMl7AEOJv3bmso169wHI2wUF9VQgL7zfmA==}
+    engines: {node: '>= 20'}
     hasBin: true
 
   matcher@3.0.0:
@@ -10639,7 +10639,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  marked@0.3.19: {}
+  marked@16.0.0: {}
 
   matcher@3.0.0:
     dependencies:
