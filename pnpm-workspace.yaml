@@ -95,7 +95,7 @@ catalog:
   vite-plugin-relay: 2.1.0
   vite-tsconfig-paths: 5.1.4
   vitest: 3.2.4
-  wrangler: 4.21.2
+  wrangler: 4.22.0
   "@msw/playwright": 0.3.1
   msw: 2.10.2
   "@graphql-tools/mock": 9.0.23
