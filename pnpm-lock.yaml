@@ -280,8 +280,8 @@ catalogs:
       specifier: 1.3.2
       version: 1.3.2
     vite-plugin-inspect:
-      specifier: 11.2.0
-      version: 11.2.0
+      specifier: 11.3.0
+      version: 11.3.0
     vite-plugin-relay:
       specifier: 2.1.0
       version: 2.1.0
@@ -616,7 +616,7 @@ importers:
         version: 1.3.2(@babel/core@7.27.4)(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
       vite-plugin-inspect:
         specifier: 'catalog:'
-        version: 11.2.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
+        version: 11.3.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
 
   packages/a:
     dependencies:
@@ -3152,10 +3152,6 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
-  ansis@3.17.0:
-    resolution: {integrity: sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==}
-    engines: {node: '>=14'}
-
   ansis@4.1.0:
     resolution: {integrity: sha512-BGcItUBWSMRgOCe+SVZJ+S7yTRG0eGt9cXAHev72yuGcY23hnLA7Bky5L/xLyPINoSN95geovfBkqoTlNZYa7w==}
     engines: {node: '>=14'}
@@ -3271,8 +3267,8 @@ packages:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
 
-  birpc@2.3.0:
-    resolution: {integrity: sha512-ijbtkn/F3Pvzb6jHypHRyve2QApOCZDR25D/VnkY2G/lBNcXCTsnsCxgY4k4PkVB7zfwzYbY3O9Lcqe3xufS5g==}
+  birpc@2.4.0:
+    resolution: {integrity: sha512-5IdNxTyhXHv2UlgnPHQ0h+5ypVmkrYHzL8QT+DwFZ//2N/oNV8Ch+BCRmTJ3x6/z9Axo/cXYBc9eprsUVK/Jsg==}
 
   blake3-wasm@2.1.5:
     resolution: {integrity: sha512-F1+K8EbfOZE49dtoPtmxUQrpXaBIl3ICvasLh+nJta0xkz+9kF/7uet9fLnwKqhDrmj6g+6K3Tw9yQPUg2ka5g==}
@@ -6179,15 +6175,15 @@ packages:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  vite-dev-rpc@1.0.7:
-    resolution: {integrity: sha512-FxSTEofDbUi2XXujCA+hdzCDkXFG1PXktMjSk1efq9Qb5lOYaaM9zNSvKvPPF7645Bak79kSp1PTooMW2wktcA==}
+  vite-dev-rpc@1.1.0:
+    resolution: {integrity: sha512-pKXZlgoXGoE8sEKiKJSng4hI1sQ4wi5YT24FCrwrLt6opmkjlqPPVmiPWWJn8M8byMxRGzp1CrFuqQs4M/Z39A==}
     peerDependencies:
-      vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.1
+      vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.1 || ^7.0.0-0
 
-  vite-hot-client@2.0.4:
-    resolution: {integrity: sha512-W9LOGAyGMrbGArYJN4LBCdOC5+Zwh7dHvOHC0KmGKkJhsOzaKbpo/jEjpPKVHIW0/jBWj8RZG0NUxfgA8BxgAg==}
+  vite-hot-client@2.1.0:
+    resolution: {integrity: sha512-7SpgZmU7R+dDnSmvXE1mfDtnHLHQSisdySVR7lO8ceAXvM0otZeuQQ6C8LrS5d/aYyP/QZ0hI0L+dIPrm4YlFQ==}
     peerDependencies:
-      vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
+      vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0
 
   vite-node@3.0.0-beta.2:
     resolution: {integrity: sha512-ofTf6cfRdL30Wbl9n/BX81EyIR5s4PReLmSurrxQ+koLaWUNOEo8E0lCM53OJkb8vpa2URM2nSrxZsIFyvY1rg==}
@@ -6205,12 +6201,12 @@ packages:
       '@babel/core': ^7.0.0
       vite: ^2.7.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  vite-plugin-inspect@11.2.0:
-    resolution: {integrity: sha512-hcCncl4YK20gcrx22cPF5mR+zfxsCmX6vUQKCyudgOZMYKVVGbrxVaL3zU62W0MVSVawtf5ZR4DrLRO+9fZVWQ==}
+  vite-plugin-inspect@11.3.0:
+    resolution: {integrity: sha512-vmt7K1WVKQkuiwvsM6e5h3HDJ2pSWTnzoj+JP9Kvu3Sh2G+nFap1F1V7tqpyA4qFxM1GQ84ryffWFGQrwShERQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': '*'
-      vite: ^6.0.0
+      vite: ^6.0.0 || ^7.0.0-0
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
@@ -8872,8 +8868,6 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
-  ansis@3.17.0: {}
-
   ansis@4.1.0: {}
 
   anymatch@3.1.3:
@@ -9016,7 +9010,7 @@ snapshots:
 
   binary-extensions@2.3.0: {}
 
-  birpc@2.3.0: {}
+  birpc@2.4.0: {}
 
   blake3-wasm@2.1.5: {}
 
@@ -12069,13 +12063,13 @@ snapshots:
 
   validate-npm-package-name@5.0.1: {}
 
-  vite-dev-rpc@1.0.7(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)):
+  vite-dev-rpc@1.1.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)):
     dependencies:
-      birpc: 2.3.0
+      birpc: 2.4.0
       vite: rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
-      vite-hot-client: 2.0.4(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
+      vite-hot-client: 2.1.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
 
-  vite-hot-client@2.0.4(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)):
+  vite-hot-client@2.1.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)):
     dependencies:
       vite: rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
 
@@ -12126,9 +12120,9 @@ snapshots:
       '@babel/core': 7.27.4
       vite: rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
 
-  vite-plugin-inspect@11.2.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)):
+  vite-plugin-inspect@11.3.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)):
     dependencies:
-      ansis: 3.17.0
+      ansis: 4.1.0
       debug: 4.4.1(supports-color@5.5.0)
       error-stack-parser-es: 1.0.5
       ohash: 2.0.11
@@ -12137,7 +12131,7 @@ snapshots:
       sirv: 3.0.1
       unplugin-utils: 0.2.4
       vite: rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
-      vite-dev-rpc: 1.0.7(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
+      vite-dev-rpc: 1.1.0(rolldown-vite@6.3.18(@types/node@22.15.34)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
     transitivePeerDependencies:
       - supports-color
 
