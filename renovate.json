@@ -5,7 +5,7 @@
 		"config:recommended",
 		":pinDevDependencies",
 		":pinDependencies",
-		":automergePatch"
+		":automergeMinor"
 	],
 	"lockFileMaintenance": { "enabled": true, "automerge": true },
 	"packageRules": [
