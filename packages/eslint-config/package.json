@@ -7,6 +7,7 @@
 	"dependencies": {
 		"@eslint/js": "catalog:",
 		"eslint": "catalog:",
+		"eslint-plugin-jsx": "workspace:*",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
 		"eslint-plugin-react-compiler": "catalog:",

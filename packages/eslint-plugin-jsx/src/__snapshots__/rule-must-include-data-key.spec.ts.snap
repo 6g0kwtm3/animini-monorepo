@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`reports error for different data-key 1`] = `
+"
+        <li key={foo + bar} data-key={foo + bar} />
+        "
+`;
+
+exports[`reports error for different data-key with computed value 1`] = `
+"
+				<li key="foo" data-key="foo" />
+        "
+`;
+
+exports[`reports error for different data-key with computed value 2`] = `
+"
+        <li key={foo + bar} data-key={foo + bar} />
+        "
+`;
+
+exports[`reports error for missing data-key 1`] = `
+"
+        <li key="foo" data-key="foo" />
+        "
+`;
+
+exports[`reports error for missing data-key with boolean value 1`] = `
+"
+        <li key data-key={true} />
+        "
+`;
+
+exports[`reports error for missing data-key with computed value 1`] = `
+"
+        <li key={foo + bar} data-key={foo + bar} />
+        "
+`;
