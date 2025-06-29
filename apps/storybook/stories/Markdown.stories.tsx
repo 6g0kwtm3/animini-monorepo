@@ -20,10 +20,10 @@ type Story = StoryObj<typeof meta>
 function convert(src: string) {
 	return new Promise<string>((resolve, reject) => {
 		const img = new globalThis.Image()
-		img.onerror = () => {
+		img.addEventListener("error", () => {
 			reject(new Error("Failed to load image"))
-		}
-		img.onload = () => {
+		})
+		img.addEventListener("load", () => {
 			const canvas = document.createElement("canvas")
 
 			const ctx = canvas.getContext("2d")
@@ -37,7 +37,7 @@ function convert(src: string) {
 
 			resolve(canvas.toDataURL("image/png", 1))
 			URL.revokeObjectURL(img.src)
-		}
+		})
 		img.src = src
 	})
 }

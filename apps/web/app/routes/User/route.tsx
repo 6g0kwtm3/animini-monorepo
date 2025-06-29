@@ -2,12 +2,21 @@ import { type ReactNode } from "react"
 import {
 	Form,
 	isRouteErrorResponse,
+	data as json,
 	Outlet,
 	useFetcher,
 	useLocation,
 	useParams,
-	type ShouldRevalidateFunction,
 } from "react-router"
+
+import * as Ariakit from "@ariakit/react"
+import { button } from "~/lib/button"
+import type { Route as FollowRoute } from "../UserFollow/+types/route"
+
+import { A } from "a"
+import { LayoutBody, LayoutPane } from "~/components/Layout"
+import { Tabs, TabsPanel } from "~/components/Tabs"
+import { numberToString } from "~/lib/numberToString"
 
 import ReactRelay from "react-relay"
 import { Icon } from "~/components/Button"
@@ -54,17 +63,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	return { routeNavUserQuery: data }
 }
-
-import * as Ariakit from "@ariakit/react"
-import { button } from "~/lib/button"
-import type { Route as FollowRoute } from "../UserFollow/+types/route"
-
-import { A } from "a"
-import { data as json } from "react-router"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { Tabs, TabsPanel } from "~/components/Tabs"
-import { numberToString } from "~/lib/numberToString"
-
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
 
