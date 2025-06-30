@@ -8,6 +8,11 @@ declare module "react" {
 	}
 }
 
+declare global {
+	type SetConstructor = new () => Set<never>
+	type MapConstructor = new () => Map<never, never>
+}
+
 export {}
 
 declare module "relay-runtime" {
