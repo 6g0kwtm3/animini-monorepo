@@ -10,6 +10,10 @@
 	"lockFileMaintenance": { "enabled": true, "automerge": true },
 	"packageRules": [
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
+		{
+			"matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/*"],
+			"groupName": "playwright"
+		},
 		{ "matchPackageNames": ["/oxlint/"], "groupName": "oxlint" },
 		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
 		{
