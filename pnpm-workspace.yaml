@@ -60,7 +60,7 @@ catalog:
   eslint-plugin-react-refresh: 0.4.20
   eslint-plugin-storybook: 9.1.0-alpha.6
   eslint-plugin-turbo: 2.5.4
-  eslint-typegen: 2.2.0
+  eslint-typegen: 2.2.1
   eslint-vitest-rule-tester: 2.2.0
   framer-motion: 12.20.4
   graphql: 16.11.0
