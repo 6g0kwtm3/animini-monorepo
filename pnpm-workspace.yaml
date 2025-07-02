@@ -53,7 +53,7 @@ catalog:
   electron-devtools-installer: 4.0.0
   eslint: 9.30.1
   eslint-plugin-oxlint: 1.4.0
-  eslint-plugin-pnpm: 0.3.1
+  eslint-plugin-pnpm: 1.0.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-compiler: beta
   eslint-plugin-react-hooks: 6.0.0-rc1
