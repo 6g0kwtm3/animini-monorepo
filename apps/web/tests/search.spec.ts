@@ -1,10 +1,10 @@
 import { expect } from "@playwright/test"
 import { graphql, HttpResponse } from "msw"
-import routeNavMediaQuery, {
+import routeNavMediaQueryRequest, {
 	type routeNavMediaQuery$rawResponse,
 	type routeNavMediaQuery$variables,
 } from "~/gql/routeNavMediaQuery.graphql"
-import routeNavSearchQuery, {
+import routeNavSearchQueryRequest, {
 	type routeNavSearchQuery$rawResponse,
 	routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
@@ -14,7 +14,7 @@ import { SearchPage } from "./pages/SearchPage"
 
 const handlers = [
 	graphql.query<routeNavSearchQuery$rawResponse, routeNavSearchQuery$variables>(
-		routeNavSearchQuery.fragment.name,
+		routeNavSearchQueryRequest.fragment.name,
 		() =>
 			HttpResponse.json({
 				data: {
@@ -44,7 +44,7 @@ const handlers = [
 			})
 	),
 	graphql.query<routeNavMediaQuery$rawResponse, routeNavMediaQuery$variables>(
-		routeNavMediaQuery.fragment.name,
+		routeNavMediaQueryRequest.fragment.name,
 		() =>
 			HttpResponse.json({
 				data: {

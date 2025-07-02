@@ -1,5 +1,6 @@
 {
 	"$schema": "../../node_modules/oxlint/configuration_schema.json",
+	"categories": { "suspicious": "error" },
 	"plugins": [
 		"react",
 		"unicorn",
@@ -14,14 +15,19 @@
 	"rules": {
 		"oxc/no-barrel-file": "error",
 		"import/no-cycle": "error",
-		"react/jsx-no-useless-fragment": "warn",
+		"import/no-unassigned-import": "off",
+
 		"react/rules-of-hooks": "error",
 		"react/exhaustive-deps": "error",
+		"react/jsx-no-useless-fragment": "warn",
+		"react/react-in-jsx-scope": "off",
+
 		"typescript/no-non-null-assertion": "warn",
 		"typescript/no-unnecessary-type-constraint": "error",
+
 		"eslint/require-await": "error",
 		"unicorn/no-document-cookie": "off",
-		"jsx-a11y/no-autofocus": "off",
+
 		"jsx-a11y/anchor-has-content": [
 			"warn",
 			{
@@ -31,7 +37,8 @@
 					"HashNavLink",
 					"NavigationItem",
 					"Button",
-					"Icon"
+					"Icon",
+					"A"
 				]
 			}
 		],
@@ -41,7 +48,8 @@
 				"components": ["Link", "NavLink", "HashNavLink", "NavigationItem", "A"],
 				"specialLink": ["to", "href"]
 			}
-		]
+		],
+		"jsx-a11y/no-autofocus": "off"
 	},
 	"settings": {
 		"react": {

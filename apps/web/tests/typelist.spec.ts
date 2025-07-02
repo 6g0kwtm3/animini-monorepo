@@ -2,16 +2,15 @@ import { type BrowserContext, type Locator, type Page } from "@playwright/test"
 import { graphql, HttpResponse } from "msw"
 
 import { type } from "arktype"
-import type {
-	routeNavUserQuery$rawResponse,
-	routeNavUserQuery$variables,
+import {
+	type routeNavUserQuery$rawResponse,
+	type routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
 import { invariant } from "~/lib/invariant"
 import { Token } from "~/lib/viewer"
 import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
-// test.use({ storageState: "playwright/.auth/user.json" })
 
 class UserPage {
 	animeList: Locator
