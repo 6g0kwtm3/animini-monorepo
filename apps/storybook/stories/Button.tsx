@@ -1,6 +1,6 @@
-import { Property } from "csstype"
+import type { Property } from "csstype"
 import PropTypes from "prop-types"
-import { ReactNode, type ComponentProps } from "react"
+import { type ReactNode, type ComponentProps } from "react"
 import "./button.css"
 
 interface ButtonProps extends ComponentProps<"button"> {
