@@ -91,7 +91,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 }
 
 export const meta = (({ data }) => {
-	return [{ title: `Media - ${data.Media.title.userPreferred}` }]
+	return [{ title: `Media - ${data?.Media.title.userPreferred}` }]
 }) satisfies Route.MetaFunction
 
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
