@@ -99,6 +99,7 @@ catalog:
   "@msw/playwright": 0.3.1
   msw: 2.10.2
   "@graphql-tools/mock": 9.0.23
+  "@prettier/plugin-oxc": 0.0.4
 
 catalogs:
   experimental:
