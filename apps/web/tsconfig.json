@@ -1,13 +1,6 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		".react-router/types/**/*",
-		"app/**/*",
-		"app/**/.server/**/*",
-		"app/**/.client/**/*"
-	],
+	"include": ["**/*", ".react-router/types/**/*"],
 	"extends": ["ts-config/tsconfig.json"],
 	"compilerOptions": {
 		"module": "ESNext",
