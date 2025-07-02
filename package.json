@@ -11,7 +11,7 @@
 		"lint": "eslint --cache . --fix",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"dev": "turbo watch dev dts relay-watch",
-		"format": "prettier . -w --cache --cache-strategy metadata",
+		"format": "prettier . -w --cache --experimental-cli",
 		"test": "vitest --run --changed origin/master",
 		"test-e2e": "turbo run test-e2e --continue=dependencies-successful --log-order=stream",
 		"stryker": "stryker run",
@@ -20,6 +20,7 @@
 		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix"
 	},
 	"devDependencies": {
+		"@prettier/plugin-oxc": "catalog:",
 		"@stryker-mutator/api": "catalog:",
 		"@stryker-mutator/core": "catalog:",
 		"@stryker-mutator/vitest-runner": "catalog:",
