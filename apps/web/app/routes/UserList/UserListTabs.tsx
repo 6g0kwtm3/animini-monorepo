@@ -3,7 +3,7 @@ import * as Order from "~/lib/Order"
 
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
-import { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
+import type { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
 
 import { A } from "a"
 import ReactRelay from "react-relay"

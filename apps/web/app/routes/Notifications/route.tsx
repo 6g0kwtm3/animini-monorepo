@@ -24,7 +24,7 @@ import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation 
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { client_get_client } from "~/lib/client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
-import { Route } from "./+types/route"
+import type { Route } from "./+types/route"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"

@@ -32,7 +32,7 @@ import {
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { Tabs, TabsList, TabsListItem, TabsPanel } from "~/components/Tabs"
-import { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
+import type { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
 
 import * as Ariakit from "@ariakit/react"
 
