@@ -1,4 +1,4 @@
-import { createWorkerFixture, type WorkerFixture } from "@msw/playwright"
+import { createNetworkFixture, type NetworkFixture } from "@msw/playwright"
 import base from "@playwright/test"
 
 import { addMocksToSchema } from "@graphql-tools/mock"
@@ -38,8 +38,8 @@ export const SuccessHandler = graphql.operation<object>(async (args) => {
 	)
 })
 
-export const test = base.extend<{ worker: WorkerFixture }>({
-	worker: createWorkerFixture({
+export const test = base.extend<{ worker: NetworkFixture }>({
+	worker: createNetworkFixture({
 		initialHandlers: [
 			http.post("https://graphql.anilist.co", () => HttpResponse.error()),
 		],
