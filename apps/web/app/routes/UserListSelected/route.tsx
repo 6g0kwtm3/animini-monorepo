@@ -56,7 +56,7 @@ import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { invariant } from "~/lib/invariant"
 import * as Order from "~/lib/Order"
-import { Route } from "./+types/route"
+import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 

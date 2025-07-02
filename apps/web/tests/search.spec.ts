@@ -6,7 +6,7 @@ import routeNavMediaQuery, {
 } from "~/gql/routeNavMediaQuery.graphql"
 import routeNavSearchQuery, {
 	type routeNavSearchQuery$rawResponse,
-	routeNavSearchQuery$variables,
+	type routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
 import { SuccessHandler, test } from "./fixtures"
 import { MediaPage } from "./pages/MediaPage"
