@@ -10,6 +10,6 @@
 		"paths": { "~/*": ["./app/*"], "#lib/*": ["./app/lib/*"] },
 		// Vite takes care of building everything, not tsc.
 		"noEmit": true,
-		"types": ["@react-router/node", "vite/client", "unplugin-icons/types/react"]
+		"types": ["unplugin-icons/types/react"]
 	}
 }
