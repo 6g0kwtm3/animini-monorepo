@@ -64,7 +64,9 @@ class Observer<T> {
 	constructor(private make: (emit: (value: T) => void) => () => void) {}
 
 	subscribe(callback: (value: T) => void) {
-		const wrapped = (value: T) => callback(value)
+		const wrapped = (value: T) => {
+			callback(value)
+		}
 		this.callbacks.add(wrapped)
 
 		const destructor = (this.destructor ??= this.make((value) => {
@@ -86,7 +88,9 @@ class Observer<T> {
 const storageObserver = new Observer<StorageEvent>((emit) => {
 	const controller = new AbortController()
 	window.addEventListener("storage", emit, controller)
-	return () => controller.abort()
+	return () => {
+		controller.abort()
+	}
 })
 
 export function useSessionStorage<T = undefined>(
