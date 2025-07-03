@@ -100,8 +100,8 @@ catalogs:
       specifier: 4.1.11
       version: 4.1.11
     '@types/bun':
-      specifier: 1.2.17
-      version: 1.2.17
+      specifier: 1.2.18
+      version: 1.2.18
     '@types/estree':
       specifier: 1.0.8
       version: 1.0.8
@@ -770,7 +770,7 @@ importers:
     devDependencies:
       '@types/bun':
         specifier: 'catalog:'
-        version: 1.2.17
+        version: 1.2.18(@types/react@19.1.8)
       eslint:
         specifier: 'catalog:'
         version: 9.30.1(jiti@2.4.2)
@@ -2885,8 +2885,8 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
-  '@types/bun@1.2.17':
-    resolution: {integrity: sha512-l/BYs/JYt+cXA/0+wUhulYJB6a6p//GTPiJ7nV+QHa8iiId4HZmnu/3J/SowP5g0rTiERY2kfGKXEK5Ehltx4Q==}
+  '@types/bun@1.2.18':
+    resolution: {integrity: sha512-Xf6RaWVheyemaThV0kUfaAUvCNokFr+bH8Jxp+tTZfx7dAPA8z9ePnP9S9+Vspzuxxx9JRAXhnyccRj3GyCMdQ==}
 
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
@@ -3307,8 +3307,10 @@ packages:
   buffer-crc32@0.2.13:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
 
-  bun-types@1.2.17:
-    resolution: {integrity: sha512-ElC7ItwT3SCQwYZDYoAH+q6KT4Fxjl8DtZ6qDulUFBmXA8YB4xo+l54J9ZJN+k2pphfn9vk7kfubeSd5QfTVJQ==}
+  bun-types@1.2.18:
+    resolution: {integrity: sha512-04+Eha5NP7Z0A9YgDAzMk5PHR16ZuLVa83b26kH5+cp1qZW4F6FmAURngE7INf4tKOvCE69vYvDEwoNl1tGiWw==}
+    peerDependencies:
+      '@types/react': ^19
 
   bundle-name@4.1.0:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
@@ -8507,9 +8509,11 @@ snapshots:
     dependencies:
       '@babel/types': 7.27.6
 
-  '@types/bun@1.2.17':
+  '@types/bun@1.2.18(@types/react@19.1.8)':
     dependencies:
-      bun-types: 1.2.17
+      bun-types: 1.2.18(@types/react@19.1.8)
+    transitivePeerDependencies:
+      - '@types/react'
 
   '@types/cacheable-request@6.0.3':
     dependencies:
@@ -9002,9 +9006,10 @@ snapshots:
 
   buffer-crc32@0.2.13: {}
 
-  bun-types@1.2.17:
+  bun-types@1.2.18(@types/react@19.1.8):
     dependencies:
       '@types/node': 22.16.0
+      '@types/react': 19.1.8
 
   bundle-name@4.1.0:
     dependencies:
