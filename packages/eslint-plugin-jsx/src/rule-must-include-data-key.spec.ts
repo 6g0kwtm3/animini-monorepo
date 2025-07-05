@@ -68,12 +68,12 @@ void describe("rule-must-include-data-key", () => {
 			code: `
         <li key="foo" />
         `,
-			errors: ["must-include-data-key"],
+			errors: ["data-key-must-match-key"],
 		})
 		expect(result.output).toMatchSnapshot()
 	})
 
-	test.skip("reports error for missing data-key with boolean value", async () => {
+	test("reports error for missing data-key with boolean value", async () => {
 		const { result } = await invalid({
 			code: `
         <li key data-key="foo" />
@@ -88,7 +88,7 @@ void describe("rule-must-include-data-key", () => {
 			code: `
         <li key={foo + bar} />
         `,
-			errors: ["must-include-data-key"],
+			errors: ["data-key-must-match-key"],
 		})
 		expect(result.output).toMatchSnapshot()
 	})
@@ -97,6 +97,16 @@ void describe("rule-must-include-data-key", () => {
 		const { result } = await invalid({
 			code: `
 				<li key="foo" data-key={foo} />
+        `,
+			errors: ["data-key-must-match-key"],
+		})
+		expect(result.output).toMatchSnapshot()
+	})
+
+	test("2 reports error for different data-key with computed value", async () => {
+		const { result } = await invalid({
+			code: `
+				<li key="foo" data-key />
         `,
 			errors: ["data-key-must-match-key"],
 		})
