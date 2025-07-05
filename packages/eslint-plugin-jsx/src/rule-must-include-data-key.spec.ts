@@ -103,7 +103,7 @@ void describe("rule-must-include-data-key", () => {
 		expect(result.output).toMatchSnapshot()
 	})
 
-	test("2 reports error for different data-key with computed value", async () => {
+	test("reports error for different computed data-key", async () => {
 		const { result } = await invalid({
 			code: `
 				<li key="foo" data-key />

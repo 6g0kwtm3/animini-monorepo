@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`2 reports error for different data-key with computed value 1`] = `
+exports[`reports error for different computed data-key 1`] = `
 "
 				<li key="foo" data-key="foo" />
         "
