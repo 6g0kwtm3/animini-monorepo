@@ -1,7 +1,6 @@
 packages:
   - packages/*
   - apps/*
-
 catalog:
   "@ariakit/react": 0.4.17
   "@babel/preset-typescript": 7.27.1

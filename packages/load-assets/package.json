@@ -19,6 +19,7 @@
 		"@types/bun": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
+		"eslint-config-react": "workspace:*",
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:",

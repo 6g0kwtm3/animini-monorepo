@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "m3-react",
+	"name": "eslint-plugin-jsx",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -10,13 +10,21 @@
 		"lint": "eslint --cache . --fix",
 		"check": "tsc --noEmit"
 	},
+	"dependencies": {
+		"@typescript-eslint/utils": "latest"
+	},
+	"peerDependencies": {
+		"graphql": "catalog:"
+	},
 	"devDependencies": {
+		"@typescript-eslint/parser": "catalog:",
+		"@typescript-eslint/typescript-estree": "latest",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
 		"eslint-typegen": "catalog:",
-		"m3-core": "workspace:*",
+		"eslint-vitest-rule-tester": "catalog:",
 		"ts-config": "workspace:^",
-		"tsx": "catalog:"
+		"tsx": "catalog:",
+		"vitest": "catalog:"
 	}
 }

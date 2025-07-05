@@ -84,6 +84,7 @@
 		"dotenv": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
+		"eslint-config-react": "workspace:*",
 		"eslint-plugin-relay": "workspace:*",
 		"eslint-typegen": "catalog:",
 		"graphql-config": "catalog:",

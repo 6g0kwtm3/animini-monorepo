@@ -29,6 +29,7 @@
 		"csstype": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
+		"eslint-config-react": "workspace:*",
 		"eslint-plugin-storybook": "catalog:",
 		"eslint-typegen": "catalog:",
 		"prop-types": "catalog:",
