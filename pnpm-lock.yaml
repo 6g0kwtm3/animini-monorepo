@@ -675,18 +675,6 @@ importers:
       eslint-plugin-oxlint:
         specifier: 'catalog:'
         version: 1.5.0
-      eslint-plugin-react:
-        specifier: 'catalog:'
-        version: 7.37.5(eslint@9.30.1(jiti@2.4.2))
-      eslint-plugin-react-compiler:
-        specifier: 'catalog:'
-        version: 19.0.0-beta-af1b7da-20250417(eslint@9.30.1(jiti@2.4.2))
-      eslint-plugin-react-hooks:
-        specifier: 'catalog:'
-        version: 6.0.0-rc1(eslint@9.30.1(jiti@2.4.2))
-      eslint-plugin-react-refresh:
-        specifier: 'catalog:'
-        version: 0.4.20(eslint@9.30.1(jiti@2.4.2))
       eslint-plugin-turbo:
         specifier: 'catalog:'
         version: 2.5.4(eslint@9.30.1(jiti@2.4.2))(turbo@2.5.4)
@@ -702,9 +690,6 @@ importers:
 
   packages/eslint-config-react:
     dependencies:
-      '@eslint/js':
-        specifier: 'catalog:'
-        version: 9.30.1
       eslint:
         specifier: 'catalog:'
         version: 9.30.1(jiti@2.4.2)
@@ -726,18 +711,12 @@ importers:
       eslint-plugin-react-refresh:
         specifier: 'catalog:'
         version: 0.4.20(eslint@9.30.1(jiti@2.4.2))
-      eslint-plugin-turbo:
-        specifier: 'catalog:'
-        version: 2.5.4(eslint@9.30.1(jiti@2.4.2))(turbo@2.5.4)
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.2.1(eslint@9.30.1(jiti@2.4.2))
       oxlint-config:
         specifier: workspace:*
         version: link:../oxlint-config
-      typescript-eslint:
-        specifier: 'catalog:'
-        version: 8.35.1(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
 
   packages/eslint-plugin-jsx:
     dependencies:
@@ -892,9 +871,6 @@ importers:
       eslint-config:
         specifier: workspace:*
         version: link:../eslint-config
-      eslint-config-react:
-        specifier: workspace:*
-        version: link:../eslint-config-react
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.2.1(eslint@9.30.1(jiti@2.4.2))
