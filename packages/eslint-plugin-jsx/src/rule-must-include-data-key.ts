@@ -125,39 +125,30 @@ function stableStringify(
 	context: RuleContext<string, []>,
 	obj: TSESTree.JSXExpression | TSESTree.Literal
 ) {
-	return JSON.stringify(
-		obj,
-		(
-			key,
-			value: TSESTree.Node[Exclude<
-				keyof TSESTree.Node,
-				"loc" | "range" | "parent"
-			>]
-		) => {
-			if (key === "loc" || key === "range" || key === "parent") {
-				return undefined
-			}
-
-			if (typeof value !== "object") {
-				return value
-			}
-
-			if (value == null) {
-				return value
-			}
-
-			if (Array.isArray(value)) {
-				return value
-			}
-
-			return (
-				getStaticValue(value, context)
-				?? Object.fromEntries(
-					Object.entries(value).sort(([a], [b]) => a.localeCompare(b))
-				)
-			)
+	return JSON.stringify(obj, (key, value: unknown) => {
+		if (key === "loc" || key === "range" || key === "parent") {
+			return undefined
 		}
-	)
+
+		if (typeof value !== "object") {
+			return value
+		}
+
+		if (value == null) {
+			return value
+		}
+
+		if (Array.isArray(value)) {
+			return value
+		}
+
+		return (
+			getStaticValue(value as TSESTree.Node, context)
+			?? Object.fromEntries(
+				Object.entries(value).sort(([a], [b]) => a.localeCompare(b))
+			)
+		)
+	})
 }
 
 function getStaticValue(node: TSESTree.Node, context: RuleContext<string, []>) {
