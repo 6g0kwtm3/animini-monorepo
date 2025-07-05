@@ -154,3 +154,9 @@ function stableStringify(
 function getStaticValue(node: TSESTree.Node, context: RuleContext<string, []>) {
 	return ASTUtils.getStaticValue(node, context.sourceCode.getScope(node))
 }
+
+declare global {
+	interface ArrayConstructor {
+		isArray(arg: unknown): arg is unknown[]
+	}
+}
