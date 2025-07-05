@@ -17,7 +17,6 @@
 		"graphql": "catalog:"
 	},
 	"devDependencies": {
-		"@types/estree": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
 		"@typescript-eslint/typescript-estree": "latest",
 		"eslint": "catalog:",
