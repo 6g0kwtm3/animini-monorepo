@@ -8,7 +8,7 @@ import type {
 	RuleModule,
 } from "@typescript-eslint/utils/ts-eslint"
 
-export const rule: RuleModule<string, []> = {
+export const rule: RuleModule<string> = {
 	meta: {
 		type: "suggestion",
 		docs: { description: "" },
@@ -107,10 +107,10 @@ function isEqual(
 		return true
 	}
 
-	let aExpression = "expression" in a.value ? a.value.expression : a.value
+	const aExpression = "expression" in a.value ? a.value.expression : a.value
 
 	const evaluatedA = getStaticValue(aExpression, context)
-	let bExpression = "expression" in b.value ? b.value.expression : b.value
+	const bExpression = "expression" in b.value ? b.value.expression : b.value
 
 	const evaluatedB = getStaticValue(bExpression, context)
 
