@@ -44,16 +44,16 @@ export const rule: Rule.RuleModule = {
 					)
 				)
 
-				const key = byName["key"]
+				const key = byName.key
 
-				if (!key || !key.value) {
+				if (!key?.value) {
 					return
 				}
 
 				const dataKey = byName["data-key"]
 
 				if (!dataKey) {
-					return context.report({
+					context.report({
 						node,
 						messageId: "must-include-data-key",
 						data: {},
@@ -63,7 +63,7 @@ export const rule: Rule.RuleModule = {
 								` data-key=${context.sourceCode.getText(key.value)}`
 							)
 						},
-					})
+					}); return;
 				}
 
 				if (!isEqual(context, key.value, dataKey.value)) {

@@ -11,7 +11,7 @@ import tseslint from "typescript-eslint"
 
 export default await typegen([
 	{
-		name: "eslint-config/base/ignores",
+		name: "eslint-config/ignores",
 		ignores: [
 			".tsup/",
 			"dist/",
@@ -50,7 +50,7 @@ export default await typegen([
 		},
 	})),
 	{
-		name: "eslint-config/base/typescript-eslint/parser-options",
+		name: "eslint-config/typescript-eslint/parser-options",
 		languageOptions: {
 			parserOptions: {
 				projectService: true,

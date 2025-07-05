@@ -1,8 +1,8 @@
 // @ts-check
 /// <reference path="./eslint-typegen.d.ts" />
 import * as graphql from "@graphql-eslint/eslint-plugin"
-import base from "eslint-config/base"
-import react from "eslint-config/react"
+import base from "eslint-config"
+import react from "eslint-config-react"
 import relay from "eslint-plugin-relay"
 import typegen from "eslint-typegen"
 import graphQLConfig from "./graphql.config.js"

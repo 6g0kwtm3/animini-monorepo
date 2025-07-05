@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="./eslint-typegen.d.ts" />
-import base from "eslint-config/base"
-import react from "eslint-config/react"
+import base from "eslint-config"
+import react from "eslint-config-react"
 import typegen from "eslint-typegen"
 import { createRequire } from "node:module"
 

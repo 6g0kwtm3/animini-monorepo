@@ -1,12 +1,13 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "eslint-config",
+	"name": "eslint-config-react",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"dependencies": {
 		"@eslint/js": "catalog:",
 		"eslint": "catalog:",
+		"eslint-plugin-jsx": "workspace:*",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
 		"eslint-plugin-react-compiler": "catalog:",
