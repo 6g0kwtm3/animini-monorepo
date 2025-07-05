@@ -18,9 +18,7 @@
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "catalog:"
 	},
-	"devDependencies": {
-		"eslint-config-react": "workspace:*"
-	},
+	"devDependencies": {},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",

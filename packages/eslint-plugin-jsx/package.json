@@ -22,7 +22,6 @@
 		"@typescript-eslint/typescript-estree": "latest",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
 		"eslint-typegen": "catalog:",
 		"eslint-vitest-rule-tester": "catalog:",
 		"ts-config": "workspace:^",
