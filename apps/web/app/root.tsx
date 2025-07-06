@@ -102,11 +102,14 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const navigation = useNavigation()
 	useEffect(() => {
 		if (navigation.state === "idle") {
-			while (queue[0] && queue[1]) {
-				for (const ref of queue[0]) {
-					ref.dispose()
+			while (queue.size > 1) {
+				for (const refs of queue.values()) {
+					for (const ref of refs) {
+						ref.dispose()
+					}
+					queue.delete(refs)
+					break
 				}
-				queue.shift()
 			}
 		}
 	}, [navigation.state])
