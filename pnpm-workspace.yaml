@@ -61,7 +61,7 @@ catalog:
   eslint-plugin-turbo: 2.5.4
   eslint-typegen: 2.2.1
   eslint-vitest-rule-tester: 2.2.0
-  framer-motion: 12.23.2
+  framer-motion: 12.23.3
   graphql: 16.11.0
   graphql-config: 5.1.5
   hono: 4.8.4
