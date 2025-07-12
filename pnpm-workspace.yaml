@@ -96,7 +96,7 @@ catalog:
   vitest: 3.2.4
   wrangler: 4.24.3
   "@msw/playwright": 0.4.2
-  msw: 2.10.3
+  msw: 2.10.4
   "@graphql-tools/mock": 9.0.23
   "@prettier/plugin-oxc": 0.0.4
 
