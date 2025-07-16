@@ -154,8 +154,8 @@ catalogs:
       specifier: 17.2.0
       version: 17.2.0
     electron:
-      specifier: 35.7.0
-      version: 35.7.0
+      specifier: 35.7.2
+      version: 35.7.2
     electron-devtools-installer:
       specifier: 4.0.0
       version: 4.0.0
@@ -510,7 +510,7 @@ importers:
         version: 1.0.2
       electron:
         specifier: 'catalog:'
-        version: 35.7.0
+        version: 35.7.2
       electron-devtools-installer:
         specifier: 'catalog:'
         version: 4.0.0
@@ -3040,12 +3040,6 @@ packages:
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
 
-  '@types/node@22.16.0':
-    resolution: {integrity: sha512-B2egV9wALML1JCpv3VQoQ+yesQKAmNMBIAY7OteVrikcOcAkWm+dGL6qpeCktPjAv6N1JLnhbNiqS35UpFyBsQ==}
-
-  '@types/node@22.16.3':
-    resolution: {integrity: sha512-sr4Xz74KOUeYadexo1r8imhRtlVXcs+j3XK3TcoiYk7B1t3YRVJgtaD3cwX73NYb71pmVuMLNRhJ9XKdoDB74g==}
-
   '@types/node@22.16.4':
     resolution: {integrity: sha512-PYRhNtZdm2wH/NT2k/oAJ6/f2VD2N2Dag0lGlx2vWgMSJXGNmlce5MiTQzoWAiIJtso30mjnfQCOKVH+kAQC/g==}
 
@@ -3832,8 +3826,8 @@ packages:
   electron-to-chromium@1.5.165:
     resolution: {integrity: sha512-naiMx1Z6Nb2TxPU6fiFrUrDTjyPMLdTtaOd2oLmG8zVSg2hCWGkhPyxwk+qRmZ1ytwVqUv0u7ZcDA5+ALhaUtw==}
 
-  electron@35.7.0:
-    resolution: {integrity: sha512-ZnbVqFK40pr83Jzw6IQ9pQT+obCG0DepSMKtOEe8WP2TgZbjvCOO4GzrR+a7Ze62JMRmtNOHsS4hFss6qjtSrQ==}
+  electron@35.7.2:
+    resolution: {integrity: sha512-MfAgKOs8OQJFEixUNRvuAzQQa0CciX9618JK6n7+U4aaHGS0PExoeL7bOwrI4L1rG3tH2gwcihI6tkxsSXX0iA==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -8655,7 +8649,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 22.16.3
+      '@types/node': 22.16.4
       '@types/responselike': 1.0.3
 
   '@types/chai@5.2.2':
@@ -8683,19 +8677,11 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 22.16.3
+      '@types/node': 22.16.4
 
   '@types/marked@0.3.0': {}
 
   '@types/mdx@2.0.13': {}
-
-  '@types/node@22.16.0':
-    dependencies:
-      undici-types: 6.21.0
-
-  '@types/node@22.16.3':
-    dependencies:
-      undici-types: 6.21.0
 
   '@types/node@22.16.4':
     dependencies:
@@ -8724,7 +8710,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 22.16.3
+      '@types/node': 22.16.4
 
   '@types/statuses@2.0.6': {}
 
@@ -8735,11 +8721,11 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 22.16.3
+      '@types/node': 22.16.4
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 22.16.3
+      '@types/node': 22.16.4
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.37.0(@typescript-eslint/parser@8.37.0(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)':
@@ -9180,7 +9166,7 @@ snapshots:
 
   bun-types@1.2.18(@types/react@19.1.8):
     dependencies:
-      '@types/node': 22.16.3
+      '@types/node': 22.16.4
       '@types/react': 19.1.8
 
   bundle-name@4.1.0:
@@ -9530,10 +9516,10 @@ snapshots:
 
   electron-to-chromium@1.5.165: {}
 
-  electron@35.7.0:
+  electron@35.7.2:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.16.0
+      '@types/node': 22.16.4
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
