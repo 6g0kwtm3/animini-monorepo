@@ -97,7 +97,7 @@ catalog:
   wrangler: 4.24.4
   "@msw/playwright": 0.4.2
   msw: 2.10.4
-  "@graphql-tools/mock": 9.0.23
+  "@graphql-tools/mock": 9.0.24
   "@prettier/plugin-oxc": 0.0.4
 
 catalogs:
