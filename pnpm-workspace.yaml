@@ -58,7 +58,7 @@ catalog:
   eslint-plugin-react-hooks: 6.0.0-rc1
   eslint-plugin-react-refresh: 0.4.20
   eslint-plugin-storybook: 9.1.0-alpha.8
-  eslint-plugin-turbo: 2.5.4
+  eslint-plugin-turbo: 2.5.5
   eslint-typegen: 2.2.1
   eslint-vitest-rule-tester: 2.2.0
   framer-motion: 12.23.6
@@ -84,7 +84,7 @@ catalog:
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.1.11
   tsx: 4.20.3
-  turbo: 2.5.4
+  turbo: 2.5.5
   typescript: 5.8.3
   typescript-eslint: 8.37.0
   unplugin-icons: 22.1.0
