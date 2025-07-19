@@ -32,6 +32,7 @@ init({
 		replayIntegration(),
 	],
 
+	_experiments: { enableLogs: true },
 	tracesSampleRate: 1.0, //  Capture 100% of the transactions
 
 	// Set `tracePropagationTargets` to declare which URL(s) should have trace propagation enabled
