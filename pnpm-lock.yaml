@@ -166,8 +166,8 @@ catalogs:
       specifier: 1.7.0
       version: 1.7.0
     eslint-plugin-pnpm:
-      specifier: 1.0.0
-      version: 1.0.0
+      specifier: 1.1.0
+      version: 1.1.0
     eslint-plugin-react:
       specifier: 7.37.5
       version: 7.37.5
@@ -326,7 +326,7 @@ importers:
         version: 9.31.0(jiti@2.4.2)
       eslint-plugin-pnpm:
         specifier: 'catalog:'
-        version: 1.0.0(eslint@9.31.0(jiti@2.4.2))
+        version: 1.1.0(eslint@9.31.0(jiti@2.4.2))
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.2.1(eslint@9.31.0(jiti@2.4.2))
@@ -3970,8 +3970,8 @@ packages:
   eslint-plugin-oxlint@1.7.0:
     resolution: {integrity: sha512-204qAoSNAOsDQOkbyfqQXBep04PN7fV7SLUlCeOVILF/NcXqD+w1JUtIaHxPvg1ipEBohaXOrR8x1Y2gYQUtZQ==}
 
-  eslint-plugin-pnpm@1.0.0:
-    resolution: {integrity: sha512-tyEA10k7psB9HFCx8R4/bU4JS2tSKfXaCnrCcis+1R4FucfMIc6HgcFl4msZbwY2I0D9Vec3xAEkXV0aPechhQ==}
+  eslint-plugin-pnpm@1.1.0:
+    resolution: {integrity: sha512-sL93w0muBtjnogzk/loDsxzMbmXQOLP5Blw3swLDBXZgfb+qQI73bPcUbjVR+ZL+K62vGJdErV+43i3r5DsZPg==}
     peerDependencies:
       eslint: ^9.0.0
 
@@ -5341,8 +5341,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  pnpm-workspace-yaml@1.0.0:
-    resolution: {integrity: sha512-2RKg3khFgX/oeKIQnxxlj+OUoKbaZjBt7EsmQiLfl8AHZKMIpLmXLRPptZ5eq2Rlumh2gILs6OWNky5dzP+f8A==}
+  pnpm-workspace-yaml@1.1.0:
+    resolution: {integrity: sha512-OWUzBxtitpyUV0fBYYwLAfWxn3mSzVbVB7cwgNaHvTTU9P0V2QHjyaY5i7f1hEiT9VeKsNH1Skfhe2E3lx/zhA==}
 
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
@@ -9965,13 +9965,13 @@ snapshots:
     dependencies:
       jsonc-parser: 3.3.1
 
-  eslint-plugin-pnpm@1.0.0(eslint@9.31.0(jiti@2.4.2)):
+  eslint-plugin-pnpm@1.1.0(eslint@9.31.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.31.0(jiti@2.4.2)
       find-up-simple: 1.0.1
       jsonc-eslint-parser: 2.4.0
       pathe: 2.0.3
-      pnpm-workspace-yaml: 1.0.0
+      pnpm-workspace-yaml: 1.1.0
       tinyglobby: 0.2.14
       yaml-eslint-parser: 1.3.0
 
@@ -11420,7 +11420,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  pnpm-workspace-yaml@1.0.0:
+  pnpm-workspace-yaml@1.1.0:
     dependencies:
       yaml: 2.8.0
 
