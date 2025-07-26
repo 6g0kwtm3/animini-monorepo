@@ -46,11 +46,11 @@ catalogs:
       specifier: 0.0.4
       version: 0.0.4
     '@react-router/dev':
-      specifier: 7.7.0
-      version: 7.7.0
+      specifier: 7.7.1
+      version: 7.7.1
     '@react-router/node':
-      specifier: 7.7.0
-      version: 7.7.0
+      specifier: 7.7.1
+      version: 7.7.1
     '@sentry/react':
       specifier: 9.40.0
       version: 9.40.0
@@ -241,8 +241,8 @@ catalogs:
       specifier: 20.0.0
       version: 20.0.0
     react-router:
-      specifier: 7.7.0
-      version: 7.7.0
+      specifier: 7.7.1
+      version: 7.7.1
     relay-compiler:
       specifier: 20.0.0
       version: 20.0.0
@@ -459,10 +459,10 @@ importers:
         version: 0.3.0
       '@react-router/dev':
         specifier: 'catalog:'
-        version: 7.7.0(@types/node@22.16.5)(jiti@2.4.2)(lightningcss@1.30.1)(react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(rolldown-vite@7.0.11(@types/node@22.16.5)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))(tsx@4.20.3)(typescript@5.8.3)(wrangler@4.25.1)(yaml@2.8.0)
+        version: 7.7.1(@types/node@22.16.5)(jiti@2.4.2)(lightningcss@1.30.1)(react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(rolldown-vite@7.0.11(@types/node@22.16.5)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))(tsx@4.20.3)(typescript@5.8.3)(wrangler@4.25.1)(yaml@2.8.0)
       '@react-router/node':
         specifier: 'catalog:'
-        version: 7.7.0(react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
+        version: 7.7.1(react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
       '@sentry/react':
         specifier: 'catalog:'
         version: 9.40.0(react@19.1.0)
@@ -543,7 +543,7 @@ importers:
         version: 20.0.0(react@19.1.0)
       react-router:
         specifier: 'catalog:'
-        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       relay-compiler:
         specifier: 'catalog:'
         version: 20.0.0
@@ -640,7 +640,7 @@ importers:
         version: 19.1.0
       react-router:
         specifier: 'catalog:'
-        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       eslint:
         specifier: 'catalog:'
@@ -799,7 +799,7 @@ importers:
         version: 19.1.0
       react-router:
         specifier: 'catalog:'
-        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       eslint:
         specifier: 'catalog:'
@@ -833,7 +833,7 @@ importers:
         version: 19.1.0
       react-router:
         specifier: 'catalog:'
-        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/bun':
         specifier: 'catalog:'
@@ -2426,13 +2426,13 @@ packages:
     resolution: {integrity: sha512-UGXe+g/rSRbglL0FOJiar+a+nUrst7KaFmsg05wYbKiInGWP6eAj/f8A2Uobgo5KxEtb2X10zeflNH6RK2xeIQ==}
     engines: {node: '>=14'}
 
-  '@react-router/dev@7.7.0':
-    resolution: {integrity: sha512-z6tJ0US20pS/YpaPz59SJgSH+1BJ6xvQmQ/u4Y4HM1uLOa4b3Mleg3KujqAvwGP5wkMkNFz3Ae2g6/kDTFyuCA==}
+  '@react-router/dev@7.7.1':
+    resolution: {integrity: sha512-ByfgHmAyfx/JQYN/QwUx1sFJlBA5Z3HQAZ638wHSb+m6khWtHqSaKCvPqQh1P00wdEAeV3tX5L1aUM/ceCF6+w==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     peerDependencies:
-      '@react-router/serve': ^7.7.0
-      react-router: ^7.7.0
+      '@react-router/serve': ^7.7.1
+      react-router: ^7.7.1
       typescript: ^5.1.0
       vite: ^5.1.0 || ^6.0.0 || ^7.0.0
       wrangler: ^3.28.2 || ^4.0.0
@@ -2444,11 +2444,11 @@ packages:
       wrangler:
         optional: true
 
-  '@react-router/node@7.7.0':
-    resolution: {integrity: sha512-PTl4C+QjWsbTfp+9mybOzIH10ZM/pjZrAlcoxc/KGYxcfWDEe2GDFFBQN6nGZgJe/0SwSjHsVwqo2haMKgTbvQ==}
+  '@react-router/node@7.7.1':
+    resolution: {integrity: sha512-EHd6PEcw2nmcJmcYTPA0MmRWSqOaJ/meycfCp0ADA9T/6b7+fUHfr9XcNyf7UeZtYwu4zGyuYfPmLU5ic6Ugyg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      react-router: 7.7.0
+      react-router: 7.7.1
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
@@ -5437,11 +5437,6 @@ packages:
       prettier-plugin-svelte:
         optional: true
 
-  prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-
   prettier@3.6.2:
     resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
@@ -5550,8 +5545,8 @@ packages:
     peerDependencies:
       react: ^16.9.0 || ^17 || ^18 || ^19
 
-  react-router@7.7.0:
-    resolution: {integrity: sha512-3FUYSwlvB/5wRJVTL/aavqHmfUKe0+Xm9MllkYgGo9eDwNdkvwlJGjpPxono1kCycLt6AnDTgjmXvK3/B4QGuw==}
+  react-router@7.7.1:
+    resolution: {integrity: sha512-jVKHXoWRIsD/qS6lvGveckwb862EekvapdHJN/cGmzw40KnJH5gg53ujOJ4qX6EKIK9LSBfFed/xiQ5yeXNrUA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -7954,7 +7949,7 @@ snapshots:
     dependencies:
       '@jridgewell/set-array': 1.2.1
       '@jridgewell/sourcemap-codec': 1.5.0
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.29
 
   '@jridgewell/resolve-uri@3.1.2': {}
 
@@ -8239,17 +8234,17 @@ snapshots:
     dependencies:
       oxc-parser: 0.74.0
 
-  '@react-router/dev@7.7.0(@types/node@22.16.5)(jiti@2.4.2)(lightningcss@1.30.1)(react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(rolldown-vite@7.0.11(@types/node@22.16.5)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))(tsx@4.20.3)(typescript@5.8.3)(wrangler@4.25.1)(yaml@2.8.0)':
+  '@react-router/dev@7.7.1(@types/node@22.16.5)(jiti@2.4.2)(lightningcss@1.30.1)(react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(rolldown-vite@7.0.11(@types/node@22.16.5)(esbuild@0.25.5)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))(tsx@4.20.3)(typescript@5.8.3)(wrangler@4.25.1)(yaml@2.8.0)':
     dependencies:
       '@babel/core': 7.28.0
-      '@babel/generator': 7.27.5
+      '@babel/generator': 7.28.0
       '@babel/parser': 7.28.0
       '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.28.0)
       '@babel/preset-typescript': 7.27.1(@babel/core@7.28.0)
       '@babel/traverse': 7.28.0
       '@babel/types': 7.28.1
       '@npmcli/package-json': 4.0.1
-      '@react-router/node': 7.7.0(react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
+      '@react-router/node': 7.7.1(react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
       arg: 5.0.2
       babel-dead-code-elimination: 1.0.10
       chokidar: 4.0.3
@@ -8261,9 +8256,9 @@ snapshots:
       lodash: 4.17.21
       pathe: 1.1.2
       picocolors: 1.1.1
-      prettier: 2.8.8
+      prettier: 3.6.2
       react-refresh: 0.14.2
-      react-router: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       semver: 7.7.2
       set-cookie-parser: 2.7.1
       tinyglobby: 0.2.14
@@ -8289,10 +8284,10 @@ snapshots:
       - tsx
       - yaml
 
-  '@react-router/node@7.7.0(react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)':
+  '@react-router/node@7.7.1(react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)':
     dependencies:
       '@mjackson/node-fetch-server': 0.2.0
-      react-router: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     optionalDependencies:
       typescript: 5.8.3
 
@@ -11446,8 +11441,6 @@ snapshots:
     optionalDependencies:
       '@prettier/plugin-oxc': 0.0.4
 
-  prettier@2.8.8: {}
-
   prettier@3.6.2: {}
 
   pretty-format@27.5.1:
@@ -11556,7 +11549,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       cookie: 1.0.2
       react: 19.1.0
