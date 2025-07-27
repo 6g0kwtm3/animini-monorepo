@@ -5,7 +5,7 @@ catalog:
   "@ariakit/react": 0.4.17
   "@babel/preset-typescript": 7.27.1
   "@chromatic-com/storybook": 4.0.1
-  "@eslint/js": 9.31.0
+  "@eslint/js": 9.32.0
   "@graphql-eslint/eslint-plugin": 4.4.0
   "@hono/node-server": 1.17.1
   "@iconify-json/material-symbols": 1.2.30
@@ -50,7 +50,7 @@ catalog:
   dotenv: 17.2.1
   electron: 35.7.2
   electron-devtools-installer: 4.0.0
-  eslint: 9.31.0
+  eslint: 9.32.0
   eslint-plugin-oxlint: 1.8.0
   eslint-plugin-pnpm: 1.1.0
   eslint-plugin-react: 7.37.5
