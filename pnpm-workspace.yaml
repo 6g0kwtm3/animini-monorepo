@@ -64,7 +64,7 @@ catalog:
   framer-motion: 12.23.11
   graphql: 16.11.0
   graphql-config: 5.1.5
-  hono: 4.8.9
+  hono: 4.8.10
   isbot: 5.1.28
   knip: 5.62.0
   marked: 0.3.19
