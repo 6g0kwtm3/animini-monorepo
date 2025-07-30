@@ -65,7 +65,7 @@ catalog:
   graphql: 16.11.0
   graphql-config: 5.1.5
   hono: 4.8.10
-  isbot: 5.1.28
+  isbot: 5.1.29
   knip: 5.62.0
   marked: 0.3.19
   nodemon: 3.1.10
