@@ -60,7 +60,7 @@ catalog:
   eslint-plugin-storybook: 9.1.0-beta.3
   eslint-plugin-turbo: 2.5.5
   eslint-typegen: 2.3.0
-  eslint-vitest-rule-tester: 2.2.0
+  eslint-vitest-rule-tester: 2.2.1
   framer-motion: 12.23.12
   graphql: 16.11.0
   graphql-config: 5.1.5
