@@ -13,7 +13,11 @@ export default defineConfig({
 	plugins: [
 		inspect(),
 		tailwindcss(),
-		babel({ filter: /\.[jt]sx?$/, exclude: [/~icons/], apply: () => false }),
+		babel({
+			filter: /\.[jt]sx?$/,
+			include: ["./app/**/*.tsx"],
+			exclude: [/~icons/],
+		}),
 		paraglide({ project: "./project.inlang", outdir: "./app/paraglide" }),
 
 		reactRouter(),
