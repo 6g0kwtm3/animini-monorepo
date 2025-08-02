@@ -16,21 +16,22 @@ import ReactRelay from "react-relay"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
 const { graphql } = ReactRelay
 
-const SearchTrending_query = graphql`
-	fragment SearchTrending_query on Query {
-		trending: Page(perPage: 10) {
-			media(sort: [TRENDING_DESC]) {
-				id
-				...SearchItem_media
-			}
-		}
-	}
-`
-
 export function SearchTrending(props: {
 	query: SearchTrending_query$key
 }): ReactNode {
-	const data = useFragment(SearchTrending_query, props.query)
+	const data = useFragment(
+		graphql`
+			fragment SearchTrending_query on Query {
+				trending: Page(perPage: 10) {
+					media(sort: [TRENDING_DESC]) {
+						id
+						...SearchItem_media
+					}
+				}
+			}
+		`,
+		props.query
+	)
 
 	return data.trending?.media && data.trending.media.length > 0 ? (
 		<SearchViewBody>

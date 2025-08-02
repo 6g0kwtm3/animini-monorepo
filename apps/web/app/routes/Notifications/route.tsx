@@ -35,7 +35,38 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	return {
 		routeNavNotificationsQuery: args.context.get(
 			loadQuery
-		)<routeNavNotificationsQueryOperation>(routeNavNotificationsQuery, {}),
+		)<routeNavNotificationsQueryOperation>(
+			graphql`
+				query routeNavNotificationsQuery {
+					Viewer @required(action: THROW) {
+						id
+						unreadNotificationCount
+						...Airing_viewer
+						...RelatedMediaAddition_viewer
+						...ActivityLike_viewer
+					}
+					Page {
+						notifications(
+							type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]
+						) {
+							... on AiringNotification {
+								id
+								...Airing_notification @alias
+							}
+							... on RelatedMediaAdditionNotification {
+								id
+								...RelatedMediaAddition_notification @alias
+							}
+							... on ActivityLikeNotification {
+								id
+								...ActivityLike_notification @alias
+							}
+						}
+					}
+				}
+			`,
+			{}
+		),
 	}
 }
 
@@ -57,34 +88,6 @@ export const clientAction = (async () => {
 
 	return redirect(".")
 }) satisfies ActionFunction
-
-const routeNavNotificationsQuery = graphql`
-	query routeNavNotificationsQuery {
-		Viewer @required(action: THROW) {
-			id
-			unreadNotificationCount
-			...Airing_viewer
-			...RelatedMediaAddition_viewer
-			...ActivityLike_viewer
-		}
-		Page {
-			notifications(type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]) {
-				... on AiringNotification {
-					id
-					...Airing_notification @alias
-				}
-				... on RelatedMediaAdditionNotification {
-					id
-					...RelatedMediaAddition_notification @alias
-				}
-				... on ActivityLikeNotification {
-					id
-					...ActivityLike_notification @alias
-				}
-			}
-		}
-	}
-`
 
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavNotificationsQuery)

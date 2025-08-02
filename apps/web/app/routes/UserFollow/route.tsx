@@ -11,16 +11,6 @@ import { invariant } from "~/lib/invariant"
 import { m } from "~/lib/paraglide"
 const { graphql } = ReactRelay
 
-const UserFollow = graphql`
-	mutation routeUserFollowMutation($userId: Int!) {
-		ToggleFollow(userId: $userId) {
-			id
-			name @required(action: LOG)
-			isFollowing
-		}
-	}
-`
-
 const Params = type({ userId: "string.integer.parse" })
 export const clientAction = (async (args) => {
 	const params = invariant(Params(args.params))
@@ -28,7 +18,15 @@ export const clientAction = (async (args) => {
 	const client = client_get_client()
 
 	const data = await client.mutation<routeUserFollowMutation>({
-		mutation: UserFollow,
+		mutation: graphql`
+			mutation routeUserFollowMutation($userId: Int!) {
+				ToggleFollow(userId: $userId) {
+					id
+					name @required(action: LOG)
+					isFollowing
+				}
+			}
+		`,
 		variables: { userId: params.userId },
 	})
 

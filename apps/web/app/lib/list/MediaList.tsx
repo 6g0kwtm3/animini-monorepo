@@ -34,17 +34,19 @@ export function AwaitLibrary({
 	)
 }
 
-const MediaListHeaderToWatch_entries = graphql`
-	fragment MediaListHeaderToWatch_entries on MediaList @relay(plural: true) {
-		id
-		toWatch
-	}
-`
-
 export function MediaListHeaderToWatch(props: {
 	entries: MediaListHeaderToWatch_entries$key
 }): string {
-	const entries = useFragment(MediaListHeaderToWatch_entries, props.entries)
+	const entries = useFragment(
+		graphql`
+			fragment MediaListHeaderToWatch_entries on MediaList
+			@relay(plural: true) {
+				id
+				toWatch
+			}
+		`,
+		props.entries
+	)
 
 	return formatWatch(
 		entries
