@@ -25,8 +25,8 @@ catalogs:
       specifier: 9.0.25
       version: 9.0.25
     '@hono/node-server':
-      specifier: 1.18.0
-      version: 1.18.0
+      specifier: 1.18.1
+      version: 1.18.1
     '@iconify-json/material-symbols':
       specifier: 1.2.30
       version: 1.2.30
@@ -447,7 +447,7 @@ importers:
         version: 0.4.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@hono/node-server':
         specifier: 'catalog:'
-        version: 1.18.0(hono@4.8.12)
+        version: 1.18.1(hono@4.8.12)
       '@iconify-json/material-symbols':
         specifier: 'catalog:'
         version: 1.2.30
@@ -1797,8 +1797,8 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@hono/node-server@1.18.0':
-    resolution: {integrity: sha512-CJ0H3/ouk/JWnyiuYOJLdpuWhO2D2BTNigHaFixnW3CrwZb+E+4s/KoFkcikHXcVmXoxaLJx1nlGa3JChEFtFA==}
+  '@hono/node-server@1.18.1':
+    resolution: {integrity: sha512-O3puG/b7owYYmoQ2XPBf3SxBz6Dhk5VmWFhbaBU8/5wcUaXUPS0goxaI2Zfyg+Cu14ILJHEU7IFRw7miFxuXxg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
@@ -7668,7 +7668,7 @@ snapshots:
     dependencies:
       graphql: 16.11.0
 
-  '@hono/node-server@1.18.0(hono@4.8.12)':
+  '@hono/node-server@1.18.1(hono@4.8.12)':
     dependencies:
       hono: 4.8.12
 
