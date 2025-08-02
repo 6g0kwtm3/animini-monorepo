@@ -10,24 +10,25 @@ import type { User_user$key } from "~/gql/User_user.graphql"
 
 const { graphql } = ReactRelay
 
-const User_user = graphql`
-	fragment User_user on User {
-		id
-		name
-		bannerImage
-		avatar {
-			large
-			medium
-		}
-	}
-`
-
 interface UserProps extends ComponentProps<"div"> {
 	user: User_user$key
 }
 
 export function User({ user, ...props }: UserProps): ReactNode {
-	const data = useFragment(User_user, user)
+	const data = useFragment(
+		graphql`
+			fragment User_user on User {
+				id
+				name
+				bannerImage
+				avatar {
+					large
+					medium
+				}
+			}
+		`,
+		user
+	)
 	const src = data.avatar?.large ?? data.avatar?.medium
 
 	return (

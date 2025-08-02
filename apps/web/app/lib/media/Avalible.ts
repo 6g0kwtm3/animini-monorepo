@@ -6,24 +6,25 @@ import type {
 import { readFragment } from "../Network"
 const { graphql } = ReactRelay
 
-const Avalible_media = graphql`
-	fragment Avalible_media on Media {
-		status(version: 2)
-		episodes
-		chapters
-		nextAiringEpisode {
-			id
-			episode
-		}
-		id
-	}
-`
-
 /**
  * @RelayResolver Media.avalible: Int
  * @rootFragment Avalible_media*/
 export function avalible(key: Avalible_media$key): number | null | undefined {
-	const media = readFragment(Avalible_media, key)
+	const media = readFragment(
+		graphql`
+			fragment Avalible_media on Media {
+				status(version: 2)
+				episodes
+				chapters
+				nextAiringEpisode {
+					id
+					episode
+				}
+				id
+			}
+		`,
+		key
+	)
 
 	if (media.status == null) {
 		return null

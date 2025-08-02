@@ -5,22 +5,23 @@ import { readFragment } from "../Network"
 
 const { graphql } = ReactRelay
 
-const ToWatch_entry = graphql`
-	fragment ToWatch_entry on MediaList {
-		behind @required(action: NONE)
-		media {
-			duration
-			id
-		}
-		id
-	}
-`
-
 /**
  * @RelayResolver MediaList.toWatch: Int
  * @rootFragment ToWatch_entry*/
 export function toWatch(data: ToWatch_entry$key): number | null {
-	const entry = readFragment(ToWatch_entry, data)
+	const entry = readFragment(
+		graphql`
+			fragment ToWatch_entry on MediaList {
+				behind @required(action: NONE)
+				media {
+					duration
+					id
+				}
+				id
+			}
+		`,
+		data
+	)
 
 	if (!entry) {
 		return null

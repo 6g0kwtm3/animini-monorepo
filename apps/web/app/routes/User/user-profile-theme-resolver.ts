@@ -4,19 +4,20 @@ import { readFragment } from "~/lib/Network"
 import { getThemeFromHex, type Theme } from "~/lib/theme"
 const { graphql } = ReactRelay
 
-const userProfileThemeResolver_userOptions = graphql`
-	fragment userProfileThemeResolver_userOptions on UserOptions {
-		profileColor
-	}
-`
-
 /**
  * @RelayResolver UserOptions.profileTheme: RelayResolverValue
  * @rootFragment userProfileThemeResolver_userOptions*/
 export function profileTheme(
 	key: userProfileThemeResolver_userOptions$key
 ): Theme | null {
-	const options = readFragment(userProfileThemeResolver_userOptions, key)
+	const options = readFragment(
+		graphql`
+			fragment userProfileThemeResolver_userOptions on UserOptions {
+				profileColor
+			}
+		`,
+		key
+	)
 
 	const color = options.profileColor
 		? {

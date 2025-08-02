@@ -15,24 +15,25 @@ import { useFragment } from "../Network"
 import { route_media } from "../route"
 const { graphql } = ReactRelay
 
-const SearchItem_media = graphql`
-	fragment SearchItem_media on Media {
-		id
-		type
-		...MediaCover_media
-		title @required(action: LOG) {
-			userPreferred @required(action: LOG)
-		}
-	}
-`
-
 export function SearchItem({
 	media,
 	...props
 }: {
 	media: SearchItem_media$key
 }) {
-	const data = useFragment(SearchItem_media, media)
+	const data = useFragment(
+		graphql`
+			fragment SearchItem_media on Media {
+				id
+				type
+				...MediaCover_media
+				title @required(action: LOG) {
+					userPreferred @required(action: LOG)
+				}
+			}
+		`,
+		media
+	)
 
 	return (
 		data && (
