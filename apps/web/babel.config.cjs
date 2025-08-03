@@ -6,5 +6,5 @@ module.exports = {
 		],
 	],
 	babelrc: false,
-	plugins: [["babel-plugin-react-compiler", { target: "19" }]],
+	plugins: ["babel-plugin-react-compiler"],
 }
