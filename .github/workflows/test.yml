@@ -17,6 +17,10 @@ env:
   TURBO_CACHE: remote:rw
   TURBO_SCM_BASE: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.before }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy-sentry:
     name: Deploy Sentry
