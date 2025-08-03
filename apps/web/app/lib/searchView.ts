@@ -14,7 +14,7 @@ export const searchView = plugin((ctx) => {
 					{},
 			},
 			"& .search-view-backdrop": {
-				"@apply bg-scrim/40 data-enter:opacity-100 opacity-0 transition-[opacity]":
+				"@apply bg-scrim/40 data-enter:opacity-100 opacity-0 transition-[opacity] ease-effects-fast duration-effects-fast":
 					{},
 			},
 

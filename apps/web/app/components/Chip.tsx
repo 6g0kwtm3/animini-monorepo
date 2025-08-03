@@ -25,7 +25,7 @@ export function ChipFilter(
 			<Label
 				{...props}
 				data-focus-visible={focusVisible || undefined}
-				className="border-outline text-label-lg text-on-surface-variant duration-md ease-standard-decelerate has-checked:bg-secondary-container has-checked:text-on-secondary-container hover:[&:not(\\\\#)]:state-hover has-focused:[&:not(\\\\#)]:state-focus has-checked:border-0 has-checked:shadow-sm flex h-8 items-center gap-2 rounded-sm border px-4 shadow-sm"
+				className="border-outline text-label-lg text-on-surface-variant duration-spatial-fast ease-spatial-fast has-checked:bg-secondary-container has-checked:text-on-secondary-container hover:[&:not(\\\\#)]:state-hover has-focused:[&:not(\\\\#)]:state-focus has-checked:border-0 has-checked:shadow-sm flex h-8 items-center gap-2 rounded-sm border px-4 shadow-sm"
 			/>
 		</FocusContext>
 	)
@@ -83,7 +83,7 @@ export function ChipFilterRadio(
 
 function ChipFilterIcon(): ReactNode {
 	return (
-		<div className="ease-standard-accelerate i-[1.125rem] peer-has-checked:w-[1.125rem] peer-has-checked:opacity-100 -ms-2 w-0 opacity-0 transition-all">
+		<div className="ease-spatial-fast duration-spatial-fast i-[1.125rem] peer-has-checked:w-[1.125rem] peer-has-checked:opacity-100 -ms-2 w-0 opacity-0 transition-all">
 			<MaterialSymbolsCheck />
 		</div>
 	)

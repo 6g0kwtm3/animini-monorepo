@@ -42,30 +42,20 @@ export const config = {
 			{ transparent: "transparent" }
 		),
 		transitionTimingFunction: {
-			emphasized: "cubic-bezier(0.2, 0.0, 0, 1.0)",
-			"emphasized-decelerate": "cubic-bezier(0.05, 0.7, 0.1, 1.0)",
-			"emphasized-accelerate": "cubic-bezier(0.3, 0.0, 0.8, 0.15)",
-			standard: "cubic-bezier(0.2, 0.0, 0, 1.0)",
-			"standard-decelerate": "cubic-bezier(0, 0, 0, 1)",
-			"standard-accelerate": "cubic-bezier(0.3, 0.0, 1, 1)",
+			spatial: {
+				fast: "cubic-bezier(0.42, 1.67, 0.21, 0.9)",
+				DEFAULT: "cubic-bezier(0.38, 1.21, 0.22, 1.00)",
+				slow: "cubic-bezier(0.39, 1.29, 0.35, 0.98)",
+			},
+			effects: {
+				fast: "cubic-bezier(0.31, 0.94, 0.34, 1.00)",
+				DEFAULT: "cubic-bezier(0.34, 0.80, 0.34, 1.00)",
+				slow: "cubic-bezier(0.34, 0.88, 0.34, 1.00)",
+			},
 		},
 		transitionDuration: {
-			sm: "50ms",
-			"2sm": "100ms",
-			"3sm": "150ms",
-			"4sm": "200ms",
-			md: "250ms",
-			"2md": "300ms",
-			"3md": "350ms",
-			"4md": "400ms",
-			lg: "450ms",
-			"2lg": "500ms",
-			"3lg": "550ms",
-			"4lg": "600ms",
-			xl: "700ms",
-			"2xl": "700ms",
-			"3xl": "800ms",
-			"4xl": "1000ms",
+			spatial: { fast: "350ms", DEFAULT: "500ms", slow: "650ms" },
+			effects: { fast: "150ms", DEFAULT: "200ms", slow: "300ms" },
 		},
 		extend: {
 			animation: {
