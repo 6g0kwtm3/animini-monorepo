@@ -40,6 +40,8 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 }) => ReactNode
 
 import fonts from "../tailwind.config.fonts"
+import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
+import { LoadingIndicator } from "./lib/loading-renderer"
 import { numberToString } from "./lib/numberToString"
 
 const fontWeights = [
@@ -177,7 +179,15 @@ export default function App(): ReactNode {
 }
 
 export function HydrateFallback() {
-	return <p>Loading App...</p>
+	return (
+		<M3Layout className="">
+			<LayoutBody className="">
+				<LayoutPane className="justify-center items-center flex h-svh">
+					<LoadingIndicator></LoadingIndicator>
+				</LayoutPane>
+			</LayoutBody>
+		</M3Layout>
+	)
 }
 
 export function ErrorBoundary(): ReactNode {

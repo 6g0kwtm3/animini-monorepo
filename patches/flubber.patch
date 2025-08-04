@@ -1,0 +1,18 @@
+diff --git a/package.json b/package.json
+index 45cfd34d57f3e8cc430f94791d0466fdbebb1f2d..16485303c3632c63e836f04b56cd990ac683db78 100644
+--- a/package.json
++++ b/package.json
+@@ -9,6 +9,13 @@
+     "pretest": "rm -rf build && mkdir build && rollup --config rollup.config.js",
+     "build": "npm run pretest && uglifyjs -m -c -- build/flubber.js > build/flubber.min.js"
+   },
++  "type": "module",
++  "exports": {
++    ".": {
++      "import": "./index.js",
++      "require": "./build/flubber.min.js"
++    }
++  },
+   "module": "index",
+   "jsnext:main": "index",
+   "repository": {

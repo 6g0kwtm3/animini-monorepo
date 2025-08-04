@@ -1,17 +1,21 @@
 packages:
   - packages/*
   - apps/*
+
 catalog:
   "@ariakit/react": 0.4.17
   "@babel/preset-typescript": 7.27.1
   "@chromatic-com/storybook": 4.1.0
   "@eslint/js": 9.32.0
   "@graphql-eslint/eslint-plugin": 4.4.0
+  "@graphql-tools/mock": 9.0.25
   "@hono/node-server": 1.18.1
   "@iconify-json/material-symbols": 1.2.30
   "@inlang/paraglide-js": 2.2.0
   "@material/material-color-utilities": 0.3.0
+  "@msw/playwright": 0.4.2
   "@playwright/test": 1.54.2
+  "@prettier/plugin-oxc": 0.0.4
   "@react-router/dev": 7.7.1
   "@react-router/node": 7.7.1
   "@sentry/react": 10.1.0
@@ -32,6 +36,7 @@ catalog:
   "@tailwindcss/vite": 4.1.11
   "@types/bun": 1.2.19
   "@types/estree": 1.0.8
+  "@types/flubber": 0.4.0
   "@types/marked": 0.3.0
   "@types/node": 22.17.0
   "@types/prop-types": 15.7.15
@@ -61,6 +66,7 @@ catalog:
   eslint-plugin-turbo: 2.5.5
   eslint-typegen: 2.3.0
   eslint-vitest-rule-tester: 2.2.1
+  flubber: 0.4.2
   framer-motion: 12.23.12
   graphql: 16.11.0
   graphql-config: 5.1.5
@@ -68,6 +74,8 @@ catalog:
   isbot: 5.1.29
   knip: 5.62.0
   marked: 0.3.19
+  motion: 12.23.12
+  msw: 2.10.4
   nodemon: 3.1.10
   oxlint: 1.9.0
   prettier: 3.6.2
@@ -95,11 +103,10 @@ catalog:
   vite-tsconfig-paths: 5.1.4
   vitest: 3.2.4
   wrangler: 4.27.0
-  "@msw/playwright": 0.4.2
-  msw: 2.10.4
-  "@graphql-tools/mock": 9.0.25
-  "@prettier/plugin-oxc": 0.0.4
 
 catalogs:
   experimental:
     vite: npm:rolldown-vite@7.0.12
+
+patchedDependencies:
+  flubber: patches/flubber.patch
