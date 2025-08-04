@@ -65,7 +65,7 @@ export function LoadingIndicator() {
 			{ duration: 0.8 }
 		)
 
-		animation.then(() => {
+		void animation.then(() => {
 			if (pathIndex === paths.length - 1) {
 				progress.set(0)
 				setPathIndex(1)
