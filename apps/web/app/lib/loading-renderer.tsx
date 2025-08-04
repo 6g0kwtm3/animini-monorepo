@@ -74,7 +74,9 @@ export function LoadingIndicator() {
 			}
 		})
 
-		return () => animation.stop()
+		return () => {
+			animation.stop()
+		}
 	}, [pathIndex, progress, rotate])
 
 	return (
