@@ -177,7 +177,15 @@ export default function App(): ReactNode {
 }
 
 export function HydrateFallback() {
-	return <p>Loading App...</p>
+	return (
+		<M3Layout className="">
+			<LayoutBody className="">
+				<LayoutPane className="justify-center items-center flex h-svh">
+					<LoadingIndicator></LoadingIndicator>
+				</LayoutPane>
+			</LayoutBody>
+		</M3Layout>
+	)
 }
 
 export function ErrorBoundary(): ReactNode {
