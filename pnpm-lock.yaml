@@ -105,6 +105,9 @@ catalogs:
     '@types/estree':
       specifier: 1.0.8
       version: 1.0.8
+    '@types/flubber':
+      specifier: 0.4.0
+      version: 0.4.0
     '@types/marked':
       specifier: 0.3.0
       version: 0.3.0
@@ -192,6 +195,9 @@ catalogs:
     eslint-vitest-rule-tester:
       specifier: 2.2.1
       version: 2.2.1
+    flubber:
+      specifier: 0.4.2
+      version: 0.4.2
     framer-motion:
       specifier: 12.23.12
       version: 12.23.12
@@ -213,6 +219,9 @@ catalogs:
     marked:
       specifier: 0.3.19
       version: 0.3.19
+    motion:
+      specifier: 12.23.12
+      version: 12.23.12
     msw:
       specifier: 2.10.4
       version: 2.10.4
@@ -532,6 +541,9 @@ importers:
       markdown:
         specifier: workspace:*
         version: link:../../packages/markdown
+      motion:
+        specifier: 'catalog:'
+        version: 12.23.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: 'catalog:'
         version: 19.1.0
@@ -584,6 +596,9 @@ importers:
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.54.2
+      '@types/flubber':
+        specifier: 'catalog:'
+        version: 0.4.0
       babel-plugin-react-compiler:
         specifier: 'catalog:'
         version: 19.1.0-rc.2
@@ -608,6 +623,9 @@ importers:
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.3.0(eslint@9.32.0(jiti@2.4.2))
+      flubber:
+        specifier: 'catalog:'
+        version: 0.4.2
       graphql-config:
         specifier: 'catalog:'
         version: 5.1.5(@types/node@22.17.0)(graphql@16.11.0)(typescript@5.9.2)
@@ -3102,6 +3120,9 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
+  '@types/flubber@0.4.0':
+    resolution: {integrity: sha512-q9u6zseKgOBc0sAn/aPyi0vMNtXiLrNHSvj/tMXg+X2vk0jwX7obXgLISBmryGFvfszbId1JGT/8CcwB3vC6yg==}
+
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
 
@@ -5051,6 +5072,20 @@ packages:
 
   motion-utils@12.23.6:
     resolution: {integrity: sha512-eAWoPgr4eFEOFfg2WjIsMoqJTW6Z8MTUCgn/GZ3VRpClWBdnbjryiA3ZSNLyxCTmCQx4RmYX6jX1iWHbenUPNQ==}
+
+  motion@12.23.12:
+    resolution: {integrity: sha512-8jCD8uW5GD1csOoqh1WhH1A6j5APHVE15nuBkFeRiMzYBdRwyAHmSP/oXSuW0WJPZRXTFdBoG4hY9TFWNhhwng==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -8940,6 +8975,8 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
+  '@types/flubber@0.4.0': {}
+
   '@types/http-cache-semantics@4.0.4': {}
 
   '@types/json-schema@7.0.15': {}
@@ -10264,6 +10301,15 @@ snapshots:
 
   flatted@3.3.3: {}
 
+  flubber@0.4.2:
+    dependencies:
+      d3-array: 1.2.4
+      d3-polygon: 1.0.6
+      earcut: 2.2.4
+      svg-path-properties: 0.2.2
+      svgpath: 2.6.0
+      topojson-client: 3.1.0
+
   for-each@0.3.5:
     dependencies:
       is-callable: 1.2.7
@@ -11075,6 +11121,14 @@ snapshots:
       motion-utils: 12.23.6
 
   motion-utils@12.23.6: {}
+
+  motion@12.23.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      framer-motion: 12.23.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   mrmime@2.0.1: {}
 
