@@ -311,6 +311,11 @@ catalogs:
       specifier: npm:rolldown-vite@7.0.12
       version: 7.0.12
 
+patchedDependencies:
+  flubber:
+    hash: 594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26
+    path: patches/flubber.patch
+
 importers:
 
   .:
@@ -625,7 +630,7 @@ importers:
         version: 2.3.0(eslint@9.32.0(jiti@2.4.2))
       flubber:
         specifier: 'catalog:'
-        version: 0.4.2
+        version: 0.4.2(patch_hash=594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26)
       graphql-config:
         specifier: 'catalog:'
         version: 5.1.5(@types/node@22.17.0)(graphql@16.11.0)(typescript@5.9.2)
@@ -10110,7 +10115,7 @@ snapshots:
 
   flatted@3.3.3: {}
 
-  flubber@0.4.2:
+  flubber@0.4.2(patch_hash=594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26):
     dependencies:
       d3-array: 1.2.4
       d3-polygon: 1.0.6
