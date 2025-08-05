@@ -88,7 +88,7 @@ export const config = {
 								- Number(
 									Predicate.isString(opacity)
 										? opacity.replace("%", "")
-										: Number(opacity) * 100
+										: opacity * 100
 								)
 						)}%)`
 
