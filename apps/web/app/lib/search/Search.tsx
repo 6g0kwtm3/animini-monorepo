@@ -48,6 +48,7 @@ function useOptimisticLocation() {
 }
 
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+import { useEffectEvent } from "../use-effect-event"
 
 export function Search({
 	queryRef,
@@ -65,19 +66,20 @@ export function Search({
 	sheetParams.set("sheet", "search")
 	const navigate = useNavigate()
 
+	const listener = useEffectEvent((event: KeyboardEvent) => {
+		if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+			event.preventDefault()
+			void navigate({ search: `?${sheetParams}` })
+		}
+	})
+
 	// bind command + k
 	useEffect(() => {
-		const listener = (event: KeyboardEvent) => {
-			if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-				event.preventDefault()
-				void navigate({ search: `?${sheetParams}` })
-			}
-		}
 		window.addEventListener("keydown", listener)
 		return () => {
 			window.removeEventListener("keydown", listener)
 		}
-	}, [navigate, sheetParams])
+	}, [listener])
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
 
