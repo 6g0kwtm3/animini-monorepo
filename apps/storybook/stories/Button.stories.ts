@@ -25,33 +25,29 @@ type Story = StoryObj<typeof Button>
 export const Filled = { args: { children: "Button" } } satisfies Story
 
 export const Elevated = {
-	args: { children: "Button",  color: "elevated" },
+	args: { children: "Button", color: "elevated" },
 } satisfies Story
 export const Outlined = {
-	args: { children: "Button",  color: "outlined" },
+	args: { children: "Button", color: "outlined" },
 } satisfies Story
 export const Text = {
-	args: { children: "Button",  color: "text" },
+	args: { children: "Button", color: "text" },
 } satisfies Story
 export const Tonal = {
-	args: { ...Outlined.args,  color: "tonal" },
+	args: { ...Outlined.args, color: "tonal" },
 } satisfies Story
 
 export const ExtraSmall = {
-	args: { ...Outlined.args,  size: "xs" },
+	args: { ...Outlined.args, size: "xs" },
 } satisfies Story
 
-export const Small = {
-	args: { ...Outlined.args,  size: "sm" },
-} satisfies Story
+export const Small = { args: { ...Outlined.args, size: "sm" } } satisfies Story
 
-export const Medium = { args: { ...Outlined.args,  size: "md" } }
+export const Medium = { args: { ...Outlined.args, size: "md" } }
 
-export const Large = {
-	args: { ...Outlined.args,  size: "lg" },
-} satisfies Story
+export const Large = { args: { ...Outlined.args, size: "lg" } } satisfies Story
 
-export const ExtraLarge = { args: { ...Outlined.args,  size: "xl" } }
+export const ExtraLarge = { args: { ...Outlined.args, size: "xl" } }
 
 export const FilledDisabled = { args: { ...Filled.args, disabled: true } }
 export const ElevatedDisabled = { args: { ...Elevated.args, disabled: true } }
