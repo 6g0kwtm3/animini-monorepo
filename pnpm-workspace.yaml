@@ -30,10 +30,10 @@ catalog:
   "@stryker-mutator/api": 9.0.1
   "@stryker-mutator/core": 9.0.1
   "@stryker-mutator/vitest-runner": 9.0.1
-  "@stylexjs/babel-plugin": 0.13.1
-  "@stylexjs/eslint-plugin": 0.13.1
-  "@stylexjs/postcss-plugin": 0.13.1
-  "@stylexjs/stylex": 0.13.1
+  "@stylexjs/babel-plugin": 0.15.2
+  "@stylexjs/eslint-plugin": 0.15.2
+  "@stylexjs/postcss-plugin": 0.15.2
+  "@stylexjs/stylex": 0.15.2
   "@svgr/core": 8.1.0
   "@svgr/plugin-jsx": 8.1.0
   "@tailwindcss/typography": 0.5.16
@@ -101,7 +101,7 @@ catalog:
   typescript: 5.9.2
   typescript-eslint: 8.39.0
   unplugin-icons: 22.2.0
-  unplugin-stylex: 0.5.3
+  unplugin-stylex: 0.5.4
   vite: 7.0.6
   vite-plugin-babel: 1.3.2
   vite-plugin-inspect: 11.3.2
