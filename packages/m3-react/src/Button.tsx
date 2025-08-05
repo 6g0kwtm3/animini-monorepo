@@ -13,39 +13,39 @@ import {
 
 const sizes = stylex.create({
 	xs: {
-		height: "2rem",
-		gap: ".25rem",
-		paddingInline: ".75rem",
 		font: fonts.labelLg,
+		gap: ".25rem",
+		height: "2rem",
 		letterSpacing: letterSpacings.labelLg,
+		paddingInline: ".75rem",
 	},
 	sm: {
-		height: "2.5rem",
-		gap: ".5rem",
-		paddingInline: "1rem",
 		font: fonts.labelLg,
+		gap: ".5rem",
+		height: "2.5rem",
 		letterSpacing: letterSpacings.labelLg,
+		paddingInline: "1rem",
 	},
 	md: {
-		height: "3.5rem",
-		gap: ".5rem",
-		paddingInline: "1.5rem",
 		font: fonts.titleMd,
+		gap: ".5rem",
+		height: "3.5rem",
 		letterSpacing: letterSpacings.titleMd,
+		paddingInline: "1.5rem",
 	},
 	lg: {
-		height: "6rem",
-		gap: ".75rem",
-		paddingInline: "3rem",
 		font: fonts.headlineSm,
+		gap: ".75rem",
+		height: "6rem",
 		letterSpacing: letterSpacings.headlineSm,
+		paddingInline: "3rem",
 	},
 	xl: {
-		height: "8.5rem",
-		gap: "1rem",
-		paddingInline: "4rem",
 		font: fonts.headlineLg,
+		gap: "1rem",
+		height: "8.5rem",
 		letterSpacing: letterSpacings.headlineLg,
+		paddingInline: "4rem",
 	},
 })
 
@@ -73,37 +73,25 @@ const variants = stylex.create({
 	text: { color: colors.primary },
 })
 
-const round = stylex.create({
-	xs: { borderRadius: { default: "1rem", ":active": ".5rem" } },
-	sm: { borderRadius: { default: "1.25rem", ":active": ".5rem" } },
-	md: { borderRadius: { default: "1.75rem", ":active": ".75rem" } },
-	lg: { borderRadius: { default: "3rem", ":active": "1rem" } },
-	xl: { borderRadius: { default: "4.25rem", ":active": "1rem" } },
-})
+const round = stylex.create({})
 
-const square = stylex.create({
-	xs: { borderRadius: { default: ".75rem", ":active": ".5rem" } },
-	sm: { borderRadius: { default: ".75rem", ":active": ".5rem" } },
-	md: { borderRadius: { default: "1rem", ":active": ".75rem" } },
-	lg: { borderRadius: { default: "1.75rem", ":active": "1rem" } },
-	xl: { borderRadius: { default: "1.75rem", ":active": "1rem" } },
-})
+const square = stylex.create({})
 
 const styles = stylex.create({
 	button: {
-		display: "inline-flex",
 		alignItems: "center",
-		justifyContent: "center",
-		whiteSpace: "nowrap",
-		textBox: "trim-both cap alphabetic",
 		backgroundImage: {
 			":hover": { default: state.hover, ":focus-visible": state.focus },
 			":focus-visible": state.focus,
 			":active": state.pressed,
 		},
+		display: "inline-flex",
+		justifyContent: "center",
+		textBox: "trim-both cap alphabetic",
 		transition: {
 			[motion.safe]: `border-radius ${durations.spatialFast} ${easings.spatialFast}`,
 		},
+		whiteSpace: "nowrap",
 		// transitionProperty: { [motion.safe]: "border-radius" },
 		// transitionDuration: { [motion.safe]: durations.spatialFast },
 		// transitionTimingFunction: { [motion.safe]: easings.spatialFast },
