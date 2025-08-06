@@ -2,7 +2,6 @@
 /// <reference path="./eslint-typegen.d.ts" />
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
-
 import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
@@ -79,8 +78,6 @@ export default await typegen([
 	// "@typescript-eslint/no-empty-object-type": "off",
 	// 	},
 	// },
-
-	// turbo.configs["flat/recommended"],
 
 	{
 		rules: {

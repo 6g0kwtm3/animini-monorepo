@@ -7,7 +7,7 @@
 	"exports": "./src/index.ts",
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix",
+		"lint": "eslint --cache .",
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
@@ -16,5 +16,8 @@
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
+	},
+	"dependencies": {
+		"@pandacss/dev": "catalog:"
 	}
 }

@@ -6,14 +6,17 @@
 	"type": "module",
 	"scripts": {
 		"dev": "storybook dev -p 6006",
+		"panda-watch": "panda --watch",
 		"build": "storybook build",
 		"build-storybook": "storybook build",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix",
-		"load-assets": "bun bin/loadAssets.ts"
+		"lint": "eslint --cache ."
 	},
 	"dependencies": {
-		"load-assets": "workspace:*",
+		"@pandacss/dev": "catalog:",
+		"m3-core": "workspace:*",
+		"m3-react": "workspace:*",
+		"m3-styled-system": "workspace:*",
 		"markdown": "workspace:*"
 	},
 	"devDependencies": {
@@ -23,12 +26,13 @@
 		"@storybook/addon-onboarding": "catalog:",
 		"@storybook/addon-themes": "catalog:",
 		"@storybook/addon-vitest": "catalog:",
+		"@storybook/react": "catalog:",
 		"@storybook/react-vite": "catalog:",
-		"@types/prop-types": "catalog:",
-		"@types/react": "catalog:",
-		"csstype": "catalog:",
-		"eslint": "catalog:",
+		"@types/prop-types": "15.7.14",
+		"@types/react": "19.1.4",
+		"eslint": "9.26.0",
 		"eslint-config": "workspace:*",
+		"eslint-config-panda": "workspace:*",
 		"eslint-config-react": "workspace:*",
 		"eslint-plugin-storybook": "catalog:",
 		"eslint-typegen": "catalog:",

@@ -3,6 +3,7 @@
 import * as graphql from "@graphql-eslint/eslint-plugin"
 import base from "eslint-config"
 import react from "eslint-config-react"
+import panda from "eslint-config-panda"
 import relay from "eslint-plugin-relay"
 import typegen from "eslint-typegen"
 import graphQLConfig from "./graphql.config.js"
@@ -22,6 +23,7 @@ export default typegen([
 	},
 	...base,
 	...react,
+	...panda,
 	relay.configs.recommended,
 	{
 		name: "web/@graphql-eslint/eslint-plugin/processor",
