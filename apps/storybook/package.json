@@ -14,9 +14,12 @@
 	},
 	"dependencies": {
 		"load-assets": "workspace:*",
-		"markdown": "workspace:*"
+		"m3-react": "workspace:*",
+		"markdown": "workspace:*",
+		"tailwindcss": "4.1.7"
 	},
 	"devDependencies": {
+		"@babel/preset-typescript": "catalog:",
 		"@chromatic-com/storybook": "catalog:",
 		"@storybook/addon-a11y": "catalog:",
 		"@storybook/addon-docs": "catalog:",
@@ -24,8 +27,11 @@
 		"@storybook/addon-themes": "catalog:",
 		"@storybook/addon-vitest": "catalog:",
 		"@storybook/react-vite": "catalog:",
+		"@stylexjs/babel-plugin": "catalog:",
+		"@stylexjs/postcss-plugin": "catalog:",
 		"@types/prop-types": "catalog:",
 		"@types/react": "catalog:",
+		"autoprefixer": "catalog:",
 		"csstype": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
@@ -38,6 +44,8 @@
 		"ts-config": "workspace:*",
 		"tsx": "catalog:",
 		"unplugin-icons": "catalog:",
-		"vite": "catalog:"
+		"unplugin-stylex": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-babel": "catalog:"
 	}
 }

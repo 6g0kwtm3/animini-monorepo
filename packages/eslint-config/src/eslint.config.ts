@@ -3,6 +3,7 @@
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
 
+import stylexjs from "@stylexjs/eslint-plugin"
 import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
@@ -81,7 +82,16 @@ export default await typegen([
 	// },
 
 	// turbo.configs["flat/recommended"],
-
+	{
+		plugins: { "@stylexjs": stylexjs },
+		rules: {
+			"@stylexjs/no-legacy-contextual-styles": "error",
+			"@stylexjs/valid-styles": "error",
+			"@stylexjs/no-unused": "error",
+			"@stylexjs/valid-shorthands": "warn",
+			"@stylexjs/sort-keys": "error",
+		},
+	},
 	{
 		rules: {
 			"no-undef": "off",
@@ -89,5 +99,6 @@ export default await typegen([
 			"no-throw-literal": "error",
 		},
 	},
+
 	...oxlint.buildFromOxlintConfig(oxlintConfig),
 ])
