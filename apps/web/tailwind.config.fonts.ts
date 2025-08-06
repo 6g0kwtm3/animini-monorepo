@@ -1,86 +1,44 @@
-export default {
-	"display-lg": [
-		"3.5625rem",
-		{ lineHeight: "1.1228070175438596", letterSpacing: "0", fontWeight: 400 },
-	],
-	"display-md": [
-		"2.8125rem",
-		{ lineHeight: "1.1555555555555554", letterSpacing: "0", fontWeight: 400 },
-	],
-	"display-sm": [
-		"2.25rem",
-		{ lineHeight: "1.2222222222222223", letterSpacing: "0", fontWeight: 400 },
-	],
-	"headline-lg": [
-		"2rem",
-		{ lineHeight: "1.25", letterSpacing: "0", fontWeight: 400 },
-	],
-	"headline-md": [
-		"1.75rem",
-		{ lineHeight: "1.2857142857142858", letterSpacing: "0", fontWeight: 400 },
-	],
-	"headline-sm": [
-		"1.5rem",
-		{ lineHeight: "1.3333333333333333", letterSpacing: "0", fontWeight: 400 },
-	],
-	"title-lg": [
-		"1.375rem",
-		{ lineHeight: "1.2727272727272727", letterSpacing: "0", fontWeight: 400 },
-	],
-	"title-md": [
-		"1rem",
-		{ lineHeight: "1.5", letterSpacing: "0.009375em", fontWeight: 500 },
-	],
-	"title-sm": [
-		"0.875rem",
-		{
-			lineHeight: "1.4285714285714286",
-			letterSpacing: "0.0071428571428571435em",
-			fontWeight: 500,
-		},
-	],
-	"label-lg": [
-		"0.875rem",
-		{
-			lineHeight: "1.4285714285714286",
-			letterSpacing: "0.0071428571428571435em",
-			fontWeight: 500,
-		},
-	],
-	"label-md": [
-		"0.75rem",
-		{
-			lineHeight: "1.3333333333333333",
-			letterSpacing: "0.041666666666666664em",
-			fontWeight: 500,
-		},
-	],
-	"label-sm": [
-		"0.6875rem",
-		{
-			lineHeight: "1.6666666666666667",
-			letterSpacing: "0.045454545454545456em",
-			fontWeight: 500,
-		},
-	],
-	"body-lg": [
-		"1rem",
-		{ lineHeight: "1.5", letterSpacing: "0.03125em", fontWeight: 400 },
-	],
-	"body-md": [
-		"0.875rem",
-		{
-			lineHeight: "1.4285714285714286",
-			letterSpacing: "0.017857142857142856em",
-			fontWeight: 400,
-		},
-	],
-	"body-sm": [
-		"0.75rem",
-		{
-			lineHeight: "1.3333333333333333",
-			letterSpacing: "0.03333333333333333em",
-			fontWeight: 400,
-		},
-	],
-} as const
+import { numberToString } from "./app/lib/numberToString"
+
+const tokens = {
+	"display-lg": {
+		fontWeight: 400,
+		fontSize: 57,
+		tracking: -0.25,
+		lineHeight: 64,
+	},
+	"display-md": { fontWeight: 400, fontSize: 45, tracking: 0, lineHeight: 52 },
+	"display-sm": { fontWeight: 400, fontSize: 36, tracking: 0, lineHeight: 44 },
+	"headline-lg": { fontWeight: 400, fontSize: 32, tracking: 0, lineHeight: 40 },
+	"headline-md": { fontWeight: 400, fontSize: 28, tracking: 0, lineHeight: 36 },
+	"headline-sm": { fontWeight: 400, fontSize: 24, tracking: 0, lineHeight: 32 },
+	"title-lg": { fontWeight: 400, fontSize: 22, tracking: 0, lineHeight: 28 },
+	"title-md": { fontWeight: 500, fontSize: 16, tracking: 0.15, lineHeight: 24 },
+	"title-sm": { fontWeight: 500, fontSize: 14, tracking: 0.1, lineHeight: 20 },
+	"body-lg": { fontWeight: 400, fontSize: 16, tracking: 0.5, lineHeight: 24 },
+	"body-md": { fontWeight: 400, fontSize: 14, tracking: 0.25, lineHeight: 20 },
+	"body-sm": { fontWeight: 400, fontSize: 12, tracking: 0.4, lineHeight: 16 },
+	"label-lg": { fontWeight: 500, fontSize: 14, tracking: 0.1, lineHeight: 20 },
+	"label-md": { fontWeight: 500, fontSize: 12, tracking: 0.5, lineHeight: 16 },
+	"label-sm": { fontWeight: 500, fontSize: 11, tracking: 0.5, lineHeight: 16 },
+} as const satisfies Record<string, Token>
+
+interface Token {
+	fontWeight: number
+	/* px */
+	fontSize: number
+	/* px */
+	tracking: number
+	/* px */
+	lineHeight: number
+}
+
+export default tokens
+
+export function pxToRem(px: number) {
+	return `${numberToString(px / 16)}rem`
+}
+
+export function letterSpacing(token: Token) {
+	return `${numberToString(token.tracking / token.fontSize)}rem`
+}
