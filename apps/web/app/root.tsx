@@ -45,7 +45,7 @@ import { LoadingIndicator } from "./lib/loading-renderer"
 import { numberToString } from "./lib/numberToString"
 
 const fontWeights = [
-	...new Set(Object.values(fonts).map(([, font]) => font.fontWeight)),
+	...new Set(Object.values(fonts).map((font) => font.fontWeight)),
 ]
 
 export const links: LinksFunction = () => {
