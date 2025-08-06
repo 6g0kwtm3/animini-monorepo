@@ -4,13 +4,18 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./Button": "./src/button.tsx"
+	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix",
+		"lint": "eslint --cache .",
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-config-react": "workspace:*",
@@ -20,7 +25,11 @@
 		"tsx": "catalog:"
 	},
 	"dependencies": {
-		"@pandacss/dev": "0.53.6",
+		"@ariakit/react": "catalog:",
 		"m3-styled-system": "workspace:*"
+	},
+	"peerDependencies": {
+		"react": "catalog:",
+		"react-dom": "catalog:"
 	}
 }

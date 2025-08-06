@@ -17,7 +17,7 @@ export default defineConfig({
 
 	importMap: "m3-styled-system",
 	// The output directory for your css system
-  outdir: "./node_modules/m3-styled-system/styled-system",
+	outdir: "./node_modules/m3-styled-system/styled-system",
 	jsxFramework: "react",
 	strictTokens: true,
 	strictPropertyValues: true,

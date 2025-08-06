@@ -9,6 +9,7 @@ export default defineConfig({
 	include: [
 		"./.storybook/**/*.{js,jsx,ts,tsx}",
 		"./stories/**/*.{js,jsx,ts,tsx}",
+		"./node_modules/m3-react/src/**/*.{js,jsx,ts,tsx}",
 		"./node_modules/m3-core/src/**/*.{js,jsx,ts,tsx}",
 	],
 
@@ -18,8 +19,9 @@ export default defineConfig({
 	// Useful for theme customization
 	theme: { extend: {} },
 
+	importMap: "m3-styled-system",
 	// The output directory for your css system
-	outdir: "styled-system",
+	outdir: "./node_modules/m3-styled-system/styled-system",
 	jsxFramework: "react",
 	strictTokens: true,
 	strictPropertyValues: true,

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "eslint-config-panda",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"dependencies": {
+		"@pandacss/eslint-plugin": "catalog:",
+		"eslint": "catalog:",
+		"eslint-plugin-oxlint": "catalog:",
+		"eslint-typegen": "catalog:",
+		"oxlint-config": "workspace:*"
+	},
+	"exports": {
+		".": {
+			"types": "./types.d.ts",
+			"default": "./src/eslint.config.ts"
+		}
+	}
+}
