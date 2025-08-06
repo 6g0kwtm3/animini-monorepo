@@ -22,6 +22,6 @@
 			"automerge": false
 		}
 	],
-	"postUpdateOptions": "pnpmDedupe",
+	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch"
 }
