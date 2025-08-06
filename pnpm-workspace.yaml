@@ -40,8 +40,8 @@ catalog:
   "@types/marked": 0.3.0
   "@types/node": 22.17.0
   "@types/prop-types": 15.7.15
-  "@types/react": 19.1.8
-  "@types/react-dom": 19.1.6
+  "@types/react": 19.1.9
+  "@types/react-dom": 19.1.7
   "@types/react-relay": 18.2.1
   "@types/relay-runtime": 19.0.2
   "@typescript-eslint/parser": 8.39.0
@@ -81,8 +81,8 @@ catalog:
   prettier: 3.6.2
   prettier-plugin-tailwindcss: 0.6.14
   prop-types: 15.8.1
-  react: 19.1.0
-  react-dom: 19.1.0
+  react: 19.1.1
+  react-dom: 19.1.1
   react-relay: 20.1.0
   react-router: 7.7.1
   relay-compiler: 20.1.0
