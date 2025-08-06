@@ -1,3 +1,5 @@
+import { numberToString } from "./app/lib/numberToString"
+
 const tokens = {
 	"display-lg": {
 		fontWeight: 400,
@@ -34,9 +36,9 @@ interface Token {
 export default tokens
 
 export function pxToRem(px: number) {
-	return `${px / 16}rem`
+	return `${numberToString(px / 16)}rem`
 }
 
 export function letterSpacing(token: Token) {
-	return `${token.tracking / token.fontSize}rem`
+	return `${numberToString(token.tracking / token.fontSize)}rem`
 }
