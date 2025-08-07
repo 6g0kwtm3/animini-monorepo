@@ -102,7 +102,7 @@ catalog:
   vite-plugin-relay: 2.1.0
   vite-tsconfig-paths: 5.1.4
   vitest: 3.2.4
-  wrangler: 4.28.0
+  wrangler: 4.28.1
 
 catalogs:
   experimental:
