@@ -9,6 +9,26 @@ import * as Predicate from "./app/lib/Predicate"
 import { searchView } from "./app/lib/searchView"
 import colors from "./colors.json"
 import fonts, { letterSpacing, pxToRem } from "./tailwind.config.fonts"
+
+export const contrast = (value: string): { [k: string]: string } => {
+	return Object.fromEntries(
+		Object.keys(colors.dark).flatMap((key) => {
+			return [
+				[`--${key}-light`, `var(--${key}-light-${value})`],
+				[`--${key}-dark`, `var(--${key}-dark-${value})`],
+			]
+		})
+	)
+}
+
+export const theme = (value: string): { [k: string]: string } => {
+	return Object.fromEntries(
+		Object.keys(colors.dark).map((key) => {
+			return [`--${key}`, `var(--${key}-${value})`]
+		})
+	)
+}
+
 export const config = {
 	content: ["app/**/*.{ts,tsx}"],
 
@@ -170,18 +190,7 @@ export const config = {
 			)
 
 			ctx.matchUtilities(
-				{
-					contrast: (value) => {
-						return Object.fromEntries(
-							Object.keys(colors.dark).flatMap((key) => {
-								return [
-									[`--${key}-light`, `var(--${key}-light-${value})`],
-									[`--${key}-dark`, `var(--${key}-dark-${value})`],
-								]
-							})
-						)
-					},
-				},
+				{ contrast: contrast },
 				{
 					type: ["any"],
 					values: { high: "high", medium: "medium", standard: "standard" },
@@ -189,15 +198,7 @@ export const config = {
 			)
 
 			ctx.matchUtilities(
-				{
-					theme: (value) => {
-						return Object.fromEntries(
-							Object.keys(colors.dark).map((key) => {
-								return [`--${key}`, `var(--${key}-${value})`]
-							})
-						)
-					},
-				},
+				{ theme: theme },
 				{ type: ["any"], values: { dark: "dark", light: "light" } }
 			)
 

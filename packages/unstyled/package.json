@@ -1,0 +1,28 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "unstyled",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": "./src/index.ts",
+	"scripts": {
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
+		"lint": "eslint --cache . --fix",
+		"check": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@types/react": "catalog:",
+		"react": "catalog:"
+	},
+	"devDependencies": {
+		"csstype": "catalog:",
+		"eslint": "catalog:",
+		"eslint-config": "workspace:*",
+		"eslint-config-react": "workspace:*",
+		"eslint-typegen": "catalog:",
+		"ts-config": "workspace:^",
+		"tsx": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	}
+}
