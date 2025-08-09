@@ -25,7 +25,6 @@
 		"ts-config": "workspace:^",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
-		"utilities": "workspace:*",
-		"vitest": "catalog:"
+		"utilities": "workspace:*"
 	}
 }
