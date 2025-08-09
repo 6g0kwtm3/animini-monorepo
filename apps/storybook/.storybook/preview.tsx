@@ -22,32 +22,22 @@ const preview = {
 
 				document.documentElement.style.setProperty(
 					"font-optical-sizing",
-
 					"auto"
 				)
 
 				document.documentElement.style.setProperty("color-scheme", "light dark")
 
-				document.documentElement.style.setProperty(
-					"background-color",
-
-					`rgb(var(--background))`
-				)
-
 				const nodes = document.querySelectorAll<HTMLElement>(".docs-story")
 
-				nodes.forEach((node) => {
-					node.style.setProperty("background-color", `rgb(var(--background))`)
+				;[document.documentElement, ...nodes].forEach((node) => {
+					node.style.setProperty("background-color", `rgb(var(--surface))`)
+					node.style.setProperty("color", `rgb(var(--on-surface))`)
 				})
 
 				// document.documentElement.className = ({
-
 				// 	contrast: { base: "standard", _moreContrast: "high" },
-
 				// 	theme: { base: "light", _dark: "dark" },
-
 				// 	background: "surface",
-
 				// })
 			}, [])
 

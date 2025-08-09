@@ -119,7 +119,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			dir={dir}
 			style={theme}
 			data-testid={isHydrated && "hydrated"}
-			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Roboto_Flex','Noto_Sans',sans-serif] [color-scheme:light_dark] [font-optical-sizing:auto]"
+			className="bg-surface text-on-surface contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Roboto_Flex','Noto_Sans',sans-serif] [color-scheme:light_dark] [font-optical-sizing:auto]"
 		>
 			<head>
 				<meta charSet="utf-8" />
