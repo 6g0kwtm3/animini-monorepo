@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "unstyled",
+	"name": "utilities",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -10,10 +10,7 @@
 		"lint": "eslint --cache . --fix",
 		"check": "tsc --noEmit"
 	},
-	"peerDependencies": {
-		"@types/react": "catalog:",
-		"react": "catalog:"
-	},
+	"peerDependencies": {},
 	"devDependencies": {
 		"csstype": "catalog:",
 		"eslint": "catalog:",
@@ -23,7 +20,6 @@
 		"ts-config": "workspace:^",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
-		"utilities": "workspace:^",
 		"vitest": "catalog:"
 	}
 }

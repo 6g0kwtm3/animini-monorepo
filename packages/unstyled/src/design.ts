@@ -1,16 +1,16 @@
 import { numberToString } from "../../../apps/web/app/lib/numberToString"
-import { type Property, mapProperty } from "./cva"
+import { type Value, mapValue } from "./cva"
 
 export * as tokens from "./tokens-collection"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
 
-export const state = (value: Property<keyof typeof states>) => {
+export const state = (value: Value<keyof typeof states>) => {
 	const stateColor = `color-mix(in oklab, currentColor, transparent var(--state))`
 
 	return {
 		backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
-		"--state": mapProperty(value, (value) => {
+		"--state": mapValue(value, (value) => {
 			const opacity = states[value]
 
 			return `${numberToString(100 - opacity * 100)}%`
