@@ -31,7 +31,7 @@ const media = {
 	active: "&:active, &[data-active]",
 	hover: "&:hover",
 	motionSafe: "@media (prefers-reduced-motion: no-preference)",
-	"focus-visible": "&[data-focus-visible], &:focus-visible",
+	"focus-visible": "&:focus-visible, &[data-focus-visible]",
 	disabled: '&:disabled, &[aria-disabled="true"]',
 }
 

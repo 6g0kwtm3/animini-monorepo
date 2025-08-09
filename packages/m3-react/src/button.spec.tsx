@@ -4,7 +4,7 @@ import { button } from "./button"
 
 describe("button", () => {
 	it("css size", () => {
-		expect(print(button).length).toMatchInlineSnapshot(`3457`)
+		expect(print(button).length).toMatchInlineSnapshot(`3581`)
 	})
 
 	it("print", () => {
