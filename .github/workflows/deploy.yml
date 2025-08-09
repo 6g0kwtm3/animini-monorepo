@@ -104,6 +104,7 @@ jobs:
 
       - name: Run benchmarks
         uses: CodSpeedHQ/action@v3
+        if: github.event_name != 'merge_group'
         with:
           run: pnpm exec turbo bench
           token: ${{ secrets.CODSPEED_TOKEN }}
