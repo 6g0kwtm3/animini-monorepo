@@ -1,6 +1,6 @@
 import { print } from "unstyled"
 import { describe, expect, it } from "vitest"
-import { button } from "./button"
+import { button } from "./m3-react-button"
 
 describe("button", () => {
 	it("css size", () => {

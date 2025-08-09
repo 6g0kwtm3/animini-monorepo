@@ -2,7 +2,7 @@ import { fn } from "storybook/test"
 
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { button } from "unstyled"
+import { button } from "m3-react"
 import { useStyles } from "unstyled"
 
 function Button({ size, shape, color, ...props }: any) {

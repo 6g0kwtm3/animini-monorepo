@@ -1,6 +1,6 @@
 import { describe } from "vitest"
 import { bench } from "vitest"
-import { buttonDefinition } from "./button"
+import { buttonDefinition } from "./m3-react-button"
 import { cva } from "unstyled"
 
 describe("cva", () => {

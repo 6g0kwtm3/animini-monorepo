@@ -15,6 +15,7 @@
 	"dependencies": {
 		"design": "workspace:*",
 		"load-assets": "workspace:*",
+		"m3-react": "workspace:*",
 		"markdown": "workspace:*",
 		"unstyled": "workspace:*"
 	},

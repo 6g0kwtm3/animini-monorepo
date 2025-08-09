@@ -2,7 +2,7 @@ import type { Preview } from "@storybook/react-vite"
 
 import { useInsertionEffect } from "react"
 
-import fallback from "design/fallback.json"
+import fallback from "design/theme.json"
 
 import { utilities } from "design"
 

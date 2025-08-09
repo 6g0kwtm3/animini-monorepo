@@ -1,6 +1,9 @@
-import { useId, type ReactNode } from "react"
 import type { PreCompiledStyles } from "./unstyled-print"
 
+import { printRawStyles } from "./unstyled-print"
+
+import { numberOrStringToString } from "utilities"
+import { mapValue, type Value } from "./unstyled-utilities"
 // export interface NextProperties extends CSS.Properties<never, never> {
 // 	[key: `--${string}`]: string | number
 // }
@@ -9,10 +12,6 @@ export interface Properties {
 	[key: `--${string}`]: string | number
 	[key: string]: string | number
 }
-
-export type Value<T extends string | number = string | number> =
-	| T
-	| { base?: T; [key: string]: Value<T> | undefined }
 
 export type RawStyles = { [K in keyof Properties]?: Value }
 
@@ -169,7 +168,6 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
-import { numberOrStringToString } from "utilities"
 
 function mergeValues<T extends string | number>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
@@ -218,28 +216,3 @@ function mergeValues(a: Value, b: Value): Value {
 
 	return result
 }
-
-export function mapValue<A extends string | number, B extends string | number>(
-	value: Value<A>,
-	fn: (a: A) => B
-): Value<B> {
-	if (typeof value === "object") {
-		return Object.fromEntries(
-			Object.entries(value).flatMap(([media, value]) => {
-				if (value === undefined) return []
-				return [[media, mapValue(value, fn)]]
-			})
-		)
-	}
-	return fn(value)
-}
-
-export function useStyles(style: PreCompiledStyles): [string, ReactNode] {
-	const id = useId()
-
-	const className = globalThis.CSS.escape(id)
-
-	return [className, <style href={id}>{`.${className} ${print(style)}`}</style>]
-}
-
-import { print, printRawStyles } from "./unstyled-print"

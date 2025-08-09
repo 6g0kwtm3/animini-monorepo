@@ -4,7 +4,10 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/unstyled.ts",
+	"exports": {
+		".": "./src/unstyled.ts",
+		"./utilities": "./src/unstyled-utilities.ts"
+	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
