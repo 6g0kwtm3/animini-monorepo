@@ -13,4 +13,7 @@ export default {
 		"+(apps|packages)/*/{src,app}/**/!(*.+(s|S)pec|*.+(t|T)est).+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 		"!{src,lib}/**/__tests__/**/*.+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 	],
+	checkers: ["typescript"],
+	tsconfigFile: "tsconfig.json",
+	typescriptChecker: { prioritizePerformanceOverAccuracy: true },
 }
