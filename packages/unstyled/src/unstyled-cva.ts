@@ -168,7 +168,6 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
-
 function mergeValues<T extends string | number>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
