@@ -25,7 +25,7 @@ const preview = {
 					"auto"
 				)
 
-				document.documentElement.style.setProperty("color-scheme", "light dark")
+				document.documentElement.style.setProperty("color-scheme", "light")
 
 				const nodes = document.querySelectorAll<HTMLElement>(".docs-story")
 
@@ -46,7 +46,7 @@ const preview = {
 					<Story></Story>
 
 					<style>{`:root {\n${objectToCss(utilities.contrast("standard"))}${objectToCss(
-						utilities.theme("dark")
+						utilities.theme("light")
 					)}}`}</style>
 				</>
 			)
