@@ -17,7 +17,8 @@
 		"eslint-typegen": "catalog:",
 		"m3-core": "workspace:*",
 		"ts-config": "workspace:^",
-		"tsx": "catalog:"
+		"tsx": "catalog:",
+		"vitest": "catalog:"
 	},
 	"dependencies": {
 		"design": "workspace:*"
