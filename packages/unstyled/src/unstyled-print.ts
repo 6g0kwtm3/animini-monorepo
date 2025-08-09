@@ -1,5 +1,5 @@
 import { numberOrStringToString } from "utilities"
-import type { Properties, RawStyles, Value } from "./cva"
+import type { Properties, RawStyles, Value } from "./unstyled-cva"
 
 export type PreCompiledStyles = { [K in keyof Properties]?: string }
 

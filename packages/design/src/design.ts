@@ -1,7 +1,7 @@
-import { numberToString } from "../../../apps/web/app/lib/numberToString"
-import { type Value, mapValue } from "./cva"
-
-export * as tokens from "./tokens-collection"
+import { numberToString } from "utilities"
+import { type Value, mapValue } from "unstyled"
+export * as utilities from "./design-utilities"
+export * as tokens from "./design-tokens"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
 

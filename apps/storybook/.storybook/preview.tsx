@@ -2,9 +2,9 @@ import type { Preview } from "@storybook/react-vite"
 
 import { useInsertionEffect } from "react"
 
-import fallback from "../../web/fallback.json"
+import fallback from "design/fallback.json"
 
-import { contrast, theme } from "../../web/tailwind.config"
+import { utilities } from "design"
 
 // import "./index.css"
 
@@ -55,8 +55,8 @@ const preview = {
 				<>
 					<Story></Story>
 
-					<style>{`:root {\n${objectToCss(contrast("standard"))}${objectToCss(
-						theme("dark")
+					<style>{`:root {\n${objectToCss(utilities.contrast("standard"))}${objectToCss(
+						utilities.theme("dark")
 					)}}`}</style>
 				</>
 			)

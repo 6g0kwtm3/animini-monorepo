@@ -1,12 +1,7 @@
-import { type RawStyles } from "./cva"
+import { type Properties, type RawStyles } from "unstyled"
 
-import type Colors from "../../../apps/web/colors.json"
-import fonts, {
-	letterSpacing,
-	pxToRem,
-} from "../../../apps/web/tailwind.config.fonts"
-
-import type * as CSS from "csstype"
+import type Colors from "./design-colors.json"
+import fonts, { letterSpacing, pxToRem } from "./design-fonts"
 
 export const borderRadius = {
 	none: "0",
@@ -18,14 +13,14 @@ export const borderRadius = {
 	xl: "1.75rem",
 	full: "9999px",
 	inherit: "inherit",
-} as const satisfies Record<string, CSS.Property.BorderRadius>
+} as const satisfies Record<string, Properties["borderRadius"]>
 
 export const colors = new Proxy(
 	{},
 	{
 		get: (target, key: string) => {
 			const [color, opacity] = key.split("/")
-			if (opacity) {
+			if (color && opacity) {
 				return `rgb(var(--${color}) / ${opacity}%)`
 			}
 			return `rgb(var(--${key}))`

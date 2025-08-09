@@ -1,7 +1,6 @@
-import { cva, defineCva } from "./cva"
-
-import * as design from "./design"
-import { media } from "./design"
+import * as design from "design"
+import { media } from "design"
+import { cva, defineCva } from "unstyled"
 
 export const buttonDefinition = defineCva({
 	base: {

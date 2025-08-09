@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from "react"
-import type { PreCompiledStyles } from "./print"
+import type { PreCompiledStyles } from "./unstyled-print"
 
 // export interface NextProperties extends CSS.Properties<never, never> {
 // 	[key: `--${string}`]: string | number
@@ -242,4 +242,4 @@ export function useStyles(style: PreCompiledStyles): [string, ReactNode] {
 	return [className, <style href={id}>{`.${className} ${print(style)}`}</style>]
 }
 
-import { print, printRawStyles } from "./print"
+import { print, printRawStyles } from "./unstyled-print"

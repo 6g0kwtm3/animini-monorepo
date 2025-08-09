@@ -395,6 +395,9 @@ importers:
       markdown:
         specifier: workspace:*
         version: link:../../packages/markdown
+      unstyled:
+        specifier: workspace:*
+        version: link:../../packages/unstyled
     devDependencies:
       '@chromatic-com/storybook':
         specifier: 'catalog:'
@@ -534,6 +537,9 @@ importers:
       cookie:
         specifier: 'catalog:'
         version: 1.0.2
+      design:
+        specifier: workspace:*
+        version: link:../../packages/design
       electron:
         specifier: 'catalog:'
         version: 35.7.4
@@ -698,6 +704,34 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.2
+
+  packages/design:
+    dependencies:
+      unstyled:
+        specifier: workspace:*
+        version: link:../unstyled
+    devDependencies:
+      eslint:
+        specifier: 'catalog:'
+        version: 9.33.0(jiti@2.4.2)
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint-typegen:
+        specifier: 'catalog:'
+        version: 2.3.0(eslint@9.33.0(jiti@2.4.2))
+      ts-config:
+        specifier: workspace:^
+        version: link:../ts-config
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      utilities:
+        specifier: workspace:*
+        version: link:../utilities
 
   packages/eslint-config:
     dependencies:
@@ -914,6 +948,13 @@ importers:
         version: 4.20.3
 
   packages/m3-react:
+    dependencies:
+      design:
+        specifier: workspace:*
+        version: link:../design
+      unstyled:
+        specifier: workspace:*
+        version: link:../unstyled
     devDependencies:
       eslint:
         specifier: 'catalog:'

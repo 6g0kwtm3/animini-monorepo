@@ -2,10 +2,10 @@ import { fn } from "storybook/test"
 
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { button } from "../../../packages/unstyled/src/button"
-import { useStyles } from "../../../packages/unstyled/src/cva"
+import { button } from "unstyled"
+import { useStyles } from "unstyled"
 
-function Button({ size, shape, color, ...props }) {
+function Button({ size, shape, color, ...props }: any) {
 	const [style, children] = useStyles(button)
 	return (
 		<>

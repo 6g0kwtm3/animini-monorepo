@@ -14,7 +14,8 @@
 	},
 	"dependencies": {
 		"load-assets": "workspace:*",
-		"markdown": "workspace:*"
+		"markdown": "workspace:*",
+		"unstyled": "workspace:*"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",

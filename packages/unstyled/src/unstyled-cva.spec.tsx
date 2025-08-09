@@ -1,24 +1,45 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
-import { buttonDefinition } from "./button"
-import { cva } from "./cva"
-import { printRawStyles } from "./print"
 
-import * as design from "./design"
-import { media } from "./design"
+import { numberToString } from "utilities"
+import { cva, mapValue, type Value } from "./unstyled-cva"
+import { printRawStyles } from "./unstyled-print"
 
-vi.mock("./print", { spy: true })
+const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
+
+const design = {
+	state: (value: Value<keyof typeof states>) => {
+		const stateColor = `color-mix(in oklab, currentColor, transparent var(--state))`
+
+		return {
+			backgroundImage: `linear-gradient(${stateColor}, ${stateColor})`,
+			"--state": mapValue(value, (value) => {
+				const opacity = states[value]
+
+				return `${numberToString(100 - opacity * 100)}%`
+			}),
+		}
+	},
+	tokens: {
+		colors: {
+			"surface-container-low": "rgb(var(--surface-container-low))",
+			"surface-container-high": "rgb(var(--surface-container-high))",
+		},
+	},
+}
+
+const media = {
+	active: "&:active, &[data-active]",
+	hover: "&:hover",
+	motionSafe: "@media (prefers-reduced-motion: no-preference)",
+	"focus-visible": "&[data-focus-visible], &:focus-visible",
+	disabled: '&:disabled, &[aria-disabled="true"]',
+}
+
+vi.mock(import("./unstyled-print"), { spy: true })
 
 describe("cva", () => {
 	afterEach(() => {
 		vi.clearAllMocks()
-	})
-
-	it("button size", () => {
-		cva(buttonDefinition)
-
-		expect(
-			JSON.stringify(vi.mocked(printRawStyles).mock.lastCall![0]).length
-		).toMatchInlineSnapshot(`3457`)
 	})
 
 	it("base", () => {

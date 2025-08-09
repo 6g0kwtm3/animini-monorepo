@@ -18,5 +18,11 @@
 		"m3-core": "workspace:*",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
+	},
+	"dependencies": {
+		"design": "workspace:*"
+	},
+	"peerDependencies": {
+		"unstyled": "workspace:*"
 	}
 }

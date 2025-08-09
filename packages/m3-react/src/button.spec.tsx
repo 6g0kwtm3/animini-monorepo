@@ -1,10 +1,14 @@
+import { print } from "unstyled"
 import { describe, expect, it } from "vitest"
 import { button } from "./button"
-import * as print from "./print"
 
-describe("print", () => {
-	it("css", () => {
-		expect(print.print(button)).toMatchInlineSnapshot(`
+describe("button", () => {
+	it("css size", () => {
+		expect(print(button).length).toMatchInlineSnapshot(`3457`)
+	})
+
+	it("print", () => {
+		expect(print(button)).toMatchInlineSnapshot(`
 			"{
 			  display: inline-flex;
 			  align-items: center;
