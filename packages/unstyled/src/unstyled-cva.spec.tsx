@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { numberToString } from "utilities"
-import { cva, mapValue, type Value } from "./unstyled-cva"
+import { cva } from "./unstyled-cva"
+import { mapValue, type Value } from "./unstyled-value"
 import { printRawStyles } from "./unstyled-print"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }

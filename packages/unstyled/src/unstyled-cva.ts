@@ -3,7 +3,7 @@ import type { PreCompiledStyles } from "./unstyled-print"
 import { printRawStyles } from "./unstyled-print"
 
 import { numberOrStringToString } from "utilities"
-import { mapValue, type Value } from "./unstyled-utilities"
+import { mapValue, type Value } from "./unstyled-value"
 // export interface NextProperties extends CSS.Properties<never, never> {
 // 	[key: `--${string}`]: string | number
 // }
