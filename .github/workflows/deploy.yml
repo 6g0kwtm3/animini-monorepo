@@ -85,6 +85,8 @@ jobs:
   bench:
     runs-on: ubuntu-latest
     name: Benchmark
+    # codespeed does not support merge groups
+    if: github.event_name != 'merge_group'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -104,7 +106,6 @@ jobs:
 
       - name: Run benchmarks
         uses: CodSpeedHQ/action@v3
-        if: github.event_name != 'merge_group'
         with:
           run: pnpm exec turbo bench
           token: ${{ secrets.CODSPEED_TOKEN }}
