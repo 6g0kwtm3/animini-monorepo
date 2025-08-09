@@ -171,9 +171,9 @@ function mergeCompoundVariantProperty<
 
 import { numberOrStringToString } from "utilities"
 
-export function mergeValues<T extends string | number>(a: T, b: T): T
-export function mergeValues(a: Value, b: Value): Value
-export function mergeValues(a: Value, b: Value): Value {
+function mergeValues<T extends string | number>(a: T, b: T): T
+function mergeValues(a: Value, b: Value): Value
+function mergeValues(a: Value, b: Value): Value {
 	if (typeof a !== "object" && typeof b !== "object") {
 		return `${numberOrStringToString(a)} ${numberOrStringToString(b)}`
 	}

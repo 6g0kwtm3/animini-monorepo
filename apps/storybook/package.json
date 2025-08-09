@@ -23,6 +23,7 @@
 		"@storybook/addon-onboarding": "catalog:",
 		"@storybook/addon-themes": "catalog:",
 		"@storybook/addon-vitest": "catalog:",
+		"@storybook/react": "catalog:",
 		"@storybook/react-vite": "catalog:",
 		"@types/prop-types": "catalog:",
 		"@types/react": "catalog:",
