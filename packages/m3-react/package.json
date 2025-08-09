@@ -4,7 +4,9 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/m3-react.tsx",
+	"exports": {
+		"./button": "./src/m3-react-button.ts"
+	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
