@@ -35,6 +35,6 @@
 		"//#bench": {},
 		"//#format": {},
 		"//#knip": {},
-		"//#stryker": {}
+		"//#stryker": { "cache": false }
 	}
 }
