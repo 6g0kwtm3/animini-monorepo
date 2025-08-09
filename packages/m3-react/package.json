@@ -5,7 +5,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"exports": {
-		"./button": "./src/m3-react-button.ts"
+		"./button": "./src/m3-react-button.tsx"
 	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",

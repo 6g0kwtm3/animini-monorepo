@@ -1,11 +1,24 @@
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import { fn } from "storybook/test"
 
-import type { Meta, StoryObj } from "@storybook/react"
-
 import { button } from "m3-react/button"
+import type { ComponentProps } from "react"
 import { useStyles } from "unstyled"
 
-function Button({ size, shape, color, ...props }: any) {
+interface ButtonProps extends ComponentProps<"button"> {
+	size?: "xs" | "sm" | "md" | "lg" | "xl"
+	shape?: "round" | "square"
+	color?: "outlined" | "elevated" | "filled" | "text" | "tonal"
+}
+
+declare module "react" {
+	// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+	interface CSSProperties {
+		[key: `--${string}`]: string | number
+	}
+}
+
+function Button({ size, shape, color, ...props }: ButtonProps) {
 	const [style, children] = useStyles(button)
 	return (
 		<>
