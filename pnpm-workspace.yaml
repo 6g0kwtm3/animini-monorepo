@@ -4,6 +4,7 @@ packages:
 
 catalog:
   "@ariakit/react": 0.4.17
+  "@ark/attest": 0.48.2
   "@babel/preset-typescript": 7.27.1
   "@chromatic-com/storybook": 4.1.0
   "@eslint/js": 9.33.0

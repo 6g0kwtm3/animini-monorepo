@@ -5,6 +5,7 @@ import { dirname, join } from "node:path"
 const require = createRequire(import.meta.url)
 
 const config = {
+	typescript: { reactDocgen: "react-docgen-typescript" },
 	stories: [
 		"../stories/**/*.mdx",
 		"../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",

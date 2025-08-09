@@ -1,4 +1,4 @@
-import { numberToString } from "./app/lib/numberToString"
+import { numberToString } from "utilities"
 
 const tokens = {
 	"display-lg": {

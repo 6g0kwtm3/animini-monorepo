@@ -13,8 +13,11 @@
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {
+		"design": "workspace:*",
 		"load-assets": "workspace:*",
-		"markdown": "workspace:*"
+		"m3-react": "workspace:*",
+		"markdown": "workspace:*",
+		"unstyled": "workspace:*"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",

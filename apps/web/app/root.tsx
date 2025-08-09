@@ -19,7 +19,7 @@ import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 
-import theme from "~/../fallback.json"
+import theme from "design/theme.json"
 
 import tailwind from "./tailwind.css?url"
 
@@ -39,7 +39,7 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	environment: IEnvironment
 }) => ReactNode
 
-import fonts from "../tailwind.config.fonts"
+import fonts from "design/fonts"
 import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
 import { LoadingIndicator } from "./lib/loading-renderer"
 import { numberToString } from "./lib/numberToString"
@@ -119,7 +119,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 			dir={dir}
 			style={theme}
 			data-testid={isHydrated && "hydrated"}
-			className="bg-background text-on-background contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Roboto_Flex','Noto_Sans',sans-serif] [color-scheme:light_dark] [font-optical-sizing:auto]"
+			className="bg-surface text-on-surface contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Roboto_Flex','Noto_Sans',sans-serif] [color-scheme:light_dark] [font-optical-sizing:auto]"
 		>
 			<head>
 				<meta charSet="utf-8" />
