@@ -7,7 +7,10 @@
 		"NODE_ENV",
 		"CI",
 		"BASE_URL",
-		"PLAYWRIGHT_BROWSERS_PATH"
+		"PLAYWRIGHT_BROWSERS_PATH",
+		"GITHUB_REF",
+		"GITHUB_REPOSITORY",
+		"GITHUB_ACTION"
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
@@ -35,6 +38,6 @@
 		"//#bench": {},
 		"//#format": {},
 		"//#knip": {},
-		"//#stryker": { "cache": false }
+		"//#stryker": {}
 	}
 }
