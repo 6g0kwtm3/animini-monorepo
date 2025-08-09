@@ -17,7 +17,7 @@ env:
   TURBO_SCM_BASE: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.before }}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: test-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -153,28 +153,3 @@ jobs:
 
       - name: Test
         run: pnpm exec turbo test
-
-  stryker:
-    runs-on: ubuntu-latest
-    name: Coverage
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          filter: blob:none
-          fetch-depth: 0
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-          cache: "pnpm"
-
-      - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile --prefer-offline
-
-      - name: Coverage
-        run: pnpm exec turbo stryker
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_KEY }}

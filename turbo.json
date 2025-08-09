@@ -32,6 +32,7 @@
 		"//#lint": {},
 		"test-e2e": {},
 		"//#test": {},
+		"//#bench": {},
 		"//#format": {},
 		"//#knip": {},
 		"//#stryker": {}

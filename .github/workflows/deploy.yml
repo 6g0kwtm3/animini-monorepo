@@ -17,6 +17,10 @@ env:
   TURBO_CACHE: remote:rw
   TURBO_SCM_BASE: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.before }}
 
+concurrency:
+  group: deploy-${{ github.workflow }}-${{ github.ref_name != 'master' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   deploy-sentry:
     name: Deploy Sentry
@@ -77,3 +81,55 @@ jobs:
         run: pnpm exec wrangler pages deploy --branch=${{ github.head_ref || github.ref_name  }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  bench:
+    runs-on: ubuntu-latest
+    name: Benchmark
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: "pnpm"
+
+      - name: Install dependencies 📦
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@v3
+        if: github.event_name != 'merge_group'
+        with:
+          run: pnpm exec turbo bench
+          token: ${{ secrets.CODSPEED_TOKEN }}
+
+  stryker:
+    runs-on: ubuntu-latest
+    name: Coverage
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: "pnpm"
+
+      - name: Install dependencies 📦
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Coverage
+        run: pnpm exec turbo stryker
+        env:
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_KEY }}
