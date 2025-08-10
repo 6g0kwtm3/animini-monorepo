@@ -35,7 +35,13 @@
 		"//#lint": {},
 		"test-e2e": {},
 		"//#test": {},
-		"//#bench": { "cache": false },
+		"//#bench": {
+			"cache": false,
+			"passThroughEnv": [
+				"__CODSPEED_NODE_CORE_INTROSPECTION_PATH__",
+				"CODSPEED_DEBUG"
+			]
+		},
 		"//#format": {},
 		"//#knip": {},
 		"//#stryker": {
