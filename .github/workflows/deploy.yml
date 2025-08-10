@@ -138,6 +138,7 @@ jobs:
         with:
           path: reports/stryker-incremental.json
           key: stryker-incremental
+          enableCrossOsArchive: true
 
       - name: Coverage
         run: pnpm exec turbo stryker
