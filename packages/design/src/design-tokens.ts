@@ -1,4 +1,4 @@
-import { type Properties, type RawStyles } from "unstyled"
+import { type Properties, type RawStyles } from "@anitrove/unstyled"
 
 import type Colors from "./design-colors"
 import fonts, { letterSpacing, pxToRem } from "./design-fonts"

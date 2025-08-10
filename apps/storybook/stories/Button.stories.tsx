@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { fn } from "storybook/test"
 
+import { useStyles } from "@anitrove/unstyled"
 import { button } from "m3-react/button"
 import type { ComponentProps } from "react"
-import { useStyles } from "unstyled"
 
 interface ButtonProps extends ComponentProps<"button"> {
 	size?: "xs" | "sm" | "md" | "lg" | "xl"

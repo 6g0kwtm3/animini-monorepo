@@ -26,6 +26,6 @@
 		"@anitrove/design": "workspace:*"
 	},
 	"peerDependencies": {
-		"unstyled": "workspace:*"
+		"@anitrove/unstyled": "workspace:*"
 	}
 }

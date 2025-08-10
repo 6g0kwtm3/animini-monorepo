@@ -17,7 +17,7 @@
 		"load-assets": "workspace:*",
 		"m3-react": "workspace:*",
 		"markdown": "workspace:*",
-		"unstyled": "workspace:*"
+		"@anitrove/unstyled": "workspace:*"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",
