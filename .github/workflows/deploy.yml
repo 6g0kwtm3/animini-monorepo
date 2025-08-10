@@ -137,7 +137,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: reports/stryker-incremental.json
-          key: ${{ runner.os }}-stryker-incremental
+          key: stryker-incremental
 
       - name: Coverage
         run: pnpm exec turbo stryker
