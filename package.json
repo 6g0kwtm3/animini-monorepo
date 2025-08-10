@@ -26,7 +26,6 @@
 		"@prettier/plugin-oxc": "catalog:",
 		"@stryker-mutator/api": "catalog:",
 		"@stryker-mutator/core": "catalog:",
-		"@stryker-mutator/typescript-checker": "catalog:",
 		"@stryker-mutator/vitest-runner": "catalog:",
 		"@types/node": "catalog:",
 		"eslint": "catalog:",

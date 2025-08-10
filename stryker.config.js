@@ -8,15 +8,9 @@ export default {
 	testRunner_comment:
 		"Take a look at https://stryker-mutator.io/docs/stryker-js/vitest-runner for information about the vitest plugin.",
 	coverageAnalysis: "perTest",
-	plugins: [
-		"@stryker-mutator/vitest-runner",
-		"@stryker-mutator/typescript-checker",
-	],
+	plugins: ["@stryker-mutator/vitest-runner"],
 	mutate: [
 		"+(apps|packages)/*/{src,app}/**/!(*.+(s|S)pec|*.+(t|T)est).+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 		"!{src,lib}/**/__tests__/**/*.+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 	],
-	checkers: ["typescript"],
-	tsconfigFile: "tsconfig.json",
-	typescriptChecker: { prioritizePerformanceOverAccuracy: true },
 }
