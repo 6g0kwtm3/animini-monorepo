@@ -12,7 +12,7 @@
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"dev": "turbo watch dev",
 		"format": "prettier . -w --cache --experimental-cli",
-		"bench": "vitest bench --changed origin/master",
+		"bench": "vitest bench",
 		"test": "vitest --run --changed origin/master",
 		"test-e2e": "turbo run test-e2e --continue=dependencies-successful --log-order=stream",
 		"stryker": "stryker run --incremental",
