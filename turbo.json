@@ -38,6 +38,9 @@
 		"//#bench": {},
 		"//#format": {},
 		"//#knip": {},
-		"//#stryker": { "passThroughEnv": ["STRYKER_DASHBOARD_API_KEY"] }
+		"//#stryker": {
+			"passThroughEnv": ["STRYKER_DASHBOARD_API_KEY"],
+			"cache": false
+		}
 	}
 }

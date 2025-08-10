@@ -20,6 +20,8 @@
 		// lib
 		"lib": ["DOM", "DOM.Iterable", "ES2022"],
 		// react
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
+		// monorepo
+		"composite": true
 	}
 }

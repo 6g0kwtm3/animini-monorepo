@@ -10,7 +10,7 @@ export default {
 	coverageAnalysis: "perTest",
 	plugins: ["@stryker-mutator/vitest-runner"],
 	mutate: [
-		"+(apps|packages)/*/{src,app}/**/!(*.+(s|S)pec|*.+(t|T)est).+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
+		"+(apps|packages)/*/{src,app}/**/!(*.+(s|S)pec|*.+(t|T)est|*.+(b|B)ench).+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 		"!{src,lib}/**/__tests__/**/*.+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 	],
 }

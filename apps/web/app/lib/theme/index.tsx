@@ -10,7 +10,7 @@ import {
 } from "@material/material-color-utilities"
 import type { CSSProperties } from "react"
 
-import colors from "design/colors.json"
+import colors from "design/colors"
 
 export type Theme = CSSProperties
 

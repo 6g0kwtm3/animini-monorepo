@@ -3,7 +3,7 @@ import { classGroups as layout } from "~/lib/layout"
 import { classGroups as searchView } from "~/lib/searchView"
 import { classGroups as navigation } from "~/lib/navigation"
 import { classGroups as list } from "~/lib/list"
-// import colors from "~/../colors.json"
+// import colors from "~/../colors"
 import fonts from "design/fonts"
 
 export const tv = createTV({

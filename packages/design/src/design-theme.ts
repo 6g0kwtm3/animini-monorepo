@@ -1,4 +1,4 @@
-{
+export default {
 	"--scrim-light-standard": "0 0 0",
 	"--scrim-dark-standard": "0 0 0",
 	"--scrim-light-high": "0 0 0",
@@ -186,5 +186,5 @@
 	"--shadow-light-standard": "0 0 0",
 	"--shadow-dark-standard": "0 0 0",
 	"--shadow-light-high": "0 0 0",
-	"--shadow-dark-high": "0 0 0"
+	"--shadow-dark-high": "0 0 0",
 }
