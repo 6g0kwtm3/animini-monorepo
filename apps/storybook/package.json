@@ -13,7 +13,7 @@
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {
-		"design": "workspace:*",
+		"@anitrove/design": "workspace:*",
 		"load-assets": "workspace:*",
 		"m3-react": "workspace:*",
 		"markdown": "workspace:*",

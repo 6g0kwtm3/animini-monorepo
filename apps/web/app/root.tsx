@@ -19,7 +19,7 @@ import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 
-import theme from "design/theme"
+import theme from "@anitrove/design/theme"
 
 import tailwind from "./tailwind.css?url"
 
@@ -39,7 +39,7 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	environment: IEnvironment
 }) => ReactNode
 
-import fonts from "design/fonts"
+import fonts from "@anitrove/design/fonts"
 import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
 import { LoadingIndicator } from "./lib/loading-renderer"
 import { numberToString } from "./lib/numberToString"

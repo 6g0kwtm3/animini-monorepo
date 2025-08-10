@@ -392,7 +392,7 @@ importers:
 
   apps/storybook:
     dependencies:
-      design:
+      '@anitrove/design':
         specifier: workspace:*
         version: link:../../packages/design
       load-assets:
@@ -480,6 +480,9 @@ importers:
       '@anitrove/a':
         specifier: workspace:*
         version: link:../../packages/a
+      '@anitrove/design':
+        specifier: workspace:*
+        version: link:../../packages/design
       '@ariakit/react':
         specifier: 'catalog:'
         version: 0.4.17(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -543,9 +546,6 @@ importers:
       cookie:
         specifier: 'catalog:'
         version: 1.0.2
-      design:
-        specifier: workspace:*
-        version: link:../../packages/design
       electron:
         specifier: 'catalog:'
         version: 35.7.4
@@ -955,7 +955,7 @@ importers:
 
   packages/m3-react:
     dependencies:
-      design:
+      '@anitrove/design':
         specifier: workspace:*
         version: link:../design
       unstyled:
