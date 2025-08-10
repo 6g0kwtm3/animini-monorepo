@@ -1,4 +1,4 @@
-import colors from "./design-colors.json"
+import colors from "./design-colors"
 
 export const contrast = (value: string): Record<`--${string}`, string> => {
 	return Object.fromEntries(

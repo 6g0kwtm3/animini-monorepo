@@ -1,6 +1,6 @@
 import typography from "@tailwindcss/typography"
 import { utilities } from "design"
-import colors from "design/colors.json"
+import colors from "design/colors"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import { layout } from "./app/lib/layout"

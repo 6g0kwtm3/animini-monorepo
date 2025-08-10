@@ -1,6 +1,6 @@
 import { type Properties, type RawStyles } from "unstyled"
 
-import type Colors from "./design-colors.json"
+import type Colors from "./design-colors"
 import fonts, { letterSpacing, pxToRem } from "./design-fonts"
 
 export const borderRadius = {

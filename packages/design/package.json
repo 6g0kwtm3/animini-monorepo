@@ -6,8 +6,8 @@
 	"type": "module",
 	"exports": {
 		".": "./src/design.ts",
-		"./theme.json": "./src/design-theme.json",
-		"./colors.json": "./src/design-colors.json",
+		"./theme": "./src/design-theme.ts",
+		"./colors": "./src/design-colors.ts",
 		"./fonts": "./src/design-fonts.ts"
 	},
 	"scripts": {

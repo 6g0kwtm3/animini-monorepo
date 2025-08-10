@@ -19,7 +19,7 @@ import { useEffect, type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 
-import theme from "design/theme.json"
+import theme from "design/theme"
 
 import tailwind from "./tailwind.css?url"
 

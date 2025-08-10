@@ -1,18 +1,18 @@
 {
 	"files": [],
 	"references": [
-		{ "path": "./apps/storybook/tsconfig.json" },
-		{ "path": "./apps/web/tsconfig.json" },
-		{ "path": "./packages/a/tsconfig.json" },
-		{ "path": "./packages/design/tsconfig.json" },
-		{ "path": "./packages/eslint-plugin-jsx/tsconfig.json" },
-		{ "path": "./packages/eslint-plugin-relay/tsconfig.json" },
-		{ "path": "./packages/extra-outlet/tsconfig.json" },
-		{ "path": "./packages/load-assets/tsconfig.json" },
-		{ "path": "./packages/m3-core/tsconfig.json" },
-		{ "path": "./packages/m3-react/tsconfig.json" },
-		{ "path": "./packages/markdown/tsconfig.json" },
-		{ "path": "./packages/unstyled/tsconfig.json" },
-		{ "path": "./packages/utilities/tsconfig.json" }
+		// { "path": "./apps/storybook" },
+		{ "path": "./apps/web" },
+		{ "path": "./packages/a" },
+		{ "path": "./packages/design" },
+		{ "path": "./packages/eslint-plugin-jsx" },
+		{ "path": "./packages/eslint-plugin-relay" },
+		{ "path": "./packages/extra-outlet" },
+		// { "path": "./packages/load-assets" },
+		{ "path": "./packages/m3-core" },
+		{ "path": "./packages/m3-react" },
+		{ "path": "./packages/markdown" },
+		{ "path": "./packages/unstyled" },
+		{ "path": "./packages/utilities" }
 	]
 }
