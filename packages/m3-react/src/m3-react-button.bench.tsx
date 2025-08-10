@@ -6,4 +6,8 @@ describe("cva", () => {
 	bench("button", () => {
 		cva(buttonDefinition)
 	})
+
+	bench("noop", () => {
+		//
+	})
 })
