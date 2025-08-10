@@ -5,12 +5,12 @@ import type { ReactNode } from "react"
 import { Suspense } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import {
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemContent,
-    ListItemContentSubtitle as ListItemSubtitle,
-    ListItemContentTitle as ListItemTitle,
+	List,
+	ListItem,
+	ListItemAvatar,
+	ListItemContent,
+	ListItemContentSubtitle as ListItemSubtitle,
+	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 import { route_user } from "~/lib/route"
@@ -18,11 +18,11 @@ import { route_user } from "~/lib/route"
 // console.log(R)
 
 import {
-    TooltipDisclosure,
-    TooltipRich,
-    TooltipRichActions,
-    TooltipRichContainer,
-    TooltipRichTrigger,
+	TooltipDisclosure,
+	TooltipRich,
+	TooltipRichActions,
+	TooltipRichContainer,
+	TooltipRichTrigger,
 } from "~/components/Tooltip"
 
 import { Button } from "~/components/Button"

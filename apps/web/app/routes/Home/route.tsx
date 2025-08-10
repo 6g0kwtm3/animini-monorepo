@@ -6,11 +6,11 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-    List,
-    ListItem,
-    ListItemContent,
-    ListItemContentSubtitle as ListItemSubtitle,
-    ListItemContentTitle as ListItemTitle,
+	List,
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle as ListItemSubtitle,
+	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 // console.log(R)

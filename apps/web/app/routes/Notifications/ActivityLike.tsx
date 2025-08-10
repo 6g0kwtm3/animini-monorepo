@@ -1,12 +1,12 @@
 import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
 import {
-    ListItem,
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
-    ListItemTrailingSupportingText,
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
+	ListItemTrailingSupportingText,
 } from "~/components/List"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import type { ActivityLike_viewer$key } from "~/gql/ActivityLike_viewer.graphql"

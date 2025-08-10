@@ -1,17 +1,13 @@
 import ReactRelay from "react-relay"
-import {
-    Outlet,
-    useLocation,
-    useRouteLoaderData
-} from "react-router"
+import { Outlet, useLocation, useRouteLoaderData } from "react-router"
 import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
 import {
-    Navigation,
-    NavigationItem,
-    NavigationItemLargeBadge,
+	Navigation,
+	NavigationItem,
+	NavigationItemLargeBadge,
 } from "~/components/Navigation"
 
 import { Suspense, type ReactNode } from "react"
@@ -38,9 +34,9 @@ import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
 import { fab } from "~/lib/button"
 import {
-    loadQuery,
-    usePreloadedQuery,
-    type NodeAndQueryFragment,
+	loadQuery,
+	usePreloadedQuery,
+	type NodeAndQueryFragment,
 } from "~/lib/Network"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"

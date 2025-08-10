@@ -6,11 +6,11 @@ import ReactRelay from "react-relay"
 import type { ReactNode } from "react"
 import { useContext } from "react"
 import {
-    ListItem,
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
 } from "~/components/List"
 import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
 
@@ -25,8 +25,8 @@ import { ProgressIncrement } from "./Progress"
 import { A } from "@anitrove/a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
-    MediaListItemSubtitle_entry$key,
-    MediaType,
+	MediaListItemSubtitle_entry$key,
+	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
 import * as Predicate from "~/lib/Predicate"
