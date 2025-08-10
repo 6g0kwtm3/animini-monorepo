@@ -395,6 +395,9 @@ importers:
       '@anitrove/design':
         specifier: workspace:*
         version: link:../../packages/design
+      '@anitrove/unstyled':
+        specifier: workspace:*
+        version: link:../../packages/unstyled
       load-assets:
         specifier: workspace:*
         version: link:../../packages/load-assets
@@ -404,9 +407,6 @@ importers:
       markdown:
         specifier: workspace:*
         version: link:../../packages/markdown
-      unstyled:
-        specifier: workspace:*
-        version: link:../../packages/unstyled
     devDependencies:
       '@chromatic-com/storybook':
         specifier: 'catalog:'
@@ -713,7 +713,7 @@ importers:
 
   packages/design:
     dependencies:
-      unstyled:
+      '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
     devDependencies:
@@ -958,7 +958,7 @@ importers:
       '@anitrove/design':
         specifier: workspace:*
         version: link:../design
-      unstyled:
+      '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
     devDependencies:
