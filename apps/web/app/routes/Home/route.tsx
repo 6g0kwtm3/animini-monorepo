@@ -6,16 +6,16 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle,
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemContentSubtitle as ListItemSubtitle,
+    ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 // console.log(R)
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import { Markdown } from "markdown/Markdown"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"

@@ -1,18 +1,18 @@
 import ReactRelay from "react-relay"
 import {
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle,
-	ListItemContentTitle,
-	ListItemImg,
-	ListItemTrailingSupportingText,
+    ListItem,
+    ListItemContent,
+    ListItemContentSubtitle,
+    ListItemContentTitle,
+    ListItemImg,
+    ListItemTrailingSupportingText,
 } from "~/components/List"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import type { Airing_viewer$key } from "~/gql/Airing_viewer.graphql"
 import { useFragment } from "~/lib/Network"

@@ -1,4 +1,3 @@
-import { Link } from "react-router"
 
 import { ErrorBoundary } from "@sentry/react"
 import type { ComponentProps } from "react"
@@ -6,12 +5,12 @@ import { Suspense } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { Card } from "~/components/Card"
 import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemImg,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle,
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemImg,
+    ListItemContentSubtitle as ListItemSubtitle,
+    ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
 
 import { route_media } from "~/lib/route"
@@ -20,8 +19,8 @@ import { route_media } from "~/lib/route"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
 
+import { A } from "@anitrove/a"
 import type { MediaLinkCardQuery } from "~/gql/MediaLinkCardQuery.graphql"
-import { A } from "a"
 const { graphql } = ReactRelay
 
 interface MediaLinkProps extends Omit<ComponentProps<typeof A>, "href"> {

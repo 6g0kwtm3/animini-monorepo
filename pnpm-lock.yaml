@@ -477,6 +477,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@anitrove/a':
+        specifier: workspace:*
+        version: link:../../packages/a
       '@ariakit/react':
         specifier: 'catalog:'
         version: 0.4.17(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -531,9 +534,6 @@ importers:
       '@types/relay-runtime':
         specifier: 'catalog:'
         version: 19.0.2
-      a:
-        specifier: workspace:*
-        version: link:../../packages/a
       anitomy:
         specifier: 'catalog:'
         version: 0.0.35

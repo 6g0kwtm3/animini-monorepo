@@ -48,7 +48,7 @@
 		"@types/react-dom": "catalog:",
 		"@types/react-relay": "catalog:",
 		"@types/relay-runtime": "catalog:",
-		"a": "workspace:*",
+		"@anitrove/a": "workspace:*",
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
 		"cookie": "catalog:",
