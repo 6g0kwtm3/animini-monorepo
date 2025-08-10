@@ -5,7 +5,7 @@ import { TabsList, TabsListItem } from "~/components/Tabs"
 
 import type { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
 import { usePreloadedQuery, type NodeAndQueryFragment } from "~/lib/Network"
 

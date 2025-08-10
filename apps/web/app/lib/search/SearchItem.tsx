@@ -8,7 +8,7 @@ import {
 	ListItemTrailingSupportingText,
 } from "~/components/List"
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
 import { MediaCover } from "../entry/MediaCover"
 import { useFragment } from "../Network"

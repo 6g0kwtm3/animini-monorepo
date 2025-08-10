@@ -6,7 +6,6 @@ import {
 	useFetcher,
 	useLocation,
 	useParams,
-	type ShouldRevalidateFunction,
 } from "react-router"
 
 import ReactRelay from "react-relay"
@@ -59,7 +58,7 @@ import * as Ariakit from "@ariakit/react"
 import { button } from "~/lib/button"
 import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import { data as json } from "react-router"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"

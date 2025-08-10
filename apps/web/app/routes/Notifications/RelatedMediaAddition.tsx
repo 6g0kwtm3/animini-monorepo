@@ -14,7 +14,7 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { getLocale } from "~/paraglide/runtime"
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import type { RelatedMediaAddition_viewer$key } from "~/gql/RelatedMediaAddition_viewer.graphql"
 import { useFragment } from "~/lib/Network"

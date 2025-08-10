@@ -1,4 +1,4 @@
-import { A } from "a"
+import { A } from "@anitrove/a"
 import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
 

@@ -1,4 +1,4 @@
-import { A } from "a"
+import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
 import {
 	ListItem,

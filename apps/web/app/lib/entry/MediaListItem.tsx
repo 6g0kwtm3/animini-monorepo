@@ -22,7 +22,7 @@ import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import { ProgressIncrement } from "./Progress"
 
-import { A } from "a"
+import { A } from "@anitrove/a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type {
 	MediaListItemSubtitle_entry$key,

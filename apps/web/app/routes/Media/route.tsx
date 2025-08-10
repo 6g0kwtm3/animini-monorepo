@@ -1,6 +1,5 @@
 import {
 	type ClientLoaderFunctionArgs,
-	type ShouldRevalidateFunction,
 	useLocation,
 	useOutlet,
 	useParams,
@@ -42,8 +41,8 @@ import { Button } from "~/components/Button"
 
 import type { ReactNode } from "react"
 
+import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
-import { A } from "a"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
