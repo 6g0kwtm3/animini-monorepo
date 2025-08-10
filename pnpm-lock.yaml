@@ -106,8 +106,8 @@ catalogs:
       specifier: 4.1.11
       version: 4.1.11
     '@types/bun':
-      specifier: 1.2.19
-      version: 1.2.19
+      specifier: 1.2.20
+      version: 1.2.20
     '@types/estree':
       specifier: 1.0.8
       version: 1.0.8
@@ -912,7 +912,7 @@ importers:
     devDependencies:
       '@types/bun':
         specifier: 'catalog:'
-        version: 1.2.19(@types/react@19.1.9)
+        version: 1.2.20(@types/react@19.1.9)
       eslint:
         specifier: 'catalog:'
         version: 9.33.0(jiti@2.4.2)
@@ -3213,8 +3213,8 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
-  '@types/bun@1.2.19':
-    resolution: {integrity: sha512-d9ZCmrH3CJ2uYKXQIUuZ/pUnTqIvLDS0SK7pFmbx8ma+ziH/FRMoAq5bYpRG7y+w1gl+HgyNZbtqgMq4W4e2Lg==}
+  '@types/bun@1.2.20':
+    resolution: {integrity: sha512-dX3RGzQ8+KgmMw7CsW4xT5ITBSCrSbfHc36SNT31EOUg/LA9JWq0VDdEXDRSe1InVWpd2yLUM1FUF/kEOyTzYA==}
 
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
@@ -3648,8 +3648,8 @@ packages:
   buffer-crc32@0.2.13:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
 
-  bun-types@1.2.19:
-    resolution: {integrity: sha512-uAOTaZSPuYsWIXRpj7o56Let0g/wjihKCkeRqUBhlLVM/Bt+Fj9xTo+LhC1OV1XDaGkz4hNC80et5xgy+9KTHQ==}
+  bun-types@1.2.20:
+    resolution: {integrity: sha512-pxTnQYOrKvdOwyiyd/7sMt9yFOenN004Y6O4lCcCUoKVej48FS5cvTw9geRaEcB9TsDZaJKAxPTVvi8tFsVuXA==}
     peerDependencies:
       '@types/react': ^19
 
@@ -9157,9 +9157,9 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.1
 
-  '@types/bun@1.2.19(@types/react@19.1.9)':
+  '@types/bun@1.2.20(@types/react@19.1.9)':
     dependencies:
-      bun-types: 1.2.19(@types/react@19.1.9)
+      bun-types: 1.2.20(@types/react@19.1.9)
     transitivePeerDependencies:
       - '@types/react'
 
@@ -9683,7 +9683,7 @@ snapshots:
 
   buffer-crc32@0.2.13: {}
 
-  bun-types@1.2.19(@types/react@19.1.9):
+  bun-types@1.2.20(@types/react@19.1.9):
     dependencies:
       '@types/node': 22.17.1
       '@types/react': 19.1.9

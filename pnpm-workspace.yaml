@@ -36,7 +36,7 @@ catalog:
   '@svgr/plugin-jsx': 8.1.0
   '@tailwindcss/typography': 0.5.16
   '@tailwindcss/vite': 4.1.11
-  '@types/bun': 1.2.19
+  '@types/bun': 1.2.20
   '@types/estree': 1.0.8
   '@types/flubber': 0.4.0
   '@types/marked': 0.3.0
