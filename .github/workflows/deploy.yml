@@ -133,6 +133,12 @@ jobs:
       - name: Check
         run: pnpm exec turbo check
 
+      - name: Cache Incremental
+        uses: actions/cache@v4
+        with:
+          path: reports/stryker-incremental.json
+          key: ${{ runner.os }}-stryker-incremental
+
       - name: Coverage
         run: pnpm exec turbo stryker
         env:
