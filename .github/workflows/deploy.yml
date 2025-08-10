@@ -129,7 +129,10 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Check
+        run: pnpm exec turbo check
+
       - name: Coverage
-        run: pnpm exec turbo check && pnpm exec turbo stryker
+        run: pnpm exec turbo stryker
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_KEY }}
