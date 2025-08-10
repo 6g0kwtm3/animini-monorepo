@@ -23,7 +23,7 @@
 		"vitest": "catalog:"
 	},
 	"dependencies": {
-		"design": "workspace:*"
+		"@anitrove/design": "workspace:*"
 	},
 	"peerDependencies": {
 		"unstyled": "workspace:*"

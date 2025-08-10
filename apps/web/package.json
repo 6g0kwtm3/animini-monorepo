@@ -52,7 +52,7 @@
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
 		"cookie": "catalog:",
-		"design": "workspace:*",
+		"@anitrove/design": "workspace:*",
 		"electron": "catalog:",
 		"electron-devtools-installer": "catalog:",
 		"extra-outlet": "workspace:*",

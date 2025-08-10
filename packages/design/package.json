@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "design",
+	"name": "@anitrove/design",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
