@@ -16,7 +16,7 @@
 		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
-		"unstyled": "workspace:*"
+		"@anitrove/unstyled": "workspace:*"
 	},
 	"devDependencies": {
 		"eslint": "catalog:",

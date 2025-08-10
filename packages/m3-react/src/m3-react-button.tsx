@@ -1,6 +1,6 @@
 import * as design from "@anitrove/design"
 import { media } from "@anitrove/design"
-import { cva, defineCva } from "unstyled"
+import { cva, defineCva } from "@anitrove/unstyled"
 
 export const buttonDefinition = defineCva({
 	base: {

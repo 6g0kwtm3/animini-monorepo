@@ -1,5 +1,5 @@
 import { numberToString } from "utilities"
-import { type Value, mapValue } from "unstyled/value"
+import { type Value, mapValue } from "@anitrove/unstyled/value"
 export * as utilities from "./design-utilities"
 export * as tokens from "./design-tokens"
 
