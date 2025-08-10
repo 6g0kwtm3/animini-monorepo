@@ -106,6 +106,9 @@ catalog:
   vitest: 3.2.4
   wrangler: 4.28.1
 
+overrides:
+  vitest>vite: 6.0.0
+
 catalogs:
   experimental:
     vite: npm:rolldown-vite@7.1.0
