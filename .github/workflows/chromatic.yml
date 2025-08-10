@@ -41,7 +41,7 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Build packages
-        run: pnpm exec turbo --filter=storybook^... build
+        run: pnpm exec turbo --filter=@anitrove/storybook^... build
 
       - name: Publish to Chromatic
         uses: chromaui/action@latest
