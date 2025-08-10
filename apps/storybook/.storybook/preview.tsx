@@ -2,9 +2,9 @@ import type { Preview } from "@storybook/react-vite"
 
 import { useInsertionEffect } from "react"
 
-import fallback from "design/theme"
+import fallback from "@anitrove/design/theme"
 
-import { utilities } from "design"
+import { utilities } from "@anitrove/design"
 
 // import "./index.css"
 

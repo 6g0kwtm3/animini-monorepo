@@ -4,7 +4,7 @@ import { classGroups as searchView } from "~/lib/searchView"
 import { classGroups as navigation } from "~/lib/navigation"
 import { classGroups as list } from "~/lib/list"
 // import colors from "~/../colors"
-import fonts from "design/fonts"
+import fonts from "@anitrove/design/fonts"
 
 export const tv = createTV({
 	twMergeConfig: {

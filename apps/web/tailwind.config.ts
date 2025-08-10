@@ -1,6 +1,7 @@
+import { utilities } from "@anitrove/design"
+import colors from "@anitrove/design/colors"
+import fonts, { letterSpacing, pxToRem } from "@anitrove/design/fonts"
 import typography from "@tailwindcss/typography"
-import { utilities } from "design"
-import colors from "design/colors"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 import { layout } from "./app/lib/layout"
@@ -9,7 +10,6 @@ import { navigation } from "./app/lib/navigation"
 import { numberToString } from "./app/lib/numberToString"
 import * as Predicate from "./app/lib/Predicate"
 import { searchView } from "./app/lib/searchView"
-import fonts, { letterSpacing, pxToRem } from "design/fonts"
 
 export const config = {
 	content: ["app/**/*.{ts,tsx}"],
