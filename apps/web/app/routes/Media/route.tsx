@@ -90,7 +90,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 	}
 }
 
-export const meta = (({ data }) => {
+export const meta = (({ loaderData: data }) => {
 	return data ? [{ title: `Media - ${data.Media.title.userPreferred}` }] : []
 }) satisfies Route.MetaFunction
 
