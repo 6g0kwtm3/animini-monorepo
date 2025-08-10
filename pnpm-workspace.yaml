@@ -109,6 +109,8 @@ catalog:
 catalogs:
   experimental:
     vite: npm:rolldown-vite@7.1.0
+  codespeed:
+    vite: 6.0.0
 
 patchedDependencies:
   flubber: patches/flubber.patch
