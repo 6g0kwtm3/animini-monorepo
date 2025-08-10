@@ -40,7 +40,8 @@
 		"//#knip": {},
 		"//#stryker": {
 			"passThroughEnv": ["STRYKER_DASHBOARD_API_KEY"],
-			"cache": false
+			"cache": false,
+			"dependsOn": ["transit", "eslint-typegen"] 
 		}
 	}
 }
