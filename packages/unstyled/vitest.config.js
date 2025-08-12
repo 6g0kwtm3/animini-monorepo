@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config"
+import { defineProject } from "vitest/config"
 import codspeedPlugin from "@codspeed/vitest-plugin"
 
-export default defineConfig({ plugins: [codspeedPlugin()] })
+export default defineProject({ plugins: [codspeedPlugin()] })
