@@ -10,9 +10,11 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
-		"check": "tsc --noEmit"
+		"check": "tsc --noEmit",
+		"bench": "vitest bench --run"
 	},
 	"devDependencies": {
+		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-config-react": "workspace:*",

@@ -35,7 +35,7 @@
 		"//#lint": {},
 		"test-e2e": {},
 		"//#test": {},
-		"//#bench": { "cache": false },
+		"bench": { "cache": false },
 		"//#format": {},
 		"//#knip": {},
 		"//#stryker": {
