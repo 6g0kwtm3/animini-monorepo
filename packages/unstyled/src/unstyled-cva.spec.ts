@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { numberToString } from "utilities"
 import { cva } from "./unstyled-cva"
-import { mapValue, type Value } from "./unstyled-value"
 import { printRawStyles } from "./unstyled-print"
+import { mapValue, type Value } from "./unstyled-value"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
 
@@ -189,28 +189,105 @@ describe("cva", () => {
 			},
 		})
 	})
-
-	it("compoundVariant", () => {
+	it("defaultVariants", () => {
 		cva({
 			base: {},
-			variants: { size: { xs: {}, sm: {} }, shape: { round: {}, square: {} } },
-			compoundVariants: [
-				{
-					size: ["xs"],
-					shape: ["round"],
-					css: { borderRadius: { base: "1rem", [media.active]: ".5rem" } },
-				},
-			],
+			variants: { size: { xs: {}, sm: {} } },
+			defaultVariants: { size: "xs" },
 		})
 		expect(printRawStyles).toHaveBeenCalledWith({
-			"--shape-round": "var(--shape,)",
-			"--shape-square": "var(--shape,)",
+			"--size": "var(--size-xs)",
 			"--size-sm": "var(--size,)",
 			"--size-xs": "var(--size,)",
-			borderRadius: {
-				base: "var(--size-xs, var(--shape-round, 1rem))",
-				"&:active, &[data-active]": "var(--size-xs, var(--shape-round, .5rem))",
-			},
+		})
+	})
+
+	it("variants", () => {
+		cva({ base: {}, variants: { size: { xs: {}, sm: {} } } })
+		expect(printRawStyles).toHaveBeenCalledWith({
+			"--size-sm": "var(--size,)",
+			"--size-xs": "var(--size,)",
+		})
+	})
+
+	describe("compoundVariants compound variant", () => {
+		it("compoundVariant not referencing all variants", () => {
+			cva({
+				base: {},
+				variants: {
+					size: { xs: {}, sm: {} },
+					shape: { round: {}, square: {} },
+				},
+				compoundVariants: [
+					{
+						shape: ["round"],
+						css: { borderRadius: { base: "1rem", [media.active]: ".5rem" } },
+					},
+				],
+			})
+			expect(printRawStyles).toHaveBeenCalledWith({
+				"--shape-round": "var(--shape,)",
+				"--shape-square": "var(--shape,)",
+				"--size-sm": "var(--size,)",
+				"--size-xs": "var(--size,)",
+				borderRadius: {
+					base: "var(--shape-round, 1rem)",
+					"&:active, &[data-active]": "var(--shape-round, .5rem)",
+				},
+			})
+		})
+
+		it("referencing all variants", () => {
+			cva({
+				base: {},
+				variants: {
+					size: { xs: {}, sm: {} },
+					shape: { round: {}, square: {} },
+				},
+				compoundVariants: [
+					{
+						size: ["xs"],
+						shape: ["round"],
+						css: { borderRadius: { base: "1rem", [media.active]: ".5rem" } },
+					},
+				],
+			})
+			expect(printRawStyles).toHaveBeenCalledWith({
+				"--shape-round": "var(--shape,)",
+				"--shape-square": "var(--shape,)",
+				"--size-sm": "var(--size,)",
+				"--size-xs": "var(--size,)",
+				borderRadius: {
+					base: "var(--size-xs, var(--shape-round, 1rem))",
+					"&:active, &[data-active]":
+						"var(--size-xs, var(--shape-round, .5rem))",
+				},
+			})
+		})
+
+		it("not relevant", () => {
+			cva({
+				base: {},
+				variants: { width: { xs: {}, sm: {} }, height: { xs: {}, sm: {} } },
+				compoundVariants: [
+					{ width: ["sm"], css: { color: "red" } },
+					{
+						height: ["sm"],
+						css: { borderRadius: { base: "1rem", [media.active]: ".5rem" } },
+					},
+				],
+			})
+			expect(printRawStyles).toHaveBeenCalledWith({
+				"--height-sm": "var(--height,)",
+				"--height-xs": "var(--height,)",
+				"--width-sm": "var(--width,)",
+				"--width-xs": "var(--width,)",
+				borderRadius: {
+					base: "var(--height-sm, 1rem)",
+					"&:active, &[data-active]": "var(--height-sm, .5rem)",
+				},
+				color: "var(--width-sm, red)",
+			})
 		})
 	})
 })

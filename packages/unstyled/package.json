@@ -11,6 +11,7 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
+		"bench": "vitest bench --run",
 		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
@@ -18,6 +19,7 @@
 		"react": "catalog:"
 	},
 	"devDependencies": {
+		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-config-react": "workspace:*",
