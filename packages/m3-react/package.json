@@ -10,8 +10,8 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
-		"check": "tsc --noEmit",
-		"bench": "vitest bench --run"
+		"bench": "vitest bench --run",
+		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"@codspeed/vitest-plugin": "catalog:",
