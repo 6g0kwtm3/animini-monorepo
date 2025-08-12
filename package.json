@@ -22,7 +22,6 @@
 	},
 	"devDependencies": {
 		"@ark/attest": "catalog:",
-		"@codspeed/vitest-plugin": "catalog:",
 		"@prettier/plugin-oxc": "catalog:",
 		"@stryker-mutator/api": "catalog:",
 		"@stryker-mutator/core": "catalog:",
