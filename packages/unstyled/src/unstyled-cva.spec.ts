@@ -268,10 +268,7 @@ describe("cva", () => {
 		it("not relevant", () => {
 			cva({
 				base: {},
-				variants: {
-					width: { xs: {}, sm: {} },
-					height: { xs: {}, sm: {} },
-				},
+				variants: { width: { xs: {}, sm: {} }, height: { xs: {}, sm: {} } },
 				compoundVariants: [
 					{ width: ["sm"], css: { color: "red" } },
 					{
