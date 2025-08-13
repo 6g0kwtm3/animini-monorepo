@@ -27,7 +27,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.54.2-jammy
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           filter: blob:none
           fetch-depth: 0
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Typecheck
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           filter: blob:none
           fetch-depth: 0
@@ -74,7 +74,7 @@ jobs:
 
     name: Knip
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           filter: blob:none
           fetch-depth: 0
@@ -101,7 +101,7 @@ jobs:
 
     name: Boundaries
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
@@ -121,7 +121,7 @@ jobs:
 
     name: Doctor
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
@@ -135,7 +135,7 @@ jobs:
 
     name: Test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           filter: blob:none
           fetch-depth: 0
