@@ -1,5 +1,5 @@
 import * as Ariakit from "@ariakit/react"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "motion/react"
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import MaterialSymbolsArrowDropDown from "~icons/material-symbols/arrow-drop-down"

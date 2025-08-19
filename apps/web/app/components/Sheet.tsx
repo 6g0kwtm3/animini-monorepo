@@ -1,11 +1,11 @@
 import * as Ariakit from "@ariakit/react"
 import {
-	AnimatePresence,
-	animate,
-	motion,
-	useMotionValue,
-	useTransform,
-} from "framer-motion"
+    AnimatePresence,
+    animate,
+    motion,
+    useMotionValue,
+    useTransform,
+} from "motion/react"
 import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
