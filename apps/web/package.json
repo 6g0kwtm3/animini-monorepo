@@ -56,7 +56,6 @@
 		"electron": "catalog:",
 		"electron-devtools-installer": "catalog:",
 		"extra-outlet": "workspace:*",
-		"framer-motion": "catalog:",
 		"graphql": "catalog:",
 		"hono": "catalog:",
 		"isbot": "catalog:",

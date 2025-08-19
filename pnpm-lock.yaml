@@ -204,9 +204,6 @@ catalogs:
     flubber:
       specifier: 0.4.2
       version: 0.4.2
-    framer-motion:
-      specifier: 12.23.12
-      version: 12.23.12
     graphql:
       specifier: 16.11.0
       version: 16.11.0
@@ -552,9 +549,6 @@ importers:
       extra-outlet:
         specifier: workspace:*
         version: link:../../packages/extra-outlet
-      framer-motion:
-        specifier: 'catalog:'
-        version: 12.23.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       graphql:
         specifier: 'catalog:'
         version: 16.11.0

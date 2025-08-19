@@ -69,7 +69,6 @@ catalog:
   eslint-typegen: 2.3.0
   eslint-vitest-rule-tester: 2.2.1
   flubber: 0.4.2
-  framer-motion: 12.23.12
   graphql: 16.11.0
   graphql-config: 5.1.5
   hono: 4.9.2

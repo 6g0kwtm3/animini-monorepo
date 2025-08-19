@@ -6,7 +6,7 @@ import {
 	useRouteLoaderData,
 } from "react-router"
 
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "motion/react"
 
 import { useTooltipStore } from "@ariakit/react"
 import { cloneElement } from "react"
