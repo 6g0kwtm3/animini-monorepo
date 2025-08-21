@@ -9,6 +9,7 @@
 	],
 	"lockFileMaintenance": { "enabled": true, "automerge": true },
 	"packageRules": [
+		{ "matchDatasources": ["npm"], "minimumReleaseAge": "3 days" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{
 			"matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/*"],
