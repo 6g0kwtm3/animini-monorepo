@@ -16,10 +16,10 @@
 			"entry": ["env.ts", "app/lib/urql.ts", "app/paraglide/**", "app/gql/**"],
 			"ignoreDependencies": [
 				"@iconify-json/material-symbols",
-				"isbot",
 				"@svgr/plugin-jsx"
 			]
 		},
 		"packages/m3-react": { "ignoreDependencies": ["m3-core"] }
-	}
+	},
+	"ignoreDependencies": ["oxlint-tsgolint"]
 }
