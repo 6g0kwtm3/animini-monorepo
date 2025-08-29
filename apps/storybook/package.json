@@ -9,7 +9,7 @@
 		"build": "storybook build",
 		"build-storybook": "storybook build",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix --suppress-all",
+		"lint": "eslint --cache . --fix --prune-suppressions",
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {

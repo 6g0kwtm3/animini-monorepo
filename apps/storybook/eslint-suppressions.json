@@ -1,4 +1,19 @@
 {
+  ".storybook/main.ts": {
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  ".storybook/modes.ts": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  ".storybook/preview.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
   "env.ts": {
     "perfectionist/sort-union-types": {
       "count": 1
@@ -11,6 +26,9 @@
     "perfectionist/sort-modules": {
       "count": 1
     },
+    "perfectionist/sort-objects": {
+      "count": 6
+    },
     "perfectionist/sort-union-types": {
       "count": 5
     }
@@ -19,8 +37,16 @@
     "perfectionist/sort-jsx-props": {
       "count": 1
     },
+    "perfectionist/sort-objects": {
+      "count": 4
+    },
     "perfectionist/sort-union-types": {
       "count": 2
+    }
+  },
+  "stories/Header.stories.ts": {
+    "perfectionist/sort-objects": {
+      "count": 4
     }
   },
   "stories/Header.tsx": {
@@ -30,7 +56,20 @@
     "perfectionist/sort-object-types": {
       "count": 2
     },
+    "perfectionist/sort-objects": {
+      "count": 4
+    },
     "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "stories/Markdown.stories.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "stories/Page.stories.ts": {
+    "perfectionist/sort-objects": {
       "count": 1
     }
   },

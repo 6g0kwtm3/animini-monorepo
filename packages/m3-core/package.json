@@ -7,7 +7,7 @@
 	"exports": "./src/index.ts",
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix --suppress-all",
+		"lint": "eslint --cache . --fix --prune-suppressions",
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {

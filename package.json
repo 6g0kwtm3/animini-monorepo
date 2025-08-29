@@ -8,7 +8,7 @@
 		"build": "turbo run build --continue=dependencies-successful --affected",
 		"check": "turbo run check --continue=dependencies-successful --affected",
 		"turbo:lint": "turbo run lint --continue=dependencies-successful --affected",
-		"lint": "eslint --cache . --fix --suppress-all",
+		"lint": "eslint --cache . --fix --prune-suppressions",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"dev": "turbo watch dev",
 		"format": "prettier . -w --cache --experimental-cli",
