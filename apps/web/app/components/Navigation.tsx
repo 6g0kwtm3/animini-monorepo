@@ -42,7 +42,7 @@ export function NavigationItem({
 	)
 }
 
-const NavigationContext = createContext<{ "--id": string } | undefined>(
+const NavigationContext = createContext<undefined | { "--id": string }>(
 	undefined
 )
 

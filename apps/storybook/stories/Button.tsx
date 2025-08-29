@@ -7,7 +7,7 @@ interface ButtonProps extends ComponentProps<"button"> {
 	backgroundColor?: Property.BackgroundColor | undefined
 	label?: ReactNode
 	primary?: boolean
-	size?: "small" | "medium" | "large"
+	size?: "large" | "medium" | "small"
 }
 
 /** Primary UI component for user interaction */

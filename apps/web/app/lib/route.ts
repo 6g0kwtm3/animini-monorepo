@@ -11,14 +11,14 @@ type Hash = `#${string}`
 
 type Pathname =
 	| `/`
-	| `/media/${string}`
-	| `/media/${string}/edit`
-	| `/user/${string}`
-	| `/user/${string}/${"animelist" | "mangalist"}`
-	| `/user/${string}/${"animelist" | "mangalist"}/${string}`
 	| `/login`
+	| `/media/${string}/edit`
+	| `/media/${string}`
+	| `/user/${string}/${"animelist" | "mangalist"}/${string}`
+	| `/user/${string}/${"animelist" | "mangalist"}`
+	| `/user/${string}`
 
-type Route = `${Pathname | ""}${SearchParams | ""}${Hash | ""}`
+type Route = `${"" | Pathname}${"" | SearchParams}${"" | Hash}`
 
 export function route_media({ id }: { id: number }): `/media/${string}` {
 	return `/media/${numberToString(id)}` satisfies Route

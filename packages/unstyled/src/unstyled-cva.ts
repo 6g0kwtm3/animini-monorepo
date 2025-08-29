@@ -9,8 +9,8 @@ import { mapValue, type Value } from "./unstyled-value"
 // }
 
 export interface Properties {
-	[key: `--${string}`]: string | number
-	[key: string]: string | number
+	[key: `--${string}`]: number | string
+	[key: string]: number | string
 }
 
 export type RawStyles = { [K in keyof Properties]?: Value }
@@ -108,7 +108,7 @@ function mergeCompoundVariantProperty<
 	propertyVariants: string[],
 	index = 0,
 	currentOptions: string[] = []
-): Value | undefined {
+): undefined | Value {
 	if (index === propertyVariants.length) {
 		return (
 			compoundVariants
@@ -126,11 +126,11 @@ function mergeCompoundVariantProperty<
 					}
 					return true
 				})
-				.reduceRight<Value | undefined>((acc, compoundVariant) => {
+				.reduceRight<undefined | Value>((acc, compoundVariant) => {
 					return acc ?? compoundVariant.css[property]
 				}, undefined)
-			?? currentOptions.reduceRight<Value | undefined>(
-				(acc, variant, i): Value | undefined =>
+			?? currentOptions.reduceRight<undefined | Value>(
+				(acc, variant, i): undefined | Value =>
 					acc ?? variants[propertyVariants[i]!]![variant]![property],
 				undefined
 			)
@@ -155,7 +155,7 @@ function mergeCompoundVariantProperty<
 		return [
 			mapValue(
 				value,
-				(value): string | number =>
+				(value): number | string =>
 					`var(--${variant}-${option}, ${numberOrStringToString(value)})`
 			),
 		]
@@ -168,7 +168,7 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
-function mergeValues<T extends string | number>(a: T, b: T): T
+function mergeValues<T extends number | string>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
 	if (typeof a !== "object" && typeof b !== "object") {

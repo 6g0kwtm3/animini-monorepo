@@ -58,16 +58,16 @@ function isStringNode(
 
 function isPageInfoField(field: string) {
 	switch (field) {
-		case "pageInfo":
-		case "page_info":
-		case "hasNextPage":
-		case "has_next_page":
-		case "hasPreviousPage":
-		case "has_previous_page":
-		case "startCursor":
-		case "start_cursor":
-		case "endCursor":
 		case "end_cursor":
+		case "endCursor":
+		case "has_next_page":
+		case "has_previous_page":
+		case "hasNextPage":
+		case "hasPreviousPage":
+		case "page_info":
+		case "pageInfo":
+		case "start_cursor":
+		case "startCursor":
 			return true
 		default:
 			return false
@@ -154,11 +154,11 @@ export const rule: Rule.RuleModule = {
 					return
 				}
 				switch (node.callee.name) {
-					case "getByPath":
-						visitGetByPathCall(node)
-						break
 					case "dotAccess":
 						visitDotAccessCall(node)
+						break
+					case "getByPath":
+						visitGetByPathCall(node)
 						break
 				}
 			},

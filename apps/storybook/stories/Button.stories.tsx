@@ -6,15 +6,15 @@ import { button } from "m3-react/button"
 import type { ComponentProps } from "react"
 
 interface ButtonProps extends ComponentProps<"button"> {
-	size?: "xs" | "sm" | "md" | "lg" | "xl"
+	size?: "lg" | "md" | "sm" | "xl" | "xs"
 	shape?: "round" | "square"
-	color?: "outlined" | "elevated" | "filled" | "text" | "tonal"
+	color?: "elevated" | "filled" | "outlined" | "text" | "tonal"
 }
 
 declare module "react" {
 	// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 	interface CSSProperties {
-		[key: `--${string}`]: string | number | undefined
+		[key: `--${string}`]: number | string | undefined
 	}
 }
 

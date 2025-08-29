@@ -96,7 +96,7 @@ export const config = {
 
 			ctx.matchUtilities(
 				{
-					state: (opacity: string | number) => {
+					state: (opacity: number | string) => {
 						const stateColor = `color-mix(in oklab, currentColor, transparent ${numberToString(
 							100
 								- Number(

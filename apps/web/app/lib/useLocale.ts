@@ -66,8 +66,8 @@ const rtlLngs = new Set([
 ])
 
 export function languageToLocale(
-	acceptLanguage: string | null
-): { readonly lang: "en" | "ja"; readonly dir: "rtl" | "ltr" } | null {
+	acceptLanguage: null | string
+): null | { readonly lang: "en" | "ja"; readonly dir: "ltr" | "rtl" } {
 	const locales =
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []
 
