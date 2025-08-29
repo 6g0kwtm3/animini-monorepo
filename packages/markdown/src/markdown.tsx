@@ -19,6 +19,22 @@ export function Markdown(props: { children: string; options: Options }) {
 	)
 }
 
+function getAttributes(attributes: Record<string, string>) {
+	const {
+		allowfullscreen: allowFullScreen,
+		class: className,
+		frameborder: frameBorder,
+		..._attributes
+	} = attributes
+
+	return {
+		..._attributes,
+		...(className ? { className } : {}),
+		...(allowFullScreen ? { allowFullScreen } : {}),
+		...(frameBorder ? { frameBorder } : {}),
+	}
+}
+
 function parse(html: string, options: Options): ReactNode {
 	const subdocument = new DOMParser().parseFromString(html, "text/html")
 
@@ -36,6 +52,7 @@ function sanitizeHtml(t: string) {
 	})
 
 	const out: string = DOMPurify.sanitize(t, {
+		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"],
 		ALLOWED_TAGS: [
 			"a",
 			"b",
@@ -64,26 +81,9 @@ function sanitizeHtml(t: string) {
 			"strong",
 			"ul",
 		],
-		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"],
 	})
 
 	return out
-}
-
-function getAttributes(attributes: Record<string, string>) {
-	const {
-		class: className,
-		allowfullscreen: allowFullScreen,
-		frameborder: frameBorder,
-		..._attributes
-	} = attributes
-
-	return {
-		..._attributes,
-		...(className ? { className } : {}),
-		...(allowFullScreen ? { allowFullScreen } : {}),
-		...(frameBorder ? { frameBorder } : {}),
-	}
 }
 
 function traverse(element: ChildNode, options: Options): ReactNode {

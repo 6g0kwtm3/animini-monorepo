@@ -37,16 +37,16 @@ export function User({ user, ...props }: UserProps): ReactNode {
 				<div className="grid overflow-hidden rounded-xl">
 					{data.bannerImage && (
 						<img
-							src={data.bannerImage}
 							alt=""
 							className="col-start-1 row-start-1 object-cover"
+							src={data.bannerImage}
 						/>
 					)}
 					{data.avatar && src && (
 						<img
-							src={src}
 							alt=""
 							className="col-start-1 row-start-1 self-end bg-cover object-cover"
+							src={src}
 							style={
 								data.avatar.medium
 									? { backgroundImage: `url(${data.avatar.medium})` }
@@ -73,8 +73,8 @@ export function User({ user, ...props }: UserProps): ReactNode {
 					render={
 						<A
 							href={route_user_list({
-								userName: data.name,
 								typelist: "animelist",
+								userName: data.name,
 							})}
 						></A>
 					}
@@ -86,8 +86,8 @@ export function User({ user, ...props }: UserProps): ReactNode {
 					render={
 						<A
 							href={route_user_list({
-								userName: data.name,
 								typelist: "mangalist",
+								userName: data.name,
 							})}
 						></A>
 					}

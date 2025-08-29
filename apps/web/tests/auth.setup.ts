@@ -7,7 +7,7 @@ const authFile = "playwright/.auth/user.json"
 
 const env = invariant(type({ ANILIST_TEST_TOKEN: "string" })(process.env))
 
-setup("authenticate", async ({ page, baseURL }) => {
+setup("authenticate", async ({ baseURL, page }) => {
 	await page.goto(baseURL ?? "/")
 	await page.keyboard.press("Control+.")
 	const indexPage = await FeedPage.new(page)

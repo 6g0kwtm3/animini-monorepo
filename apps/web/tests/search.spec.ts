@@ -50,9 +50,9 @@ const handlers = [
 				data: {
 					Media: {
 						coverImage: null,
+						description: "",
 						id: 1,
 						title: { userPreferred: "Sousou no Frieren" },
-						description: "",
 					},
 				},
 			})

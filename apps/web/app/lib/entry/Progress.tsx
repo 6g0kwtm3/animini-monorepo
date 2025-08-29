@@ -89,9 +89,9 @@ export function ProgressIncrement(props: {
 			{Predicate.isString(data?.Viewer?.name)
 				&& data.Viewer.name === params.userName && (
 					<Form className="@md:block hidden" method="post">
-						<input type="hidden" name="progress" value={progress + 1} />
-						<input type="hidden" name="id" value={entry.id} />
-						<input type="hidden" name="intent" value="increment" />
+						<input name="progress" type="hidden" value={progress + 1} />
+						<input name="id" type="hidden" value={entry.id} />
+						<input name="intent" type="hidden" value="increment" />
 						<TooltipPlain>
 							<TooltipPlainTrigger render={<Button type="submit" />}>
 								<Progress entry={entry} />
@@ -114,7 +114,7 @@ export function ProgressIncrement(props: {
 					</Form>
 				)}
 			<Menu>
-				<Icon title="Show more options" tooltip render={<MenuTrigger />}>
+				<Icon render={<MenuTrigger />} title="Show more options" tooltip>
 					<MaterialSymbolsMoreHoriz />
 				</Icon>
 				<MenuList>
@@ -133,8 +133,8 @@ export function ProgressIncrement(props: {
 
 					{(() => {
 						const shareData: ShareData = {
-							title: entry.media.title.userPreferred,
 							text: entry.media.title.userPreferred,
+							title: entry.media.title.userPreferred,
 							url: `https://${location.host}/media/${numberToString(entry.media.id)}`,
 						}
 
@@ -145,12 +145,12 @@ export function ProgressIncrement(props: {
 						return (
 							canShare && (
 								<MenuListItem
-									render={<button type="button" />}
 									onClick={() => {
 										void (async () => {
 											await navigator.share(shareData)
 										})()
 									}}
+									render={<button type="button" />}
 								>
 									<MenuItemLeadingIcon>
 										<MaterialSymbolsForward />
@@ -169,8 +169,8 @@ export function ProgressIncrement(props: {
 					</MenuListItem>
 
 					<Form action="" method="post">
-						<input type="hidden" name="intent" value="set_status" />
-						<input type="hidden" name="mediaId" value={entry.media.id} />
+						<input name="intent" type="hidden" value="set_status" />
+						<input name="mediaId" type="hidden" value={entry.media.id} />
 
 						<Menu>
 							<MenuListItem render={<MenuTrigger />}>
@@ -184,8 +184,8 @@ export function ProgressIncrement(props: {
 								<MenuListItem
 									render={
 										<button
-											type="submit"
 											name="status"
+											type="submit"
 											value={"COMPLETED" satisfies MediaListStatus}
 										/>
 									}
@@ -195,8 +195,8 @@ export function ProgressIncrement(props: {
 								<MenuListItem
 									render={
 										<button
-											type="submit"
 											name="status"
+											type="submit"
 											value={"PAUSED" satisfies MediaListStatus}
 										/>
 									}
@@ -206,8 +206,8 @@ export function ProgressIncrement(props: {
 								<MenuListItem
 									render={
 										<button
-											type="submit"
 											name="status"
+											type="submit"
 											value={"DROPPED" satisfies MediaListStatus}
 										/>
 									}

@@ -11,28 +11,24 @@ const TabsContext = createContext<string | undefined>(undefined)
 import { tv } from "~/lib/tailwind-variants"
 
 const tabs = tv({
+	defaultVariants: { grow: false, primary: true },
 	slots: { root: "border-surface-container-highest border-b" },
 	variants: {
-		variant: { primary: {}, secondary: {} },
 		grow: {
-			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
 			false: { root: "flex overflow-x-auto" },
+			true: { root: "grid grid-flow-col [grid-auto-columns:minmax(0,1fr)]" },
 		},
+		variant: { primary: {}, secondary: {} },
 	},
-	defaultVariants: { primary: true, grow: false },
 })
-
-export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
-	return <Ariakit.TabProvider selectOnMove={false} {...props} />
-}
-
-export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
-	return <Ariakit.TabPanel {...props} />
-}
 
 interface TabsListProps
 	extends Ariakit.TabListProps,
 		VariantProps<typeof tabs> {}
+
+export function Tabs(props: Ariakit.TabProviderProps): ReactNode {
+	return <Ariakit.TabProvider selectOnMove={false} {...props} />
+}
 
 export function TabsList({ grow, ...props }: TabsListProps): ReactNode {
 	const styles = tabs({ grow })
@@ -70,11 +66,15 @@ export function TabsListItem({
 
 				{selectedId === props.id && (
 					<motion.div
-						layoutId={layoutId}
 						className="bg-primary absolute bottom-0 left-0 right-0 h-[0.1875rem] rounded-t-[0.1875rem]"
+						layoutId={layoutId}
 					/>
 				)}
 			</div>
 		</Ariakit.Tab>
 	)
+}
+
+export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
+	return <Ariakit.TabPanel {...props} />
 }

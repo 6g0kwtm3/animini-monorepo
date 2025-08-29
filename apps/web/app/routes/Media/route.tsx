@@ -102,20 +102,20 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 
 	return (
 		<LayoutBody
-			style={data.theme}
 			className={
 				"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
 			}
+			style={data.theme}
 		>
 			<PaneFlexible>
 				<div>
 					<Card
-						variant="filled"
 						className="grid flex-1 gap-4 rounded-[2.75rem]"
+						variant="filled"
 					>
 						<MediaCover
-							media={data.Media}
 							className="rounded-xl [view-transition-name:media-cover]"
+							media={data.Media}
 						/>
 
 						<div className="flex flex-wrap gap-2">
@@ -123,7 +123,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 							<Button variant="outlined">Favourite</Button>
 							<Button>Favourite</Button>
 							<Button variant="elevated">Favourite</Button>
-							<Button variant="tonal" type="button" invoketarget="edit">
+							<Button invoketarget="edit" type="button" variant="tonal">
 								Edit
 							</Button>
 						</div>
@@ -234,12 +234,13 @@ function Edit() {
 	const root = useRouteLoaderData<typeof rootLoader>("root")
 
 	return (
-		<motion.div layoutId="edit" className="fixed bottom-24 end-4 sm:bottom-4">
+		<motion.div className="fixed bottom-24 end-4 sm:bottom-4" layoutId="edit">
 			<div className="relative">
 				<TooltipPlain store={store}>
 					<TooltipPlainTrigger
 						render={
 							<A
+								className={fab({})}
 								href={
 									root?.Viewer
 										? route_media_edit({ id: Number(mediaId) })
@@ -247,11 +248,10 @@ function Edit() {
 												redirect: route_media_edit({ id: Number(mediaId) }),
 											})
 								}
-								preventScrollReset={true}
-								className={fab({})}
 								onClick={() => {
 									store.setOpen(false)
 								}}
+								preventScrollReset={true}
 							>
 								<MaterialSymbolsEditOutline />
 							</A>

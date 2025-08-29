@@ -15,11 +15,11 @@ export function ListItem({ ...props }: Ariakit.RoleProps<"li">) {
 	)
 }
 
-export function ListItemContentTitle(props: Ariakit.RoleProps): ReactNode {
+export function ListItemAvatar(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
-			className={tv({ base: "list-item-title" })({
+			className={tv({ base: "list-item-avatar" })({
 				className: props.className,
 			})}
 		></Ariakit.Role.div>
@@ -48,22 +48,22 @@ export function ListItemContentSubtitle(props: Ariakit.RoleProps): ReactNode {
 	)
 }
 
+export function ListItemContentTitle(props: Ariakit.RoleProps): ReactNode {
+	return (
+		<Ariakit.Role.div
+			{...props}
+			className={tv({ base: "list-item-title" })({
+				className: props.className,
+			})}
+		></Ariakit.Role.div>
+	)
+}
+
 export function ListItemImg(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div
 			{...props}
 			className={tv({ base: "list-item-img" })({ className: props.className })}
-		></Ariakit.Role.div>
-	)
-}
-
-export function ListItemAvatar(props: Ariakit.RoleProps): ReactNode {
-	return (
-		<Ariakit.Role.div
-			{...props}
-			className={tv({ base: "list-item-avatar" })({
-				className: props.className,
-			})}
 		></Ariakit.Role.div>
 	)
 }
@@ -79,20 +79,20 @@ function ListItemIcon(props: Ariakit.RoleProps): ReactNode {
 
 const subheader = tv({
 	base: "text-body-md text-on-surface-variant truncate px-4",
-	variants: { lines: { one: "py-2", two: "py-2", three: "py-3" } },
 	defaultVariants: { lines: "two" },
+	variants: { lines: { one: "py-2", three: "py-3", two: "py-2" } },
 })
 
 interface SubheaderProps
 	extends Ariakit.HeadingProps,
 		VariantProps<typeof subheader> {}
 
-export function Subheader({ lines, ...props }: SubheaderProps): ReactNode {
+export function List({ ...props }: Ariakit.RoleProps<"ul">): ReactNode {
 	return (
-		<Ariakit.Heading
+		<Ariakit.Role.ul
 			{...props}
-			className={subheader({ className: props.className, lines })}
-		/>
+			className={tv({ base: "list list-two" })({ className: props.className })}
+		></Ariakit.Role.ul>
 	)
 }
 
@@ -109,11 +109,11 @@ export function ListItemTrailingSupportingText(
 	)
 }
 
-export function List({ ...props }: Ariakit.RoleProps<"ul">): ReactNode {
+export function Subheader({ lines, ...props }: SubheaderProps): ReactNode {
 	return (
-		<Ariakit.Role.ul
+		<Ariakit.Heading
 			{...props}
-			className={tv({ base: "list list-two" })({ className: props.className })}
-		></Ariakit.Role.ul>
+			className={subheader({ className: props.className, lines })}
+		/>
 	)
 }

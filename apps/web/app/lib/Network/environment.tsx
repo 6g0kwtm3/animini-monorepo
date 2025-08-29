@@ -46,7 +46,7 @@ const fetchQuery: FetchFunction = async function (
 		headers.set("Authorization", `Bearer ${token}`)
 	}
 
-	const request = await fetch(API_URL, { body: body, method: "POST", headers })
+	const request = await fetch(API_URL, { body: body, headers, method: "POST" })
 
 	const response = invariant(GraphQLResponse(await request.json()))
 
@@ -69,8 +69,8 @@ globalThis.__RELAY_STORE__ ??= new Store(new RecordSource(), {
 const store = globalThis.__RELAY_STORE__
 
 const environment = new Environment({
-	network,
-	store,
+	getDataID: (data, typeName) =>
+		data.id != null ? `${typeName}:${String(data.id)}` : null,
 	missingFieldHandlers: [
 		{
 			handle(field, record, argValues) {
@@ -98,8 +98,9 @@ const environment = new Environment({
 			kind: "linked",
 		},
 	],
+	network,
 	relayFieldLogger(event) {
-		addBreadcrumb({ level: "info", category: "relay", data: event })
+		addBreadcrumb({ category: "relay", data: event, level: "info" })
 		if (event.kind === "relay_resolver.error") {
 			// Log this somewhere!
 			console.warn(
@@ -108,8 +109,7 @@ const environment = new Environment({
 			console.warn(event.error)
 		}
 	},
-	getDataID: (data, typeName) =>
-		data.id != null ? `${typeName}:${String(data.id)}` : null,
+	store,
 	// ... other options
 })
 

@@ -1,8 +1,10 @@
-export type JSONValue = string | number | boolean | JSONObject | JSONArray
+export type CountryCode = `${Letter}${Letter}`
 
 export interface JSONObject {
 	[x: string]: JSONValue
 }
+
+export type JSONValue = boolean | JSONArray | JSONObject | number | string
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface JSONArray extends Array<JSONValue> {}
@@ -34,5 +36,3 @@ type Letter =
 	| "X"
 	| "Y"
 	| "Z"
-
-export type CountryCode = `${Letter}${Letter}`

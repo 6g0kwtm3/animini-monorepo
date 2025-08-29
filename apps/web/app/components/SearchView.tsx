@@ -4,21 +4,10 @@ import { tv } from "~/lib/tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
 import { Icon } from "./Button"
 
-export function SearchViewBody(props: Ariakit.ComboboxListProps) {
-	return (
-		<Ariakit.ComboboxList
-			{...props}
-			className={tv({ base: "search-view-body" })({
-				className: props.className,
-			})}
-		/>
-	)
-}
-
 interface SearchViewProps extends Ariakit.DialogProps {
-	open?: Ariakit.DialogStoreProps["open"]
 	onOpenChange?: Ariakit.DialogStoreProps["setOpen"]
 	onSearch?: Ariakit.ComboboxProviderProps["setValue"]
+	open?: Ariakit.DialogStoreProps["open"]
 }
 
 export function SearchView({ ...props }: SearchViewProps) {
@@ -32,12 +21,23 @@ export function SearchView({ ...props }: SearchViewProps) {
 		>
 			<Ariakit.ComboboxProvider
 				focusLoop={true}
-				open={props.open}
 				includesBaseElement={true}
+				open={props.open}
 			>
 				{props.children}
 			</Ariakit.ComboboxProvider>
 		</Ariakit.Dialog>
+	)
+}
+
+export function SearchViewBody(props: Ariakit.ComboboxListProps) {
+	return (
+		<Ariakit.ComboboxList
+			{...props}
+			className={tv({ base: "search-view-body" })({
+				className: props.className,
+			})}
+		/>
 	)
 }
 
@@ -76,9 +76,9 @@ export function SearchViewInput(props: Ariakit.ComboboxProps) {
 export function SearchViewItem(props: Ariakit.ComboboxItemProps) {
 	return (
 		<Ariakit.ComboboxItem
-			hideOnClick
-			focusOnHover
 			blurOnHoverEnd={false}
+			focusOnHover
+			hideOnClick
 			{...props}
 		/>
 	)

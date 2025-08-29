@@ -163,12 +163,12 @@ async function setStatus(formData: FormData) {
 	const client = client_get_client()
 	const data = await client.mutation<routeUserSetStatusMutation>({
 		mutation: UserSetStatus,
-		variables: variables,
 		updater: (store) => {
 			store.invalidateStore()
 			// const ref = store.get(`Media:${variables.mediaId}`)
 			// if (ref != null) ref.invalidateRecord()
 		},
+		variables: variables,
 	})
 
 	if (!data.SaveMediaListEntry) {
@@ -203,17 +203,16 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	const data = await client.query<routeNavUserListEntriesQuery>(
 		NavUserListEntriesQuery,
 		{
-			userName: params.userName,
 			type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
 				params.typelist
 			],
+			userName: params.userName,
 		}
 	)
 
 	if (typeof params.selected !== "string") {
 		return {
 			selectedList: {
-				name: "All",
 				entries: Object.values(
 					Object.fromEntries(
 						data?.MediaListCollection?.lists
@@ -222,6 +221,7 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 							.map((entry) => [entry.id, entry]) ?? []
 					)
 				),
+				name: "All",
 			},
 		}
 	}
@@ -248,20 +248,55 @@ const FuzzyDate = graphql`
 const OrderFuzzyDate = Order.combineAll([
 	Order.mapInput(
 		Order.number,
-		(date: routeFuzzyDate$key | null | undefined) =>
+		(date: null | routeFuzzyDate$key | undefined) =>
 			readInlineData(FuzzyDate, date)?.year ?? 0
 	),
 	Order.mapInput(
 		Order.number,
-		(date: routeFuzzyDate$key | null | undefined) =>
+		(date: null | routeFuzzyDate$key | undefined) =>
 			readInlineData(FuzzyDate, date)?.month ?? 0
 	),
 	Order.mapInput(
 		Order.number,
-		(date: routeFuzzyDate$key | null | undefined) =>
+		(date: null | routeFuzzyDate$key | undefined) =>
 			readInlineData(FuzzyDate, date)?.day ?? 0
 	),
 ])
+
+function filterEntries(
+	data: readonly NavUserListEntriesFilter_entries$key[],
+	searchParams: URLSearchParams
+): NavUserListEntriesFilter_entries$data[] {
+	let entries = data.map((key) =>
+		readInlineData(NavUserListEntriesFilter_entries, key)
+	)
+	const status = searchParams.getAll("status")
+	const format = searchParams.getAll("format")
+	const progresses = searchParams.getAll("progress")
+
+	if (status.length) {
+		entries = entries.filter((entry) =>
+			status.includes(entry.media?.status ?? "")
+		)
+	}
+
+	if (format.length) {
+		entries = entries.filter((entry) =>
+			format.includes(entry.media?.format ?? "")
+		)
+	}
+
+	for (const progress of progresses) {
+		if (progress === "UNSEEN") {
+			entries = entries.filter((entry) => (entry.toWatch ?? 1) > 0)
+		}
+		if (progress === "STARTED") {
+			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
+		}
+	}
+
+	return entries
+}
 
 function sortEntries(
 	data: readonly NavUserListEntriesSort_entries$key[],
@@ -366,47 +401,50 @@ function sortEntries(
 	return entries.sort(Order.reverse(Order.combineAll(order)))
 }
 
-function filterEntries(
-	data: readonly NavUserListEntriesFilter_entries$key[],
-	searchParams: URLSearchParams
-): NavUserListEntriesFilter_entries$data[] {
-	let entries = data.map((key) =>
-		readInlineData(NavUserListEntriesFilter_entries, key)
-	)
-	const status = searchParams.getAll("status")
-	const format = searchParams.getAll("format")
-	const progresses = searchParams.getAll("progress")
-
-	if (status.length) {
-		entries = entries.filter((entry) =>
-			status.includes(entry.media?.status ?? "")
-		)
-	}
-
-	if (format.length) {
-		entries = entries.filter((entry) =>
-			format.includes(entry.media?.format ?? "")
-		)
-	}
-
-	for (const progress of progresses) {
-		if (progress === "UNSEEN") {
-			entries = entries.filter((entry) => (entry.toWatch ?? 1) > 0)
-		}
-		if (progress === "STARTED") {
-			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
-		}
-	}
-
-	return entries
-}
-
 const Params = type({
 	"selected?": "string",
-	userName: "string",
 	typelist: '"animelist"|"mangalist"',
+	userName: "string",
 })
 
+export function ErrorBoundary(): ReactNode {
+	const error = useRouteError()
+
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<ExtraOutlets>
+				<div>
+					<Ariakit.Heading>Oops</Ariakit.Heading>
+					<p>Status: {error.status}</p>
+					<p>{error.data}</p>
+				</div>
+			</ExtraOutlets>
+		)
+	}
+	captureException(error)
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<ExtraOutlets>
+			<Card
+				className="bg-error-container text-on-error-container m-4"
+				variant="elevated"
+			>
+				<Ariakit.Heading className="text-headline-md text-balance">
+					Uh oh ...
+				</Ariakit.Heading>
+				<p className="text-headline-sm">Something went wrong.</p>
+				<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+			</Card>
+		</ExtraOutlets>
+	)
+}
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = loaderData
 	const [search] = useSearchParams()
@@ -449,7 +487,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 							fallback={
 								<Loading>
 									{Array.from({ length: 7 }, (_, i) => (
-										<MediaListItem key={i} data-key={i} entry={null} />
+										<MediaListItem data-key={i} entry={null} key={i} />
 									))}
 								</Loading>
 							}
@@ -464,9 +502,9 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 										search
 									).map((entry) => (
 										<MediaListItem
-											key={entry.id}
 											data-key={entry.id}
 											entry={entry}
+											key={entry.id}
 										/>
 									))
 
@@ -484,44 +522,6 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 				</div>
 			</div>
 			<Outlet />
-		</ExtraOutlets>
-	)
-}
-export function ErrorBoundary(): ReactNode {
-	const error = useRouteError()
-
-	// when true, this is what used to go to `CatchBoundary`
-	if (isRouteErrorResponse(error)) {
-		return (
-			<ExtraOutlets>
-				<div>
-					<Ariakit.Heading>Oops</Ariakit.Heading>
-					<p>Status: {error.status}</p>
-					<p>{error.data}</p>
-				</div>
-			</ExtraOutlets>
-		)
-	}
-	captureException(error)
-	// Don't forget to typecheck with your own logic.
-	// Any value can be thrown, not just errors!
-	let errorMessage = "Unknown error"
-	if (error instanceof Error) {
-		errorMessage = error.message || errorMessage
-	}
-
-	return (
-		<ExtraOutlets>
-			<Card
-				variant="elevated"
-				className="bg-error-container text-on-error-container m-4"
-			>
-				<Ariakit.Heading className="text-headline-md text-balance">
-					Uh oh ...
-				</Ariakit.Heading>
-				<p className="text-headline-sm">Something went wrong.</p>
-				<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-			</Card>
 		</ExtraOutlets>
 	)
 }

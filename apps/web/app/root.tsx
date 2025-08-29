@@ -50,21 +50,21 @@ const fontWeights = [
 
 export const links: LinksFunction = () => {
 	return [
-		{ rel: "stylesheet", href: tailwind },
-		{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+		{ href: tailwind, rel: "stylesheet" },
+		{ href: "https://fonts.googleapis.com", rel: "preconnect" },
 		{
-			rel: "preconnect",
-			href: "https://fonts.gstatic.com",
 			crossOrigin: "anonymous",
+			href: "https://fonts.gstatic.com",
+			rel: "preconnect",
 		},
 		{
-			rel: "stylesheet",
 			href:
 				"https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@"
 				+ fontWeights
 					.map((fontWeight) => `8..144,${numberToString(fontWeight)}`)
 					.join(";")
 				+ "&display=swap",
+			rel: "stylesheet",
 		},
 	]
 }
@@ -73,20 +73,10 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	const viewer = Viewer()
 
 	return {
-		Viewer: viewer,
 		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
+		Viewer: viewer,
 	}
-}
-
-function SentryToolbar() {
-	useSentryToolbar({
-		initProps: {
-			organizationSlug: "animini",
-			projectIdOrSlug: "javascript-react",
-		},
-	})
-	return null
 }
 
 export function Layout({ children }: { children: ReactNode }): ReactNode {
@@ -97,9 +87,9 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 
 	const isHydrated = useIsHydrated()
 	const params = useParams()
-	const { lang, dir } =
+	const { dir, lang } =
 		languageToLocale(params.locale ?? null)
-		?? ({ lang: "en", dir: "ltr" } as const)
+		?? ({ dir: "ltr", lang: "en" } as const)
 
 	const navigation = useNavigation()
 	useEffect(() => {
@@ -115,15 +105,15 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 
 	return (
 		<html
-			lang={lang}
-			dir={dir}
-			style={theme}
-			data-testid={isHydrated && "hydrated"}
 			className="bg-surface text-on-surface contrast-standard theme-light contrast-more:contrast-high dark:theme-dark font-['Roboto_Flex','Noto_Sans',sans-serif] [color-scheme:light_dark] [font-optical-sizing:auto]"
+			data-testid={isHydrated && "hydrated"}
+			dir={dir}
+			lang={lang}
+			style={theme}
 		>
 			<head>
 				<meta charSet="utf-8" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta content="width=device-width, initial-scale=1" name="viewport" />
 				{/* <meta
 					httpEquiv="Content-Security-Policy"
 					content={`script-src 'strict-dynamic' 'nonce-${nonce}' 'unsafe-inline' http: https:;
@@ -159,6 +149,16 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	)
 }
 
+function SentryToolbar() {
+	useSentryToolbar({
+		initProps: {
+			organizationSlug: "animini",
+			projectIdOrSlug: "javascript-react",
+		},
+	})
+	return null
+}
+
 const clientLoggerMiddleware: Route.unstable_ClientMiddlewareFunction = (
 	{ request },
 	next
@@ -176,18 +176,6 @@ export const unstable_clientMiddleware = [
 
 export default function App(): ReactNode {
 	return <Outlet />
-}
-
-export function HydrateFallback() {
-	return (
-		<M3Layout className="">
-			<LayoutBody className="">
-				<LayoutPane className="justify-center items-center flex h-svh">
-					<LoadingIndicator></LoadingIndicator>
-				</LayoutPane>
-			</LayoutBody>
-		</M3Layout>
-	)
 }
 
 export function ErrorBoundary(): ReactNode {
@@ -213,8 +201,8 @@ export function ErrorBoundary(): ReactNode {
 
 	return (
 		<Card
-			variant="elevated"
 			className="bg-error-container text-on-error-container m-4"
+			variant="elevated"
 		>
 			<Ariakit.Heading className="text-headline-md text-balance">
 				Uh oh ...
@@ -222,5 +210,17 @@ export function ErrorBoundary(): ReactNode {
 			<p className="text-headline-sm">Something went wrong.</p>
 			<pre className="text-body-md overflow-auto">{errorMessage}</pre>
 		</Card>
+	)
+}
+
+export function HydrateFallback() {
+	return (
+		<M3Layout className="">
+			<LayoutBody className="">
+				<LayoutPane className="justify-center items-center flex h-svh">
+					<LoadingIndicator></LoadingIndicator>
+				</LayoutPane>
+			</LayoutBody>
+		</M3Layout>
 	)
 }

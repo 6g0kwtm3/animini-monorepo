@@ -46,9 +46,9 @@ export function UserListTabs(props: {
 				return (
 					list.name && (
 						<TabsListItem
-							key={list.name}
 							data-key={list.name}
 							id={list.name}
+							key={list.name}
 							render={<A href={`${list.name}?${searchParams}`}></A>}
 						>
 							{list.name}

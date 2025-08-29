@@ -9,40 +9,27 @@ import { mapValue, type Value } from "./unstyled-value"
 // }
 
 export interface Properties {
-	[key: `--${string}`]: string | number
-	[key: string]: string | number
+	[key: `--${string}`]: number | string
+	[key: string]: number | string
 }
 
 export type RawStyles = { [K in keyof Properties]?: Value }
-
-type NonEmptyArray<T> = [T, ...T[]]
-
-export function defineCva<
-	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
->(cva: {
-	base: RawStyles
-	variants: Variants
-	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
-	compoundVariants: ({
-		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
-	} & { css: RawStyles })[]
-}) {
-	return cva
-}
 
 type CompoundVariant<Variants> = {
 	[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
 } & { css: RawStyles }
 
+type NonEmptyArray<T> = [T, ...T[]]
+
 export function cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(cva: {
 	base: RawStyles
-	variants: Variants
-	defaultVariants?: { [K in keyof Variants]?: keyof Variants[K] }
 	compoundVariants?: CompoundVariant<Variants>[]
+	defaultVariants?: { [K in keyof Variants]?: keyof Variants[K] }
+	variants: Variants
 }): PreCompiledStyles {
-	const { base, variants, defaultVariants = {}, compoundVariants = [] } = cva
+	const { base, compoundVariants = [], defaultVariants = {}, variants } = cva
 
 	const result: RawStyles = { ...base }
 
@@ -98,6 +85,19 @@ export function cva<
 	return printRawStyles(result)
 }
 
+export function defineCva<
+	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
+>(cva: {
+	base: RawStyles
+	compoundVariants: ({
+		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
+	} & { css: RawStyles })[]
+	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
+	variants: Variants
+}) {
+	return cva
+}
+
 function mergeCompoundVariantProperty<
 	Variants extends Record<string, Record<string, RawStyles>>,
 >(
@@ -108,7 +108,7 @@ function mergeCompoundVariantProperty<
 	propertyVariants: string[],
 	index = 0,
 	currentOptions: string[] = []
-): Value | undefined {
+): undefined | Value {
 	if (index === propertyVariants.length) {
 		return (
 			compoundVariants
@@ -126,11 +126,11 @@ function mergeCompoundVariantProperty<
 					}
 					return true
 				})
-				.reduceRight<Value | undefined>((acc, compoundVariant) => {
+				.reduceRight<undefined | Value>((acc, compoundVariant) => {
 					return acc ?? compoundVariant.css[property]
 				}, undefined)
-			?? currentOptions.reduceRight<Value | undefined>(
-				(acc, variant, i): Value | undefined =>
+			?? currentOptions.reduceRight<undefined | Value>(
+				(acc, variant, i): undefined | Value =>
 					acc ?? variants[propertyVariants[i]!]![variant]![property],
 				undefined
 			)
@@ -155,7 +155,7 @@ function mergeCompoundVariantProperty<
 		return [
 			mapValue(
 				value,
-				(value): string | number =>
+				(value): number | string =>
 					`var(--${variant}-${option}, ${numberOrStringToString(value)})`
 			),
 		]
@@ -168,7 +168,7 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
-function mergeValues<T extends string | number>(a: T, b: T): T
+function mergeValues<T extends number | string>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
 	if (typeof a !== "object" && typeof b !== "object") {

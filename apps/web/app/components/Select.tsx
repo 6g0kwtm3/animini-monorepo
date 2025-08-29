@@ -40,11 +40,11 @@ export function Select({ children, ...props }: Ariakit.SelectProps) {
 				className={input({ className: "cursor-default" })}
 			/>
 			<Ariakit.SelectPopover
-				sameWidth
 				className={root({
 					className:
 						"z-10 max-h-[min(var(--popover-available-height,300px),300px)]",
 				})}
+				sameWidth
 			>
 				{children}
 			</Ariakit.SelectPopover>

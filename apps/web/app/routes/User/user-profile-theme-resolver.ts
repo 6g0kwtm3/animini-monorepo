@@ -9,7 +9,7 @@ const { graphql } = ReactRelay
  * @rootFragment userProfileThemeResolver_userOptions*/
 export function profileTheme(
 	key: userProfileThemeResolver_userOptions$key
-): Theme | null {
+): null | Theme {
 	const options = readFragment(
 		graphql`
 			fragment userProfileThemeResolver_userOptions on UserOptions {
@@ -22,12 +22,12 @@ export function profileTheme(
 	const color = options.profileColor
 		? {
 				blue: "#3db4f2",
-				purple: "#c063ff",
+				gray: "#677b94",
 				green: "#4cca51",
 				orange: "#ef881a",
-				red: "#e13333",
 				pink: "#fc9dd6",
-				gray: "#677b94",
+				purple: "#c063ff",
+				red: "#e13333",
 			}[options.profileColor]
 		: null
 

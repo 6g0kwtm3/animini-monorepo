@@ -5,13 +5,13 @@ export function markdownToHtml(
 	sanitizeHtml: (html: string) => string
 ) {
 	marked.setOptions({
-		gfm: true,
-		tables: true,
 		breaks: true,
+		gfm: true,
 		pedantic: false,
 		sanitize: false,
 		smartLists: true,
 		smartypants: false,
+		tables: true,
 	})
 
 	const d = new marked.Renderer(),
@@ -52,7 +52,7 @@ export function markdownToHtml(
 		)),
 		(markdown = sanitizeHtml(
 			// @ts-expect-error marked error types are not correct
-			marked(markdown, { renderer: d, lexer: u })
+			marked(markdown, { lexer: u, renderer: d })
 		)),
 		(markdown = markdown.replace(/\+{3}([^]*?)\+{3}/gm, "<center>$1</center>")),
 		(markdown = markdown.replace(

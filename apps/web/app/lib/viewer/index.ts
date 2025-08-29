@@ -1,6 +1,6 @@
 import { type } from "arktype"
 
-const Viewer = type({ name: "string", id: "number.integer" })
+const Viewer = type({ id: "number.integer", name: "string" })
 
 export const Token = type({ token: "string.trim", viewer: Viewer })
 

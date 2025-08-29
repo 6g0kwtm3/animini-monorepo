@@ -24,11 +24,11 @@ const { graphql } = ReactRelay
 
 interface MediaLinkProps extends Omit<ComponentProps<typeof A>, "href"> {
 	mediaId: number
-	type: string
 	slug?: string
+	type: string
 }
 
-export function MediaLink({ mediaId, type, slug, ...props }: MediaLinkProps) {
+export function MediaLink({ mediaId, slug, type, ...props }: MediaLinkProps) {
 	const fallback = (
 		<>
 			{route_media({ id: mediaId })}
@@ -69,8 +69,8 @@ function MediaCard(props: { mediaId: number; type: string }) {
 		media && (
 			<Card
 				className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`}
-				style={media.coverImage?.theme ?? undefined}
 				render={<span />}
+				style={media.coverImage?.theme ?? undefined}
 			>
 				<List className="p-0" render={<span />}>
 					<ListItem render={<span />}>

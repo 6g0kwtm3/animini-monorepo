@@ -5,12 +5,12 @@ import snapshot1 from "./assets/Markdown/Snapshot1/snapshot"
 import snapshot2 from "./assets/Markdown/Snapshot2/snapshot"
 
 const meta = {
-	title: "Example/Markdown",
 	component: Markdown,
 	parameters: {
 		// More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
 		layout: "fullscreen",
 	},
+	title: "Example/Markdown",
 } satisfies Meta<typeof Markdown>
 
 export default meta

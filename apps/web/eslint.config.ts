@@ -10,7 +10,6 @@ import graphQLConfig from "./graphql.config.js"
 // @ts-expect-error TODO: fix types
 export default typegen([
 	{
-		name: "web/ignores",
 		ignores: [
 			"app/gql/",
 			"app/paraglide/",
@@ -19,22 +18,23 @@ export default typegen([
 			"**/schema.graphql",
 			".react-router/",
 		],
+		name: "web/ignores",
 	},
 	...base,
 	...react,
 	relay.configs.recommended,
 	{
-		name: "web/@graphql-eslint/eslint-plugin/processor",
 		files: ["**/*.{js,jsx,ts,tsx}"],
+		name: "web/@graphql-eslint/eslint-plugin/processor",
 		processor: graphql.processors.graphql,
 	},
 	{
-		name: "web/@graphql-eslint/eslint-plugin/rules",
 		files: ["**/*.graphql"],
 		languageOptions: {
 			parser: graphql.parser,
 			parserOptions: { graphQLConfig: graphQLConfig },
 		},
+		name: "web/@graphql-eslint/eslint-plugin/rules",
 		plugins: { "@graphql-eslint": { rules: graphql.rules } },
 		rules: {
 			"@graphql-eslint/no-deprecated": "error",

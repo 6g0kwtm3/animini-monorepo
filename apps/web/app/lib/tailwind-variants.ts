@@ -8,15 +8,15 @@ import fonts from "@anitrove/design/fonts"
 
 export const tv = createTV({
 	twMergeConfig: {
-		theme: {
-			// colors: Object.keys(colors.dark),
-		},
 		classGroups: {
 			"font-size": [{ text: Object.keys(fonts) }],
 			...searchView,
 			...layout,
 			...navigation,
 			...list,
+		},
+		theme: {
+			// colors: Object.keys(colors.dark),
 		},
 	},
 })

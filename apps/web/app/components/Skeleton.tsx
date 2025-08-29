@@ -8,24 +8,24 @@ import { tv } from "~/lib/tailwind-variants"
 
 const skeleton = tv({
 	base: "bg-surface-container-highest rounded-xs animate-pulse select-none overflow-hidden text-transparent",
+	defaultVariants: { full: false },
 	variants: {
 		full: {
-			true: "block h-full w-full",
 			false: "my-[calc((1lh-1ic)/2)] block h-[1ic] w-full max-w-[65ch]",
+			true: "block h-full w-full",
 		},
 	},
-	defaultVariants: { full: false },
 })
 
 const LoadingContext = createContext(false)
+interface SkeletonProps
+	extends Ariakit.RoleProps,
+		VariantProps<typeof skeleton> {}
 export function Loading(
 	props: Partial<ComponentProps<typeof LoadingContext.Provider>>
 ): ReactNode {
 	return <LoadingContext.Provider value={true} {...props} />
 }
-interface SkeletonProps
-	extends Ariakit.RoleProps,
-		VariantProps<typeof skeleton> {}
 
 export function Skeleton({ full, ...props }: SkeletonProps): ReactNode {
 	const loading = useContext(LoadingContext)

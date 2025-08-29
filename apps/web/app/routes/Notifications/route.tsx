@@ -105,8 +105,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 									<TooltipPlainTrigger
 										render={
 											<button
-												type="submit"
 												className={fab({ className: "" })}
+												type="submit"
 											></button>
 										}
 									>
@@ -120,7 +120,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 						</div>
 					</Form>
 				)}
-				<Card variant="elevated" className="max-sm:contents">
+				<Card className="max-sm:contents" variant="elevated">
 					{!data.Page?.notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
 					)}
@@ -133,8 +133,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 									if (notification.Airing_notification) {
 										return (
 											<Airing
-												key={notification.id}
 												data-key={notification.id}
+												key={notification.id}
 												notification={notification.Airing_notification}
 												viewer={data.Viewer}
 											/>
@@ -143,8 +143,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 									if (notification.RelatedMediaAddition_notification) {
 										return (
 											<RelatedMediaAddition
-												key={notification.id}
 												data-key={notification.id}
+												key={notification.id}
 												notification={
 													notification.RelatedMediaAddition_notification
 												}
@@ -155,8 +155,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 									if (notification.ActivityLike_notification) {
 										return (
 											<ActivityLike
-												key={notification.id}
 												data-key={notification.id}
+												key={notification.id}
 												notification={notification.ActivityLike_notification}
 												viewer={data.Viewer}
 											/>

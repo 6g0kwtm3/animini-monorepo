@@ -64,100 +64,6 @@ import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"
 import { numberToString } from "~/lib/numberToString"
 
-export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
-
-	if (!data.user) {
-		throw json("User not found", { status: 404 })
-	}
-
-	const follow = useFetcher<FollowRoute.ComponentProps["actionData"]>({
-		key: `${data.user.name}-follow`,
-	})
-
-	const params = useParams()
-
-	const isFollow =
-		follow.formData?.get("isFollowing")
-		?? follow.data?.ToggleFollow.isFollowing
-		?? data.user.isFollowing
-
-	return (
-		<LayoutBody
-			style={data.user.options?.profileTheme ?? undefined}
-			className="max-sm:pe-0 max-sm:ps-0"
-		>
-			<LayoutPane>
-				<Card
-					variant="elevated"
-					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark p-0 max-sm:contents"
-				>
-					<Tabs selectedId={params.typelist}>
-						<div className="sticky top-0 z-50">
-							<AppBar variant="large" className="sm:bg-surface-container-low">
-								<AppBarTitle>
-									<span>
-										<A href="..">{data.user.name}</A>
-										<ExtraOutlet id="title" />
-									</span>
-								</AppBarTitle>
-								<div className="flex-1" />
-								{data.Viewer?.name && data.Viewer.name !== data.user.name && (
-									<follow.Form
-										method="post"
-										action={`/follow/${numberToString(data.user.id)}`}
-									>
-										<input
-											type="hidden"
-											name="isFollowing"
-											value={isFollow ? "" : "true"}
-											id=""
-										/>
-
-										<Icon
-											type="submit"
-											tooltip
-											title={isFollow ? m.unfollow_button() : m.follow_button()}
-										>
-											{isFollow ? (
-												<MaterialSymbolsPersonRemoveOutline />
-											) : (
-												<MaterialSymbolsPersonAddOutline />
-											)}
-										</Icon>
-									</follow.Form>
-								)}
-								{data.Viewer?.name === data.user.name && <Logout />}
-								<ExtraOutlet id="actions" />
-							</AppBar>
-						</div>
-
-						<User user={data.user} />
-						<TabsPanel tabId={params.typelist ?? "undefined"}>
-							<Outlet />
-						</TabsPanel>
-					</Tabs>
-				</Card>
-			</LayoutPane>
-			<ExtraOutlet id="side" />
-		</LayoutBody>
-	)
-}
-function Logout(): ReactNode {
-	const { pathname } = useLocation()
-
-	return (
-		<Form
-			method="post"
-			action={`/logout/?${new URLSearchParams({ redirect: pathname })}`}
-		>
-			<Icon type="submit" tooltip title="Logout">
-				<MaterialSymbolsLogout />
-			</Icon>
-		</Form>
-	)
-}
-
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	const location = useLocation()
 
@@ -170,7 +76,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 						<Ariakit.Heading>Oops</Ariakit.Heading>
 						<p>Status: {error.status}</p>
 						<p>{error.data}</p>
-						<A href={location} className={button()}>
+						<A className={button()} href={location}>
 							Try again
 						</A>
 					</div>
@@ -197,11 +103,105 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 					</Ariakit.Heading>
 					<p className="text-headline-sm">Something went wrong.</p>
 					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
-					<A href={location} className={button()}>
+					<A className={button()} href={location}>
 						Try again
 					</A>
 				</Card>
 			</LayoutPane>
 		</LayoutBody>
+	)
+}
+export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
+	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
+
+	if (!data.user) {
+		throw json("User not found", { status: 404 })
+	}
+
+	const follow = useFetcher<FollowRoute.ComponentProps["actionData"]>({
+		key: `${data.user.name}-follow`,
+	})
+
+	const params = useParams()
+
+	const isFollow =
+		follow.formData?.get("isFollowing")
+		?? follow.data?.ToggleFollow.isFollowing
+		?? data.user.isFollowing
+
+	return (
+		<LayoutBody
+			className="max-sm:pe-0 max-sm:ps-0"
+			style={data.user.options?.profileTheme ?? undefined}
+		>
+			<LayoutPane>
+				<Card
+					className="contrast-standard theme-light contrast-more:contrast-high dark:theme-dark p-0 max-sm:contents"
+					variant="elevated"
+				>
+					<Tabs selectedId={params.typelist}>
+						<div className="sticky top-0 z-50">
+							<AppBar className="sm:bg-surface-container-low" variant="large">
+								<AppBarTitle>
+									<span>
+										<A href="..">{data.user.name}</A>
+										<ExtraOutlet id="title" />
+									</span>
+								</AppBarTitle>
+								<div className="flex-1" />
+								{data.Viewer?.name && data.Viewer.name !== data.user.name && (
+									<follow.Form
+										action={`/follow/${numberToString(data.user.id)}`}
+										method="post"
+									>
+										<input
+											id=""
+											name="isFollowing"
+											type="hidden"
+											value={isFollow ? "" : "true"}
+										/>
+
+										<Icon
+											title={isFollow ? m.unfollow_button() : m.follow_button()}
+											tooltip
+											type="submit"
+										>
+											{isFollow ? (
+												<MaterialSymbolsPersonRemoveOutline />
+											) : (
+												<MaterialSymbolsPersonAddOutline />
+											)}
+										</Icon>
+									</follow.Form>
+								)}
+								{data.Viewer?.name === data.user.name && <Logout />}
+								<ExtraOutlet id="actions" />
+							</AppBar>
+						</div>
+
+						<User user={data.user} />
+						<TabsPanel tabId={params.typelist ?? "undefined"}>
+							<Outlet />
+						</TabsPanel>
+					</Tabs>
+				</Card>
+			</LayoutPane>
+			<ExtraOutlet id="side" />
+		</LayoutBody>
+	)
+}
+
+function Logout(): ReactNode {
+	const { pathname } = useLocation()
+
+	return (
+		<Form
+			action={`/logout/?${new URLSearchParams({ redirect: pathname })}`}
+			method="post"
+		>
+			<Icon title="Logout" tooltip type="submit">
+				<MaterialSymbolsLogout />
+			</Icon>
+		</Form>
 	)
 }

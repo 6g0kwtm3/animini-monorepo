@@ -3,10 +3,10 @@ import * as cookie from "cookie"
 import { isString } from "./Predicate"
 import { JsonToToken } from "./viewer"
 
-export function Viewer(): {
-	readonly name: string
+export function Viewer(): null | {
 	readonly id: number
-} | null {
+	readonly name: string
+} {
 	const cookies = cookie.parse(document.cookie)
 
 	const token = cookies["anilist-token"]

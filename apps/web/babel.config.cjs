@@ -1,10 +1,10 @@
 module.exports = {
+	babelrc: false,
+	plugins: ["babel-plugin-react-compiler"],
 	presets: [
 		[
 			"@babel/preset-typescript",
-			{ onlyRemoveTypeImports: true, allExtensions: true, isTSX: true },
+			{ allExtensions: true, isTSX: true, onlyRemoveTypeImports: true },
 		],
 	],
-	babelrc: false,
-	plugins: ["babel-plugin-react-compiler"],
 }

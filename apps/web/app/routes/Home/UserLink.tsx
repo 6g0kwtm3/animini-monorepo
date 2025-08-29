@@ -35,7 +35,7 @@ import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
 const { graphql } = ReactRelay
 
-export function UserLink(props: { userName: string; children: ReactNode }) {
+export function UserLink(props: { children: ReactNode; userName: string }) {
 	return (
 		<TooltipRich placement="top">
 			<TooltipRichTrigger
@@ -88,11 +88,11 @@ function UserCard(props: { userName: string }) {
 							<ListItemAvatar>
 								{data.User.avatar?.large && (
 									<img
-										src={data.User.avatar.large}
-										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-										style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
-										loading="lazy"
 										alt=""
+										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
+										loading="lazy"
+										src={data.User.avatar.large}
+										style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
 									/>
 								)}
 							</ListItemAvatar>
@@ -110,12 +110,13 @@ function UserCard(props: { userName: string }) {
 					{rootData?.Viewer?.name
 						&& rootData.Viewer.name !== props.userName && (
 							<follow.Form
-								method="post"
 								action={`/follow/${numberToString(data.User.id)}`}
+								method="post"
 							>
 								<input
-									type="hidden"
+									id=""
 									name="isFollowing"
+									type="hidden"
 									value={
 										(follow.formData?.get("isFollowing")
 										?? follow.data?.ToggleFollow.isFollowing
@@ -123,10 +124,9 @@ function UserCard(props: { userName: string }) {
 											? ""
 											: "true"
 									}
-									id=""
 								/>
 
-								<Button type="submit" aria-disabled={!data.User.id}>
+								<Button aria-disabled={!data.User.id} type="submit">
 									{(follow.formData?.get("isFollowing")
 									?? follow.data?.ToggleFollow.isFollowing
 									?? data.User.isFollowing)

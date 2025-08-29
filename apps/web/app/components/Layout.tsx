@@ -26,8 +26,8 @@ export function LayoutBody(props: ComponentProps<"main">): ReactNode {
 
 const pane = tv({
 	base: "grid content-start",
-	variants: { variant: { fixed: "w-[22.5rem] shrink-0", flexible: "flex-1" } },
 	defaultVariants: { variant: "flexible" },
+	variants: { variant: { fixed: "w-[22.5rem] shrink-0", flexible: "flex-1" } },
 })
 
 import * as Ariakit from "@ariakit/react"

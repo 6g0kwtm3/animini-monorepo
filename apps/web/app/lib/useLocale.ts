@@ -1,13 +1,6 @@
 import { isLocale } from "~/paraglide/runtime"
 
 const rtlLngs = new Set([
-	"ar",
-	"shu",
-	"sqr",
-	"ssh",
-	"xaa",
-	"yhd",
-	"yud",
 	"aao",
 	"abh",
 	"abv",
@@ -24,6 +17,7 @@ const rtlLngs = new Set([
 	"ajp",
 	"apc",
 	"apd",
+	"ar",
 	"arb",
 	"arq",
 	"ars",
@@ -36,44 +30,50 @@ const rtlLngs = new Set([
 	"ayn",
 	"ayp",
 	"bbz",
-	"pga",
+	"ckb",
+	"dv",
+	"fa",
+	"hbo",
 	"he",
 	"iw",
-	"ps",
+	"ji",
+	"jpr",
+	"men",
 	"pbt",
 	"pbu",
-	"pst",
-	"prp",
-	"prd",
-	"ug",
-	"ur",
-	"ydd",
-	"yds",
-	"yih",
-	"ji",
-	"yi",
-	"hbo",
-	"men",
-	"xmn",
-	"fa",
-	"jpr",
 	"peo",
 	"pes",
+	"pga",
+	"prd",
+	"prp",
 	"prs",
-	"dv",
+	"ps",
+	"pst",
 	"sam",
-	"ckb",
+	"shu",
+	"sqr",
+	"ssh",
+	"ug",
+	"ur",
+	"xaa",
+	"xmn",
+	"ydd",
+	"yds",
+	"yhd",
+	"yi",
+	"yih",
+	"yud",
 ])
 
 export function languageToLocale(
-	acceptLanguage: string | null
-): { readonly lang: "en" | "ja"; readonly dir: "rtl" | "ltr" } | null {
+	acceptLanguage: null | string
+): null | { readonly dir: "ltr" | "rtl"; readonly lang: "en" | "ja" } {
 	const locales =
 		acceptLanguage?.split(",").map((lang) => lang.split(";")[0]?.trim()) ?? []
 
 	for (const locale of locales) {
 		if (isLocale(locale)) {
-			return { lang: locale, dir: rtlLngs.has(locale) ? "rtl" : "ltr" } as const
+			return { dir: rtlLngs.has(locale) ? "rtl" : "ltr", lang: locale } as const
 		}
 	}
 

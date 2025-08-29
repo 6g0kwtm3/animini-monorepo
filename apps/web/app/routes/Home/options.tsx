@@ -27,8 +27,8 @@ export const options: Options = {
 					<MediaLink
 						{...props}
 						mediaId={mediaId}
-						type={props["data-type"]}
 						slug={props["data-slug"]}
+						type={props["data-type"]}
 					/>
 				)
 			}
@@ -47,9 +47,9 @@ export const options: Options = {
 			return (
 				<a
 					{...props}
+					className="text-primary"
 					rel="noopener noreferrer"
 					target="_blank"
-					className="text-primary"
 				>
 					{props.children}
 				</a>

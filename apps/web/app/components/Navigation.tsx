@@ -7,16 +7,16 @@ import { HashNavLink } from "~/lib/search/HashNavLink"
 import { tv } from "~/lib/tailwind-variants"
 
 interface NavigationItemProps extends ComponentProps<typeof HashNavLink> {
-	icon: ReactNode
 	activeIcon: ReactNode
 	badge?: ReactNode
+	icon: ReactNode
 }
 
 export function NavigationItem({
 	activeIcon,
-	icon,
 	badge,
 	children,
+	icon,
 	...props
 }: NavigationItemProps) {
 	return (
@@ -42,26 +42,9 @@ export function NavigationItem({
 	)
 }
 
-const NavigationContext = createContext<{ "--id": string } | undefined>(
+const NavigationContext = createContext<undefined | { "--id": string }>(
 	undefined
 )
-
-function NavigationActiveIndicator() {
-	const style = useContext(NavigationContext)
-
-	return (
-		<div
-			style={style}
-			className={tv({ base: "navigation-active-indicator" })()}
-		/>
-	)
-}
-
-import * as Ariakit from "@ariakit/react"
-
-function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
-	return <div {...props} className={tv({ base: "navigation-icon" })()} />
-}
 
 export function Navigation({ ...props }: ComponentProps<"nav">): ReactNode {
 	return (
@@ -82,8 +65,25 @@ export function Navigation({ ...props }: ComponentProps<"nav">): ReactNode {
 	)
 }
 
+import * as Ariakit from "@ariakit/react"
+
 export function NavigationItemLargeBadge(
 	props: ComponentProps<"div">
 ): ReactNode {
 	return <div {...props} className={tv({ base: "navigation-large-badge" })()} />
+}
+
+function NavigationActiveIndicator() {
+	const style = useContext(NavigationContext)
+
+	return (
+		<div
+			className={tv({ base: "navigation-active-indicator" })()}
+			style={style}
+		/>
+	)
+}
+
+function NavigationItemIcon(props: ComponentProps<"div">): ReactNode {
+	return <div {...props} className={tv({ base: "navigation-icon" })()} />
 }

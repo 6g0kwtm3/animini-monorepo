@@ -24,15 +24,15 @@ export function ChipFilter(
 		<FocusContext value={setFocusVisible}>
 			<Label
 				{...props}
-				data-focus-visible={focusVisible || undefined}
 				className="border-outline text-label-lg text-on-surface-variant duration-spatial-fast ease-spatial-fast has-checked:bg-secondary-container has-checked:text-on-secondary-container hover:[&:not(\\\\#)]:state-hover has-focused:[&:not(\\\\#)]:state-focus has-checked:border-0 has-checked:shadow-sm flex h-8 items-center gap-2 rounded-sm border px-4 shadow-sm"
+				data-focus-visible={focusVisible || undefined}
 			/>
 		</FocusContext>
 	)
 }
 
 export function ChipFilterCheckbox(
-	props: Omit<Ariakit.CheckboxProps, "id" | "onFocusVisible" | "onBlur">
+	props: Omit<Ariakit.CheckboxProps, "id" | "onBlur" | "onFocusVisible">
 ): ReactNode {
 	const setFocusVisible = use(FocusContext)
 	const id = use(LabelId)
@@ -43,11 +43,11 @@ export function ChipFilterCheckbox(
 					clickOnEnter
 					{...props}
 					id={id}
-					onFocusVisible={() => {
-						setFocusVisible(true)
-					}}
 					onBlur={() => {
 						setFocusVisible(false)
+					}}
+					onFocusVisible={() => {
+						setFocusVisible(true)
 					}}
 				/>
 			</Ariakit.VisuallyHidden>
@@ -57,7 +57,7 @@ export function ChipFilterCheckbox(
 }
 
 export function ChipFilterRadio(
-	props: Omit<Ariakit.RadioProps, "id" | "onFocusVisible" | "onBlur">
+	props: Omit<Ariakit.RadioProps, "id" | "onBlur" | "onFocusVisible">
 ): ReactNode {
 	const setFocusVisible = use(FocusContext)
 	const id = use(LabelId)
@@ -68,11 +68,11 @@ export function ChipFilterRadio(
 					clickOnEnter
 					{...props}
 					id={id}
-					onFocusVisible={() => {
-						setFocusVisible(true)
-					}}
 					onBlur={() => {
 						setFocusVisible(false)
+					}}
+					onFocusVisible={() => {
+						setFocusVisible(true)
 					}}
 				/>
 			</Ariakit.VisuallyHidden>

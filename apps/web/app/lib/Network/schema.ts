@@ -9,11 +9,11 @@ class Timeout extends Error {
 }
 
 const PayloadError = type({
+	"locations?": [{ column: "number", line: "number" }, "[]"],
 	message: "string",
+	"path?": "(string|number)[]",
 	"status?": "number",
 	"validation?": "Record<string,string[]>",
-	"locations?": [{ line: "number", column: "number" }, "[]"],
-	"path?": "(string|number)[]",
 })
 
 const PayloadErrors = type([PayloadError, "...", [PayloadError, "[]"]])
@@ -23,8 +23,8 @@ const PayloadExtensions = type("Record<string,unknown>")
 
 const GraphQLResponseWithData = type({
 	data: PayloadData,
-	"extensions?": PayloadExtensions,
 	"errors?": PayloadErrors,
+	"extensions?": PayloadExtensions,
 	"label?": "string",
 	"path?": "(string|number)[]",
 })
@@ -36,8 +36,8 @@ const GraphQLResponseWithExtensionsOnly = type({
 
 const GraphQLResponseWithoutData = type({
 	"data?": PayloadData,
-	"extensions?": PayloadExtensions,
 	errors: PayloadErrors,
+	"extensions?": PayloadExtensions,
 	"label?": "string",
 	"path?": "(string|number)[]",
 })

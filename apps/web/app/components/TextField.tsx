@@ -6,6 +6,11 @@ import { createTextField } from "~/lib/textField"
 import { classes } from "./classes"
 import { Label } from "./Label"
 
+interface TextFieldOutlinedFactoryProps
+	extends ComponentProps<typeof TextFieldOutlinedInput> {
+	label: ReactNode
+}
+
 export function TextFieldOutlined({
 	children,
 
@@ -23,14 +28,17 @@ export function TextFieldOutlined({
 	)
 }
 
-function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps): ReactNode {
+export function TextFieldOutlinedInput(
+	props: Omit<ComponentProps<"input">, "id">
+) {
+	const { input } = createTextField({ variant: "outlined" })
+	const id = use(LabelId)
 	return (
-		<Ariakit.FormError
+		<input
 			{...props}
-			className={classes(
-				"text-body-sm text-on-surface-variant group-has-disabled:text-on-surface/[.38] group-error:text-error order-last gap-4 px-4 pt-1",
-				props.className
-			)}
+			className={input({ className: props.className })}
+			id={id}
+			placeholder=" "
 		/>
 	)
 }
@@ -60,26 +68,6 @@ function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 	)
 }
 
-export function TextFieldOutlinedInput(
-	props: Omit<ComponentProps<"input">, "id">
-) {
-	const { input } = createTextField({ variant: "outlined" })
-	const id = use(LabelId)
-	return (
-		<input
-			{...props}
-			id={id}
-			placeholder=" "
-			className={input({ className: props.className })}
-		/>
-	)
-}
-
-interface TextFieldOutlinedFactoryProps
-	extends ComponentProps<typeof TextFieldOutlinedInput> {
-	label: ReactNode
-}
-
 function TextFieldOutlinedFactory({
 	label,
 	...props
@@ -95,7 +83,52 @@ function TextFieldOutlinedFactory({
 	)
 }
 
+function TextFieldOutlinedSupporting(props: Ariakit.FormErrorProps): ReactNode {
+	return (
+		<Ariakit.FormError
+			{...props}
+			className={classes(
+				"text-body-sm text-on-surface-variant group-has-disabled:text-on-surface/[.38] group-error:text-error order-last gap-4 px-4 pt-1",
+				props.className
+			)}
+		/>
+	)
+}
+
 TextFieldOutlined.Label = OutlinedLabel
+
+function LeadingIcon(props: ComponentProps<"div">) {
+	return (
+		<div
+			{...props}
+			className={classes(
+				"text-on-surface-variant group-has-disabled:text-on-surface/[.38] ms-3 h-5 w-5",
+				props.className
+			)}
+		/>
+	)
+}
+
+function Prefix(props: ComponentProps<"span">) {
+	return (
+		<span
+			{...props}
+			className="text-body-lg text-on-surface-variant -me-5 flex items-center"
+		/>
+	)
+}
+
+function Suffix(props: ComponentProps<"span">) {
+	return (
+		<span
+			{...props}
+			className={classes(
+				"suffix text-body-lg text-on-surface-variant -ms-4 flex items-center py-4 pe-4",
+				props.className
+			)}
+		/>
+	)
+}
 
 function TextFieldFilled(props: ComponentProps<typeof Label>): JSX.Element {
 	return (
@@ -130,12 +163,12 @@ function TextFieldFilledInput(
 	return (
 		<input
 			{...props}
-			id={id}
-			placeholder={emptyStringToUndefined(props.placeholder) ?? " "}
 			className={classes(
 				"text-body-lg text-on-surface caret-primary disabled:text-on-surface/[.38] group-error:caret-error outline-hidden peer flex min-h-[3.5rem] min-w-0 flex-1 items-center bg-transparent px-4 pb-2 pt-6 placeholder-transparent focus:ring-0",
 				props.className
 			)}
+			id={id}
+			placeholder={emptyStringToUndefined(props.placeholder) ?? " "}
 		/>
 	)
 }
@@ -158,18 +191,6 @@ function TextFieldFilledLabel(props: ComponentProps<"label">): ReactNode {
 	)
 }
 
-function LeadingIcon(props: ComponentProps<"div">) {
-	return (
-		<div
-			{...props}
-			className={classes(
-				"text-on-surface-variant group-has-disabled:text-on-surface/[.38] ms-3 h-5 w-5",
-				props.className
-			)}
-		/>
-	)
-}
-
 function TrailingIcon(props: ComponentProps<"div">) {
 	return (
 		<div
@@ -181,27 +202,6 @@ function TrailingIcon(props: ComponentProps<"div">) {
 				"i me-3",
 				props.className
 			)}
-		/>
-	)
-}
-
-function Suffix(props: ComponentProps<"span">) {
-	return (
-		<span
-			{...props}
-			className={classes(
-				"suffix text-body-lg text-on-surface-variant -ms-4 flex items-center py-4 pe-4",
-				props.className
-			)}
-		/>
-	)
-}
-
-function Prefix(props: ComponentProps<"span">) {
-	return (
-		<span
-			{...props}
-			className="text-body-lg text-on-surface-variant -me-5 flex items-center"
 		/>
 	)
 }

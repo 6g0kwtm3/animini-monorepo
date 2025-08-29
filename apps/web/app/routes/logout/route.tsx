@@ -7,9 +7,9 @@ export const clientAction = (args: ClientLoaderFunctionArgs) => {
 	const url = new URL(args.request.url)
 
 	const setCookie = cookie.serialize(`anilist-token`, "", {
-		sameSite: "lax",
 		maxAge: 0,
 		path: "/",
+		sameSite: "lax",
 	})
 	document.cookie = setCookie
 	setUser(null)

@@ -31,25 +31,6 @@ import { usePreloadedQuery, type NodeAndQueryFragment } from "../Network"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 
-function useOptimisticSearchParams() {
-	const { search } = useOptimisticLocation()
-
-	return new URLSearchParams(search)
-}
-
-function useOptimisticLocation() {
-	let location = useLocation()
-	const navigation = useNavigation()
-
-	if (navigation.location?.pathname === location.pathname) {
-		location = navigation.location
-	}
-	return location
-}
-
-import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
-import { useEffectEvent } from "../use-effect-event"
-
 export function Search({
 	queryRef,
 }: {
@@ -86,19 +67,19 @@ export function Search({
 	return (
 		<SearchView
 			aria-label="Search anime or manga"
-			open={show}
+			className="search-view-fullscreen sm:search-view-docked"
+			defaultValue={searchParams.get("q") ?? ""}
 			onClose={() => {
 				void navigate({ search: `?${searchParams}` })
 			}}
-			className="search-view-fullscreen sm:search-view-docked"
-			defaultValue={searchParams.get("q") ?? ""}
+			open={show}
 		>
-			<Form role="search" action="/search" className={"flex w-full flex-col"}>
+			<Form action="/search" className={"flex w-full flex-col"} role="search">
 				<>
 					<SearchViewInput
-						placeholder="Search anime or manga"
-						onChange={(e) => void submit.submit(e.currentTarget.form, {})}
 						name="q"
+						onChange={(e) => void submit.submit(e.currentTarget.form, {})}
+						placeholder="Search anime or manga"
 					/>
 
 					{media.length > 0 ? (
@@ -110,11 +91,11 @@ export function Search({
 									Results
 								</Ariakit.ComboboxGroupLabel>
 
-								<List render={<div />} className="list-one -mt-2">
+								<List className="list-one -mt-2" render={<div />}>
 									{media.map((media) => (
 										<SearchViewItem
-											key={media.id}
 											data-key={media.id}
+											key={media.id}
 											render={<SearchItem media={media} />}
 										/>
 									))}
@@ -134,16 +115,6 @@ export function Search({
 	)
 }
 
-function SearchTrendingData({
-	queryRef,
-}: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
-}) {
-	const data = usePreloadedQuery(queryRef)
-
-	return <SearchTrending query={data} />
-}
-
 export function SearchButton(
 	props: ComponentProps<typeof TooltipPlainTrigger>
 ): ReactNode {
@@ -155,4 +126,33 @@ export function SearchButton(
 			</TooltipPlainContainer>
 		</TooltipPlain>
 	)
+}
+
+import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+import { useEffectEvent } from "../use-effect-event"
+
+function SearchTrendingData({
+	queryRef,
+}: {
+	queryRef: NodeAndQueryFragment<routeNavQuery>
+}) {
+	const data = usePreloadedQuery(queryRef)
+
+	return <SearchTrending query={data} />
+}
+
+function useOptimisticLocation() {
+	let location = useLocation()
+	const navigation = useNavigation()
+
+	if (navigation.location?.pathname === location.pathname) {
+		location = navigation.location
+	}
+	return location
+}
+
+function useOptimisticSearchParams() {
+	const { search } = useOptimisticLocation()
+
+	return new URLSearchParams(search)
 }

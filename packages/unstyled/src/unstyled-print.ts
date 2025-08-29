@@ -51,7 +51,7 @@ function printProperty(
 
 	let result = ""
 
-	for (const [selector, property] of Object.entries<Value | undefined>(
+	for (const [selector, property] of Object.entries<undefined | Value>(
 		rest
 	).reverse()) {
 		if (property === undefined) continue

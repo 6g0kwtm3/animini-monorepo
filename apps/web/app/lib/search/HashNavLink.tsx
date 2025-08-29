@@ -3,7 +3,7 @@ import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
 
 export function HashNavLink({ children, ...props }: ComponentProps<typeof A>) {
-	const { search, pathname } = useLocation()
+	const { pathname, search } = useLocation()
 
 	const path = useResolvedPath(props.href, { relative: props.relative })
 	const isActive = path.search === search && path.pathname === pathname

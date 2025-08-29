@@ -1,7 +1,4 @@
 import { markdownToHtml } from "markdown"
-function numberToString(n: number): string {
-	return String(n)
-}
 export async function loadAssets(
 	assets: Record<string, string>,
 	outputDir: string
@@ -58,6 +55,9 @@ export async function loadAssets(
 		output.push(`export default \`${result}\``)
 		await Bun.write(path.join(outputDir, key, `snapshot.ts`), output.join("\n"))
 	}
+}
+function numberToString(n: number): string {
+	return String(n)
 }
 
 import path from "path"

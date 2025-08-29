@@ -1,14 +1,10 @@
 import type { Locator, Page } from "@playwright/test"
 
 export class SearchPage {
-	dialog: Locator
-	search: Locator
 	active: Locator
+	dialog: Locator
 	options: Locator
-	static new(page: Page): SearchPage {
-		return new SearchPage(page)
-	}
-
+	search: Locator
 	private constructor(private page: Page) {
 		this.dialog = page.getByRole("dialog")
 		this.options = this.dialog.getByRole("option")
@@ -19,5 +15,9 @@ export class SearchPage {
 		this.search = this.dialog
 			.getByRole("search")
 			.getByPlaceholder("Search anime or manga")
+	}
+
+	static new(page: Page): SearchPage {
+		return new SearchPage(page)
 	}
 }

@@ -42,12 +42,6 @@ const paths = [
 	cogwheel,
 ]
 
-function useFlubber(progress: MotionValue<number>, paths: string[]) {
-	return useTransform(progress, paths.map(getIndex), paths, {
-		mixer: (a, b) => cachedInterpolate(a, b, options),
-	})
-}
-
 export function LoadingIndicator() {
 	const [pathIndex, setPathIndex] = useState(0)
 	const progress = useMotionValue(pathIndex)
@@ -82,15 +76,21 @@ export function LoadingIndicator() {
 	return (
 		<>
 			<motion.svg
-				width="48"
-				height="48"
-				viewBox="0 0 48 48"
 				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
+				height="48"
 				style={{ rotate }}
+				viewBox="0 0 48 48"
+				width="48"
+				xmlns="http://www.w3.org/2000/svg"
 			>
-				<motion.path fill="#6750A4" d={path} />
+				<motion.path d={path} fill="#6750A4" />
 			</motion.svg>
 		</>
 	)
+}
+
+function useFlubber(progress: MotionValue<number>, paths: string[]) {
+	return useTransform(progress, paths.map(getIndex), paths, {
+		mixer: (a, b) => cachedInterpolate(a, b, options),
+	})
 }

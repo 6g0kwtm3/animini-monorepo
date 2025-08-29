@@ -38,22 +38,22 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 
 	return (
 		<Ariakit.Role.img
+			alt=""
+			loading="lazy"
 			src={
 				data.coverImage?.extraLarge
 				?? data.coverImage?.large
 				?? data.coverImage?.medium
 				?? ""
 			}
-			loading="lazy"
-			alt=""
 			{...props}
+			className={cover({ className: props.className })}
 			style={{
 				backgroundImage: data.coverImage?.medium
 					? `url(${data.coverImage.medium})`
 					: undefined,
 				...props.style,
 			}}
-			className={cover({ className: props.className })}
 		></Ariakit.Role.img>
 	)
 }

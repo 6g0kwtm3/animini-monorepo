@@ -6,19 +6,37 @@ import { button } from "m3-react/button"
 import type { ComponentProps } from "react"
 
 interface ButtonProps extends ComponentProps<"button"> {
-	size?: "xs" | "sm" | "md" | "lg" | "xl"
+	color?: "elevated" | "filled" | "outlined" | "text" | "tonal"
 	shape?: "round" | "square"
-	color?: "outlined" | "elevated" | "filled" | "text" | "tonal"
+	size?: "lg" | "md" | "sm" | "xl" | "xs"
 }
 
 declare module "react" {
 	// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 	interface CSSProperties {
-		[key: `--${string}`]: string | number | undefined
+		[key: `--${string}`]: number | string | undefined
 	}
 }
 
-function Button({ size, shape, color, ...props }: ButtonProps) {
+type Story = StoryObj<typeof Button>
+
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+export default {
+	// Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
+	args: { onClick: fn() },
+	// More on argTypes: https://storybook.js.org/docs/api/argtypes
+	argTypes: {},
+	component: Button,
+	parameters: {
+		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
+		layout: "centered",
+	},
+	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+	tags: ["autodocs"],
+	title: "Example/Button",
+} satisfies Meta<typeof Button>
+
+function Button({ color, shape, size, ...props }: ButtonProps) {
 	const [style, children] = useStyles(button)
 	return (
 		<>
@@ -27,33 +45,15 @@ function Button({ size, shape, color, ...props }: ButtonProps) {
 				{...props}
 				className={style}
 				style={{
-					"--size": size && `var(--size-${size})`,
 					"--color": color && `var(--color-${color})`,
 					"--shape": shape && `var(--shape-${shape})`,
+					"--size": size && `var(--size-${size})`,
 				}}
 			></button>
 			{children}
 		</>
 	)
 }
-
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
-export default {
-	title: "Example/Button",
-	component: Button,
-	parameters: {
-		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-		layout: "centered",
-	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-	tags: ["autodocs"],
-	// More on argTypes: https://storybook.js.org/docs/api/argtypes
-	argTypes: {},
-	// Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-	args: { onClick: fn() },
-} satisfies Meta<typeof Button>
-
-type Story = StoryObj<typeof Button>
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Filled = { args: { children: "Button" } } satisfies Story
 

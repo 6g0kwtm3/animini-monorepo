@@ -35,8 +35,8 @@ app.on("ready", () => {
 			}
 
 			const url = await initRemix({
-				serverBuild: path.join(__dirname, "../build/server/index.js"),
 				getLoadContext: () => new unstable_RouterContextProvider(),
+				serverBuild: path.join(__dirname, "../build/server/index.js"),
 			})
 			await createWindow(url)
 		} catch (error) {

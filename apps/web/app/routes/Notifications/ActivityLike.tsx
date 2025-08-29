@@ -60,15 +60,15 @@ export function ActivityLike(props: {
 				<ListItemImg>
 					{notification.user.avatar?.large && (
 						<img
-							src={notification.user.avatar.large}
+							alt=""
 							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
+							loading="lazy"
+							src={notification.user.avatar.large}
 							style={
 								notification.user.avatar.medium
 									? { "--bg": `url(${notification.user.avatar.medium})` }
 									: undefined
 							}
-							loading="lazy"
-							alt=""
 						/>
 					)}
 				</ListItemImg>

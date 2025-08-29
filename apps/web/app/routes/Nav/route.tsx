@@ -88,56 +88,54 @@ export default function NavRoute({
 					<MaterialSymbolsTravelExplore />
 				</Ariakit.ToolbarItem>
 				<NavigationItem
+					activeIcon={<MaterialSymbolsFeed />}
 					href="/"
 					icon={<MaterialSymbolsFeedOutline />}
-					activeIcon={<MaterialSymbolsFeed />}
 				>
 					Feed
 				</NavigationItem>
 				{rootData?.Viewer ? (
 					<>
 						<NavigationItem
+							activeIcon={<MaterialSymbolsPerson />}
 							href={route_user({ userName: rootData.Viewer.name })}
 							icon={<MaterialSymbolsPersonOutline />}
-							activeIcon={<MaterialSymbolsPerson />}
 						>
 							Profile
 						</NavigationItem>
 						<NavigationItem
+							activeIcon={<MaterialSymbolsPlayArrow />}
 							className="max-sm:hidden"
 							href={route_user_list({
-								userName: rootData.Viewer.name,
 								typelist: "animelist",
+								userName: rootData.Viewer.name,
 							})}
 							icon={<MaterialSymbolsPlayArrowOutline />}
-							activeIcon={<MaterialSymbolsPlayArrow />}
 						>
 							Anime List
 						</NavigationItem>
 						<NavigationItem
-							href={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "mangalist",
-							})}
-							className="max-sm:hidden"
-							icon={<MaterialSymbolsMenuBookOutline />}
 							activeIcon={<MaterialSymbolsMenuBook />}
+							className="max-sm:hidden"
+							href={route_user_list({
+								typelist: "mangalist",
+								userName: rootData.Viewer.name,
+							})}
+							icon={<MaterialSymbolsMenuBookOutline />}
 						>
 							Manga List
 						</NavigationItem>
 					</>
 				) : (
 					<NavigationItem
+						activeIcon={<MaterialSymbolsPerson />}
 						href={route_login({ redirect: pathname })}
 						icon={<MaterialSymbolsPersonOutline />}
-						activeIcon={<MaterialSymbolsPerson />}
 					>
 						Login
 					</NavigationItem>
 				)}
 				<NavigationItem
-					href="/notifications"
-					icon={<MaterialSymbolsNotificationsOutline />}
 					activeIcon={<MaterialSymbolsNotifications />}
 					badge={
 						<ErrorBoundary>
@@ -146,16 +144,18 @@ export default function NavRoute({
 							</Suspense>
 						</ErrorBoundary>
 					}
+					href="/notifications"
+					icon={<MaterialSymbolsNotificationsOutline />}
 				>
 					Notifications
 				</NavigationItem>
 				<SearchButton
 					render={
 						<NavigationItem
-							href={"/search"}
-							className={"sm:hidden"}
-							icon={<MaterialSymbolsTravelExplore />}
 							activeIcon={<MaterialSymbolsTravelExplore />}
+							className={"sm:hidden"}
+							href={"/search"}
+							icon={<MaterialSymbolsTravelExplore />}
 						></NavigationItem>
 					}
 				>

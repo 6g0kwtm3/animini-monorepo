@@ -5,10 +5,20 @@ import { readFragment } from "../Network"
 
 const { graphql } = ReactRelay
 
+export function formatWatch(minutes: number): string {
+	if (!Number.isFinite(minutes)) {
+		return ""
+	}
+	if (minutes > 60) {
+		return `${numberToString(Math.floor(minutes / 60))}h ${numberToString(minutes % 60)}min`
+	}
+	return `${numberToString(minutes)}min`
+}
+
 /**
  * @RelayResolver MediaList.toWatch: Int
  * @rootFragment ToWatch_entry*/
-export function toWatch(data: ToWatch_entry$key): number | null {
+export function toWatch(data: ToWatch_entry$key): null | number {
 	const entry = readFragment(
 		graphql`
 			fragment ToWatch_entry on MediaList {
@@ -28,14 +38,4 @@ export function toWatch(data: ToWatch_entry$key): number | null {
 	}
 
 	return entry.behind * Math.max(3, (entry.media?.duration ?? 25) - 3)
-}
-
-export function formatWatch(minutes: number): string {
-	if (!Number.isFinite(minutes)) {
-		return ""
-	}
-	if (minutes > 60) {
-		return `${numberToString(Math.floor(minutes / 60))}h ${numberToString(minutes % 60)}min`
-	}
-	return `${numberToString(minutes)}min`
 }

@@ -60,12 +60,6 @@ import { loadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs, UserListTabsQuery } from "./UserListTabs"
 
-function useOptimisticSearchParams(): URLSearchParams {
-	const { search } = useOptimisticLocation()
-
-	return new URLSearchParams(search)
-}
-
 function useOptimisticLocation() {
 	let location = useLocation()
 	const navigation = useNavigation()
@@ -76,6 +70,12 @@ function useOptimisticLocation() {
 	return location
 }
 
+function useOptimisticSearchParams(): URLSearchParams {
+	const { search } = useOptimisticLocation()
+
+	return new URLSearchParams(search)
+}
+
 const Typelist = type('"animelist"|"mangalist"')
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const typelist = invariant(Typelist(args.params.typelist))
@@ -84,12 +84,17 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 		UserListTabsQuery: args.context.get(loadQuery)<UserListTabsQueryOperation>(
 			UserListTabsQuery,
 			{
-				userName: args.params.userName,
 				type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[typelist],
+				userName: args.params.userName,
 			}
 		),
 	}
 }
+
+export type ReadonlyURLSearchParams = Omit<
+	URLSearchParams,
+	"append" | "delete" | "set" | "sort"
+>
 
 export default function Filters({
 	loaderData,
@@ -103,15 +108,15 @@ export default function Filters({
 	return (
 		<ExtraOutlets>
 			<LayoutBody>
-				<LayoutPane variant="fixed" className="max-md:hidden">
-					<Card variant="elevated" className="max-h-full overflow-y-auto">
+				<LayoutPane className="max-md:hidden" variant="fixed">
+					<Card className="max-h-full overflow-y-auto" variant="elevated">
 						<Form
 							action={pathname}
-							replace
+							className="grid grid-cols-2 gap-2"
 							onChange={(e) => {
 								void submit(e.currentTarget)
 							}}
-							className="grid grid-cols-2 gap-2"
+							replace
 						>
 							<CheckboxProvider value={searchParams.getAll("status")}>
 								<Group className="col-span-2" render={<fieldset />}>
@@ -123,7 +128,7 @@ export default function Filters({
 												: MANGA_STATUS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<ChipFilter key={value} data-key={value}>
+												<ChipFilter data-key={value} key={value}>
 													<ChipFilterCheckbox name="status" value={value} />
 													{label}
 												</ChipFilter>
@@ -142,7 +147,7 @@ export default function Filters({
 												: MANGA_FORMAT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<ChipFilter key={value} data-key={value}>
+												<ChipFilter data-key={value} key={value}>
 													<ChipFilterCheckbox name="format" value={value} />
 													{label}
 												</ChipFilter>
@@ -161,7 +166,7 @@ export default function Filters({
 												: MANGA_PROGRESS_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<ChipFilter key={value} data-key={value}>
+												<ChipFilter data-key={value} key={value}>
 													<ChipFilterCheckbox name="progress" value={value} />
 													{label}
 												</ChipFilter>
@@ -181,7 +186,7 @@ export default function Filters({
 												: MANGA_SORT_OPTIONS
 										).map(([value, label]) => {
 											return (
-												<ChipFilter key={value} data-key={value}>
+												<ChipFilter data-key={value} key={value}>
 													<ChipFilterRadio name="sort" value={value} />
 													{label}
 												</ChipFilter>
@@ -197,15 +202,15 @@ export default function Filters({
 					</Card>
 				</LayoutPane>
 				<LayoutPane>
-					<Card variant="elevated" className="max-sm:contents">
+					<Card className="max-sm:contents" variant="elevated">
 						<div className="flex flex-col gap-4">
 							<Tabs selectedId={String(params.selected)}>
 								<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 -mx-4 grid sm:-mt-4">
 									<AppBar
-										variant="large"
 										className="sm:bg-surface-container-low"
+										variant="large"
 									>
-										<Icon tooltip title="Show list search">
+										<Icon title="Show list search" tooltip>
 											<MaterialSymbolsSearch />
 										</Icon>
 										<AppBarTitle>
@@ -214,19 +219,19 @@ export default function Filters({
 												: "Manga list"}
 										</AppBarTitle>
 										<div className="flex-1" />
-										<Icon tooltip title="Show list search">
+										<Icon title="Show list search" tooltip>
 											<MaterialSymbolsSearch />
 										</Icon>
 										<FilterButton />
-										<Icon tooltip title="Show more options">
+										<Icon title="Show more options" tooltip>
 											<MaterialSymbolsMoreHoriz />
 										</Icon>
 									</AppBar>
 									<UserListTabs queryRef={loaderData.UserListTabsQuery} />
 								</div>
 								<TabsPanel
-									tabId={params.selected}
 									className="flex flex-col gap-4"
+									tabId={params.selected}
 								>
 									<Ariakit.HeadingLevel>
 										<Outlet />
@@ -240,28 +245,6 @@ export default function Filters({
 
 			<Filter />
 		</ExtraOutlets>
-	)
-}
-
-function FilterButton() {
-	const { pathname } = useLocation()
-
-	const searchParams = useOptimisticSearchParams()
-
-	searchParams.delete("filter")
-
-	const filterParams = copySearchParams(searchParams)
-	filterParams.append("sheet", "filter")
-
-	return (
-		<Icon
-			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
-			tooltip
-			title={"Show list filters"}
-			render={<A href={{ search: `?${filterParams}`, pathname }}></A>}
-		>
-			<MaterialSymbolsFilterList />
-		</Icon>
 	)
 }
 
@@ -285,23 +268,23 @@ function Filter() {
 
 	return (
 		<Form
-			replace
 			action={pathname}
 			onChange={(e) => {
 				void submit(e.currentTarget, {})
 			}}
+			replace
 		>
-			{sheet && <input type="hidden" name="sheet" value={sheet} />}
+			{sheet && <input name="sheet" type="hidden" value={sheet} />}
 			<Sheet
-				open={filter || sort}
 				onClose={() => {
 					void navigate({ search: `?${searchParams}` })
 				}}
+				open={filter || sort}
 			>
 				<Tabs selectedId={sheet}>
 					<TabsList
-						grow
 						className="bg-surface-container-low sticky top-0 z-10 rounded-t-xl"
+						grow
 					>
 						<TabsListItem
 							id="filter"
@@ -326,38 +309,25 @@ function Filter() {
 	)
 }
 
-function SheetSort() {
+function FilterButton() {
+	const { pathname } = useLocation()
+
 	const searchParams = useOptimisticSearchParams()
 
-	const params = useParams<"typelist">()
+	searchParams.delete("filter")
 
-	const lines = "one"
-	const listLines = "list-one"
+	const filterParams = copySearchParams(searchParams)
+	filterParams.append("sheet", "filter")
 
 	return (
-		<Group>
-			<Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
-				Sort
-			</Subheader>
-			<List className={listLines} render={<div />}>
-				<CheckboxProvider value={searchParams.getAll("sort")}>
-					{Object.entries(
-						params.typelist === "animelist"
-							? ANIME_SORT_OPTIONS
-							: MANGA_SORT_OPTIONS
-					).map(([value, label]) => {
-						return (
-							<ListItem render={<Label />} key={value} data-key={value}>
-								<Radio name="sort" value={value} />
-								<ListItemContent>
-									<ListItemContentTitle>{label}</ListItemContentTitle>
-								</ListItemContent>
-							</ListItem>
-						)
-					})}
-				</CheckboxProvider>
-			</List>
-		</Group>
+		<Icon
+			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
+			render={<A href={{ pathname, search: `?${filterParams}` }}></A>}
+			title={"Show list filters"}
+			tooltip
+		>
+			<MaterialSymbolsFilterList />
+		</Icon>
 	)
 }
 
@@ -374,7 +344,7 @@ function SheetFilter() {
 				<Subheader lines={lines} render={<GroupLabel />}>
 					Status
 				</Subheader>
-				<List render={<div />} className={`-mt-2 ${listLines}`}>
+				<List className={`-mt-2 ${listLines}`} render={<div />}>
 					<CheckboxProvider value={searchParams.getAll("status")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -382,7 +352,7 @@ function SheetFilter() {
 								: MANGA_STATUS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<Label />} key={value} data-key={value}>
+								<ListItem data-key={value} key={value} render={<Label />}>
 									<Checkbox name="status" value={value} />
 									<div className="col-span-2 col-start-2">
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -397,7 +367,7 @@ function SheetFilter() {
 				<Subheader lines={lines} render={<GroupLabel />}>
 					Format
 				</Subheader>
-				<List render={<div />} className={`-mt-2 ${listLines}`}>
+				<List className={`-mt-2 ${listLines}`} render={<div />}>
 					<CheckboxProvider value={searchParams.getAll("format")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -405,7 +375,7 @@ function SheetFilter() {
 								: MANGA_FORMAT_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<Label />} key={value} data-key={value}>
+								<ListItem data-key={value} key={value} render={<Label />}>
 									<Checkbox name="format" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -420,7 +390,7 @@ function SheetFilter() {
 				<Subheader lines={lines} render={<GroupLabel />}>
 					Progress
 				</Subheader>
-				<List render={<div />} className={`-mt-2 ${listLines}`}>
+				<List className={`-mt-2 ${listLines}`} render={<div />}>
 					<CheckboxProvider value={searchParams.getAll("progress")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -428,7 +398,7 @@ function SheetFilter() {
 								: MANGA_PROGRESS_OPTIONS
 						).map(([value, label]) => {
 							return (
-								<ListItem render={<Label />} key={value} data-key={value}>
+								<ListItem data-key={value} key={value} render={<Label />}>
 									<Checkbox name="progress" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -443,51 +413,81 @@ function SheetFilter() {
 	)
 }
 
-export type ReadonlyURLSearchParams = Omit<
-	URLSearchParams,
-	"set" | "append" | "delete" | "sort"
->
+function SheetSort() {
+	const searchParams = useOptimisticSearchParams()
+
+	const params = useParams<"typelist">()
+
+	const lines = "one"
+	const listLines = "list-one"
+
+	return (
+		<Group>
+			<Subheader className="-mb-2" lines={lines} render={<GroupLabel />}>
+				Sort
+			</Subheader>
+			<List className={listLines} render={<div />}>
+				<CheckboxProvider value={searchParams.getAll("sort")}>
+					{Object.entries(
+						params.typelist === "animelist"
+							? ANIME_SORT_OPTIONS
+							: MANGA_SORT_OPTIONS
+					).map(([value, label]) => {
+						return (
+							<ListItem data-key={value} key={value} render={<Label />}>
+								<Radio name="sort" value={value} />
+								<ListItemContent>
+									<ListItemContentTitle>{label}</ListItemContentTitle>
+								</ListItemContent>
+							</ListItem>
+						)
+					})}
+				</CheckboxProvider>
+			</List>
+		</Group>
+	)
+}
 
 const ANIME_STATUS_OPTIONS = {
-	"MediaStatus.Finished": m.media_status_finished(),
-	"MediaStatus.Releasing": m.media_status_releasing(),
-	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
 	"MediaStatus.Cancelled": m.media_status_cancelled(),
+	"MediaStatus.Finished": m.media_status_finished(),
+	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
+	"MediaStatus.Releasing": m.media_status_releasing(),
 }
 
 const MANGA_STATUS_OPTIONS = {
+	"MediaStatus.Cancelled": m.media_status_cancelled(),
 	"MediaStatus.Finished": m.media_status_finished(),
-	"MediaStatus.Releasing": m.media_status_releasing(),
 	"MediaStatus.Hiatus": m.media_status_hiatus(),
 	"MediaStatus.NotYetReleased": m.media_status_not_yet_released(),
-	"MediaStatus.Cancelled": m.media_status_cancelled(),
+	"MediaStatus.Releasing": m.media_status_releasing(),
 }
 
 const ANIME_FORMAT_OPTIONS = {
+	"MediaFormat.Movie": m.media_format_movie(),
+	"MediaFormat.Music": m.media_format_music(),
+	"MediaFormat.Ona": m.media_format_ona(),
+	"MediaFormat.Ova": m.media_format_ova(),
+	"MediaFormat.Special": m.media_format_special(),
 	"MediaFormat.Tv": m.media_format_tv(),
 	"MediaFormat.TvShort": m.media_format_tv_short(),
-	"MediaFormat.Movie": m.media_format_movie(),
-	"MediaFormat.Special": m.media_format_special(),
-	"MediaFormat.Ova": m.media_format_ova(),
-	"MediaFormat.Ona": m.media_format_ona(),
-	"MediaFormat.Music": m.media_format_music(),
 }
 
-const ANIME_PROGRESS_OPTIONS = { UNSEEN: "Unwatched", STARTED: "Started" }
+const ANIME_PROGRESS_OPTIONS = { STARTED: "Started", UNSEEN: "Unwatched" }
 
-const MANGA_PROGRESS_OPTIONS = { UNSEEN: "Unread", STARTED: "Started" }
+const MANGA_PROGRESS_OPTIONS = { STARTED: "Started", UNSEEN: "Unread" }
 
 const ANIME_SORT_OPTIONS = {
-	[MediaListSort.TitleEnglish]: m.media_sort_title(),
-	[MediaListSort.ScoreDesc]: m.media_sort_score(),
-	[MediaListSort.ProgressDesc]: m.media_sort_progress(),
-	[MediaListSort.UpdatedTimeDesc]: m.media_sort_last_updated(),
-	[MediaListSort.IdDesc]: m.media_sort_last_added(),
-	[MediaListSort.StartedOnDesc]: m.media_sort_start_date(),
-	[MediaListSort.FinishedOnDesc]: m.media_sort_completed_date(),
-	[MediaListSort.StartDateDesc]: m.media_sort_release_date(),
 	[MediaListSort.AvgScore]: m.media_sort_avg_score(),
+	[MediaListSort.FinishedOnDesc]: m.media_sort_completed_date(),
+	[MediaListSort.IdDesc]: m.media_sort_last_added(),
 	[MediaListSort.PopularityDesc]: m.media_sort_popularity(),
+	[MediaListSort.ProgressDesc]: m.media_sort_progress(),
+	[MediaListSort.ScoreDesc]: m.media_sort_score(),
+	[MediaListSort.StartDateDesc]: m.media_sort_release_date(),
+	[MediaListSort.StartedOnDesc]: m.media_sort_start_date(),
+	[MediaListSort.TitleEnglish]: m.media_sort_title(),
+	[MediaListSort.UpdatedTimeDesc]: m.media_sort_last_updated(),
 }
 
 const MANGA_SORT_OPTIONS = { ...ANIME_SORT_OPTIONS }
@@ -512,7 +512,7 @@ export function ErrorBoundary(): ReactNode {
 							<Ariakit.Heading>Oops</Ariakit.Heading>
 							<p>Status: {error.status}</p>
 							<p>{error.data}</p>
-							<A href={location} className={button()}>
+							<A className={button()} href={location}>
 								Try again
 							</A>
 						</div>
@@ -534,8 +534,8 @@ export function ErrorBoundary(): ReactNode {
 			<LayoutBody>
 				<LayoutPane>
 					<Card
-						variant="elevated"
 						className="bg-error-container text-on-error-container m-4"
+						variant="elevated"
 					>
 						<Ariakit.Heading className="text-headline-md text-balance">
 							Uh oh ...

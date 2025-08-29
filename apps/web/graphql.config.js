@@ -1,2 +1,2 @@
 /** @type {import('graphql-config').IGraphQLConfig} */
-export default { schema: "./schema.graphql", documents: "./app/**/*.{ts,tsx}" }
+export default { documents: "./app/**/*.{ts,tsx}", schema: "./schema.graphql" }

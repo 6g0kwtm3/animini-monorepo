@@ -10,36 +10,36 @@ import relay from "vite-plugin-relay"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
+	build: { sourcemap: true },
+	envPrefix: ["VITE_", "CF_", "NODE_"],
 	plugins: [
 		inspect(),
 		tailwindcss(),
 		babel({
+			exclude: [/~icons/],
 			filter: /\.[jt]sx?$/,
 			include: ["./app/**/*.tsx"],
-			exclude: [/~icons/],
 		}),
-		paraglide({ project: "./project.inlang", outdir: "./app/paraglide" }),
+		paraglide({ outdir: "./app/paraglide", project: "./project.inlang" }),
 
 		reactRouter(),
 
 		tsconfigPaths(),
 		icons({
 			compiler: "jsx",
-			jsx: "react",
 			iconCustomizer(_collection, _icon, props) {
 				props.width = "1em"
 				props.height = "1em"
 			},
+			jsx: "react",
 		}),
 		relay,
 		sentry({
+			authToken: process.env.SENTRY_AUTH_TOKEN,
 			org: "animini",
 			project: "javascript-react",
-			authToken: process.env.SENTRY_AUTH_TOKEN,
 		}),
 	],
 	preview: { port: 3000 },
 	server: { port: 3000 },
-	build: { sourcemap: true },
-	envPrefix: ["VITE_", "CF_", "NODE_"],
 })

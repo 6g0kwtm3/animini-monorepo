@@ -70,9 +70,9 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	} satisfies typeof Token.infer)
 
 	const setCookie = cookie.serialize(`anilist-token`, encoded, {
-		sameSite: "lax",
 		maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
 		path: "/",
+		sameSite: "lax",
 	})
 
 	document.cookie = setCookie
@@ -91,37 +91,37 @@ export default function Login(): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<fetcher.Form method="post" className="grid gap-2">
+				<fetcher.Form className="grid gap-2" method="post">
 					<Outlined>
 						<TextFieldOutlinedInput
+							autoComplete="current-password"
 							name="token"
 							required
 							type="password"
-							autoComplete="current-password"
 						/>
 						<Outlined.Label htmlFor="token">Token</Outlined.Label>
 					</Outlined>
 
 					<footer className="flex justify-end gap-2">
 						<a
-							target="_blank"
+							className={button({})}
 							href={`https://anilist.co/api/v2/oauth/authorize/?${new URLSearchParams(
 								{ client_id: String(ANILIST_CLIENT_ID), response_type: "token" }
 							)}`}
 							rel="noreferrer"
-							className={button({})}
+							target="_blank"
 						>
 							<ButtonTextIcon>
 								<img
+									alt=""
 									loading="lazy"
 									src="https://anilist.co/img/icons/icon.svg"
-									alt=""
 								/>
 							</ButtonTextIcon>
 							<span>Get token</span>
 						</a>
 
-						<button type="submit" className={button({ variant: "filled" })}>
+						<button className={button({ variant: "filled" })} type="submit">
 							Login
 						</button>
 					</footer>

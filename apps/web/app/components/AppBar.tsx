@@ -8,35 +8,35 @@ import { tv } from "~/lib/tailwind-variants"
 
 const appBar = tv(
 	{
+		defaultVariants: {
+			elevate: false,
+			hide: false,
+			position: "fixed",
+			variant: "small",
+		},
 		slots: {
 			root: "bg-surface flex gap-2",
 			title: "text-title-lg text-on-surface flex h-10 items-center first:ms-2",
 		},
 		variants: {
 			elevate: {
-				true: { root: "data-[elevated='true']:bg-surface-container" },
 				false: {},
+				true: { root: "data-[elevated='true']:bg-surface-container" },
 			},
 			hide: {
+				false: { root: "" },
 				true: {
 					root: "data-[hidden='true']:-translate-y-(--app-bar-height) transform-gpu transition-transform ease-spatial duration-spatial sm:data-[hidden='true']:translate-y-0",
 				},
-				false: { root: "" },
 			},
 			variant: {
 				centered: { root: "" },
-				small: { root: "h-16 px-2 pb-3 pt-3" },
-				medium: { root: "" },
 				large: {
 					root: "animate-app-bar-large h-28 px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]",
 				},
+				medium: { root: "" },
+				small: { root: "h-16 px-2 pb-3 pt-3" },
 			},
-		},
-		defaultVariants: {
-			variant: "small",
-			elevate: false,
-			hide: false,
-			position: "fixed",
 		},
 	},
 	{}
@@ -48,9 +48,9 @@ interface AppBarProps
 		VariantProps<typeof appBar> {}
 
 export function AppBar({
-	variant,
 	elevate,
 	hide,
+	variant,
 	...props
 }: AppBarProps): ReactNode {
 	const [scrolled, setScrolled] = useState(0)
@@ -58,7 +58,7 @@ export function AppBar({
 
 	const ref = useRef<ComponentRef<"nav">>(null)
 
-	const styles = appBar({ variant, elevate, hide })
+	const styles = appBar({ elevate, hide, variant })
 
 	useEffect(() => {
 		function listener() {
@@ -100,10 +100,10 @@ export function AppBar({
 		<AppBarContext.Provider value={styles}>
 			<nav
 				{...props}
-				ref={ref}
-				data-hidden={hidden}
-				data-elevated={scrolled !== 0}
 				className={styles.root({ className: props.className })}
+				data-elevated={scrolled !== 0}
+				data-hidden={hidden}
+				ref={ref}
 			/>
 		</AppBarContext.Provider>
 	)

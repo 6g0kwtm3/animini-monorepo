@@ -15,19 +15,30 @@ import environment from "./environment"
 export const { readFragment } = RelayRuntime
 
 const {
+	commitLocalUpdate: commitLocalUpdate_,
 	commitMutation: commitMutation_,
 	fetchQuery: fetchQuery__,
 	loadQuery: loadQuery_,
-	commitLocalUpdate: commitLocalUpdate_,
 	useQueryLoader: useQueryLoader_,
 } = ReactRelay
 
 export const {
 	readInlineData,
+	RelayEnvironmentProvider,
 	useFragment,
 	usePreloadedQuery: usePreloadedQuery_,
-	RelayEnvironmentProvider,
 } = ReactRelay
+
+export type NodeAndQueryFragment<T extends RelayRuntime.OperationType> =
+	readonly [
+		gqlQuery: ReactRelay.GraphQLTaggedNode,
+		preloadedQuery: PreloadedQuery<T>,
+	]
+
+type LoadQuery = <T extends RelayRuntime.OperationType>(
+	query: ReactRelay.GraphQLTaggedNode,
+	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
+) => NodeAndQueryFragment<T>
 
 function useQueryLoader<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode
@@ -40,17 +51,6 @@ function useQueryLoader<T extends RelayRuntime.OperationType>(
 		disposeQuery,
 	] as const
 }
-
-export type NodeAndQueryFragment<T extends RelayRuntime.OperationType> =
-	readonly [
-		gqlQuery: ReactRelay.GraphQLTaggedNode,
-		preloadedQuery: PreloadedQuery<T>,
-	]
-
-type LoadQuery = <T extends RelayRuntime.OperationType>(
-	query: ReactRelay.GraphQLTaggedNode,
-	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
-) => NodeAndQueryFragment<T>
 
 export const loadQuery = unstable_createContext<LoadQuery>()
 
@@ -77,12 +77,7 @@ export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
 	return next()
 }
 
-export function usePreloadedQuery<T extends OperationType>(
-	nodeAndQuery: NodeAndQueryFragment<T>,
-	options?: { UNSTABLE_renderPolicy?: RelayRuntime.RenderPolicy | undefined }
-) {
-	return usePreloadedQuery_(...nodeAndQuery, options)
-}
+type Shift<T> = T extends [unknown, ...infer U] ? U : []
 
 export function commitLocalUpdate(
 	...args: Shift<Parameters<typeof commitLocalUpdate_>>
@@ -90,10 +85,10 @@ export function commitLocalUpdate(
 	commitLocalUpdate_(environment, ...args)
 }
 
-function commitMutation<P extends MutationParameters>(
-	...args: Shift<Parameters<typeof commitMutation_<P>>>
-): Disposable {
-	return commitMutation_<P>(environment, ...args)
+export function fetchQuery<O extends OperationType>(
+	...args: Shift<Parameters<typeof fetchQuery__<O>>>
+): Promise<O["response"] | undefined> {
+	return fetchQuery__<O>(environment, ...args).toPromise()
 }
 
 export function mutation<P extends MutationParameters>(
@@ -112,12 +107,17 @@ export function mutation<P extends MutationParameters>(
 	})
 }
 
-type Shift<T> = T extends [unknown, ...infer U] ? U : []
+export function usePreloadedQuery<T extends OperationType>(
+	nodeAndQuery: NodeAndQueryFragment<T>,
+	options?: { UNSTABLE_renderPolicy?: RelayRuntime.RenderPolicy | undefined }
+) {
+	return usePreloadedQuery_(...nodeAndQuery, options)
+}
 
-export function fetchQuery<O extends OperationType>(
-	...args: Shift<Parameters<typeof fetchQuery__<O>>>
-): Promise<O["response"] | undefined> {
-	return fetchQuery__<O>(environment, ...args).toPromise()
+function commitMutation<P extends MutationParameters>(
+	...args: Shift<Parameters<typeof commitMutation_<P>>>
+): Disposable {
+	return commitMutation_<P>(environment, ...args)
 }
 
 export default environment

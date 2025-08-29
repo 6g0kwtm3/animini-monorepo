@@ -74,14 +74,14 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 							if (activity.__typename === "TextActivity") {
 								return (
 									<li
-										key={activity.id}
-										data-key={activity.id}
 										className="animate-appear [animation-range:entry_5%_cover_20%] [animation-timeline:view()]"
+										data-key={activity.id}
+										key={activity.id}
 									>
 										<Card
-											variant="filled"
-											render={<article />}
 											className="grid max-w-7xl gap-4 rounded-[1.75rem]"
+											render={<article />}
+											variant="filled"
 										>
 											<List className="-mx-4 -my-4" render={<address />}>
 												<ListItem className="hover:state-none">
@@ -89,9 +89,9 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 														{activity.user?.avatar?.large && (
 															<img
 																alt=""
+																className="bg-(image:--bg) h-10 w-10 rounded-full bg-cover object-cover"
 																loading="lazy"
 																src={activity.user.avatar.large}
-																className="bg-(image:--bg) h-10 w-10 rounded-full bg-cover object-cover"
 																style={
 																	activity.user.avatar.medium
 																		? {

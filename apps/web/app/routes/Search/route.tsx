@@ -40,16 +40,16 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				<Card variant="elevated" className="max-sm:contents">
+				<Card className="max-sm:contents" variant="elevated">
 					<div className="-mx-4">
 						<List>
 							{data?.page?.media
 								?.filter((el) => el != null)
 								.map((media) => (
 									<SearchItem
-										media={media}
-										key={media.id}
 										data-key={media.id}
+										key={media.id}
+										media={media}
 									/>
 								))}
 						</List>

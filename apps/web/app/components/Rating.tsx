@@ -35,8 +35,8 @@ import { numberToString } from "~/lib/numberToString"
 // ))
 
 export const Rating = (props: {
-	defaultValue: number
 	children: ReactNode[]
+	defaultValue: number
 	name: string
 }): ReactNode => {
 	return (
@@ -44,16 +44,16 @@ export const Rating = (props: {
 			<div className="group relative flex">
 				{props.children.map((icon, index, { length }) => (
 					<label
-						id={numberToString(length - index)}
 						aria-label={numberToString(length - index)}
-						key={index}
 						data-key={index}
+						id={numberToString(length - index)}
+						key={index}
 					>
 						<input
-							name={props.name}
-							type="radio"
 							className="peer hidden"
 							defaultChecked={props.defaultValue === length - index}
+							name={props.name}
+							type="radio"
 							value={length - index}
 						/>
 						{icon}

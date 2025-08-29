@@ -7,7 +7,7 @@ const { graphql } = ReactRelay
 /**
  * @RelayResolver MediaList.behind: Int
  * @rootFragment Behind_entry*/
-export function behind(data: Behind_entry$key): number | null {
+export function behind(data: Behind_entry$key): null | number {
 	const entry = readFragment(
 		graphql`
 			fragment Behind_entry on MediaList {

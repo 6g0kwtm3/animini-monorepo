@@ -40,13 +40,13 @@ export function SearchTrending(props: {
 					Trending
 				</Ariakit.ComboboxGroupLabel>
 
-				<List render={<div />} className="list-one -mt-2">
+				<List className="list-one -mt-2" render={<div />}>
 					{data.trending.media
 						.filter((el) => el != null)
 						.map((media) => (
 							<SearchViewItem
-								key={media.id}
 								data-key={media.id}
+								key={media.id}
 								render={<SearchItem media={media} />}
 							/>
 						))}

@@ -34,6 +34,24 @@ export function AwaitLibrary({
 	)
 }
 
+export function MediaListHeader(props: { children: ReactNode }): ReactNode {
+	return (
+		<div className="grid grid-flow-col items-center gap-4 [grid-auto-columns:minmax(0,1fr)]">
+			{props.children}
+		</div>
+	)
+}
+export function MediaListHeaderItem(props: {
+	children: ReactNode
+	subtitle: ReactNode
+}): ReactNode {
+	return (
+		<div className="flex flex-col text-center">
+			<div className="text-headline-lg">{props.children}</div>
+			<div className="text-body-lg">{props.subtitle}</div>
+		</div>
+	)
+}
 export function MediaListHeaderToWatch(props: {
 	entries: MediaListHeaderToWatch_entries$key
 }): string {
@@ -53,23 +71,5 @@ export function MediaListHeaderToWatch(props: {
 			.map((entry) => entry.toWatch)
 			.filter((n) => typeof n === "number")
 			.reduce((a, b) => a + b, 0)
-	)
-}
-export function MediaListHeader(props: { children: ReactNode }): ReactNode {
-	return (
-		<div className="grid grid-flow-col items-center gap-4 [grid-auto-columns:minmax(0,1fr)]">
-			{props.children}
-		</div>
-	)
-}
-export function MediaListHeaderItem(props: {
-	children: ReactNode
-	subtitle: ReactNode
-}): ReactNode {
-	return (
-		<div className="flex flex-col text-center">
-			<div className="text-headline-lg">{props.children}</div>
-			<div className="text-body-lg">{props.subtitle}</div>
-		</div>
 	)
 }

@@ -16,9 +16,6 @@ import { TypelistPage } from "./pages/TypelistPage"
 class UserPage {
 	animeList: Locator
 	mangaList: Locator
-	static new(page: Page) {
-		return new UserPage(page)
-	}
 	private constructor(private page: Page) {
 		this.animeList = page
 			.getByRole("main")
@@ -26,6 +23,9 @@ class UserPage {
 		this.mangaList = page
 			.getByRole("main")
 			.getByRole("tab", { name: "Manga list" })
+	}
+	static new(page: Page) {
+		return new UserPage(page)
 	}
 }
 
@@ -36,15 +36,15 @@ const handlers = [
 		() =>
 			HttpResponse.json({
 				data: {
-					Viewer: Viewer,
 					user: {
-						id: 1,
-						name: "User",
 						avatar: null,
 						bannerImage: null,
+						id: 1,
 						isFollowing: null,
+						name: "User",
 						options: null,
 					},
+					Viewer: Viewer,
 				},
 			})
 	),
@@ -53,28 +53,28 @@ const handlers = [
 
 const cookies = [
 	{
+		domain: "localhost",
+		expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
 		name: `anilist-token`,
+		path: "/",
+		sameSite: "Lax",
 		value: invariant(
 			type("object.json.stringify")(
 				invariant(Token({ token: "", viewer: Viewer }))
 			)
 		),
-		sameSite: "Lax",
-		expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-		path: "/",
-		domain: "localhost",
 	},
 ] satisfies Parameters<BrowserContext["addCookies"]>[0]
 
 test.fixme(true, "fix main page")
 
-test.beforeEach(async ({ worker, context }) => {
+test.beforeEach(async ({ context, worker }) => {
 	worker.use(...handlers)
 	await context.addCookies(cookies)
 })
 
 test.describe("fullscreen", () => {
-	test("anime list", async ({ page, isMobile }) => {
+	test("anime list", async ({ isMobile, page }) => {
 		test.skip(isMobile)
 
 		await page.goto("/")
@@ -86,7 +86,7 @@ test.describe("fullscreen", () => {
 		await TypelistPage.new(page)
 	})
 
-	test("manga list", async ({ page, isMobile }) => {
+	test("manga list", async ({ isMobile, page }) => {
 		test.skip(isMobile)
 		await page.goto("/")
 		await page.keyboard.press("Control+.")

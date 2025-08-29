@@ -29,10 +29,10 @@ import { pathToFileURL } from "url"
  * @returns {Promise<string>} The url to use to access the app.
  */
 export async function initRemix({
-	serverBuild: serverBuildOption,
+	getLoadContext,
 	mode,
 	publicFolder: _publicFolderOption = "public",
-	getLoadContext,
+	serverBuild: serverBuildOption,
 }) {
 	await app.whenReady()
 
@@ -43,9 +43,9 @@ export async function initRemix({
 			? undefined
 			: await import("vite").then((vite) =>
 					vite.createServer({
-						server: { middlewareMode: true },
-						root: appRoot,
 						configFile: resolve(appRoot, "vite.config.ts"),
+						root: appRoot,
+						server: { middlewareMode: true },
 					})
 				)
 

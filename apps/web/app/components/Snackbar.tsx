@@ -84,11 +84,19 @@ export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 
 const SnackbarContext = createContext<string | undefined>(undefined)
 interface SnackbarProps extends ComponentProps<"div"> {
-	timeout?: number
 	open: boolean
+	timeout?: number
 }
 
-function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
+interface ToggleEvent extends Event {
+	action: string
+}
+
+function isInvokeEvent(event: Event | ToggleEvent) {
+	return "action" in event
+}
+
+function Snackbar({ open, timeout, ...props }: SnackbarProps): ReactNode {
 	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
 
@@ -161,24 +169,16 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 		<SnackbarContext.Provider value={props.id ?? id}>
 			<div
 				{...props}
-				id={props.id ?? id}
-				role="alert"
 				aria-live="assertive"
-				popover="manual"
-				data-timeout={timeout}
-				ref={ref}
 				className="bg-inverse-surface text-body-md text-inverse-on-surface rounded-xs mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 p-4 shadow-sm [&:popover-open]:flex"
+				data-timeout={timeout}
+				id={props.id ?? id}
+				popover="manual"
+				ref={ref}
+				role="alert"
 			/>
 		</SnackbarContext.Provider>
 	)
-}
-
-interface ToggleEvent extends Event {
-	action: string
-}
-
-function isInvokeEvent(event: Event | ToggleEvent) {
-	return "action" in event
 }
 
 import * as Ariakit from "@ariakit/react"
@@ -199,7 +199,7 @@ function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 			type="button"
 			{...props}
 			{...(supportsPopover
-				? { popovertargetaction: "hide", popovertarget: invoketarget }
+				? { popovertarget: invoketarget, popovertargetaction: "hide" }
 				: { invokeaction: "hide", invoketarget })}
 			className="text-label-lg text-inverse-primary hover:state-hover focus:state-focus -my-1 -me-2 rounded-[1.25rem] px-3 py-1"
 		/>

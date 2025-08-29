@@ -9,10 +9,6 @@ import { utilities } from "@anitrove/design"
 // import "./index.css"
 
 const preview = {
-	parameters: {
-		controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-	},
-
 	decorators: [
 		(Story) => {
 			useInsertionEffect(() => {
@@ -52,6 +48,10 @@ const preview = {
 			)
 		},
 	],
+
+	parameters: {
+		controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
+	},
 } satisfies Preview
 
 export default preview

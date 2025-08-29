@@ -14,8 +14,8 @@ import {
 interface ButtonProps
 	extends Ariakit.ButtonProps,
 		VariantProps<typeof createButton> {
-	invoketarget?: string
 	invokeaction?: string
+	invoketarget?: string
 }
 
 export function Button({ variant, ...props }: ButtonProps) {
@@ -32,25 +32,25 @@ export function Button({ variant, ...props }: ButtonProps) {
 }
 
 const ButtonContext = createContext(createButton())
+interface IconProps extends Ariakit.ButtonProps, VariantProps<typeof btnIcon> {
+	title: string
+	tooltip: boolean
+}
+
 export function ButtonIcon(props: ComponentProps<"div">): ReactNode {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-interface IconProps extends Ariakit.ButtonProps, VariantProps<typeof btnIcon> {
-	tooltip: boolean
-	title: string
-}
-
 export function Icon({
-	tooltip,
 	children,
-	variant,
 	className,
+	tooltip,
+	variant,
 	...props
 }: IconProps) {
 	const button = (
-		<Ariakit.Button {...props} className={btnIcon({ variant, className })}>
+		<Ariakit.Button {...props} className={btnIcon({ className, variant })}>
 			{children}
 			<TouchTarget />
 		</Ariakit.Button>
