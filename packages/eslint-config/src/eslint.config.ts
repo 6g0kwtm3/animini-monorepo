@@ -36,9 +36,6 @@ export default await typegen([
 			"perfectionist/sort-named-imports": "off",
 			"perfectionist/sort-object-types": "off",
 			"perfectionist/sort-objects": "off",
-			"perfectionist/sort-switch-case": "off",
-			"perfectionist/sort-union-types": "off",
-			"perfectionist/sort-variable-declarations": "off",
 		},
 	},
 	...[
