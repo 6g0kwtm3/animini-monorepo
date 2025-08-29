@@ -4,15 +4,15 @@ import type Colors from "./design-colors"
 import fonts, { letterSpacing, pxToRem } from "./design-fonts"
 
 export const borderRadius = {
-	none: "0",
-	xs: "0.25rem",
-	sm: "0.5rem",
-	md: "0.75rem",
 	DEFAULT: "0.75rem",
-	lg: "1rem",
-	xl: "1.75rem",
 	full: "9999px",
 	inherit: "inherit",
+	lg: "1rem",
+	md: "0.75rem",
+	none: "0",
+	sm: "0.5rem",
+	xl: "1.75rem",
+	xs: "0.25rem",
 } as const satisfies Record<string, Properties["borderRadius"]>
 
 export const colors = new Proxy(
@@ -27,7 +27,7 @@ export const colors = new Proxy(
 		},
 	}
 ) as unknown as Record<
-	keyof typeof Colors.dark | `${keyof typeof Colors.dark}/${number}`,
+	`${keyof typeof Colors.dark}/${number}` | keyof typeof Colors.dark,
 	string
 >
 
@@ -54,32 +54,32 @@ export const typescale = Object.fromEntries(
 )
 
 export const transitions = {
-	spatial: {
-		fast: {
-			transitionTimingFunction: "cubic-bezier(0.42, 1.67, 0.21, 0.9)",
-			transitionDuration: "350ms",
-		},
+	effects: {
 		DEFAULT: {
-			transitionTimingFunction: "cubic-bezier(0.38, 1.21, 0.22, 1.00)",
-			transitionDuration: "500ms",
+			transitionDuration: "200ms",
+			transitionTimingFunction: "cubic-bezier(0.34, 0.80, 0.34, 1.00)",
+		},
+		fast: {
+			transitionDuration: "150ms",
+			transitionTimingFunction: "cubic-bezier(0.31, 0.94, 0.34, 1.00)",
 		},
 		slow: {
-			transitionTimingFunction: "cubic-bezier(0.39, 1.29, 0.35, 0.98)",
-			transitionDuration: "650ms",
+			transitionDuration: "300ms",
+			transitionTimingFunction: "cubic-bezier(0.34, 0.88, 0.34, 1.00)",
 		},
 	},
-	effects: {
-		fast: {
-			transitionTimingFunction: "cubic-bezier(0.31, 0.94, 0.34, 1.00)",
-			transitionDuration: "150ms",
-		},
+	spatial: {
 		DEFAULT: {
-			transitionTimingFunction: "cubic-bezier(0.34, 0.80, 0.34, 1.00)",
-			transitionDuration: "200ms",
+			transitionDuration: "500ms",
+			transitionTimingFunction: "cubic-bezier(0.38, 1.21, 0.22, 1.00)",
+		},
+		fast: {
+			transitionDuration: "350ms",
+			transitionTimingFunction: "cubic-bezier(0.42, 1.67, 0.21, 0.9)",
 		},
 		slow: {
-			transitionTimingFunction: "cubic-bezier(0.34, 0.88, 0.34, 1.00)",
-			transitionDuration: "300ms",
+			transitionDuration: "650ms",
+			transitionTimingFunction: "cubic-bezier(0.39, 1.29, 0.35, 0.98)",
 		},
 	},
 } as const satisfies Record<string, Record<string, RawStyles>>

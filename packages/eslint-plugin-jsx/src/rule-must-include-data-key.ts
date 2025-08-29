@@ -9,17 +9,6 @@ import type {
 } from "@typescript-eslint/utils/ts-eslint"
 
 export const rule: RuleModule<string> = {
-	meta: {
-		type: "suggestion",
-		docs: { description: "" },
-		schema: [],
-		messages: {
-			"data-key-must-match-key":
-				"JSX element with 'key' prop must also have a matching 'data-key' prop.",
-		},
-		fixable: "code",
-	},
-	defaultOptions: [],
 	create(context: RuleContext<string, []>) {
 		return {
 			JSXOpeningElement(node: TSESTree.JSXOpeningElement) {
@@ -57,8 +46,6 @@ export const rule: RuleModule<string> = {
 
 				if (!dataKey || !isEqual(context, key, dataKey)) {
 					context.report({
-						node: key,
-						messageId: "data-key-must-match-key",
 						data: {},
 						fix(fixer) {
 							const fixes = []
@@ -76,11 +63,28 @@ export const rule: RuleModule<string> = {
 								),
 							]
 						},
+						messageId: "data-key-must-match-key",
+						node: key,
 					})
 				}
 			},
 		}
 	},
+	defaultOptions: [],
+	meta: {
+		docs: { description: "" },
+		fixable: "code",
+		messages: {
+			"data-key-must-match-key":
+				"JSX element with 'key' prop must also have a matching 'data-key' prop.",
+		},
+		schema: [],
+		type: "suggestion",
+	},
+}
+
+function getStaticValue(node: TSESTree.Node, context: RuleContext<string, []>) {
+	return ASTUtils.getStaticValue(node, context.sourceCode.getScope(node))
 }
 
 function isEqual(
@@ -149,10 +153,6 @@ function stableStringify(
 			)
 		)
 	})
-}
-
-function getStaticValue(node: TSESTree.Node, context: RuleContext<string, []>) {
-	return ASTUtils.getStaticValue(node, context.sourceCode.getScope(node))
 }
 
 declare global {

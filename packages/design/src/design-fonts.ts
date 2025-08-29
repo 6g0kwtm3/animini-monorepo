@@ -1,44 +1,44 @@
 import { numberToString } from "utilities"
 
 const tokens = {
+	"body-lg": { fontSize: 16, fontWeight: 400, lineHeight: 24, tracking: 0.5 },
+	"body-md": { fontSize: 14, fontWeight: 400, lineHeight: 20, tracking: 0.25 },
+	"body-sm": { fontSize: 12, fontWeight: 400, lineHeight: 16, tracking: 0.4 },
 	"display-lg": {
-		fontWeight: 400,
 		fontSize: 57,
-		tracking: -0.25,
+		fontWeight: 400,
 		lineHeight: 64,
+		tracking: -0.25,
 	},
-	"display-md": { fontWeight: 400, fontSize: 45, tracking: 0, lineHeight: 52 },
-	"display-sm": { fontWeight: 400, fontSize: 36, tracking: 0, lineHeight: 44 },
-	"headline-lg": { fontWeight: 400, fontSize: 32, tracking: 0, lineHeight: 40 },
-	"headline-md": { fontWeight: 400, fontSize: 28, tracking: 0, lineHeight: 36 },
-	"headline-sm": { fontWeight: 400, fontSize: 24, tracking: 0, lineHeight: 32 },
-	"title-lg": { fontWeight: 400, fontSize: 22, tracking: 0, lineHeight: 28 },
-	"title-md": { fontWeight: 500, fontSize: 16, tracking: 0.15, lineHeight: 24 },
-	"title-sm": { fontWeight: 500, fontSize: 14, tracking: 0.1, lineHeight: 20 },
-	"body-lg": { fontWeight: 400, fontSize: 16, tracking: 0.5, lineHeight: 24 },
-	"body-md": { fontWeight: 400, fontSize: 14, tracking: 0.25, lineHeight: 20 },
-	"body-sm": { fontWeight: 400, fontSize: 12, tracking: 0.4, lineHeight: 16 },
-	"label-lg": { fontWeight: 500, fontSize: 14, tracking: 0.1, lineHeight: 20 },
-	"label-md": { fontWeight: 500, fontSize: 12, tracking: 0.5, lineHeight: 16 },
-	"label-sm": { fontWeight: 500, fontSize: 11, tracking: 0.5, lineHeight: 16 },
+	"display-md": { fontSize: 45, fontWeight: 400, lineHeight: 52, tracking: 0 },
+	"display-sm": { fontSize: 36, fontWeight: 400, lineHeight: 44, tracking: 0 },
+	"headline-lg": { fontSize: 32, fontWeight: 400, lineHeight: 40, tracking: 0 },
+	"headline-md": { fontSize: 28, fontWeight: 400, lineHeight: 36, tracking: 0 },
+	"headline-sm": { fontSize: 24, fontWeight: 400, lineHeight: 32, tracking: 0 },
+	"label-lg": { fontSize: 14, fontWeight: 500, lineHeight: 20, tracking: 0.1 },
+	"label-md": { fontSize: 12, fontWeight: 500, lineHeight: 16, tracking: 0.5 },
+	"label-sm": { fontSize: 11, fontWeight: 500, lineHeight: 16, tracking: 0.5 },
+	"title-lg": { fontSize: 22, fontWeight: 400, lineHeight: 28, tracking: 0 },
+	"title-md": { fontSize: 16, fontWeight: 500, lineHeight: 24, tracking: 0.15 },
+	"title-sm": { fontSize: 14, fontWeight: 500, lineHeight: 20, tracking: 0.1 },
 } as const satisfies Record<string, Token>
 
 interface Token {
-	fontWeight: number
 	/* px */
 	fontSize: number
-	/* px */
-	tracking: number
+	fontWeight: number
 	/* px */
 	lineHeight: number
+	/* px */
+	tracking: number
 }
 
 export default tokens
 
-export function pxToRem(px: number) {
-	return `${numberToString(px / 16)}rem`
+export function letterSpacing(token: Pick<Token, "fontSize" | "tracking">) {
+	return `${numberToString(token.tracking / token.fontSize)}rem`
 }
 
-export function letterSpacing(token: Pick<Token, "tracking" | "fontSize">) {
-	return `${numberToString(token.tracking / token.fontSize)}rem`
+export function pxToRem(px: number) {
+	return `${numberToString(px / 16)}rem`
 }

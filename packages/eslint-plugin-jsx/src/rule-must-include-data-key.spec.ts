@@ -5,13 +5,13 @@ import { expect, test } from "vitest"
 import { rule } from "./rule-must-include-data-key"
 
 void describe("rule-must-include-data-key", () => {
-	const { valid, invalid } = createRuleTester({
-		rule,
+	const { invalid, valid } = createRuleTester({
 		languageOptions: {
 			ecmaVersion: 6,
 			parser: typescriptParser,
 			parserOptions: { ecmaFeatures: { jsx: true } },
 		},
+		rule,
 	})
 
 	test("allows equal key and data-key", async () => {
