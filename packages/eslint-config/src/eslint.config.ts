@@ -2,7 +2,6 @@
 /// <reference path="./eslint-typegen.d.ts" />
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
-import perfectionist from "eslint-plugin-perfectionist"
 import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
@@ -24,8 +23,21 @@ export default await typegen([
 	turbo.configs["flat/recommended"],
 	eslint.configs.recommended,
 	{
-		plugins: { perfectionist },
-		rules: { "perfectionist/sort-array-includes": "error" },
+		rules: {
+			"perfectionist/sort-exports": "off",
+			"perfectionist/sort-imports": "off",
+			"perfectionist/sort-interfaces": "off",
+			"perfectionist/sort-intersection-types": "off",
+			"perfectionist/sort-jsx-props": "off",
+			"perfectionist/sort-modules": "off",
+			"perfectionist/sort-named-exports": "off",
+			"perfectionist/sort-named-imports": "off",
+			"perfectionist/sort-object-types": "off",
+			"perfectionist/sort-objects": "off",
+			"perfectionist/sort-switch-case": "off",
+			"perfectionist/sort-union-types": "off",
+			"perfectionist/sort-variable-declarations": "off",
+		},
 	},
 	...[
 		...tseslint.configs.strictTypeChecked,

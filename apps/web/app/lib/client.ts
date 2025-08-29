@@ -1,9 +1,9 @@
 import { fetchQuery, mutation } from "./Network"
 
 class Client {
-	query = fetchQuery
-
 	mutation = mutation
+
+	query = fetchQuery
 }
 
 export function client_get_client(): Client {

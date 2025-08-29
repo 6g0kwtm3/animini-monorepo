@@ -2,11 +2,11 @@ import type { Locator, Page } from "@playwright/test"
 import { expect } from "@playwright/test"
 
 export class LoginPage {
-	token: Locator
-
-	nav: Nav
-	main: Locator
 	login: Locator
+
+	main: Locator
+	nav: Nav
+	token: Locator
 	private constructor(page: Page) {
 		this.nav = new Nav(page)
 		this.main = page.getByRole("main")
@@ -21,20 +21,15 @@ export class LoginPage {
 }
 
 export class Nav {
-	login: Locator
-	profile: Locator
 	animeList: Locator
-	mangaList: Locator
-	feed: Locator
 	explore: Locator
+	feed: Locator
+	login: Locator
+	mangaList: Locator
 	notifications: Locator
+	profile: Locator
 
-	public async gotoLogin(): Promise<LoginPage> {
-		await this.login.click()
-		return LoginPage.new(this.page)
-	}
 	private page: Page
-
 	constructor(page: Page) {
 		this.page = page
 		const nav = page.getByRole("navigation")
@@ -45,5 +40,10 @@ export class Nav {
 		this.feed = nav.getByRole("link", { name: "Feed" })
 		this.explore = nav.getByRole("link", { name: "Explore" })
 		this.notifications = nav.getByRole("link", { name: "Notifications" })
+	}
+
+	public async gotoLogin(): Promise<LoginPage> {
+		await this.login.click()
+		return LoginPage.new(this.page)
 	}
 }
