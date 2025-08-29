@@ -5,9 +5,9 @@ import { expect, test } from "vitest"
 import { rule } from "./rule-must-colocate-fragment-spreads"
 
 void describe("rule-must-colocate-fragment-spreads", () => {
-	const { valid, invalid } = createRuleTester({
-		rule,
+	const { invalid, valid } = createRuleTester({
 		languageOptions: { ecmaVersion: 6, parser: typescriptParser },
+		rule,
 	})
 
 	test("allows fragment spread when component is imported", async () => {

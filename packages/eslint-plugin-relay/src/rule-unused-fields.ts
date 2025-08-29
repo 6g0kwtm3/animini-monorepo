@@ -50,32 +50,31 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 	return fieldNames
 }
 
-function isStringNode(
-	node: ESTree.Expression | ESTree.SpreadElement | null | undefined
-): node is ESTree.SimpleLiteral {
-	return node != null && node.type === "Literal"
-}
-
 function isPageInfoField(field: string) {
 	switch (field) {
-		case "pageInfo":
-		case "page_info":
-		case "hasNextPage":
-		case "has_next_page":
-		case "hasPreviousPage":
-		case "has_previous_page":
-		case "startCursor":
-		case "start_cursor":
-		case "endCursor":
 		case "end_cursor":
+		case "endCursor":
+		case "has_next_page":
+		case "has_previous_page":
+		case "hasNextPage":
+		case "hasPreviousPage":
+		case "page_info":
+		case "pageInfo":
+		case "start_cursor":
+		case "startCursor":
 			return true
 		default:
 			return false
 	}
 }
 
+function isStringNode(
+	node: ESTree.Expression | ESTree.SpreadElement | null | undefined
+): node is ESTree.SimpleLiteral {
+	return node != null && node.type === "Literal"
+}
+
 export const rule: Rule.RuleModule = {
-	meta: { type: "problem", docs: {}, schema: [] },
 	create(context) {
 		let currentMethod: string[] = []
 		let foundMemberAccesses = new Set<string>()
@@ -113,6 +112,40 @@ export const rule: Rule.RuleModule = {
 		}
 
 		return {
+			CallExpression(node) {
+				if (node.callee.type !== "Identifier") {
+					return
+				}
+				switch (node.callee.name) {
+					case "dotAccess":
+						visitDotAccessCall(node)
+						break
+					case "getByPath":
+						visitGetByPathCall(node)
+						break
+				}
+			},
+			MemberExpression: visitMemberExpression,
+			MethodDefinition(node) {
+				if ("name" in node.key) {
+					currentMethod.push(node.key.name)
+				}
+			},
+			"MethodDefinition:exit"(_node) {
+				currentMethod.pop()
+			},
+			ObjectPattern(node) {
+				node.properties.forEach((node) => {
+					if (
+						node.type === "Property"
+						&& !node.computed
+						&& "name" in node.key
+					) {
+						foundMemberAccesses.add(node.key.name)
+					}
+				})
+			},
+			OptionalMemberExpression: visitMemberExpression,
 			Program(_node) {
 				currentMethod = []
 				foundMemberAccesses = new Set<string>()
@@ -138,29 +171,16 @@ export const rule: Rule.RuleModule = {
 							&& field !== "id"
 						) {
 							context.report({
-								node: templateLiteral,
-								loc: getLoc(context, templateLiteral, queriedFields[field]),
 								data: { field },
+								loc: getLoc(context, templateLiteral, queriedFields[field]),
 								message:
 									`This queries for the field \`{{ field }}\` but this file does `
 									+ "not seem to use it directly.",
+								node: templateLiteral,
 							})
 						}
 					}
 				})
-			},
-			CallExpression(node) {
-				if (node.callee.type !== "Identifier") {
-					return
-				}
-				switch (node.callee.name) {
-					case "getByPath":
-						visitGetByPathCall(node)
-						break
-					case "dotAccess":
-						visitDotAccessCall(node)
-						break
-				}
 			},
 			TaggedTemplateExpression(node) {
 				if (currentMethod.at(-1) === "getConfigs") {
@@ -170,27 +190,7 @@ export const rule: Rule.RuleModule = {
 					templateLiterals.push(node)
 				}
 			},
-			MemberExpression: visitMemberExpression,
-			OptionalMemberExpression: visitMemberExpression,
-			ObjectPattern(node) {
-				node.properties.forEach((node) => {
-					if (
-						node.type === "Property"
-						&& !node.computed
-						&& "name" in node.key
-					) {
-						foundMemberAccesses.add(node.key.name)
-					}
-				})
-			},
-			MethodDefinition(node) {
-				if ("name" in node.key) {
-					currentMethod.push(node.key.name)
-				}
-			},
-			"MethodDefinition:exit"(_node) {
-				currentMethod.pop()
-			},
 		}
 	},
+	meta: { docs: {}, schema: [], type: "problem" },
 }

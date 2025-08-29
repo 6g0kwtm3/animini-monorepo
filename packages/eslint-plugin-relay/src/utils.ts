@@ -3,30 +3,32 @@ import type * as ESTree from "estree"
 import { parse, TokenKind, type ASTNode, type NameNode } from "graphql"
 import path from "path"
 
-export function hasPrecedingEslintDisableComment(
-	node: ASTNode,
-	commentText: string
-) {
-	const prevNode = node.loc?.startToken.prev
-	return (
-		prevNode?.kind === TokenKind.COMMENT
-		&& prevNode.value.startsWith(commentText)
-	)
+export interface GraphqlTemplateExpression
+	extends ESTree.TaggedTemplateExpression {
+	quasi: GraphqlTemplateLiteral
+	tag: GraphqlIdentifier
 }
 
-/**
- * Returns a range object for auto fixers.
- */
-function getRange(
-	context: Rule.RuleContext,
-	templateNode: GraphqlTemplateExpression,
-	graphQLNode: ASTNode
-): [number, number] {
-	const graphQLStart = templateNode.quasi.quasis[0].range![0] + 1
-	return [
-		graphQLStart + graphQLNode.loc!.start,
-		graphQLStart + graphQLNode.loc!.end,
-	]
+interface GraphqlIdentifier extends ESTree.Identifier {
+	name: "graphql"
+}
+
+interface GraphqlTemplateLiteral extends ESTree.TemplateLiteral {
+	quasis: [ESTree.TemplateElement]
+}
+
+export function getGraphQLAST(
+	taggedTemplateExpression: GraphqlTemplateExpression
+) {
+	const quasi = taggedTemplateExpression.quasi.quasis[0]
+	try {
+		if (typeof quasi.value.cooked === "string") {
+			return parse(quasi.value.cooked)
+		}
+	} catch {
+		// Invalid syntax, covered by graphql-syntax rule
+	}
+	return null
 }
 
 /**
@@ -41,33 +43,9 @@ export function getLoc(
 	const start = startAndEnd[0]
 	const end = startAndEnd[1]
 	return {
-		start: context.sourceCode.getLocFromIndex(start),
 		end: context.sourceCode.getLocFromIndex(end),
+		start: context.sourceCode.getLocFromIndex(start),
 	}
-}
-
-interface GraphqlIdentifier extends ESTree.Identifier {
-	name: "graphql"
-}
-
-interface GraphqlTemplateLiteral extends ESTree.TemplateLiteral {
-	quasis: [ESTree.TemplateElement]
-}
-
-export interface GraphqlTemplateExpression
-	extends ESTree.TaggedTemplateExpression {
-	tag: GraphqlIdentifier
-	quasi: GraphqlTemplateLiteral
-}
-
-export function isGraphQLTemplate(
-	node: ESTree.TaggedTemplateExpression
-): node is GraphqlTemplateExpression {
-	return (
-		node.tag.type === "Identifier"
-		&& node.tag.name === "graphql"
-		&& node.quasi.quasis.length === 1
-	)
 }
 
 // Copied directly from Relay
@@ -93,16 +71,38 @@ export function getModuleName(filePath: string) {
 	return moduleName
 }
 
-export function getGraphQLAST(
-	taggedTemplateExpression: GraphqlTemplateExpression
+export function hasPrecedingEslintDisableComment(
+	node: ASTNode,
+	commentText: string
 ) {
-	const quasi = taggedTemplateExpression.quasi.quasis[0]
-	try {
-		if (typeof quasi.value.cooked === "string") {
-			return parse(quasi.value.cooked)
-		}
-	} catch {
-		// Invalid syntax, covered by graphql-syntax rule
-	}
-	return null
+	const prevNode = node.loc?.startToken.prev
+	return (
+		prevNode?.kind === TokenKind.COMMENT
+		&& prevNode.value.startsWith(commentText)
+	)
+}
+
+export function isGraphQLTemplate(
+	node: ESTree.TaggedTemplateExpression
+): node is GraphqlTemplateExpression {
+	return (
+		node.tag.type === "Identifier"
+		&& node.tag.name === "graphql"
+		&& node.quasi.quasis.length === 1
+	)
+}
+
+/**
+ * Returns a range object for auto fixers.
+ */
+function getRange(
+	context: Rule.RuleContext,
+	templateNode: GraphqlTemplateExpression,
+	graphQLNode: ASTNode
+): [number, number] {
+	const graphQLStart = templateNode.quasi.quasis[0].range![0] + 1
+	return [
+		graphQLStart + graphQLNode.loc!.start,
+		graphQLStart + graphQLNode.loc!.end,
+	]
 }

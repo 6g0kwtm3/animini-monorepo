@@ -78,8 +78,17 @@ import {
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads"
 
-function isReadonlyArray(value: unknown): value is readonly unknown[] {
-	return Array.isArray(value)
+function getGraphQLFragmentDefinitionName(
+	graphQLAst: DocumentNode
+): null | string {
+	let name: null | string = null
+	visit(graphQLAst, {
+		FragmentDefinition(node) {
+			name = node.name.value
+			return BREAK
+		},
+	})
+	return name
 }
 
 function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
@@ -123,65 +132,31 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 	return fragmentSpreads
 }
 
-function getGraphQLFragmentDefinitionName(
-	graphQLAst: DocumentNode
-): string | null {
-	let name: string | null = null
-	visit(graphQLAst, {
-		FragmentDefinition(node) {
-			name = node.name.value
-			return BREAK
-		},
-	})
-	return name
+function isReadonlyArray(value: unknown): value is readonly unknown[] {
+	return Array.isArray(value)
 }
 
 export const rule: Rule.RuleModule = {
-	meta: {
-		docs: {},
-		schema: [],
-		messages: {
-			"must-colocate-fragment-spreads":
-				`This spreads the fragment \`{{ fragment }}\` but `
-				+ "this module does not use it directly.",
-		},
-	},
 	create(context) {
 		const foundImportedModules: string[] = []
 		const graphqlLiterals: {
-			node: GraphqlTemplateExpression
 			graphQLAst: DocumentNode
+			node: GraphqlTemplateExpression
 		}[] = []
 
 		return {
-			"Program:exit"(_node) {
-				const fragmentsInTheSameModule = new Set<string>()
-				graphqlLiterals.forEach(({ graphQLAst }) => {
-					const fragmentName = getGraphQLFragmentDefinitionName(graphQLAst)
-					if (fragmentName) {
-						fragmentsInTheSameModule.add(fragmentName)
-					}
-				})
-				graphqlLiterals.forEach(({ node, graphQLAst }) => {
-					const queriedFragments = getGraphQLFragmentSpreads(graphQLAst)
-					for (const fragment in queriedFragments) {
-						const matchedModuleName = foundImportedModules.find((name) =>
-							fragment.startsWith(name)
-						)
-						if (
-							queriedFragments[fragment]
-							&& !matchedModuleName
-							&& !fragmentsInTheSameModule.has(fragment)
-						) {
-							context.report({
-								node,
-								messageId: "must-colocate-fragment-spreads",
-								loc: getLoc(context, node, queriedFragments[fragment]),
-								data: { fragment },
-							})
-						}
-					}
-				})
+			CallExpression(node) {
+				if ("name" in node.callee && node.callee.name !== "require") {
+					return
+				}
+				const [source] = node.arguments
+				if (
+					source
+					&& source.type === "Literal"
+					&& typeof source.value === "string"
+				) {
+					foundImportedModules.push(getModuleName(source.value))
+				}
 			},
 
 			ImportDeclaration(node) {
@@ -205,18 +180,34 @@ export const rule: Rule.RuleModule = {
 				}
 			},
 
-			CallExpression(node) {
-				if ("name" in node.callee && node.callee.name !== "require") {
-					return
-				}
-				const [source] = node.arguments
-				if (
-					source
-					&& source.type === "Literal"
-					&& typeof source.value === "string"
-				) {
-					foundImportedModules.push(getModuleName(source.value))
-				}
+			"Program:exit"(_node) {
+				const fragmentsInTheSameModule = new Set<string>()
+				graphqlLiterals.forEach(({ graphQLAst }) => {
+					const fragmentName = getGraphQLFragmentDefinitionName(graphQLAst)
+					if (fragmentName) {
+						fragmentsInTheSameModule.add(fragmentName)
+					}
+				})
+				graphqlLiterals.forEach(({ graphQLAst, node }) => {
+					const queriedFragments = getGraphQLFragmentSpreads(graphQLAst)
+					for (const fragment in queriedFragments) {
+						const matchedModuleName = foundImportedModules.find((name) =>
+							fragment.startsWith(name)
+						)
+						if (
+							queriedFragments[fragment]
+							&& !matchedModuleName
+							&& !fragmentsInTheSameModule.has(fragment)
+						) {
+							context.report({
+								data: { fragment },
+								loc: getLoc(context, node, queriedFragments[fragment]),
+								messageId: "must-colocate-fragment-spreads",
+								node,
+							})
+						}
+					}
+				})
 			},
 
 			TaggedTemplateExpression(node) {
@@ -226,9 +217,18 @@ export const rule: Rule.RuleModule = {
 						// ignore nodes with syntax errors, they're handled by rule-graphql-syntax
 						return
 					}
-					graphqlLiterals.push({ node, graphQLAst })
+					graphqlLiterals.push({ graphQLAst, node })
 				}
 			},
 		}
+	},
+	meta: {
+		docs: {},
+		messages: {
+			"must-colocate-fragment-spreads":
+				`This spreads the fragment \`{{ fragment }}\` but `
+				+ "this module does not use it directly.",
+		},
+		schema: [],
 	},
 }
