@@ -1,9 +1,4 @@
 {
-  "eslint.config.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    }
-  },
   "src/design-colors.ts": {
     "perfectionist/sort-objects": {
       "count": 33
@@ -29,9 +24,6 @@
     }
   },
   "src/design-tokens.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    },
     "perfectionist/sort-objects": {
       "count": 13
     },
@@ -40,15 +32,6 @@
     }
   },
   "src/design.ts": {
-    "perfectionist/sort-exports": {
-      "count": 1
-    },
-    "perfectionist/sort-imports": {
-      "count": 1
-    },
-    "perfectionist/sort-named-imports": {
-      "count": 1
-    },
     "perfectionist/sort-objects": {
       "count": 12
     }

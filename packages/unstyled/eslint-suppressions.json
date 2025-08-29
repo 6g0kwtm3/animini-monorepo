@@ -1,21 +1,10 @@
 {
-  "src/unstyled-cva.bench.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    }
-  },
   "src/unstyled-cva.spec.ts": {
-    "perfectionist/sort-imports": {
-      "count": 3
-    },
     "perfectionist/sort-objects": {
       "count": 47
     }
   },
   "src/unstyled-cva.ts": {
-    "perfectionist/sort-imports": {
-      "count": 2
-    },
     "perfectionist/sort-modules": {
       "count": 1
     },
@@ -30,19 +19,8 @@
     }
   },
   "src/unstyled-print.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    },
     "perfectionist/sort-union-types": {
       "count": 1
-    }
-  },
-  "src/unstyled-use-styles.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    },
-    "perfectionist/sort-named-imports": {
-      "count": 2
     }
   },
   "src/unstyled-value.ts": {
@@ -51,11 +29,6 @@
     },
     "perfectionist/sort-union-types": {
       "count": 5
-    }
-  },
-  "vitest.config.js": {
-    "perfectionist/sort-imports": {
-      "count": 1
     }
   }
 }

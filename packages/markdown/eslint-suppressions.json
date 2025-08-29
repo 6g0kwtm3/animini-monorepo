@@ -5,9 +5,6 @@
     }
   },
   "src/markdown.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 4
-    },
     "perfectionist/sort-modules": {
       "count": 1
     },

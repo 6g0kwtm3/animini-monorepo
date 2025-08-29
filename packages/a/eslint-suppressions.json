@@ -1,7 +1,2 @@
 {
-  "src/index.tsx": {
-    "perfectionist/sort-named-imports": {
-      "count": 1
-    }
-  }
 }

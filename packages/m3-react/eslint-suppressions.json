@@ -1,22 +1,7 @@
 {
-  "src/m3-react-button.bench.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    }
-  },
-  "src/m3-react-button.spec.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    }
-  },
   "src/m3-react-button.tsx": {
     "perfectionist/sort-objects": {
       "count": 34
-    }
-  },
-  "vitest.config.js": {
-    "perfectionist/sort-imports": {
-      "count": 1
     }
   }
 }

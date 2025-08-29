@@ -1,8 +1,5 @@
 {
   ".storybook/main.ts": {
-    "perfectionist/sort-imports": {
-      "count": 1
-    },
     "perfectionist/sort-objects": {
       "count": 2
     }
@@ -13,9 +10,6 @@
     }
   },
   ".storybook/preview.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 4
-    },
     "perfectionist/sort-objects": {
       "count": 1
     }
@@ -26,9 +20,6 @@
     }
   },
   "stories/Button.stories.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 4
-    },
     "perfectionist/sort-interfaces": {
       "count": 2
     },
@@ -43,13 +34,7 @@
     }
   },
   "stories/Button.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 2
-    },
     "perfectionist/sort-jsx-props": {
-      "count": 1
-    },
-    "perfectionist/sort-named-imports": {
       "count": 1
     },
     "perfectionist/sort-objects": {
@@ -65,9 +50,6 @@
     }
   },
   "stories/Header.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 2
-    },
     "perfectionist/sort-jsx-props": {
       "count": 7
     },
@@ -82,20 +64,11 @@
     }
   },
   "stories/Markdown.stories.tsx": {
-    "perfectionist/sort-imports": {
-      "count": 2
-    },
-    "perfectionist/sort-named-imports": {
-      "count": 1
-    },
     "perfectionist/sort-objects": {
       "count": 1
     }
   },
   "stories/Page.stories.ts": {
-    "perfectionist/sort-imports": {
-      "count": 2
-    },
     "perfectionist/sort-objects": {
       "count": 1
     }
