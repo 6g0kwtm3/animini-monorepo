@@ -13,7 +13,9 @@
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "catalog:"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"eslint-plugin-perfectionist": "catalog:"
+	},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",
