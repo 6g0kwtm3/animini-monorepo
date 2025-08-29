@@ -34,7 +34,6 @@ export default await typegen([
 			"perfectionist/sort-modules": "off",
 			"perfectionist/sort-named-exports": "off",
 			"perfectionist/sort-named-imports": "off",
-			"perfectionist/sort-object-types": "off",
 			"perfectionist/sort-objects": "off",
 		},
 	},

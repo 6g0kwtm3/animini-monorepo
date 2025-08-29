@@ -2,8 +2,8 @@ import { use, type ReactNode } from "react"
 import { ExtraOutletContext, useExtraOutlet } from "./useExtraOutlet"
 
 export function ExtraOutlet(props: {
-	id: string
 	context?: unknown
+	id: string
 }): ReactNode {
 	return useExtraOutlet(props.id, props.context)
 }

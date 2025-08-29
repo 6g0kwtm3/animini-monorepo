@@ -149,8 +149,8 @@ export const rule: Rule.RuleModule = {
 	create(context) {
 		const foundImportedModules: string[] = []
 		const graphqlLiterals: {
-			node: GraphqlTemplateExpression
 			graphQLAst: DocumentNode
+			node: GraphqlTemplateExpression
 		}[] = []
 
 		return {

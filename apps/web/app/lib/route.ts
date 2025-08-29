@@ -39,16 +39,16 @@ export function route_user({
 }
 
 export function route_user_list(params: {
-	userName: string
 	typelist: "animelist" | "mangalist"
+	userName: string
 }): `/user/${string}/animelist` | `/user/${string}/mangalist` {
 	return `${route_user(params)}/${params.typelist}` satisfies Route
 }
 
 function route_user_list_selected(params: {
-	userName: string
-	typelist: "animelist" | "mangalist"
 	selected: string
+	typelist: "animelist" | "mangalist"
+	userName: string
 }):
 	| `/user/${string}/animelist/${string}`
 	| `/user/${string}/mangalist/${string}` {

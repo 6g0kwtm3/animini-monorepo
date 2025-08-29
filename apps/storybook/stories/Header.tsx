@@ -11,10 +11,10 @@ export const Header = ({
 	onLogout,
 	onCreateAccount,
 }: {
-	user: undefined | { name: string }
+	onCreateAccount: () => void
 	onLogin: () => void
 	onLogout: () => void
-	onCreateAccount: () => void
+	user: undefined | { name: string }
 }) => (
 	<header>
 		<div className="storybook-header">
