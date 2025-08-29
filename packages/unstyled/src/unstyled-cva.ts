@@ -21,11 +21,11 @@ export function defineCva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(cva: {
 	base: RawStyles
-	variants: Variants
-	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
 	compoundVariants: ({
 		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
 	} & { css: RawStyles })[]
+	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
+	variants: Variants
 }) {
 	return cva
 }
@@ -38,9 +38,9 @@ export function cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(cva: {
 	base: RawStyles
-	variants: Variants
-	defaultVariants?: { [K in keyof Variants]?: keyof Variants[K] }
 	compoundVariants?: CompoundVariant<Variants>[]
+	defaultVariants?: { [K in keyof Variants]?: keyof Variants[K] }
+	variants: Variants
 }): PreCompiledStyles {
 	const { base, variants, defaultVariants = {}, compoundVariants = [] } = cva
 

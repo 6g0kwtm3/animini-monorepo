@@ -4,8 +4,8 @@ import { isString } from "./Predicate"
 import { JsonToToken } from "./viewer"
 
 export function Viewer(): null | {
-	readonly name: string
 	readonly id: number
+	readonly name: string
 } {
 	const cookies = cookie.parse(document.cookie)
 

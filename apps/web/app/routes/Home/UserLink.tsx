@@ -35,7 +35,7 @@ import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
 const { graphql } = ReactRelay
 
-export function UserLink(props: { userName: string; children: ReactNode }) {
+export function UserLink(props: { children: ReactNode; userName: string }) {
 	return (
 		<TooltipRich placement="top">
 			<TooltipRichTrigger

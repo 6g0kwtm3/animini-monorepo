@@ -35,8 +35,8 @@ import { numberToString } from "~/lib/numberToString"
 // ))
 
 export const Rating = (props: {
-	defaultValue: number
 	children: ReactNode[]
+	defaultValue: number
 	name: string
 }): ReactNode => {
 	return (

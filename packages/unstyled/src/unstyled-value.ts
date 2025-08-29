@@ -1,6 +1,6 @@
 export type Value<T extends number | string = number | string> =
 	| T
-	| { base?: T; [key: string]: undefined | Value<T> }
+	| { [key: string]: undefined | Value<T>; base?: T }
 
 export function mapValue<A extends number | string, B extends number | string>(
 	value: Value<A>,
