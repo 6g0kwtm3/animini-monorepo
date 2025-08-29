@@ -8,14 +8,13 @@
 		"@eslint/js": "catalog:",
 		"eslint": "catalog:",
 		"eslint-plugin-oxlint": "catalog:",
+		"eslint-plugin-perfectionist": "catalog:",
 		"eslint-plugin-turbo": "catalog:",
 		"eslint-typegen": "catalog:",
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "catalog:"
 	},
-	"devDependencies": {
-		"eslint-plugin-perfectionist": "catalog:"
-	},
+	"devDependencies": {},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",
