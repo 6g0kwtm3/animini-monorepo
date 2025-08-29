@@ -19,7 +19,6 @@ describe("button", () => {
 			  font-weight: var(--size-xs, 500) var(--size-sm, 500) var(--size-md, 500) var(--size-lg, 400) var(--size-xl, 400);
 			  letter-spacing: var(--size-xs, 0.0071428571428571435rem) var(--size-sm, 0.0071428571428571435rem) var(--size-md, 0.009375rem) var(--size-lg, 0rem) var(--size-xl, 0rem);
 			  line-height: var(--size-xs, 1.4285714285714286) var(--size-sm, 1.4285714285714286) var(--size-md, 1.5) var(--size-lg, 1.3333333333333333) var(--size-xl, 1.25);
-			  background-image: linear-gradient(color-mix(in oklab, currentColor, transparent var(--state)), color-mix(in oklab, currentColor, transparent var(--state)));
 			  &:disabled, &[aria-disabled="true"] {
 			    --state: 100%;
 			  }
@@ -35,11 +34,12 @@ describe("button", () => {
 			  &:hover {
 			    --state: 92%;
 			  }
+			  background-image: linear-gradient(color-mix(in oklab, currentColor, transparent var(--state)), color-mix(in oklab, currentColor, transparent var(--state)));
 			  @media (prefers-reduced-motion: no-preference) {
 			    transition-property: border-radius;
 			  }
-			  transition-timing-function: cubic-bezier(0.42, 1.67, 0.21, 0.9);
 			  transition-duration: 350ms;
+			  transition-timing-function: cubic-bezier(0.42, 1.67, 0.21, 0.9);
 			  --color: var(--color-filled);
 			  --size: var(--size-sm);
 			  --shape: var(--shape-round);
