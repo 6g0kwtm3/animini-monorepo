@@ -9,7 +9,7 @@ const { graphql } = ReactRelay
  * @rootFragment userProfileThemeResolver_userOptions*/
 export function profileTheme(
 	key: userProfileThemeResolver_userOptions$key
-): Theme | null {
+): null | Theme {
 	const options = readFragment(
 		graphql`
 			fragment userProfileThemeResolver_userOptions on UserOptions {

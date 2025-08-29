@@ -32,7 +32,7 @@ export function ChipFilter(
 }
 
 export function ChipFilterCheckbox(
-	props: Omit<Ariakit.CheckboxProps, "id" | "onFocusVisible" | "onBlur">
+	props: Omit<Ariakit.CheckboxProps, "id" | "onBlur" | "onFocusVisible">
 ): ReactNode {
 	const setFocusVisible = use(FocusContext)
 	const id = use(LabelId)
@@ -57,7 +57,7 @@ export function ChipFilterCheckbox(
 }
 
 export function ChipFilterRadio(
-	props: Omit<Ariakit.RadioProps, "id" | "onFocusVisible" | "onBlur">
+	props: Omit<Ariakit.RadioProps, "id" | "onBlur" | "onFocusVisible">
 ): ReactNode {
 	const setFocusVisible = use(FocusContext)
 	const id = use(LabelId)

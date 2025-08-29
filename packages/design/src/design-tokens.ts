@@ -27,7 +27,7 @@ export const colors = new Proxy(
 		},
 	}
 ) as unknown as Record<
-	keyof typeof Colors.dark | `${keyof typeof Colors.dark}/${number}`,
+	`${keyof typeof Colors.dark}/${number}` | keyof typeof Colors.dark,
 	string
 >
 

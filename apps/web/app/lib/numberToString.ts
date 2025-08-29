@@ -4,6 +4,6 @@ export function numberToString(n: number): string {
 
 export function emptyStringToUndefined<T>(
 	s: string | T
-): undefined | string | T {
+): string | T | undefined {
 	return s === "" ? undefined : s
 }

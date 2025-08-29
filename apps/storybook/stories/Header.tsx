@@ -11,7 +11,7 @@ export const Header = ({
 	onLogout,
 	onCreateAccount,
 }: {
-	user: { name: string } | undefined
+	user: undefined | { name: string }
 	onLogin: () => void
 	onLogout: () => void
 	onCreateAccount: () => void

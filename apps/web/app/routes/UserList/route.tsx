@@ -445,7 +445,7 @@ function SheetFilter() {
 
 export type ReadonlyURLSearchParams = Omit<
 	URLSearchParams,
-	"set" | "append" | "delete" | "sort"
+	"append" | "delete" | "set" | "sort"
 >
 
 const ANIME_STATUS_OPTIONS = {

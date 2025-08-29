@@ -125,8 +125,8 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 
 function getGraphQLFragmentDefinitionName(
 	graphQLAst: DocumentNode
-): string | null {
-	let name: string | null = null
+): null | string {
+	let name: null | string = null
 	visit(graphQLAst, {
 		FragmentDefinition(node) {
 			name = node.name.value

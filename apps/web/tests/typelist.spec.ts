@@ -16,9 +16,6 @@ import { TypelistPage } from "./pages/TypelistPage"
 class UserPage {
 	animeList: Locator
 	mangaList: Locator
-	static new(page: Page) {
-		return new UserPage(page)
-	}
 	private constructor(private page: Page) {
 		this.animeList = page
 			.getByRole("main")
@@ -26,6 +23,9 @@ class UserPage {
 		this.mangaList = page
 			.getByRole("main")
 			.getByRole("tab", { name: "Manga list" })
+	}
+	static new(page: Page) {
+		return new UserPage(page)
 	}
 }
 

@@ -1,5 +1,5 @@
 export function classes(
-	...classes: (string | 0 | undefined | null | false)[]
+	...classes: (0 | false | null | string | undefined)[]
 ): string {
 	return classes.filter(Boolean).join(" ")
 }

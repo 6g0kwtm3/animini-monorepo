@@ -28,7 +28,7 @@ const sheet = tv({
 
 const Context = createContext(sheet())
 
-interface SheetProps extends VariantProps<typeof sheet>, Ariakit.DialogProps {}
+interface SheetProps extends Ariakit.DialogProps, VariantProps<typeof sheet> {}
 
 export function Sheet({ modal, variant, ...props }: SheetProps): JSX.Element {
 	const styles = sheet({ modal, variant })

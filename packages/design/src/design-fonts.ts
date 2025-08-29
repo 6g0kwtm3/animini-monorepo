@@ -39,6 +39,6 @@ export function pxToRem(px: number) {
 	return `${numberToString(px / 16)}rem`
 }
 
-export function letterSpacing(token: Pick<Token, "tracking" | "fontSize">) {
+export function letterSpacing(token: Pick<Token, "fontSize" | "tracking">) {
 	return `${numberToString(token.tracking / token.fontSize)}rem`
 }

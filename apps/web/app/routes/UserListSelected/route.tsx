@@ -248,17 +248,17 @@ const FuzzyDate = graphql`
 const OrderFuzzyDate = Order.combineAll([
 	Order.mapInput(
 		Order.number,
-		(date: routeFuzzyDate$key | null | undefined) =>
+		(date: null | routeFuzzyDate$key | undefined) =>
 			readInlineData(FuzzyDate, date)?.year ?? 0
 	),
 	Order.mapInput(
 		Order.number,
-		(date: routeFuzzyDate$key | null | undefined) =>
+		(date: null | routeFuzzyDate$key | undefined) =>
 			readInlineData(FuzzyDate, date)?.month ?? 0
 	),
 	Order.mapInput(
 		Order.number,
-		(date: routeFuzzyDate$key | null | undefined) =>
+		(date: null | routeFuzzyDate$key | undefined) =>
 			readInlineData(FuzzyDate, date)?.day ?? 0
 	),
 ])
