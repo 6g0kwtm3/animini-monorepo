@@ -1,0 +1,13 @@
+{
+  "src/ExtraOutlet.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-object-types": {
+      "count": 1
+    }
+  }
+}

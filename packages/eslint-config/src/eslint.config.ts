@@ -8,7 +8,7 @@ import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
 import path from "path"
 import tseslint from "typescript-eslint"
-
+import perfectionist from 'eslint-plugin-perfectionist'
 export default await typegen([
 	{
 		name: "eslint-config/ignores",
@@ -21,6 +21,7 @@ export default await typegen([
 			"eslint-typegen.d.ts",
 		],
 	},
+	perfectionist.configs['recommended-natural'],
 	turbo.configs["flat/recommended"],
 	eslint.configs.recommended,
 	...[

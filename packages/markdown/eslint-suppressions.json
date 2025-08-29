@@ -1,0 +1,18 @@
+{
+  "src/markdown-to-html.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "src/markdown.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  }
+}

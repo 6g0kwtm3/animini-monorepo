@@ -1,0 +1,895 @@
+{
+  "app/components/AppBar.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    },
+    "perfectionist/sort-objects": {
+      "count": 8
+    }
+  },
+  "app/components/Button.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 6
+    },
+    "perfectionist/sort-interfaces": {
+      "count": 2
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 3
+    }
+  },
+  "app/components/Card.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 13
+    }
+  },
+  "app/components/Checkbox.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    }
+  },
+  "app/components/Chip.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-union-types": {
+      "count": 2
+    }
+  },
+  "app/components/Dialog.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    }
+  },
+  "app/components/Label.tsx": {
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    }
+  },
+  "app/components/Layout.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/components/List.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-modules": {
+      "count": 4
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "app/components/Menu.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-modules": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/components/Navigation.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-interfaces": {
+      "count": 1
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 1
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/components/Rating.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    },
+    "perfectionist/sort-object-types": {
+      "count": 1
+    }
+  },
+  "app/components/SearchView.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-interfaces": {
+      "count": 1
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    }
+  },
+  "app/components/Select.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 1
+    }
+  },
+  "app/components/SelectOption.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    }
+  },
+  "app/components/Sheet.tsx": {
+    "perfectionist/sort-heritage-clauses": {
+      "count": 1
+    },
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 5
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 9
+    }
+  },
+  "app/components/Skeleton.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "app/components/Snackbar.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-interfaces": {
+      "count": 1
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "app/components/Tabs.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 5
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 1
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 4
+    }
+  },
+  "app/components/TextField.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 2
+    },
+    "perfectionist/sort-modules": {
+      "count": 6
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    }
+  },
+  "app/components/Tooltip.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 2
+    },
+    "perfectionist/sort-modules": {
+      "count": 3
+    }
+  },
+  "app/components/classes.tsx": {
+    "perfectionist/sort-union-types": {
+      "count": 3
+    }
+  },
+  "app/entry.client.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 7
+    }
+  },
+  "app/lib/MediaListSort.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 5
+    }
+  },
+  "app/lib/Network/environment.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 4
+    }
+  },
+  "app/lib/Network/index.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 6
+    },
+    "perfectionist/sort-modules": {
+      "count": 4
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "app/lib/Network/schema.ts": {
+    "perfectionist/sort-objects": {
+      "count": 4
+    }
+  },
+  "app/lib/Order.ts": {
+    "perfectionist/sort-modules": {
+      "count": 2
+    }
+  },
+  "app/lib/Predicate.ts": {
+    "perfectionist/sort-modules": {
+      "count": 1
+    }
+  },
+  "app/lib/Remix.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-object-types": {
+      "count": 1
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/button.ts": {
+    "perfectionist/sort-objects": {
+      "count": 14
+    }
+  },
+  "app/lib/client.ts": {
+    "perfectionist/sort-classes": {
+      "count": 1
+    }
+  },
+  "app/lib/dialog.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 12
+    }
+  },
+  "app/lib/entry/Behind.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/entry/Library.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  },
+  "app/lib/entry/MediaCover.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    }
+  },
+  "app/lib/entry/MediaListItem.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 11
+    }
+  },
+  "app/lib/entry/Progress.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 9
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 10
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/lib/entry/ToWatch.ts": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/entry/progress/ProgressIncrement.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    }
+  },
+  "app/lib/invariant.ts": {
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/layout.ts": {
+    "perfectionist/sort-objects": {
+      "count": 3
+    }
+  },
+  "app/lib/list.ts": {
+    "perfectionist/sort-objects": {
+      "count": 8
+    }
+  },
+  "app/lib/list/MediaList.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 6
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    }
+  },
+  "app/lib/loading-renderer.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 4
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    }
+  },
+  "app/lib/media/Avalible.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/media/Theme.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/menu.tsx": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/lib/navigation.ts": {
+    "perfectionist/sort-objects": {
+      "count": 10
+    }
+  },
+  "app/lib/numberToString.ts": {
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/lib/route.ts": {
+    "perfectionist/sort-interfaces": {
+      "count": 1
+    },
+    "perfectionist/sort-modules": {
+      "count": 2
+    },
+    "perfectionist/sort-object-types": {
+      "count": 3
+    },
+    "perfectionist/sort-union-types": {
+      "count": 7
+    }
+  },
+  "app/lib/search/HashNavLink.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/lib/search/Search.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 8
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 7
+    },
+    "perfectionist/sort-modules": {
+      "count": 3
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    }
+  },
+  "app/lib/search/SearchItem.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    }
+  },
+  "app/lib/search/SearchTrending.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 2
+    }
+  },
+  "app/lib/searchView.ts": {
+    "perfectionist/sort-objects": {
+      "count": 5
+    }
+  },
+  "app/lib/tailwind-variants.ts": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/lib/textField.ts": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/lib/theme/index.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  },
+  "app/lib/urql.ts": {
+    "perfectionist/sort-modules": {
+      "count": 2
+    },
+    "perfectionist/sort-union-types": {
+      "count": 3
+    }
+  },
+  "app/lib/useLocale.ts": {
+    "perfectionist/sort-object-types": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    },
+    "perfectionist/sort-sets": {
+      "count": 10
+    },
+    "perfectionist/sort-union-types": {
+      "count": 3
+    }
+  },
+  "app/lib/viewer/index.ts": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/root.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 10
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 5
+    },
+    "perfectionist/sort-modules": {
+      "count": 2
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 8
+    }
+  },
+  "app/routes/Home/MediaLink.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 8
+    },
+    "perfectionist/sort-interfaces": {
+      "count": 1
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/routes/Home/UserLink.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 14
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 7
+    },
+    "perfectionist/sort-object-types": {
+      "count": 1
+    }
+  },
+  "app/routes/Home/options.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 2
+    }
+  },
+  "app/routes/Home/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 8
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 5
+    }
+  },
+  "app/routes/Login/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 9
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 6
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "app/routes/Media/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 12
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 7
+    }
+  },
+  "app/routes/Nav/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 14
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 9
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "app/routes/Notifications/ActivityLike.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    }
+  },
+  "app/routes/Notifications/Airing.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 6
+    }
+  },
+  "app/routes/Notifications/RelatedMediaAddition.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 5
+    }
+  },
+  "app/routes/Notifications/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 14
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 5
+    }
+  },
+  "app/routes/Search/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 7
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    }
+  },
+  "app/routes/User/User.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "app/routes/User/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 16
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 13
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    }
+  },
+  "app/routes/User/user-profile-theme-resolver.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 3
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/routes/UserFollow/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 4
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    }
+  },
+  "app/routes/UserList/UserListTabs.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 6
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 1
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    }
+  },
+  "app/routes/UserList/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 11
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 34
+    },
+    "perfectionist/sort-modules": {
+      "count": 4
+    },
+    "perfectionist/sort-objects": {
+      "count": 17
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "app/routes/UserListSelected/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 17
+    },
+    "perfectionist/sort-jsx-props": {
+      "count": 3
+    },
+    "perfectionist/sort-modules": {
+      "count": 2
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 4
+    },
+    "perfectionist/sort-union-types": {
+      "count": 3
+    }
+  },
+  "app/routes/logout/route.tsx": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "babel.config.cjs": {
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "desktop/index.js": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "desktop/remix-electron.js": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 4
+    }
+  },
+  "env.ts": {
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "eslint.config.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 3
+    }
+  },
+  "graphql.config.js": {
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "playwright.config.ts": {
+    "perfectionist/sort-objects": {
+      "count": 4
+    }
+  },
+  "react-router.config.ts": {
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "tailwind.config.ts": {
+    "perfectionist/sort-imports": {
+      "count": 3
+    },
+    "perfectionist/sort-objects": {
+      "count": 25
+    },
+    "perfectionist/sort-union-types": {
+      "count": 1
+    }
+  },
+  "tests/404.spec.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  },
+  "tests/auth.setup.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "tests/fixtures.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    }
+  },
+  "tests/pages/IndexPage.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    }
+  },
+  "tests/pages/MediaPage.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    }
+  },
+  "tests/pages/Nav.ts": {
+    "perfectionist/sort-classes": {
+      "count": 7
+    },
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  },
+  "tests/pages/SearchPage.ts": {
+    "perfectionist/sort-classes": {
+      "count": 2
+    }
+  },
+  "tests/pages/TypelistPage.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  },
+  "tests/search.spec.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  },
+  "tests/typelist.spec.ts": {
+    "perfectionist/sort-classes": {
+      "count": 1
+    },
+    "perfectionist/sort-imports": {
+      "count": 5
+    },
+    "perfectionist/sort-objects": {
+      "count": 8
+    }
+  },
+  "vite.config.ts": {
+    "perfectionist/sort-objects": {
+      "count": 5
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "src/index.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "src/rule-must-colocate-fragment-spreads.spec.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "src/rule-must-colocate-fragment-spreads.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-modules": {
+      "count": 2
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-object-types": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 9
+    },
+    "perfectionist/sort-union-types": {
+      "count": 2
+    }
+  },
+  "src/rule-unused-fields.ts": {
+    "perfectionist/sort-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 2
+    },
+    "perfectionist/sort-objects": {
+      "count": 8
+    },
+    "perfectionist/sort-switch-case": {
+      "count": 8
+    }
+  },
+  "src/utils.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-interfaces": {
+      "count": 1
+    },
+    "perfectionist/sort-modules": {
+      "count": 5
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 1
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "eslint.config.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  }
+}

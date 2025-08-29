@@ -1,0 +1,29 @@
+{
+  "src/index.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    }
+  },
+  "src/rule-must-include-data-key.spec.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 2
+    }
+  },
+  "src/rule-must-include-data-key.ts": {
+    "perfectionist/sort-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-modules": {
+      "count": 1
+    },
+    "perfectionist/sort-named-imports": {
+      "count": 1
+    },
+    "perfectionist/sort-objects": {
+      "count": 7
+    }
+  }
+}
