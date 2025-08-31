@@ -1,10 +1,10 @@
 import * as Ariakit from "@ariakit/react"
 import {
-    AnimatePresence,
-    animate,
-    motion,
-    useMotionValue,
-    useTransform,
+	AnimatePresence,
+	animate,
+	motion,
+	useMotionValue,
+	useTransform,
 } from "motion/react-client"
 import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"

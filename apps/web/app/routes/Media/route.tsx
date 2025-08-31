@@ -1,9 +1,9 @@
 import {
-    type ClientLoaderFunctionArgs,
-    useLocation,
-    useOutlet,
-    useParams,
-    useRouteLoaderData,
+	type ClientLoaderFunctionArgs,
+	useLocation,
+	useOutlet,
+	useParams,
+	useRouteLoaderData,
 } from "react-router"
 
 import { AnimatePresence, motion } from "motion/react-client"
@@ -14,19 +14,19 @@ import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
-    Menu,
-    MenuDivider,
-    MenuItemLeadingIcon,
-    MenuItemTrailingIcon,
-    MenuItemTrailingText,
-    MenuList,
-    MenuListItem,
-    MenuTrigger,
+	Menu,
+	MenuDivider,
+	MenuItemLeadingIcon,
+	MenuItemTrailingIcon,
+	MenuItemTrailingText,
+	MenuList,
+	MenuListItem,
+	MenuTrigger,
 } from "~/components/Menu"
 import {
-    TooltipPlain,
-    TooltipPlainContainer,
-    TooltipPlainTrigger,
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
 } from "~/components/Tooltip"
 import { button, fab } from "~/lib/button"
 import type { clientLoader as rootLoader } from "~/root"
