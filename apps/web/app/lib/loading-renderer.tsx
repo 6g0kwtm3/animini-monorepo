@@ -1,7 +1,7 @@
-import { animate, motion, useMotionValue } from "motion/react"
+import { animate, motion, useMotionValue } from "motion/react-client"
 
 import { interpolate, type Options } from "flubber"
-import { MotionValue, useTransform } from "motion/react"
+import { MotionValue, useTransform } from "motion/react-client"
 import { useEffect, useState } from "react"
 
 const cogwheel =

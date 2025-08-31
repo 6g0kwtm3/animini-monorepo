@@ -1,5 +1,5 @@
 import { useStoreState } from "@ariakit/react"
-import { motion } from "motion/react"
+import { motion } from "motion/react-client"
 
 import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"

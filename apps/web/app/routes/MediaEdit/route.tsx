@@ -19,7 +19,7 @@
 
 // import * as Ariakit from "@ariakit/react"
 
-// import { motion } from "motion/react"
+// import { motion } from "motion/react-client"
 // import type { ComponentProps } from "react"
 import type { ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
