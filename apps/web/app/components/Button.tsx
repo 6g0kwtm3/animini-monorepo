@@ -32,6 +32,7 @@ export function Button({ variant, ...props }: ButtonProps) {
 }
 
 const ButtonContext = createContext(createButton())
+ButtonContext.displayName = "ButtonContext"
 export function ButtonIcon(props: ComponentProps<"div">): ReactNode {
 	const { icon } = useContext(ButtonContext)
 	return <div {...props} className={icon({ className: props.className })} />

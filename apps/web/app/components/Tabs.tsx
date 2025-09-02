@@ -7,6 +7,7 @@ import { createContext, useContext, useId } from "react"
 import type { VariantProps } from "tailwind-variants"
 
 const TabsContext = createContext<string | undefined>(undefined)
+TabsContext.displayName = "TabsContext"
 
 import { tv } from "~/lib/tailwind-variants"
 

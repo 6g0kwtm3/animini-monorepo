@@ -2,6 +2,7 @@ import { createContext, type ReactNode } from "react"
 import { useOutlet } from "react-router"
 
 export const ExtraOutletContext = createContext<string>("children")
+ExtraOutletContext.displayName = "ExtraOutletContext"
 
 export function useExtraOutlet(id: string, context?: unknown): ReactNode {
 	const outlet = useOutlet(context)

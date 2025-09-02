@@ -4,3 +4,4 @@ import { createContext } from "react"
 export const Library = createContext<
 	Record<string, [AnitomyResult, ...AnitomyResult[]]>
 >({})
+Library.displayName = "Library"

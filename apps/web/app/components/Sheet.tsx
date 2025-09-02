@@ -6,6 +6,7 @@ import {
 	useMotionValue,
 	useTransform,
 } from "motion/react"
+
 import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import type { VariantProps } from "tailwind-variants"
@@ -27,6 +28,7 @@ const sheet = tv({
 })
 
 const Context = createContext(sheet())
+Context.displayName = "Context"
 
 interface SheetProps extends Ariakit.DialogProps, VariantProps<typeof sheet> {}
 
