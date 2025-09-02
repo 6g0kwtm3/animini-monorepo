@@ -14,6 +14,7 @@ import { Label } from "./Label"
 const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {
 	//
 })
+FocusContext.displayName = "FocusContext"
 
 export function ChipFilter(
 	props: Omit<ComponentProps<typeof Label>, "data-focus-visible">

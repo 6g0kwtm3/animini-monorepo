@@ -18,6 +18,7 @@ const skeleton = tv({
 })
 
 const LoadingContext = createContext(false)
+LoadingContext.displayName = "LoadingContext"
 export function Loading(
 	props: Partial<ComponentProps<typeof LoadingContext.Provider>>
 ): ReactNode {

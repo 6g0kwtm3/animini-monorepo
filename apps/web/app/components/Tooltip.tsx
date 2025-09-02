@@ -14,6 +14,7 @@ export function TooltipRichTrigger(
 }
 
 const Up = createContext(true)
+Up.displayName = "Up"
 
 export function TooltipDisclosure({
 	children,

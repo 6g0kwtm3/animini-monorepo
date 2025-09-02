@@ -23,6 +23,7 @@ type OnBeforeToggle = (
 const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 	console.warn("Snackbar is outside of SnackbarQueue")
 })
+SnackbarQueueContext.displayName = "SnackbarQueueContext"
 export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 	const queue = useRef<HTMLElement[]>([])
 
@@ -83,6 +84,7 @@ export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 }
 
 const SnackbarContext = createContext<string | undefined>(undefined)
+SnackbarContext.displayName = "SnackbarContext"
 interface SnackbarProps extends ComponentProps<"div"> {
 	timeout?: number
 	open: boolean

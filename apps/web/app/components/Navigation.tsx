@@ -45,6 +45,7 @@ export function NavigationItem({
 const NavigationContext = createContext<undefined | { "--id": string }>(
 	undefined
 )
+NavigationContext.displayName = "NavigationContext"
 
 function NavigationActiveIndicator() {
 	const style = useContext(NavigationContext)

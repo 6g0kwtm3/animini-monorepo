@@ -12,6 +12,7 @@ export function MenuList(props: Ariakit.MenuProps): ReactNode {
 }
 
 const MenuContext = createContext<string | undefined>(undefined)
+MenuContext.displayName = "MenuContext"
 
 export function Menu(props: Ariakit.MenuProviderProps): ReactNode {
 	const menuId = useId()
@@ -46,6 +47,7 @@ const createMenu = tv({
 })
 
 const Context = createContext(createMenu())
+Context.displayName = "Context"
 
 export function MenuListItem({
 	children,

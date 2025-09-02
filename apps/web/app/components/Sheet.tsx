@@ -28,6 +28,7 @@ const sheet = tv({
 })
 
 const Context = createContext(sheet())
+Context.displayName = "Context"
 
 interface SheetProps extends Ariakit.DialogProps, VariantProps<typeof sheet> {}
 
