@@ -1,11 +1,12 @@
 import type { ESLint, Rule } from "eslint"
 import { rule as mustIncludeDataKey } from "./rule-must-include-data-key"
-
+import { rule as nameContext } from "./rule-name-context"
 const plugin: ESLint.Plugin = {
 	meta: { name: "eslint-plugin-jsx" },
 	rules: {
 		"rule-must-include-data-key":
 			mustIncludeDataKey as unknown as Rule.RuleModule,
+		"name-context": nameContext,
 	},
 }
 
@@ -14,7 +15,10 @@ export default {
 		recommended: {
 			name: "eslint-plugin-jsx/recommended",
 			plugins: { "eslint-plugin-jsx": plugin },
-			rules: { "eslint-plugin-jsx/rule-must-include-data-key": "error" },
+			rules: {
+				"eslint-plugin-jsx/rule-must-include-data-key": "error",
+				"eslint-plugin-jsx/name-context": "error",
+			},
 		},
 	},
 } satisfies ESLint.Plugin
