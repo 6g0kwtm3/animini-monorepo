@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`reports and fixes missing displayName for single context 1`] = `
+"
+				const FooContext = createContext(null);
+FooContext.displayName = "FooContext"
+			"
+`;
+
+exports[`reports both when multiple declarations in one statement are missing displayName 1`] = `
+"
+				let AContext = createContext(null), BContext = createContext(null);
+BContext.displayName = "BContext"
+AContext.displayName = "AContext"
+			"
+`;
+
+exports[`reports only the context missing displayName when another is set 1`] = `
+"
+				const AContext = createContext(null);
+AContext.displayName = "AContext"
+				const BContext = createContext(null);
+				BContext.displayName = "BContext";
+			"
+`;

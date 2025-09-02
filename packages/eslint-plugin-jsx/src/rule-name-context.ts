@@ -1,14 +1,6 @@
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
 
-interface StringLiteral extends ESTree.SimpleLiteral {
-	value: string
-}
-
-function isStringLiteral(node: ESTree.Node): node is StringLiteral {
-	return node.type === "Literal" && typeof node.value === "string"
-}
-
 export const rule: Rule.RuleModule = {
 	meta: {
 		type: "suggestion",
