@@ -49,7 +49,7 @@ catalog:
   '@typescript-eslint/parser': 8.40.0
   anitomy: 0.0.35
   arktype: 2.1.20
-  babel-plugin-react-compiler: 19.1.0-rc.2
+  babel-plugin-react-compiler: 19.1.0-rc.3
   cookie: 1.0.2
   cross-env: 10.0.0
   csstype: 3.1.3
