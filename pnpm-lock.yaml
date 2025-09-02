@@ -64,8 +64,8 @@ catalogs:
       specifier: 1.0.0-beta.11
       version: 1.0.0-beta.11
     '@sentry/vite-plugin':
-      specifier: 4.1.1
-      version: 4.1.1
+      specifier: 4.3.0
+      version: 4.3.0
     '@storybook/addon-a11y':
       specifier: 9.1.4
       version: 9.1.4
@@ -515,7 +515,7 @@ importers:
         version: 1.0.0-beta.11(react@19.1.1)
       '@sentry/vite-plugin':
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.0
       '@svgr/core':
         specifier: 'catalog:'
         version: 8.1.0(typescript@5.9.2)
@@ -2837,16 +2837,16 @@ packages:
     resolution: {integrity: sha512-9+qDEoEjv4VopLuOzK1zM4LcvcUsvB5N0iJ+FRCM3XzzOCbebJOniXTQbt5HflJc3XLnQNKFdKfTfgj8M/0RKQ==}
     engines: {node: '>=18'}
 
-  '@sentry/babel-plugin-component-annotate@4.1.1':
-    resolution: {integrity: sha512-HUpqrCK7zDVojTV6KL6BO9ZZiYrEYQqvYQrscyMsq04z+WCupXaH6YEliiNRvreR8DBJgdsG3lBRpebhUGmvfA==}
+  '@sentry/babel-plugin-component-annotate@4.3.0':
+    resolution: {integrity: sha512-OuxqBprXRyhe8Pkfyz/4yHQJc5c3lm+TmYWSSx8u48g5yKewSQDOxkiLU5pAk3WnbLPy8XwU/PN+2BG0YFU9Nw==}
     engines: {node: '>= 14'}
 
   '@sentry/browser@10.8.0':
     resolution: {integrity: sha512-2J7HST8/ixCaboq17yFn/j/OEokXSXoCBMXRrFx4FKJggKWZ90e2Iau5mP/IPPhrW+W9zCptCgNMY0167wS4qA==}
     engines: {node: '>=18'}
 
-  '@sentry/bundler-plugin-core@4.1.1':
-    resolution: {integrity: sha512-Hx9RgXaD1HEYmL5aYoWwCKkVvPp4iklwfD9mvmdpQtcwLg6b6oLnPVDQaOry1ak6Pxt8smlrWcKy4IiKASlvig==}
+  '@sentry/bundler-plugin-core@4.3.0':
+    resolution: {integrity: sha512-dmR4DJhJ4jqVWGWppuTL2blNFqOZZnt4aLkewbD1myFG3KVfUx8CrMQWEmGjkgPOtj5TO6xH9PyTJjXC6o5tnA==}
     engines: {node: '>= 14'}
 
   '@sentry/cli-darwin@2.51.1':
@@ -2917,8 +2917,8 @@ packages:
     peerDependencies:
       react: '>=18'
 
-  '@sentry/vite-plugin@4.1.1':
-    resolution: {integrity: sha512-kNIZiqRbFHJHzV0QF1RyuwMprwK2Lk354qs98P7DduU1TkzrNG3+2f8liYJaiYCrsjDvJlPHyVFBDF9IRhJGdA==}
+  '@sentry/vite-plugin@4.3.0':
+    resolution: {integrity: sha512-MeTAHMmTOgBPMAjeW7/ONyXwgScZdaFFtNiALKcAODnVqC7eoHdSRIWeH5mkLr2Dvs7nqtBaDpKxRjUBgfm9LQ==}
     engines: {node: '>= 14'}
 
   '@sinclair/typebox@0.31.28':
@@ -8783,7 +8783,7 @@ snapshots:
       '@sentry-internal/browser-utils': 10.8.0
       '@sentry/core': 10.8.0
 
-  '@sentry/babel-plugin-component-annotate@4.1.1': {}
+  '@sentry/babel-plugin-component-annotate@4.3.0': {}
 
   '@sentry/browser@10.8.0':
     dependencies:
@@ -8793,10 +8793,10 @@ snapshots:
       '@sentry-internal/replay-canvas': 10.8.0
       '@sentry/core': 10.8.0
 
-  '@sentry/bundler-plugin-core@4.1.1':
+  '@sentry/bundler-plugin-core@4.3.0':
     dependencies:
       '@babel/core': 7.28.0
-      '@sentry/babel-plugin-component-annotate': 4.1.1
+      '@sentry/babel-plugin-component-annotate': 4.3.0
       '@sentry/cli': 2.51.1
       dotenv: 16.5.0
       find-up: 5.0.0
@@ -8864,9 +8864,9 @@ snapshots:
     dependencies:
       react: 19.1.1
 
-  '@sentry/vite-plugin@4.1.1':
+  '@sentry/vite-plugin@4.3.0':
     dependencies:
-      '@sentry/bundler-plugin-core': 4.1.1
+      '@sentry/bundler-plugin-core': 4.3.0
       unplugin: 1.0.1
     transitivePeerDependencies:
       - encoding
