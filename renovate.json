@@ -7,16 +7,14 @@
 		":pinDependencies",
 		":automergeStableNonMajor"
 	],
-	"lockFileMaintenance": { "enabled": true, "automerge": true },
+	"lockFileMaintenance": { "enabled": true },
 	"packageRules": [
-		{ "matchDatasources": ["npm"], "minimumReleaseAge": "3 days" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{
 			"matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/*"],
 			"groupName": "playwright"
 		},
 		{ "matchPackageNames": ["/oxlint/"], "groupName": "oxlint" },
-		{ "matchDepTypes": ["devDependencies", "action"], "automerge": true },
 		{
 			"matchDepTypes": ["action"],
 			"matchUpdateTypes": ["digest"],
