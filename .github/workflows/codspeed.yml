@@ -47,3 +47,4 @@ jobs:
         uses: CodSpeedHQ/action@v4
         with:
           run: pnpm exec turbo bench
+          mode: instrumentation
