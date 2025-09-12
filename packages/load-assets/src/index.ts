@@ -5,7 +5,7 @@ function numberToString(n: number): string {
 export async function loadAssets(
 	assets: Record<string, string>,
 	outputDir: string
-) {
+): Promise<void> {
 	for (const [key, rawSnapshot] of Object.entries(assets)) {
 		const images: Record<string, string> = {}
 
