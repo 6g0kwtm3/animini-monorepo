@@ -3,7 +3,7 @@ import marked from "marked"
 export function markdownToHtml(
 	markdown: string,
 	sanitizeHtml: (html: string) => string
-) {
+): string {
 	marked.setOptions({
 		gfm: true,
 		tables: true,

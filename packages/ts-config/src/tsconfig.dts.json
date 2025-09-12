@@ -5,7 +5,6 @@
 		// dts
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"isolatedDeclarations": true,
 		"stripInternal": true
 	}
 }

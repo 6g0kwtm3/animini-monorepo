@@ -12,7 +12,10 @@ export interface Options {
 	}>
 }
 
-export function Markdown(props: { children: string; options: Options }) {
+export function Markdown(props: {
+	children: string
+	options: Options
+}): ReactNode {
 	return useMemo(
 		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),
 		[props.children, props.options]

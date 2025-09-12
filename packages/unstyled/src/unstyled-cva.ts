@@ -26,7 +26,14 @@ export function defineCva<
 	} & { css: RawStyles })[]
 	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
 	variants: Variants
-}) {
+}): {
+	base: RawStyles
+	compoundVariants: ({
+		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
+	} & { css: RawStyles })[]
+	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
+	variants: Variants
+} {
 	return cva
 }
 
