@@ -8,8 +8,8 @@
 		":automergeStableNonMajor"
 	],
 	"lockFileMaintenance": { "enabled": true },
+	"minimumReleaseAge": "1 day",
 	"packageRules": [
-		{ "minimumReleaseAge": "1 day" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{
 			"matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/*"],
