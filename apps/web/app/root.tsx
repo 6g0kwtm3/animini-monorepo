@@ -159,7 +159,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	)
 }
 
-const clientLoggerMiddleware: Route.unstable_ClientMiddlewareFunction = (
+const clientLoggerMiddleware: Route.ClientMiddlewareFunction = (
 	{ request },
 	next
 ) => {
@@ -169,7 +169,7 @@ const clientLoggerMiddleware: Route.unstable_ClientMiddlewareFunction = (
 	})
 }
 
-export const unstable_clientMiddleware = [
+export const clientMiddleware = [
 	clientLoggerMiddleware,
 	loadQueryMiddleware,
 ]
