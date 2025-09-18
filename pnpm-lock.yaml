@@ -34,8 +34,8 @@ catalogs:
       specifier: 1.19.3
       version: 1.19.3
     '@iconify-json/material-symbols':
-      specifier: 1.2.35
-      version: 1.2.35
+      specifier: 1.2.36
+      version: 1.2.36
     '@inlang/paraglide-js':
       specifier: 2.3.2
       version: 2.3.2
@@ -494,7 +494,7 @@ importers:
         version: 1.19.3(hono@4.9.7)
       '@iconify-json/material-symbols':
         specifier: 'catalog:'
-        version: 1.2.35
+        version: 1.2.36
       '@inlang/paraglide-js':
         specifier: 'catalog:'
         version: 2.3.2
@@ -1932,8 +1932,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/material-symbols@1.2.35':
-    resolution: {integrity: sha512-2W9eU7d0rHnM14VK/5f+FZ7pTWs3yreIIBhxwT2jEUGYpu59QwGV1HM+3Iz4gyBmSCllaZZq3dZc4UpmNys0Nw==}
+  '@iconify-json/material-symbols@1.2.36':
+    resolution: {integrity: sha512-PDz2D/nD8PsqEnNrwoKd139Ni2zXvAtz4kYHR+fCDdk62lnDQhxSQzDJ34a/gDnugiQJbEpv5RlyjZ3SgJSdmg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -7913,7 +7913,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@iconify-json/material-symbols@1.2.35':
+  '@iconify-json/material-symbols@1.2.36':
     dependencies:
       '@iconify/types': 2.0.0
 
