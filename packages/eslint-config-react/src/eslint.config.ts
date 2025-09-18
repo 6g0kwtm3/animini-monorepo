@@ -33,7 +33,7 @@ export default await typegen([
 						"action",
 						"clientLoader",
 						"clientAction",
-						"unstable_clientMiddleware",
+						"clientMiddleware",
 					],
 				},
 			],

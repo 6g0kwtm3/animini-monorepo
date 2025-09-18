@@ -5,7 +5,7 @@ export default {
 		unstable_optimizeDeps: true,
 		unstable_splitRouteModules: true,
 		unstable_viteEnvironmentApi: true,
-		unstable_middleware: true,
+		v8_middleware: true,
 		unstable_subResourceIntegrity: true,
 	},
 	ssr: false,

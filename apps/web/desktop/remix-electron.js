@@ -12,7 +12,7 @@ import { resolve } from "node:path"
  *   production
  * @property {string} [publicFolder] The path where static assets are served
  *   from.
- * @property {()=> import('react-router').unstable_RouterContextProvider} [getLoadContext] A function to provide a
+ * @property {()=> import('react-router').RouterContextProvider} [getLoadContext] A function to provide a
  *   `context` object to your loaders.
  */
 

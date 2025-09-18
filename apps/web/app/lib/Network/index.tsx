@@ -8,7 +8,7 @@ import RelayRuntime, {
 	type OperationType,
 } from "relay-runtime"
 
-import { unstable_createContext } from "react-router"
+import { createContext as createMiddlewareContext } from "react-router"
 import type { Route } from "../../+types/root"
 import environment from "./environment"
 
@@ -52,11 +52,11 @@ type LoadQuery = <T extends RelayRuntime.OperationType>(
 	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
 ) => NodeAndQueryFragment<T>
 
-export const loadQuery = unstable_createContext<LoadQuery>()
+export const loadQuery = createMiddlewareContext<LoadQuery>()
 
 export const queue: Set<PreloadedQuery<OperationType>>[] = []
 
-export const loadQueryMiddleware: Route.unstable_MiddlewareFunction = (
+export const loadQueryMiddleware: Route.MiddlewareFunction = (
 	{ context, request },
 	next
 ) => {
