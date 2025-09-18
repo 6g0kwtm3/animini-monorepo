@@ -169,10 +169,7 @@ const clientLoggerMiddleware: Route.ClientMiddlewareFunction = (
 	})
 }
 
-export const clientMiddleware = [
-	clientLoggerMiddleware,
-	loadQueryMiddleware,
-]
+export const clientMiddleware = [clientLoggerMiddleware, loadQueryMiddleware]
 
 export default function App(): ReactNode {
 	return <Outlet />
