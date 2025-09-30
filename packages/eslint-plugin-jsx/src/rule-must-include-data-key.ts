@@ -8,7 +8,8 @@ import type {
 	RuleModule,
 } from "@typescript-eslint/utils/ts-eslint"
 
-export const rule: RuleModule<string> = {
+export const rule = {
+	name: 'rule-must-include-data-key',
 	meta: {
 		type: "suggestion",
 		docs: { description: "" },
@@ -81,7 +82,7 @@ export const rule: RuleModule<string> = {
 			},
 		}
 	},
-}
+} satisfies RuleModule<string>
 
 function isEqual(
 	context: RuleContext<string, []>,
