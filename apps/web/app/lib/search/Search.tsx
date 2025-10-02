@@ -79,7 +79,7 @@ export function Search({
 		return () => {
 			window.removeEventListener("keydown", listener)
 		}
-	}, [listener])
+	}, [])
 
 	const media = submit.data?.page?.media?.filter((el) => el != null) ?? []
 
