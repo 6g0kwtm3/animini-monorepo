@@ -789,6 +789,10 @@ importers:
       oxlint-config:
         specifier: workspace:*
         version: link:../oxlint-config
+    devDependencies:
+      ts-config:
+        specifier: workspace:*
+        version: link:../ts-config
 
   packages/eslint-plugin-jsx:
     dependencies:

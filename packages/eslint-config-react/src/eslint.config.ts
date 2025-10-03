@@ -4,7 +4,7 @@ import jsx from "eslint-plugin-jsx"
 import oxlint from "eslint-plugin-oxlint"
 import { default as reactPlugin } from "eslint-plugin-react"
 import * as reactCompiler from "eslint-plugin-react-compiler"
-import * as reactHooks from "eslint-plugin-react-hooks"
+import { default as reactHooks } from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
