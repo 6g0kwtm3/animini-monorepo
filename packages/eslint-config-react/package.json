@@ -15,7 +15,9 @@
 		"eslint-typegen": "catalog:",
 		"oxlint-config": "workspace:*"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"ts-config": "workspace:*"
+	},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",

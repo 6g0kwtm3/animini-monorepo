@@ -5,6 +5,7 @@
 		{ "path": "./apps/web" },
 		{ "path": "./packages/a" },
 		{ "path": "./packages/design" },
+		{ "path": "./packages/eslint-config-react" },
 		{ "path": "./packages/eslint-plugin-jsx" },
 		{ "path": "./packages/eslint-plugin-relay" },
 		{ "path": "./packages/extra-outlet" },

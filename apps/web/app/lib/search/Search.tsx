@@ -48,7 +48,7 @@ function useOptimisticLocation() {
 }
 
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
-import { useEffectEvent } from "../use-effect-event"
+import { useEffectEvent } from "react"
 
 export function Search({
 	queryRef,
