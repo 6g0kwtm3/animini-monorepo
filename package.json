@@ -36,7 +36,6 @@
 		"oxlint-tsgolint": "catalog:",
 		"prettier": "catalog:",
 		"prettier-plugin-tailwindcss": "catalog:",
-		"stryker-cli": "catalog:",
 		"tsx": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:",
