@@ -9,7 +9,6 @@ import type {
 } from "@typescript-eslint/utils/ts-eslint"
 
 export const rule: RuleModule<string> = {
-	name: "rule-must-include-data-key",
 	meta: {
 		type: "suggestion",
 		docs: { description: "" },

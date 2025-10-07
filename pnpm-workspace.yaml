@@ -16,7 +16,7 @@ catalog:
   '@inlang/paraglide-js': 2.4.0
   '@material/material-color-utilities': 0.3.0
   '@msw/playwright': 0.4.2
-  '@playwright/test': 1.55.1
+  '@playwright/test': 1.56.0
   '@prettier/plugin-oxc': 0.0.4
   '@react-router/dev': 7.9.3
   '@react-router/node': 7.9.3
