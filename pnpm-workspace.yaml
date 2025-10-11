@@ -76,7 +76,7 @@ catalog:
   isbot: 5.1.31
   knip: 5.64.3
   marked: 0.3.19
-  motion: 12.23.22
+  motion: 12.23.24
   msw: 2.11.5
   nodemon: 3.1.10
   oxlint: 1.22.0
