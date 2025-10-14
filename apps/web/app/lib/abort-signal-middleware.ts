@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import {
-  createContext as createMiddlewareContext,
-  useNavigation,
+	createContext as createMiddlewareContext,
+	useNavigation,
 } from "react-router"
 import type { Route } from "../+types/root"
 

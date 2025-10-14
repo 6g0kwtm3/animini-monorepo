@@ -9,7 +9,7 @@ import {
 	useParams,
 	useRouteError,
 	type ClientLoaderFunctionArgs,
-	type LinksFunction
+	type LinksFunction,
 } from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
@@ -28,7 +28,7 @@ import { useIsHydrated } from "~/lib/useIsHydrated"
 import type { Route } from "./+types/root"
 import environment, {
 	loadQueryMiddleware,
-	RelayEnvironmentProvider
+	RelayEnvironmentProvider,
 } from "./lib/Network"
 import { languageToLocale } from "./lib/useLocale"
 
