@@ -43,7 +43,7 @@ catalog:
   '@types/node': 22.18.10
   '@types/prop-types': 15.7.15
   '@types/react': 19.2.2
-  '@types/react-dom': 19.2.1
+  '@types/react-dom': 19.2.2
   '@types/react-relay': 18.2.1
   '@types/relay-runtime': 19.0.2
   '@typescript-eslint/parser': 8.46.0
