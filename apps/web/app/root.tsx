@@ -6,7 +6,6 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	useNavigation,
 	useParams,
 	useRouteError,
 	type ClientLoaderFunctionArgs,
@@ -15,7 +14,7 @@ import {
 import { SnackbarQueue } from "./components/Snackbar"
 
 import * as Ariakit from "@ariakit/react"
-import { useEffect, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { Card } from "./components/Card"
 import { Viewer } from "./lib/Remix"
 
@@ -29,7 +28,6 @@ import { useIsHydrated } from "~/lib/useIsHydrated"
 import type { Route } from "./+types/root"
 import environment, {
 	loadQueryMiddleware,
-	queue,
 	RelayEnvironmentProvider,
 } from "./lib/Network"
 import { languageToLocale } from "./lib/useLocale"
@@ -41,6 +39,10 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 
 import fonts from "@anitrove/design/fonts"
 import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
+import {
+	onAbortNavigationMiddleware,
+	useSetupOnAbortNavigation,
+} from "./lib/abort-signal-middleware"
 import { LoadingIndicator } from "./lib/loading-renderer"
 import { numberToString } from "./lib/numberToString"
 
@@ -101,17 +103,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 		languageToLocale(params.locale ?? null)
 		?? ({ lang: "en", dir: "ltr" } as const)
 
-	const navigation = useNavigation()
-	useEffect(() => {
-		if (navigation.state === "idle") {
-			while (queue[0] && queue[1]) {
-				for (const ref of queue[0]) {
-					ref.dispose()
-				}
-				queue.shift()
-			}
-		}
-	}, [navigation.state])
+	useSetupOnAbortNavigation()
 
 	return (
 		<html
@@ -169,7 +161,11 @@ const clientLoggerMiddleware: Route.ClientMiddlewareFunction = (
 	})
 }
 
-export const clientMiddleware = [clientLoggerMiddleware, loadQueryMiddleware]
+export const clientMiddleware = [
+	clientLoggerMiddleware,
+	onAbortNavigationMiddleware,
+	loadQueryMiddleware,
+]
 
 export default function App(): ReactNode {
 	return <Outlet />

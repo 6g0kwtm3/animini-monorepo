@@ -1,12 +1,12 @@
 import type { PreloadedQuery } from "react-relay"
 import ReactRelay from "react-relay"
-
 import RelayRuntime, {
 	type Disposable,
 	type MutationConfig,
 	type MutationParameters,
 	type OperationType,
 } from "relay-runtime"
+import { onAbortNavigationSignal } from "../abort-signal-middleware"
 
 import { createContext as createMiddlewareContext } from "react-router"
 import type { Route } from "../../+types/root"
@@ -54,25 +54,22 @@ type LoadQuery = <T extends RelayRuntime.OperationType>(
 
 export const loadQuery = createMiddlewareContext<LoadQuery>()
 
-export const queue: Set<PreloadedQuery<OperationType>>[] = []
-
 export const loadQueryMiddleware: Route.MiddlewareFunction = (
-	{ context, request },
+	{ context },
 	next
 ) => {
-	const refs = new Set<PreloadedQuery<OperationType>>()
-
 	context.set(loadQuery, (query, ...args) => {
 		const queryRef = loadQuery_(environment, query, ...args)
-		refs.add(queryRef)
-		request.signal.addEventListener("abort", () => {
-			queryRef.dispose()
-			refs.delete(queryRef)
-		})
+
+		context.get(onAbortNavigationSignal).addEventListener(
+			"abort",
+			() => {
+				queryRef.dispose()
+			},
+			{ once: true }
+		)
 		return [query, queryRef]
 	})
-
-	queue.push(refs)
 
 	return next()
 }
