@@ -5,7 +5,7 @@ import {
 } from "react-router"
 import type { Route } from "../+types/root"
 
-export const queue: AbortController[] = []
+const queue: AbortController[] = []
 
 export const onAbortNavigationSignal = createMiddlewareContext<AbortSignal>()
 

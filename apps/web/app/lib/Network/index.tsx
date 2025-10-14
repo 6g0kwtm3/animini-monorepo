@@ -54,8 +54,6 @@ type LoadQuery = <T extends RelayRuntime.OperationType>(
 
 export const loadQuery = createMiddlewareContext<LoadQuery>()
 
-export const queue: Set<PreloadedQuery<OperationType>>[] = []
-
 export const loadQueryMiddleware: Route.MiddlewareFunction = (
 	{ context },
 	next
