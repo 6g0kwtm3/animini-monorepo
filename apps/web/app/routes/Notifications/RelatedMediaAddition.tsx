@@ -15,6 +15,7 @@ import { route_media } from "~/lib/route"
 import { getLocale } from "~/paraglide/runtime"
 
 import { A } from "@anitrove/a"
+import { useState } from "react"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import type { RelatedMediaAddition_viewer$key } from "~/gql/RelatedMediaAddition_viewer.graphql"
 import { useFragment } from "~/lib/Network"
@@ -52,7 +53,7 @@ export function RelatedMediaAddition(props: {
 		`,
 		props.viewer
 	)
-
+	const [dateNow] = useState(() => Date.now())
 	return (
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
@@ -78,7 +79,7 @@ export function RelatedMediaAddition(props: {
 					</ListItemContent>
 					{notification.createdAt && (
 						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - Date.now() / 1000)}
+							{format(notification.createdAt - dateNow / 1000)}
 						</ListItemTrailingSupportingText>
 					)}
 				</ListItem>

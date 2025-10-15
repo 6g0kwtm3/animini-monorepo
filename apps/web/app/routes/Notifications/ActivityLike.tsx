@@ -1,4 +1,5 @@
 import { A } from "@anitrove/a"
+import { useState } from "react"
 import ReactRelay from "react-relay"
 import {
 	ListItem,
@@ -50,6 +51,7 @@ export function ActivityLike(props: {
 		props.viewer
 	)
 
+	const [dateNow] = useState(() => Date.now())
 	return (
 		notification.user && (
 			<ListItem
@@ -86,7 +88,7 @@ export function ActivityLike(props: {
 				</ListItemContent>
 				{notification.createdAt && (
 					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - Date.now() / 1000)}
+						{format(notification.createdAt - dateNow / 1000)}
 					</ListItemTrailingSupportingText>
 				)}
 			</ListItem>
