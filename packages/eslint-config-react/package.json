@@ -9,7 +9,6 @@
 		"eslint-plugin-jsx": "workspace:*",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
-		"eslint-plugin-react-compiler": "catalog:",
 		"eslint-plugin-react-hooks": "catalog:",
 		"eslint-plugin-react-refresh": "catalog:",
 		"eslint-typegen": "catalog:",
