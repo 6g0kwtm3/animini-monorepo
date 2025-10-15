@@ -1,3 +1,4 @@
+import * as Ariakit from "@ariakit/react"
 import type {
 	ComponentProps,
 	ComponentRef,
@@ -11,7 +12,7 @@ import {
 	useEffect,
 	useId,
 	useRef,
-	useState,
+	useSyncExternalStore,
 } from "react"
 import * as Predicate from "~/lib/Predicate"
 
@@ -183,18 +184,19 @@ function isInvokeEvent(event: Event | ToggleEvent) {
 	return "action" in event
 }
 
-import * as Ariakit from "@ariakit/react"
+const noop = () => () => {
+	return
+}
 
 function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
-	const [supportsPopover, setSupportsPopover] = useState(true)
-
-	useEffect(() => {
-		setSupportsPopover(
-			Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover")
-		)
-	}, [])
+	const supportsPopover = useSyncExternalStore(
+		noop,
+		() =>
+			Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover"),
+		() => true
+	)
 
 	return (
 		<Ariakit.Button
