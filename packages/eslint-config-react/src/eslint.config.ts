@@ -3,7 +3,6 @@
 import jsx from "eslint-plugin-jsx"
 import oxlint from "eslint-plugin-oxlint"
 import { default as reactPlugin } from "eslint-plugin-react"
-import * as reactCompiler from "eslint-plugin-react-compiler"
 import { default as reactHooks } from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import typegen from "eslint-typegen"
@@ -13,9 +12,8 @@ export default await typegen([
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat["jsx-runtime"],
 	{ settings: { react: { version: "19" } } },
-	...reactHooks.configs["recommended"],
+	reactHooks.configs.flat["recommended"],
 	reactRefresh.configs.vite,
-	reactCompiler.configs.recommended,
 	jsx.configs.recommended,
 	{
 		name: "eslint-config-react/react-refresh/rules",

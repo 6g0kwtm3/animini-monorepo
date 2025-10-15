@@ -145,8 +145,8 @@ catalogs:
       specifier: 2.1.23
       version: 2.1.23
     babel-plugin-react-compiler:
-      specifier: 19.1.0-rc.3
-      version: 19.1.0-rc.3
+      specifier: 1.0.0
+      version: 1.0.0
     cookie:
       specifier: 1.0.2
       version: 1.0.2
@@ -183,12 +183,9 @@ catalogs:
     eslint-plugin-react:
       specifier: 7.37.5
       version: 7.37.5
-    eslint-plugin-react-compiler:
-      specifier: beta
-      version: 19.0.0-beta-af1b7da-20250417
     eslint-plugin-react-hooks:
-      specifier: 6.1.1
-      version: 6.1.1
+      specifier: 7.0.0
+      version: 7.0.0
     eslint-plugin-react-refresh:
       specifier: 0.4.23
       version: 0.4.23
@@ -627,7 +624,7 @@ importers:
         version: 0.4.0
       babel-plugin-react-compiler:
         specifier: 'catalog:'
-        version: 19.1.0-rc.3
+        version: 1.0.0
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -777,12 +774,9 @@ importers:
       eslint-plugin-react:
         specifier: 'catalog:'
         version: 7.37.5(eslint@9.37.0(jiti@2.6.0))
-      eslint-plugin-react-compiler:
-        specifier: 'catalog:'
-        version: 19.0.0-beta-af1b7da-20250417(eslint@9.37.0(jiti@2.6.0))
       eslint-plugin-react-hooks:
         specifier: 'catalog:'
-        version: 6.1.1(eslint@9.37.0(jiti@2.6.0))
+        version: 7.0.0(eslint@9.37.0(jiti@2.6.0))
       eslint-plugin-react-refresh:
         specifier: 'catalog:'
         version: 0.4.23(eslint@9.37.0(jiti@2.6.0))
@@ -801,7 +795,7 @@ importers:
     dependencies:
       '@typescript-eslint/utils':
         specifier: latest
-        version: 8.46.1(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
+        version: 8.46.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       graphql:
         specifier: 'catalog:'
         version: 16.11.0
@@ -814,7 +808,7 @@ importers:
         version: 8.46.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       '@typescript-eslint/typescript-estree':
         specifier: latest
-        version: 8.46.1(typescript@5.9.3)
+        version: 8.46.0(typescript@5.9.3)
       eslint:
         specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
@@ -1247,13 +1241,6 @@ packages:
   '@babel/plugin-proposal-decorators@7.28.0':
     resolution: {integrity: sha512-zOiZqvANjWDUaUS9xMxbMcK/Zccztbe/6ikvUXaG9nsPH3w6qh5UaPGAnirI/WhIbZ8m3OHU0ReyPrknG+ZKeg==}
     engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-proposal-private-methods@7.18.6':
-    resolution: {integrity: sha512-nutsvktDItsNn4rpGItSNV2sz1XwS+nfU0Rg8aCx3W3NOKVzdMjJRu0O5OkgDp3ZGICSTbgRpxZoWsxoKRvbeA==}
-    engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -3659,8 +3646,8 @@ packages:
   babel-plugin-macros@2.8.0:
     resolution: {integrity: sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==}
 
-  babel-plugin-react-compiler@19.1.0-rc.3:
-    resolution: {integrity: sha512-mjRn69WuTz4adL0bXGx8Rsyk1086zFJeKmes6aK0xPuK3aaXmDJdLHqwKKMrpm6KAI1MCoUK72d2VeqQbu8YIA==}
+  babel-plugin-react-compiler@1.0.0:
+    resolution: {integrity: sha512-Ixm8tFfoKKIPYdCCKYTsqv+Fd4IJ0DQqMyEimo+pxUOMUR9cVPlwTrFt9Avu+3cb6Zp3mAzl+t1MrG2fxxKsxw==}
 
   babel-plugin-relay@19.0.0:
     resolution: {integrity: sha512-7K0UnVyagSgzexy28KcEGu18/ms8wgJd2AufZshiKEaZXH/5XwtK2sh+6wKj/8U7xTGSudBuze39Se+CxSlxsw==}
@@ -4207,14 +4194,8 @@ packages:
     peerDependencies:
       eslint: ^9.0.0
 
-  eslint-plugin-react-compiler@19.0.0-beta-af1b7da-20250417:
-    resolution: {integrity: sha512-m3eVzHqtXFtu6rViWx/kBhv9Jcpj+Q4pkfRWyF47TIBa+Jo8DAB90OoeDh0JR896rtG1OXogLKKd+b6lzFup0A==}
-    engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
-    peerDependencies:
-      eslint: '>=7'
-
-  eslint-plugin-react-hooks@6.1.1:
-    resolution: {integrity: sha512-St9EKZzOAQF704nt2oJvAKZHjhrpg25ClQoaAlHmPZuajFldVLqRDW4VBNAS01NzeiQF0m0qhG1ZA807K6aVaQ==}
+  eslint-plugin-react-hooks@7.0.0:
+    resolution: {integrity: sha512-fNXaOwvKwq2+pXiRpXc825Vd63+KM4DLL40Rtlycb8m7fYpp6efrTp1sa6ZbP/Ap58K2bEKFXRmhURE+CJAQWw==}
     engines: {node: '>=18'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -5559,8 +5540,7 @@ packages:
           targets:
             - cpu: x86
               os: win32
-    version: 22.20.0
-    hasBin: true
+    version: 0.0.0
 
   nodemon@3.1.10:
     resolution: {integrity: sha512-WDjw3pJ0/0jMFmyNDp3gvY2YizjLmmOUQo6DEBY+JgdvW/yQ9mEeSw6H5ythl5Ny2ytb7f9C2nIbjSxMNzbJXw==}
@@ -7322,14 +7302,6 @@ snapshots:
       '@babel/helper-create-class-features-plugin': 7.27.1(@babel/core@7.28.0)
       '@babel/helper-plugin-utils': 7.27.1
       '@babel/plugin-syntax-decorators': 7.27.1(@babel/core@7.28.0)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@babel/plugin-proposal-private-methods@7.18.6(@babel/core@7.28.0)':
-    dependencies:
-      '@babel/core': 7.28.0
-      '@babel/helper-create-class-features-plugin': 7.27.1(@babel/core@7.28.0)
-      '@babel/helper-plugin-utils': 7.27.1
     transitivePeerDependencies:
       - supports-color
 
@@ -9745,7 +9717,7 @@ snapshots:
       cosmiconfig: 6.0.0
       resolve: 1.22.10
 
-  babel-plugin-react-compiler@19.1.0-rc.3:
+  babel-plugin-react-compiler@1.0.0:
     dependencies:
       '@babel/types': 7.28.1
 
@@ -10379,23 +10351,12 @@ snapshots:
       tinyglobby: 0.2.15
       yaml-eslint-parser: 1.3.0
 
-  eslint-plugin-react-compiler@19.0.0-beta-af1b7da-20250417(eslint@9.37.0(jiti@2.6.0)):
+  eslint-plugin-react-hooks@7.0.0(eslint@9.37.0(jiti@2.6.0)):
     dependencies:
       '@babel/core': 7.28.0
       '@babel/parser': 7.28.0
-      '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.28.0)
       eslint: 9.37.0(jiti@2.6.0)
       hermes-parser: 0.25.1
-      zod: 3.25.56
-      zod-validation-error: 3.4.1(zod@3.25.56)
-    transitivePeerDependencies:
-      - supports-color
-
-  eslint-plugin-react-hooks@6.1.1(eslint@9.37.0(jiti@2.6.0)):
-    dependencies:
-      '@babel/core': 7.28.0
-      '@babel/parser': 7.28.0
-      eslint: 9.37.0(jiti@2.6.0)
       zod: 4.1.11
       zod-validation-error: 3.4.1(zod@4.1.11)
     transitivePeerDependencies:
@@ -13236,10 +13197,6 @@ snapshots:
 
   zimmerframe@1.1.2:
     optional: true
-
-  zod-validation-error@3.4.1(zod@3.25.56):
-    dependencies:
-      zod: 3.25.56
 
   zod-validation-error@3.4.1(zod@4.1.11):
     dependencies:

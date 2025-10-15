@@ -1,3 +1,4 @@
+import * as Ariakit from "@ariakit/react"
 import type {
 	ComponentProps,
 	ComponentRef,
@@ -11,7 +12,7 @@ import {
 	useEffect,
 	useId,
 	useRef,
-	useState,
+	useSyncExternalStore,
 } from "react"
 import * as Predicate from "~/lib/Predicate"
 
@@ -90,6 +91,12 @@ interface SnackbarProps extends ComponentProps<"div"> {
 	open: boolean
 }
 
+declare global {
+	interface HTMLElementEventMap {
+		invoke: ToggleEvent
+	}
+}
+
 function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
@@ -108,24 +115,24 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 			return
 		}
 
-		function onInvoke(this: HTMLElement, event: Event | ToggleEvent) {
+		function onInvoke(event: ToggleEvent) {
 			if (!isInvokeEvent(event)) {
 				return
 			}
 
 			if (
 				(event.action === "show" || event.action === "auto")
-				&& !this.matches(":popover-open")
+				&& !event.currentTarget.matches(":popover-open")
 			) {
-				this.showPopover()
+				event.currentTarget.showPopover()
 				return
 			}
 
 			if (
 				(event.action === "hide" || event.action === "auto")
-				&& this.matches(":popover-open")
+				&& event.currentTarget.matches(":popover-open")
 			) {
-				this.hidePopover()
+				event.currentTarget.hidePopover()
 			}
 		}
 		current.addEventListener("invoke", onInvoke)
@@ -177,24 +184,26 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 
 interface ToggleEvent extends Event {
 	action: string
+	currentTarget: HTMLElement
 }
 
 function isInvokeEvent(event: Event | ToggleEvent) {
 	return "action" in event
 }
 
-import * as Ariakit from "@ariakit/react"
+const noop = () => () => {
+	return
+}
 
 function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 
-	const [supportsPopover, setSupportsPopover] = useState(true)
-
-	useEffect(() => {
-		setSupportsPopover(
-			Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover")
-		)
-	}, [])
+	const supportsPopover = useSyncExternalStore(
+		noop,
+		() =>
+			Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover"),
+		() => true
+	)
 
 	return (
 		<Ariakit.Button
