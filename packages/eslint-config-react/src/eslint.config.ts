@@ -12,7 +12,7 @@ export default await typegen([
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat["jsx-runtime"],
 	{ settings: { react: { version: "19" } } },
-	...reactHooks.configs.flat["recommended"],
+	reactHooks.configs.flat["recommended"],
 	reactRefresh.configs.vite,
 	jsx.configs.recommended,
 	{
