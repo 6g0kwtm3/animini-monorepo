@@ -307,8 +307,8 @@ catalogs:
       specifier: 3.2.4
       version: 3.2.4
     wrangler:
-      specifier: 4.42.2
-      version: 4.42.2
+      specifier: 4.43.0
+      version: 4.43.0
   experimental:
     vite:
       specifier: npm:rolldown-vite@7.1.17
@@ -385,7 +385,7 @@ importers:
         version: 3.2.4(@types/node@22.18.10)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.10)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1)
       wrangler:
         specifier: 'catalog:'
-        version: 4.42.2
+        version: 4.43.0
 
   apps/storybook:
     dependencies:
@@ -497,7 +497,7 @@ importers:
         version: 0.3.0
       '@react-router/dev':
         specifier: 'catalog:'
-        version: 7.9.4(@types/node@22.18.10)(@vitejs/plugin-rsc@0.4.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1)))(jiti@2.6.0)(lightningcss@1.30.2)(react-router@7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1))(tsx@4.20.6)(typescript@5.9.3)(wrangler@4.42.2)(yaml@2.8.1)
+        version: 7.9.4(@types/node@22.18.10)(@vitejs/plugin-rsc@0.4.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1)))(jiti@2.6.0)(lightningcss@1.30.2)(react-router@7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1))(tsx@4.20.6)(typescript@5.9.3)(wrangler@4.43.0)(yaml@2.8.1)
       '@react-router/node':
         specifier: 'catalog:'
         version: 7.9.4(react-router@7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)
@@ -6947,8 +6947,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@4.42.2:
-    resolution: {integrity: sha512-1iTnbjB4F12KSP1zbfxQL495xarS+vdrZnulQP2SEcAxDTUGn7N9zk1O2WtFOc+Fhcgl+9/sdz/4AL9pF34Pwg==}
+  wrangler@4.43.0:
+    resolution: {integrity: sha512-IBNqXlYHSUSCNNWj/tQN4hFiQy94l7fTxEnJWETXyW69+cjUyjQ7MfeoId3vIV9KBgY8y5M5uf2XulU95OikJg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -8517,7 +8517,7 @@ snapshots:
       make-synchronized: 0.8.0
       prettier: 3.6.2
 
-  '@react-router/dev@7.9.4(@types/node@22.18.10)(@vitejs/plugin-rsc@0.4.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1)))(jiti@2.6.0)(lightningcss@1.30.2)(react-router@7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1))(tsx@4.20.6)(typescript@5.9.3)(wrangler@4.42.2)(yaml@2.8.1)':
+  '@react-router/dev@7.9.4(@types/node@22.18.10)(@vitejs/plugin-rsc@0.4.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1)))(jiti@2.6.0)(lightningcss@1.30.2)(react-router@7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1))(tsx@4.20.6)(typescript@5.9.3)(wrangler@4.43.0)(yaml@2.8.1)':
     dependencies:
       '@babel/core': 7.28.0
       '@babel/generator': 7.28.0
@@ -8551,7 +8551,7 @@ snapshots:
     optionalDependencies:
       '@vitejs/plugin-rsc': 0.4.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rolldown-vite@7.1.17(@types/node@22.18.10)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1))
       typescript: 5.9.3
-      wrangler: 4.42.2
+      wrangler: 4.43.0
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -13052,7 +13052,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20251008.0
       '@cloudflare/workerd-windows-64': 1.20251008.0
 
-  wrangler@4.42.2:
+  wrangler@4.43.0:
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@cloudflare/unenv-preset': 2.7.7(unenv@2.0.0-rc.21)(workerd@1.20251008.0)
