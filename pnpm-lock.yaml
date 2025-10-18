@@ -199,8 +199,8 @@ catalogs:
       specifier: 2.3.0
       version: 2.3.0
     eslint-vitest-rule-tester:
-      specifier: 2.2.2
-      version: 2.2.2
+      specifier: 2.3.0
+      version: 2.3.0
     flubber:
       specifier: 0.4.2
       version: 0.4.2
@@ -820,7 +820,7 @@ importers:
         version: 2.3.0(eslint@9.37.0(jiti@2.6.0))
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 2.2.2(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)(vitest@3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))
+        version: 2.3.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)(vitest@3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))
       ts-config:
         specifier: workspace:^
         version: link:../ts-config
@@ -854,7 +854,7 @@ importers:
         version: 2.3.0(eslint@9.37.0(jiti@2.6.0))
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 2.2.2(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)(vitest@3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))
+        version: 2.3.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)(vitest@3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))
       ts-config:
         specifier: workspace:^
         version: link:../ts-config
@@ -3253,9 +3253,6 @@ packages:
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
-  '@types/eslint@9.6.1':
-    resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
-
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -4232,8 +4229,8 @@ packages:
     resolution: {integrity: sha512-Uhdk5sfqcee/9H/rCOJikYz67o0a2Tw2hGRPOG2Y1R2dg7brRe1uG0yaNQDHu+TO/uQPF/5eCapvYSmHUjt7JQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-vitest-rule-tester@2.2.2:
-    resolution: {integrity: sha512-bFQF5dihyZKRI73l++bYIilplsbAk5sPtWdtoHeVjD5L/JJWeepkCxPCmCIvGGz5QCOClOLG6EyE8Ji/+NDB6A==}
+  eslint-vitest-rule-tester@2.3.0:
+    resolution: {integrity: sha512-RwUpr5s0Up1cJNxdHJGgWLyfvPOGNypSapbtSYTFwdABP/fXqvSg8+AAs0CzM+lr2HV4PmQZ5iU0q0S9DG17Kg==}
     peerDependencies:
       eslint: ^9.0.0
       vitest: ^1.0.0 || ^2.0.0 || ^3.0.0
@@ -9201,11 +9198,6 @@ snapshots:
 
   '@types/doctrine@0.0.9': {}
 
-  '@types/eslint@9.6.1':
-    dependencies:
-      '@types/estree': 1.0.8
-      '@types/json-schema': 7.0.15
-
   '@types/estree@1.0.8': {}
 
   '@types/flubber@0.4.0': {}
@@ -10388,9 +10380,8 @@ snapshots:
 
   eslint-visitor-keys@4.2.1: {}
 
-  eslint-vitest-rule-tester@2.2.2(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)(vitest@3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1)):
+  eslint-vitest-rule-tester@2.3.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)(vitest@3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1)):
     dependencies:
-      '@types/eslint': 9.6.1
       '@typescript-eslint/utils': 8.46.1(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       eslint: 9.37.0(jiti@2.6.0)
       vitest: 3.2.4(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(msw@2.11.5(@types/node@22.18.11)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1)

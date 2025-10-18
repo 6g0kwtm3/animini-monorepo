@@ -67,7 +67,7 @@ catalog:
   eslint-plugin-storybook: 9.1.12
   eslint-plugin-turbo: 2.5.8
   eslint-typegen: 2.3.0
-  eslint-vitest-rule-tester: 2.2.2
+  eslint-vitest-rule-tester: 2.3.0
   flubber: 0.4.2
   graphql: 16.11.0
   graphql-config: 5.1.5
