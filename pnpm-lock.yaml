@@ -241,8 +241,8 @@ catalogs:
       specifier: 3.6.2
       version: 3.6.2
     prettier-plugin-tailwindcss:
-      specifier: 0.7.0
-      version: 0.7.0
+      specifier: 0.7.1
+      version: 0.7.1
     prop-types:
       specifier: 15.8.1
       version: 15.8.1
@@ -370,7 +370,7 @@ importers:
         version: 3.6.2
       prettier-plugin-tailwindcss:
         specifier: 'catalog:'
-        version: 0.7.0(@prettier/plugin-oxc@0.0.4)(prettier@3.6.2)
+        version: 0.7.1(@prettier/plugin-oxc@0.0.4)(prettier@3.6.2)
       tsx:
         specifier: 'catalog:'
         version: 4.20.6
@@ -5793,8 +5793,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier-plugin-tailwindcss@0.7.0:
-    resolution: {integrity: sha512-zpRZhkfwq1cNmbKhmKzXKuKFdkgXZXlf6p+KttD75v6pGz1FxmcKMc4RKdw97GYBKBbout4113HSLaBJAomFDw==}
+  prettier-plugin-tailwindcss@0.7.1:
+    resolution: {integrity: sha512-Bzv1LZcuiR1Sk02iJTS1QzlFNp/o5l2p3xkopwOrbPmtMeh3fK9rVW5M3neBQzHq+kGKj/4LGQMTNcTH4NGPtQ==}
     engines: {node: '>=20.19'}
     peerDependencies:
       '@ianvs/prettier-plugin-sort-imports': '*'
@@ -11865,7 +11865,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-tailwindcss@0.7.0(@prettier/plugin-oxc@0.0.4)(prettier@3.6.2):
+  prettier-plugin-tailwindcss@0.7.1(@prettier/plugin-oxc@0.0.4)(prettier@3.6.2):
     dependencies:
       prettier: 3.6.2
     optionalDependencies:
