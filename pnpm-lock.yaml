@@ -286,8 +286,8 @@ catalogs:
       specifier: 8.46.0
       version: 8.46.0
     unplugin-icons:
-      specifier: 22.4.2
-      version: 22.4.2
+      specifier: 22.5.0
+      version: 22.5.0
     vite:
       specifier: 7.1.10
       version: 7.1.10
@@ -467,7 +467,7 @@ importers:
         version: 4.20.6
       unplugin-icons:
         specifier: 'catalog:'
-        version: 22.4.2(@svgr/core@8.1.0(typescript@5.9.3))
+        version: 22.5.0(@svgr/core@8.1.0(typescript@5.9.3))
       vite:
         specifier: 'catalog:'
         version: 7.1.10(@types/node@22.18.11)(jiti@2.6.0)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.1)
@@ -593,7 +593,7 @@ importers:
         version: 4.1.14
       unplugin-icons:
         specifier: 'catalog:'
-        version: 22.4.2(@svgr/core@8.1.0(typescript@5.9.3))
+        version: 22.5.0(@svgr/core@8.1.0(typescript@5.9.3))
       vite:
         specifier: catalog:experimental
         version: rolldown-vite@7.1.17(@types/node@22.18.11)(esbuild@0.25.5)(jiti@2.6.0)(tsx@4.20.6)(yaml@2.8.1)
@@ -6673,8 +6673,8 @@ packages:
     resolution: {integrity: sha512-6bc58dPYhCMHHuwxldQxO3RRNZ4eCogZ/st++0+fcC1nr0jiGUtAdBJ2qzmLQWSxbtz42pWt4QQMiZ9HvZf5cg==}
     engines: {node: '>=0.10.0'}
 
-  unplugin-icons@22.4.2:
-    resolution: {integrity: sha512-Yv15405unO67Chme0Slk0JRA/H2AiAZLK5t7ebt8/ZpTDlBfM4d4En2qD3MX2rzOSkIteQ0syIm3q8MSofeoBA==}
+  unplugin-icons@22.5.0:
+    resolution: {integrity: sha512-MBlMtT5RuMYZy4TZgqUL2OTtOdTUVsS1Mhj6G1pEzMlFJlEnq6mhUfoIt45gBWxHcsOdXJDWLg3pRZ+YmvAVWQ==}
     peerDependencies:
       '@svgr/core': '>=7.0.0'
       '@svgx/core': ^1.0.1
@@ -12764,7 +12764,7 @@ snapshots:
     dependencies:
       normalize-path: 2.1.1
 
-  unplugin-icons@22.4.2(@svgr/core@8.1.0(typescript@5.9.3)):
+  unplugin-icons@22.5.0(@svgr/core@8.1.0(typescript@5.9.3)):
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@iconify/utils': 3.0.2
