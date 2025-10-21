@@ -76,7 +76,7 @@ catalog:
   knip: 5.66.1
   marked: 0.3.19
   motion: 12.23.24
-  msw: 2.11.5
+  msw: 2.11.6
   nodemon: 3.1.10
   oxlint: 1.23.0
   oxlint-tsgolint: 0.2.0
