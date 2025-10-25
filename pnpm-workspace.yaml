@@ -79,7 +79,7 @@ catalog:
   msw: 2.11.6
   nodemon: 3.1.10
   oxlint: 1.24.0
-  oxlint-tsgolint: 0.2.1
+  oxlint-tsgolint: 0.3.0
   prettier: 3.6.2
   prettier-plugin-tailwindcss: 0.7.1
   prop-types: 15.8.1
