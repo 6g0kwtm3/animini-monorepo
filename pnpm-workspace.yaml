@@ -5,7 +5,7 @@ packages:
 catalog:
   '@ariakit/react': 0.4.19
   '@ark/attest': 0.51.0
-  '@babel/preset-typescript': 7.27.1
+  '@babel/preset-typescript': 7.28.5
   '@chromatic-com/storybook': 4.1.1
   '@codspeed/vitest-plugin': 4.0.1
   '@eslint/js': 9.37.0
