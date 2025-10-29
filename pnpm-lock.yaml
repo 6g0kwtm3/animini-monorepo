@@ -10,8 +10,8 @@ catalogs:
       specifier: 0.4.19
       version: 0.4.19
     '@ark/attest':
-      specifier: 0.51.0
-      version: 0.51.0
+      specifier: 0.53.0
+      version: 0.53.0
     '@babel/preset-typescript':
       specifier: 7.28.5
       version: 7.28.5
@@ -325,7 +325,7 @@ importers:
     devDependencies:
       '@ark/attest':
         specifier: 'catalog:'
-        version: 0.51.0(typescript@5.9.3)
+        version: 0.53.0(typescript@5.9.3)
       '@prettier/plugin-oxc':
         specifier: 'catalog:'
         version: 0.0.4
@@ -1127,14 +1127,14 @@ packages:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@ark/attest@0.51.0':
-    resolution: {integrity: sha512-omXPbY+o7m1UQkxiKJLVbipdv3ESBF4JlO77bx/I+7JhfwL288gVV04TJTpNUMUnLy1qxJ6Ceua/WKnpsmKwcg==}
+  '@ark/attest@0.53.0':
+    resolution: {integrity: sha512-ZY5FKpa0wuHkonwSnuzWnoYupdJU+xVzzD5D2ARC2pKapXm5bPc303YK6QQ69fkRVne33Mx9ktM5OGzYQqqduQ==}
     hasBin: true
     peerDependencies:
       typescript: '*'
 
-  '@ark/fs@0.51.0':
-    resolution: {integrity: sha512-aampuHM/geoy1s2CZ8wNaGLZC3idUJiC6mwWeT5QCNqQY5VH38eAH9u4zUFTUZRb5RIsaBQ+MLYFvtReDPTsKw==}
+  '@ark/fs@0.53.0':
+    resolution: {integrity: sha512-XL0EbBAZgyy+j9aPhftYaBsbKAW5PTNSKCN6oLRRdrHuHPSAZgR6765/z0YZGhPxHEUNmq0vBoSk8yOLk91dNQ==}
 
   '@ark/regex@0.0.0':
     resolution: {integrity: sha512-p4vsWnd/LRGOdGQglbwOguIVhPmCAf5UzquvnDoxqhhPWTP84wWgi1INea8MgJ4SnI2gp37f13oA4Waz9vwNYg==}
@@ -1142,11 +1142,14 @@ packages:
   '@ark/schema@0.50.0':
     resolution: {integrity: sha512-hfmP82GltBZDadIOeR3argKNlYYyB2wyzHp0eeAqAOFBQguglMV/S7Ip2q007bRtKxIMLDqFY6tfPie1dtssaQ==}
 
+  '@ark/schema@0.53.0':
+    resolution: {integrity: sha512-1PB7RThUiTlmIu8jbSurPrhHpVixPd4C+xNBUF/HrjIENCeDcAMg36n5mpMzED7OQGDVIzpfXXiMnaTiutjHJw==}
+
   '@ark/util@0.50.0':
     resolution: {integrity: sha512-tIkgIMVRpkfXRQIEf0G2CJryZVtHVrqcWHMDa5QKo0OEEBu0tHkRSIMm4Ln8cd8Bn9TPZtvc/kE2Gma8RESPSg==}
 
-  '@ark/util@0.51.0':
-    resolution: {integrity: sha512-OVdvu1NzEFhIRe1/nXUyfRe4hDh8CC8Ag+IYV0RngCc3Gtayny8lIvJjdw+Ef27ClEIuTGlEPEefvoKAm6mu9g==}
+  '@ark/util@0.53.0':
+    resolution: {integrity: sha512-TGn4gLlA6dJcQiqrtCtd88JhGb2XBHo6qIejsDre+nxpGuUVW4G3YZGVrwjNBTO0EyR+ykzIo4joHJzOj+/cpA==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -3569,8 +3572,14 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
+  arkregex@0.0.2:
+    resolution: {integrity: sha512-ttjDUICBVoXD/m8bf7eOjx8XMR6yIT2FmmW9vsN0FCcFOygEZvvIX8zK98tTdXkzi0LkRi5CmadB44jFEIyDNA==}
+
   arktype@2.1.23:
     resolution: {integrity: sha512-tyxNWX6xJVMb2EPJJ3OjgQS1G/vIeQRrZuY4DeBNQmh8n7geS+czgbauQWB6Pr+RXiOO8ChEey44XdmxsqGmfQ==}
+
+  arktype@2.1.25:
+    resolution: {integrity: sha512-fdj10sNlUPeDRg1QUqMbzJ4Q7gutTOWOpLUNdcC4vxeVrN0G+cbDOvLbuxQOFj/NDAode1G7kwFv4yKwQvupJg==}
 
   array-buffer-byte-length@1.0.2:
     resolution: {integrity: sha512-LHE+8BuR7RYGDKvnrmcuSq3tDcKv9OFEXQt/HpbZhY7V6h0zlUXutnAD82GiFx9rdieCMjkvtcsPqBwgUl1Iiw==}
@@ -7052,20 +7061,20 @@ snapshots:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
-  '@ark/attest@0.51.0(typescript@5.9.3)':
+  '@ark/attest@0.53.0(typescript@5.9.3)':
     dependencies:
-      '@ark/fs': 0.51.0
-      '@ark/util': 0.51.0
+      '@ark/fs': 0.53.0
+      '@ark/util': 0.53.0
       '@prettier/sync': 0.6.1(prettier@3.6.2)
       '@typescript/analyze-trace': 0.10.1
       '@typescript/vfs': 1.6.1(typescript@5.9.3)
-      arktype: 2.1.23
+      arktype: 2.1.25
       prettier: 3.6.2
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@ark/fs@0.51.0': {}
+  '@ark/fs@0.53.0': {}
 
   '@ark/regex@0.0.0':
     dependencies:
@@ -7075,9 +7084,13 @@ snapshots:
     dependencies:
       '@ark/util': 0.50.0
 
+  '@ark/schema@0.53.0':
+    dependencies:
+      '@ark/util': 0.53.0
+
   '@ark/util@0.50.0': {}
 
-  '@ark/util@0.51.0': {}
+  '@ark/util@0.53.0': {}
 
   '@babel/code-frame@7.27.1':
     dependencies:
@@ -9516,11 +9529,21 @@ snapshots:
 
   aria-query@5.3.2: {}
 
+  arkregex@0.0.2:
+    dependencies:
+      '@ark/util': 0.53.0
+
   arktype@2.1.23:
     dependencies:
       '@ark/regex': 0.0.0
       '@ark/schema': 0.50.0
       '@ark/util': 0.50.0
+
+  arktype@2.1.25:
+    dependencies:
+      '@ark/schema': 0.53.0
+      '@ark/util': 0.53.0
+      arkregex: 0.0.2
 
   array-buffer-byte-length@1.0.2:
     dependencies:
