@@ -142,8 +142,8 @@ catalogs:
       specifier: 0.0.35
       version: 0.0.35
     arktype:
-      specifier: 2.1.23
-      version: 2.1.23
+      specifier: 2.1.25
+      version: 2.1.25
     babel-plugin-react-compiler:
       specifier: 1.0.0
       version: 1.0.0
@@ -539,7 +539,7 @@ importers:
         version: 0.0.35
       arktype:
         specifier: 'catalog:'
-        version: 2.1.23
+        version: 2.1.25
       cookie:
         specifier: 'catalog:'
         version: 1.0.2
@@ -1136,17 +1136,8 @@ packages:
   '@ark/fs@0.53.0':
     resolution: {integrity: sha512-XL0EbBAZgyy+j9aPhftYaBsbKAW5PTNSKCN6oLRRdrHuHPSAZgR6765/z0YZGhPxHEUNmq0vBoSk8yOLk91dNQ==}
 
-  '@ark/regex@0.0.0':
-    resolution: {integrity: sha512-p4vsWnd/LRGOdGQglbwOguIVhPmCAf5UzquvnDoxqhhPWTP84wWgi1INea8MgJ4SnI2gp37f13oA4Waz9vwNYg==}
-
-  '@ark/schema@0.50.0':
-    resolution: {integrity: sha512-hfmP82GltBZDadIOeR3argKNlYYyB2wyzHp0eeAqAOFBQguglMV/S7Ip2q007bRtKxIMLDqFY6tfPie1dtssaQ==}
-
   '@ark/schema@0.53.0':
     resolution: {integrity: sha512-1PB7RThUiTlmIu8jbSurPrhHpVixPd4C+xNBUF/HrjIENCeDcAMg36n5mpMzED7OQGDVIzpfXXiMnaTiutjHJw==}
-
-  '@ark/util@0.50.0':
-    resolution: {integrity: sha512-tIkgIMVRpkfXRQIEf0G2CJryZVtHVrqcWHMDa5QKo0OEEBu0tHkRSIMm4Ln8cd8Bn9TPZtvc/kE2Gma8RESPSg==}
 
   '@ark/util@0.53.0':
     resolution: {integrity: sha512-TGn4gLlA6dJcQiqrtCtd88JhGb2XBHo6qIejsDre+nxpGuUVW4G3YZGVrwjNBTO0EyR+ykzIo4joHJzOj+/cpA==}
@@ -3574,9 +3565,6 @@ packages:
 
   arkregex@0.0.2:
     resolution: {integrity: sha512-ttjDUICBVoXD/m8bf7eOjx8XMR6yIT2FmmW9vsN0FCcFOygEZvvIX8zK98tTdXkzi0LkRi5CmadB44jFEIyDNA==}
-
-  arktype@2.1.23:
-    resolution: {integrity: sha512-tyxNWX6xJVMb2EPJJ3OjgQS1G/vIeQRrZuY4DeBNQmh8n7geS+czgbauQWB6Pr+RXiOO8ChEey44XdmxsqGmfQ==}
 
   arktype@2.1.25:
     resolution: {integrity: sha512-fdj10sNlUPeDRg1QUqMbzJ4Q7gutTOWOpLUNdcC4vxeVrN0G+cbDOvLbuxQOFj/NDAode1G7kwFv4yKwQvupJg==}
@@ -7076,19 +7064,9 @@ snapshots:
 
   '@ark/fs@0.53.0': {}
 
-  '@ark/regex@0.0.0':
-    dependencies:
-      '@ark/util': 0.50.0
-
-  '@ark/schema@0.50.0':
-    dependencies:
-      '@ark/util': 0.50.0
-
   '@ark/schema@0.53.0':
     dependencies:
       '@ark/util': 0.53.0
-
-  '@ark/util@0.50.0': {}
 
   '@ark/util@0.53.0': {}
 
@@ -9532,12 +9510,6 @@ snapshots:
   arkregex@0.0.2:
     dependencies:
       '@ark/util': 0.53.0
-
-  arktype@2.1.23:
-    dependencies:
-      '@ark/regex': 0.0.0
-      '@ark/schema': 0.50.0
-      '@ark/util': 0.50.0
 
   arktype@2.1.25:
     dependencies:
