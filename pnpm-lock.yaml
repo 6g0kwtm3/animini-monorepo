@@ -85,14 +85,14 @@ catalogs:
       specifier: 10.0.1
       version: 10.0.1
     '@stryker-mutator/api':
-      specifier: 9.2.0
-      version: 9.2.0
+      specifier: 9.3.0
+      version: 9.3.0
     '@stryker-mutator/core':
-      specifier: 9.2.0
-      version: 9.2.0
+      specifier: 9.3.0
+      version: 9.3.0
     '@stryker-mutator/vitest-runner':
-      specifier: 9.2.0
-      version: 9.2.0
+      specifier: 9.3.0
+      version: 9.3.0
     '@svgr/core':
       specifier: 8.1.0
       version: 8.1.0
@@ -331,13 +331,13 @@ importers:
         version: 0.0.4
       '@stryker-mutator/api':
         specifier: 'catalog:'
-        version: 9.2.0
+        version: 9.3.0
       '@stryker-mutator/core':
         specifier: 'catalog:'
-        version: 9.2.0(@types/node@22.18.13)
+        version: 9.3.0(@types/node@22.18.13)
       '@stryker-mutator/vitest-runner':
         specifier: 'catalog:'
-        version: 9.2.0(@stryker-mutator/core@9.2.0(@types/node@22.18.13))(vitest@3.2.4(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(msw@2.11.6(@types/node@22.18.13)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))
+        version: 9.3.0(@stryker-mutator/core@9.3.0(@types/node@22.18.13))(vitest@3.2.4(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(msw@2.11.6(@types/node@22.18.13)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))
       '@types/node':
         specifier: 'catalog:'
         version: 22.18.13
@@ -1279,12 +1279,6 @@ packages:
 
   '@babel/plugin-transform-typescript@7.28.5':
     resolution: {integrity: sha512-x2Qa+v/CuEoX7Dr31iAfr0IhInrVOWZU/2vJMJ00FOR/2nM0BcBEclpaf9sWCDc+v5e9dMrhSH8/atq/kX7+bA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/preset-typescript@7.27.1':
-    resolution: {integrity: sha512-l7WfQfX0WK4M0v2RudjuQK4u99BS6yLHYEmdtVPP7lKV013zr9DygFuWNlnbvQ9LR+LS0Egz/XAvGx5U9MX0fQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -3033,27 +3027,27 @@ packages:
       typescript:
         optional: true
 
-  '@stryker-mutator/api@9.2.0':
-    resolution: {integrity: sha512-34dalOkATPR9Qh+cO0VFeway0FlfoDrDD1b9mrw3rIF6pJVEjRHlFHiEmdt1G2DewG9pL5guyPy65kkTQIekpQ==}
+  '@stryker-mutator/api@9.3.0':
+    resolution: {integrity: sha512-X6riRHxJiPC2Pp4uxBkol+9MJpZMmX+OuZEttPEuucbY3JgnEv2zxlQ4TMrUaHPuhbsqoQx+mCEB24UVDJDc8g==}
     engines: {node: '>=20.0.0'}
 
-  '@stryker-mutator/core@9.2.0':
-    resolution: {integrity: sha512-qdUSLYAX3ANNZDoFFErLZHGdF6GIk+bmeKuWgD9qdjN9s7TXsjAgPMwUd3U5FwIMTpUF5hZaajTet2IIqyObrA==}
+  '@stryker-mutator/core@9.3.0':
+    resolution: {integrity: sha512-VgF7kyUcCyyrVYCvY4DUIsB7KdhY+IvvjN+bD2rPD8wPNLV//9crDzbPvrX1/pgTnMS3NuEzE0Tj/6MxdoEg+w==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@stryker-mutator/instrumenter@9.2.0':
-    resolution: {integrity: sha512-fX7mYmFMDLG2XwEUBknBo2RHT3HlDYnh7eUd+fEA1wiJH25NY9o3YVFB7UzRk3ZcZJahlgbjExfS+NCUycYwGg==}
+  '@stryker-mutator/instrumenter@9.3.0':
+    resolution: {integrity: sha512-icNSrNM/dDmegtkqKnaCd7sijp27g37rjFmhssYJwK9SGdgygLtV9J02hVS5W6cFnAGnCI0dSSRyj7I1BeAA3Q==}
     engines: {node: '>=20.0.0'}
 
-  '@stryker-mutator/util@9.2.0':
-    resolution: {integrity: sha512-wJuWqXLq/8PKjPUBqHU/N0pshFWPhFA7muVrsNiTVPjHK5DYLkjOrzUl8cUJjusHX35INDr/2uM66kWaYuQu3g==}
+  '@stryker-mutator/util@9.3.0':
+    resolution: {integrity: sha512-+garjSeH1WFC/UrRnWrOds3fugqT0MqMb5N1V/Zh5fMXZvBroZ7vq1abXR2zPZ7YdzVJ4P8XgLB+itPS65k27w==}
 
-  '@stryker-mutator/vitest-runner@9.2.0':
-    resolution: {integrity: sha512-wTRLQl5OZoLUYK+bdc9eqWQHKjVmJu8GakjCwBmTwCX2ohzL/tqXZRUGMwcodsC1omEtPmktGNs6e2nfk0j5QA==}
+  '@stryker-mutator/vitest-runner@9.3.0':
+    resolution: {integrity: sha512-K5Gy/R7i2KMpRYuUWyjCI4EIVk6GOQmtOMMpJ060I++nyw4xjk2+s1dh1GWbubpUE0vENxCjYvZLyEUzDXjcow==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
-      '@stryker-mutator/core': ~9.2.0
+      '@stryker-mutator/core': 9.3.0
       vitest: '>=2.0.0'
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
@@ -4361,10 +4355,6 @@ packages:
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
     engines: {node: '>=16.0.0'}
-
-  file-url@4.0.0:
-    resolution: {integrity: sha512-vRCdScQ6j3Ku6Kd7W1kZk9c++5SqD6Xz5Jotrjr/nkY714M14RFHy/AAVA2WQvpsqVAVgTbDrYyBpU205F0cLw==}
-    engines: {node: '>=12'}
 
   filesize@10.1.6:
     resolution: {integrity: sha512-sJslQKU2uM33qH5nqewAwVB2QgR6w1aMNsYUp3aN5rMRyXEwJGmZvaWzeJFNTOXWlHQyBFCWrdj3fV/fsTOX8w==}
@@ -7228,17 +7218,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/preset-typescript@7.27.1(@babel/core@7.28.0)':
-    dependencies:
-      '@babel/core': 7.28.0
-      '@babel/helper-plugin-utils': 7.27.1
-      '@babel/helper-validator-option': 7.27.1
-      '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.28.0)
-      '@babel/plugin-transform-modules-commonjs': 7.27.1(@babel/core@7.28.0)
-      '@babel/plugin-transform-typescript': 7.28.5(@babel/core@7.28.0)
-    transitivePeerDependencies:
-      - supports-color
-
   '@babel/preset-typescript@7.28.5(@babel/core@7.28.0)':
     dependencies:
       '@babel/core': 7.28.0
@@ -8835,26 +8814,25 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  '@stryker-mutator/api@9.2.0':
+  '@stryker-mutator/api@9.3.0':
     dependencies:
       mutation-testing-metrics: 3.5.1
       mutation-testing-report-schema: 3.5.1
       tslib: 2.8.1
       typed-inject: 5.0.0
 
-  '@stryker-mutator/core@9.2.0(@types/node@22.18.13)':
+  '@stryker-mutator/core@9.3.0(@types/node@22.18.13)':
     dependencies:
       '@inquirer/prompts': 7.5.3(@types/node@22.18.13)
-      '@stryker-mutator/api': 9.2.0
-      '@stryker-mutator/instrumenter': 9.2.0
-      '@stryker-mutator/util': 9.2.0
+      '@stryker-mutator/api': 9.3.0
+      '@stryker-mutator/instrumenter': 9.3.0
+      '@stryker-mutator/util': 9.3.0
       ajv: 8.17.1
       chalk: 5.4.1
       commander: 14.0.0
       diff-match-patch: 1.0.5
       emoji-regex: 10.4.0
       execa: 9.6.0
-      file-url: 4.0.0
       json-rpc-2.0: 1.7.1
       lodash.groupby: 4.6.0
       minimatch: 10.0.3
@@ -8875,29 +8853,29 @@ snapshots:
       - '@types/node'
       - supports-color
 
-  '@stryker-mutator/instrumenter@9.2.0':
+  '@stryker-mutator/instrumenter@9.3.0':
     dependencies:
       '@babel/core': 7.28.0
       '@babel/generator': 7.28.5
       '@babel/parser': 7.28.5
       '@babel/plugin-proposal-decorators': 7.28.0(@babel/core@7.28.0)
       '@babel/plugin-transform-explicit-resource-management': 7.28.0(@babel/core@7.28.0)
-      '@babel/preset-typescript': 7.27.1(@babel/core@7.28.0)
-      '@stryker-mutator/api': 9.2.0
-      '@stryker-mutator/util': 9.2.0
+      '@babel/preset-typescript': 7.28.5(@babel/core@7.28.0)
+      '@stryker-mutator/api': 9.3.0
+      '@stryker-mutator/util': 9.3.0
       angular-html-parser: 9.2.0
       semver: 7.7.2
       weapon-regex: 1.3.2
     transitivePeerDependencies:
       - supports-color
 
-  '@stryker-mutator/util@9.2.0': {}
+  '@stryker-mutator/util@9.3.0': {}
 
-  '@stryker-mutator/vitest-runner@9.2.0(@stryker-mutator/core@9.2.0(@types/node@22.18.13))(vitest@3.2.4(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(msw@2.11.6(@types/node@22.18.13)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))':
+  '@stryker-mutator/vitest-runner@9.3.0(@stryker-mutator/core@9.3.0(@types/node@22.18.13))(vitest@3.2.4(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(msw@2.11.6(@types/node@22.18.13)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1))':
     dependencies:
-      '@stryker-mutator/api': 9.2.0
-      '@stryker-mutator/core': 9.2.0(@types/node@22.18.13)
-      '@stryker-mutator/util': 9.2.0
+      '@stryker-mutator/api': 9.3.0
+      '@stryker-mutator/core': 9.3.0(@types/node@22.18.13)
+      '@stryker-mutator/util': 9.3.0
       tslib: 2.8.1
       vitest: 3.2.4(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(msw@2.11.6(@types/node@22.18.13)(typescript@5.9.3))(tsx@4.20.6)(yaml@2.8.1)
 
@@ -10473,8 +10451,6 @@ snapshots:
   file-entry-cache@8.0.0:
     dependencies:
       flat-cache: 4.0.1
-
-  file-url@4.0.0: {}
 
   filesize@10.1.6: {}
 
