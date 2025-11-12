@@ -48,7 +48,7 @@ catalog:
   '@types/relay-runtime': 19.0.2
   '@typescript-eslint/parser': 8.46.0
   anitomy: 0.0.35
-  arktype: 2.1.25
+  arktype: 2.1.26
   babel-plugin-react-compiler: 1.0.0
   cookie: 1.0.2
   cross-env: 10.1.0
