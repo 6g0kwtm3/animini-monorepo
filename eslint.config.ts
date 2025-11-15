@@ -2,11 +2,11 @@
 /// <reference path="./eslint-typegen.d.ts" />
 import typegen from "eslint-typegen"
 
-import { configs } from "eslint-plugin-pnpm"
 import type { Linter } from "eslint"
+import { configs } from "eslint-plugin-pnpm"
 
 const config: Promise<Linter.Config[]> = typegen([
-	{ ignores: ["playwright", "packages", "apps", ".stryker-tmp"] },
+	{ ignores: ["playwright", "packages", "apps", ".stryker-tmp", ".pnp.cjs"] },
 	...configs.json,
 	...configs.yaml,
 ])
