@@ -52,7 +52,7 @@ catalog:
   babel-plugin-react-compiler: 1.0.0
   cookie: 1.0.2
   cross-env: 10.1.0
-  csstype: 3.2.1
+  csstype: 3.2.3
   dompurify: 3.2.5
   dotenv: 17.2.3
   electron: 35.7.5
