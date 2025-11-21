@@ -74,7 +74,7 @@ catalog:
   hono: 4.10.6
   isbot: 5.1.32
   knip: 5.66.4
-  marked: 0.3.19
+  marked: 17.0.1
   motion: 12.23.24
   msw: 2.12.2
   nodemon: 3.1.11
