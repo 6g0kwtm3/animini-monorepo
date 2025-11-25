@@ -154,8 +154,8 @@ catalogs:
       specifier: 10.1.0
       version: 10.1.0
     csstype:
-      specifier: 3.2.1
-      version: 3.2.1
+      specifier: 3.2.3
+      version: 3.2.3
     dompurify:
       specifier: 3.2.5
       version: 3.2.5
@@ -434,7 +434,7 @@ importers:
         version: 19.2.5
       csstype:
         specifier: 'catalog:'
-        version: 3.2.1
+        version: 3.2.3
       eslint:
         specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.1)
@@ -3896,8 +3896,8 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  csstype@3.2.1:
-    resolution: {integrity: sha512-98XGutrXoh75MlgLihlNxAGbUuFQc7l1cqcnEZlLNKc0UrVdPndgmaDmYTDDh929VS/eqTZV0rozmhu2qqT1/g==}
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   d3-array@1.2.4:
     resolution: {integrity: sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==}
@@ -9121,7 +9121,7 @@ snapshots:
 
   '@types/react@19.2.5':
     dependencies:
-      csstype: 3.2.1
+      csstype: 3.2.3
 
   '@types/relay-runtime@19.0.2': {}
 
@@ -9827,7 +9827,7 @@ snapshots:
 
   cssesc@3.0.0: {}
 
-  csstype@3.2.1: {}
+  csstype@3.2.3: {}
 
   d3-array@1.2.4: {}
 
