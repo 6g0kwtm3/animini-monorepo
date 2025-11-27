@@ -3,7 +3,7 @@ packages:
   - apps/*
 
 catalog:
-  '@ariakit/react': 0.4.19
+  '@ariakit/react': 0.4.20
   '@ark/attest': 0.55.0
   '@babel/preset-typescript': 7.28.5
   '@chromatic-com/storybook': 4.1.3
