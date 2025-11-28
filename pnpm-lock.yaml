@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     '@ariakit/react':
-      specifier: 0.4.19
-      version: 0.4.19
+      specifier: 0.4.20
+      version: 0.4.20
     '@ark/attest':
       specifier: 0.55.0
       version: 0.55.0
@@ -482,7 +482,7 @@ importers:
         version: link:../../packages/design
       '@ariakit/react':
         specifier: 'catalog:'
-        version: 0.4.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 0.4.20(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@hono/node-server':
         specifier: 'catalog:'
         version: 1.19.6(hono@4.10.7)
@@ -1112,17 +1112,17 @@ packages:
     resolution: {integrity: sha512-uGF1YGOzzD50L7HLNWclXmsEhQflw8/zZHIz0/AzkJrKL5r9PceUipZxR/cp/8veTk4TVfdDJLyIwXLjaP5ePg==}
     engines: {node: '>= 20'}
 
-  '@ariakit/core@0.4.16':
-    resolution: {integrity: sha512-nPJ0Be8d5ZvRApYGqdLMuYUjP7ktkPmTPOXyZFw+0Illk8LKgF3Q74ctVGuoQurJNDsANXcewzlyXK4vyIAGTA==}
+  '@ariakit/core@0.4.17':
+    resolution: {integrity: sha512-OmbUcVZgmQw0AvpX5urCAi3KtEuD30DG8W8gpQVzFpCUWUtJ21bmc6a4s2rm2g1oKPIVShy61FGLtKdKLaTG6g==}
 
-  '@ariakit/react-core@0.4.19':
-    resolution: {integrity: sha512-Aj+fu4pMyPXtlBghI+E7KSWItqJkbAqEhut3DlsFAjK9fQdHE+e1tQJG1PtnoEdD9BExkJWQ6R4M5a9HkEhqPA==}
+  '@ariakit/react-core@0.4.20':
+    resolution: {integrity: sha512-4rfmaKgSIctHRDrA4wt8MLSI4rNA6wyD7XSTShghHrJfDEXujuOoZqvmPjtMr///kWfW9OV9USOOn8ie/7H/nw==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@ariakit/react@0.4.19':
-    resolution: {integrity: sha512-n6q8leSQWXMk4vhcZlpnj8cIlAY0n+1bvVTwHvaVfmec4LjW49MFKkJRZd1AiV+SE73nkxPwSL3IbaS4p1aRxQ==}
+  '@ariakit/react@0.4.20':
+    resolution: {integrity: sha512-1X44x3co7MInk5SV4lSvRdy8Nwrt56YNBreKPkcZ/LlwdmY2/2r4A26I7Kzhv+VYIxDTavZYrqOlWnix5ojceg==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -6975,19 +6975,19 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
 
-  '@ariakit/core@0.4.16': {}
+  '@ariakit/core@0.4.17': {}
 
-  '@ariakit/react-core@0.4.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@ariakit/react-core@0.4.20(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@ariakit/core': 0.4.16
+      '@ariakit/core': 0.4.17
       '@floating-ui/dom': 1.7.1
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
       use-sync-external-store: 1.5.0(react@19.2.0)
 
-  '@ariakit/react@0.4.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@ariakit/react@0.4.20(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@ariakit/react-core': 0.4.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@ariakit/react-core': 0.4.20(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
