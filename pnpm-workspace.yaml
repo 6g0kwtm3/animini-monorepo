@@ -50,7 +50,7 @@ catalog:
   anitomy: 0.0.35
   arktype: 2.1.27
   babel-plugin-react-compiler: 1.0.0
-  cookie: 1.0.2
+  cookie: 1.1.1
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
