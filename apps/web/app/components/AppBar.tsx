@@ -45,8 +45,7 @@ const appBar = tv(
 const AppBarContext = createContext(appBar())
 AppBarContext.displayName = "AppBarContext"
 interface AppBarProps
-	extends ComponentProps<"nav">,
-		VariantProps<typeof appBar> {}
+	extends ComponentProps<"nav">, VariantProps<typeof appBar> {}
 
 export function AppBar({
 	variant,

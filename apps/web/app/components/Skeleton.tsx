@@ -25,8 +25,7 @@ export function Loading(
 	return <LoadingContext.Provider value={true} {...props} />
 }
 interface SkeletonProps
-	extends Ariakit.RoleProps,
-		VariantProps<typeof skeleton> {}
+	extends Ariakit.RoleProps, VariantProps<typeof skeleton> {}
 
 export function Skeleton({ full, ...props }: SkeletonProps): ReactNode {
 	const loading = useContext(LoadingContext)

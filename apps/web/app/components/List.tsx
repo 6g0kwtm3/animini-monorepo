@@ -84,8 +84,7 @@ const subheader = tv({
 })
 
 interface SubheaderProps
-	extends Ariakit.HeadingProps,
-		VariantProps<typeof subheader> {}
+	extends Ariakit.HeadingProps, VariantProps<typeof subheader> {}
 
 export function Subheader({ lines, ...props }: SubheaderProps): ReactNode {
 	return (

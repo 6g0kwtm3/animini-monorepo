@@ -32,8 +32,7 @@ export function TabsPanel(props: Ariakit.TabPanelProps): ReactNode {
 }
 
 interface TabsListProps
-	extends Ariakit.TabListProps,
-		VariantProps<typeof tabs> {}
+	extends Ariakit.TabListProps, VariantProps<typeof tabs> {}
 
 export function TabsList({ grow, ...props }: TabsListProps): ReactNode {
 	const styles = tabs({ grow })

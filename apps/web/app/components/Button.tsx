@@ -12,8 +12,7 @@ import {
 } from "./Tooltip"
 
 interface ButtonProps
-	extends Ariakit.ButtonProps,
-		VariantProps<typeof createButton> {
+	extends Ariakit.ButtonProps, VariantProps<typeof createButton> {
 	invoketarget?: string
 	invokeaction?: string
 }
