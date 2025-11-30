@@ -75,8 +75,9 @@ export function TextFieldOutlinedInput(
 	)
 }
 
-interface TextFieldOutlinedFactoryProps
-	extends ComponentProps<typeof TextFieldOutlinedInput> {
+interface TextFieldOutlinedFactoryProps extends ComponentProps<
+	typeof TextFieldOutlinedInput
+> {
 	label: ReactNode
 }
 
