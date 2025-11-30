@@ -16,6 +16,7 @@
 			"groupName": "playwright"
 		},
 		{ "matchPackageNames": ["/oxlint/"], "groupName": "oxlint" },
+		{ "matchPackageNames": ["/prettier/"], "groupName": "prettier" },
 		{
 			"matchDepTypes": ["action"],
 			"matchUpdateTypes": ["digest"],
