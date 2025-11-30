@@ -44,8 +44,7 @@ const card = tv({
 
 import * as Ariakit from "@ariakit/react"
 interface CardProps
-	extends Ariakit.RoleProps<"section">,
-		VariantProps<typeof card> {}
+	extends Ariakit.RoleProps<"section">, VariantProps<typeof card> {}
 
 export function Card({ variant, ...props }: CardProps): ReactNode {
 	return (
