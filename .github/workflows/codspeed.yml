@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Benchmark
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           filter: blob:none
           fetch-depth: 0
