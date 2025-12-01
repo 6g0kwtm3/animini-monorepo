@@ -27,7 +27,7 @@ jobs:
     name: Deploy Sentry
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           filter: blob:none
           fetch-depth: 0
@@ -59,7 +59,7 @@ jobs:
     name: Deploy Cloudflare Pages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           filter: blob:none
           fetch-depth: 0
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Coverage
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           filter: blob:none
           fetch-depth: 0
