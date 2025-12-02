@@ -92,7 +92,7 @@ catalog:
   storybook: 10.1.2
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.1.17
-  tsx: 4.20.6
+  tsx: 4.21.0
   turbo: 2.6.1
   typescript: 5.9.3
   typescript-eslint: 8.46.0
