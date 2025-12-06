@@ -26,7 +26,7 @@ jobs:
     name: Test E2E
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.56.1-jammy
+      image: mcr.microsoft.com/playwright:v1.57.0-jammy
     steps:
       - uses: actions/checkout@v6
         with:
