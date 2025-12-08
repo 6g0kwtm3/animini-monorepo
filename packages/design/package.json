@@ -13,7 +13,7 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
-		"check": "tsc --noEmit"
+		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
 		"@anitrove/unstyled": "workspace:*"
