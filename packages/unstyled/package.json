@@ -12,7 +12,7 @@
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --cache . --fix",
 		"bench": "vitest bench --run",
-		"check": "tsc --noEmit"
+		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
 		"@types/react": "catalog:",
