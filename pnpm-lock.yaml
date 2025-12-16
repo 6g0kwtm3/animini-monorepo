@@ -214,8 +214,8 @@ catalogs:
       specifier: 5.1.5
       version: 5.1.5
     hono:
-      specifier: 4.11.1
-      version: 4.11.1
+      specifier: 4.11.0
+      version: 4.11.0
     isbot:
       specifier: 5.1.32
       version: 5.1.32
@@ -304,8 +304,8 @@ catalogs:
       specifier: 2.1.0
       version: 2.1.0
     vite-tsconfig-paths:
-      specifier: 5.1.4
-      version: 5.1.4
+      specifier: 6.0.1
+      version: 6.0.1
     vitest:
       specifier: 3.2.4
       version: 3.2.4
@@ -491,7 +491,7 @@ importers:
         version: 0.4.20(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@hono/node-server':
         specifier: 'catalog:'
-        version: 1.19.7(hono@4.11.1)
+        version: 1.19.7(hono@4.11.0)
       '@iconify-json/material-symbols':
         specifier: 'catalog:'
         version: 1.2.50
@@ -563,7 +563,7 @@ importers:
         version: 16.12.0
       hono:
         specifier: 'catalog:'
-        version: 4.11.1
+        version: 4.11.0
       isbot:
         specifier: 'catalog:'
         version: 5.1.32
@@ -608,7 +608,7 @@ importers:
         version: 2.1.0(babel-plugin-relay@19.0.0)(rolldown-vite@7.2.11(@types/node@22.19.3)(esbuild@0.25.5)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))
       vite-tsconfig-paths:
         specifier: 'catalog:'
-        version: 5.1.4(rolldown-vite@7.2.11(@types/node@22.19.3)(esbuild@0.25.5)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))(typescript@5.9.3)
+        version: 6.0.1(rolldown-vite@7.2.11(@types/node@22.19.3)(esbuild@0.25.5)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))(typescript@5.9.3)
     devDependencies:
       '@babel/preset-typescript':
         specifier: 'catalog:'
@@ -4703,8 +4703,8 @@ packages:
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
 
-  hono@4.11.1:
-    resolution: {integrity: sha512-KsFcH0xxHes0J4zaQgWbYwmz3UPOOskdqZmItstUG93+Wk1ePBLkLGwbP9zlmh1BFUiL8Qp+Xfu9P7feJWpGNg==}
+  hono@4.11.0:
+    resolution: {integrity: sha512-Jg8uZzN2ul8/qlyid5FO8O624F3AK0wKtkgoeEON1qBum1rM1itYBxoMKu/1SPJC7F1+xlIZsJMmc4HHhJ1AWg==}
     engines: {node: '>=16.9.0'}
 
   http-cache-semantics@4.2.0:
@@ -6687,8 +6687,8 @@ packages:
       babel-plugin-relay: '>=14.1.0'
       vite: '>=2.0.0'
 
-  vite-tsconfig-paths@5.1.4:
-    resolution: {integrity: sha512-cYj0LRuLV2c2sMqhqhGpaO3LretdtMn/BVX4cPLanIZuwwrkVl+lK84E/miEXkCHWXuq65rhNN4rXsBcOB3S4w==}
+  vite-tsconfig-paths@6.0.1:
+    resolution: {integrity: sha512-OQuYkfCQhc2T+n//0N7/oogTosgiSyZQ7dydrpUlH5SbnFTtplpekdY4GMi6jDwEpiwWlqeUJMyPfC2ePM1+2A==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
@@ -7804,9 +7804,9 @@ snapshots:
     dependencies:
       graphql: 16.12.0
 
-  '@hono/node-server@1.19.7(hono@4.11.1)':
+  '@hono/node-server@1.19.7(hono@4.11.0)':
     dependencies:
-      hono: 4.11.1
+      hono: 4.11.0
 
   '@humanfs/core@0.19.1': {}
 
@@ -10769,7 +10769,7 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  hono@4.11.1: {}
+  hono@4.11.0: {}
 
   http-cache-semantics@4.2.0: {}
 
@@ -12649,7 +12649,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-tsconfig-paths@5.1.4(rolldown-vite@7.2.11(@types/node@22.19.3)(esbuild@0.25.5)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))(typescript@5.9.3):
+  vite-tsconfig-paths@6.0.1(rolldown-vite@7.2.11(@types/node@22.19.3)(esbuild@0.25.5)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))(typescript@5.9.3):
     dependencies:
       debug: 4.4.3(supports-color@5.5.0)
       globrex: 0.1.2
