@@ -178,8 +178,8 @@ catalogs:
       specifier: 1.24.0
       version: 1.24.0
     eslint-plugin-perfectionist:
-      specifier: 4.15.1
-      version: 4.15.1
+      specifier: 5.0.0
+      version: 5.0.0
     eslint-plugin-pnpm:
       specifier: 1.4.3
       version: 1.4.3
@@ -752,7 +752,7 @@ importers:
         version: 1.24.0
       eslint-plugin-perfectionist:
         specifier: 'catalog:'
-        version: 4.15.1(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
+        version: 5.0.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-turbo:
         specifier: 'catalog:'
         version: 2.6.3(eslint@9.37.0(jiti@2.6.1))(turbo@2.6.3)
@@ -4243,9 +4243,9 @@ packages:
   eslint-plugin-oxlint@1.24.0:
     resolution: {integrity: sha512-eK41VTdYfq8HJH5tGxC6EMdfmCpzXbM5SAqyAU9HProtb5YRCxM9vT2PUfLbGw9EptUvPGF4o9cVUvK9hCCB1g==}
 
-  eslint-plugin-perfectionist@4.15.1:
-    resolution: {integrity: sha512-MHF0cBoOG0XyBf7G0EAFCuJJu4I18wy0zAoT1OHfx2o6EOx1EFTIzr2HGeuZa1kDcusoX0xJ9V7oZmaeFd773Q==}
-    engines: {node: ^18.0.0 || >=20.0.0}
+  eslint-plugin-perfectionist@5.0.0:
+    resolution: {integrity: sha512-a8PgR2AgCxEVmpIU+vd3nsYWTa8LfyXXJ0gXkPoj1gVW/sfj23BSTtNFBexGysTRNDwuMGLSzejHY+S3qj0EDg==}
+    engines: {node: ^20.0.0 || >=22.0.0}
     peerDependencies:
       eslint: '>=8.45.0'
 
@@ -10218,9 +10218,8 @@ snapshots:
     dependencies:
       jsonc-parser: 3.3.1
 
-  eslint-plugin-perfectionist@4.15.1(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3):
+  eslint-plugin-perfectionist@5.0.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
-      '@typescript-eslint/types': 8.50.0
       '@typescript-eslint/utils': 8.50.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.37.0(jiti@2.6.1)
       natural-orderby: 5.0.0
