@@ -214,8 +214,8 @@ catalogs:
       specifier: 5.1.5
       version: 5.1.5
     hono:
-      specifier: 4.11.2
-      version: 4.11.2
+      specifier: 4.11.3
+      version: 4.11.3
     isbot:
       specifier: 5.1.32
       version: 5.1.32
@@ -491,7 +491,7 @@ importers:
         version: 0.4.20(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@hono/node-server':
         specifier: 'catalog:'
-        version: 1.19.7(hono@4.11.2)
+        version: 1.19.7(hono@4.11.3)
       '@iconify-json/material-symbols':
         specifier: 'catalog:'
         version: 1.2.50
@@ -563,7 +563,7 @@ importers:
         version: 16.12.0
       hono:
         specifier: 'catalog:'
-        version: 4.11.2
+        version: 4.11.3
       isbot:
         specifier: 'catalog:'
         version: 5.1.32
@@ -4548,8 +4548,8 @@ packages:
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
 
-  hono@4.11.2:
-    resolution: {integrity: sha512-o+avdUAD1v94oHkjGBhiMhBV4WBHxhbu0+CUVH78hhphKy/OKQLxtKjkmmNcrMlbYAhAbsM/9F+l3KnYxyD3Lg==}
+  hono@4.11.3:
+    resolution: {integrity: sha512-PmQi306+M/ct/m5s66Hrg+adPnkD5jiO6IjA7WhWw0gSBSo1EcRegwuI1deZ+wd5pzCGynCcn2DprnE4/yEV4w==}
     engines: {node: '>=16.9.0'}
 
   http-cache-semantics@4.2.0:
@@ -7575,9 +7575,9 @@ snapshots:
     dependencies:
       graphql: 16.12.0
 
-  '@hono/node-server@1.19.7(hono@4.11.2)':
+  '@hono/node-server@1.19.7(hono@4.11.3)':
     dependencies:
-      hono: 4.11.2
+      hono: 4.11.3
 
   '@humanfs/core@0.19.1': {}
 
@@ -10511,7 +10511,7 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  hono@4.11.2: {}
+  hono@4.11.3: {}
 
   http-cache-semantics@4.2.0: {}
 
