@@ -7,7 +7,6 @@ import relay from "eslint-plugin-relay"
 import typegen from "eslint-typegen"
 import graphQLConfig from "./graphql.config.js"
 
-// @ts-expect-error TODO: fix types
 export default typegen([
 	{
 		name: "web/ignores",
@@ -20,9 +19,11 @@ export default typegen([
 			".react-router/",
 		],
 	},
+	// @ts-expect-error TODO: fix types
 	...base,
-	...react,
-	relay.configs.recommended,
+	// @ts-expect-error TODO: fix types
+	...react, // @ts-expect-error TODO: fix types
+	relay.configs.recommended, // @ts-expect-error TODO: fix types
 	{
 		name: "web/@graphql-eslint/eslint-plugin/processor",
 		files: ["**/*.{js,jsx,ts,tsx}"],
@@ -34,7 +35,7 @@ export default typegen([
 		languageOptions: {
 			parser: graphql.parser,
 			parserOptions: { graphQLConfig: graphQLConfig },
-		},
+		}, // @ts-expect-error TODO: fix types
 		plugins: { "@graphql-eslint": { rules: graphql.rules } },
 		rules: {
 			"@graphql-eslint/no-deprecated": "error",
