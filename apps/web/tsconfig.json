@@ -5,7 +5,6 @@
 	"compilerOptions": {
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
-		"baseUrl": ".",
 		"rootDirs": [".", "./.react-router/types"],
 		"paths": { "~/*": ["./app/*"], "#lib/*": ["./app/lib/*"] },
 		// Vite takes care of building everything, not tsc.
