@@ -33,3 +33,4 @@ export const media = {
 	maxLg: "@media (width < 1200px)",
 	maxXl: "@media (width < 1600px)",
 } as const
+ 

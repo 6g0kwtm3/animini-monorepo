@@ -45,25 +45,33 @@ export const buttonDefinition = defineCva({
 			},
 		},
 		size: {
-			xs: { height: "2rem", gap: ".25rem", paddingInline: ".75rem" },
-			sm: { height: "2.5rem", gap: ".5rem", paddingInline: "1rem" },
+			xs: {
+				height: "2rem",
+				gap: ".25rem",
+				...design.utilities.paddingX(".75rem"),
+			},
+			sm: {
+				height: "2.5rem",
+				gap: ".5rem",
+				...design.utilities.paddingX("1rem"),
+			},
 			md: {
 				height: "3.5rem",
 				gap: ".5rem",
-				paddingInline: "1.5rem",
+				...design.utilities.paddingX("1.5rem"),
 				...design.tokens.typescale["title-md"],
 			},
 			lg: {
 				height: "6rem",
 				gap: ".75rem",
-				paddingInline: "3rem",
+				...design.utilities.paddingX("3rem"),
 				...design.tokens.typescale["headline-sm"],
 				ring: 2,
 			},
 			xl: {
 				height: "8.5rem",
 				gap: "1rem",
-				paddingInline: "4rem",
+				...design.utilities.paddingX("4rem"),
 				...design.tokens.typescale["headline-lg"],
 				ring: 3,
 			},
