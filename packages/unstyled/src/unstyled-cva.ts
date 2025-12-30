@@ -178,6 +178,9 @@ function mergeCompoundVariantProperty<
 function mergeValues<T extends number | string>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
+	a ??= { base: a }
+	b ??= { base: b }
+
 	if (typeof a !== "object" && typeof b !== "object") {
 		return `${numberOrStringToString(a)} ${numberOrStringToString(b)}`
 	}

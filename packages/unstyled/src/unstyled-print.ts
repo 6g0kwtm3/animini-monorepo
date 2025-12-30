@@ -40,6 +40,8 @@ function printProperty(
 	property: Value,
 	indent: number
 ): string {
+	property ??= { base: property }
+
 	if (typeof property !== "object") {
 		return (
 			tab.repeat(indent)
