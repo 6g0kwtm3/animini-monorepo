@@ -1,6 +1,8 @@
-export type Value<T extends number | string = number | string> =
-	| T
-	| { [key: string]: undefined | Value<T>; base?: T }
+import type { Properties } from "./unstyled-cva";
+
+export type Value<
+	T extends Properties[keyof Properties] = Properties[keyof Properties],
+> = T | { [key: string]: undefined | Value<T>; base?: T }
 
 export function mapValue<A extends number | string, B extends number | string>(
 	value: Value<A>,
