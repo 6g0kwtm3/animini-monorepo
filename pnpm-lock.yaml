@@ -971,6 +971,9 @@ importers:
       '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
+      csstype:
+        specifier: 'catalog:'
+        version: 3.2.3
     devDependencies:
       '@codspeed/vitest-plugin':
         specifier: 'catalog:'
@@ -1046,6 +1049,9 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.7
+      csstype:
+        specifier: 'catalog:'
+        version: 3.2.3
       react:
         specifier: 'catalog:'
         version: 19.2.3
