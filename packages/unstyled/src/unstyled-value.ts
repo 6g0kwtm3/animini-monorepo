@@ -1,4 +1,4 @@
-import type { Properties } from "./unstyled-cva";
+import type { Properties } from "./unstyled-cva"
 
 export type Value<
 	T extends Properties[keyof Properties] = Properties[keyof Properties],
