@@ -9,8 +9,8 @@ import { mapValue, type Value } from "./unstyled-value"
 // }
 
 export interface Properties {
-	[key: `--${string}`]: number | string
-	[key: string]: number | string
+	[key: `--${string}`]: number | string | undefined
+	[key: string]: number | string | undefined
 }
 
 export type RawStyles = { [K in keyof Properties]?: Value }
@@ -178,6 +178,9 @@ function mergeCompoundVariantProperty<
 function mergeValues<T extends number | string>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
+	a ??= { base: a }
+	b ??= { base: b }
+
 	if (typeof a !== "object" && typeof b !== "object") {
 		return `${numberOrStringToString(a)} ${numberOrStringToString(b)}`
 	}

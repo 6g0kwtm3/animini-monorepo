@@ -5,7 +5,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"exports": {
-		"./button": "./src/m3-react-button.tsx"
+		"./button": "./src/m3-react-button.tsx",
+		"./list": "./src/m3-react-list.tsx"
 	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
@@ -28,6 +29,7 @@
 		"@anitrove/design": "workspace:*"
 	},
 	"peerDependencies": {
-		"@anitrove/unstyled": "workspace:*"
+		"@anitrove/unstyled": "workspace:*",
+		"csstype": "catalog:"
 	}
 }

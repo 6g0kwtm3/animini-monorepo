@@ -16,7 +16,8 @@
 	},
 	"peerDependencies": {
 		"@types/react": "catalog:",
-		"react": "catalog:"
+		"react": "catalog:",
+		"csstype": "catalog:"
 	},
 	"devDependencies": {
 		"@codspeed/vitest-plugin": "catalog:",

@@ -1,3 +1,7 @@
+import type { Value } from "@anitrove/unstyled/value"
+
+import type { RawStyles } from "@anitrove/unstyled"
+import type { Property } from "csstype"
 import colors from "./design-colors"
 
 export const contrast = (value: string): Record<`--${string}`, string> => {
@@ -18,3 +22,25 @@ export const theme = (value: string): Record<`--${string}`, string> => {
 		})
 	)
 }
+
+export const marginX = (value: Value<Property.MarginInline | undefined>) => {
+	return { marginInline: value } satisfies RawStyles
+}
+
+export const marginY = (value: Value<Property.MarginBlock | undefined>) => {
+	return { marginBlock: value } satisfies RawStyles
+}
+
+export const paddingX = (value: Value<Property.PaddingInline | undefined>) => {
+	return { paddingInline: value } satisfies RawStyles
+}
+
+export const paddingY = (value: Value<Property.PaddingBlock | undefined>) => {
+	return { paddingBlock: value } satisfies RawStyles
+}
+
+export const truncate = {
+	overflow: "hidden",
+	textOverflow: "ellipsis",
+	whiteSpace: "nowrap",
+} satisfies RawStyles

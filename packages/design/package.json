@@ -26,5 +26,8 @@
 		"tsx": "catalog:",
 		"typescript": "catalog:",
 		"utilities": "workspace:*"
+	},
+	"dependencies": {
+		"csstype": "catalog:"
 	}
 }
