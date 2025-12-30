@@ -9,8 +9,8 @@ import { mapValue, type Value } from "./unstyled-value"
 // }
 
 export interface Properties {
-	[key: `--${string}`]: number | string
-	[key: string]: number | string
+	[key: `--${string}`]: number | string | undefined
+	[key: string]: number | string | undefined
 }
 
 export type RawStyles = { [K in keyof Properties]?: Value }
