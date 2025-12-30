@@ -21,6 +21,10 @@ const preview = {
 				})
 
 				document.documentElement.style.setProperty(
+					"font-family",
+					"'Roboto Flex','Noto Sans',sans-serif"
+				)
+				document.documentElement.style.setProperty(
 					"font-optical-sizing",
 					"auto"
 				)
