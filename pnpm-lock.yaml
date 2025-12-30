@@ -716,6 +716,9 @@ importers:
       '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
+      csstype:
+        specifier: 'catalog:'
+        version: 3.2.3
     devDependencies:
       eslint:
         specifier: 'catalog:'
