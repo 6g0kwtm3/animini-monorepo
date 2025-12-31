@@ -1,9 +1,4 @@
-import {
-	CheckboxProvider,
-	Group,
-	GroupLabel,
-	RadioProvider,
-} from "@ariakit/react"
+import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import {
 	Form,
 	isRouteErrorResponse,
@@ -18,7 +13,7 @@ import {
 
 import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "~/components/AppBar"
-import { Button as ButtonText, Icon } from "~/components/Button"
+import { Icon } from "~/components/Button"
 import { Card } from "~/components/Card"
 import { Checkbox, Radio } from "~/components/Checkbox"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -48,11 +43,6 @@ import { A } from "@anitrove/a"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlets } from "extra-outlet"
-import {
-	ChipFilter,
-	ChipFilterCheckbox,
-	ChipFilterRadio,
-} from "~/components/Chip"
 import { Label } from "~/components/Label"
 import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
@@ -91,9 +81,31 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	}
 }
 
-export default function Filters({
-	loaderData,
-}: Route.ComponentProps): ReactNode {
+function Actions(_props: Route.ComponentProps): ReactNode {
+	return (
+		<>
+			<Icon tooltip={true} title="Filter">
+				<MaterialSymbolsSearch />
+			</Icon>
+			<FilterButton />
+			<Icon tooltip={true} title="More">
+				<MaterialSymbolsMoreHoriz />
+			</Icon>
+		</>
+	)
+}
+
+function Title({ params }: Route.ComponentProps): ReactNode {
+	return (
+		<>
+			{" | "}
+			{params.typelist === "animelist" ? "Anime list" : "Manga list"}
+		</>
+	)
+}
+
+export default function Filters(props: Route.ComponentProps): ReactNode {
+	const { loaderData } = props
 	const submit = useSubmit()
 
 	const searchParams = useOptimisticSearchParams()
@@ -101,144 +113,35 @@ export default function Filters({
 	const params = useParams()
 
 	return (
-		<ExtraOutlets>
-			<LayoutBody>
-				<LayoutPane variant="fixed" className="max-md:hidden">
-					<Card variant="elevated" className="max-h-full overflow-y-auto">
-						<Form
-							action={pathname}
-							replace
-							onChange={(e) => {
-								void submit(e.currentTarget)
-							}}
-							className="grid grid-cols-2 gap-2"
-						>
-							<CheckboxProvider value={searchParams.getAll("status")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Status</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_STATUS_OPTIONS
-												: MANGA_STATUS_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<ChipFilter key={value} data-key={value}>
-													<ChipFilterCheckbox name="status" value={value} />
-													{label}
-												</ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</CheckboxProvider>
-							<CheckboxProvider value={searchParams.getAll("format")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Format</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_FORMAT_OPTIONS
-												: MANGA_FORMAT_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<ChipFilter key={value} data-key={value}>
-													<ChipFilterCheckbox name="format" value={value} />
-													{label}
-												</ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</CheckboxProvider>
-							<CheckboxProvider value={searchParams.getAll("progress")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Progress</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_PROGRESS_OPTIONS
-												: MANGA_PROGRESS_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<ChipFilter key={value} data-key={value}>
-													<ChipFilterCheckbox name="progress" value={value} />
-													{label}
-												</ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</CheckboxProvider>
-
-							<RadioProvider value={searchParams.get("sort")}>
-								<Group className="col-span-2" render={<fieldset />}>
-									<GroupLabel render={<legend />}>Sort</GroupLabel>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(
-											params.typelist === "animelist"
-												? ANIME_SORT_OPTIONS
-												: MANGA_SORT_OPTIONS
-										).map(([value, label]) => {
-											return (
-												<ChipFilter key={value} data-key={value}>
-													<ChipFilterRadio name="sort" value={value} />
-													{label}
-												</ChipFilter>
-											)
-										})}
-									</div>
-								</Group>
-							</RadioProvider>
-
-							<ButtonText type="submit">Filter</ButtonText>
-							<ButtonText type="reset">Reset</ButtonText>
-						</Form>
-					</Card>
-				</LayoutPane>
-				<LayoutPane>
-					<Card variant="elevated" className="max-sm:contents">
-						<div className="flex flex-col gap-4">
-							<Tabs selectedId={String(params.selected)}>
-								<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 -mx-4 grid sm:-mt-4">
-									<AppBar
-										variant="large"
-										className="sm:bg-surface-container-low"
-									>
-										<Icon tooltip title="Show list search">
-											<MaterialSymbolsSearch />
-										</Icon>
-										<AppBarTitle>
-											{params.typelist === "animelist"
-												? "Anime list"
-												: "Manga list"}
-										</AppBarTitle>
-										<div className="flex-1" />
-										<Icon tooltip title="Show list search">
-											<MaterialSymbolsSearch />
-										</Icon>
-										<FilterButton />
-										<Icon tooltip title="Show more options">
-											<MaterialSymbolsMoreHoriz />
-										</Icon>
-									</AppBar>
-									<UserListTabs queryRef={loaderData.UserListTabsQuery} />
-								</div>
-								<TabsPanel
-									tabId={params.selected}
-									className="flex flex-col gap-4"
-								>
-									<Ariakit.HeadingLevel>
-										<Outlet />
-									</Ariakit.HeadingLevel>
-								</TabsPanel>
-							</Tabs>
-						</div>
-					</Card>
-				</LayoutPane>
-			</LayoutBody>
-
-			<Filter />
+		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
+			<div className="flex flex-col gap-4">
+				<Tabs selectedId={String(params.selected)}>
+					<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 grid sm:-mt-4">
+						<AppBar variant="large" className="sm:bg-surface-container-low">
+							<Icon tooltip title="Show list search">
+								<MaterialSymbolsSearch />
+							</Icon>
+							<AppBarTitle>
+								{params.typelist === "animelist" ? "Anime list" : "Manga list"}
+							</AppBarTitle>
+							<div className="flex-1" />
+							<Icon tooltip title="Show list search">
+								<MaterialSymbolsSearch />
+							</Icon>
+							<FilterButton />
+							<Icon tooltip title="Show more options">
+								<MaterialSymbolsMoreHoriz />
+							</Icon>
+						</AppBar>
+						<UserListTabs queryRef={loaderData.UserListTabsQuery} />
+					</div>
+					<TabsPanel tabId={params.selected} className="flex flex-col gap-4">
+						<Ariakit.HeadingLevel>
+							<Outlet />
+						</Ariakit.HeadingLevel>
+					</TabsPanel>
+				</Tabs>
+			</div>
 		</ExtraOutlets>
 	)
 }

@@ -27,6 +27,18 @@ export const marginX = (value: Value<Property.MarginInline | undefined>) => {
 	return { marginInline: value } satisfies RawStyles
 }
 
+export const marginEnd = (
+	value: Value<Property.MarginInlineEnd | undefined>
+) => {
+	return { marginInlineEnd: value } satisfies RawStyles
+}
+
+export const marginStart = (
+	value: Value<Property.MarginInlineStart | undefined>
+) => {
+	return { marginInlineStart: value } satisfies RawStyles
+}
+
 export const marginY = (value: Value<Property.MarginBlock | undefined>) => {
 	return { marginBlock: value } satisfies RawStyles
 }
@@ -37,6 +49,12 @@ export const paddingX = (value: Value<Property.PaddingInline | undefined>) => {
 
 export const paddingY = (value: Value<Property.PaddingBlock | undefined>) => {
 	return { paddingBlock: value } satisfies RawStyles
+}
+
+export const paddingBottom = (
+	value: Value<Property.PaddingInlineEnd | undefined>
+) => {
+	return { paddingInlineEnd: value } satisfies RawStyles
 }
 
 export const truncate = {
