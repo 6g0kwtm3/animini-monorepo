@@ -54,14 +54,16 @@ const LayoutContext = createContext({
 	layout: mergeStyles(layout, layout.variants({})),
 	body: mergeStyles(body, body.variants({})),
 })
+LayoutContext.displayName = "LayoutContext"
 
 const LayoutNavigationContext =
 	createContext<CvaProps<typeof layoutDefinition>["navigation"]>(undefined)
+LayoutNavigationContext.displayName = "LayoutNavigationContext"
 
 interface LayoutProps
 	extends
-		Omit<ComponentProps<"div">, "style" | "className">,
-		CvaProps<typeof layoutDefinition> {
+		CvaProps<typeof layoutDefinition>,
+		Omit<ComponentProps<"div">, "className" | "style"> {
 	style?: RawStyles
 }
 
@@ -87,7 +89,7 @@ export function Layout({ style, navigation, ...props }: LayoutProps) {
 
 interface LayoutBodyProps extends Omit<
 	ComponentProps<"main">,
-	"style" | "className"
+	"className" | "style"
 > {
 	style?: RawStyles
 }
@@ -129,8 +131,8 @@ const pane = cva(paneDefinition)
 import * as Ariakit from "@ariakit/react"
 interface LayoutPaneProps
 	extends
-		Omit<Ariakit.RoleProps<"section">, "style" | "className">,
-		CvaProps<typeof paneDefinition> {
+		CvaProps<typeof paneDefinition>,
+		Omit<Ariakit.RoleProps<"section">, "className" | "style"> {
 	style?: RawStyles
 }
 
