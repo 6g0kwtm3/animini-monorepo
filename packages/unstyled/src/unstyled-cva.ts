@@ -1,6 +1,5 @@
 import type { PreCompiledStyles } from "./unstyled-print"
 
-
 import { numberOrStringToString } from "utilities"
 import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
