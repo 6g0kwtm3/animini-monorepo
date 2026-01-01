@@ -4,6 +4,17 @@ import type { Value } from "./unstyled-value"
 
 export type PreCompiledStyles = { [K in keyof Properties]?: string }
 
+export function mergeStyles(
+	...styles: (PreCompiledStyles | undefined)[]
+): PreCompiledStyles {
+	const result: PreCompiledStyles = {}
+	for (const style of styles) {
+		if (style === undefined) continue
+		Object.assign(result, style)
+	}
+	return result
+}
+
 export function print(style: PreCompiledStyles): string {
 	let result = "{\n"
 	for (const property of Object.values(style)) {
