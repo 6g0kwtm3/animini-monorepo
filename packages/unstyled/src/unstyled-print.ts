@@ -64,18 +64,16 @@ function printProperty(
 
 	let result = ""
 
-	for (const [selector, property] of Object.entries<undefined | Value>(
-		rest
-	).reverse()) {
+	if (base != undefined) {
+		result +=
+			tab.repeat(indent) + `${propertyName}: ${numberOrStringToString(base)};\n`
+	}
+
+	for (const [selector, property] of Object.entries<undefined | Value>(rest)) {
 		if (property === undefined) continue
 		result += tab.repeat(indent) + `${selector} {\n`
 		result += printProperty(propertyName, property, indent + 1)
 		result += tab.repeat(indent) + `}\n`
-	}
-
-	if (base != undefined) {
-		result +=
-			tab.repeat(indent) + `${propertyName}: ${numberOrStringToString(base)};\n`
 	}
 
 	return result
