@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { numberToString } from "utilities"
 import { cva } from "./unstyled-cva"
-import { printRawStyles } from "./unstyled-print"
+import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
@@ -56,7 +56,7 @@ describe("cva", () => {
 			variants: {},
 			defaultVariants: {},
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--state": {
 				"&:active, &[data-active]": "90%",
 				'&:disabled, &[aria-disabled="true"]': "100%",
@@ -81,7 +81,7 @@ describe("cva", () => {
 				},
 			},
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--color-blue": "var(--color,)",
 			"--color-red": "var(--color,)",
 			backgroundColor: {
@@ -101,7 +101,7 @@ describe("cva", () => {
 				},
 			},
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--color-blue": "var(--color,)",
 			"--color-red": "var(--color,)",
 			backgroundColor: {
@@ -125,7 +125,7 @@ describe("cva", () => {
 				},
 			},
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--color-bar": "var(--color,)",
 			"--color-foo": "var(--color,)",
 			backgroundColor:
@@ -148,7 +148,7 @@ describe("cva", () => {
 				},
 			],
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--shape-round": "var(--shape,)",
 			"--shape-square": "var(--shape,)",
 			"--size-sm": "var(--size,)",
@@ -178,7 +178,7 @@ describe("cva", () => {
 				},
 			],
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--shape-round": "var(--shape,)",
 			"--shape-square": "var(--shape,)",
 			"--size-sm": "var(--size,)",
@@ -195,7 +195,7 @@ describe("cva", () => {
 			variants: { size: { xs: {}, sm: {} } },
 			defaultVariants: { size: "xs" },
 		})
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--size": "var(--size-xs)",
 			"--size-sm": "var(--size,)",
 			"--size-xs": "var(--size,)",
@@ -204,7 +204,7 @@ describe("cva", () => {
 
 	it("variants", () => {
 		cva({ base: {}, variants: { size: { xs: {}, sm: {} } } })
-		expect(printRawStyles).toHaveBeenCalledWith({
+		expect(precompileStyles).toHaveBeenCalledWith({
 			"--size-sm": "var(--size,)",
 			"--size-xs": "var(--size,)",
 		})
@@ -225,7 +225,7 @@ describe("cva", () => {
 					},
 				],
 			})
-			expect(printRawStyles).toHaveBeenCalledWith({
+			expect(precompileStyles).toHaveBeenCalledWith({
 				"--shape-round": "var(--shape,)",
 				"--shape-square": "var(--shape,)",
 				"--size-sm": "var(--size,)",
@@ -252,7 +252,7 @@ describe("cva", () => {
 					},
 				],
 			})
-			expect(printRawStyles).toHaveBeenCalledWith({
+			expect(precompileStyles).toHaveBeenCalledWith({
 				"--shape-round": "var(--shape,)",
 				"--shape-square": "var(--shape,)",
 				"--size-sm": "var(--size,)",
@@ -277,7 +277,7 @@ describe("cva", () => {
 					},
 				],
 			})
-			expect(printRawStyles).toHaveBeenCalledWith({
+			expect(precompileStyles).toHaveBeenCalledWith({
 				"--height-sm": "var(--height,)",
 				"--height-xs": "var(--height,)",
 				"--width-sm": "var(--width,)",
