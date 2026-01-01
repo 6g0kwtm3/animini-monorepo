@@ -30,6 +30,9 @@
 		"maintained node versions"
 	],
 	"dependencies": {
+		"@anitrove/a": "workspace:*",
+		"@anitrove/design": "workspace:*",
+		"@anitrove/unstyled": "workspace:*",
 		"@ariakit/react": "catalog:",
 		"@hono/node-server": "catalog:",
 		"@iconify-json/material-symbols": "catalog:",
@@ -48,11 +51,9 @@
 		"@types/react-dom": "catalog:",
 		"@types/react-relay": "catalog:",
 		"@types/relay-runtime": "catalog:",
-		"@anitrove/a": "workspace:*",
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
 		"cookie": "catalog:",
-		"@anitrove/design": "workspace:*",
 		"electron": "catalog:",
 		"electron-devtools-installer": "catalog:",
 		"extra-outlet": "workspace:*",
