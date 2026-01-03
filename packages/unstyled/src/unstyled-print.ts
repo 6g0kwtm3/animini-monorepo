@@ -25,7 +25,7 @@ export function print(style: PreCompiledStyles): string {
 	return result
 }
 
-export function printRawStyles(style: RawStyles): PreCompiledStyles {
+export function precompileStyles(style: RawStyles): PreCompiledStyles {
 	return Object.fromEntries(
 		Object.entries(style).flatMap(([propertyName, property]) => {
 			if (property === undefined) return []

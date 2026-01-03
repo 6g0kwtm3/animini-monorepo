@@ -1,8 +1,7 @@
 import type { PreCompiledStyles } from "./unstyled-print"
 
-import { printRawStyles } from "./unstyled-print"
-
 import { numberOrStringToString } from "utilities"
+import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
 // export interface NextProperties extends CSS.Properties<never, never> {
 // 	[key: `--${string}`]: string | number
@@ -102,7 +101,7 @@ export function cva<
 		)
 	}
 
-	return printRawStyles(result)
+	return precompileStyles(result)
 }
 
 function mergeCompoundVariantProperty<
