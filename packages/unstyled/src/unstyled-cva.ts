@@ -101,7 +101,7 @@ export function cva<
 		)
 	}
 
-	return printRawStyles(result)
+	return precompileStyles(result)
 }
 
 function mergeCompoundVariantProperty<
