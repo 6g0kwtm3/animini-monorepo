@@ -5,7 +5,7 @@ import base from "eslint-config"
 import react from "eslint-config-react"
 import relay from "eslint-plugin-relay"
 import typegen from "eslint-typegen"
-import graphQLConfig from "./graphql.config.js"
+import graphQLConfig from "../../graphql.config.js"
 
 // @ts-expect-error TODO: fix types
 export default typegen([
