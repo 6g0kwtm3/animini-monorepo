@@ -10,7 +10,7 @@ import {
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
-import { type VariantProps } from "tailwind-variants"
+import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 
 const listItemDefinition = defineCva({
@@ -158,11 +158,36 @@ export function ListItemTrailingSupportingText(
 	)
 }
 
-export function List({ ...props }: Ariakit.RoleProps<"ul">): ReactNode {
+interface ListProps
+	extends
+		CvaProps<typeof listDefinition>,
+		Omit<Ariakit.RoleProps<"ul">, "className" | "style"> {
+	style?: PreCompiledStyles
+}
+
+const listDefinition = defineCva({
+	base: {
+		display: "grid",
+		gridTemplateColumns: "auto minmax(0, 1fr) auto",
+		columnGap: "1rem",
+	},
+	variants: { lines: { one: {}, two: {}, three: {} } },
+})
+
+const list = cva(listDefinition)
+
+export function List({ style, lines, ...props }: ListProps): ReactNode {
+	const [className, jsx] = useStyles(
+		mergeStyles(list.style, list.variants({ lines }), style)
+	)
+
 	return (
-		<Ariakit.Role.ul
-			{...props}
-			className={tv({ base: "list list-two" })({ className: props.className })}
-		></Ariakit.Role.ul>
+		<>
+			<Ariakit.Role.ul
+				{...props}
+				className={`${className} list list-${lines ?? "two"}`}
+			></Ariakit.Role.ul>
+			{jsx}
+		</>
 	)
 }
