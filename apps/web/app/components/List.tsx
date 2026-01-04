@@ -17,7 +17,7 @@ import { tv } from "~/lib/tailwind-variants"
 const listItemDefinition = defineCva({
 	base: {
 		...design.state({
-			hover: "hover",
+			[design.media.hover]: "hover",
 			[design.media["focus-visible"]]: "focus",
 			[design.media.active]: "focus",
 		}),
