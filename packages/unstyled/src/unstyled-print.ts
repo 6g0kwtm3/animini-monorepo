@@ -8,7 +8,7 @@ export type Brand<
 	// @ts-expect-error this depends on typescript internal logic
 > = infer _ extends Brand ? BaseType : never
 
-declare const PreCompiledStylesBrand: unique symbol
+export declare const PreCompiledStylesBrand: unique symbol
 export type PreCompiledStyles = Brand<
 	{ [K in keyof Properties]?: string },
 	typeof PreCompiledStylesBrand
