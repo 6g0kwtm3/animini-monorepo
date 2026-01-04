@@ -4,9 +4,13 @@ import type { RawStyles } from "@anitrove/unstyled"
 import type { Property } from "csstype"
 import colors from "./design-colors"
 
-export const contrast = (
+export function contrast(value: string): Record<`--${string}`, string>
+export function contrast(
 	value: Value<string>
-): Record<`--${string}`, Value<string>> => {
+): Record<`--${string}`, Value<string>>
+export function contrast(
+	value: Value<string>
+): Record<`--${string}`, Value<string>> {
 	return Object.fromEntries(
 		Object.keys(colors.dark).flatMap(
 			(key): [`--${string}`, Value<string>][] => {
@@ -25,9 +29,13 @@ export const contrast = (
 	)
 }
 
-export const theme = (
+export function theme(value: string): Record<`--${string}`, string>
+export function theme(
 	value: Value<string>
-): Record<`--${string}`, Value<string>> => {
+): Record<`--${string}`, Value<string>>
+export function theme(
+	value: Value<string>
+): Record<`--${string}`, Value<string>> {
 	return Object.fromEntries(
 		Object.keys(colors.dark).map((key): [`--${string}`, Value<string>] => {
 			return [`--${key}`, mapValue(value, (value) => `var(--${key}-${value})`)]
