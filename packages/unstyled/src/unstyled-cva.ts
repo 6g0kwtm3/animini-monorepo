@@ -14,9 +14,9 @@ export type RawStyles = { [K in keyof Properties]?: Value<Properties[K]> }
 
 type NonEmptyArray<T> = [T, ...T[]]
 
-type Cva<
+interface Cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
-> = {
+> {
 	base: RawStyles
 	compoundVariants?: ({
 		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
@@ -185,7 +185,7 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
-function mergeValues<T extends undefined | number | string>(a: T, b: T): T
+function mergeValues<T extends number | string | undefined>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
 	a ??= { base: a }
