@@ -86,7 +86,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		Media: data.Media,
 		theme: Predicate.isString(data.Media.coverImage?.color)
 			? getThemeFromHex(data.Media.coverImage.color)
-			: {},
+			: precompileStyles({}),
 	}
 }
 

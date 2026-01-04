@@ -38,6 +38,7 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 }) => ReactNode
 
 import fonts from "@anitrove/design/fonts"
+import { precompileStyles } from "@anitrove/unstyled"
 import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
 import {
 	onAbortNavigationMiddleware,
@@ -176,12 +177,12 @@ export function HydrateFallback() {
 		<M3Layout>
 			<LayoutBody>
 				<LayoutPane
-					style={{
+					style={precompileStyles({
 						justifyContent: "center",
 						alignItems: "center",
 						display: "flex",
 						height: "100svh",
-					}}
+					})}
 				>
 					<LoadingIndicator></LoadingIndicator>
 				</LayoutPane>
