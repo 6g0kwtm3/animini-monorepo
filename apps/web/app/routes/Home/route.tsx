@@ -16,6 +16,8 @@ import {
 // console.log(R)
 
 import { A } from "@anitrove/a"
+import { state } from "@anitrove/design"
+import { precompileStyles } from "@anitrove/unstyled"
 import { Markdown } from "markdown/Markdown"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
@@ -84,7 +86,9 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											className="grid max-w-7xl gap-4 rounded-[1.75rem]"
 										>
 											<List className="-mx-4 -my-4" render={<address />}>
-												<ListItem className="hover:state-none">
+												<ListItem
+													style={precompileStyles({ ...state("none") })}
+												>
 													<div className="col-start-1 h-10 w-10">
 														{activity.user?.avatar?.large && (
 															<img
