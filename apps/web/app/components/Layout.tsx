@@ -51,8 +51,8 @@ const body = cva({
 })
 
 const LayoutContext = createContext({
-	layout: mergeStyles(layout, layout.variants({})),
-	body: mergeStyles(body, body.variants({})),
+	layout: mergeStyles(layout.style, layout.variants({})),
+	body: mergeStyles(body.style, body.variants({})),
 })
 LayoutContext.displayName = "LayoutContext"
 
