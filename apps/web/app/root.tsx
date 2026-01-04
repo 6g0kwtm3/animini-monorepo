@@ -173,9 +173,16 @@ export default function App(): ReactNode {
 
 export function HydrateFallback() {
 	return (
-		<M3Layout className="">
-			<LayoutBody className="">
-				<LayoutPane className="justify-center items-center flex h-svh">
+		<M3Layout>
+			<LayoutBody>
+				<LayoutPane
+					style={{
+						justifyContent: "center",
+						alignItems: "center",
+						display: "flex",
+						height: "100svh",
+					}}
+				>
 					<LoadingIndicator></LoadingIndicator>
 				</LayoutPane>
 			</LayoutBody>

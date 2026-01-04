@@ -1,39 +1,50 @@
 import type { PreCompiledStyles } from "./unstyled-print"
 
+import type { CSSProperties } from "react"
 import { numberOrStringToString } from "utilities"
 import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
-// export interface NextProperties extends CSS.Properties<never, never> {
-// 	[key: `--${string}`]: string | number
-// }
 
-export interface Properties {
-	[key: `--${string}`]: number | string | undefined
+export interface Properties extends CSSProperties {
+	[key: `--${string}`]: number | string
 	[key: string]: number | string | undefined
 }
 
-export type RawStyles = { [K in keyof Properties]?: Value }
+export type RawStyles = { [K in keyof Properties]?: Value<Properties[K]> }
 
 type NonEmptyArray<T> = [T, ...T[]]
 
+export interface Cva<
+	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
+> {
+	base: RawStyles
+	compoundVariants?: ({
+		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
+	} & { css: RawStyles })[]
+	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
+	variants: Variants
+}
+
 export function defineCva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
->(cva: {
-	base: RawStyles
-	compoundVariants: ({
-		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
-	} & { css: RawStyles })[]
-	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
-	variants: Variants
-}): {
-	base: RawStyles
-	compoundVariants: ({
-		[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
-	} & { css: RawStyles })[]
-	defaultVariants?: { [K in keyof Variants]: keyof Variants[K] }
-	variants: Variants
-} {
+>(cva: Cva<Variants>): Cva<Variants> {
 	return cva
+}
+
+export type CvaProps<T> =
+	T extends Cva<infer Variants>
+		? { readonly [K in keyof Variants]?: Value<keyof Variants[K] & string> }
+		: never
+
+export function applyProps<T>(props: CvaProps<T>): PreCompiledStyles {
+	return precompileStyles(
+		Object.fromEntries(
+			Object.entries(props).map(([key, value]) => [
+				`--${key}`,
+				value && mapValue(value, (value) => `var(--${key}-${value})`),
+			])
+		)
+	)
 }
 
 type CompoundVariant<Variants> = {
@@ -42,12 +53,9 @@ type CompoundVariant<Variants> = {
 
 export function cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
->(cva: {
-	base: RawStyles
-	compoundVariants?: CompoundVariant<Variants>[]
-	defaultVariants?: { [K in keyof Variants]?: keyof Variants[K] }
-	variants: Variants
-}): PreCompiledStyles {
+>(
+	cva: Cva<Variants>
+): { style: PreCompiledStyles; variants: typeof applyProps<Cva<Variants>> } {
 	const { base, variants, defaultVariants = {}, compoundVariants = [] } = cva
 
 	const result: RawStyles = { ...base }
@@ -101,7 +109,10 @@ export function cva<
 		)
 	}
 
-	return precompileStyles(result)
+	return {
+		style: precompileStyles(result),
+		variants: applyProps<Cva<Variants>>,
+	}
 }
 
 function mergeCompoundVariantProperty<
@@ -174,7 +185,7 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
-function mergeValues<T extends number | string>(a: T, b: T): T
+function mergeValues<T extends number | string | undefined>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {
 	a ??= { base: a }

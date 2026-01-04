@@ -19,6 +19,7 @@ import { route_media } from "~/lib/route"
 import { MediaCover } from "~/lib/entry/MediaCover"
 
 import { A } from "@anitrove/a"
+import { mergeStyles, useStyles } from "@anitrove/unstyled"
 import type { MediaLinkCardQuery } from "~/gql/MediaLinkCardQuery.graphql"
 const { graphql } = ReactRelay
 
@@ -65,29 +66,35 @@ function MediaCard(props: { mediaId: number; type: string }) {
 		{ id: props.mediaId }
 	).Media
 
+	const [className, jsx] = useStyles(
+		mergeStyles(media?.coverImage?.theme ?? undefined)
+	)
+
 	return (
 		media && (
-			<Card
-				className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start`}
-				style={media.coverImage?.theme ?? undefined}
-				render={<span />}
-			>
-				<List className="p-0" render={<span />}>
-					<ListItem render={<span />}>
-						<ListItemImg render={<span></span>}>
-							<MediaCover media={media} />
-						</ListItemImg>
-						<ListItemContent render={<span></span>}>
-							<ListItemTitle render={<span />}>
-								{media.title?.userPreferred}
-							</ListItemTitle>
-							<ListItemSubtitle render={<span />}>
-								{props.type}
-							</ListItemSubtitle>
-						</ListItemContent>
-					</ListItem>
-				</List>
-			</Card>
+			<>
+				<Card
+					className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start ${className}`}
+					render={<span />}
+				>
+					<List className="p-0" render={<span />}>
+						<ListItem render={<span />}>
+							<ListItemImg render={<span></span>}>
+								<MediaCover media={media} />
+							</ListItemImg>
+							<ListItemContent render={<span></span>}>
+								<ListItemTitle render={<span />}>
+									{media.title?.userPreferred}
+								</ListItemTitle>
+								<ListItemSubtitle render={<span />}>
+									{props.type}
+								</ListItemSubtitle>
+							</ListItemContent>
+						</ListItem>
+					</List>
+				</Card>
+				{jsx}
+			</>
 		)
 	)
 }

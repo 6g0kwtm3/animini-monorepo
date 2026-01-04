@@ -6,6 +6,7 @@
 			"paths": { "~icons/*": ["node_modules/unplugin-icons/types/react.d.ts"] },
 			"playwright": { "entry": ["**/*.@(spec|test|setup).?(c|m)[jt]s?(x)"] },
 			"ignore": [
+				"app/components/Chip.tsx",
 				"app/components/Dialog.tsx",
 				"app/components/Rating.tsx",
 				"app/components/Select.tsx",

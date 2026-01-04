@@ -1,44 +1,154 @@
-import type { ComponentProps, ReactNode } from "react"
+import { createContext, use, type ComponentProps, type ReactNode } from "react"
 
-import { type VariantProps } from "tailwind-variants"
+import * as design from "@anitrove/design"
+import {
+	cva,
+	defineCva,
+	mergeStyles,
+	useStyles,
+	type CvaProps,
+	type PreCompiledStyles,
+} from "@anitrove/unstyled"
 
-import { tv } from "~/lib/tailwind-variants"
-
-export function Layout({ ...props }: ComponentProps<"div">) {
-	return (
-		<div
-			className={tv({ base: "layout layout-navigation-none" })({
-				className: props.className,
-			})}
-		>
-			{props.children}
-		</div>
-	)
-}
-export function LayoutBody(props: ComponentProps<"main">): ReactNode {
-	return (
-		<main
-			{...props}
-			className={tv({ base: "layout-body" })({ className: props.className })}
-		/>
-	)
-}
-
-const pane = tv({
-	base: "grid content-start",
-	variants: { variant: { fixed: "w-[22.5rem] shrink-0", flexible: "flex-1" } },
-	defaultVariants: { variant: "flexible" },
+const layoutDefinition = defineCva({
+	base: { isolation: "isolate" },
+	variants: { navigation: { none: {}, bar: {}, rail: {}, drawer: {} } },
+	defaultVariants: { navigation: "none" },
 })
+
+const layout = cva(layoutDefinition)
+
+const body = cva({
+	base: {
+		...design.utilities.marginEnd({
+			base: "1rem",
+			[design.media.sm]: "1.5rem",
+		}),
+		display: "flex",
+		gap: "1.5rem",
+	},
+	variants: {
+		navigation: {
+			none: {
+				...design.utilities.marginStart({
+					base: "1rem",
+					[design.media.sm]: "1.5rem",
+				}),
+			},
+			bar: {
+				...design.utilities.marginStart({
+					base: "1rem",
+					[design.media.sm]: "1.5rem",
+				}),
+				...design.utilities.paddingBottom("5rem"),
+			},
+			rail: { ...design.utilities.marginStart("5rem") },
+			drawer: { ...design.utilities.marginStart("22.5rem") },
+		},
+	},
+	defaultVariants: { navigation: "none" },
+})
+
+const LayoutContext = createContext({
+	layout: mergeStyles(layout.style, layout.variants({})),
+	body: mergeStyles(body.style, body.variants({})),
+})
+LayoutContext.displayName = "LayoutContext"
+
+const LayoutNavigationContext =
+	createContext<CvaProps<typeof layoutDefinition>["navigation"]>(undefined)
+LayoutNavigationContext.displayName = "LayoutNavigationContext"
+
+interface LayoutProps
+	extends
+		CvaProps<typeof layoutDefinition>,
+		Omit<ComponentProps<"div">, "className" | "style"> {
+	style?: PreCompiledStyles
+}
+
+export function Layout({ style, navigation, ...props }: LayoutProps) {
+	const styles = {
+		layout: mergeStyles(layout.style, layout.variants({ navigation })),
+		body: mergeStyles(body.style, body.variants({ navigation })),
+	}
+
+	const [className, jsx] = useStyles(mergeStyles(styles.layout, style))
+
+	return (
+		<LayoutNavigationContext value={navigation}>
+			<LayoutContext value={styles}>
+				<div {...props} className={className}></div>
+				{jsx}
+			</LayoutContext>
+		</LayoutNavigationContext>
+	)
+}
+
+interface LayoutBodyProps extends Omit<
+	ComponentProps<"main">,
+	"className" | "style"
+> {
+	style?: PreCompiledStyles
+}
+
+export function LayoutBody({ style, ...props }: LayoutBodyProps): ReactNode {
+	const styles = use(LayoutContext)
+	const [className, jsx] = useStyles(mergeStyles(styles.body, style))
+
+	return (
+		<>
+			<main {...props} className={className} />
+			{jsx}
+		</>
+	)
+}
+
+const paneDefinition = defineCva({
+	base: {
+		display: "block",
+		position: "relative",
+		overflowY: "auto",
+		overflowX: "hidden",
+		borderRadius: design.tokens.borderRadius.md,
+	},
+	variants: {
+		variant: {
+			fixed: { width: "22.5rem", flexShrink: 0 },
+			flexible: { width: "100%", flexGrow: 1 },
+		},
+		navigation: { none: {}, bar: {}, rail: {}, drawer: {} },
+	},
+	defaultVariants: { variant: "flexible", navigation: "none" },
+})
+
+const pane = cva(paneDefinition)
 
 import * as Ariakit from "@ariakit/react"
 interface LayoutPaneProps
-	extends Ariakit.RoleProps<"section">, VariantProps<typeof pane> {}
+	extends
+		CvaProps<typeof paneDefinition>,
+		Omit<Ariakit.RoleProps<"section">, "className" | "style"> {
+	style?: PreCompiledStyles
+}
 
-export function LayoutPane({ variant, ...props }: LayoutPaneProps): ReactNode {
+export function LayoutPane({
+	style,
+	variant,
+	...props
+}: LayoutPaneProps): ReactNode {
+	const navigation = use(LayoutNavigationContext)
+
+	const [className, jsx] = useStyles(
+		mergeStyles(pane.style, pane.variants({ navigation, variant }), style)
+	)
+
 	return (
-		<Ariakit.Role.section
-			{...props}
-			className={pane({ className: props.className, variant })}
-		></Ariakit.Role.section>
+		<>
+			<Ariakit.Role.section
+				{...props}
+				className={className}
+			></Ariakit.Role.section>
+			{jsx}
+		</>
 	)
 }

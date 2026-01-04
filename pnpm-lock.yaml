@@ -486,6 +486,9 @@ importers:
       '@anitrove/design':
         specifier: workspace:*
         version: link:../../packages/design
+      '@anitrove/unstyled':
+        specifier: workspace:*
+        version: link:../../packages/unstyled
       '@ariakit/react':
         specifier: 'catalog:'
         version: 0.4.20(react-dom@19.2.3(react@19.2.3))(react@19.2.3)

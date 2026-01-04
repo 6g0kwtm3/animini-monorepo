@@ -19,7 +19,7 @@ declare module "react" {
 }
 
 function Button({ size, shape, color, ...props }: ButtonProps) {
-	const [style, children] = useStyles(button)
+	const [style, children] = useStyles(button.style)
 	return (
 		<>
 			<button

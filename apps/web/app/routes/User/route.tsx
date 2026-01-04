@@ -63,6 +63,8 @@ import { data as json } from "react-router"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"
 import { numberToString } from "~/lib/numberToString"
+import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
+import * as design from "@anitrove/design"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
@@ -84,8 +86,10 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 
 	return (
 		<LayoutBody
-			style={data.user.options?.profileTheme ?? undefined}
-			className="max-sm:pe-0 max-sm:ps-0"
+			style={mergeStyles(
+				data.user.options?.profileTheme ?? undefined,
+				precompileStyles(design.utilities.paddingX({ [design.media.maxSm]: 0 }))
+			)}
 		>
 			<LayoutPane>
 				<Card

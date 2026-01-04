@@ -62,7 +62,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	return { trending: data }
 }
-
+import * as design from "@anitrove/design"
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
@@ -71,7 +71,7 @@ export default function NavRoute({
 	const { pathname } = useLocation()
 
 	return (
-		<Layout className="layout-navigation-bar sm:layout-navigation-rail">
+		<Layout navigation={{ base: "bar", [design.media.sm]: "rail" }}>
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
 				<Ariakit.ToolbarItem
 					render={
