@@ -10,6 +10,7 @@ import {
 	type ShouldRevalidateFunction,
 } from "react-router"
 
+import { precompileStyles } from "@anitrove/unstyled"
 import {
 	AwaitLibrary,
 	MediaListHeader,
@@ -444,7 +445,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 
 			<div className="-mx-4">
 				<div className={``}>
-					<List className="@container">
+					<List style={precompileStyles({ containerType: "inline-size" })}>
 						<Suspense
 							fallback={
 								<Loading>
