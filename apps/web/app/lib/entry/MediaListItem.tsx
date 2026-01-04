@@ -24,6 +24,7 @@ import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
+import { precompileStyles } from "@anitrove/unstyled"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
@@ -71,7 +72,13 @@ export function MediaListItem(props: {
 					<ListItemContentTitle>
 						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
 					</ListItemContentTitle>
-					<ListItemContentSubtitle className="flex flex-wrap gap-1">
+					<ListItemContentSubtitle
+						style={precompileStyles({
+							display: "flex",
+							flexWrap: "wrap",
+							gap: ".25rem",
+						})}
+					>
 						<Skeleton className="max-w-[21.666666666666668ch]">
 							{entry && <MediaListItemSubtitle entry={entry} />}
 						</Skeleton>
