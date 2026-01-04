@@ -175,7 +175,14 @@ export function HydrateFallback() {
 	return (
 		<M3Layout>
 			<LayoutBody>
-				<LayoutPane className="justify-center items-center flex h-svh">
+				<LayoutPane
+					style={{
+						justifyContent: "center",
+						alignItems: "center",
+						display: "flex",
+						height: "100svh",
+					}}
+				>
 					<LoadingIndicator></LoadingIndicator>
 				</LayoutPane>
 			</LayoutBody>
