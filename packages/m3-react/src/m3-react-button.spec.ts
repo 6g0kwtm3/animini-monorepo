@@ -4,11 +4,11 @@ import { button } from "./m3-react-button"
 
 describe("button", () => {
 	it("css size", () => {
-		expect(print(button).length).toMatchInlineSnapshot(`3581`)
+		expect(print(button.style).length).toMatchInlineSnapshot(`3581`)
 	})
 
 	it("print", () => {
-		expect(print(button)).toMatchInlineSnapshot(`
+		expect(print(button.style)).toMatchInlineSnapshot(`
 			"{
 			  display: inline-flex;
 			  align-items: center;
