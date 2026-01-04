@@ -443,7 +443,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 				</MediaListHeaderItem>
 			</MediaListHeader>
 
-			<div className="-mx-4">
+			<div className="">
 				<div className={``}>
 					<List style={precompileStyles({ containerType: "inline-size" })}>
 						<Suspense
