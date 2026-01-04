@@ -42,6 +42,7 @@ import { Button } from "~/components/Button"
 import type { ReactNode } from "react"
 
 import { A } from "@anitrove/a"
+import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { client_get_client } from "~/lib/client"
@@ -94,6 +95,8 @@ export const meta = ((args) => {
 	return [{ title: `Media - ${data.Media.title.userPreferred}` }]
 }) satisfies Route.MetaFunction
 
+import * as design from "@anitrove/design"
+
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = loaderData
 
@@ -102,10 +105,19 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 
 	return (
 		<LayoutBody
-			style={data.theme}
-			className={
-				"contrast-standard theme-light contrast-more:contrast-high dark:theme-dark"
-			}
+			style={mergeStyles(
+				data.theme,
+				precompileStyles({
+					...design.utilities.contrast({
+						base: "standard",
+						[design.media.contrastMore]: "high",
+					}),
+					...design.utilities.theme({
+						base: "light",
+						[design.media.dark]: "dark",
+					}),
+				})
+			)}
 		>
 			<PaneFlexible>
 				<div>

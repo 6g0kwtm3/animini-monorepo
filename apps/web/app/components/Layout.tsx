@@ -5,10 +5,9 @@ import {
 	cva,
 	defineCva,
 	mergeStyles,
-	precompileStyles,
 	useStyles,
 	type CvaProps,
-	type RawStyles,
+	type PreCompiledStyles,
 } from "@anitrove/unstyled"
 
 const layoutDefinition = defineCva({
@@ -64,7 +63,7 @@ interface LayoutProps
 	extends
 		CvaProps<typeof layoutDefinition>,
 		Omit<ComponentProps<"div">, "className" | "style"> {
-	style?: RawStyles
+	style?: PreCompiledStyles
 }
 
 export function Layout({ style, navigation, ...props }: LayoutProps) {
@@ -73,9 +72,7 @@ export function Layout({ style, navigation, ...props }: LayoutProps) {
 		body: mergeStyles(body.style, body.variants({ navigation })),
 	}
 
-	const [className, jsx] = useStyles(
-		mergeStyles(styles.layout, style && precompileStyles(style))
-	)
+	const [className, jsx] = useStyles(mergeStyles(styles.layout, style))
 
 	return (
 		<LayoutNavigationContext value={navigation}>
@@ -91,14 +88,12 @@ interface LayoutBodyProps extends Omit<
 	ComponentProps<"main">,
 	"className" | "style"
 > {
-	style?: RawStyles
+	style?: PreCompiledStyles
 }
 
 export function LayoutBody({ style, ...props }: LayoutBodyProps): ReactNode {
 	const styles = use(LayoutContext)
-	const [className, jsx] = useStyles(
-		mergeStyles(styles.body, style && precompileStyles(style))
-	)
+	const [className, jsx] = useStyles(mergeStyles(styles.body, style))
 
 	return (
 		<>
@@ -133,7 +128,7 @@ interface LayoutPaneProps
 	extends
 		CvaProps<typeof paneDefinition>,
 		Omit<Ariakit.RoleProps<"section">, "className" | "style"> {
-	style?: RawStyles
+	style?: PreCompiledStyles
 }
 
 export function LayoutPane({
@@ -144,11 +139,7 @@ export function LayoutPane({
 	const navigation = use(LayoutNavigationContext)
 
 	const [className, jsx] = useStyles(
-		mergeStyles(
-			pane.style,
-			pane.variants({ navigation, variant }),
-			style && precompileStyles(style)
-		)
+		mergeStyles(pane.style, pane.variants({ navigation, variant }), style)
 	)
 
 	return (
