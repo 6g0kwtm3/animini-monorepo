@@ -19,6 +19,8 @@ export const state = (value: Value<keyof typeof states>) => {
 }
 
 export const media = {
+	contrastMore: "@media (prefers-contrast: more)",
+	dark: "@media (prefers-color-scheme: dark)",
 	motionSafe: "@media (prefers-reduced-motion: no-preference)",
 	hover: "&:hover",
 	"focus-visible": "&:focus-visible, &[data-focus-visible]",
