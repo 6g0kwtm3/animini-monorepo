@@ -209,7 +209,7 @@ const listDefinition = defineCva({
 		lines: { one: {}, two: {}, three: {} },
 		segmented: { true: { rowGap: ".125rem" }, false: {} },
 	},
-	defaultVariants: { lines: "two", segmented: 'true' },
+	defaultVariants: { lines: "two", segmented: "true" },
 })
 
 const list = cva(listDefinition)
