@@ -94,7 +94,7 @@ const liteItemContent = cva(listItemContentDefinition)
 
 interface ListItemContentProps extends Omit<
 	Ariakit.RoleProps,
-	"style" | "className"
+	"className" | "style"
 > {
 	style?: PreCompiledStyles
 }
@@ -209,6 +209,7 @@ const listDefinition = defineCva({
 const list = cva(listDefinition)
 
 const Lines = createContext<ListProps["lines"]>(undefined)
+Lines.displayName = "Lines"
 
 export function List({ style, lines, ...props }: ListProps): ReactNode {
 	const [className, jsx] = useStyles(
