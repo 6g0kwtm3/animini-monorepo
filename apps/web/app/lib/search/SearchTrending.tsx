@@ -14,6 +14,7 @@ import { useFragment } from "../Network"
 
 import ReactRelay from "react-relay"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
+import { precompileStyles } from "@anitrove/unstyled"
 const { graphql } = ReactRelay
 
 export function SearchTrending(props: {
@@ -40,7 +41,11 @@ export function SearchTrending(props: {
 					Trending
 				</Ariakit.ComboboxGroupLabel>
 
-				<List render={<div />} className="list-one -mt-2">
+				<List
+					render={<div />}
+					lines={"one"}
+					style={precompileStyles({ marginTop: "-.5rem" })}
+				>
 					{data.trending.media
 						.filter((el) => el != null)
 						.map((media) => (

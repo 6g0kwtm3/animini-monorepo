@@ -85,7 +85,10 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											render={<article />}
 											className="grid max-w-7xl gap-4 rounded-[1.75rem]"
 										>
-											<List className="-mx-4 -my-4" render={<address />}>
+											<List
+												style={precompileStyles({ margin: "-1rem" })}
+												render={<address />}
+											>
 												<ListItem
 													style={precompileStyles({ ...state("none") })}
 												>

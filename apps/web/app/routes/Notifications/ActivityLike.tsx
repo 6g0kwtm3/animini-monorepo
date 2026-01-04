@@ -1,4 +1,5 @@
 import { A } from "@anitrove/a"
+import { precompileStyles } from "@anitrove/unstyled"
 import { useState } from "react"
 import ReactRelay from "react-relay"
 import {
@@ -74,7 +75,12 @@ export function ActivityLike(props: {
 						/>
 					)}
 				</ListItemImg>
-				<ListItemContent className="grid grid-cols-subgrid">
+				<ListItemContent
+					style={precompileStyles({
+						display: "grid",
+						gridTemplateColumns: "subgrid",
+					})}
+				>
 					<ListItemContentTitle>
 						{(notification.createdAt ?? 0)
 							> (viewer.unreadNotificationCount ?? 0) && (

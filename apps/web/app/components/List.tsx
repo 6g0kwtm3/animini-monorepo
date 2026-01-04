@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { createContext, use, type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
 import {
@@ -10,6 +10,7 @@ import {
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
+import { paddingY } from "node_modules/@anitrove/design/src/design-utilities"
 import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 
@@ -44,18 +45,9 @@ interface ListItemProps extends Omit<
 }
 
 export function ListItem({ style, ...props }: ListItemProps) {
+	const lines = use(Lines)
 	const [className, jsx] = useStyles(
-		mergeStyles(
-			listItem.style,
-			listItem.variants({
-				lines: {
-					".list-one &": "one",
-					".list-two &": "two",
-					".list-three &": "three",
-				},
-			}),
-			style
-		)
+		mergeStyles(listItem.style, listItem.variants({ lines }), style)
 	)
 	return (
 		<>
@@ -76,14 +68,54 @@ export function ListItemContentTitle(props: Ariakit.RoleProps): ReactNode {
 	)
 }
 
-export function ListItemContent(props: Ariakit.RoleProps): ReactNode {
+const listItemContentDefinition = defineCva({
+	base: {
+		display: "flex",
+		height: "100%",
+		flexDirection: "column",
+		gridColumn: {
+			"&:first-child": "span 2 / span 2",
+			"&:last-child": {
+				base: "span 2 / span 2",
+				"&:first-child": "span 3 / span 3",
+			},
+		},
+	},
+	variants: {
+		lines: {
+			one: { justifyContent: "center", ...paddingY(".5rem") },
+			two: { justifyContent: "center", ...paddingY(".5rem") },
+			three: { justifyContent: "flex-start", ...paddingY(".75rem") },
+		},
+	},
+})
+
+const liteItemContent = cva(listItemContentDefinition)
+
+interface ListItemContentProps extends Omit<
+	Ariakit.RoleProps,
+	"style" | "className"
+> {
+	style?: PreCompiledStyles
+}
+
+export function ListItemContent({
+	style,
+	...props
+}: ListItemContentProps): ReactNode {
+	const lines = use(Lines)
+	const [className, jsx] = useStyles(
+		mergeStyles(
+			liteItemContent.style,
+			liteItemContent.variants({ lines }),
+			style
+		)
+	)
 	return (
-		<Ariakit.Role.div
-			{...props}
-			className={tv({ base: "list-item-content" })({
-				className: props.className,
-			})}
-		></Ariakit.Role.div>
+		<>
+			<Ariakit.Role.div {...props} className={className}></Ariakit.Role.div>
+			{jsx}
+		</>
 	)
 }
 
@@ -176,18 +208,20 @@ const listDefinition = defineCva({
 
 const list = cva(listDefinition)
 
+const Lines = createContext<ListProps["lines"]>(undefined)
+
 export function List({ style, lines, ...props }: ListProps): ReactNode {
 	const [className, jsx] = useStyles(
 		mergeStyles(list.style, list.variants({ lines }), style)
 	)
 
 	return (
-		<>
+		<Lines value={lines}>
 			<Ariakit.Role.ul
 				{...props}
-				className={`${className} list list-${lines ?? "two"}`}
+				className={`${className} list`}
 			></Ariakit.Role.ul>
 			{jsx}
-		</>
+		</Lines>
 	)
 }
