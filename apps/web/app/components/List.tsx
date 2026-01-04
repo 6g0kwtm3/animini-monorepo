@@ -31,7 +31,7 @@ const listItemDefinition = defineCva({
 			"&:last-child": `${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
 			[design.media.hover]: design.tokens.borderRadius.md,
 			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-			[design.media["active"]]: design.tokens.borderRadius.lg,
+			[design.media.active]: design.tokens.borderRadius.lg,
 		},
 		transitionProperty: { [design.media.motionSafe]: "border-radius" },
 		...design.tokens.transitions.spatial.fast,
@@ -151,7 +151,7 @@ const listItemSubtitle = cva(listItemSubtitleDefinition)
 
 interface ListItemContentSubtitleProps extends Omit<
 	Ariakit.RoleProps,
-	"style" | "className"
+	"className" | "style"
 > {
 	style?: PreCompiledStyles
 }
