@@ -14,7 +14,7 @@ export type RawStyles = { [K in keyof Properties]?: Value<Properties[K]> }
 
 type NonEmptyArray<T> = [T, ...T[]]
 
-interface Cva<
+export interface Cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 > {
 	base: RawStyles
