@@ -974,12 +974,6 @@ importers:
       '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
-      '@ariakit/react':
-        specifier: 'catalog:'
-        version: 0.4.20(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.2.7
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
