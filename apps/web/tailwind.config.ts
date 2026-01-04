@@ -4,7 +4,7 @@ import fonts, { letterSpacing, pxToRem } from "@anitrove/design/fonts"
 import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
-import { layout } from "./app/lib/layout"
+
 import { list } from "./app/lib/list"
 import { navigation } from "./app/lib/navigation"
 import { numberToString } from "./app/lib/numberToString"
@@ -187,7 +187,7 @@ export const config = {
 			ctx.addComponents({ ".i-inline": { "vertical-align": "-11.5%" } })
 		}),
 		searchView,
-		layout,
+
 		navigation,
 		list,
 	],
