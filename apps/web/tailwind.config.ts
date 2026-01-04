@@ -172,7 +172,7 @@ export const config = {
 			)
 
 			ctx.matchUtilities(
-				{ contrast: utilities.contrast },
+				{ contrast: utilities.contrast as any },
 				{
 					type: ["any"],
 					values: { high: "high", medium: "medium", standard: "standard" },
@@ -180,7 +180,7 @@ export const config = {
 			)
 
 			ctx.matchUtilities(
-				{ theme: utilities.theme },
+				{ theme: utilities.theme as any },
 				{ type: ["any"], values: { dark: "dark", light: "light" } }
 			)
 
