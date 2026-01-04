@@ -82,3 +82,12 @@ export const truncate = {
 	textOverflow: "ellipsis",
 	whiteSpace: "nowrap",
 } satisfies RawStyles
+
+export function lineClamp(lines: Value<number>) {
+	return {
+		overflow: "hidden",
+		display: "-webkit-box",
+		"-webkit-box-orient": "vertical",
+		"-webkit-line-clamp": lines,
+	}
+}

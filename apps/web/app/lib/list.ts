@@ -19,19 +19,9 @@ export const list = plugin((ctx) => {
 				"@apply text-body-lg text-on-surface truncate": {},
 			},
 
-			"& .list-item-subtitle": {
-				"@apply text-body-md text-on-surface-variant": {},
-			},
-
 			"& .list-item-trailing-supporting-text": {
 				"@apply text-label-sm text-on-surface-variant text-end": {},
 			},
 		},
-
-		".list-one": { "& .list-item-subtitle": { "@apply hidden": {} } },
-
-		".list-two": { "& .list-item-subtitle": { "@apply block truncate": {} } },
-
-		".list-three": { "& .list-item-subtitle": { "@apply line-clamp-2": {} } },
 	})
 })
