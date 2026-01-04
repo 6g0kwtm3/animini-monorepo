@@ -1,12 +1,12 @@
 import type { PreCompiledStyles } from "./unstyled-print"
 
+import type { CSSProperties } from "react"
 import { numberOrStringToString } from "utilities"
 import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
-import type { CSSProperties } from "react"
 
 export interface Properties extends CSSProperties {
-	[key: `--${string}`]: number | string | undefined
+	[key: `--${string}`]: number | string
 	[key: string]: number | string | undefined
 }
 
