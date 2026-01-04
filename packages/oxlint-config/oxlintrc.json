@@ -18,6 +18,7 @@
 		"react/jsx-no-useless-fragment": "warn",
 		"react/rules-of-hooks": "error",
 		"typescript/no-non-null-assertion": "warn",
+		"no-non-null-asserted-nullish-coalescing": "error",
 		"typescript/no-unnecessary-type-constraint": "error",
 		"typescript/switch-exhaustiveness-check": "error",
 		"typescript/consistent-type-definitions": ["error", "interface"],
