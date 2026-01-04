@@ -38,7 +38,7 @@ const listItem = cva(listItemDefinition)
 
 interface ListItemProps extends Omit<
 	Ariakit.RoleProps<"li">,
-	"style" | "className"
+	"className" | "style"
 > {
 	style?: PreCompiledStyles
 }
