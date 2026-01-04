@@ -40,6 +40,7 @@ import { MediaListSort } from "~/lib/MediaListSort"
 import { copySearchParams } from "~/lib/copySearchParams"
 
 import { A } from "@anitrove/a"
+import { precompileStyles } from "@anitrove/unstyled"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlets } from "extra-outlet"
@@ -235,14 +236,13 @@ function SheetSort() {
 	const params = useParams<"typelist">()
 
 	const lines = "one"
-	const listLines = "list-one"
 
 	return (
 		<Group>
 			<Subheader lines={lines} render={<GroupLabel />} className="-mb-2">
 				Sort
 			</Subheader>
-			<List className={listLines} render={<div />}>
+			<List lines={"one"} render={<div />}>
 				<CheckboxProvider value={searchParams.getAll("sort")}>
 					{Object.entries(
 						params.typelist === "animelist"
@@ -270,14 +270,17 @@ function SheetFilter() {
 	const params = useParams<"typelist">()
 
 	const lines = "one"
-	const listLines = "list-one"
 	return (
 		<>
 			<Group>
 				<Subheader lines={lines} render={<GroupLabel />}>
 					Status
 				</Subheader>
-				<List render={<div />} className={`-mt-2 ${listLines}`}>
+				<List
+					render={<div />}
+					lines="one"
+					style={precompileStyles({ marginTop: "-.5rem" })}
+				>
 					<CheckboxProvider value={searchParams.getAll("status")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -300,7 +303,11 @@ function SheetFilter() {
 				<Subheader lines={lines} render={<GroupLabel />}>
 					Format
 				</Subheader>
-				<List render={<div />} className={`-mt-2 ${listLines}`}>
+				<List
+					render={<div />}
+					lines="one"
+					style={precompileStyles({ marginTop: "-.5rem" })}
+				>
 					<CheckboxProvider value={searchParams.getAll("format")}>
 						{Object.entries(
 							params.typelist === "animelist"
@@ -323,7 +330,11 @@ function SheetFilter() {
 				<Subheader lines={lines} render={<GroupLabel />}>
 					Progress
 				</Subheader>
-				<List render={<div />} className={`-mt-2 ${listLines}`}>
+				<List
+					render={<div />}
+					lines="one"
+					style={precompileStyles({ marginTop: "-.5rem" })}
+				>
 					<CheckboxProvider value={searchParams.getAll("progress")}>
 						{Object.entries(
 							params.typelist === "animelist"

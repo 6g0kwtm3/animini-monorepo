@@ -47,8 +47,9 @@ function useOptimisticLocation() {
 	return location
 }
 
-import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
+import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 
 export function Search({
 	queryRef,
@@ -110,7 +111,11 @@ export function Search({
 									Results
 								</Ariakit.ComboboxGroupLabel>
 
-								<List render={<div />} className="list-one -mt-2">
+								<List
+									render={<div />}
+									lines="one"
+									style={precompileStyles({ marginTop: "-.5rem" })}
+								>
 									{media.map((media) => (
 										<SearchViewItem
 											key={media.id}

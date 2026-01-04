@@ -18,6 +18,7 @@ import {
 
 import { fab } from "~/lib/button"
 
+import { media } from "@anitrove/design"
 import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
@@ -28,6 +29,7 @@ import type { Route } from "./+types/route"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
+import { precompileStyles } from "@anitrove/unstyled"
 
 const { graphql } = ReactRelay
 
@@ -126,7 +128,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					)}
 
 					<div className="-mx-4 sm:-my-4">
-						<List className="list-three sm:list-two">
+						<List lines={{ base: "three", [media.sm]: "two" }}>
 							{data.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
