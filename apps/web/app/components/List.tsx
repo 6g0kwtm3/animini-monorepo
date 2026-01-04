@@ -1,17 +1,67 @@
 import type { ReactNode } from "react"
 
+import * as design from "@anitrove/design"
+import {
+	cva,
+	defineCva,
+	mergeStyles,
+	useStyles,
+	type CvaProps,
+	type PreCompiledStyles,
+} from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import { type VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 
-export function ListItem({ ...props }: Ariakit.RoleProps<"li">) {
+const listItemDefinition = defineCva({
+	base: {
+		...design.state({
+			hover: "hover",
+			[design.media["focus-visible"]]: "focus",
+			[design.media.active]: "focus",
+		}),
+		gridColumn: "1 / -1",
+		display: "grid",
+		gridTemplateColumns: "subgrid",
+		...design.utilities.paddingX("1rem"),
+	},
+	variants: {
+		lines: {
+			one: { minHeight: "3.5rem", alignItems: "center" },
+			two: { minHeight: "4.5rem", alignItems: "center" },
+			three: { minHeight: "5.5rem", alignItems: "flex-start" },
+		},
+	},
+})
+
+const listItem = cva(listItemDefinition)
+
+interface ListItemProps extends Omit<
+	Ariakit.RoleProps<"li">,
+	"style" | "className"
+> {
+	style?: PreCompiledStyles
+}
+
+export function ListItem({ style, ...props }: ListItemProps) {
+	const [className, jsx] = useStyles(
+		mergeStyles(
+			listItem.style,
+			listItem.variants({
+				lines: {
+					".list-one &": "one",
+					".list-two &": "two",
+					".list-three &": "three",
+				},
+			}),
+			style
+		)
+	)
 	return (
-		<Ariakit.Role.li
-			{...props}
-			className={tv({ base: "group list-item" })({
-				className: props.className,
-			})}
-		></Ariakit.Role.li>
+		<>
+			<Ariakit.Role.li {...props} className={className}></Ariakit.Role.li>
+			{jsx}
+		</>
 	)
 }
 
