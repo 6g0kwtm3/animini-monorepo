@@ -20,6 +20,7 @@
 		"typescript/no-non-null-assertion": "warn",
 		"typescript/no-unnecessary-type-constraint": "error",
 		"typescript/switch-exhaustiveness-check": "error",
+		"typescript/consistent-type-definitions": ["error", "interface"],
 		"eslint/require-await": "error",
 		"unicorn/no-document-cookie": "off",
 		"jsx-a11y/no-autofocus": "off",
