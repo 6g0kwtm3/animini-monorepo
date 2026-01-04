@@ -41,24 +41,18 @@ export const list = plugin((ctx) => {
 		},
 
 		".list-one": {
-			"& .list-item": { "@apply min-h-[3.5rem] items-center": {} },
-
 			"& .list-item-subtitle": { "@apply hidden": {} },
 
 			"& .list-item-content": { "@apply justify-center py-2": {} },
 		},
 
 		".list-two": {
-			"& .list-item": { "@apply min-h-[4.5rem] items-center": {} },
-
 			"& .list-item-subtitle": { "@apply block truncate": {} },
 
 			"& .list-item-content": { "@apply justify-center py-2": {} },
 		},
 
 		".list-three": {
-			"& .list-item": { "@apply min-h-[5.5rem] items-start": {} },
-
 			"& .list-item-subtitle": { "@apply line-clamp-2": {} },
 
 			"& .list-item-content": { "@apply justify-start py-3": {} },

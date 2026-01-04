@@ -33,6 +33,8 @@ import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
 import { numberToString } from "~/lib/numberToString"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
+import { precompileStyles } from "@anitrove/unstyled"
+import { state } from "@anitrove/design"
 const { graphql } = ReactRelay
 
 export function UserLink(props: { children: ReactNode; userName: string }) {
@@ -83,8 +85,8 @@ function UserCard(props: { userName: string }) {
 		data.User && (
 			<>
 				<div className="-mx-4 -my-2">
-					<List className="">
-						<ListItem className="hover:state-none">
+					<List>
+						<ListItem style={precompileStyles({ ...state("none") })}>
 							<ListItemAvatar>
 								{data.User.avatar?.large && (
 									<img
