@@ -2,12 +2,22 @@ import { numberOrStringToString } from "utilities"
 import type { Properties, RawStyles } from "./unstyled-cva"
 import type { Value } from "./unstyled-value"
 
-export type PreCompiledStyles = { [K in keyof Properties]?: string }
+export type Brand<
+	BaseType,
+	Brand extends symbol,
+	// @ts-ignore
+> = infer _ extends Brand ? BaseType : never
+
+declare const PreCompiledStylesBrand: unique symbol
+export type PreCompiledStyles = Brand<
+	{ [K in keyof Properties]?: string },
+	typeof PreCompiledStylesBrand
+>
 
 export function mergeStyles(
 	...styles: (PreCompiledStyles | undefined)[]
 ): PreCompiledStyles {
-	const result: PreCompiledStyles = {}
+	const result = {} as PreCompiledStyles
 	for (const style of styles) {
 		if (style === undefined) continue
 		Object.assign(result, style)
@@ -41,7 +51,7 @@ export function precompileStyles(style: RawStyles): PreCompiledStyles {
 				],
 			]
 		})
-	)
+	) as PreCompiledStyles
 }
 
 const tab = "  "
