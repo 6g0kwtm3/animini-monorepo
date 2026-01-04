@@ -7,7 +7,6 @@ import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
 import path from "path"
-import tseslint from "typescript-eslint"
 
 export default await typegen([
 	{
@@ -37,65 +36,6 @@ export default await typegen([
 			"perfectionist/sort-objects": "off",
 		},
 	},
-	...[
-		...tseslint.configs.strictTypeChecked,
-		...tseslint.configs.stylisticTypeChecked,
-	].map((config) => ({
-		files: [
-			"**/*.js",
-			"**/*.cjs",
-			"**/*.mjs",
-			"**/*.jsx",
-			"**/*.cjsx",
-			"**/*.mjsx",
-			"**/*.ts",
-			"**/*.cts",
-			"**/*.mts",
-			"**/*.tsx",
-			"**/*.ctsx",
-			"**/*.mtsx",
-		],
-		...config,
-		rules: {
-			...config.rules,
-			"@typescript-eslint/triple-slash-reference": "off",
-			"@typescript-eslint/only-throw-error": "off",
-			"@typescript-eslint/no-floating-promises": "error",
-		},
-	})),
-	{
-		name: "eslint-config/typescript-eslint/parser-options",
-		languageOptions: {
-			parserOptions: {
-				projectService: true,
-				project: ["./apps/*/tsconfig.json", "./packages/*/tsconfig.json"],
-				tsconfigRootDir: path.join(import.meta.dirname, "..", ".."),
-			},
-		},
-	},
-	// {
-	// files: ["**/*.{ts,tsx}"],
-	// rules: {
-	// ...import_.configs.recommended.rules,
-	// ...import_.configs.typescript.rules,
-	// "@typescript-eslint/no-unnecessary-condition": "error",
-	// "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-	// "@typescript-eslint/dot-notation": "error",
-	// "@typescript-eslint/restrict-plus-operands": "warn",
-	// "@typescript-eslint/no-floating-promises": "error",
-	// "@typescript-eslint/promise-function-async": "error",
-	// "@typescript-eslint/no-misused-promises": "error",
-	// "@typescript-eslint/return-await": "error",
-	// "@typescript-eslint/no-unused-vars": ["warn"],
-	// "@typescript-eslint/explicit-module-boundary-types": "warn",
-	// "@typescript-eslint/method-signature-style": ["error", "property"],
-	// "@typescript-eslint/no-explicit-any": "off",
-	// "@typescript-eslint/no-empty-object-type": "off",
-	// 	},
-	// },
-
-	// turbo.configs["flat/recommended"],
-
 	{
 		rules: {
 			"no-undef": "off",
