@@ -5,7 +5,7 @@ import type { Value } from "./unstyled-value"
 export type Brand<
 	BaseType,
 	Brand extends symbol,
-	// @ts-expect-error
+	// @ts-expect-error this depends on typescript internal logic
 > = infer _ extends Brand ? BaseType : never
 
 declare const PreCompiledStylesBrand: unique symbol
