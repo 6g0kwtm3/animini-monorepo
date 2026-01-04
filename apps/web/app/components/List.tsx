@@ -33,6 +33,7 @@ const listItemDefinition = defineCva({
 			three: { minHeight: "5.5rem", alignItems: "flex-start" },
 		},
 	},
+	defaultVariants: { lines: "two" },
 })
 
 const listItem = cva(listItemDefinition)
@@ -88,6 +89,7 @@ const listItemContentDefinition = defineCva({
 			three: { justifyContent: "flex-start", ...paddingY(".75rem") },
 		},
 	},
+	defaultVariants: { lines: "two" },
 })
 
 const liteItemContent = cva(listItemContentDefinition)
@@ -203,7 +205,11 @@ const listDefinition = defineCva({
 		gridTemplateColumns: "auto minmax(0, 1fr) auto",
 		columnGap: "1rem",
 	},
-	variants: { lines: { one: {}, two: {}, three: {} } },
+	variants: {
+		lines: { one: {}, two: {}, three: {} },
+		segmented: { true: { rowGap: ".125rem" }, false: {} },
+	},
+	defaultVariants: { lines: "two", segmented: 'true' },
 })
 
 const list = cva(listDefinition)
