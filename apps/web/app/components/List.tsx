@@ -25,6 +25,17 @@ const listItemDefinition = defineCva({
 		display: "grid",
 		gridTemplateColumns: "subgrid",
 		...design.utilities.paddingX("1rem"),
+		borderRadius: {
+			base: design.tokens.borderRadius.xs,
+			"&:first-child": `${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs}`,
+			"&:last-child": `${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
+			[design.media.hover]: design.tokens.borderRadius.md,
+			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
+			[design.media.active]: design.tokens.borderRadius.lg,
+		},
+		transitionProperty: { [design.media.motionSafe]: "border-radius" },
+		...design.tokens.transitions.spatial.fast,
+		backgroundColor: design.tokens.colors.surface,
 	},
 	variants: {
 		lines: {
@@ -121,14 +132,47 @@ export function ListItemContent({
 	)
 }
 
-export function ListItemContentSubtitle(props: Ariakit.RoleProps): ReactNode {
+const listItemSubtitleDefinition = defineCva({
+	base: {
+		color: design.tokens.colors["on-surface-variant"],
+		...design.tokens.typescale["body-md"],
+	},
+	variants: {
+		lines: {
+			one: { display: "none" },
+			two: { ...design.utilities.truncate },
+			three: { ...design.utilities.lineClamp(2) },
+		},
+	},
+	defaultVariants: { lines: "two" },
+})
+
+const listItemSubtitle = cva(listItemSubtitleDefinition)
+
+interface ListItemContentSubtitleProps extends Omit<
+	Ariakit.RoleProps,
+	"className" | "style"
+> {
+	style?: PreCompiledStyles
+}
+
+export function ListItemContentSubtitle({
+	style,
+	...props
+}: ListItemContentSubtitleProps): ReactNode {
+	const lines = use(Lines)
+	const [className, jsx] = useStyles(
+		mergeStyles(
+			listItemSubtitle.style,
+			listItemSubtitle.variants({ lines }),
+			style
+		)
+	)
 	return (
-		<Ariakit.Role.div
-			{...props}
-			className={tv({ base: "list-item-subtitle" })({
-				className: props.className,
-			})}
-		></Ariakit.Role.div>
+		<>
+			<Ariakit.Role.div {...props} className={className}></Ariakit.Role.div>
+			{jsx}
+		</>
 	)
 }
 
