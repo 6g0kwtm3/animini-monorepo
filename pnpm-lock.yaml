@@ -37,8 +37,8 @@ catalogs:
       specifier: 1.2.50
       version: 1.2.50
     '@inlang/paraglide-js':
-      specifier: 2.7.1
-      version: 2.7.1
+      specifier: 2.7.2
+      version: 2.7.2
     '@material/material-color-utilities':
       specifier: 0.3.0
       version: 0.3.0
@@ -500,7 +500,7 @@ importers:
         version: 1.2.50
       '@inlang/paraglide-js':
         specifier: 'catalog:'
-        version: 2.7.1
+        version: 2.7.2
       '@material/material-color-utilities':
         specifier: 'catalog:'
         version: 0.3.0
@@ -1906,8 +1906,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@inlang/paraglide-js@2.7.1':
-    resolution: {integrity: sha512-wCpnS9iRTRYMilvWBjB0ndf8+moon+AXz23Uh4wbpQjWhRJyvCytkGFzm7jeqAGggK4v3oeuyjva91TDMS+qhw==}
+  '@inlang/paraglide-js@2.7.2':
+    resolution: {integrity: sha512-tUkzcK7yCuJsQCeSHLlCaISFFX65efYeYdFBXtTXyorl1PClH2/BxFg4MqCsemXiX7KZWgbvIfjnsDiVTrj7bQ==}
     hasBin: true
 
   '@inlang/recommend-sherlock@0.2.1':
@@ -7717,7 +7717,7 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inlang/paraglide-js@2.7.1':
+  '@inlang/paraglide-js@2.7.2':
     dependencies:
       '@inlang/recommend-sherlock': 0.2.1
       '@inlang/sdk': 2.4.10
