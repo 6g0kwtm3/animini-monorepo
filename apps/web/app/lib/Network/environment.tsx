@@ -26,7 +26,7 @@ const fetchQuery = async function (
 	operation: RequestParameters,
 	variables: Variables,
 	cacheConfig: CacheConfig,
-	uploadables?: UploadableMap | null
+	uploadables?: null | UploadableMap
 ): Promise<WithRetry<typeof GraphQLResponse.inferOut>> {
 	const cookies = cookie.parse(document.cookie)
 
