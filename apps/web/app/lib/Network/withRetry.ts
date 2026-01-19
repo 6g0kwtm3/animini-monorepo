@@ -1,9 +1,10 @@
 export type WithRetry<T> =
 	| { readonly data: T; readonly kind: "Data" }
-	| { readonly kind: "Retry"; readonly retryAfter: number }
+	| { readonly kind: "Retry"; readonly retryAfter: number; cause: unknown }
 
 export async function withRetry<T>(
-	fn: () => Promise<WithRetry<T>>
+	fn: () => Promise<WithRetry<T>>,
+	options: { maxRetries: number }
 ): Promise<T> {
 	const e = await fn()
 
@@ -12,8 +13,11 @@ export async function withRetry<T>(
 			return e.data
 		}
 		case "Retry": {
+			if (options.maxRetries < 1) {
+				throw new Error(`Max retries reached`, { cause: e.cause })
+			}
 			await new Promise((resolve) => setTimeout(resolve, e.retryAfter * 1000))
-			return withRetry(fn)
+			return withRetry(fn, { maxRetries: options.maxRetries - 1 })
 		}
 	}
 }

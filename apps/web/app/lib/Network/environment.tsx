@@ -55,7 +55,11 @@ const fetchQuery = async function (
 	const rawRetryAfter = request.headers.get("retry-after")
 	const retryAfter = Number(rawRetryAfter)
 	if (isFinite(retryAfter) && retryAfter > 0) {
-		return { kind: "Retry", retryAfter: retryAfter + 1 }
+		return {
+			kind: "Retry",
+			retryAfter: retryAfter + 1,
+			cause: { headers: request.headers, text: await request.text() },
+		}
 	}
 
 	const response = invariant(GraphQLResponse(await request.json()))
@@ -65,7 +69,7 @@ const fetchQuery = async function (
 
 // Create a network layer from the fetch function
 const network = Network.create((...args) =>
-	withRetry(() => fetchQuery(...args))
+	withRetry(() => fetchQuery(...args), { maxRetries: 5 })
 )
 
 declare namespace globalThis {
