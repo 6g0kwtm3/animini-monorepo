@@ -1,5 +1,9 @@
 export type WithRetry<T> =
-	| { cause: unknown; readonly kind: "Retry"; readonly retryAfter: number }
+	| {
+			readonly cause: unknown
+			readonly kind: "Retry"
+			readonly retryAfter: number
+	  }
 	| { readonly data: T; readonly kind: "Data" }
 
 export async function withRetry<T>(
