@@ -72,6 +72,7 @@ const network = Network.create((...args) =>
 	withRetry(() => fetchQuery(...args), { maxRetries: 5 })
 )
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace globalThis {
 	let __RELAY_STORE__: Store | undefined
 }
