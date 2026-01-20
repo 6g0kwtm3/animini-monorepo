@@ -4,7 +4,10 @@ import RelayRuntime, {
 	Network,
 	RecordSource,
 	Store,
-	type FetchFunction,
+	type CacheConfig,
+	type RequestParameters,
+	type UploadableMap,
+	type Variables,
 } from "relay-runtime"
 import { JsonToToken } from "../viewer"
 
@@ -15,15 +18,16 @@ import { ArkErrors, type } from "arktype"
 
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
+import { withRetry, type WithRetry } from "./withRetry"
 const { ROOT_TYPE } = RelayRuntime
 
 const API_URL = "https://graphql.anilist.co"
-const fetchQuery: FetchFunction = async function (
-	operation,
-	variables,
-	cacheConfig,
-	_uploadables
-) {
+const fetchQuery = async function (
+	operation: RequestParameters,
+	variables: Variables,
+	cacheConfig: CacheConfig,
+	uploadables?: null | UploadableMap
+): Promise<WithRetry<typeof GraphQLResponse.inferOut>> {
 	const cookies = cookie.parse(document.cookie)
 
 	let token = cookies["anilist-token"]
@@ -48,13 +52,25 @@ const fetchQuery: FetchFunction = async function (
 
 	const request = await fetch(API_URL, { body: body, method: "POST", headers })
 
+	const rawRetryAfter = request.headers.get("retry-after")
+	const retryAfter = Number(rawRetryAfter)
+	if (isFinite(retryAfter) && retryAfter > 0) {
+		return {
+			kind: "Retry",
+			retryAfter: retryAfter + 1,
+			cause: { headers: request.headers, text: await request.text() },
+		}
+	}
+
 	const response = invariant(GraphQLResponse(await request.json()))
 
-	return response
+	return { kind: "Data", data: response }
 }
 
 // Create a network layer from the fetch function
-const network = Network.create(fetchQuery)
+const network = Network.create((...args) =>
+	withRetry(() => fetchQuery(...args), { maxRetries: 5 })
+)
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace globalThis {
