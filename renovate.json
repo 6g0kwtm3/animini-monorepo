@@ -10,6 +10,7 @@
 	"lockFileMaintenance": { "enabled": true },
 	"minimumReleaseAge": "1 day",
 	"packageRules": [
+		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{
 			"matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/*"],
