@@ -25,5 +25,12 @@
 		}
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
-	"automergeType": "branch"
+	"automergeType": "branch",
+	"ignoreDeps": [
+		// pinnned
+		"@types/marked",
+		"marked",
+		// TODO: update
+		"dompurify"
+	]
 }
