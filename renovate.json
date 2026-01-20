@@ -10,19 +10,27 @@
 	"lockFileMaintenance": { "enabled": true },
 	"minimumReleaseAge": "1 day",
 	"packageRules": [
+		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
-		{
-			"matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/*"],
-			"groupName": "playwright"
-		},
-		{ "matchPackageNames": ["/oxlint/"], "groupName": "oxlint" },
-		{ "matchPackageNames": ["/prettier/"], "groupName": "prettier" },
 		{
 			"matchDepTypes": ["action"],
 			"matchUpdateTypes": ["digest"],
 			"automerge": false
+		},
+		{ "groupName": "build", "matchPackageNames": ["/vite/"] },
+		{ "groupName": "test", "matchPackageNames": ["/vitest/", "/playwright/"] },
+		{
+			"groupName": "lint",
+			"matchPackageNames": ["/eslint/", "/oxlint/", "/prettier/"]
 		}
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
-	"automergeType": "branch"
+	"automergeType": "branch",
+	"ignoreDeps": [
+		// pinnned
+		"@types/marked",
+		"marked",
+		// TODO: update
+		"dompurify"
+	]
 }
