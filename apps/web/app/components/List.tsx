@@ -10,7 +10,6 @@ import {
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
-import { paddingY } from "node_modules/@anitrove/design/src/design-utilities"
 import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
 
@@ -95,9 +94,12 @@ const listItemContentDefinition = defineCva({
 	},
 	variants: {
 		lines: {
-			one: { justifyContent: "center", ...paddingY(".5rem") },
-			two: { justifyContent: "center", ...paddingY(".5rem") },
-			three: { justifyContent: "flex-start", ...paddingY(".75rem") },
+			one: { justifyContent: "center", ...design.utilities.paddingY(".5rem") },
+			two: { justifyContent: "center", ...design.utilities.paddingY(".5rem") },
+			three: {
+				justifyContent: "flex-start",
+				...design.utilities.paddingY(".75rem"),
+			},
 		},
 	},
 	defaultVariants: { lines: "two" },
