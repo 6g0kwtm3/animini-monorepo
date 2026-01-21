@@ -1,27 +1,31 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
 	"compilerOptions": {
+		"useDefineForClassFields": true,
+
+		// bundler mode
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
-		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"target": "ES2022",
+		"target": "ES2023",
 		"allowJs": true,
-		"resolveJsonModule": true,
 		"moduleDetection": "force",
-		"isolatedModules": true,
+		"noEmit": true,
+
 		// strictness
 		"strict": true,
+		// "noUnusedLocals": true,
+		// "noUnusedParameters": true,
+		// "erasableSyntaxOnly": true,
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true,
-		// fix resolveJsonModule?
-		"module": "preserve",
+		"module": "ESNext",
 		// lib
-		"lib": ["DOM", "DOM.Iterable", "ES2022"],
+		"lib": ["ES2023", "DOM", "DOM.Iterable"],
 		// react
-		"jsx": "react-jsx",
-		// monorepo
-		"composite": true
+		"jsx": "react-jsx"
 	}
 }
