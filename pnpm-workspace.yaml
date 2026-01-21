@@ -12,7 +12,7 @@ catalog:
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.5
   '@hono/node-server': 1.19.9
-  '@iconify-json/material-symbols': 1.2.51
+  '@iconify-json/material-symbols': 1.2.52
   '@inlang/paraglide-js': 2.7.2
   '@material/material-color-utilities': 0.3.0
   '@msw/playwright': 0.4.5
