@@ -14,7 +14,7 @@ catalog:
   '@hono/node-server': 1.19.9
   '@iconify-json/material-symbols': 1.2.53
   '@inlang/paraglide-js': 2.7.2
-  '@material/material-color-utilities': 0.3.0
+  '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.4.5
   '@playwright/test': 1.57.0
   '@prettier/plugin-oxc': 0.1.3
