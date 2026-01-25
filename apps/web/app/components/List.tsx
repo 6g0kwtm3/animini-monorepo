@@ -199,10 +199,7 @@ interface ListItemImgProps extends Omit<
 	style?: PreCompiledStyles
 }
 
-export function ListItemImg({
-	style,
-	...props
-}: ListItemImgProps): ReactNode {
+export function ListItemImg({ style, ...props }: ListItemImgProps): ReactNode {
 	const lines = use(Lines)
 	const [className, jsx] = useStyles(
 		mergeStyles(listItemImg.style, listItemImg.variants({ lines }), style)
