@@ -808,6 +808,9 @@ importers:
       '@typescript-eslint/utils':
         specifier: latest
         version: 8.53.1(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.37.0(jiti@2.6.1)
       graphql:
         specifier: 'catalog:'
         version: 16.12.0
@@ -821,9 +824,6 @@ importers:
       '@typescript-eslint/typescript-estree':
         specifier: latest
         version: 8.53.1(typescript@5.9.3)
-      eslint:
-        specifier: 'catalog:'
-        version: 9.37.0(jiti@2.6.1)
       eslint-config:
         specifier: workspace:*
         version: link:../eslint-config
@@ -845,6 +845,9 @@ importers:
 
   packages/eslint-plugin-relay:
     dependencies:
+      eslint:
+        specifier: 'catalog:'
+        version: 9.37.0(jiti@2.6.1)
       graphql:
         specifier: 'catalog:'
         version: 16.12.0
@@ -855,9 +858,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: 'catalog:'
         version: 8.46.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
-      eslint:
-        specifier: 'catalog:'
-        version: 9.37.0(jiti@2.6.1)
       eslint-config:
         specifier: workspace:*
         version: link:../eslint-config

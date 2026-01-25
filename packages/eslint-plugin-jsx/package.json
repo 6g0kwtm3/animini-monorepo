@@ -14,13 +14,13 @@
 		"@typescript-eslint/utils": "latest"
 	},
 	"peerDependencies": {
+		"eslint": "catalog:",
 		"graphql": "catalog:"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
 		"@typescript-eslint/typescript-estree": "latest",
-		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "catalog:",
 		"eslint-vitest-rule-tester": "catalog:",

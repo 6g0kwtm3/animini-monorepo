@@ -6,7 +6,6 @@
 	"type": "module",
 	"dependencies": {
 		"@eslint/js": "catalog:",
-		"eslint": "catalog:",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-perfectionist": "catalog:",
 		"eslint-plugin-turbo": "catalog:",
@@ -14,7 +13,9 @@
 		"oxlint-config": "workspace:*",
 		"typescript-eslint": "catalog:"
 	},
-	"devDependencies": {},
+	"peerDependencies": {
+		"eslint": "catalog:"
+	},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",
