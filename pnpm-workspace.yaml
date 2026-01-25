@@ -28,7 +28,7 @@ catalog:
   '@storybook/addon-onboarding': 10.2.0
   '@storybook/addon-themes': 10.2.0
   '@storybook/addon-vitest': 10.1.11
-  '@storybook/react-vite': 10.1.11
+  '@storybook/react-vite': 10.2.0
   '@stryker-mutator/api': 9.4.0
   '@stryker-mutator/core': 9.4.0
   '@stryker-mutator/vitest-runner': 9.4.0
@@ -102,7 +102,7 @@ catalog:
   vite-plugin-babel: 1.4.1
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
-  vite-tsconfig-paths: 6.0.4
+  vite-tsconfig-paths: 6.0.5
   vitest: 3.2.4
   wrangler: 4.60.0
 
