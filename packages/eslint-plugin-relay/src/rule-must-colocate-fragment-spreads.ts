@@ -63,8 +63,7 @@ import {
 	Kind,
 	OperationTypeNode,
 	visit,
-	type DocumentNode,
-	type FragmentSpreadNode,
+	type DocumentNode
 } from "graphql"
 import {
 	getGraphQLAST,
@@ -72,6 +71,7 @@ import {
 	getModuleName,
 	hasPrecedingEslintDisableComment,
 	isGraphQLTemplate,
+	type ASTNodeWithLocation,
 	type GraphqlTemplateExpression,
 } from "./utils"
 
@@ -83,7 +83,7 @@ function isReadonlyArray(value: unknown): value is readonly unknown[] {
 }
 
 function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
-	const fragmentSpreads: Record<string, FragmentSpreadNode> = {}
+	const fragmentSpreads: Record<string, ASTNodeWithLocation> = {}
 	visit(graphQLAst, {
 		FragmentSpread(node, key, parent, path, ancestors) {
 			for (const ancestorNode of ancestors) {
@@ -117,7 +117,10 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
 				return
 			}
-			fragmentSpreads[node.name.value] = node
+			if (node.loc === undefined) {
+				return
+			}
+			fragmentSpreads[node.name.value] = { loc: node.loc }
 		},
 	})
 	return fragmentSpreads

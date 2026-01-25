@@ -18,6 +18,7 @@ import {
 	getLoc,
 	hasPrecedingEslintDisableComment,
 	isGraphQLTemplate,
+	type ASTNodeWithLocation,
 	type GraphqlTemplateExpression,
 } from "./utils"
 
@@ -25,7 +26,7 @@ const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/unused-fields"
 
 function getGraphQLFieldNames(graphQLAst: DocumentNode) {
-	const fieldNames: Record<string, NameNode> = {}
+	const fieldNames: Record<string, ASTNodeWithLocation> = {}
 
 	visit(graphQLAst, {
 		Field(node) {
@@ -34,7 +35,10 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 				return false
 			}
 			const nameNode = node.alias ?? node.name
-			fieldNames[nameNode.value] = nameNode
+			if (nameNode.loc === undefined) {
+				return
+			}
+			fieldNames[nameNode.value] = { loc: nameNode.loc }
 		},
 		OperationDefinition(node) {
 			if (
