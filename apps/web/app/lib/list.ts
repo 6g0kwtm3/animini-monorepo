@@ -9,10 +9,6 @@ export const list = plugin((ctx) => {
 				"@apply h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full": {},
 			},
 
-			"& .list-item-img": {
-				"@apply h-14 w-14 overflow-hidden *:h-full *:w-full": {},
-			},
-
 			"& .list-item-icon": { "@apply i": {} },
 
 			"& .list-item-title": {
