@@ -26,6 +26,18 @@
 		"unicorn/no-document-cookie": "off",
 		"unicorn/consistent-existence-index-check": "error",
 		"jsx-a11y/no-autofocus": "off",
+		"jest/expect-expect": [
+			"warn",
+			{
+				"assertFunctionNames": [
+					"expect",
+					"expectTypeOf",
+					"assert",
+					"assertType",
+					"valid"
+				]
+			}
+		],
 		"jsx-a11y/anchor-has-content": [
 			"warn",
 			{
