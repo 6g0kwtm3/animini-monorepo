@@ -10,8 +10,7 @@ import type * as ESTree from "estree"
 import {
 	OperationTypeNode,
 	visit,
-	type DocumentNode,
-	type NameNode,
+	type DocumentNode
 } from "graphql"
 import {
 	getGraphQLAST,
