@@ -117,7 +117,7 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
 			<div className="flex flex-col gap-4">
 				<Tabs selectedId={String(params.selected)}>
-					<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 grid sm:-mt-4">
+					<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 grid">
 						<AppBar variant="large" className="sm:bg-surface-container-low">
 							<Icon tooltip title="Show list search">
 								<MaterialSymbolsSearch />
