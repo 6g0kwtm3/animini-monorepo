@@ -11,12 +11,12 @@
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
+		"eslint": "catalog:",
 		"graphql": "catalog:"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
-		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-typegen": "catalog:",
 		"eslint-vitest-rule-tester": "catalog:",
