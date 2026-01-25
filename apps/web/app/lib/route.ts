@@ -1,11 +1,5 @@
 import { numberToString } from "./numberToString"
 
-interface Path {
-	pathname: Pathname
-	hash: Hash
-	search: SearchParams
-}
-
 type SearchParams = `?${string}`
 type Hash = `#${string}`
 
