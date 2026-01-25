@@ -10,10 +10,8 @@ export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 
 		const className = `unstyled-` + id
 
-		return [
-			className,
-			<style href={className}>{`.${className} ${styles}`}</style>,
-		]
+		const jsx = <style href={className}>{`.${className} ${styles}`}</style>
+		return [className, jsx]
 	}, [rawStyle])
 }
 
@@ -137,17 +135,21 @@ function sha256() {
 		process = () => {
 			for (let j = 0, r = 0; j < 16; j++, r += 4) {
 				w[j] =
-					(buf[r]! << 24)
-					| (buf[r + 1]! << 16)
-					| (buf[r + 2]! << 8)
-					| buf[r + 3]!
+					((buf[r] ?? 0) << 24)
+					| ((buf[r + 1] ?? 0) << 16)
+					| ((buf[r + 2] ?? 0) << 8)
+					| (buf[r + 3] ?? 0)
 			}
 			for (let j = 16; j < 64; j++) {
 				const s0 =
-					rrot(w[j - 15]!, 7) ^ rrot(w[j - 15]!, 18) ^ (w[j - 15]! >>> 3)
+					rrot(w[j - 15] ?? 0, 7)
+					^ rrot(w[j - 15] ?? 0, 18)
+					^ ((w[j - 15] ?? 0) >>> 3)
 				const s1 =
-					rrot(w[j - 2]!, 17) ^ rrot(w[j - 2]!, 19) ^ (w[j - 2]! >>> 10)
-				w[j] = (w[j - 16]! + s0 + w[j - 7]! + s1) | 0
+					rrot(w[j - 2] ?? 0, 17)
+					^ rrot(w[j - 2] ?? 0, 19)
+					^ ((w[j - 2] ?? 0) >>> 10)
+				w[j] = ((w[j - 16] ?? 0) + s0 + (w[j - 7] ?? 0) + s1) | 0
 			}
 			let a = h0,
 				b = h1,
@@ -162,7 +164,7 @@ function sha256() {
 					maj = (a & b) ^ (a & c) ^ (b & c),
 					S0 = rrot(a, 2) ^ rrot(a, 13) ^ rrot(a, 22),
 					S1 = rrot(e, 6) ^ rrot(e, 11) ^ rrot(e, 25),
-					t1 = (h + S1 + ch + k[j]! + w[j]!) | 0,
+					t1 = (h + S1 + ch + (k[j] ?? 0) + (w[j] ?? 0)) | 0,
 					t2 = (S0 + maj) | 0
 				h = g
 				g = f
@@ -193,32 +195,4 @@ function hex(reply: Uint8Array) {
 	let res = ""
 	reply.forEach((x) => (res += ("0" + x.toString(16)).slice(-2)))
 	return res
-}
-
-// HMAC-SHA256 implementation
-function hmac_sha256(key: string | Uint8Array, message: string) {
-	if (typeof key === "string") {
-		key =
-			typeof TextEncoder === "undefined"
-				? Buffer.from(key)
-				: new TextEncoder().encode(key)
-	}
-	if (key.length > 64) {
-		const sha = sha256()
-		sha.add(key)
-		key = sha.digest()
-	}
-	const inner = new Uint8Array(64).fill(0x36)
-	const outer = new Uint8Array(64).fill(0x5c)
-	for (let i = 0; i < key.length; i++) {
-		inner[i]! ^= key[i]!
-		outer[i]! ^= key[i]!
-	}
-	const pass1 = sha256(),
-		pass2 = sha256()
-	pass1.add(inner)
-	pass1.add(message)
-	pass2.add(outer)
-	pass2.add(pass1.digest())
-	return pass2.digest()
 }
