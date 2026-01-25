@@ -63,7 +63,7 @@ import {
 	Kind,
 	OperationTypeNode,
 	visit,
-	type DocumentNode
+	type DocumentNode,
 } from "graphql"
 import {
 	getGraphQLAST,
