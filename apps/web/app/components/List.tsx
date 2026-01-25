@@ -178,12 +178,37 @@ export function ListItemContentSubtitle({
 	)
 }
 
-export function ListItemImg(props: Ariakit.RoleProps): ReactNode {
+const listItemImgDefinition = defineCva({
+	base: {
+		height: "3.5rem",
+		width: "3.5rem",
+		overflow: "hidden",
+		display: "grid",
+		borderRadius: design.tokens.borderRadius.sm,
+	},
+	variants: {},
+	defaultVariants: {},
+})
+
+const listItemImg = cva(listItemImgDefinition)
+
+interface ListItemImgProps extends Omit<
+	Ariakit.RoleProps,
+	"className" | "style"
+> {
+	style?: PreCompiledStyles
+}
+
+export function ListItemImg({ style, ...props }: ListItemImgProps): ReactNode {
+	const lines = use(Lines)
+	const [className, jsx] = useStyles(
+		mergeStyles(listItemImg.style, listItemImg.variants({ lines }), style)
+	)
 	return (
-		<Ariakit.Role.div
-			{...props}
-			className={tv({ base: "list-item-img" })({ className: props.className })}
-		></Ariakit.Role.div>
+		<>
+			<Ariakit.Role.div {...props} className={className}></Ariakit.Role.div>
+			{jsx}
+		</>
 	)
 }
 
