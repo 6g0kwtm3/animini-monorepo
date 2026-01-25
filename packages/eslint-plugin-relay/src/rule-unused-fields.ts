@@ -7,11 +7,7 @@
 
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
-import {
-	OperationTypeNode,
-	visit,
-	type DocumentNode
-} from "graphql"
+import { OperationTypeNode, visit, type DocumentNode } from "graphql"
 import {
 	getGraphQLAST,
 	getLoc,
