@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --cache . --fix",
+		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
