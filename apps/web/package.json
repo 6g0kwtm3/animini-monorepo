@@ -14,7 +14,7 @@
 		"dev": "react-router dev",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
-		"lint": "eslint --cache . --fix",
+		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"paraglide": "paraglide-js compile --project ./project.inlang --outdir ./app/paraglide",
 		"relay": "relay-compiler",
 		"relay-watch": "relay-compiler --watch",
