@@ -1,5 +1,6 @@
 {
 	"$schema": "../../node_modules/oxlint/configuration_schema.json",
+	"jsPlugins": ["@anitrove/eslint-plugin"],
 	"plugins": [
 		"react",
 		"unicorn",

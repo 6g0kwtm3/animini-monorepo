@@ -8,6 +8,7 @@
 	"exports": {
 		"./tsconfig.json": "./src/tsconfig.json",
 		"./tsconfig.dts.json": "./src/tsconfig.dts.json",
+		"./tsconfig.node.json": "./src/tsconfig.node.json",
 		"./tsconfig.isolated.json": "./src/tsconfig.isolated.json"
 	}
 }

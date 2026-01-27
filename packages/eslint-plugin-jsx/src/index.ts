@@ -1,7 +1,8 @@
 import type { ESLint, Rule } from "eslint"
-import { rule as mustIncludeDataKey } from "./rule-must-include-data-key"
-import { rule as nameContext } from "./rule-name-context"
-const plugin: ESLint.Plugin = {
+import { rule as mustIncludeDataKey } from "./rule-must-include-data-key.ts"
+import { rule as nameContext } from "./rule-name-context.ts"
+
+export const plugin: ESLint.Plugin = {
 	meta: { name: "eslint-plugin-jsx" },
 	rules: {
 		"rule-must-include-data-key":

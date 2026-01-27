@@ -3,5 +3,8 @@
 	"name": "oxlint-config",
 	"type": "module",
 	"private": true,
-	"exports": "./oxlintrc.json"
+	"exports": "./oxlintrc.json",
+	"dependencies": {
+		"@anitrove/eslint-plugin": "workspace:*"
+	}
 }

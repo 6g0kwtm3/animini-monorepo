@@ -88,7 +88,6 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-config-react": "workspace:*",
-		"eslint-plugin-relay": "workspace:*",
 		"eslint-typegen": "catalog:",
 		"flubber": "catalog:",
 		"graphql-config": "catalog:",

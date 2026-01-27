@@ -2,7 +2,7 @@ import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import { describe } from "node:test"
 import { expect, test } from "vitest"
-import { rule } from "./rule-must-colocate-fragment-spreads"
+import { rule } from "./rule-must-colocate-fragment-spreads.ts"
 
 void describe("rule-must-colocate-fragment-spreads", () => {
 	const { valid, invalid } = createRuleTester({
