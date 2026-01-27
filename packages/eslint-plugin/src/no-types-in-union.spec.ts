@@ -33,7 +33,7 @@ void describe("rule-no-types-in-union", () => {
 		expect(result.output).toMatchSnapshot()
 	})
 
-  test("reports error for array", async () => {
+	test("reports error for array", async () => {
 		const { result } = await invalid({
 			code: `
 			type Foo = "Foo"[];
