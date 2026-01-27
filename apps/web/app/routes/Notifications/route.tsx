@@ -1,11 +1,9 @@
-import ReactRelay from "react-relay"
-
+import { media } from "@anitrove/design"
+import * as Ariakit from "@ariakit/react"
 import { useTooltipStore } from "@ariakit/react"
-import type {
-	ActionFunction,
-	ClientLoaderFunctionArgs,
-	MetaFunction,
-} from "react-router"
+import type { ReactNode } from "react"
+import ReactRelay from "react-relay"
+import type { ActionFunction, MetaFunction } from "react-router"
 import { Form, redirect } from "react-router"
 import { Card } from "~/components/Card"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
@@ -15,25 +13,19 @@ import {
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
-
-import { fab } from "~/lib/button"
-
-import { media } from "@anitrove/design"
-import * as Ariakit from "@ariakit/react"
-import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { fab } from "~/lib/button"
 import { client_get_client } from "~/lib/client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import type { Route } from "./+types/route"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
-import { precompileStyles } from "@anitrove/unstyled"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => {
+export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return {
 		routeNavNotificationsQuery: args.context.get(
 			loadQuery

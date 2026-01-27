@@ -12,33 +12,34 @@
 	],
 	"env": { "node": true, "browser": true },
 	"rules": {
-		"eslint/eqeqeq ": "error",
-		"oxc/no-barrel-file": "error",
-		"import/no-cycle": "error",
+		"eslint/eqeqeq ": "warn",
+		"oxc/no-barrel-file": "warn",
+		"import/no-cycle": "warn",
+		"import/namespace": "off",
 		"react/jsx-no-useless-fragment": "warn",
-		"react/rules-of-hooks": "error",
+		"react/rules-of-hooks": "warn",
 		"typescript/no-non-null-assertion": "warn",
-		"no-non-null-asserted-nullish-coalescing": "error",
-		"typescript/no-unnecessary-type-constraint": "error",
-		"typescript/switch-exhaustiveness-check": "error",
-		"typescript/consistent-type-definitions": ["error", "interface"],
-		"eslint/require-await": "error",
+		"no-non-null-asserted-nullish-coalescing": "warn",
+		"typescript/no-unnecessary-type-constraint": "warn",
+		"typescript/switch-exhaustiveness-check": "warn",
+		"typescript/consistent-type-definitions": ["warn", "interface"],
+		"eslint/require-await": "warn",
 		"unicorn/no-document-cookie": "off",
-		"unicorn/consistent-existence-index-check": "error",
+		"unicorn/consistent-existence-index-check": "warn",
 		"jsx-a11y/no-autofocus": "off",
-		"jsx-a11y/anchor-has-content": [
+		"jest/expect-expect": [
 			"warn",
 			{
-				"components": [
-					"Link",
-					"NavLink",
-					"HashNavLink",
-					"NavigationItem",
-					"Button",
-					"Icon"
+				"assertFunctionNames": [
+					"expect",
+					"expectTypeOf",
+					"assert",
+					"assertType",
+					"valid"
 				]
 			}
 		],
+		"jsx-a11y/anchor-has-content": "off",
 		"jsx-a11y/anchor-is-valid": [
 			"warn",
 			{

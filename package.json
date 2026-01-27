@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "turbo run build --continue=dependencies-successful --affected",
-		"check": "turbo run check --continue=dependencies-successful --affected",
+		"check": "turbo run check --affected",
 		"turbo:lint": "turbo run lint --continue=dependencies-successful --affected",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
@@ -18,7 +18,7 @@
 		"stryker": "stryker run --incremental",
 		"knip": "knip --cache",
 		"boundaries": "turbo boundaries",
-		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix --type-aware"
+		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix --type-aware --type-check --deny-warnings"
 	},
 	"devDependencies": {
 		"@ark/attest": "catalog:",

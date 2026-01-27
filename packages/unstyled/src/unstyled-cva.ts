@@ -2,7 +2,7 @@ import type { PreCompiledStyles } from "./unstyled-print"
 
 import type { CSSProperties } from "react"
 import { numberOrStringToString } from "utilities"
-import { precompileStyles } from "./unstyled-print"
+import { mergeStyles, precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
 
 export interface Properties extends CSSProperties {
@@ -55,7 +55,11 @@ export function cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(
 	cva: Cva<Variants>
-): { style: PreCompiledStyles; variants: typeof applyProps<Cva<Variants>> } {
+): {
+	/** @deprecated */
+	style: PreCompiledStyles
+	variants: typeof applyProps<Cva<Variants>>
+} {
 	const { base, variants, defaultVariants = {}, compoundVariants = [] } = cva
 
 	const result: RawStyles = { ...base }
@@ -109,10 +113,15 @@ export function cva<
 		)
 	}
 
+	const style = precompileStyles(result)
 	return {
-		style: precompileStyles(result),
-		variants: applyProps<Cva<Variants>>,
+		style,
+		variants: (props) => mergeStyles(style, applyProps<Cva<Variants>>(props)),
 	}
+}
+
+function isNonEmptyArray<T>(arr: T[]): arr is NonEmptyArray<T> {
+	return arr.length > 0
 }
 
 function mergeCompoundVariantProperty<
@@ -123,10 +132,10 @@ function mergeCompoundVariantProperty<
 	compoundVariants: CompoundVariant<Variants>[],
 	property: string,
 	propertyVariants: string[],
-	index = 0,
+	propertyVariantsSlice: string[] = propertyVariants.slice(),
 	currentOptions: string[] = []
 ): undefined | Value {
-	if (index === propertyVariants.length) {
+	if (!isNonEmptyArray(propertyVariantsSlice)) {
 		return (
 			compoundVariants
 				.filter(({ css: _, ...compoundVariant }) => {
@@ -134,10 +143,10 @@ function mergeCompoundVariantProperty<
 						const options = compoundVariant[variant]
 						if (options === undefined) continue
 						const i = propertyVariants.indexOf(variant)
-						if (i === -1) {
+						if (i === -1 || currentOptions[i] === undefined) {
 							return false
 						}
-						if (!options.includes(currentOptions[i]!)) {
+						if (!options.includes(currentOptions[i])) {
 							return false
 						}
 					}
@@ -148,22 +157,29 @@ function mergeCompoundVariantProperty<
 				}, undefined)
 			?? currentOptions.reduceRight<undefined | Value>(
 				(acc, variant, i): undefined | Value =>
-					acc ?? variants[propertyVariants[i]!]![variant]![property],
+					acc
+					?? (propertyVariants[i] === undefined
+						? undefined
+						: variants[propertyVariants[i]]?.[variant]?.[property]),
 				undefined
 			)
 			?? base[property]
 		)
 	}
-	const variant = propertyVariants[index]!
+	const variant = propertyVariantsSlice[0]
 
-	const result = Object.keys(variants[variant]!).flatMap((option) => {
+	if (variants[variant] === undefined) {
+		return undefined
+	}
+
+	const result = Object.keys(variants[variant]).flatMap((option) => {
 		const value = mergeCompoundVariantProperty(
 			base,
 			variants,
 			compoundVariants,
 			property,
 			propertyVariants,
-			index + 1,
+			propertyVariantsSlice.slice(1),
 			[...currentOptions, option]
 		)
 		if (value == undefined) {
