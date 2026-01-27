@@ -18,6 +18,7 @@
 		"import/no-cycle": "error",
 		"react/jsx-no-useless-fragment": "warn",
 		"react/rules-of-hooks": "error",
+		"@anitrove/rule-static-css-namespace": "error",
 		"typescript/no-non-null-assertion": "warn",
 		"no-non-null-asserted-nullish-coalescing": "error",
 		"typescript/no-unnecessary-type-constraint": "error",
