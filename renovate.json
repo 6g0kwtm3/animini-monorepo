@@ -1,17 +1,13 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"labels": ["dependencies"],
-	"configMigration": true,
 	"extends": [
-		"config:recommended",
-		":pinDevDependencies",
-		":pinDependencies",
+		"group:allNonMajor",
+		"config:best-practices",
+		"config:js-app",
 		":automergeStableNonMajor",
-		"schedule:weekly",
-		"group:allNonMajor"
+		"schedule:weekly"
 	],
-	"lockFileMaintenance": { "enabled": true },
-	"minimumReleaseAge": "1 day",
 	"packageRules": [
 		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
@@ -20,12 +16,9 @@
 			"matchUpdateTypes": ["digest"],
 			"automerge": false
 		},
-		{ "groupName": "build", "matchPackageNames": ["/vite/"] },
-		{ "groupName": "test", "matchPackageNames": ["/vitest/", "/playwright/"] },
-		{
-			"groupName": "lint",
-			"matchPackageNames": ["/eslint/", "/oxlint/", "/prettier/"]
-		}
+		{ "groupName": "build", "extends": ["packages:vite"] },
+		{ "groupName": "test", "extends": ["packages:test"] },
+		{ "groupName": "linters", "extends": ["packages:linters"] }
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
