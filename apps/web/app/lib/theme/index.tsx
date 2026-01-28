@@ -21,8 +21,6 @@ export type Theme = PreCompiledStyles
 
 const {
 	contentAccentToneDelta: _contentAccentToneDelta,
-	// eslint-disable-next-line @typescript-eslint/unbound-method
-	highestSurface: _highestSurface,
 	prototype: _prototype,
 	...rest
 } = MaterialDynamicColors
