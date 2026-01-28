@@ -53,7 +53,7 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 function isStringNode(
 	node: ESTree.Expression | ESTree.SpreadElement | null | undefined
 ): node is ESTree.SimpleLiteral {
-	return node != null && node.type === "Literal"
+	return node?.type === "Literal"
 }
 
 function isPageInfoField(field: string) {
@@ -85,7 +85,7 @@ export const rule: Rule.RuleModule = {
 			// The `getByPath` utility accesses nested fields in the form
 			// `getByPath(thing, ['field', 'nestedField'])`.
 			const pathArg = node.arguments[1]
-			if (!pathArg || pathArg.type !== "ArrayExpression") {
+			if (pathArg?.type !== "ArrayExpression") {
 				return
 			}
 			pathArg.elements.forEach((element) => {
