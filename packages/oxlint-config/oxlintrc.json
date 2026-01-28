@@ -25,6 +25,18 @@
 		"eslint/require-await": "error",
 		"unicorn/no-document-cookie": "off",
 		"unicorn/consistent-existence-index-check": "error",
+		"jest/expect-expect": [
+			"error",
+			{
+				"assertFunctionNames": [
+					"expect",
+					"expectTypeOf",
+					"assert",
+					"assertType",
+					"valid"
+				]
+			}
+		],
 		"jsx-a11y/no-autofocus": "off",
 		"jsx-a11y/anchor-has-content": [
 			"warn",
