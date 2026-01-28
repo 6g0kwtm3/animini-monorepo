@@ -16,7 +16,8 @@
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
-		"@anitrove/unstyled": "workspace:*"
+		"@anitrove/unstyled": "workspace:*",
+		"@eslint/core": "*"
 	},
 	"devDependencies": {
 		"eslint": "catalog:",

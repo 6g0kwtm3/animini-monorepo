@@ -719,6 +719,9 @@ importers:
       '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
+      '@eslint/core':
+        specifier: '*'
+        version: 0.17.0
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
@@ -805,6 +808,9 @@ importers:
 
   packages/eslint-plugin-jsx:
     dependencies:
+      '@eslint/core':
+        specifier: '*'
+        version: 0.17.0
       '@typescript-eslint/utils':
         specifier: latest
         version: 8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -845,6 +851,9 @@ importers:
 
   packages/eslint-plugin-relay:
     dependencies:
+      '@eslint/core':
+        specifier: '*'
+        version: 0.17.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -974,6 +983,9 @@ importers:
       '@anitrove/unstyled':
         specifier: workspace:*
         version: link:../unstyled
+      '@eslint/core':
+        specifier: '*'
+        version: 0.17.0
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
