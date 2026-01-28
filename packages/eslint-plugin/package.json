@@ -1,27 +1,26 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@anitrove/eslint-plugin-jsx",
+	"name": "@anitrove/eslint-plugin",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
 	"scripts": {
 		"check": "tsgo --noEmit"
 	},
 	"dependencies": {
-		"@typescript-eslint/utils": "latest"
+		"@anitrove/eslint-plugin-jsx": "workspace:*",
+		"@anitrove/eslint-plugin-relay": "workspace:*"
 	},
 	"peerDependencies": {
-		"eslint": "catalog:",
-		"graphql": "catalog:"
+		"oxlint": "catalog:"
 	},
 	"devDependencies": {
-		"@types/estree": "catalog:",
 		"@typescript-eslint/parser": "catalog:",
-		"@typescript-eslint/typescript-estree": "latest",
 		"eslint-vitest-rule-tester": "catalog:",
 		"ts-config": "workspace:^",
-		"tsx": "catalog:",
 		"vitest": "catalog:"
 	}
 }

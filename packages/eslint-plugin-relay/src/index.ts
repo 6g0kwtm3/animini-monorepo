@@ -1,8 +1,8 @@
 import type { ESLint } from "eslint"
-import { rule as mustColocateFragmentSpreads } from "./rule-must-colocate-fragment-spreads"
-import { rule as unusedFields } from "./rule-unused-fields"
+import { rule as mustColocateFragmentSpreads } from "./rule-must-colocate-fragment-spreads.ts"
+import { rule as unusedFields } from "./rule-unused-fields.ts"
 
-const plugin: ESLint.Plugin = {
+export const plugin: ESLint.Plugin = {
 	meta: { name: "eslint-plugin-relay" },
 	rules: {
 		"unused-fields": unusedFields,

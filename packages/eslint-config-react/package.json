@@ -6,7 +6,6 @@
 	"type": "module",
 	"dependencies": {
 		"eslint": "catalog:",
-		"eslint-plugin-jsx": "workspace:*",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
 		"eslint-plugin-react-hooks": "catalog:",

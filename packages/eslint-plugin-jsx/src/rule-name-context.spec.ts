@@ -2,7 +2,7 @@ import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import { describe } from "node:test"
 import { expect, test } from "vitest"
-import { rule } from "./rule-name-context"
+import { rule } from "./rule-name-context.ts"
 
 void describe("rule-name-context", () => {
 	const { valid, invalid } = createRuleTester({

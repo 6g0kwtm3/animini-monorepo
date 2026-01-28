@@ -2,7 +2,7 @@ import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import { describe } from "node:test"
 import { expect, test } from "vitest"
-import { rule } from "./rule-must-include-data-key"
+import { rule } from "./rule-must-include-data-key.ts"
 
 void describe("rule-must-include-data-key", () => {
 	const { valid, invalid } = createRuleTester({

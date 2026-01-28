@@ -73,7 +73,7 @@ import {
 	hasPrecedingEslintDisableComment,
 	isGraphQLTemplate,
 	type GraphqlTemplateExpression,
-} from "./utils"
+} from "./utils.ts"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads"

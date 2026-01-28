@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rule-no-types-in-union > reports error for null 1`] = `
+"
+			type Foo = "foo" | null;
+			"
+`;
+
+exports[`rule-no-types-in-union > reports error for undefined 1`] = `
+"
+			type Foo = "foo" | undefined;
+			"
+`;

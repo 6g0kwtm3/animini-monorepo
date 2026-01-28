@@ -1,6 +1,5 @@
 // @ts-check
 /// <reference path="./eslint-typegen.d.ts" />
-import jsx from "eslint-plugin-jsx"
 import oxlint from "eslint-plugin-oxlint"
 import { default as reactPlugin } from "eslint-plugin-react"
 import { default as reactHooks } from "eslint-plugin-react-hooks"
@@ -14,7 +13,6 @@ export default await typegen([
 	{ settings: { react: { version: "19" } } },
 	reactHooks.configs.flat["recommended"],
 	reactRefresh.configs.vite,
-	jsx.configs.recommended,
 	{
 		name: "eslint-config-react/react-refresh/rules",
 		rules: {

@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rule-static-css-namespace > disallow nested static props 1`] = `
+"
+      function Component(props) {
+        return <Box $style={props.slot.$style} />
+      }
+			"
+`;
+
+exports[`rule-static-css-namespace > disallow non static function 1`] = `
+"
+			<Box $style={precompileStyles({
+        display: "flex",
+      })} />
+			"
+`;
+
+exports[`rule-static-css-namespace > disallow non static props 1`] = `
+"
+      function Component(props) {
+        return <Box $style={props.style} />
+      }
+			"
+`;
