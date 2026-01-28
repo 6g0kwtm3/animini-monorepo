@@ -5,7 +5,9 @@
 		"config:recommended",
 		":pinDevDependencies",
 		":pinDependencies",
-		":automergeStableNonMajor"
+		":automergeStableNonMajor",
+		"schedule:weekly",
+		"group:allNonMajor"
 	],
 	"lockFileMaintenance": { "enabled": true },
 	"minimumReleaseAge": "1 day",
