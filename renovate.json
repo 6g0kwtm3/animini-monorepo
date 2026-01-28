@@ -3,9 +3,7 @@
 	"labels": ["dependencies"],
 	"configMigration": true,
 	"extends": [
-		"config:recommended",
-		":pinDevDependencies",
-		":pinDependencies",
+		"config:js-app",
 		":automergeStableNonMajor",
 		"schedule:weekly",
 		"group:allNonMajor"
