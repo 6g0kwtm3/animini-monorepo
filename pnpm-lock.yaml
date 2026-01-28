@@ -124,8 +124,8 @@ catalogs:
       specifier: 15.7.15
       version: 15.7.15
     '@types/react':
-      specifier: 19.2.9
-      version: 19.2.9
+      specifier: 19.2.10
+      version: 19.2.10
     '@types/react-dom':
       specifier: 19.2.3
       version: 19.2.3
@@ -419,7 +419,7 @@ importers:
         version: 10.2.0(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@storybook/addon-docs':
         specifier: 'catalog:'
-        version: 10.2.0(@types/react@19.2.9)(esbuild@0.27.0)(rollup@4.46.2)(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+        version: 10.2.0(@types/react@19.2.10)(esbuild@0.27.0)(rollup@4.46.2)(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
       '@storybook/addon-onboarding':
         specifier: 'catalog:'
         version: 10.2.0(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
@@ -437,7 +437,7 @@ importers:
         version: 15.7.15
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
@@ -533,10 +533,10 @@ importers:
         version: 4.1.18(rolldown-vite@7.3.1(@types/node@22.19.7)(esbuild@0.27.0)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       '@types/react-dom':
         specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.9)
+        version: 19.2.3(@types/react@19.2.10)
       '@types/react-relay':
         specifier: 'catalog:'
         version: 18.2.1
@@ -684,7 +684,7 @@ importers:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       react:
         specifier: 'catalog:'
         version: 19.2.3
@@ -881,7 +881,7 @@ importers:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       react:
         specifier: 'catalog:'
         version: 19.2.3
@@ -912,7 +912,7 @@ importers:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       markdown:
         specifier: workspace:*
         version: link:../markdown
@@ -1013,7 +1013,7 @@ importers:
         version: 0.3.0
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       dompurify:
         specifier: 'catalog:'
         version: 3.2.5
@@ -1051,7 +1051,7 @@ importers:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.9
+        version: 19.2.10
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
@@ -3239,8 +3239,8 @@ packages:
   '@types/react-relay@18.2.1':
     resolution: {integrity: sha512-KgmFapsxAylhxcFfaAv5GZZJhTHnDvV8IDZVsUm5afpJUvgZC1Y68ssfOGsFfiFY/2EhxHM/YPfpdKbfmF3Ecg==}
 
-  '@types/react@19.2.9':
-    resolution: {integrity: sha512-Lpo8kgb/igvMIPeNV2rsYKTgaORYdO1XGVZ4Qz3akwOj0ySGYMPlQWa8BaLn0G63D1aSaAQ5ldR06wCpChQCjA==}
+  '@types/react@19.2.10':
+    resolution: {integrity: sha512-WPigyYuGhgZ/cTPRXB2EwUw+XvsRA3GqHlsP4qteqrnnjDrApbS7MxcGr/hke5iUoeB7E/gQtrs9I37zAJ0Vjw==}
 
   '@types/relay-runtime@20.1.0':
     resolution: {integrity: sha512-KujDVDPWjvRxd4YBTp0ppYqOCrJhsVwH8v18vicUBFRfgG/mqEPfK1rpI2Bz7vL08/CUiyHv7CR3CnqE4PUpbA==}
@@ -7909,10 +7909,10 @@ snapshots:
 
   '@material/material-color-utilities@0.3.0': {}
 
-  '@mdx-js/react@3.1.0(@types/react@19.2.9)(react@19.2.3)':
+  '@mdx-js/react@3.1.0(@types/react@19.2.10)(react@19.2.3)':
     dependencies:
       '@types/mdx': 2.0.13
-      '@types/react': 19.2.9
+      '@types/react': 19.2.10
       react: 19.2.3
 
   '@mjackson/node-fetch-server@0.2.0': {}
@@ -8452,9 +8452,9 @@ snapshots:
       axe-core: 4.10.3
       storybook: 10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
 
-  '@storybook/addon-docs@10.2.0(@types/react@19.2.9)(esbuild@0.27.0)(rollup@4.46.2)(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
+  '@storybook/addon-docs@10.2.0(@types/react@19.2.10)(esbuild@0.27.0)(rollup@4.46.2)(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
-      '@mdx-js/react': 3.1.0(@types/react@19.2.9)(react@19.2.3)
+      '@mdx-js/react': 3.1.0(@types/react@19.2.10)(react@19.2.3)
       '@storybook/csf-plugin': 10.2.0(esbuild@0.27.0)(rollup@4.46.2)(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
       '@storybook/icons': 2.0.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@storybook/react-dom-shim': 10.2.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(storybook@10.2.0(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
@@ -8869,16 +8869,16 @@ snapshots:
 
   '@types/prop-types@15.7.15': {}
 
-  '@types/react-dom@19.2.3(@types/react@19.2.9)':
+  '@types/react-dom@19.2.3(@types/react@19.2.10)':
     dependencies:
-      '@types/react': 19.2.9
+      '@types/react': 19.2.10
 
   '@types/react-relay@18.2.1':
     dependencies:
-      '@types/react': 19.2.9
+      '@types/react': 19.2.10
       '@types/relay-runtime': 20.1.0
 
-  '@types/react@19.2.9':
+  '@types/react@19.2.10':
     dependencies:
       csstype: 3.2.3
 
