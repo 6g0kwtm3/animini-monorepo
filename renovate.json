@@ -3,10 +3,11 @@
 	"labels": ["dependencies"],
 	"configMigration": true,
 	"extends": [
+		"group:allNonMajor",
+		"config:best-practices",
 		"config:js-app",
 		":automergeStableNonMajor",
-		"schedule:weekly",
-		"group:allNonMajor"
+		"schedule:weekly"
 	],
 	"lockFileMaintenance": { "enabled": true },
 	"minimumReleaseAge": "1 day",
@@ -18,12 +19,9 @@
 			"matchUpdateTypes": ["digest"],
 			"automerge": false
 		},
-		{ "groupName": "build", "matchPackageNames": ["/vite/"] },
-		{ "groupName": "test", "matchPackageNames": ["/vitest/", "/playwright/"] },
-		{
-			"groupName": "lint",
-			"matchPackageNames": ["/eslint/", "/oxlint/", "/prettier/"]
-		}
+		{ "groupName": "build", "extends": ["packages:vite"] },
+		{ "groupName": "test", "extends": ["packages:test"] },
+		{ "groupName": "linters", "extends": ["packages:linters"] }
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
