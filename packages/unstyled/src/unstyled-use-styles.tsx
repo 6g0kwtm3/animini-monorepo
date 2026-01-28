@@ -12,7 +12,10 @@ export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 
 		return [
 			className,
-			<style href={className}>{`.${className} ${styles}`}</style>,
+			<style
+				href={className}
+				precedence="medium"
+			>{`.${className} ${styles}`}</style>,
 		]
 	}, [rawStyle])
 }
