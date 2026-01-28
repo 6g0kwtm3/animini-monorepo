@@ -68,7 +68,6 @@ export default await typegen([
 		languageOptions: {
 			parserOptions: {
 				projectService: true,
-				project: ["./apps/*/tsconfig.json", "./packages/*/tsconfig.json"],
 				tsconfigRootDir: path.join(import.meta.dirname, "..", ".."),
 			},
 		},

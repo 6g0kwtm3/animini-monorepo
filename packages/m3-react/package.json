@@ -30,6 +30,7 @@
 	},
 	"peerDependencies": {
 		"@anitrove/unstyled": "workspace:*",
-		"csstype": "catalog:"
+		"csstype": "catalog:",
+		"@eslint/core": "*"
 	}
 }

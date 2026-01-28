@@ -91,8 +91,7 @@ const environment = new Environment({
 		{
 			handle(field, record, argValues) {
 				if (
-					record != null
-					&& record.getType() === ROOT_TYPE
+					record?.getType() === ROOT_TYPE
 					&& (field.name === "User"
 						|| field.name === "Media"
 						|| field.name === "AiringSchedule"

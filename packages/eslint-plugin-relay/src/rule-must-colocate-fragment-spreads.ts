@@ -210,11 +210,7 @@ export const rule: Rule.RuleModule = {
 					return
 				}
 				const [source] = node.arguments
-				if (
-					source
-					&& source.type === "Literal"
-					&& typeof source.value === "string"
-				) {
+				if (source?.type === "Literal" && typeof source.value === "string") {
 					foundImportedModules.push(getModuleName(source.value))
 				}
 			},
