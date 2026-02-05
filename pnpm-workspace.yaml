@@ -13,7 +13,7 @@ catalog:
   '@graphql-tools/mock': 9.1.5
   '@hono/node-server': 1.19.9
   '@iconify-json/material-symbols': 1.2.53
-  '@inlang/paraglide-js': 2.9.1
+  '@inlang/paraglide-js': 2.10.0
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.4.5
   '@playwright/test': 1.58.0
@@ -22,7 +22,7 @@ catalog:
   '@react-router/node': 7.13.0
   '@sentry/react': 10.38.0
   '@sentry/toolbar': 1.0.0-beta.11
-  '@sentry/vite-plugin': 4.7.0
+  '@sentry/vite-plugin': 4.9.0
   '@storybook/addon-a11y': 10.2.3
   '@storybook/addon-docs': 10.2.3
   '@storybook/addon-onboarding': 10.2.3
@@ -47,7 +47,7 @@ catalog:
   '@types/react-relay': 18.2.1
   '@types/relay-runtime': 20.1.0
   '@typescript-eslint/parser': 8.54.0
-  '@typescript/native-preview': 7.0.0-dev.20260126.1
+  '@typescript/native-preview': 7.0.0-dev.20260202.1
   anitomy: 0.0.35
   arktype: 2.1.29
   babel-plugin-react-compiler: 1.0.0
@@ -72,15 +72,15 @@ catalog:
   flubber: 0.4.2
   graphql: 16.12.0
   graphql-config: 5.1.5
-  hono: 4.11.6
+  hono: 4.11.7
   isbot: 5.1.34
-  knip: 5.82.1
+  knip: 5.83.0
   marked: 0.3.19
-  motion: 12.29.0
+  motion: 12.30.0
   msw: 2.12.7
   nodemon: 3.1.11
   oxlint: 1.42.0
-  oxlint-tsgolint: 0.11.1
+  oxlint-tsgolint: 0.11.4
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.7.2
   prop-types: 15.8.1
@@ -104,7 +104,7 @@ catalog:
   vite-plugin-relay: 2.1.0
   vite-tsconfig-paths: 6.0.5
   vitest: 3.2.4
-  wrangler: 4.60.0
+  wrangler: 4.61.1
 
 catalogs:
   experimental:
