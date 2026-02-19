@@ -26,7 +26,7 @@ import {
 } from "~/components/List"
 import { Sheet, SheetBody } from "~/components/Sheet"
 import { Tabs, TabsList, TabsListItem, TabsPanel } from "~/components/Tabs"
-import type { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
+import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 
 import * as Ariakit from "@ariakit/react"
 
@@ -49,7 +49,7 @@ import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
 import { loadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
-import { UserListTabs, UserListTabsQuery } from "./UserListTabs"
+import { UserListTabs } from "./UserListTabs"
 
 function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()
@@ -66,6 +66,15 @@ function useOptimisticLocation() {
 	}
 	return location
 }
+
+import ReactRelay from "react-relay"
+const { graphql } = ReactRelay
+
+const UserListTabsQuery = graphql`
+	query routeUserListTabsQuery($userName: String!, $type: MediaType!) {
+		...UserListTabs_query
+	}
+`
 
 const Typelist = type('"animelist"|"mangalist"')
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
