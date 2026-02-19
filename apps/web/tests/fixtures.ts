@@ -52,11 +52,11 @@ export const test = base.extend<Fixtures>({
 
 	// A fixture you use to control the network in your tests.
 	worker: [
-		async ({ context, handlers }, use) => {
+		async ({ context, handlers }, provide) => {
 			const network = defineNetworkFixture({ context, handlers })
 
 			await network.enable()
-			await use(network)
+			await provide(network)
 			await network.disable()
 		},
 		{ auto: true },
