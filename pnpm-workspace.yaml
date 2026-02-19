@@ -46,7 +46,7 @@ catalog:
   '@types/react-dom': 19.2.3
   '@types/react-relay': 18.2.1
   '@types/relay-runtime': 20.1.0
-  '@typescript-eslint/parser': 8.54.0
+  '@typescript-eslint/parser': 8.56.0
   '@typescript/native-preview': 7.0.0-dev.20260216.1
   anitomy: 0.0.35
   arktype: 2.1.29
@@ -59,16 +59,16 @@ catalog:
   electron: 35.7.5
   electron-devtools-installer: 4.0.0
   eslint: 9.39.2
-  eslint-plugin-oxlint: 1.42.0
-  eslint-plugin-perfectionist: 5.4.0
+  eslint-plugin-oxlint: 1.48.0
+  eslint-plugin-perfectionist: 5.5.0
   eslint-plugin-pnpm: 1.5.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-hooks: 7.0.1
-  eslint-plugin-react-refresh: 0.4.26
-  eslint-plugin-storybook: 10.2.3
-  eslint-plugin-turbo: 2.8.1
+  eslint-plugin-react-refresh: 0.5.0
+  eslint-plugin-storybook: 10.2.8
+  eslint-plugin-turbo: 2.8.9
   eslint-typegen: 2.3.0
-  eslint-vitest-rule-tester: 3.0.1
+  eslint-vitest-rule-tester: 3.1.0
   flubber: 0.4.2
   graphql: 16.12.0
   graphql-config: 5.1.5
@@ -79,7 +79,7 @@ catalog:
   motion: 12.34.0
   msw: 2.12.10
   nodemon: 3.1.11
-  oxlint: 1.42.0
+  oxlint: 1.48.0
   oxlint-tsgolint: 0.14.0
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.7.2
@@ -96,7 +96,7 @@ catalog:
   tsx: 4.21.0
   turbo: 2.8.0
   typescript: 5.9.3
-  typescript-eslint: 8.54.0
+  typescript-eslint: 8.56.0
   unplugin-icons: 23.0.1
   vite: 7.3.1
   vite-plugin-babel: 1.4.1
