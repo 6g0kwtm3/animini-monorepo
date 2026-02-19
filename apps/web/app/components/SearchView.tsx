@@ -41,7 +41,9 @@ export function SearchView({ ...props }: SearchViewProps) {
 	)
 }
 
-export const SearchViewBodyGroup = Ariakit.ComboboxGroup
+export function SearchViewBodyGroup(props: Ariakit.ComboboxGroupProps) {
+	return <Ariakit.ComboboxGroup {...props} />
+}
 const SearchViewBodyGroupLabel = Ariakit.ComboboxGroupLabel
 
 export function SearchViewInput(props: Ariakit.ComboboxProps) {

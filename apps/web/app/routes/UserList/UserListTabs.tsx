@@ -3,16 +3,21 @@ import * as Order from "~/lib/Order"
 
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
-import type { UserListTabsQuery as UserListTabsQueryOperation } from "~/gql/UserListTabsQuery.graphql"
+import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 
 import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
-import { usePreloadedQuery, type NodeAndQueryFragment } from "~/lib/Network"
+import {
+	useFragment,
+	usePreloadedQuery,
+	type NodeAndQueryFragment,
+} from "~/lib/Network"
+import type { UserListTabs_query$key } from "~/gql/UserListTabs_query.graphql"
 
 const { graphql } = ReactRelay
 
-export const UserListTabsQuery = graphql`
-	query UserListTabsQuery($userName: String!, $type: MediaType!) {
+const UserListTabs_query = graphql`
+	fragment UserListTabs_query on Query {
 		MediaListCollection(userName: $userName, type: $type) {
 			lists {
 				name
@@ -24,8 +29,8 @@ export const UserListTabsQuery = graphql`
 export function UserListTabs(props: {
 	queryRef: NodeAndQueryFragment<UserListTabsQueryOperation>
 }) {
-	const data = usePreloadedQuery(props.queryRef)
-
+	const queryKey: UserListTabs_query$key = usePreloadedQuery(props.queryRef)
+	const data = useFragment(UserListTabs_query, queryKey)
 	const lists = data.MediaListCollection?.lists
 		?.filter((el) => el != null)
 		.sort(
