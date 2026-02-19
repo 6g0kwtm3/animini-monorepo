@@ -1,10 +1,10 @@
-import { createNetworkFixture, type NetworkFixture } from "@msw/playwright"
+import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
 import base from "@playwright/test"
 
 import { addMocksToSchema } from "@graphql-tools/mock"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
-import { graphql, http, HttpResponse } from "msw"
+import { graphql, http, HttpResponse, type AnyHandler } from "msw"
 import { join } from "path"
 
 function cached<T>(fn: () => T) {
@@ -38,10 +38,27 @@ export const SuccessHandler = graphql.operation<object>(async (args) => {
 	)
 })
 
-export const test = base.extend<{ worker: NetworkFixture }>({
-	worker: createNetworkFixture({
-		initialHandlers: [
-			http.post("https://graphql.anilist.co", () => HttpResponse.error()),
-		],
-	}),
+interface Fixtures {
+	handlers: AnyHandler[]
+	worker: NetworkFixture
+}
+
+export const test = base.extend<Fixtures>({
+	// Initial list of the network handlers.
+	handlers: [
+		[http.post("https://graphql.anilist.co", () => HttpResponse.error())],
+		{ option: true },
+	],
+
+	// A fixture you use to control the network in your tests.
+	worker: [
+		async ({ context, handlers }, use) => {
+			const network = defineNetworkFixture({ context, handlers })
+
+			await network.enable()
+			await use(network)
+			await network.disable()
+		},
+		{ auto: true },
+	],
 })
