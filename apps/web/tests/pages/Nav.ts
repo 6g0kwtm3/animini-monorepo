@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
 import { expect } from "@playwright/test"
 
-export class LoginPage {
+class LoginPage {
 	login: Locator
 
 	main: Locator
