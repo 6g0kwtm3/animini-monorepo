@@ -1,5 +1,6 @@
 {
-	"$schema": "https://unpkg.com/knip@2/schema.json",
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"treatConfigHintsAsErrors": true,
 	"vitest": { "entry": ["**/*.@(spec|test|setup|bench).?(c|m)[jt]s?(x)"] },
 	"workspaces": {
 		"apps/storybook": { "entry": ["env.ts", ".storybook/modes.ts"] },
