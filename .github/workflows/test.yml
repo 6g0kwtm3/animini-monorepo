@@ -18,7 +18,7 @@ env:
   TURBO_SCM_BASE: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.before }}
 
 concurrency:
-  group: test-${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -130,10 +130,6 @@ jobs:
         run: pnpm doctor
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        iteration: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
     name: Test
     steps:
       - uses: actions/checkout@v6
