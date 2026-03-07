@@ -2,7 +2,6 @@ import { numberOrStringToString } from "utilities"
 import type { Properties, RawStyles } from "./unstyled-cva"
 import type { Value } from "./unstyled-value"
 
-export declare const PreCompiledStylesBrand: unique symbol
 export class PreCompiledStyles {
 	constructor(
 		/** @internal */ public readonly styles: {
