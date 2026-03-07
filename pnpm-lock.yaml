@@ -820,6 +820,9 @@ importers:
       graphql:
         specifier: 'catalog:'
         version: 16.13.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
     devDependencies:
       '@types/estree':
         specifier: 'catalog:'

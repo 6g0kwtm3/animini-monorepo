@@ -20,7 +20,7 @@ export function mergeStyles(
 	const result = {} as PreCompiledStyles
 	for (const style of styles) {
 		if (style === undefined) continue
-		Object.assign(result, style)
+		void Object.assign(result, style)
 	}
 	return result
 }

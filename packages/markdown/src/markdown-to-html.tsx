@@ -4,7 +4,7 @@ export function markdownToHtml(
 	markdown: string,
 	sanitizeHtml: (html: string) => string
 ): string {
-	marked.setOptions({
+	void marked.setOptions({
 		gfm: true,
 		tables: true,
 		breaks: true,

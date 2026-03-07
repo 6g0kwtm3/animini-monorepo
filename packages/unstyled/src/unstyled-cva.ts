@@ -70,7 +70,7 @@ export function cva<
 			result[`--${variant}-${option}`] = `var(--${variant},)`
 
 			for (const property in style) {
-				properties.add(property)
+				void properties.add(property)
 			}
 		}
 		for (const property of properties) {
@@ -94,7 +94,7 @@ export function cva<
 		for (const property in css) {
 			variantsByProperty[property] ??= new Set()
 			for (const variant in compoundVariant) {
-				variantsByProperty[property].add(variant)
+				void variantsByProperty[property].add(variant)
 			}
 		}
 	}

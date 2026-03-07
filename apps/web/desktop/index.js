@@ -23,7 +23,7 @@ async function createWindow(url) {
 	}
 }
 
-app.on("ready", () => {
+void app.on("ready", () => {
 	void (async () => {
 		try {
 			if (process.env.NODE_ENV === "development") {

@@ -2,7 +2,7 @@ import { print } from "@anitrove/unstyled"
 import { describe, expect, it } from "vitest"
 import { button } from "./m3-react-button"
 
-describe("button", () => {
+void describe("button", () => {
 	it("css size", () => {
 		expect(print(button.style).length).toMatchInlineSnapshot(`3581`)
 	})

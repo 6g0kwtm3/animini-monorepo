@@ -444,7 +444,7 @@ export function ErrorBoundary(): ReactNode {
 			</ExtraOutlets>
 		)
 	}
-	captureException(error)
+	void captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

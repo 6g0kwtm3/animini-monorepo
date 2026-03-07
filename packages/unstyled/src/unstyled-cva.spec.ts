@@ -38,13 +38,13 @@ const media = {
 
 vi.mock(import("./unstyled-print"), { spy: true })
 
-describe("cva", () => {
+void describe("cva", () => {
 	afterEach(() => {
-		vi.clearAllMocks()
+		void vi.clearAllMocks()
 	})
 
 	it("base", () => {
-		cva({
+		void cva({
 			base: {
 				...design.state({
 					[media.hover]: "hover",
@@ -72,7 +72,7 @@ describe("cva", () => {
 	})
 
 	it("variants with media", () => {
-		cva({
+		void cva({
 			base: {},
 			variants: {
 				color: {
@@ -92,7 +92,7 @@ describe("cva", () => {
 	})
 
 	it("variants with media no base", () => {
-		cva({
+		void cva({
 			base: {},
 			variants: {
 				color: {
@@ -114,7 +114,7 @@ describe("cva", () => {
 	})
 
 	it("base", () => {
-		cva({
+		void cva({
 			base: { backgroundColor: design.tokens.colors["surface-container-low"] },
 			variants: {
 				color: {
@@ -134,7 +134,7 @@ describe("cva", () => {
 	})
 
 	it("compoundVariant base", () => {
-		cva({
+		void cva({
 			base: { borderRadius: "4rem" },
 			variants: {
 				size: { xs: {}, sm: {} },
@@ -162,7 +162,7 @@ describe("cva", () => {
 	})
 
 	it("compoundVariant last", () => {
-		cva({
+		void cva({
 			base: {},
 			variants: { size: { xs: {}, sm: {} }, shape: { round: {}, square: {} } },
 			compoundVariants: [
@@ -190,7 +190,7 @@ describe("cva", () => {
 		})
 	})
 	it("defaultVariants", () => {
-		cva({
+		void cva({
 			base: {},
 			variants: { size: { xs: {}, sm: {} } },
 			defaultVariants: { size: "xs" },
@@ -203,16 +203,16 @@ describe("cva", () => {
 	})
 
 	it("variants", () => {
-		cva({ base: {}, variants: { size: { xs: {}, sm: {} } } })
+		void cva({ base: {}, variants: { size: { xs: {}, sm: {} } } })
 		expect(precompileStyles).toHaveBeenCalledWith({
 			"--size-sm": "var(--size,)",
 			"--size-xs": "var(--size,)",
 		})
 	})
 
-	describe("compoundVariants compound variant", () => {
+	void describe("compoundVariants compound variant", () => {
 		it("compoundVariant not referencing all variants", () => {
-			cva({
+			void cva({
 				base: {},
 				variants: {
 					size: { xs: {}, sm: {} },
@@ -238,7 +238,7 @@ describe("cva", () => {
 		})
 
 		it("referencing all variants", () => {
-			cva({
+			void cva({
 				base: {},
 				variants: {
 					size: { xs: {}, sm: {} },
@@ -266,7 +266,7 @@ describe("cva", () => {
 		})
 
 		it("not relevant", () => {
-			cva({
+			void cva({
 				base: {},
 				variants: { width: { xs: {}, sm: {} }, height: { xs: {}, sm: {} } },
 				compoundVariants: [
