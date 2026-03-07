@@ -48,7 +48,7 @@ export const rule: RuleModule<string> = {
 	},
 }
 
-export function skipChainExpression<T extends TSESTree.Node>(
+function skipChainExpression<T extends TSESTree.Node>(
 	node: T
 ): T | TSESTree.ChainElement {
 	return node.type === AST_NODE_TYPES.ChainExpression ? node.expression : node
