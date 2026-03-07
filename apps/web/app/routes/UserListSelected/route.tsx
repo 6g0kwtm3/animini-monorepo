@@ -6,7 +6,7 @@ import {
 	useSearchParams,
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
-	type MetaFunction
+	type MetaFunction,
 } from "react-router"
 
 import { precompileStyles } from "@anitrove/unstyled"
@@ -290,11 +290,15 @@ function sortEntries(
 				continue
 
 			case MediaListSort.ScoreDesc:
-				void order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
+				void order.push(
+					Order.mapInput(Order.number, (entry) => entry.score ?? 0)
+				)
 				continue
 
 			case MediaListSort.ProgressDesc:
-				void order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
+				void order.push(
+					Order.mapInput(Order.number, (entry) => entry.progress ?? 0)
+				)
 				continue
 
 			case MediaListSort.UpdatedTimeDesc:
@@ -310,11 +314,15 @@ function sortEntries(
 				continue
 
 			case MediaListSort.StartedOnDesc:
-				void order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
+				void order.push(
+					Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt)
+				)
 				continue
 
 			case MediaListSort.FinishedOnDesc:
-				void order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
+				void order.push(
+					Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt)
+				)
 				continue
 
 			case MediaListSort.StartDateDesc:

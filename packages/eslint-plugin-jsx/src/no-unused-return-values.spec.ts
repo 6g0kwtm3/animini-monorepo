@@ -57,7 +57,7 @@ void describe("no-unused-return-values", () => {
 		)
 	})
 
-  test("allows optional chaining", async () => {
+	test("allows optional chaining", async () => {
 		await valid(
 			`
       declare const bar: null | {
