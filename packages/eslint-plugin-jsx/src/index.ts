@@ -9,7 +9,8 @@ const plugin: ESLint.Plugin = {
 		"rule-must-include-data-key":
 			mustIncludeDataKey as unknown as Rule.RuleModule,
 		"name-context": nameContext,
-		"no-unused-return-values": noUnusedReturnValues as unknown as Rule.RuleModule,
+		"no-unused-return-values":
+			noUnusedReturnValues as unknown as Rule.RuleModule,
 	},
 }
 
