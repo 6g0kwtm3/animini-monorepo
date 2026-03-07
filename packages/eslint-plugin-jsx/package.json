@@ -16,7 +16,8 @@
 	"peerDependencies": {
 		"eslint": "catalog:",
 		"graphql": "catalog:",
-		"@eslint/core": "*"
+		"@eslint/core": "*",
+		"typescript": "catalog:"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
