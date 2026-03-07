@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`reports error for unused return values 1`] = `
+"
+      function foo(): number { return 1; }
+			foo();
+        "
+`;
