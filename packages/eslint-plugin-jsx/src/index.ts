@@ -1,5 +1,5 @@
 import type { ESLint, Rule } from "eslint"
-import { rula as noUnusedReturnValues } from "./no-unused-return-values"
+import { rule as noUnusedReturnValues } from "./no-unused-return-values"
 import { rule as mustIncludeDataKey } from "./rule-must-include-data-key"
 import { rule as nameContext } from "./rule-name-context"
 
