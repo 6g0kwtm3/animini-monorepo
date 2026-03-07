@@ -53,7 +53,7 @@ export async function initRemix({
 
 	// handle asset requests
 	if (viteDevServer) {
-		server.use(
+		void server.use(
 			(ctx, next) =>
 				new Promise((resolve) => {
 					viteDevServer.middlewares(ctx.env.incoming, ctx.env.outgoing, () => {
@@ -62,13 +62,13 @@ export async function initRemix({
 				})
 		)
 	} else {
-		server.use(
+		void server.use(
 			"/assets",
 			serveStatic({ root: resolve(appRoot, "build/client/assets") })
 		)
 	}
 
-	server.use(serveStatic({ root: resolve(appRoot, "build/client") }))
+	void server.use(serveStatic({ root: resolve(appRoot, "build/client") }))
 
 	const serverBuild = viteDevServer
 		? () =>
@@ -82,7 +82,7 @@ export async function initRemix({
 			: serverBuildOption
 
 	// handle SSR requests
-	server.all("*", (ctx) => {
+	void server.all("*", (ctx) => {
 		return createRequestHandler(serverBuild, mode)(
 			ctx.req.raw,
 			getLoadContext()

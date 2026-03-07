@@ -6,8 +6,7 @@ import {
 	useSearchParams,
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
-	type MetaFunction,
-	type ShouldRevalidateFunction,
+	type MetaFunction
 } from "react-router"
 
 import { precompileStyles } from "@anitrove/unstyled"
@@ -280,7 +279,7 @@ function sortEntries(
 
 		switch (sort) {
 			case MediaListSort.TitleEnglish:
-				order.push(
+				void order.push(
 					Order.reverse(
 						Order.mapInput(
 							Order.string,
@@ -291,41 +290,41 @@ function sortEntries(
 				continue
 
 			case MediaListSort.ScoreDesc:
-				order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
+				void order.push(Order.mapInput(Order.number, (entry) => entry.score ?? 0))
 				continue
 
 			case MediaListSort.ProgressDesc:
-				order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
+				void order.push(Order.mapInput(Order.number, (entry) => entry.progress ?? 0))
 				continue
 
 			case MediaListSort.UpdatedTimeDesc:
-				order.push(
+				void order.push(
 					Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0)
 				)
 				continue
 
 			case MediaListSort.IdDesc:
-				order.push(
+				void order.push(
 					Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0)
 				)
 				continue
 
 			case MediaListSort.StartedOnDesc:
-				order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
+				void order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt))
 				continue
 
 			case MediaListSort.FinishedOnDesc:
-				order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
+				void order.push(Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt))
 				continue
 
 			case MediaListSort.StartDateDesc:
-				order.push(
+				void order.push(
 					Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
 				)
 				continue
 
 			case MediaListSort.AvgScore:
-				order.push(
+				void order.push(
 					Order.mapInput(
 						Order.number,
 						(entry) => entry.media?.averageScore ?? 0
@@ -334,7 +333,7 @@ function sortEntries(
 				continue
 
 			case MediaListSort.PopularityDesc:
-				order.push(
+				void order.push(
 					Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
 				)
 				continue
@@ -347,7 +346,7 @@ function sortEntries(
 		}
 	}
 
-	order.push(
+	void order.push(
 		Order.reverse(
 			Order.mapInput(
 				Order.number,
@@ -503,7 +502,7 @@ export function ErrorBoundary(): ReactNode {
 			</ExtraOutlets>
 		)
 	}
-	captureException(error)
+	void captureException(error)
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"

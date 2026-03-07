@@ -25,7 +25,7 @@ export const rule: RuleModule<string> = {
 			ExpressionStatement(node: TSESTree.ExpressionStatement) {
 				const services = ESLintUtils.getParserServices(context)
 
-				const expression = skipChainExpression(node.expression)
+				const expression = node.expression
 
 				if (expression.type === AST_NODE_TYPES.CallExpression) {
 					const type = services.getTypeAtLocation(expression)
@@ -46,10 +46,4 @@ export const rule: RuleModule<string> = {
 			},
 		}
 	},
-}
-
-function skipChainExpression<T extends TSESTree.Node>(
-	node: T
-): T | TSESTree.ChainElement {
-	return node.type === AST_NODE_TYPES.ChainExpression ? node.expression : node
 }

@@ -14,7 +14,7 @@ import {
 } from "react-router"
 import { HydratedRouter } from "react-router/dom"
 
-init({
+void init({
 	environment: import.meta.env.DEV
 		? "development"
 		: import.meta.env.CF_PAGES_BRANCH === "master"
@@ -46,7 +46,7 @@ init({
 })
 
 startTransition(() => {
-	hydrateRoot(
+	void hydrateRoot(
 		document,
 		<StrictMode>
 			<HydratedRouter />

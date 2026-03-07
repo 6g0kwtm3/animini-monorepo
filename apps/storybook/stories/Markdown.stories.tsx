@@ -50,7 +50,7 @@ function Image(props: ComponentProps<"img">) {
 	let srcPromise = cache.get(src)
 	if (srcPromise === undefined) {
 		srcPromise = convert(src)
-		cache.set(src, srcPromise)
+		void cache.set(src, srcPromise)
 	}
 
 	return <img {...props} src={use(srcPromise)} />

@@ -18,7 +18,7 @@ export const onAbortNavigationMiddleware: Route.MiddlewareFunction = (
 		onAbortNavigationSignal,
 		AbortSignal.any([request.signal, abortController.signal])
 	)
-	queue.push(abortController)
+	void queue.push(abortController)
 
 	return next()
 }
@@ -29,7 +29,7 @@ export function useSetupOnAbortNavigation() {
 		if (navigation.state === "idle") {
 			while (queue[0] && queue[1]) {
 				queue[0].abort()
-				queue.shift()
+				void queue.shift()
 			}
 		}
 	}, [navigation.state])

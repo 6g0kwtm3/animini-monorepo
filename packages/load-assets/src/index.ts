@@ -24,7 +24,7 @@ export async function loadAssets(
 
 		const html = markdownToHtml(rawSnapshot, (html) => html)
 
-		rewriter.transform(html)
+		void rewriter.transform(html)
 
 		let result = ""
 		const urls = Object.keys(images)
@@ -55,7 +55,7 @@ export async function loadAssets(
 			([, ext], i) =>
 				`import img${numberToString(i)} from "./img${numberToString(i)}.${ext}?url"`
 		)
-		output.push(`export default \`${result}\``)
+		void output.push(`export default \`${result}\``)
 		await Bun.write(path.join(outputDir, key, `snapshot.ts`), output.join("\n"))
 	}
 }

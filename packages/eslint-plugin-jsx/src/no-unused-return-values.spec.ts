@@ -22,7 +22,7 @@ void describe("no-unused-return-values", () => {
 	test("allows return void", async () => {
 		await valid(
 			`
-      function foo(): void {}
+      declare function foo(): void;
 			foo();
 			`
 		)
@@ -40,7 +40,7 @@ void describe("no-unused-return-values", () => {
 	test("reports error for unused return values", async () => {
 		const { result } = await invalid({
 			code: `
-      function foo(): number { return 1; }
+      declare function foo(): number;
 			foo();
         `,
 			errors: ["return-value-not-used"],
@@ -51,10 +51,20 @@ void describe("no-unused-return-values", () => {
 	test("allows used return values", async () => {
 		await valid(
 			`
-      function foo(): number { return 1; }
-      function foo(): number { return 1; }
+      declare function foo(): number;
 			const value = foo();
         `
+		)
+	})
+
+  test("allows optional chaining", async () => {
+		await valid(
+			`
+      declare const bar: null | {
+        foo(): number
+      }
+			bar?.foo();
+      `
 		)
 	})
 })
