@@ -2,32 +2,25 @@ import { numberOrStringToString } from "utilities"
 import type { Properties, RawStyles } from "./unstyled-cva"
 import type { Value } from "./unstyled-value"
 
-export type Brand<
-	BaseType,
-	Brand extends symbol,
-	// @ts-expect-error this depends on typescript internal logic
-> = infer _ extends Brand ? BaseType : never
-
 export declare const PreCompiledStylesBrand: unique symbol
-export type PreCompiledStyles = Brand<
-	{ [K in keyof Properties]?: string },
-	typeof PreCompiledStylesBrand
->
+export class PreCompiledStyles {
+	constructor(public readonly styles: { [K in keyof Properties]?: string }) {}
+}
 
 export function mergeStyles(
 	...styles: (PreCompiledStyles | undefined)[]
 ): PreCompiledStyles {
-	const result = {} as PreCompiledStyles
+	const result = new PreCompiledStyles({})
 	for (const style of styles) {
 		if (style === undefined) continue
-		void Object.assign(result, style)
+		void Object.assign(result.styles, style.styles)
 	}
 	return result
 }
 
 export function print(style: PreCompiledStyles): string {
 	let result = "{\n"
-	for (const property of Object.values(style)) {
+	for (const property of Object.values(style.styles)) {
 		if (property === undefined) continue
 		result += property
 	}
@@ -36,22 +29,24 @@ export function print(style: PreCompiledStyles): string {
 }
 
 export function precompileStyles(style: RawStyles): PreCompiledStyles {
-	return Object.fromEntries(
-		Object.entries(style).flatMap(([propertyName, property]) => {
-			if (property === undefined) return []
+	return new PreCompiledStyles(
+		Object.fromEntries(
+			Object.entries(style).flatMap(([propertyName, property]) => {
+				if (property === undefined) return []
 
-			return [
-				[
-					propertyName,
-					printProperty(
-						propertyName.replace(/([A-Z])/g, "-$1").toLowerCase(),
-						property,
-						1
-					),
-				],
-			]
-		})
-	) as PreCompiledStyles
+				return [
+					[
+						propertyName,
+						printProperty(
+							propertyName.replace(/([A-Z])/g, "-$1").toLowerCase(),
+							property,
+							1
+						),
+					],
+				]
+			})
+		)
+	)
 }
 
 const tab = "  "

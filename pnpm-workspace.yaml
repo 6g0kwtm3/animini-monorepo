@@ -59,14 +59,14 @@ catalog:
   electron: 35.7.5
   electron-devtools-installer: 4.0.0
   eslint: 9.39.3
-  eslint-plugin-oxlint: 1.50.0
+  eslint-plugin-oxlint: 1.51.0
   eslint-plugin-perfectionist: 5.6.0
   eslint-plugin-pnpm: 1.6.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-hooks: 7.0.1
   eslint-plugin-react-refresh: 0.5.2
-  eslint-plugin-storybook: 10.2.13
-  eslint-plugin-turbo: 2.8.12
+  eslint-plugin-storybook: 10.2.15
+  eslint-plugin-turbo: 2.8.13
   eslint-typegen: 2.3.1
   eslint-vitest-rule-tester: 3.1.0
   flubber: 0.4.2
@@ -79,7 +79,7 @@ catalog:
   motion: 12.34.3
   msw: 2.12.10
   nodemon: 3.1.14
-  oxlint: 1.50.0
+  oxlint: 1.51.0
   oxlint-tsgolint: 0.15.0
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.7.2
