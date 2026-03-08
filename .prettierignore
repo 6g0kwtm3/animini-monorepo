@@ -6,3 +6,4 @@ eslint-typegen.d.ts
 **/.react-router
 **/.tsup
 **/dist
+.pnp.cjs
