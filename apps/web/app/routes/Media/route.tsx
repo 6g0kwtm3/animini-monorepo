@@ -228,11 +228,11 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 
 				<Edit />
 
-				{outlet && (
+				{outlet ? (
 					<AnimatePresence mode="wait">
 						{cloneElement(outlet, { key: pathname })}
 					</AnimatePresence>
-				)}
+				) : null}
 			</PaneFlexible>
 		</LayoutBody>
 	)

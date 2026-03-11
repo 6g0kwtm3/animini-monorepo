@@ -35,14 +35,14 @@ export function User({ user, ...props }: UserProps): ReactNode {
 		<>
 			<div className="" {...props}>
 				<div className="grid overflow-hidden rounded-xl">
-					{data.bannerImage && (
+					{data.bannerImage ? (
 						<img
 							src={data.bannerImage}
 							alt=""
 							className="col-start-1 row-start-1 object-cover"
 						/>
-					)}
-					{data.avatar && src && (
+					) : null}
+					{data.avatar && src ? (
 						<img
 							src={src}
 							alt=""
@@ -53,7 +53,7 @@ export function User({ user, ...props }: UserProps): ReactNode {
 									: undefined
 							}
 						/>
-					)}
+					) : null}
 				</div>
 				{/* <div>
 				<Ariakit.Heading className="truncate text-headline-lg">

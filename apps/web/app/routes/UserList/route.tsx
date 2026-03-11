@@ -204,7 +204,7 @@ function Filter() {
 				void submit(e.currentTarget, {})
 			}}
 		>
-			{sheet && <input type="hidden" name="sheet" value={sheet} />}
+			{sheet ? <input type="hidden" name="sheet" value={sheet} /> : null}
 			<Sheet
 				open={filter || sort}
 				onClose={() => {
@@ -229,8 +229,8 @@ function Filter() {
 
 					<TabsPanel tabId={sheet}>
 						<SheetBody>
-							{filter && <SheetFilter />}
-							{sort && <SheetSort />}
+							{filter ? <SheetFilter /> : null}
+							{sort ? <SheetSort /> : null}
 						</SheetBody>
 					</TabsPanel>
 				</Tabs>

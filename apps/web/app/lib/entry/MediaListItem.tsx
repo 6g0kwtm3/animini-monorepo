@@ -70,7 +70,9 @@ export function MediaListItem(props: {
 					}
 				>
 					<ListItemContentTitle>
-						<Skeleton>{entry && <MediaListItemTitle entry={entry} />}</Skeleton>
+						<Skeleton>
+							{entry ? <MediaListItemTitle entry={entry} /> : null}
+						</Skeleton>
 					</ListItemContentTitle>
 					<ListItemContentSubtitle
 						style={precompileStyles({
@@ -80,12 +82,14 @@ export function MediaListItem(props: {
 						})}
 					>
 						<Skeleton className="max-w-[21.666666666666668ch]">
-							{entry && <MediaListItemSubtitle entry={entry} />}
+							{entry ? <MediaListItemSubtitle entry={entry} /> : null}
 						</Skeleton>
 					</ListItemContentSubtitle>
 				</ListItemContent>
 
-				<Skeleton>{entry && <ProgressIncrement entry={entry} />}</Skeleton>
+				<Skeleton>
+					{entry ? <ProgressIncrement entry={entry} /> : null}
+				</Skeleton>
 			</ListItem>
 		</li>
 	)
@@ -120,11 +124,9 @@ function MediaListItemTitle(props: {
 
 	return (
 		<>
-			{libraryHasNextEpisode && (
+			{libraryHasNextEpisode ? (
 				<MaterialSymbolsPriorityHigh className="i-inline text-primary inline" />
-
-				// <span className="i-inline text-primary">video_library</span>
-			)}
+			) : null}
 			{entry.media.title.userPreferred}
 		</>
 	)

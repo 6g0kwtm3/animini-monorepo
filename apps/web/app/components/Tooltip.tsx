@@ -100,7 +100,7 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 
 	return (
 		<AnimatePresence>
-			{mounted && (
+			{mounted ? (
 				<Ariakit.Tooltip
 					gutter={4}
 					alwaysVisible
@@ -114,7 +114,7 @@ export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 						/>
 					}
 				/>
-			)}
+			) : null}
 		</AnimatePresence>
 	)
 }
