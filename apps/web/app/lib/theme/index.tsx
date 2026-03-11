@@ -11,11 +11,7 @@ import {
 import type { CSSProperties } from "react"
 
 import colors from "@anitrove/design/colors"
-import {
-	precompileStyles,
-	type PreCompiledStyles,
-	type RawStyles,
-} from "@anitrove/unstyled"
+import { precompileStyles, type PreCompiledStyles } from "@anitrove/unstyled"
 
 export type Theme = PreCompiledStyles
 
