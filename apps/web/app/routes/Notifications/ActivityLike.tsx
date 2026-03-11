@@ -16,6 +16,7 @@ import { useFragment } from "~/lib/Network"
 import { numberToString } from "~/lib/numberToString"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+import { RelativeTimeSince } from "./RelativeTimeSince"
 const { graphql } = ReactRelay
 
 export function ActivityLike(props: {
@@ -52,7 +53,6 @@ export function ActivityLike(props: {
 		props.viewer
 	)
 
-	const [dateNow] = useState(() => Date.now())
 	return (
 		notification.user && (
 			<ListItem
@@ -94,7 +94,11 @@ export function ActivityLike(props: {
 				</ListItemContent>
 				{notification.createdAt ? (
 					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - dateNow / 1000)}
+						<RelativeTimeSince
+							date={Temporal.Instant.fromEpochMilliseconds(
+								notification.createdAt * 1000
+							)}
+						/>
 					</ListItemTrailingSupportingText>
 				) : null}
 			</ListItem>
