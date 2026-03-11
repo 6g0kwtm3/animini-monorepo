@@ -21,6 +21,10 @@
 		"react/rules-of-hooks": "error",
 		"typescript/no-non-null-assertion": "error",
 		"no-non-null-asserted-nullish-coalescing": "error",
+		"typescript/no-unnecessary-condition": [
+			"error",
+			{ "checkTypePredicates": true }
+		],
 		"typescript/no-unnecessary-type-constraint": "error",
 		"typescript/switch-exhaustiveness-check": "error",
 		"typescript/consistent-type-definitions": ["error", "interface"],
