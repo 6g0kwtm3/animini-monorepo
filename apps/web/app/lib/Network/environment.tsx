@@ -46,7 +46,7 @@ const fetchQuery = async function (
 	headers.set("Content-Type", "application/json")
 	headers.set("Accept", "application/json")
 
-	if (token === undefined) {
+	if (token !== undefined) {
 		headers.set("Authorization", `Bearer ${token}`)
 	}
 
