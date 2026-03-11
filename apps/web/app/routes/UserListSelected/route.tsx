@@ -472,8 +472,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 										search
 									).map((entry) => (
 										<MediaListItem
-											key={entry.id} data-key={entry.id}
-										
+											key={entry.id}
+											data-key={entry.id}
 											entry={entry}
 										/>
 									))
