@@ -179,9 +179,6 @@ function mergeCompoundVariantProperty<
 		`Expected variant ${variant} to be defined in variants`
 	)
 	const result = Object.keys(variantsVariant).flatMap((option) => {
-		if (variantsVariant === undefined) {
-			throw new Error(`Expected variant ${variant} to be defined in variants`)
-		}
 		const value = mergeCompoundVariantProperty(
 			base,
 			variants,
