@@ -36,13 +36,14 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 		media
 	)
 
+	const src = data.coverImage?.extraLarge
+		?? data.coverImage?.large
+		?? data.coverImage?.medium
 	return (
-		<Ariakit.Role.img
+		src != null && src !== ''?<Ariakit.Role.img
 			src={
-				data.coverImage?.extraLarge
-				?? data.coverImage?.large
-				?? data.coverImage?.medium
-				?? ""
+				src
+	 
 			}
 			loading="lazy"
 			alt=""
@@ -55,6 +56,6 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 				...props.style,
 			}}
 			className={cover({ className: props.className })}
-		></Ariakit.Role.img>
+		></Ariakit.Role.img>:null
 	)
 }

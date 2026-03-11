@@ -60,7 +60,7 @@ export function ActivityLike(props: {
 			}
 		>
 			<ListItemImg>
-				{notification.user.avatar?.large != null ? (
+				{notification.user.avatar?.large != null && notification.user.avatar?.large !== '' ? (
 					<img
 						src={notification.user.avatar.large}
 						className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"

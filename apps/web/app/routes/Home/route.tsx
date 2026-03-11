@@ -93,7 +93,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 													style={precompileStyles({ ...state("none") })}
 												>
 													<div className="col-start-1 h-10 w-10">
-														{activity.user?.avatar?.large != null ? (
+														{activity.user?.avatar?.large != null && activity.user?.avatar?.large !== '' ? (
 															<img
 																alt=""
 																loading="lazy"
