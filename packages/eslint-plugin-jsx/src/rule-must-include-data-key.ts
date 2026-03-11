@@ -55,7 +55,7 @@ export const rule: RuleModule<string> = {
 
 				const dataKey = byName["data-key"]
 
-				if (dataKey !== undefined || !isEqual(context, key, dataKey)) {
+				if (dataKey === undefined || !isEqual(context, key, dataKey)) {
 					context.report({
 						node: key,
 						messageId: "data-key-must-match-key",
