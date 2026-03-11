@@ -1,7 +1,7 @@
 import type { PreCompiledStyles } from "./unstyled-print"
 
 import type { CSSProperties } from "react"
-import { numberOrStringToString } from "utilities"
+import { invariant, numberOrStringToString, numberToString } from "utilities"
 import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
 
@@ -137,7 +137,14 @@ function mergeCompoundVariantProperty<
 						if (i === -1) {
 							return false
 						}
-						if (!options.includes(currentOptions[i]!)) {
+
+						const currentOption = currentOptions[i]
+						invariant(
+							currentOption !== undefined,
+							`Expected current option for variant ${variant} to be defined`
+						)
+
+						if (!options.includes(currentOption)) {
 							return false
 						}
 					}
@@ -147,16 +154,34 @@ function mergeCompoundVariantProperty<
 					return acc ?? compoundVariant.css[property]
 				}, undefined)
 			?? currentOptions.reduceRight<undefined | Value>(
-				(acc, variant, i): undefined | Value =>
-					acc ?? variants[propertyVariants[i]!]![variant]![property],
+				(acc, variant, i): undefined | Value => {
+					const propertyVariant = propertyVariants[i]
+					invariant(
+						propertyVariant !== undefined,
+						`Expected property variant for index ${numberToString(i)} to be defined`
+					)
+					return acc ?? variants[propertyVariant]?.[variant]?.[property]
+				},
 				undefined
 			)
 			?? base[property]
 		)
 	}
-	const variant = propertyVariants[index]!
+	const variant = propertyVariants[index]
+	invariant(
+		variant !== undefined,
+		`Expected variant for index ${numberToString(index)} to be defined`
+	)
 
-	const result = Object.keys(variants[variant]!).flatMap((option) => {
+	const variantsVariant = variants[variant]
+	invariant(
+		variantsVariant !== undefined,
+		`Expected variant ${variant} to be defined in variants`
+	)
+	const result = Object.keys(variantsVariant).flatMap((option) => {
+		if (variantsVariant === undefined) {
+			throw new Error(`Expected variant ${variant} to be defined in variants`)
+		}
 		const value = mergeCompoundVariantProperty(
 			base,
 			variants,

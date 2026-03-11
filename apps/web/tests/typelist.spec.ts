@@ -16,7 +16,7 @@ import { TypelistPage } from "./pages/TypelistPage"
 class UserPage {
 	animeList: Locator
 	mangaList: Locator
-	private constructor(private page: Page) {
+	private constructor(private readonly page: Page) {
 		this.animeList = page
 			.getByRole("main")
 			.getByRole("tab", { name: "Anime list" })
