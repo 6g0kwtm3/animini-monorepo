@@ -1,5 +1,5 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": ["ts-config/tsconfig.isolated.json"],
-	"compilerOptions": { "outDir": "tmp" }
+	"compilerOptions": { "outDir": "tmp", "types": ["node"] }
 }
