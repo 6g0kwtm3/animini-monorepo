@@ -12,7 +12,12 @@ export function invariant(
 	condition: unknown,
 	message: string
 ): asserts condition {
-	if (!condition) {
+	if (
+		condition === false
+		|| condition == null
+		|| condition === 0
+		|| condition === ""
+	) {
 		throw new Error(message)
 	}
 }

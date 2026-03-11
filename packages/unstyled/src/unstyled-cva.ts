@@ -41,7 +41,9 @@ export function applyProps<T>(props: CvaProps<T>): PreCompiledStyles {
 		Object.fromEntries(
 			Object.entries(props).map(([key, value]) => [
 				`--${key}`,
-				value && mapValue(value, (value) => `var(--${key}-${value})`),
+				value !== undefined
+					? mapValue(value, (value) => `var(--${key}-${value})`)
+					: undefined,
 			])
 		)
 	)

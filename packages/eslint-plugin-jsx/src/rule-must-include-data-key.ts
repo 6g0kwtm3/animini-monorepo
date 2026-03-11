@@ -49,13 +49,13 @@ export const rule: RuleModule<string> = {
 
 				const key = byName.key
 
-				if (!key) {
+				if (key === undefined) {
 					return
 				}
 
 				const dataKey = byName["data-key"]
 
-				if (!dataKey || !isEqual(context, key, dataKey)) {
+				if (dataKey !== undefined || !isEqual(context, key, dataKey)) {
 					context.report({
 						node: key,
 						messageId: "data-key-must-match-key",
@@ -63,7 +63,7 @@ export const rule: RuleModule<string> = {
 						fix(fixer) {
 							const fixes = []
 
-							if (dataKey) {
+							if (dataKey !== undefined) {
 								const fix = fixer.remove(dataKey)
 								fix.range = [fix.range[0] - 1, fix.range[1]]
 								fixes.unshift(fix)
@@ -72,7 +72,7 @@ export const rule: RuleModule<string> = {
 								...fixes,
 								fixer.insertTextAfter(
 									key,
-									` data-key${key.value ? `=${context.sourceCode.getText(key.value)}` : ""}`
+									` data-key${key.value !== null ? `=${context.sourceCode.getText(key.value)}` : ""}`
 								),
 							]
 						},
@@ -114,7 +114,7 @@ function isEqual(
 
 	const evaluatedB = getStaticValue(bExpression, context)
 
-	if (evaluatedA && evaluatedB) {
+	if (evaluatedA !== null && evaluatedB !== null) {
 		return evaluatedA.value === evaluatedB.value
 	}
 

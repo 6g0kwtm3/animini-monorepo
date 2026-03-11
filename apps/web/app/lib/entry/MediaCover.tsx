@@ -48,9 +48,10 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 			alt=""
 			{...props}
 			style={{
-				backgroundImage: data.coverImage?.medium
-					? `url(${data.coverImage.medium})`
-					: undefined,
+				backgroundImage:
+					data.coverImage?.medium != null && data.coverImage.medium !== ""
+						? `url(${data.coverImage.medium})`
+						: undefined,
 				...props.style,
 			}}
 			className={cover({ className: props.className })}

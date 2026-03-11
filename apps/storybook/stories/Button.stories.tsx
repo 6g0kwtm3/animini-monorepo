@@ -27,9 +27,9 @@ function Button({ size, shape, color, ...props }: ButtonProps) {
 				{...props}
 				className={style}
 				style={{
-					"--size": size && `var(--size-${size})`,
-					"--color": color && `var(--color-${color})`,
-					"--shape": shape && `var(--shape-${shape})`,
+					"--size": size !== undefined ? `var(--size-${size})` : undefined,
+					"--color": color !== undefined ? `var(--color-${color})` : undefined,
+					"--shape": shape !== undefined ? `var(--shape-${shape})` : undefined,
 				}}
 			></button>
 			{children}

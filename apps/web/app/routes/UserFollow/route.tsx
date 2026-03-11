@@ -30,7 +30,7 @@ export const clientAction = (async (args) => {
 		variables: { userId: params.userId },
 	})
 
-	if (!data.ToggleFollow) {
+	if (data.ToggleFollow == null) {
 		throw new Error("Failed to follow")
 	}
 
@@ -42,9 +42,9 @@ export default function Page(): ReactNode {
 
 	return (
 		<main>
-			{data ? (
+			{data != null ? (
 				<Ariakit.Heading>
-					{data.ToggleFollow.isFollowing
+					{data.ToggleFollow.isFollowing === true
 						? m.follow({ name: data.ToggleFollow.name })
 						: m.unfollow({ name: data.ToggleFollow.name })}
 				</Ariakit.Heading>

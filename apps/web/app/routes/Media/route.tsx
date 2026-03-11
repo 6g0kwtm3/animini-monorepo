@@ -78,7 +78,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		{ id: Number(args.params.mediaId) }
 	)
 
-	if (!data?.Media) {
+	if (data?.Media == null) {
 		throw Response.json("Media not found", { status: 404 })
 	}
 
@@ -228,7 +228,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 
 				<Edit />
 
-				{outlet ? (
+				{outlet != null ? (
 					<AnimatePresence mode="wait">
 						{cloneElement(outlet, { key: pathname })}
 					</AnimatePresence>
@@ -253,7 +253,7 @@ function Edit() {
 						render={
 							<A
 								href={
-									root?.Viewer
+									root?.Viewer != null
 										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
 												redirect: route_media_edit({ id: Number(mediaId) }),

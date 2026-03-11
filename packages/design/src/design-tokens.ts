@@ -20,7 +20,7 @@ export const colors = new Proxy(
 	{
 		get: (target, key: string) => {
 			const [color, opacity] = key.split("/")
-			if (color && opacity) {
+			if (color !== undefined && opacity !== undefined) {
 				return `rgb(var(--${color}) / ${opacity}%)`
 			}
 			return `rgb(var(--${key}))`

@@ -71,7 +71,7 @@ export function ProgressIncrement(props: {
 
 	const [search] = useSearchParams()
 
-	if (!entry) {
+	if (entry == null) {
 		return null
 	}
 
@@ -101,7 +101,7 @@ export function ProgressIncrement(props: {
 							</TooltipPlainTrigger>
 							{entry.media.avalible !== episodes && (
 								<TooltipPlainContainer>
-									{!episodes ? (
+									{episodes == null ? (
 										<>some more to release</>
 									) : Predicate.isNumber(entry.media.avalible) ? (
 										<>{episodes - entry.media.avalible} more to release</>

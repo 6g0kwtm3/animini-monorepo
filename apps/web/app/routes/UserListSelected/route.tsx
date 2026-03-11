@@ -132,10 +132,11 @@ export const meta = (({ params }) => {
 	return [
 		{
 			title:
-				params.userName
-				&& (params.typelist === "animelist"
-					? `${params.userName}'s anime list`
-					: `${params.userName}'s manga list`),
+				params.userName === undefined || params.userName === ""
+					? undefined
+					: params.typelist === "animelist"
+						? `${params.userName}'s anime list`
+						: `${params.userName}'s manga list`,
 		},
 	]
 }) satisfies MetaFunction<typeof clientLoader>
@@ -171,7 +172,7 @@ async function setStatus(formData: FormData) {
 		},
 	})
 
-	if (!data.SaveMediaListEntry) {
+	if (data.SaveMediaListEntry == null) {
 		throw new Error("Failed to set status")
 	}
 
@@ -230,7 +231,7 @@ async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 		(list) => list?.name === params.selected
 	)
 
-	if (!selectedList) {
+	if (selectedList == null) {
 		throw Response.json("List not found", { status: 404 })
 	}
 
@@ -356,9 +357,8 @@ function sortEntries(
 
 	void order.push(
 		Order.reverse(
-			Order.mapInput(
-				Order.number,
-				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
+			Order.mapInput(Order.number, (entry) =>
+				entry.toWatch === 0 ? Number.POSITIVE_INFINITY : (entry.toWatch ?? 1)
 			)
 		),
 		Order.reverse(
@@ -472,8 +472,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 										search
 									).map((entry) => (
 										<MediaListItem
-											key={entry.id}
-											data-key={entry.id}
+											key={entry.id} data-key={entry.id}
+										
 											entry={entry}
 										/>
 									))
@@ -514,8 +514,8 @@ export function ErrorBoundary(): ReactNode {
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
-	if (error instanceof Error) {
-		errorMessage = error.message || errorMessage
+	if (error instanceof Error && error.message !== "") {
+		errorMessage = error.message
 	}
 
 	return (

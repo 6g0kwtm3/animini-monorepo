@@ -36,7 +36,7 @@ export function SearchItem({
 	)
 
 	return (
-		data && (
+		data != null ? (
 			<ListItem
 				{...props}
 				render={
@@ -56,12 +56,12 @@ export function SearchItem({
 					</ListItemContentTitle>
 				</ListItemContent>
 
-				{data.type ? (
+				{data.type != null ? (
 					<ListItemTrailingSupportingText>
 						{data.type.toLowerCase()}
 					</ListItemTrailingSupportingText>
 				) : null}
 			</ListItem>
-		)
+		):null
 	)
 }

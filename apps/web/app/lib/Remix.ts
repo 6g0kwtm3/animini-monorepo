@@ -10,7 +10,7 @@ export function Viewer(): null | {
 	const cookies = cookie.parse(document.cookie)
 
 	const token = cookies["anilist-token"]
-	if (!token) return null
+	if (token === undefined) return null
 
 	const result = isString(token) ? JsonToToken(token) : null
 	return result instanceof ArkErrors ? null : (result?.viewer ?? null)

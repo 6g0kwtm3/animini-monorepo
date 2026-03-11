@@ -49,7 +49,7 @@ export function UserListTabs(props: {
 			</TabsListItem>
 			{lists?.map((list) => {
 				return (
-					list.name && (
+					list.name != null ? (
 						<TabsListItem
 							key={list.name}
 							data-key={list.name}
@@ -58,7 +58,7 @@ export function UserListTabs(props: {
 						>
 							{list.name}
 						</TabsListItem>
-					)
+					) : null
 				)
 			})}
 		</TabsList>

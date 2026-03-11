@@ -29,12 +29,12 @@ import { Button } from "~/components/Button"
 import { type clientLoader as rootLoader } from "~/root"
 
 import { A } from "@anitrove/a"
+import { state } from "@anitrove/design"
+import { precompileStyles } from "@anitrove/unstyled"
 import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
 import { numberToString } from "~/lib/numberToString"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
-import { precompileStyles } from "@anitrove/unstyled"
-import { state } from "@anitrove/design"
 const { graphql } = ReactRelay
 
 export function UserLink(props: { children: ReactNode; userName: string }) {
@@ -81,14 +81,21 @@ function UserCard(props: { userName: string }) {
 		key: `${props.userName}-follow`,
 	})
 
+	const isFollowing =
+		follow.formData?.get("isFollowing") === "true"
+			? true
+			: (follow.data?.ToggleFollow.isFollowing
+				?? data.User?.isFollowing
+				?? false)
+
 	return (
-		data.User && (
+		data.User != null ? (
 			<>
 				<div className="-mx-4 -my-2">
 					<List>
 						<ListItem style={precompileStyles({ ...state("none") })}>
 							<ListItemAvatar>
-								{data.User.avatar?.large ? (
+								{data.User.avatar?.large != null ? (
 									<img
 										src={data.User.avatar.large}
 										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
@@ -101,7 +108,7 @@ function UserCard(props: { userName: string }) {
 							<ListItemContent>
 								<ListItemTitle>{props.userName}</ListItemTitle>
 								<ListItemSubtitle>
-									{data.User.isFollower ? "Follower" : "Not follower"}
+									{data.User.isFollower === true ? "Follower" : "Not follower"}
 								</ListItemSubtitle>
 							</ListItemContent>
 						</ListItem>
@@ -109,7 +116,7 @@ function UserCard(props: { userName: string }) {
 				</div>
 
 				<TooltipRichActions>
-					{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName ? (
+					{rootData?.Viewer?.name !== undefined && rootData.Viewer.name !== props.userName ? (
 						<follow.Form
 							method="post"
 							action={`/follow/${numberToString(data.User.id)}`}
@@ -117,22 +124,12 @@ function UserCard(props: { userName: string }) {
 							<input
 								type="hidden"
 								name="isFollowing"
-								value={
-									(follow.formData?.get("isFollowing")
-									?? follow.data?.ToggleFollow.isFollowing
-									?? data.User.isFollowing)
-										? ""
-										: "true"
-								}
+								value={isFollowing ? "" : "true"}
 								id=""
 							/>
 
-							<Button type="submit" aria-disabled={!data.User.id}>
-								{(follow.formData?.get("isFollowing")
-								?? follow.data?.ToggleFollow.isFollowing
-								?? data.User.isFollowing)
-									? m.unfollow_button()
-									: m.follow_button()}
+							<Button type="submit">
+								{isFollowing ? m.unfollow_button() : m.follow_button()}
 							</Button>
 						</follow.Form>
 					) : null}
@@ -140,6 +137,6 @@ function UserCard(props: { userName: string }) {
 				{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 			<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
 			</>
-		)
+		):null
 	)
 }

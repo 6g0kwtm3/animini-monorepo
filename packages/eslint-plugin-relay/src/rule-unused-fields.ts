@@ -16,6 +16,7 @@ import {
 	type GraphqlTemplateExpression,
 	type NodeWithLoc,
 } from "./utils"
+import { invariant } from "utilities"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/unused-fields"
@@ -30,11 +31,11 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 				return false
 			}
 			const nameNode = node.alias ?? node.name
-			if (!nameNode.loc) {
-				throw new Error(
-					"Expected GraphQL AST node to have location information"
-				)
-			}
+			invariant(
+				nameNode.loc !== undefined,
+				"Expected GraphQL AST node to have location information"
+			)
+
 			fieldNames[nameNode.value] = { loc: nameNode.loc }
 		},
 		OperationDefinition(node) {
@@ -122,7 +123,7 @@ export const rule: Rule.RuleModule = {
 			"Program:exit"(_node) {
 				templateLiterals.forEach((templateLiteral) => {
 					const graphQLAst = getGraphQLAST(templateLiteral)
-					if (!graphQLAst) {
+					if (graphQLAst === null) {
 						// ignore nodes with syntax errors, they're handled by rule-graphql-syntax
 						return
 					}

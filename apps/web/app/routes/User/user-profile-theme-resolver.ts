@@ -19,7 +19,7 @@ export function profileTheme(
 		key
 	)
 
-	const color = options.profileColor
+	const color = options.profileColor != null
 		? {
 				blue: "#3db4f2",
 				purple: "#c063ff",
@@ -31,5 +31,5 @@ export function profileTheme(
 			}[options.profileColor]
 		: null
 
-	return color ? getThemeFromHex(color) : null
+	return color != null ? getThemeFromHex(color) : null
 }

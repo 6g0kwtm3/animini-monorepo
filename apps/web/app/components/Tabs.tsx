@@ -54,7 +54,7 @@ export function TabsListItem({
 	const layoutId = useContext(TabsContext)
 
 	const context = Ariakit.useTabContext()
-	if (!context) {
+	if (context == null) {
 		throw new Error("TabsListItem must be wrapped in TabsList")
 	}
 

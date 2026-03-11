@@ -29,7 +29,7 @@ export function ActivityLike(props: {
 				createdAt
 				activityId
 				context
-				user {
+				user @required {
 					id
 					name
 					avatar {
@@ -53,53 +53,51 @@ export function ActivityLike(props: {
 	)
 
 	const [dateNow] = useState(() => Date.now())
-	return (
-		notification.user && (
-			<ListItem
-				render={
-					<A href={`/activity/${numberToString(notification.activityId)}`}></A>
-				}
-			>
-				<ListItemImg>
-					{notification.user.avatar?.large ? (
-						<img
-							src={notification.user.avatar.large}
-							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
-							style={
-								notification.user.avatar.medium
-									? { "--bg": `url(${notification.user.avatar.medium})` }
-									: undefined
-							}
-							loading="lazy"
-							alt=""
-						/>
-					) : null}
-				</ListItemImg>
-				<ListItemContent
-					style={precompileStyles({
-						display: "grid",
-						gridTemplateColumns: "subgrid",
-					})}
-				>
-					<ListItemContentTitle>
-						{(notification.createdAt ?? 0)
-							> (viewer.unreadNotificationCount ?? 0) && (
-							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
-						)}{" "}
-						{notification.context}
-					</ListItemContentTitle>
-					<ListItemContentSubtitle title={notification.user.name}>
-						{notification.user.name}
-					</ListItemContentSubtitle>
-				</ListItemContent>
-				{notification.createdAt ? (
-					<ListItemTrailingSupportingText>
-						{format(notification.createdAt - dateNow / 1000)}
-					</ListItemTrailingSupportingText>
+	return notification != null ? (
+		<ListItem
+			render={
+				<A href={`/activity/${numberToString(notification.activityId)}`}></A>
+			}
+		>
+			<ListItemImg>
+				{notification.user.avatar?.large != null ? (
+					<img
+						src={notification.user.avatar.large}
+						className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
+						style={
+							notification.user.avatar.medium != null
+								? { "--bg": `url(${notification.user.avatar.medium})` }
+								: undefined
+						}
+						loading="lazy"
+						alt=""
+					/>
 				) : null}
-			</ListItem>
-		)
-	)
+			</ListItemImg>
+			<ListItemContent
+				style={precompileStyles({
+					display: "grid",
+					gridTemplateColumns: "subgrid",
+				})}
+			>
+				<ListItemContentTitle>
+					{(notification.createdAt ?? 0)
+						> (viewer.unreadNotificationCount ?? 0) && (
+						<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+					)}{" "}
+					{notification.context}
+				</ListItemContentTitle>
+				<ListItemContentSubtitle title={notification.user.name}>
+					{notification.user.name}
+				</ListItemContentSubtitle>
+			</ListItemContent>
+			{notification.createdAt != null ? (
+				<ListItemTrailingSupportingText>
+					{format(notification.createdAt - dateNow / 1000)}
+				</ListItemTrailingSupportingText>
+			) : null}
+		</ListItem>
+	) : null
 }
 
 function format(seconds: number) {

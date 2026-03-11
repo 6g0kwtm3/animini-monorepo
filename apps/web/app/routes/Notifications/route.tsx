@@ -98,7 +98,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				{someNotRead ? (
+				{someNotRead !== 0 ? (
 					<Form method="post">
 						<div className="fixed bottom-24 end-4 sm:bottom-4">
 							<div className="relative">
@@ -122,16 +122,16 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					</Form>
 				) : null}
 				<Card variant="elevated" className="max-sm:contents">
-					{!data.Page?.notifications?.length && (
+					{(data.Page?.notifications?.length ?? 0) !== 0 ? (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
-					)}
+					) : null}
 
 					<div className="-mx-4 sm:-my-4">
 						<List lines={{ base: "three", [media.sm]: "two" }}>
 							{data.Page?.notifications
 								?.filter((el) => el != null)
 								.map((notification) => {
-									if (notification.Airing_notification) {
+									if (notification.Airing_notification != null) {
 										return (
 											<Airing
 												key={notification.id}
@@ -141,7 +141,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 											/>
 										)
 									}
-									if (notification.RelatedMediaAddition_notification) {
+									if (notification.RelatedMediaAddition_notification != null) {
 										return (
 											<RelatedMediaAddition
 												key={notification.id}
@@ -153,7 +153,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 											/>
 										)
 									}
-									if (notification.ActivityLike_notification) {
+									if (notification.ActivityLike_notification != null) {
 										return (
 											<ActivityLike
 												key={notification.id}

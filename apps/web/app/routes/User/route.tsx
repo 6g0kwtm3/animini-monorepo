@@ -48,7 +48,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 				}
 			}
 		`,
-		{ token: !!sessionStorage.getItem("anilist-token"), userName }
+		{ token: sessionStorage.getItem("anilist-token") === null, userName }
 	)
 
 	return { routeNavUserQuery: data }
@@ -69,7 +69,7 @@ import * as design from "@anitrove/design"
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
 
-	if (!data.user) {
+	if (data.user == null) {
 		throw json("User not found", { status: 404 })
 	}
 
@@ -80,9 +80,11 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const params = useParams()
 
 	const isFollow =
-		follow.formData?.get("isFollowing")
-		?? follow.data?.ToggleFollow.isFollowing
-		?? data.user.isFollowing
+		follow.formData?.get("isFollowing") === "true"
+			? true
+			: (follow.data?.ToggleFollow.isFollowing
+				?? data.user.isFollowing
+				?? false)
 
 	return (
 		<LayoutBody
@@ -106,7 +108,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 									</span>
 								</AppBarTitle>
 								<div className="flex-1" />
-								{data.Viewer?.name && data.Viewer.name !== data.user.name ? (
+								{data.Viewer?.name != null && data.Viewer.name !== data.user.name ? (
 									<follow.Form
 										method="post"
 										action={`/follow/${numberToString(data.user.id)}`}
@@ -188,8 +190,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
-	if (error instanceof Error) {
-		errorMessage = error.message || errorMessage
+	if (error instanceof Error && error.message !== "") {
+		errorMessage = error.message
 	}
 
 	return (

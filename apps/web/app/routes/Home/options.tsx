@@ -8,7 +8,7 @@ import { UserLink } from "./UserLink"
 export const options: Options = {
 	replace: {
 		a(props) {
-			if (!props.href?.trim()) {
+			if (props.href === undefined || props.href.trim() === "") {
 				return <span className="text-primary">{props.children}</span>
 			}
 

@@ -88,7 +88,7 @@ export function AppBar({
 
 	useEffect(() => {
 		const node = ref.current
-		if (!node) return
+		if (node === undefined) return
 		const observerCurrent = observer.current
 		observerCurrent.observe(node)
 		return () => {

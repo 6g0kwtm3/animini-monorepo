@@ -12,12 +12,12 @@ export async function loadAssets(
 		const rewriter = new HTMLRewriter().on("img", {
 			element(img) {
 				const src = img.getAttribute("src")
-				if (!src) return
+				if (src === null || src === "") return
 				const url = new URL(src)
 				const filename = url.pathname.split("/").pop()
-				if (!filename) throw new Error("Invalid image url")
+				if (filename === undefined) throw new Error("Invalid image url")
 				const ext = filename.split(".").pop()
-				if (!ext) throw new Error("Invalid image url")
+				if (ext === undefined) throw new Error("Invalid image url")
 				images[src] = ext
 			},
 		})

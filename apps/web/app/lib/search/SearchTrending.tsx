@@ -12,9 +12,9 @@ import { SearchItem } from "./SearchItem"
 import type { ReactNode } from "react"
 import { useFragment } from "../Network"
 
+import { precompileStyles } from "@anitrove/unstyled"
 import ReactRelay from "react-relay"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
-import { precompileStyles } from "@anitrove/unstyled"
 const { graphql } = ReactRelay
 
 export function SearchTrending(props: {
@@ -34,7 +34,7 @@ export function SearchTrending(props: {
 		props.query
 	)
 
-	return data.trending?.media && data.trending.media.length !== 0 ? (
+	return data.trending?.media != null && data.trending.media.length !== 0 ? (
 		<SearchViewBody>
 			<SearchViewBodyGroup>
 				<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>
@@ -50,8 +50,8 @@ export function SearchTrending(props: {
 						.filter((el) => el != null)
 						.map((media) => (
 							<SearchViewItem
-								key={media.id}
-								data-key={media.id}
+								key={media.id} data-key={media.id}
+							
 								render={<SearchItem media={media} />}
 							/>
 						))}
