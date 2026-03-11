@@ -60,7 +60,7 @@ const cookies = [
 			)
 		),
 		sameSite: "Lax",
-		expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
+		expires: Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
 		path: "/",
 		domain: "localhost",
 	},

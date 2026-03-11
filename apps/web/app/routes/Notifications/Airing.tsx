@@ -19,6 +19,7 @@ import type { Airing_viewer$key } from "~/gql/Airing_viewer.graphql"
 import { useFragment } from "~/lib/Network"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+import { RelativeTimeSince } from "./RelativeTimeSince"
 
 const { graphql } = ReactRelay
 
@@ -53,7 +54,6 @@ export function Airing(props: {
 		`,
 		props.viewer
 	)
-	const [dateNow] = useState(() => Date.now())
 	return (
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
@@ -79,7 +79,11 @@ export function Airing(props: {
 					</ListItemContent>
 					{notification.createdAt ? (
 						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - dateNow / 1000)}
+							<RelativeTimeSince
+								date={Temporal.Instant.fromEpochMilliseconds(
+									notification.createdAt * 1000
+								)}
+							/>
 						</ListItemTrailingSupportingText>
 					) : null}
 				</ListItem>
