@@ -29,7 +29,7 @@ export class Nav {
 	notifications: Locator
 	profile: Locator
 
-	private page: Page
+	private readonly page: Page
 	constructor(page: Page) {
 		this.page = page
 		const nav = page.getByRole("navigation")

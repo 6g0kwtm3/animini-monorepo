@@ -371,7 +371,7 @@ function sortEntries(
 		)
 	)
 
-	return entries.sort(Order.reverse(Order.combineAll(order)))
+	return entries.toSorted(Order.reverse(Order.combineAll(order)))
 }
 
 function filterEntries(

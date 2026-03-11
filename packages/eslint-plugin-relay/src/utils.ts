@@ -1,6 +1,6 @@
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
-import { parse, TokenKind, type ASTNode, type NameNode } from "graphql"
+import { parse, TokenKind, type ASTNode } from "graphql"
 import path from "path"
 
 export function hasPrecedingEslintDisableComment(
@@ -13,6 +13,9 @@ export function hasPrecedingEslintDisableComment(
 		&& prevNode.value.startsWith(commentText)
 	)
 }
+export interface NodeWithLoc {
+	loc: { end: number; start: number }
+}
 
 /**
  * Returns a range object for auto fixers.
@@ -20,12 +23,12 @@ export function hasPrecedingEslintDisableComment(
 function getRange(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
-	graphQLNode: ASTNode
+	graphQLNode: NodeWithLoc
 ): [number, number] {
-	const graphQLStart = templateNode.quasi.quasis[0].range![0] + 1
+	const graphQLStart = templateNode.quasi.quasis[0].range[0] + 1
 	return [
-		graphQLStart + graphQLNode.loc!.start,
-		graphQLStart + graphQLNode.loc!.end,
+		graphQLStart + graphQLNode.loc.start,
+		graphQLStart + graphQLNode.loc.end,
 	]
 }
 
@@ -35,7 +38,7 @@ function getRange(
 export function getLoc(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
-	graphQLNode: ASTNode
+	graphQLNode: NodeWithLoc
 ): ESTree.SourceLocation {
 	const startAndEnd = getRange(context, templateNode, graphQLNode)
 	const start = startAndEnd[0]
@@ -50,8 +53,12 @@ interface GraphqlIdentifier extends ESTree.Identifier {
 	name: "graphql"
 }
 
+interface GraphqlTemplateElement extends ESTree.TemplateElement {
+	range: [number, number]
+}
+
 interface GraphqlTemplateLiteral extends ESTree.TemplateLiteral {
-	quasis: [ESTree.TemplateElement]
+	quasis: [GraphqlTemplateElement]
 }
 
 export interface GraphqlTemplateExpression

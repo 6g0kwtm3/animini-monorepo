@@ -55,7 +55,7 @@
  * each intermediate component between ComponentA and ComponentC.
  */
 
-"use strict"
+import { invariant } from "utilities"
 
 import type { Rule } from "eslint"
 import {
@@ -64,7 +64,6 @@ import {
 	OperationTypeNode,
 	visit,
 	type DocumentNode,
-	type FragmentSpreadNode,
 } from "graphql"
 import {
 	getGraphQLAST,
@@ -73,6 +72,7 @@ import {
 	hasPrecedingEslintDisableComment,
 	isGraphQLTemplate,
 	type GraphqlTemplateExpression,
+	type NodeWithLoc,
 } from "./utils"
 
 const ESLINT_DISABLE_COMMENT =
@@ -83,7 +83,7 @@ function isReadonlyArray(value: unknown): value is readonly unknown[] {
 }
 
 function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
-	const fragmentSpreads: Record<string, FragmentSpreadNode> = {}
+	const fragmentSpreads: Record<string, NodeWithLoc> = {}
 	visit(graphQLAst, {
 		FragmentSpread(node, key, parent, path, ancestors) {
 			for (const ancestorNode of ancestors) {
@@ -117,7 +117,11 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
 				return
 			}
-			fragmentSpreads[node.name.value] = node
+			invariant(
+				node.loc,
+				"Expected GraphQL AST node to have location information"
+			)
+			fragmentSpreads[node.name.value] = { loc: node.loc }
 		},
 	})
 	return fragmentSpreads

@@ -145,7 +145,7 @@ function stableStringify(
 		return (
 			getStaticValue(value as TSESTree.Node, context)
 			?? Object.fromEntries(
-				Object.entries(value).sort(([a], [b]) => a.localeCompare(b))
+				Object.entries(value).toSorted(([a], [b]) => a.localeCompare(b))
 			)
 		)
 	})

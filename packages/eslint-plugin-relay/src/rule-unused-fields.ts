@@ -7,25 +7,21 @@
 
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
-import {
-	OperationTypeNode,
-	visit,
-	type DocumentNode,
-	type NameNode,
-} from "graphql"
+import { OperationTypeNode, visit, type DocumentNode } from "graphql"
 import {
 	getGraphQLAST,
 	getLoc,
 	hasPrecedingEslintDisableComment,
 	isGraphQLTemplate,
 	type GraphqlTemplateExpression,
+	type NodeWithLoc,
 } from "./utils"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/unused-fields"
 
 function getGraphQLFieldNames(graphQLAst: DocumentNode) {
-	const fieldNames: Record<string, NameNode> = {}
+	const fieldNames: Record<string, NodeWithLoc> = {}
 
 	visit(graphQLAst, {
 		Field(node) {
@@ -34,7 +30,12 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 				return false
 			}
 			const nameNode = node.alias ?? node.name
-			fieldNames[nameNode.value] = nameNode
+			if (!nameNode.loc) {
+				throw new Error(
+					"Expected GraphQL AST node to have location information"
+				)
+			}
+			fieldNames[nameNode.value] = { loc: nameNode.loc }
 		},
 		OperationDefinition(node) {
 			if (

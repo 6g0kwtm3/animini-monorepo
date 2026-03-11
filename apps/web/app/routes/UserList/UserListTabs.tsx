@@ -33,7 +33,7 @@ export function UserListTabs(props: {
 	const data = useFragment(UserListTabs_query, queryKey)
 	const lists = data.MediaListCollection?.lists
 		?.filter((el) => el != null)
-		.sort(
+		.toSorted(
 			Order.reverse(Order.mapInput(Order.string, (list) => list.name ?? ""))
 		)
 

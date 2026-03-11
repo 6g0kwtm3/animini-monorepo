@@ -6,7 +6,7 @@ export class MediaPage {
 	nav: Nav
 	title: Locator
 
-	private constructor(private page: Page) {
+	private constructor(private readonly page: Page) {
 		this.nav = new Nav(page)
 		const main = page.getByRole("main")
 		this.title = main.getByRole("heading")
