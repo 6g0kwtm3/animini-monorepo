@@ -863,6 +863,9 @@ importers:
       graphql:
         specifier: 'catalog:'
         version: 16.13.1
+      utilities:
+        specifier: workspace:*
+        version: link:../utilities
     devDependencies:
       '@types/estree':
         specifier: 'catalog:'

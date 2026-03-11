@@ -13,7 +13,6 @@ export function hasPrecedingEslintDisableComment(
 		&& prevNode.value.startsWith(commentText)
 	)
 }
-
 export interface NodeWithLoc {
 	loc: { end: number; start: number }
 }
