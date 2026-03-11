@@ -12,5 +12,5 @@ export function Viewer(): null | {
 	if (!token) return null
 
 	const result = JsonToToken(token)
-	return result instanceof ArkErrors ? null : (result?.viewer ?? null)
+	return result instanceof ArkErrors ? null : result.viewer
 }
