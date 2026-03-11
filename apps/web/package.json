@@ -8,7 +8,7 @@
 	"main": "desktop/index.js",
 	"scripts": {
 		"build": "cross-env NODE_ENV=production react-router build",
-		"check": "tsc",
+		"check": "tsgo --noEmit",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"deploy": "wrangler pages deploy ./build/client",
 		"dev": "react-router dev",
