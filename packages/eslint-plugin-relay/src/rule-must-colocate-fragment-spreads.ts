@@ -162,7 +162,7 @@ export const rule: Rule.RuleModule = {
 				const fragmentsInTheSameModule = new Set<string>()
 				graphqlLiterals.forEach(({ graphQLAst }) => {
 					const fragmentName = getGraphQLFragmentDefinitionName(graphQLAst)
-					if (fragmentName !== null) {
+				if (fragmentName !== null) {
 						fragmentsInTheSameModule.add(fragmentName)
 					}
 				})

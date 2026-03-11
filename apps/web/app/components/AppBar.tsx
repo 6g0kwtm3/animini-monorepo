@@ -1,6 +1,13 @@
 import * as Ariakit from "@ariakit/react"
 import type { ComponentProps, ComponentRef, ReactNode } from "react"
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+	useSyncExternalStore,
+} from "react"
 import type { VariantProps } from "tailwind-variants"
 
 import { numberToString } from "~/lib/numberToString"
@@ -47,31 +54,40 @@ AppBarContext.displayName = "AppBarContext"
 interface AppBarProps
 	extends ComponentProps<"nav">, VariantProps<typeof appBar> {}
 
+function subscribe(onStoreChange: () => void) {
+	window.addEventListener("scroll", onStoreChange)
+	return () => {
+		window.removeEventListener("scroll", onStoreChange)
+	}
+}
+function getSnapshot() {
+	return window.scrollY
+}
+function getServerSnapshot() {
+	return 0
+}
+function useScroll() {
+	return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+}
+
 export function AppBar({
 	variant,
 	elevate,
 	hide,
 	...props
 }: AppBarProps): ReactNode {
-	const [scrolled, setScrolled] = useState(0)
+	const scroll = useScroll()
+	const [prevScroll, setPrevScroll] = useState(scroll)
 	const [hidden, setHidden] = useState(false)
+
+	if (prevScroll !== scroll) {
+		setPrevScroll(scroll)
+		setHidden(prevScroll < scroll)
+	}
 
 	const ref = useRef<ComponentRef<"nav">>(null)
 
 	const styles = appBar({ variant, elevate, hide })
-
-	useEffect(() => {
-		function listener() {
-			setScrolled((scrollY) => {
-				setHidden(scrollY < window.scrollY)
-				return window.scrollY
-			})
-		}
-		window.addEventListener("scroll", listener)
-		return () => {
-			window.removeEventListener("scroll", listener)
-		}
-	}, [])
 
 	const observer = useRef(
 		new ResizeObserver((nodes) => {
@@ -88,7 +104,7 @@ export function AppBar({
 
 	useEffect(() => {
 		const node = ref.current
-		if (node === undefined) return
+		if (node === null) return
 		const observerCurrent = observer.current
 		observerCurrent.observe(node)
 		return () => {
@@ -102,7 +118,7 @@ export function AppBar({
 				{...props}
 				ref={ref}
 				data-hidden={hidden}
-				data-elevated={scrolled !== 0}
+				data-elevated={scroll !== 0}
 				className={styles.root({ className: props.className })}
 			/>
 		</AppBarContext.Provider>

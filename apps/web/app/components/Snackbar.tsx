@@ -111,7 +111,7 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 
 	useEffect(() => {
 		const { current } = ref
-		if (current === undefined) {
+		if (current === null) {
 			return
 		}
 
@@ -144,7 +144,7 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 
 	useEffect(() => {
 		const { current } = ref
-		if (current === undefined) {
+		if (current === null) {
 			return
 		}
 
