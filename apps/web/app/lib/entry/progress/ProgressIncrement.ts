@@ -33,7 +33,7 @@ export const increment = async (
 		variables: { id: formData.id, progress: formData.progress },
 	})
 
-	if (!data.SaveMediaListEntry) {
+	if (data.SaveMediaListEntry == null) {
 		throw new Error("Failed to increment progress")
 	}
 

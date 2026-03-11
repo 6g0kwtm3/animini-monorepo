@@ -43,7 +43,7 @@ export const Header = ({
 				<h1>Acme</h1>
 			</div>
 			<div>
-				{user ? (
+				{user !== undefined ? (
 					<>
 						<span className="welcome">
 							Welcome, <b>{user.name}</b>!

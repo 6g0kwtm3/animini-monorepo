@@ -59,19 +59,21 @@ export function MediaListItem(props: {
 			<ListItem render={<div />}>
 				<ListItemImg>
 					<Skeleton full>
-						{entry?.media ? <MediaCover media={entry.media} /> : null}
+						{entry?.media != null ? <MediaCover media={entry.media} /> : null}
 					</Skeleton>
 				</ListItemImg>
 				<ListItemContent
 					render={
 						<A
-							href={entry?.media ? route_media({ id: entry.media.id }) : ""}
+							href={
+								entry?.media != null ? route_media({ id: entry.media.id }) : ""
+							}
 						></A>
 					}
 				>
 					<ListItemContentTitle>
 						<Skeleton>
-							{entry ? <MediaListItemTitle entry={entry} /> : null}
+							{entry != null ? <MediaListItemTitle entry={entry} /> : null}
 						</Skeleton>
 					</ListItemContentTitle>
 					<ListItemContentSubtitle
@@ -82,13 +84,13 @@ export function MediaListItem(props: {
 						})}
 					>
 						<Skeleton className="max-w-[21.666666666666668ch]">
-							{entry ? <MediaListItemSubtitle entry={entry} /> : null}
+							{entry != null ? <MediaListItemSubtitle entry={entry} /> : null}
 						</Skeleton>
 					</ListItemContentSubtitle>
 				</ListItemContent>
 
 				<Skeleton>
-					{entry ? <ProgressIncrement entry={entry} /> : null}
+					{entry != null ? <ProgressIncrement entry={entry} /> : null}
 				</Skeleton>
 			</ListItem>
 		</li>
@@ -114,7 +116,7 @@ function MediaListItemTitle(props: {
 	const entry = useFragment(MediaListItemTitle_entry, props.entry)
 	const library = useContext(Library)
 
-	if (!entry) {
+	if (entry == null) {
 		return null
 	}
 
@@ -124,7 +126,7 @@ function MediaListItemTitle(props: {
 
 	return (
 		<>
-			{libraryHasNextEpisode ? (
+			{libraryHasNextEpisode === true ? (
 				<MaterialSymbolsPriorityHigh className="i-inline text-primary inline" />
 			) : null}
 			{entry.media.title.userPreferred}

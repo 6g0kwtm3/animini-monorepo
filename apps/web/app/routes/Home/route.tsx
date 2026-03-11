@@ -93,14 +93,15 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 													style={precompileStyles({ ...state("none") })}
 												>
 													<div className="col-start-1 h-10 w-10">
-														{activity.user?.avatar?.large ? (
+														{activity.user?.avatar?.large != null
+														&& activity.user?.avatar?.large !== "" ? (
 															<img
 																alt=""
 																loading="lazy"
 																src={activity.user.avatar.large}
 																className="bg-(image:--bg) h-10 w-10 rounded-full bg-cover object-cover"
 																style={
-																	activity.user.avatar.medium
+																	activity.user.avatar.medium != null
 																		? {
 																				"--bg": `url(${activity.user.avatar.medium})`,
 																			}
@@ -111,7 +112,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 													</div>
 													<ListItemContent>
 														<ListItemTitle>
-															{activity.user?.name ? (
+															{activity.user?.name != null ? (
 																<A href={`/user/${activity.user.name}`}>
 																	{activity.user.name}
 																</A>
@@ -126,7 +127,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											</List>
 											<ErrorBoundary fallback={<>Failed to parse markdown</>}>
 												<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto">
-													{activity.text ? (
+													{activity.text != null ? (
 														<Markdown options={options}>
 															{activity.text}
 														</Markdown>

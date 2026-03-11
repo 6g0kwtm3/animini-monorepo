@@ -201,7 +201,9 @@ function Filter() {
 				void submit(e.currentTarget, {})
 			}}
 		>
-			{sheet ? <input type="hidden" name="sheet" value={sheet} /> : null}
+			{sheet != null ? (
+				<input type="hidden" name="sheet" value={sheet} />
+			) : null}
 			<Sheet
 				open={filter || sort}
 				onClose={() => {
@@ -445,8 +447,8 @@ export function ErrorBoundary(): ReactNode {
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
-	if (error instanceof Error) {
-		errorMessage = error.message || errorMessage
+	if (error instanceof Error && error.message !== "") {
+		errorMessage = error.message
 	}
 
 	return (

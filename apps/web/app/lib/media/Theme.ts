@@ -17,5 +17,5 @@ export function theme(key: Theme_mediaCover$key): null | Theme {
 		key
 	)
 
-	return media.color ? getThemeFromHex(media.color) : null
+	return media.color != null ? getThemeFromHex(media.color) : null
 }

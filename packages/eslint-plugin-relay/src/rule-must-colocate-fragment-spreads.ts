@@ -118,7 +118,7 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 				return
 			}
 			invariant(
-				node.loc,
+				node.loc !== undefined,
 				"Expected GraphQL AST node to have location information"
 			)
 			fragmentSpreads[node.name.value] = { loc: node.loc }
@@ -162,7 +162,7 @@ export const rule: Rule.RuleModule = {
 				const fragmentsInTheSameModule = new Set<string>()
 				graphqlLiterals.forEach(({ graphQLAst }) => {
 					const fragmentName = getGraphQLFragmentDefinitionName(graphQLAst)
-					if (fragmentName) {
+					if (fragmentName !== null) {
 						fragmentsInTheSameModule.add(fragmentName)
 					}
 				})
@@ -173,8 +173,8 @@ export const rule: Rule.RuleModule = {
 							fragment.startsWith(name)
 						)
 						if (
-							queriedFragments[fragment]
-							&& !matchedModuleName
+							queriedFragments[fragment] !== undefined
+							&& matchedModuleName === undefined
 							&& !fragmentsInTheSameModule.has(fragment)
 						) {
 							context.report({
@@ -222,7 +222,7 @@ export const rule: Rule.RuleModule = {
 			TaggedTemplateExpression(node) {
 				if (isGraphQLTemplate(node)) {
 					const graphQLAst = getGraphQLAST(node)
-					if (!graphQLAst) {
+					if (graphQLAst === null) {
 						// ignore nodes with syntax errors, they're handled by rule-graphql-syntax
 						return
 					}

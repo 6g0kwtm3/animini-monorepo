@@ -83,9 +83,9 @@ function getAttributes(attributes: Record<string, string>) {
 
 	return {
 		..._attributes,
-		...(className ? { className } : {}),
-		...(allowFullScreen ? { allowFullScreen } : {}),
-		...(frameBorder ? { frameBorder } : {}),
+		...(className !== undefined ? { className } : {}),
+		...(allowFullScreen !== undefined ? { allowFullScreen } : {}),
+		...(frameBorder !== undefined ? { frameBorder } : {}),
 	}
 }
 

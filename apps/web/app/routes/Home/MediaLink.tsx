@@ -70,31 +70,29 @@ function MediaCard(props: { mediaId: number; type: string }) {
 		mergeStyles(media?.coverImage?.theme ?? undefined)
 	)
 
-	return (
-		media && (
-			<>
-				<Card
-					className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start ${className}`}
-					render={<span />}
-				>
-					<List style={precompileStyles({ padding: "0" })} render={<span />}>
-						<ListItem render={<span />}>
-							<ListItemImg render={<span></span>}>
-								<MediaCover media={media} />
-							</ListItemImg>
-							<ListItemContent render={<span></span>}>
-								<ListItemTitle render={<span />}>
-									{media.title?.userPreferred}
-								</ListItemTitle>
-								<ListItemSubtitle render={<span />}>
-									{props.type}
-								</ListItemSubtitle>
-							</ListItemContent>
-						</ListItem>
-					</List>
-				</Card>
-				{jsx}
-			</>
-		)
-	)
+	return media != null ? (
+		<>
+			<Card
+				className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start ${className}`}
+				render={<span />}
+			>
+				<List style={precompileStyles({ padding: "0" })} render={<span />}>
+					<ListItem render={<span />}>
+						<ListItemImg render={<span></span>}>
+							<MediaCover media={media} />
+						</ListItemImg>
+						<ListItemContent render={<span></span>}>
+							<ListItemTitle render={<span />}>
+								{media.title?.userPreferred}
+							</ListItemTitle>
+							<ListItemSubtitle render={<span />}>
+								{props.type}
+							</ListItemSubtitle>
+						</ListItemContent>
+					</ListItem>
+				</List>
+			</Card>
+			{jsx}
+		</>
+	) : null
 }

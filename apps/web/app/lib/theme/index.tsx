@@ -34,7 +34,7 @@ export function getThemeFromHex(hex: string): Theme {
 				)
 
 				const dynamicColor = dynamicColors[color]
-				if (!dynamicColor) {
+				if (dynamicColor === undefined) {
 					console.warn(`Unknown color ${color}`)
 					return []
 				}

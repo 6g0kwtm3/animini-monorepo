@@ -87,7 +87,7 @@ export function TooltipPlainTrigger({
 }
 export function TooltipPlainContainer(props: Ariakit.TooltipProps): ReactNode {
 	const tooltip = Ariakit.useTooltipContext()
-	if (!tooltip) {
+	if (tooltip === undefined) {
 		throw new Error("Tooltip must be wrapped in TooltipProvider")
 	}
 

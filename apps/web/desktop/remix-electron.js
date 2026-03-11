@@ -52,7 +52,7 @@ export async function initRemix({
 	const server = /** @type {Hono<{ Bindings: HttpBindings }>} */ (new Hono())
 
 	// handle asset requests
-	if (viteDevServer) {
+	if (viteDevServer !== undefined) {
 		void server.use(
 			(ctx, next) =>
 				new Promise((resolve) => {
@@ -70,16 +70,17 @@ export async function initRemix({
 
 	void server.use(serveStatic({ root: resolve(appRoot, "build/client") }))
 
-	const serverBuild = viteDevServer
-		? () =>
-				/** @type {Promise<ServerBuild>} */ (
-					viteDevServer.ssrLoadModule("virtual:react-router/server-build")
-				)
-		: typeof serverBuildOption === "string"
-			? /** @type {ServerBuild} */ (
-					await import(pathToFileURL(serverBuildOption).toString())
-				)
-			: serverBuildOption
+	const serverBuild =
+		viteDevServer !== undefined
+			? () =>
+					/** @type {Promise<ServerBuild>} */ (
+						viteDevServer.ssrLoadModule("virtual:react-router/server-build")
+					)
+			: typeof serverBuildOption === "string"
+				? /** @type {ServerBuild} */ (
+						await import(pathToFileURL(serverBuildOption).toString())
+					)
+				: serverBuildOption
 
 	// handle SSR requests
 	void server.all("*", (ctx) => {

@@ -23,7 +23,7 @@ export function toWatch(data: ToWatch_entry$key): null | number {
 		data
 	)
 
-	if (!entry) {
+	if (entry == null) {
 		return null
 	}
 

@@ -42,7 +42,7 @@ export function Sheet({ modal, variant, ...props }: SheetProps): JSX.Element {
 	return (
 		<Context.Provider value={styles}>
 			<AnimatePresence>
-				{props.open ? (
+				{props.open === true ? (
 					<Ariakit.Dialog
 						backdrop={
 							<motion.div

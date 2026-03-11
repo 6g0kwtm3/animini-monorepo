@@ -29,12 +29,12 @@ import { Button } from "~/components/Button"
 import { type clientLoader as rootLoader } from "~/root"
 
 import { A } from "@anitrove/a"
+import { state } from "@anitrove/design"
+import { precompileStyles } from "@anitrove/unstyled"
 import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
 import { numberToString } from "~/lib/numberToString"
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
-import { precompileStyles } from "@anitrove/unstyled"
-import { state } from "@anitrove/design"
 const { graphql } = ReactRelay
 
 export function UserLink(props: { children: ReactNode; userName: string }) {
@@ -81,65 +81,62 @@ function UserCard(props: { userName: string }) {
 		key: `${props.userName}-follow`,
 	})
 
-	return (
-		data.User && (
-			<>
-				<div className="-mx-4 -my-2">
-					<List>
-						<ListItem style={precompileStyles({ ...state("none") })}>
-							<ListItemAvatar>
-								{data.User.avatar?.large ? (
-									<img
-										src={data.User.avatar.large}
-										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-										style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
-										loading="lazy"
-										alt=""
-									/>
-								) : null}
-							</ListItemAvatar>
-							<ListItemContent>
-								<ListItemTitle>{props.userName}</ListItemTitle>
-								<ListItemSubtitle>
-									{data.User.isFollower ? "Follower" : "Not follower"}
-								</ListItemSubtitle>
-							</ListItemContent>
-						</ListItem>
-					</List>
-				</div>
+	const isFollowing =
+		follow.formData?.get("isFollowing") === "true"
+			? true
+			: (follow.data?.ToggleFollow.isFollowing
+				?? data.User?.isFollowing
+				?? false)
 
-				<TooltipRichActions>
-					{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName ? (
-						<follow.Form
-							method="post"
-							action={`/follow/${numberToString(data.User.id)}`}
-						>
-							<input
-								type="hidden"
-								name="isFollowing"
-								value={
-									(follow.formData?.get("isFollowing")
-									?? follow.data?.ToggleFollow.isFollowing
-									?? data.User.isFollowing)
-										? ""
-										: "true"
-								}
-								id=""
-							/>
+	return data.User != null ? (
+		<>
+			<div className="-mx-4 -my-2">
+				<List>
+					<ListItem style={precompileStyles({ ...state("none") })}>
+						<ListItemAvatar>
+							{data.User.avatar?.large != null
+							&& data.User.avatar?.large !== "" ? (
+								<img
+									src={data.User.avatar.large}
+									className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
+									style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
+									loading="lazy"
+									alt=""
+								/>
+							) : null}
+						</ListItemAvatar>
+						<ListItemContent>
+							<ListItemTitle>{props.userName}</ListItemTitle>
+							<ListItemSubtitle>
+								{data.User.isFollower === true ? "Follower" : "Not follower"}
+							</ListItemSubtitle>
+						</ListItemContent>
+					</ListItem>
+				</List>
+			</div>
 
-							<Button type="submit" aria-disabled={!data.User.id}>
-								{(follow.formData?.get("isFollowing")
-								?? follow.data?.ToggleFollow.isFollowing
-								?? data.User.isFollowing)
-									? m.unfollow_button()
-									: m.follow_button()}
-							</Button>
-						</follow.Form>
-					) : null}
-				</TooltipRichActions>
-				{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
+			<TooltipRichActions>
+				{rootData?.Viewer?.name !== undefined
+				&& rootData.Viewer.name !== props.userName ? (
+					<follow.Form
+						method="post"
+						action={`/follow/${numberToString(data.User.id)}`}
+					>
+						<input
+							type="hidden"
+							name="isFollowing"
+							value={isFollowing ? "" : "true"}
+							id=""
+						/>
+
+						<Button type="submit">
+							{isFollowing ? m.unfollow_button() : m.follow_button()}
+						</Button>
+					</follow.Form>
+				) : null}
+			</TooltipRichActions>
+			{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 			<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
-			</>
-		)
-	)
+		</>
+	) : null
 }

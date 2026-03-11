@@ -27,7 +27,7 @@ export function useSetupOnAbortNavigation() {
 	const navigation = useNavigation()
 	useEffect(() => {
 		if (navigation.state === "idle") {
-			while (queue[0] && queue[1]) {
+			while (queue[0] !== undefined && queue[1] !== undefined) {
 				queue[0].abort()
 				void queue.shift()
 			}

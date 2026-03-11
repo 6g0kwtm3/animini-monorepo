@@ -54,38 +54,36 @@ export function RelatedMediaAddition(props: {
 		props.viewer
 	)
 	const [dateNow] = useState(() => Date.now())
-	return (
-		notification && (
-			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={<A href={route_media({ id: notification.media.id })}></A>}
-				>
-					<ListItemImg>
-						<MediaCover media={notification.media} />
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{(notification.createdAt ?? 0)
-								> (viewer.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
-							)}{" "}
-							{m.recently_added()}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred}
-						>
-							{notification.media.title.userPreferred}
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					{notification.createdAt ? (
-						<ListItemTrailingSupportingText>
-							{format(notification.createdAt - dateNow / 1000)}
-						</ListItemTrailingSupportingText>
-					) : null}
-				</ListItem>
-			</li>
-		)
-	)
+	return notification != null ? (
+		<li className="col-span-full grid grid-cols-subgrid">
+			<ListItem
+				render={<A href={route_media({ id: notification.media.id })}></A>}
+			>
+				<ListItemImg>
+					<MediaCover media={notification.media} />
+				</ListItemImg>
+				<ListItemContent>
+					<ListItemContentTitle>
+						{(notification.createdAt ?? 0)
+							> (viewer.unreadNotificationCount ?? 0) && (
+							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+						)}{" "}
+						{m.recently_added()}
+					</ListItemContentTitle>
+					<ListItemContentSubtitle
+						title={notification.media.title.userPreferred}
+					>
+						{notification.media.title.userPreferred}
+					</ListItemContentSubtitle>
+				</ListItemContent>
+				{notification.createdAt != null ? (
+					<ListItemTrailingSupportingText>
+						{format(notification.createdAt - dateNow / 1000)}
+					</ListItemTrailingSupportingText>
+				) : null}
+			</ListItem>
+		</li>
+	) : null
 }
 
 function format(seconds: number) {

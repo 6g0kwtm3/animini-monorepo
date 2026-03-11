@@ -19,17 +19,18 @@ export function profileTheme(
 		key
 	)
 
-	const color = options.profileColor
-		? {
-				blue: "#3db4f2",
-				purple: "#c063ff",
-				green: "#4cca51",
-				orange: "#ef881a",
-				red: "#e13333",
-				pink: "#fc9dd6",
-				gray: "#677b94",
-			}[options.profileColor]
-		: null
+	const color =
+		options.profileColor != null
+			? {
+					blue: "#3db4f2",
+					purple: "#c063ff",
+					green: "#4cca51",
+					orange: "#ef881a",
+					red: "#e13333",
+					pink: "#fc9dd6",
+					gray: "#677b94",
+				}[options.profileColor]
+			: null
 
-	return color ? getThemeFromHex(color) : null
+	return color != null ? getThemeFromHex(color) : null
 }

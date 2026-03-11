@@ -35,33 +35,29 @@ export function SearchItem({
 		media
 	)
 
-	return (
-		data && (
-			<ListItem
-				{...props}
-				render={
-					<A
-						href={route_media({ id: data.id })}
-						title={data.title.userPreferred}
-					/>
-				}
-			>
-				<ListItemAvatar>
-					<MediaCover media={data} />
-				</ListItemAvatar>
+	return data != null ? (
+		<ListItem
+			{...props}
+			render={
+				<A
+					href={route_media({ id: data.id })}
+					title={data.title.userPreferred}
+				/>
+			}
+		>
+			<ListItemAvatar>
+				<MediaCover media={data} />
+			</ListItemAvatar>
 
-				<ListItemContent>
-					<ListItemContentTitle>
-						{data.title.userPreferred}
-					</ListItemContentTitle>
-				</ListItemContent>
+			<ListItemContent>
+				<ListItemContentTitle>{data.title.userPreferred}</ListItemContentTitle>
+			</ListItemContent>
 
-				{data.type ? (
-					<ListItemTrailingSupportingText>
-						{data.type.toLowerCase()}
-					</ListItemTrailingSupportingText>
-				) : null}
-			</ListItem>
-		)
-	)
+			{data.type != null ? (
+				<ListItemTrailingSupportingText>
+					{data.type.toLowerCase()}
+				</ListItemTrailingSupportingText>
+			) : null}
+		</ListItem>
+	) : null
 }

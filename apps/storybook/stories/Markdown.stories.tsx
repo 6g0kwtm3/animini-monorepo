@@ -27,7 +27,7 @@ function convert(src: string) {
 			const canvas = document.createElement("canvas")
 
 			const ctx = canvas.getContext("2d")
-			if (!ctx) {
+			if (ctx === null) {
 				reject(new Error("Failed to get canvas context"))
 				return
 			}
@@ -46,7 +46,7 @@ const cache = new Map<string, Promise<string>>()
 
 function Image(props: ComponentProps<"img">) {
 	const src = props.src
-	if (!src) return null
+	if (src === undefined || src === "") return null
 	let srcPromise = cache.get(src)
 	if (srcPromise === undefined) {
 		srcPromise = convert(src)

@@ -24,6 +24,14 @@
 		"typescript/no-unnecessary-type-constraint": "error",
 		"typescript/switch-exhaustiveness-check": "error",
 		"typescript/consistent-type-definitions": ["error", "interface"],
+		"typescript/strict-boolean-expressions": [
+			"error",
+			{
+				"allowNullableObject": false,
+				"allowString": false,
+				"allowNumber": false
+			}
+		],
 		"eslint/require-await": "error",
 		"unicorn/no-document-cookie": "off",
 		"unicorn/consistent-existence-index-check": "error",

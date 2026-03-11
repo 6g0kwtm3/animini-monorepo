@@ -48,18 +48,16 @@ export function UserListTabs(props: {
 				All
 			</TabsListItem>
 			{lists?.map((list) => {
-				return (
-					list.name && (
-						<TabsListItem
-							key={list.name}
-							data-key={list.name}
-							id={list.name}
-							render={<A href={`${list.name}?${searchParams}`}></A>}
-						>
-							{list.name}
-						</TabsListItem>
-					)
-				)
+				return list.name != null ? (
+					<TabsListItem
+						key={list.name}
+						data-key={list.name}
+						id={list.name}
+						render={<A href={`${list.name}?${searchParams}`}></A>}
+					>
+						{list.name}
+					</TabsListItem>
+				) : null
 			})}
 		</TabsList>
 	)

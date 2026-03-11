@@ -94,7 +94,7 @@ export default function NavRoute({
 				>
 					Feed
 				</NavigationItem>
-				{rootData?.Viewer ? (
+				{rootData?.Viewer != null ? (
 					<>
 						<NavigationItem
 							href={route_user({ userName: rootData.Viewer.name })}
