@@ -88,55 +88,54 @@ function UserCard(props: { userName: string }) {
 				?? data.User?.isFollowing
 				?? false)
 
-	return (
-		data.User != null ? (
-			<>
-				<div className="-mx-4 -my-2">
-					<List>
-						<ListItem style={precompileStyles({ ...state("none") })}>
-							<ListItemAvatar>
-								{data.User.avatar?.large != null ? (
-									<img
-										src={data.User.avatar.large}
-										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
-										style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
-										loading="lazy"
-										alt=""
-									/>
-								) : null}
-							</ListItemAvatar>
-							<ListItemContent>
-								<ListItemTitle>{props.userName}</ListItemTitle>
-								<ListItemSubtitle>
-									{data.User.isFollower === true ? "Follower" : "Not follower"}
-								</ListItemSubtitle>
-							</ListItemContent>
-						</ListItem>
-					</List>
-				</div>
+	return data.User != null ? (
+		<>
+			<div className="-mx-4 -my-2">
+				<List>
+					<ListItem style={precompileStyles({ ...state("none") })}>
+						<ListItemAvatar>
+							{data.User.avatar?.large != null ? (
+								<img
+									src={data.User.avatar.large}
+									className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
+									style={{ "--bg": `url(${data.User.avatar.medium ?? ""})` }}
+									loading="lazy"
+									alt=""
+								/>
+							) : null}
+						</ListItemAvatar>
+						<ListItemContent>
+							<ListItemTitle>{props.userName}</ListItemTitle>
+							<ListItemSubtitle>
+								{data.User.isFollower === true ? "Follower" : "Not follower"}
+							</ListItemSubtitle>
+						</ListItemContent>
+					</ListItem>
+				</List>
+			</div>
 
-				<TooltipRichActions>
-					{rootData?.Viewer?.name !== undefined && rootData.Viewer.name !== props.userName ? (
-						<follow.Form
-							method="post"
-							action={`/follow/${numberToString(data.User.id)}`}
-						>
-							<input
-								type="hidden"
-								name="isFollowing"
-								value={isFollowing ? "" : "true"}
-								id=""
-							/>
+			<TooltipRichActions>
+				{rootData?.Viewer?.name !== undefined
+				&& rootData.Viewer.name !== props.userName ? (
+					<follow.Form
+						method="post"
+						action={`/follow/${numberToString(data.User.id)}`}
+					>
+						<input
+							type="hidden"
+							name="isFollowing"
+							value={isFollowing ? "" : "true"}
+							id=""
+						/>
 
-							<Button type="submit">
-								{isFollowing ? m.unfollow_button() : m.follow_button()}
-							</Button>
-						</follow.Form>
-					) : null}
-				</TooltipRichActions>
-				{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
+						<Button type="submit">
+							{isFollowing ? m.unfollow_button() : m.follow_button()}
+						</Button>
+					</follow.Form>
+				) : null}
+			</TooltipRichActions>
+			{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 			<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}
-			</>
-		):null
-	)
+		</>
+	) : null
 }

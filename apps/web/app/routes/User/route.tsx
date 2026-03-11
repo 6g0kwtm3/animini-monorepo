@@ -108,7 +108,8 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 									</span>
 								</AppBarTitle>
 								<div className="flex-1" />
-								{data.Viewer?.name != null && data.Viewer.name !== data.user.name ? (
+								{data.Viewer?.name != null
+								&& data.Viewer.name !== data.user.name ? (
 									<follow.Form
 										method="post"
 										action={`/follow/${numberToString(data.user.id)}`}

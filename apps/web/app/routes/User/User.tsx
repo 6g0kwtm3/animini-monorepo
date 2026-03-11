@@ -35,14 +35,14 @@ export function User({ user, ...props }: UserProps): ReactNode {
 		<>
 			<div className="" {...props}>
 				<div className="grid overflow-hidden rounded-xl">
-					{data.bannerImage != null && data.bannerImage !== '' ? (
+					{data.bannerImage != null && data.bannerImage !== "" ? (
 						<img
 							src={data.bannerImage}
 							alt=""
 							className="col-start-1 row-start-1 object-cover"
 						/>
 					) : null}
-					{data.avatar != null && src != null && src !=='' ? (
+					{data.avatar != null && src != null && src !== "" ? (
 						<img
 							src={src}
 							alt=""

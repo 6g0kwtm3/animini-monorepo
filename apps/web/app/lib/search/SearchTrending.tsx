@@ -50,8 +50,8 @@ export function SearchTrending(props: {
 						.filter((el) => el != null)
 						.map((media) => (
 							<SearchViewItem
-								key={media.id} data-key={media.id}
-							
+								key={media.id}
+								data-key={media.id}
 								render={<SearchItem media={media} />}
 							/>
 						))}
