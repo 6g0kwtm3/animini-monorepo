@@ -29,7 +29,7 @@ export function ActivityLike(props: {
 				createdAt
 				activityId
 				context
-				user @required {
+				user @required(action: LOG) {
 					id
 					name
 					avatar {
