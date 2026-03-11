@@ -99,7 +99,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
-				{someNotRead && (
+				{someNotRead ? (
 					<Form method="post">
 						<div className="fixed bottom-24 end-4 sm:bottom-4">
 							<div className="relative">
@@ -121,7 +121,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 							</div>
 						</div>
 					</Form>
-				)}
+				) : null}
 				<Card variant="elevated" className="max-sm:contents">
 					{!data.Page?.notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>

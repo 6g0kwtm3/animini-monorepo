@@ -61,7 +61,7 @@ export function ActivityLike(props: {
 				}
 			>
 				<ListItemImg>
-					{notification.user.avatar?.large && (
+					{notification.user.avatar?.large ? (
 						<img
 							src={notification.user.avatar.large}
 							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
@@ -73,7 +73,7 @@ export function ActivityLike(props: {
 							loading="lazy"
 							alt=""
 						/>
-					)}
+					) : null}
 				</ListItemImg>
 				<ListItemContent
 					style={precompileStyles({
@@ -92,11 +92,11 @@ export function ActivityLike(props: {
 						{notification.user.name}
 					</ListItemContentSubtitle>
 				</ListItemContent>
-				{notification.createdAt && (
+				{notification.createdAt ? (
 					<ListItemTrailingSupportingText>
 						{format(notification.createdAt - dateNow / 1000)}
 					</ListItemTrailingSupportingText>
-				)}
+				) : null}
 			</ListItem>
 		)
 	)

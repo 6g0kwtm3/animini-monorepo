@@ -88,7 +88,7 @@ function UserCard(props: { userName: string }) {
 					<List>
 						<ListItem style={precompileStyles({ ...state("none") })}>
 							<ListItemAvatar>
-								{data.User.avatar?.large && (
+								{data.User.avatar?.large ? (
 									<img
 										src={data.User.avatar.large}
 										className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
@@ -96,7 +96,7 @@ function UserCard(props: { userName: string }) {
 										loading="lazy"
 										alt=""
 									/>
-								)}
+								) : null}
 							</ListItemAvatar>
 							<ListItemContent>
 								<ListItemTitle>{props.userName}</ListItemTitle>
@@ -109,34 +109,33 @@ function UserCard(props: { userName: string }) {
 				</div>
 
 				<TooltipRichActions>
-					{rootData?.Viewer?.name
-						&& rootData.Viewer.name !== props.userName && (
-							<follow.Form
-								method="post"
-								action={`/follow/${numberToString(data.User.id)}`}
-							>
-								<input
-									type="hidden"
-									name="isFollowing"
-									value={
-										(follow.formData?.get("isFollowing")
-										?? follow.data?.ToggleFollow.isFollowing
-										?? data.User.isFollowing)
-											? ""
-											: "true"
-									}
-									id=""
-								/>
-
-								<Button type="submit" aria-disabled={!data.User.id}>
-									{(follow.formData?.get("isFollowing")
+					{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName ? (
+						<follow.Form
+							method="post"
+							action={`/follow/${numberToString(data.User.id)}`}
+						>
+							<input
+								type="hidden"
+								name="isFollowing"
+								value={
+									(follow.formData?.get("isFollowing")
 									?? follow.data?.ToggleFollow.isFollowing
 									?? data.User.isFollowing)
-										? m.unfollow_button()
-										: m.follow_button()}
-								</Button>
-							</follow.Form>
-						)}
+										? ""
+										: "true"
+								}
+								id=""
+							/>
+
+							<Button type="submit" aria-disabled={!data.User.id}>
+								{(follow.formData?.get("isFollowing")
+								?? follow.data?.ToggleFollow.isFollowing
+								?? data.User.isFollowing)
+									? m.unfollow_button()
+									: m.follow_button()}
+							</Button>
+						</follow.Form>
+					) : null}
 				</TooltipRichActions>
 				{/* <TooltipRichSubhead>{props.children}</TooltipRichSubhead>
 			<TooltipRichSupportingText>{props.children}</TooltipRichSupportingText> */}

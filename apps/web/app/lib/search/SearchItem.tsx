@@ -56,11 +56,11 @@ export function SearchItem({
 					</ListItemContentTitle>
 				</ListItemContent>
 
-				{data.type && (
+				{data.type ? (
 					<ListItemTrailingSupportingText>
 						{data.type.toLowerCase()}
 					</ListItemTrailingSupportingText>
-				)}
+				) : null}
 			</ListItem>
 		)
 	)

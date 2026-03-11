@@ -77,11 +77,11 @@ export function RelatedMediaAddition(props: {
 							{notification.media.title.userPreferred}
 						</ListItemContentSubtitle>
 					</ListItemContent>
-					{notification.createdAt && (
+					{notification.createdAt ? (
 						<ListItemTrailingSupportingText>
 							{format(notification.createdAt - dateNow / 1000)}
 						</ListItemTrailingSupportingText>
-					)}
+					) : null}
 				</ListItem>
 			</li>
 		)
