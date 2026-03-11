@@ -29,7 +29,6 @@ import type { Route } from "./+types/route"
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
-import { precompileStyles } from "@anitrove/unstyled"
 
 const { graphql } = ReactRelay
 

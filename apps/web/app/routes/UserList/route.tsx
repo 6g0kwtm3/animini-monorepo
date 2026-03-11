@@ -116,10 +116,7 @@ function Title({ params }: Route.ComponentProps): ReactNode {
 
 export default function Filters(props: Route.ComponentProps): ReactNode {
 	const { loaderData } = props
-	const submit = useSubmit()
 
-	const searchParams = useOptimisticSearchParams()
-	const { pathname } = useLocation()
 	const params = useParams()
 
 	return (
