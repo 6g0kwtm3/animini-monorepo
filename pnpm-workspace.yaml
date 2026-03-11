@@ -29,9 +29,9 @@ catalog:
   '@storybook/addon-themes': 10.2.15
   '@storybook/addon-vitest': 10.2.15
   '@storybook/react-vite': 10.2.15
-  '@stryker-mutator/api': 9.5.1
-  '@stryker-mutator/core': 9.5.1
-  '@stryker-mutator/vitest-runner': 9.5.1
+  '@stryker-mutator/api': 9.6.0
+  '@stryker-mutator/core': 9.6.0
+  '@stryker-mutator/vitest-runner': 9.6.0
   '@svgr/core': 8.1.0
   '@svgr/plugin-jsx': 8.1.0
   '@tailwindcss/typography': 0.5.19
