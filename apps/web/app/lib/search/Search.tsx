@@ -102,7 +102,7 @@ export function Search({
 						name="q"
 					/>
 
-					{media.length > 0 ? (
+					{media.length !== 0 ? (
 						<SearchViewBody>
 							<SearchViewBodyGroup>
 								<Ariakit.ComboboxGroupLabel

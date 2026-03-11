@@ -34,7 +34,7 @@ export function SearchTrending(props: {
 		props.query
 	)
 
-	return data.trending?.media && data.trending.media.length > 0 ? (
+	return data.trending?.media && data.trending.media.length !== 0 ? (
 		<SearchViewBody>
 			<SearchViewBodyGroup>
 				<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>

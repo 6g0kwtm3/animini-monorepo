@@ -165,7 +165,7 @@ function FilterButton() {
 
 	return (
 		<Icon
-			className={`md:hidden${searchParams.size > 0 ? "text-tertiary" : ""}`}
+			className={`md:hidden${searchParams.size !== 0 ? "text-tertiary" : ""}`}
 			tooltip
 			title={"Show list filters"}
 			render={<A href={{ search: `?${filterParams}`, pathname }}></A>}

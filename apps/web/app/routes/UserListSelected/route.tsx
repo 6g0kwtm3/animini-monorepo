@@ -385,13 +385,13 @@ function filterEntries(
 	const format = searchParams.getAll("format")
 	const progresses = searchParams.getAll("progress")
 
-	if (status.length) {
+	if (status.length !== 0) {
 		entries = entries.filter((entry) =>
 			status.includes(entry.media?.status ?? "")
 		)
 	}
 
-	if (format.length) {
+	if (format.length !== 0) {
 		entries = entries.filter((entry) =>
 			format.includes(entry.media?.format ?? "")
 		)
