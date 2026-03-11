@@ -94,7 +94,8 @@ function UserCard(props: { userName: string }) {
 				<List>
 					<ListItem style={precompileStyles({ ...state("none") })}>
 						<ListItemAvatar>
-							{data.User.avatar?.large != null && data.User.avatar?.large !== '' ? (
+							{data.User.avatar?.large != null
+							&& data.User.avatar?.large !== "" ? (
 								<img
 									src={data.User.avatar.large}
 									className="bg-(image:--bg) bg-cover bg-center object-cover object-center"
