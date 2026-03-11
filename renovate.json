@@ -6,7 +6,7 @@
 		"config:best-practices",
 		"config:js-app",
 		":automergeStableNonMajor",
-		"schedule:weekly"
+		"schedule:daily"
 	],
 	"packageRules": [
 		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
