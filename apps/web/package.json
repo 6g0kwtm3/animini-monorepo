@@ -22,9 +22,6 @@
 		"start": "vite preview",
 		"test-e2e": "playwright test"
 	},
-	"imports": {
-		"#lib": "./app/lib"
-	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
 		"maintained node versions"
