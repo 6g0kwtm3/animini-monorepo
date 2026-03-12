@@ -68,9 +68,8 @@
 		"tailwind-variants": "catalog:",
 		"tailwindcss": "catalog:",
 		"unplugin-icons": "catalog:",
-		"vite": "catalog:experimental",
-		"vite-plugin-relay": "catalog:",
-		"vite-tsconfig-paths": "catalog:"
+		"vite": "catalog:",
+		"vite-plugin-relay": "catalog:"
 	},
 	"devDependencies": {
 		"@babel/preset-typescript": "catalog:",
