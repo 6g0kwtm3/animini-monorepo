@@ -1,4 +1,4 @@
-import { LabelId } from "#lib/label"
+import { LabelId } from "~/lib/label"
 import { use, useId, type ComponentProps } from "react"
 
 export function Label(props: Omit<ComponentProps<"label">, "htmlFor">) {

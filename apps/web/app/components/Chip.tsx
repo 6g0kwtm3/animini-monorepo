@@ -1,4 +1,4 @@
-import { LabelId } from "#lib/label"
+import { LabelId } from "~/lib/label"
 import * as Ariakit from "@ariakit/react"
 import {
 	createContext,

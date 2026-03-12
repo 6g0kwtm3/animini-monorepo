@@ -1,4 +1,4 @@
-import { LabelId } from "#lib/label"
+import { LabelId } from "~/lib/label"
 import * as Ariakit from "@ariakit/react"
 import { use, type ComponentProps, type JSX, type ReactNode } from "react"
 import { emptyStringToUndefined } from "~/lib/numberToString"

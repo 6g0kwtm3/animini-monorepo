@@ -7,7 +7,6 @@ import { defineConfig } from "vite"
 import babel from "vite-plugin-babel"
 import inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
-import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
@@ -22,7 +21,6 @@ export default defineConfig({
 
 		reactRouter(),
 
-		tsconfigPaths(),
 		icons({
 			compiler: "jsx",
 			jsx: "react",
