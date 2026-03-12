@@ -22,7 +22,7 @@ catalog:
   '@react-router/node': 7.13.1
   '@sentry/react': 10.42.0
   '@sentry/toolbar': 1.0.0-beta.11
-  '@sentry/vite-plugin': 4.9.1
+  '@sentry/vite-plugin': 5.1.1
   '@storybook/addon-a11y': 10.2.16
   '@storybook/addon-docs': 10.2.16
   '@storybook/addon-onboarding': 10.2.16
