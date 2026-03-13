@@ -17,8 +17,7 @@
 		"eslint": "catalog:",
 		"graphql": "catalog:",
 		"@eslint/core": "*",
-		"typescript": "catalog:",
-		"@types/node": "catalog:"
+		"typescript": "catalog:"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
@@ -29,6 +28,7 @@
 		"eslint-vitest-rule-tester": "catalog:",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:",
-		"vitest": "catalog:"
+		"vitest": "catalog:",
+		"@types/node": "catalog:"
 	}
 }
