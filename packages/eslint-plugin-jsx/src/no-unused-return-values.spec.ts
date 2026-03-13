@@ -1,6 +1,6 @@
 import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
-import path from "path"
+import path from "node:path"
 import { describe, expect, test } from "vitest"
 import { rule } from "./no-unused-return-values"
 

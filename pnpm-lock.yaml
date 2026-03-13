@@ -801,6 +801,9 @@ importers:
       '@eslint/core':
         specifier: '*'
         version: 0.17.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.19.15
       '@typescript-eslint/utils':
         specifier: latest
         version: 8.57.2(eslint@9.39.4(jiti@2.6.1))(typescript@6.0.1-rc)

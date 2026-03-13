@@ -17,7 +17,8 @@
 		"eslint": "catalog:",
 		"graphql": "catalog:",
 		"@eslint/core": "*",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"@types/node": "catalog:"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
