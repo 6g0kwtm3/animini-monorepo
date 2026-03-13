@@ -1,8 +1,7 @@
 import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
-import { describe } from "node:test"
 import path from "path"
-import { expect, test } from "vitest"
+import { describe, expect, test } from "vitest"
 import { rule } from "./no-unused-return-values"
 
 void describe("no-unused-return-values", () => {
