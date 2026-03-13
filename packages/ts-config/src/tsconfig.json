@@ -9,7 +9,7 @@
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
 		"skipLibCheck": true,
-		"target": "ES2025",
+		"target": "ES2024",
 		"allowJs": true,
 		"moduleDetection": "force",
 		"noEmit": true,

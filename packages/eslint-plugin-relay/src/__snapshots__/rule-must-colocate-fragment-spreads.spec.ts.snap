@@ -39,3 +39,43 @@ exports[`reports errors for multiple unused fragment spreads 1`] = `
         graphql\`fragment Test on Page { ...unused1, ...unused2 }\`;
         "
 `;
+
+exports[`rule-must-colocate-fragment-spreads > reports error for unused component fragment 1`] = `
+"
+        import type { MyType } from '../shared/component.js';
+        graphql\`fragment foo on Page {
+          ...component_fragment
+        }\`;
+        "
+`;
+
+exports[`rule-must-colocate-fragment-spreads > reports error for unused fragment spread even with used fragments 1`] = `
+"
+        import { Component } from './used1.js';
+        graphql\`fragment foo on Page { ...used1 ...unused1 }\`;
+        "
+`;
+
+exports[`rule-must-colocate-fragment-spreads > reports error for unused fragment spread in fragment 1`] = `
+"
+        graphql\`fragment foo on Page { ...unused1 }\`;
+        "
+`;
+
+exports[`rule-must-colocate-fragment-spreads > reports error for unused fragment spread in query 1`] = `
+"
+        graphql\`query Root { ...unused1 }\`;
+        "
+`;
+
+exports[`rule-must-colocate-fragment-spreads > reports error for unused fragment spread with relay mask directive 1`] = `
+"
+        graphql\`fragment foo on Page { ...unused1 @relay(mask: true) }\`;
+        "
+`;
+
+exports[`rule-must-colocate-fragment-spreads > reports errors for multiple unused fragment spreads 1`] = `
+"
+        graphql\`fragment Test on Page { ...unused1, ...unused2 }\`;
+        "
+`;
