@@ -6,6 +6,6 @@ import {
 } from "vitest/config"
 
 const config: UserWorkspaceConfig = defineProject({
-	plugins: [codspeedPlugin() as Plugin],
+	plugins: [codspeedPlugin()],
 })
 export default config
