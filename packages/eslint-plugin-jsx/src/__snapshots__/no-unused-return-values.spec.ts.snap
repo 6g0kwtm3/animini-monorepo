@@ -1,5 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`no-unused-return-values > reports error for unused return values 1`] = `
+"
+      declare function foo(): number;
+			foo();
+        "
+`;
+
 exports[`reports error for unused return values 1`] = `
 "
       declare function foo(): number;
