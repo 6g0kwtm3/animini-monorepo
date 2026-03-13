@@ -107,5 +107,3 @@ catalog:
 
 patchedDependencies:
   flubber: patches/flubber.patch
-
-enableGlobalVirtualStore: true
