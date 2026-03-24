@@ -39,5 +39,6 @@ export default defineConfig({
 	preview: { port: 3000 },
 	server: { port: 3000 },
 	build: { sourcemap: true },
+	resolve: { tsconfigPaths: true },
 	envPrefix: ["VITE_", "CF_", "NODE_"],
 })
