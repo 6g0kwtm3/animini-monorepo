@@ -7,7 +7,7 @@ catalog:
   '@ark/attest': 0.56.0
   '@babel/preset-typescript': 7.28.5
   '@chromatic-com/storybook': 5.0.2
-  '@codspeed/vitest-plugin': 4.0.1
+  '@codspeed/vitest-plugin': 5.2.0
   '@eslint/js': 9.39.4
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.5
@@ -102,7 +102,7 @@ catalog:
   vite-plugin-babel: 1.5.1
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
-  vitest: 3.2.4
+  vitest: 4.1.0
   wrangler: 4.76.0
 
 patchedDependencies:

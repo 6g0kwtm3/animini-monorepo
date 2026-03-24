@@ -28,6 +28,7 @@
 		"eslint-vitest-rule-tester": "catalog:",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:",
-		"vitest": "catalog:"
+		"vitest": "catalog:",
+		"@types/node": "catalog:"
 	}
 }

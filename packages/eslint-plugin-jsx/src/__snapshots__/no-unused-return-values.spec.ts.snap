@@ -6,10 +6,3 @@ exports[`no-unused-return-values > reports error for unused return values 1`] = 
 			foo();
         "
 `;
-
-exports[`reports error for unused return values 1`] = `
-"
-      declare function foo(): number;
-			foo();
-        "
-`;
