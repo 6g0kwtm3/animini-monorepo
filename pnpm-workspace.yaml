@@ -107,3 +107,6 @@ catalog:
 
 patchedDependencies:
   flubber: patches/flubber.patch
+
+
+blockExoticSubdeps: true
