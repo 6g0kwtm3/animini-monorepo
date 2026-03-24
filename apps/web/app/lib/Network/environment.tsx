@@ -18,6 +18,7 @@ import { ArkErrors, type } from "arktype"
 
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
+import { RateLimiter } from "./RateLimiter"
 import { withRetry, type WithRetry } from "./withRetry"
 const { ROOT_TYPE } = RelayRuntime
 
@@ -50,7 +51,11 @@ const fetchQuery = async function (
 		headers.set("Authorization", `Bearer ${token}`)
 	}
 
-	const request = await fetch(API_URL, { body: body, method: "POST", headers })
+	const request = await rateLimitedFetch(API_URL, {
+		body: body,
+		method: "POST",
+		headers,
+	})
 
 	const rawRetryAfter = request.headers.get("retry-after")
 	const retryAfter = Number(rawRetryAfter)
@@ -67,71 +72,19 @@ const fetchQuery = async function (
 	return { kind: "Data", data: response }
 }
 
-class RateLimiter {
-	private queue = new Array<() => Promise<void>>()
-
-	private timeout: NodeJS.Timeout | undefined
-
-	constructor(private args: { limit: number; per: Temporal.Duration }) {}
-
-	execute<T>(fn: () => T): Promise<Awaited<T>> {
-		const promise = new Promise<Awaited<T>>((resolve, reject) => {
-			void this.queue.push(async () => {
-				try {
-					resolve(await fn())
-				} catch (error) {
-					reject(error)
-				}
-			})
-		})
-
-		this.run()
-
-		return promise
-	}
-
-	private run() {
-		if (this.timeout !== undefined) {
-			return
-		}
-
-		const start = Temporal.Now.instant()
-
-		const queue = this.queue.splice(0, this.args.limit)
-
-		let fn: (() => Promise<void>) | undefined
-		while ((fn = queue.shift())) {
-			void fn()
-		}
-
-		if (this.queue.length > 0) {
-			const end = Temporal.Now.instant()
-			const elapsed = end.since(start)
-			const remaining = this.args.per.subtract(elapsed)
-
-			this.timeout = setTimeout(() => {
-				this.timeout = undefined
-				this.run()
-			}, remaining.total("milliseconds"))
-		}
-	}
-}
-
 const rateLimiter =
 	typeof document === "undefined"
 		? undefined
 		: new RateLimiter({ limit: 4, per: Temporal.Duration.from({ seconds: 1 }) })
 
+const rateLimitedFetch = rateLimiter
+	? (input: string | URL, init?: RequestInit): Promise<Response> =>
+			rateLimiter.execute(() => fetch(input, init))
+	: fetch
+
 // Create a network layer from the fetch function
 const network = Network.create((...args) =>
-	withRetry(
-		() =>
-			rateLimiter
-				? rateLimiter.execute(() => fetchQuery(...args))
-				: fetchQuery(...args),
-
-		{ maxRetries: 5 }
-	)
+	withRetry(() => fetchQuery(...args), { maxRetries: 5 })
 )
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

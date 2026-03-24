@@ -90,6 +90,7 @@
 		"graphql-config": "catalog:",
 		"msw": "catalog:",
 		"nodemon": "catalog:",
+		"temporal-polyfill-lite": "catalog:",
 		"ts-config": "workspace:*",
 		"tsx": "catalog:",
 		"vite-plugin-babel": "catalog:",

@@ -658,6 +658,9 @@ importers:
       nodemon:
         specifier: 'catalog:'
         version: 3.1.14
+      temporal-polyfill-lite:
+        specifier: 'catalog:'
+        version: 0.3.3
       ts-config:
         specifier: workspace:*
         version: link:../../packages/ts-config
@@ -6354,6 +6357,9 @@ packages:
   tapable@2.3.0:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
+
+  temporal-polyfill-lite@0.3.3:
+    resolution: {integrity: sha512-GscNolr0P/+tVwK2UIsmOGdCPfMXMMdQsvFHERLKn1IUOJEyc8mNXVwFtXkM+n/Z7NEaLrB7Y/lVK3hY8/ioXA==}
 
   temporal-polyfill-lite@0.3.3:
     resolution: {integrity: sha512-GscNolr0P/+tVwK2UIsmOGdCPfMXMMdQsvFHERLKn1IUOJEyc8mNXVwFtXkM+n/Z7NEaLrB7Y/lVK3hY8/ioXA==}
@@ -12293,6 +12299,8 @@ snapshots:
   tailwindcss@4.2.2: {}
 
   tapable@2.3.0: {}
+
+  temporal-polyfill-lite@0.3.3: {}
 
   temporal-polyfill-lite@0.3.3: {}
 
