@@ -29,7 +29,7 @@ export class RateLimiter {
 		if (this.processing) return
 		this.processing = true
 
-		while (this.queue.length > 0) {
+		while (this.queue.length !== 0) {
 			const now = Temporal.Now.instant()
 
 			// Remove timestamps older than window
