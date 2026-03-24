@@ -109,4 +109,5 @@ patchedDependencies:
   flubber: patches/flubber.patch
 
 
+trustPolicy: no-downgrade
 blockExoticSubdeps: true
