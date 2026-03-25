@@ -22,12 +22,9 @@ const {
 	useQueryLoader: useQueryLoader_,
 } = ReactRelay
 
-export const {
-	readInlineData,
-	useFragment,
-	usePreloadedQuery: usePreloadedQuery_,
-	RelayEnvironmentProvider,
-} = ReactRelay
+export const { readInlineData, useFragment, RelayEnvironmentProvider } =
+	ReactRelay
+const { usePreloadedQuery: usePreloadedQuery_ } = ReactRelay
 
 function useQueryLoader<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode

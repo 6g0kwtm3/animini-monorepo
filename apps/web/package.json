@@ -88,7 +88,6 @@
 		"eslint-typegen": "catalog:",
 		"flubber": "catalog:",
 		"graphql-config": "catalog:",
-		"isbot": "catalog:",
 		"msw": "catalog:",
 		"nodemon": "catalog:",
 		"ts-config": "workspace:*",
