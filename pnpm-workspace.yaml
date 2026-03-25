@@ -110,4 +110,7 @@ patchedDependencies:
 
 
 trustPolicy: no-downgrade
+trustPolicyExclude:
+  - 'chokidar@4.0.3'
+  - 'chokidar@4.0.2'
 blockExoticSubdeps: true
