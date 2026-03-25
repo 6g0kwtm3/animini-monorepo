@@ -47,7 +47,7 @@ catalog:
   '@types/react-relay': 18.2.1
   '@types/relay-runtime': 20.1.0
   '@typescript-eslint/parser': 8.57.1
-  '@typescript/native-preview': 7.0.0-dev.20260321.1
+  '@typescript/native-preview': 7.0.0-dev.20260322.1
   anitomy: 0.0.35
   arktype: 2.2.0
   babel-plugin-react-compiler: 1.0.0
@@ -74,7 +74,7 @@ catalog:
   graphql-config: 5.1.6
   hono: 4.12.8
   isbot: 5.1.36
-  knip: 5.86.0
+  knip: 5.88.1
   marked: 0.3.19
   motion: 12.38.0
   msw: 2.12.14
