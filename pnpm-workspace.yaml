@@ -3,7 +3,7 @@ packages:
   - apps/*
 
 catalog:
-  '@ariakit/react': 0.4.23
+  '@ariakit/react': 0.4.24
   '@ark/attest': 0.56.0
   '@babel/preset-typescript': 7.28.5
   '@chromatic-com/storybook': 5.0.2
@@ -114,4 +114,5 @@ trustPolicyExclude:
   - chokidar@4.0.3
   - semver@6.3.1
   - undici-types@6.21.0
+  - ua-parser-js@1.0.40
 blockExoticSubdeps: true
