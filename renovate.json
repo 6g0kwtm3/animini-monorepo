@@ -4,7 +4,7 @@
 	"extends": [
 		"group:allNonMajor",
 		"config:best-practices",
-		"config:js-app",
+		":pinAllExceptPeerDependencies",
 		":automergeStableNonMajor",
 		"schedule:daily"
 	],
