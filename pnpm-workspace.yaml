@@ -110,9 +110,5 @@ patchedDependencies:
 
 
 trustPolicy: no-downgrade
-trustPolicyExclude:
-  - chokidar@4.0.3
-  - semver@6.3.1
-  - undici-types@6.21.0
-  - ua-parser-js@1.0.40
+trustPolicyIgnoreAfter: 4320
 blockExoticSubdeps: true
