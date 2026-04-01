@@ -49,7 +49,8 @@ jobs:
 
       - name: Test E2E
         run: xvfb-run --auto-servernum pnpm -w test-e2e
-
+        env:
+          DISPLAY: ":99.0"
   typecheck:
     runs-on: ubuntu-latest
     name: Typecheck

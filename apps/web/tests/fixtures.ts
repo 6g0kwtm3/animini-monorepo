@@ -73,7 +73,10 @@ export const test = base.extend<Fixtures>({
 		if (isElectron) {
 			const app = await _electron.launch({
 				args: ["."],
-				env: baseURL ? { EXISTING_SERVER_URL: baseURL } : {},
+				env: {
+					...process.env,
+					...(baseURL ? { EXISTING_SERVER_URL: baseURL } : {}),
+				},
 				// env: { HONO_PORT: String(5137 + testInfo.workerIndex) },
 			})
 

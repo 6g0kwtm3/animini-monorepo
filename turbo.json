@@ -11,8 +11,10 @@
 		"GITHUB_REF",
 		"GITHUB_REPOSITORY",
 		"GITHUB_ACTION",
+		// electron:
 		"HONO_PORT",
-		"EXISTING_SERVER_URL"
+		"EXISTING_SERVER_URL",
+		"DISPLAY"
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
