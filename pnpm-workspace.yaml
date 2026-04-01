@@ -1,6 +1,13 @@
 packages:
   - packages/*
   - apps/*
+allowBuilds:
+  '0': electron\
+  '@sentry/cli': false
+  electron: true
+  esbuild: false
+  msw: false
+blockExoticSubdeps: true
 
 catalog:
   '@ariakit/react': 0.4.24
@@ -74,7 +81,7 @@ catalog:
   graphql-config: 5.1.6
   hono: 4.12.8
   isbot: 5.1.36
-  knip: 6.0.6
+  knip: 6.2.0
   marked: 0.3.19
   motion: 12.38.0
   msw: 2.12.14
@@ -93,6 +100,7 @@ catalog:
   storybook: 10.3.1
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.2.2
+  temporal-polyfill-lite: 0.3.3
   tsx: 4.21.0
   turbo: 2.8.0
   typescript: 6.0.1-rc
@@ -104,11 +112,10 @@ catalog:
   vite-plugin-relay: 2.1.0
   vitest: 4.1.0
   wrangler: 4.76.0
+nodeLinker: hoisted
 
 patchedDependencies:
   flubber: patches/flubber.patch
 
-
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 4320
-blockExoticSubdeps: true

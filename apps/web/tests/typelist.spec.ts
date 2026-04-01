@@ -68,7 +68,7 @@ const cookies = [
 	},
 ] satisfies Parameters<BrowserContext["addCookies"]>[0]
 
-test.fixme(true, "fix main page")
+// test.fixme(true, "fix main page")
 
 test.beforeEach(async ({ worker, context }) => {
 	worker.use(...handlers)
@@ -76,10 +76,9 @@ test.beforeEach(async ({ worker, context }) => {
 })
 
 test.describe("fullscreen", () => {
-	test("anime list", async ({ page, isMobile }) => {
-		test.skip(isMobile)
+	test("anime list", async ({ page, isMobile, isElectron }) => {
+		test.skip(isMobile || isElectron)
 
-		await page.goto("/")
 		await page.keyboard.press("Control+.")
 		const indexPage = await FeedPage.new(page)
 		// when
@@ -88,20 +87,19 @@ test.describe("fullscreen", () => {
 		await TypelistPage.new(page)
 	})
 
-	test("manga list", async ({ page, isMobile }) => {
-		test.skip(isMobile)
-		await page.goto("/")
+	test("manga list", async ({ page, isMobile, isElectron }) => {
+		test.skip(isMobile || isElectron)
+
 		await page.keyboard.press("Control+.")
 		const indexPage = await FeedPage.new(page)
 		// when
-		await indexPage.nav.profile.click()
+		await indexPage.nav.mangaList.click()
 		// then
 		await TypelistPage.new(page)
 	})
 })
 
 test("anime list", async ({ page }) => {
-	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
@@ -113,7 +111,6 @@ test("anime list", async ({ page }) => {
 })
 
 test("manga list", async ({ page }) => {
-	await page.goto("/")
 	await page.keyboard.press("Control+.")
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()

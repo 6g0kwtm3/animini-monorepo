@@ -1,5 +1,5 @@
 import ReactRelay from "react-relay"
-
+import "temporal-polyfill-lite/global"
 import {
 	ListItem,
 	ListItemContent,

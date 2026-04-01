@@ -1,5 +1,3 @@
-import type { MetaFunction } from "react-router"
-
 import { ErrorBoundary } from "@sentry/react"
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
@@ -69,6 +67,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<LayoutBody>
 			<LayoutPane>
+				<title>Feed</title>
 				<ul className="flex flex-col gap-2">
 					{data.Page?.activities
 						?.filter((el) => el != null)
@@ -149,7 +148,3 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 		</LayoutBody>
 	)
 }
-
-export const meta = (() => {
-	return [{ title: "Feed" }]
-}) satisfies MetaFunction

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://turbo.build/schema.json",
-	"envMode": "strict",
+	"envMode": "loose",
 	"globalPassThroughEnv": [
 		"DEV",
 		"CF_PAGES_BRANCH",
@@ -10,7 +10,11 @@
 		"PLAYWRIGHT_BROWSERS_PATH",
 		"GITHUB_REF",
 		"GITHUB_REPOSITORY",
-		"GITHUB_ACTION"
+		"GITHUB_ACTION",
+		// electron:
+		"HONO_PORT",
+		"EXISTING_SERVER_URL",
+		"DISPLAY"
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
@@ -33,7 +37,7 @@
 		"//#oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},
-		"test-e2e": {},
+		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] },
 		"//#test": {},
 		"bench": { "cache": false, "passThroughEnv": ["CODSPEED_*"] },
 		"//#format": {},

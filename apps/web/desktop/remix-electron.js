@@ -89,7 +89,7 @@ export async function initRemix({
 		)
 	})
 
-	const port = 5137
+	const port = Number(process.env.HONO_PORT) || 5137
 
 	await new Promise((resolve) =>
 		serve({ fetch: server.fetch, port }, () => {

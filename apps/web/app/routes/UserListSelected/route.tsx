@@ -128,18 +128,6 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	}
 }
 
-export const meta = (({ params }) => {
-	return [
-		{
-			title:
-				params.userName
-				&& (params.typelist === "animelist"
-					? `${params.userName}'s anime list`
-					: `${params.userName}'s manga list`),
-		},
-	]
-}) satisfies MetaFunction<typeof clientLoader>
-
 const UserSetStatus = graphql`
 	mutation routeUserSetStatusMutation(
 		$mediaId: Int!
@@ -415,12 +403,22 @@ const Params = type({
 	typelist: '"animelist"|"mangalist"',
 })
 
-export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
+export default function Page({
+	loaderData,
+	params,
+}: Route.ComponentProps): ReactNode {
 	const data = loaderData
 	const [search] = useSearchParams()
 
 	return (
 		<ExtraOutlets>
+			{params.userName ? (
+				<title>
+					{params.typelist === "animelist"
+						? `${params.userName}'s anime list`
+						: `${params.userName}'s manga list`}
+				</title>
+			) : null}
 			<MediaListHeader>
 				<MediaListHeaderItem subtitle={m.to_watch()}>
 					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
