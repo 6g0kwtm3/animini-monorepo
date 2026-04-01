@@ -37,7 +37,7 @@
 		"//#oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},
-		"test-e2e": {},
+		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] },
 		"//#test": {},
 		"bench": { "cache": false, "passThroughEnv": ["CODSPEED_*"] },
 		"//#format": {},
