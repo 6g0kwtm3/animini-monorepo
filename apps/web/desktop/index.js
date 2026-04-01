@@ -1,20 +1,26 @@
 import path, { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { app, BrowserWindow, dialog } from "electron"
+import { app, BrowserWindow } from "electron"
 import { RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
 
-export {}
+export { }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-/** @type {BrowserWindow | undefined} */
-let win
+/** @type {string | undefined} */
+let url
 
-/** @param {string} url */
-async function createWindow(url) {
-	win = new BrowserWindow({ show: false })
+async function createWindow() {
+	const win = new BrowserWindow({ show: false })
+
+	url ??=
+		process.env.EXISTING_SERVER_URL
+		?? (await initRemix({
+			serverBuild: path.join(__dirname, "../build/server/index.js"),
+			getLoadContext: () => new RouterContextProvider(),
+		}))
 	await win.loadURL(url)
 	win.show()
 
@@ -23,34 +29,26 @@ async function createWindow(url) {
 	}
 }
 
-void app.on("ready", () => {
-	void (async () => {
-		try {
-			if (process.env.NODE_ENV === "development") {
-				const { default: installExtension, REACT_DEVELOPER_TOOLS } =
-					await import("electron-devtools-installer")
+void app.whenReady().then(async () => {
+	if (process.env.NODE_ENV === "development") {
+		const { default: installExtension, REACT_DEVELOPER_TOOLS } =
+			await import("electron-devtools-installer")
 
-				if (typeof installExtension == "function")
-					await installExtension(REACT_DEVELOPER_TOOLS)
-			}
+		if (typeof installExtension == "function")
+			await installExtension(REACT_DEVELOPER_TOOLS)
+	}
 
-			const url =
-				process.env.EXISTING_SERVER_URL
-				?? (await initRemix({
-					serverBuild: path.join(__dirname, "../build/server/index.js"),
-					getLoadContext: () => new RouterContextProvider(),
-				}))
-			await createWindow(url)
-		} catch (error) {
-			// dialog.showErrorBox("Error", getErrorStack(error))
-			console.error(error)
+	void createWindow()
+
+	void app.on("activate", () => {
+		if (BrowserWindow.getAllWindows().length === 0) {
+			void createWindow()
 		}
-	})()
+	})
 })
 
-/** @param {unknown} error */
-function getErrorStack(error) {
-	return error instanceof Error
-		? ((error.stack === "" ? undefined : error.stack) ?? error.message)
-		: String(error)
-}
+void app.on("window-all-closed", () => {
+	if (process.platform !== "darwin") {
+		app.quit()
+	}
+})
