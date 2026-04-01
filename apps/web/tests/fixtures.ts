@@ -1,7 +1,8 @@
 import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
-import base from "@playwright/test"
+import base, { type ElectronApplication } from "@playwright/test"
 
 import { addMocksToSchema } from "@graphql-tools/mock"
+import { _electron } from "@playwright/test"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { graphql, http, HttpResponse, type AnyHandler } from "msw"
@@ -38,9 +39,13 @@ export const SuccessHandler = graphql.operation<object>(async (args) => {
 	)
 })
 
-interface Fixtures {
+interface Options {
+	isElectron: boolean
+}
+export interface Fixtures extends Options {
 	handlers: AnyHandler[]
 	worker: NetworkFixture
+	electron: ElectronApplication | null
 }
 
 export const test = base.extend<Fixtures>({
@@ -61,4 +66,43 @@ export const test = base.extend<Fixtures>({
 		},
 		{ auto: true },
 	],
+
+	isElectron: [false, { option: true }],
+
+	async electron({ baseURL, isElectron }, provide) {
+		if (isElectron) {
+			const app = await _electron.launch({
+				args: ["."],
+				env: baseURL ? { EXISTING_SERVER_URL: baseURL } : {},
+				// env: { HONO_PORT: String(5137 + testInfo.workerIndex) },
+			})
+
+			await provide(app)
+			await app.close()
+			return
+		}
+		await provide(null)
+	},
+
+	async context({ context, electron }, provide) {
+		if (electron == null) {
+			await provide(context)
+			return
+		}
+		await provide(electron.context())
+	},
+
+	async page({ context, electron }, provide) {
+		if (electron == null) {
+			const page = await context.newPage()
+			await page.goto("/")
+			await provide(page)
+			await page.close()
+			return
+		}
+
+		const page = await electron.firstWindow()
+		await provide(page)
+		await page.close()
+	},
 })

@@ -44,8 +44,11 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Install xvfb 📦
+        run: apt install -y xvfb
+
       - name: Test E2E
-        run: pnpm -w test-e2e
+        run: xvfb-run --auto-servernum pnpm -w test-e2e
 
   typecheck:
     runs-on: ubuntu-latest

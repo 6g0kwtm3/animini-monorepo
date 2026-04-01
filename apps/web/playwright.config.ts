@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test"
 import dotenv from "dotenv"
+import type { Fixtures } from "./tests/fixtures"
 void dotenv.config()
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -11,7 +11,7 @@ void dotenv.config()
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<Fixtures>({
 	testDir: "./tests",
 	timeout: 60000,
 	expect: { timeout: 10000 },
@@ -50,6 +50,8 @@ export default defineConfig({
 		//   name: 'webkit',
 		//   use: { ...devices['Desktop Safari'] },
 		// },
+
+		{ name: "electron", use: { isElectron: true } },
 
 		/* Test against mobile viewports. */
 		{

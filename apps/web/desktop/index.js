@@ -34,13 +34,15 @@ void app.on("ready", () => {
 					await installExtension(REACT_DEVELOPER_TOOLS)
 			}
 
-			const url = await initRemix({
-				serverBuild: path.join(__dirname, "../build/server/index.js"),
-				getLoadContext: () => new RouterContextProvider(),
-			})
+			const url =
+				process.env.EXISTING_SERVER_URL
+				?? (await initRemix({
+					serverBuild: path.join(__dirname, "../build/server/index.js"),
+					getLoadContext: () => new RouterContextProvider(),
+				}))
 			await createWindow(url)
 		} catch (error) {
-			dialog.showErrorBox("Error", getErrorStack(error))
+			// dialog.showErrorBox("Error", getErrorStack(error))
 			console.error(error)
 		}
 	})()

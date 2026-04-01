@@ -10,7 +10,9 @@
 		"PLAYWRIGHT_BROWSERS_PATH",
 		"GITHUB_REF",
 		"GITHUB_REPOSITORY",
-		"GITHUB_ACTION"
+		"GITHUB_ACTION",
+		"HONO_PORT",
+		"EXISTING_SERVER_URL"
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },

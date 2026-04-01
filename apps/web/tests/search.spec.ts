@@ -64,7 +64,7 @@ test.fixme(true, "fix main page")
 
 test("when search, ArrowDown should change focus", async ({ page, worker }) => {
 	worker.use(...handlers)
-	await page.goto("/")
+
 	await page.keyboard.press("Control+.")
 	await expect(page.getByTestId("hydrated")).toBeVisible()
 	await page.keyboard.press("Control+k")
@@ -79,7 +79,7 @@ test("when search, ArrowDown should change focus", async ({ page, worker }) => {
 
 test("search", async ({ page, worker }) => {
 	worker.use(...handlers)
-	await page.goto("/")
+
 	await page.keyboard.press("Control+.")
 	await expect(page.getByTestId("hydrated")).toBeVisible()
 	await page.keyboard.press("Control+k")

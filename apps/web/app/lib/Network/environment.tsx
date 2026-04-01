@@ -10,7 +10,7 @@ import RelayRuntime, {
 	type Variables,
 } from "relay-runtime"
 import { JsonToToken } from "../viewer"
-
+import "temporal-polyfill-lite/global"
 import { GraphQLResponse } from "./schema"
 
 import { addBreadcrumb } from "@sentry/react"
