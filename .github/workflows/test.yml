@@ -54,8 +54,9 @@ jobs:
         run: sudo apt install -y xvfb
 
       - name: Test E2E
-        run: ${{ matrix.os == 'ubuntu-latest' && 'sudo xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e
+        run: ${{ matrix.os == 'ubuntu-latest' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e
         env:
+          NO_SANDBOX: 1
           DISPLAY: ":99.0"
 
       - name: Upload Playwright report

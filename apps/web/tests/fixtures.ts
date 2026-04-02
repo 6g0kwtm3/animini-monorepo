@@ -71,8 +71,12 @@ export const test = base.extend<Fixtures>({
 
 	async electron({ baseURL, isElectron }, provide) {
 		if (isElectron) {
+			const args = ["."]
+			if (process.env.NO_SANDBOX) {
+				void args.push("--no-sandbox")
+			}
 			const app = await _electron.launch({
-				args: ["."],
+				args: args,
 				env: {
 					...process.env,
 					...(baseURL ? { EXISTING_SERVER_URL: baseURL } : {}),
