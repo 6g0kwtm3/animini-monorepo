@@ -24,9 +24,11 @@ concurrency:
 jobs:
   test-e2e:
     name: Test E2E
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.58.2-jammy@sha256:4698a73749c5848d3f5fcd42a2174d172fcad2b2283e087843b115424303a565
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -44,19 +46,24 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Install playwright 📦
+        run: pnpm --filter=web exec playwright install --with-deps
+
       - name: Install xvfb 📦
-        run: apt install -y xvfb
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt install -y xvfb
 
       - name: Test E2E
-        run: xvfb-run --auto-servernum pnpm -w test-e2e
+        run: ${{ matrix.os == 'ubuntu-latest' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e
         env:
+          ELECTRON_DISABLE_SANDBOX: 1
           DISPLAY: ":99.0"
 
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.os }}
           path: |
             apps/web/playwright-report/
             apps/web/test-results/
