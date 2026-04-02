@@ -1,12 +1,5 @@
 import { defineConfig, devices } from "@playwright/test"
-import dotenv from "dotenv"
 import type { Fixtures } from "./tests/fixtures"
-void dotenv.config()
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
