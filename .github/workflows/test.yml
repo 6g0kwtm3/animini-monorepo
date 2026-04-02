@@ -24,7 +24,9 @@ concurrency:
 jobs:
   test-e2e:
     name: Test E2E
-    runs-on: [ubuntu-latest, macos-latest]
+    matrix:
+      os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
         with:
