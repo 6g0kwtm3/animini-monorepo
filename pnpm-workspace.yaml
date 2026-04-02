@@ -15,7 +15,7 @@ catalog:
   '@babel/preset-typescript': 7.28.5
   '@chromatic-com/storybook': 5.0.2
   '@codspeed/vitest-plugin': 5.2.0
-  '@eslint/js': 9.39.4
+  '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.5
   '@hono/node-server': 1.19.11
@@ -65,7 +65,7 @@ catalog:
   dotenv: 17.3.1
   electron: 35.7.5
   electron-devtools-installer: 4.0.0
-  eslint: 9.39.4
+  eslint: 10.1.0
   eslint-plugin-oxlint: 1.56.0
   eslint-plugin-perfectionist: 5.7.0
   eslint-plugin-pnpm: 1.6.0
