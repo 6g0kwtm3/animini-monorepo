@@ -7,7 +7,6 @@ allowBuilds:
   electron: true
   esbuild: false
   msw: false
-blockExoticSubdeps: true
 
 catalog:
   '@ariakit/react': 0.4.24
@@ -117,5 +116,6 @@ nodeLinker: hoisted
 patchedDependencies:
   flubber: patches/flubber.patch
 
-trustPolicy: no-downgrade
-trustPolicyIgnoreAfter: 4320
+blockExoticSubdeps: true
+# trustPolicy: no-downgrade
+# trustPolicyIgnoreAfter: 4320
