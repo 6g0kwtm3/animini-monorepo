@@ -162,9 +162,6 @@ catalogs:
     dompurify:
       specifier: 3.2.5
       version: 3.2.5
-    dotenv:
-      specifier: 17.3.1
-      version: 17.3.1
     electron:
       specifier: 41.1.0
       version: 41.1.0
@@ -633,9 +630,6 @@ importers:
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
-      dotenv:
-        specifier: 'catalog:'
-        version: 17.3.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.4(jiti@2.6.1)
@@ -4291,10 +4285,6 @@ packages:
 
   dotenv@16.5.0:
     resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
-    engines: {node: '>=12'}
-
-  dotenv@17.3.1:
-    resolution: {integrity: sha512-IO8C/dzEb6O3F9/twg6ZLXz164a2fhTnEWb95H23Dm4OuN+92NmEAlTrupP9VW6Jm3sO26tQlqyvyi4CsnY9GA==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -9039,18 +9029,6 @@ snapshots:
       - supports-color
       - typescript
 
-  '@svgr/core@8.1.0(typescript@6.0.1-rc)':
-    dependencies:
-      '@babel/core': 7.29.0
-      '@svgr/babel-preset': 8.1.0(@babel/core@7.29.0)
-      camelcase: 6.3.0
-      cosmiconfig: 8.3.6(typescript@6.0.1-rc)
-      snake-case: 3.0.4
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    optional: true
-
   '@svgr/hast-util-to-babel-ast@8.0.0':
     dependencies:
       '@babel/types': 7.29.0
@@ -9982,16 +9960,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  cosmiconfig@8.3.6(typescript@6.0.1-rc):
-    dependencies:
-      import-fresh: 3.3.1
-      js-yaml: 4.1.1
-      parse-json: 5.2.0
-      path-type: 4.0.0
-    optionalDependencies:
-      typescript: 6.0.1-rc
-    optional: true
-
   cross-env@10.1.0:
     dependencies:
       '@epic-web/invariant': 1.0.0
@@ -10130,8 +10098,6 @@ snapshots:
   dotenv@16.0.3: {}
 
   dotenv@16.5.0: {}
-
-  dotenv@17.3.1: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -12634,7 +12600,7 @@ snapshots:
       obug: 2.1.1
       unplugin: 2.3.11
     optionalDependencies:
-      '@svgr/core': 8.1.0(typescript@6.0.1-rc)
+      '@svgr/core': 8.1.0(typescript@5.9.3)
 
   unplugin-utils@0.3.0:
     dependencies:

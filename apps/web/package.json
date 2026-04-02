@@ -81,7 +81,6 @@
 		"@types/flubber": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
 		"cross-env": "catalog:",
-		"dotenv": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
 		"eslint-config-react": "workspace:*",
