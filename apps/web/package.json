@@ -97,6 +97,6 @@
 		"vite-plugin-inspect": "catalog:"
 	},
 	"overrides": {
-		"react-router-dom": "npm:react-router-dom@7.13.1"
+		"react-router-dom": "npm:react-router-dom@7.13.2"
 	}
 }
