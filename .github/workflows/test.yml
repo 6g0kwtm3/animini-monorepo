@@ -56,7 +56,7 @@ jobs:
       - name: Test E2E
         run: ${{ matrix.os == 'ubuntu-latest' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e
         env:
-          NO_SANDBOX: 1
+          ELECTRON_DISABLE_SANDBOX: 1
           DISPLAY: ":99.0"
 
       - name: Upload Playwright report

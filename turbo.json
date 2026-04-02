@@ -14,7 +14,7 @@
 		// electron:
 		"HONO_PORT",
 		"EXISTING_SERVER_URL",
-		"NO_SANDBOX",
+		"ELECTRON_DISABLE_SANDBOX",
 		"DISPLAY"
 	],
 	"tasks": {
