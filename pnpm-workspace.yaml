@@ -62,7 +62,7 @@ catalog:
   csstype: 3.2.3
   dompurify: 3.2.5
   dotenv: 17.3.1
-  electron: 40.8.5
+  electron: 41.1.0
   electron-devtools-installer: 4.0.0
   eslint: 9.39.4
   eslint-plugin-oxlint: 1.56.0
@@ -117,5 +117,3 @@ patchedDependencies:
   flubber: patches/flubber.patch
 
 blockExoticSubdeps: true
-# trustPolicy: no-downgrade
-# trustPolicyIgnoreAfter: 4320
