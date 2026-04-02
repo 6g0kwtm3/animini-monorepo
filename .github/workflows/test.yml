@@ -47,7 +47,7 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Install playwright 📦
-        run: pnpm exec playwright install --with-deps
+        run: pnpm --filter=web exec playwright install --with-deps
 
       - name: Install xvfb 📦
         if: matrix.os == 'ubuntu-latest'
