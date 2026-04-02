@@ -29,5 +29,6 @@
 		"marked",
 		// TODO: update
 		"dompurify"
-	]
+	],
+	"toolSettings": { "nodeMaxMemory": 1024 }
 }
