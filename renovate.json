@@ -6,7 +6,8 @@
 		"config:best-practices",
 		":pinAllExceptPeerDependencies",
 		":automergeStableNonMajor",
-		"schedule:daily"
+		"schedule:daily",
+		":separateMultipleMajorReleases"
 	],
 	"packageRules": [
 		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
