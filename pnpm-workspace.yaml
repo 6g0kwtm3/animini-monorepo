@@ -116,3 +116,6 @@ patchedDependencies:
   flubber: patches/flubber.patch
 
 blockExoticSubdeps: true
+# trustPolicy: no-downgrade
+# trustPolicyIgnoreAfter: 4320
+dedupePeers: true
