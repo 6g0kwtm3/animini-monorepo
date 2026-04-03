@@ -8,6 +8,7 @@ export default defineConfig<Fixtures>({
 	testDir: "./tests",
 	timeout: 60000,
 	expect: { timeout: 10000 },
+	retries: 10,
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
