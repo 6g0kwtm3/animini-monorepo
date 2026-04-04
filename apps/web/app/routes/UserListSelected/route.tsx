@@ -412,10 +412,9 @@ function Title({ params }: Route.ComponentProps): ReactNode {
 		</>
 	)
 }
-export default function Page({
-	loaderData,
-	params,
-}: Route.ComponentProps): ReactNode {
+
+export default function Page(props: Route.ComponentProps): ReactNode {
+	const { loaderData, params } = props
 	const data = loaderData
 	const [search] = useSearchParams()
 
