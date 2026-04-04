@@ -7,6 +7,10 @@ allowBuilds:
   electron: true
   esbuild: false
   msw: false
+  sharp: false
+  workerd: false
+
+blockExoticSubdeps: true
 
 catalog:
   '@ariakit/react': 0.4.24
@@ -22,7 +26,7 @@ catalog:
   '@inlang/paraglide-js': 2.15.1
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.6
-  '@playwright/test': 1.59.0
+  '@playwright/test': 1.59.1
   '@prettier/plugin-oxc': 0.1.3
   '@react-router/dev': 7.14.0
   '@react-router/node': 7.14.0
@@ -110,12 +114,10 @@ catalog:
   vite-plugin-relay: 2.1.0
   vitest: 4.1.2
   wrangler: 4.79.0
+# trustPolicy: no-downgrade
+# trustPolicyIgnoreAfter: 4320
+dedupePeers: true
 nodeLinker: hoisted
 
 patchedDependencies:
   flubber: patches/flubber.patch
-
-blockExoticSubdeps: true
-# trustPolicy: no-downgrade
-# trustPolicyIgnoreAfter: 4320
-dedupePeers: true
