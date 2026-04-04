@@ -3,10 +3,7 @@ import { utilities } from "@anitrove/design"
 import { precompileStyles, useStyles } from "@anitrove/unstyled"
 import { Role, type RoleProps } from "@ariakit/react"
 import type { ComponentProps } from "react"
-import {
-  useLocation,
-  useResolvedPath
-} from "react-router"
+import { useLocation, useResolvedPath } from "react-router"
 
 export function Breadcrumb(props: RoleProps<"nav">) {
 	const [className, jsx] = useStyles(
