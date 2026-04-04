@@ -594,9 +594,6 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.2.2
-      temporal-polyfill-lite:
-        specifier: 'catalog:'
-        version: 0.3.3
       unplugin-icons:
         specifier: 'catalog:'
         version: 23.0.1(@svgr/core@8.1.0)
@@ -658,6 +655,9 @@ importers:
       nodemon:
         specifier: 'catalog:'
         version: 3.1.14
+      temporal-polyfill-lite:
+        specifier: 'catalog:'
+        version: 0.3.3
       ts-config:
         specifier: workspace:*
         version: link:../../packages/ts-config

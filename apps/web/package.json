@@ -67,7 +67,6 @@
 		"relay-runtime": "catalog:",
 		"tailwind-variants": "catalog:",
 		"tailwindcss": "catalog:",
-		"temporal-polyfill-lite": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-relay": "catalog:"
