@@ -1,3 +1,11 @@
+import { LayoutBody, LayoutPane } from "~/components/Layout"
+
 export default function NotFound() {
-	return <p>Not found</p>
+	return (
+		<LayoutBody>
+			<LayoutPane>
+				<p>Not found</p>
+			</LayoutPane>
+		</LayoutBody>
+	)
 }
