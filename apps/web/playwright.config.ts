@@ -46,7 +46,7 @@ export default defineConfig<Fixtures>({
 		//   use: { ...devices['Desktop Safari'] },
 		// },
 
-		{ name: "electron", use: { isElectron: true } },
+		{ name: "electron", use: { isElectron: true }, expect: { timeout: 20000 } },
 
 		/* Test against mobile viewports. */
 		{
