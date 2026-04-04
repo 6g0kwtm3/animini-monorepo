@@ -110,18 +110,22 @@ void describe("RateLimiter", () => {
 
 			const results: number[] = []
 			const promises = [
-				limiter.execute(() => {
-					return Promise.reject(new Error("First error"))
-				}),
-				limiter.execute(() => Promise.resolve(results.push(1))),
-				limiter.execute(() => Promise.resolve(results.push(2))),
+				expect(
+					limiter.execute(() => {
+						return Promise.reject(new Error("First error"))
+					})
+				).rejects.toThrow("First error"),
+				expect(
+					limiter.execute(() => Promise.resolve(results.push(1)))
+				).resolves.toBe(1),
+				expect(
+					limiter.execute(() => Promise.resolve(results.push(2)))
+				).resolves.toBe(2),
 			]
 
 			await vi.runAllTimersAsync()
 
-			await expect(promises[0]).rejects.toThrow("First error")
-			await expect(promises[1]).resolves.toBe(1)
-			await expect(promises[2]).resolves.toBe(2)
+			await Promise.all(promises)
 			expect(results).toEqual([1, 2])
 		})
 	})
