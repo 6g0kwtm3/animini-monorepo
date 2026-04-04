@@ -97,10 +97,9 @@ export const test = base.extend<Fixtures>({
 
 	async page({ context, electron }, provide) {
 		if (electron == null) {
-			const page = await context.newPage()
+			await using page = await context.newPage()
 			await page.goto("/")
 			await provide(page)
-			await page.close()
 			return
 		}
 
