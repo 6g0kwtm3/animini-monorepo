@@ -94,7 +94,8 @@
 		"ts-config": "workspace:*",
 		"tsx": "catalog:",
 		"vite-plugin-babel": "catalog:",
-		"vite-plugin-inspect": "catalog:"
+		"vite-plugin-inspect": "catalog:",
+		"vitest": "catalog:"
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.14.0"
