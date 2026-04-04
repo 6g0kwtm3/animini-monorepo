@@ -51,7 +51,8 @@ import type {
 
 import { captureException } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
-import { ExtraOutlets } from "extra-outlet"
+import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
+import { BreadcrumbItem } from "~/components/Breadcrumb"
 import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { invariant } from "~/lib/invariant"
@@ -403,6 +404,14 @@ const Params = type({
 	typelist: '"animelist"|"mangalist"',
 })
 
+function Title({ params }: Route.ComponentProps): ReactNode {
+	return (
+		<>
+			<BreadcrumbItem href=".">{params.selected}</BreadcrumbItem>
+			<ExtraOutlet id="title" />
+		</>
+	)
+}
 export default function Page({
 	loaderData,
 	params,
@@ -411,7 +420,7 @@ export default function Page({
 	const [search] = useSearchParams()
 
 	return (
-		<ExtraOutlets>
+		<ExtraOutlets title={<Title {...props} />}>
 			{params.userName ? (
 				<title>
 					{params.typelist === "animelist"
