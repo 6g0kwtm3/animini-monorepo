@@ -5,7 +5,7 @@
 	"version": "0.0.0",
 	"sideEffects": false,
 	"type": "module",
-	"main": "desktop/index.js",
+	"main": "app/entry.desktop.js",
 	"scripts": {
 		"build": "cross-env NODE_ENV=production react-router build",
 		"check": "tsgo --noEmit",

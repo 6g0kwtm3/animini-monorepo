@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url"
 
 import { app, BrowserWindow } from "electron"
 import { RouterContextProvider } from "react-router"
-import { initRemix } from "./remix-electron.js"
+import { initRemix } from "../desktop/remix-electron.js"
 
 export {}
 
