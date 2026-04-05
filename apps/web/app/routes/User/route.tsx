@@ -59,12 +59,13 @@ import { button } from "~/lib/button"
 import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 import { A } from "@anitrove/a"
+import * as design from "@anitrove/design"
+import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import { data as json } from "react-router"
+import { Breadcrumb, BreadcrumbItem } from "~/components/Breadcrumb"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"
 import { numberToString } from "~/lib/numberToString"
-import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
-import * as design from "@anitrove/design"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
@@ -100,10 +101,10 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 						<div className="sticky top-0 z-50">
 							<AppBar variant="large" className="sm:bg-surface-container-low">
 								<AppBarTitle>
-									<span>
-										<A href="..">{data.user.name}</A>
+									<Breadcrumb>
+										<BreadcrumbItem href=".">{data.user.name}</BreadcrumbItem>
 										<ExtraOutlet id="title" />
-									</span>
+									</Breadcrumb>
 								</AppBarTitle>
 								<div className="flex-1" />
 								{data.Viewer?.name && data.Viewer.name !== data.user.name ? (

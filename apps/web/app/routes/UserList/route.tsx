@@ -43,7 +43,7 @@ import { A } from "@anitrove/a"
 import { precompileStyles } from "@anitrove/unstyled"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
-import { ExtraOutlets } from "extra-outlet"
+import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
 import { Label } from "~/components/Label"
 import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
@@ -68,6 +68,7 @@ function useOptimisticLocation() {
 }
 
 import ReactRelay from "react-relay"
+import { BreadcrumbItem } from "~/components/Breadcrumb"
 const { graphql } = ReactRelay
 
 const UserListTabsQuery = graphql`
@@ -108,8 +109,10 @@ function Actions(_props: Route.ComponentProps): ReactNode {
 function Title({ params }: Route.ComponentProps): ReactNode {
 	return (
 		<>
-			{" | "}
-			{params.typelist === "animelist" ? "Anime list" : "Manga list"}
+			<BreadcrumbItem href=".">
+				{params.typelist === "animelist" ? "Anime list" : "Manga list"}
+			</BreadcrumbItem>
+			<ExtraOutlet id="title" />
 		</>
 	)
 }
