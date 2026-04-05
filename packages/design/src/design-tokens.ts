@@ -10,7 +10,10 @@ export const borderRadius = {
 	md: "0.75rem",
 	DEFAULT: "0.75rem",
 	lg: "1rem",
+	lgIncreased: "1.25rem",
 	xl: "1.75rem",
+	xlIncreased: "2rem",
+	xxl: "3rem",
 	full: "9999px",
 	inherit: "inherit",
 } as const satisfies Record<string, Properties["borderRadius"]>
