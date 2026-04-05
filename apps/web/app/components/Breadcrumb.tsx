@@ -6,17 +6,23 @@ import { Role, type RoleProps } from "@ariakit/react"
 import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
 
+const breadcrumbStyles = precompileStyles({ ...utilities.lineClamp(1) })
 export function Breadcrumb(props: RoleProps<"nav">) {
 	return (
 		<Role.nav aria-label="Breadcrumb" {...props}>
 			<Box
 				render={<Role.ol>{props.children}</Role.ol>}
-				style={precompileStyles({ ...utilities.lineClamp(1) })}
+				style={breadcrumbStyles}
 			></Box>
 		</Role.nav>
 	)
 }
 
+const breadcrumbItemStyles = precompileStyles({
+	...utilities.marginX({ "&:before": "0.25rem" }),
+	display: "inline-block",
+	content: { "&:first-child": { "&::before": "''" }, "&::before": "'/'" },
+})
 export function BreadcrumbItem(props: ComponentProps<typeof A>) {
 	const { pathname } = useResolvedPath(props.href, { relative: props.relative })
 
@@ -32,11 +38,7 @@ export function BreadcrumbItem(props: ComponentProps<typeof A>) {
 					></A>
 				</Role.li>
 			}
-			style={precompileStyles({
-				...utilities.marginX({ "&:before": "0.25rem" }),
-				display: "inline-block",
-				content: { "&:first-child": { "&::before": "''" }, "&::before": "'/'" },
-			})}
+			style={breadcrumbItemStyles}
 		></Box>
 	)
 }
