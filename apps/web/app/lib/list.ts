@@ -4,20 +4,16 @@ export const classGroups = { list: ["list-one", "list-two", "list-three"] }
 
 export const list = plugin((ctx) => {
 	ctx.addComponents({
-		".list": {
-			"& .list-item-avatar": {
-				"@apply h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full": {},
-			},
+		".list-item-avatar": {
+			"@apply h-10 w-10 overflow-hidden rounded-full *:h-full *:w-full": {},
+		},
 
-			"& .list-item-icon": { "@apply i": {} },
+		".list-item-icon": { "@apply i": {} },
 
-			"& .list-item-title": {
-				"@apply text-body-lg text-on-surface truncate": {},
-			},
+		".list-item-title": { "@apply text-body-lg text-on-surface truncate": {} },
 
-			"& .list-item-trailing-supporting-text": {
-				"@apply text-label-sm text-on-surface-variant text-end": {},
-			},
+		".list-item-trailing-supporting-text": {
+			"@apply text-label-sm text-on-surface-variant text-end": {},
 		},
 	})
 })
