@@ -15,11 +15,13 @@
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
+		"@ariakit/react": "catalog:",
 		"@types/react": "catalog:",
-		"react": "catalog:",
-		"csstype": "catalog:"
+		"csstype": "catalog:",
+		"react": "catalog:"
 	},
 	"devDependencies": {
+		"@ariakit/react": "catalog:",
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
