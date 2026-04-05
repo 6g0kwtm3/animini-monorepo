@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config"
 
 export default defineConfig({
 	test: {
-		projects: ["apps/storybook", "packages/*"],
+		projects: ["apps/*", "packages/*"],
 		globalSetup: "./vitest.setup.ts",
 	},
 })

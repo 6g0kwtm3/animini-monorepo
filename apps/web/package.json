@@ -67,7 +67,6 @@
 		"relay-runtime": "catalog:",
 		"tailwind-variants": "catalog:",
 		"tailwindcss": "catalog:",
-		"temporal-polyfill-lite": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-relay": "catalog:"
@@ -90,10 +89,12 @@
 		"graphql-config": "catalog:",
 		"msw": "catalog:",
 		"nodemon": "catalog:",
+		"temporal-polyfill-lite": "catalog:",
 		"ts-config": "workspace:*",
 		"tsx": "catalog:",
 		"vite-plugin-babel": "catalog:",
-		"vite-plugin-inspect": "catalog:"
+		"vite-plugin-inspect": "catalog:",
+		"vitest": "catalog:"
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.14.0"

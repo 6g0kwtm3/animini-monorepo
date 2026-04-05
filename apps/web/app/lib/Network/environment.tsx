@@ -18,6 +18,7 @@ import { ArkErrors, type } from "arktype"
 
 import { invariant } from "../invariant"
 import { isString } from "../Predicate"
+import { RateLimiter } from "./RateLimiter"
 import { withRetry, type WithRetry } from "./withRetry"
 const { ROOT_TYPE } = RelayRuntime
 
@@ -50,7 +51,11 @@ const fetchQuery = async function (
 		headers.set("Authorization", `Bearer ${token}`)
 	}
 
-	const request = await fetch(API_URL, { body: body, method: "POST", headers })
+	const request = await rateLimitedFetch(API_URL, {
+		body: body,
+		method: "POST",
+		headers,
+	})
 
 	const rawRetryAfter = request.headers.get("retry-after")
 	const retryAfter = Number(rawRetryAfter)
@@ -66,6 +71,16 @@ const fetchQuery = async function (
 
 	return { kind: "Data", data: response }
 }
+
+const rateLimiter =
+	typeof document === "undefined"
+		? undefined
+		: new RateLimiter({ limit: 4, per: Temporal.Duration.from({ seconds: 1 }) })
+
+const rateLimitedFetch = rateLimiter
+	? (input: string | URL, init?: RequestInit): Promise<Response> =>
+			rateLimiter.execute(() => fetch(input, init))
+	: fetch
 
 // Create a network layer from the fetch function
 const network = Network.create((...args) =>
