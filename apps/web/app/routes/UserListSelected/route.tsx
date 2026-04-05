@@ -407,7 +407,9 @@ const Params = type({
 function Title({ params }: Route.ComponentProps): ReactNode {
 	return (
 		<>
-			{params.selected ? <BreadcrumbItem href=".">{params.selected}</BreadcrumbItem> : null}
+			{params.selected ? (
+				<BreadcrumbItem href=".">{params.selected}</BreadcrumbItem>
+			) : null}
 			<ExtraOutlet id="title" />
 		</>
 	)
