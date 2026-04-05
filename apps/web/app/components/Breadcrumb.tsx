@@ -1,7 +1,7 @@
 import { A } from "@anitrove/a"
 import { utilities } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
-import { Box, } from "@anitrove/unstyled/box"
+import { Box } from "@anitrove/unstyled/box"
 import { Role, type RoleProps } from "@ariakit/react"
 import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
