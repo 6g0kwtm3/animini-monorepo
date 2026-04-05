@@ -1,42 +1,42 @@
 import { A } from "@anitrove/a"
 import { utilities } from "@anitrove/design"
-import { precompileStyles, useStyles } from "@anitrove/unstyled"
+import { precompileStyles } from "@anitrove/unstyled"
+import { Box, } from "@anitrove/unstyled/box"
 import { Role, type RoleProps } from "@ariakit/react"
 import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
 
 export function Breadcrumb(props: RoleProps<"nav">) {
-	const [className, jsx] = useStyles(
-		precompileStyles({ ...utilities.lineClamp(1) })
-	)
 	return (
 		<Role.nav aria-label="Breadcrumb" {...props}>
-			<Role.ol className={className}>{props.children}</Role.ol>
-			{jsx}
+			<Box
+				render={<Role.ol>{props.children}</Role.ol>}
+				style={precompileStyles({ ...utilities.lineClamp(1) })}
+			></Box>
 		</Role.nav>
 	)
 }
 
 export function BreadcrumbItem(props: ComponentProps<typeof A>) {
-	const [className, jsx] = useStyles(
-		precompileStyles({
-			...utilities.marginX({ "&:before": "0.25rem" }),
-			display: "inline-block",
-			content: { "&:first-child": { "&::before": "''" }, "&::before": "'/'" },
-		})
-	)
-
 	const { pathname } = useResolvedPath(props.href, { relative: props.relative })
 
 	const location = useLocation()
 
 	return (
-		<Role.li className={className}>
-			<A
-				aria-current={pathname === location.pathname ? "page" : undefined}
-				{...props}
-			></A>
-			{jsx}
-		</Role.li>
+		<Box
+			render={
+				<Role.li>
+					<A
+						aria-current={pathname === location.pathname ? "page" : undefined}
+						{...props}
+					></A>
+				</Role.li>
+			}
+			style={precompileStyles({
+				...utilities.marginX({ "&:before": "0.25rem" }),
+				display: "inline-block",
+				content: { "&:first-child": { "&::before": "''" }, "&::before": "'/'" },
+			})}
+		></Box>
 	)
 }
