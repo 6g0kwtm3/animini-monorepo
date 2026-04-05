@@ -34,7 +34,7 @@ jobs:
             project: electron
           - os: windows-latest
             project: electron
-    container: ${{ matrix.os == 'electron' || 'mcr.microsoft.com/playwright:v1.59.1-jammy' }}
+    container: ${{ matrix.project == 'electron' || 'mcr.microsoft.com/playwright:v1.59.1-jammy' }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
