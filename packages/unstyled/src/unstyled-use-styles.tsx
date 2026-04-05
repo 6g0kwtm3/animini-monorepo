@@ -2,6 +2,9 @@ import { useMemo, type ReactNode } from "react"
 import { invariant, numberToString } from "utilities"
 import { print, type PreCompiledStyles } from "./unstyled-print"
 
+/**
+ * @internal
+ */
 export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 	return useMemo(() => {
 		const styles = print(rawStyle)

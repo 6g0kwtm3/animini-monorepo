@@ -23,6 +23,7 @@ export const media = {
 	dark: "@media (prefers-color-scheme: dark)",
 	motionSafe: "@media (prefers-reduced-motion: no-preference)",
 	hover: "&:hover",
+	focusWithin: "&:focus-within, & :focus-visible, & [data-focus-visible]",
 	"focus-visible": "&:focus-visible, &[data-focus-visible]",
 	active: "&:active, &[data-active]",
 	disabled: '&:disabled, &[aria-disabled="true"]',

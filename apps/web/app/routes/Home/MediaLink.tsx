@@ -19,7 +19,10 @@ import { route_media } from "~/lib/route"
 import { MediaCover } from "~/lib/entry/MediaCover"
 
 import { A } from "@anitrove/a"
-import { mergeStyles, precompileStyles, useStyles } from "@anitrove/unstyled"
+import * as design from "@anitrove/design"
+import { utilities } from "@anitrove/design"
+import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
+import { Box } from "@anitrove/unstyled/box"
 import type { MediaLinkCardQuery } from "~/gql/MediaLinkCardQuery.graphql"
 const { graphql } = ReactRelay
 
@@ -66,35 +69,46 @@ function MediaCard(props: { mediaId: number; type: string }) {
 		{ id: props.mediaId }
 	).Media
 
-	const [className, jsx] = useStyles(
-		mergeStyles(media?.coverImage?.theme ?? undefined)
-	)
-
 	return (
 		media && (
-			<>
-				<Card
-					className={`not-prose contrast-standard theme-light contrast-more:contrast-high dark:theme-dark inline-flex overflow-hidden p-0 text-start ${className}`}
-					render={<span />}
-				>
-					<List style={precompileStyles({ padding: "0" })} render={<span />}>
-						<ListItem render={<span />}>
-							<ListItemImg render={<span></span>}>
-								<MediaCover media={media} />
-							</ListItemImg>
-							<ListItemContent render={<span></span>}>
-								<ListItemTitle render={<span />}>
-									{media.title?.userPreferred}
-								</ListItemTitle>
-								<ListItemSubtitle render={<span />}>
-									{props.type}
-								</ListItemSubtitle>
-							</ListItemContent>
-						</ListItem>
-					</List>
-				</Card>
-				{jsx}
-			</>
+			<Box
+				style={mergeStyles(
+					media.coverImage?.theme ?? undefined,
+					precompileStyles({
+						...utilities.theme({
+							default: "light",
+							[design.media.dark]: "dark",
+						}),
+						...utilities.contrast({
+							default: "standard",
+							[design.media.contrastMore]: "high",
+						}),
+						display: "inline-flex",
+						overflow: "hidden",
+						padding: 0,
+						textAlign: "start",
+					})
+				)}
+				render={
+					<Card className={`not-prose`} render={<span />}>
+						<List style={precompileStyles({ padding: "0" })} render={<span />}>
+							<ListItem render={<span />}>
+								<ListItemImg render={<span></span>}>
+									<MediaCover media={media} />
+								</ListItemImg>
+								<ListItemContent render={<span></span>}>
+									<ListItemTitle render={<span />}>
+										{media.title?.userPreferred}
+									</ListItemTitle>
+									<ListItemSubtitle render={<span />}>
+										{props.type}
+									</ListItemSubtitle>
+								</ListItemContent>
+							</ListItem>
+						</List>
+					</Card>
+				}
+			></Box>
 		)
 	)
 }

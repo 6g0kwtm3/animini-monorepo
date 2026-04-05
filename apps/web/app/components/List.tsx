@@ -5,14 +5,13 @@ import {
 	cva,
 	defineCva,
 	mergeStyles,
-	useStyles,
 	type CvaProps,
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
+import { Box } from "@anitrove/unstyled/box"
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
-
 const listItemDefinition = defineCva({
 	base: {
 		...design.state({
@@ -30,6 +29,7 @@ const listItemDefinition = defineCva({
 			"&:last-child": `${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
 			[design.media.hover]: design.tokens.borderRadius.md,
 			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
+			[design.media.focusWithin]: design.tokens.borderRadius.lg,
 			[design.media.active]: design.tokens.borderRadius.lg,
 		},
 		transitionProperty: { [design.media.motionSafe]: "border-radius" },
@@ -57,14 +57,11 @@ interface ListItemProps extends Omit<
 
 export function ListItem({ style, ...props }: ListItemProps) {
 	const lines = use(Lines)
-	const [className, jsx] = useStyles(
-		mergeStyles(listItem.style, listItem.variants({ lines }), style)
-	)
 	return (
-		<>
-			<Ariakit.Role.li {...props} className={className}></Ariakit.Role.li>
-			{jsx}
-		</>
+		<Box
+			render={<Ariakit.Role.li {...props} />}
+			style={mergeStyles(listItem.style, listItem.variants({ lines }), style)}
+		/>
 	)
 }
 
@@ -119,18 +116,15 @@ export function ListItemContent({
 	...props
 }: ListItemContentProps): ReactNode {
 	const lines = use(Lines)
-	const [className, jsx] = useStyles(
-		mergeStyles(
-			liteItemContent.style,
-			liteItemContent.variants({ lines }),
-			style
-		)
-	)
 	return (
-		<>
-			<Ariakit.Role.div {...props} className={className}></Ariakit.Role.div>
-			{jsx}
-		</>
+		<Box
+			{...props}
+			style={mergeStyles(
+				liteItemContent.style,
+				liteItemContent.variants({ lines }),
+				style
+			)}
+		/>
 	)
 }
 
@@ -163,18 +157,15 @@ export function ListItemContentSubtitle({
 	...props
 }: ListItemContentSubtitleProps): ReactNode {
 	const lines = use(Lines)
-	const [className, jsx] = useStyles(
-		mergeStyles(
-			listItemSubtitle.style,
-			listItemSubtitle.variants({ lines }),
-			style
-		)
-	)
 	return (
-		<>
-			<Ariakit.Role.div {...props} className={className}></Ariakit.Role.div>
-			{jsx}
-		</>
+		<Box
+			{...props}
+			style={mergeStyles(
+				listItemSubtitle.style,
+				listItemSubtitle.variants({ lines }),
+				style
+			)}
+		/>
 	)
 }
 
@@ -201,14 +192,15 @@ interface ListItemImgProps extends Omit<
 
 export function ListItemImg({ style, ...props }: ListItemImgProps): ReactNode {
 	const lines = use(Lines)
-	const [className, jsx] = useStyles(
-		mergeStyles(listItemImg.style, listItemImg.variants({ lines }), style)
-	)
 	return (
-		<>
-			<Ariakit.Role.div {...props} className={className}></Ariakit.Role.div>
-			{jsx}
-		</>
+		<Box
+			{...props}
+			style={mergeStyles(
+				listItemImg.style,
+				listItemImg.variants({ lines }),
+				style
+			)}
+		/>
 	)
 }
 
@@ -289,17 +281,12 @@ const Lines = createContext<ListProps["lines"]>(undefined)
 Lines.displayName = "Lines"
 
 export function List({ style, lines, ...props }: ListProps): ReactNode {
-	const [className, jsx] = useStyles(
-		mergeStyles(list.style, list.variants({ lines }), style)
-	)
-
 	return (
 		<Lines value={lines}>
-			<Ariakit.Role.ul
-				{...props}
-				className={`${className} list`}
-			></Ariakit.Role.ul>
-			{jsx}
+			<Box
+				render={<Ariakit.Role.ul {...props} />}
+				style={mergeStyles(list.style, list.variants({ lines }), style)}
+			/>
 		</Lines>
 	)
 }

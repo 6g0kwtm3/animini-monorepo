@@ -6,7 +6,8 @@
 	"type": "module",
 	"exports": {
 		".": "./src/unstyled.ts",
-		"./value": "./src/unstyled-value.ts"
+		"./value": "./src/unstyled-value.ts",
+		"./box": "./src/unstyled-box.tsx"
 	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
@@ -15,11 +16,13 @@
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
+		"@ariakit/react": "catalog:",
 		"@types/react": "catalog:",
-		"react": "catalog:",
-		"csstype": "catalog:"
+		"csstype": "catalog:",
+		"react": "catalog:"
 	},
 	"devDependencies": {
+		"@ariakit/react": "catalog:",
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",

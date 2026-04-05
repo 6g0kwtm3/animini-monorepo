@@ -5,11 +5,10 @@ import {
 	cva,
 	defineCva,
 	mergeStyles,
-	useStyles,
 	type CvaProps,
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
-
+import { Box } from "@anitrove/unstyled/box"
 const layoutDefinition = defineCva({
 	base: { isolation: "isolate" },
 	variants: { navigation: { none: {}, bar: {}, rail: {}, drawer: {} } },
@@ -72,13 +71,10 @@ export function Layout({ style, navigation, ...props }: LayoutProps) {
 		body: mergeStyles(body.style, body.variants({ navigation })),
 	}
 
-	const [className, jsx] = useStyles(mergeStyles(styles.layout, style))
-
 	return (
 		<LayoutNavigationContext value={navigation}>
 			<LayoutContext value={styles}>
-				<div {...props} className={className}></div>
-				{jsx}
+				<Box {...props} style={mergeStyles(styles.layout, style)}></Box>
 			</LayoutContext>
 		</LayoutNavigationContext>
 	)
@@ -93,13 +89,9 @@ interface LayoutBodyProps extends Omit<
 
 export function LayoutBody({ style, ...props }: LayoutBodyProps): ReactNode {
 	const styles = use(LayoutContext)
-	const [className, jsx] = useStyles(mergeStyles(styles.body, style))
 
 	return (
-		<>
-			<main {...props} className={className} />
-			{jsx}
-		</>
+		<Box render={<main {...props} />} style={mergeStyles(styles.body, style)} />
 	)
 }
 
@@ -138,17 +130,14 @@ export function LayoutPane({
 }: LayoutPaneProps): ReactNode {
 	const navigation = use(LayoutNavigationContext)
 
-	const [className, jsx] = useStyles(
-		mergeStyles(pane.style, pane.variants({ navigation, variant }), style)
-	)
-
 	return (
-		<>
-			<Ariakit.Role.section
-				{...props}
-				className={className}
-			></Ariakit.Role.section>
-			{jsx}
-		</>
+		<Box
+			render={<Ariakit.Role.section {...props}></Ariakit.Role.section>}
+			style={mergeStyles(
+				pane.style,
+				pane.variants({ navigation, variant }),
+				style
+			)}
+		></Box>
 	)
 }
