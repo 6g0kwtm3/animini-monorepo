@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { fn } from "storybook/test"
 
-import { useStyles } from "@anitrove/unstyled"
+import { Box, } from "@anitrove/unstyled/box"
 import { button } from "m3-react/button"
 import type { ComponentProps } from "react"
 
@@ -19,21 +19,21 @@ declare module "react" {
 }
 
 function Button({ size, shape, color, ...props }: ButtonProps) {
-	const [style, children] = useStyles(button.style)
 	return (
-		<>
-			<button
-				type="button"
-				{...props}
-				className={style}
-				style={{
-					"--size": size && `var(--size-${size})`,
-					"--color": color && `var(--color-${color})`,
-					"--shape": shape && `var(--shape-${shape})`,
-				}}
-			></button>
-			{children}
-		</>
+		<Box
+			render={
+				<button
+					type="button"
+					{...props}
+					style={{
+						"--size": size && `var(--size-${size})`,
+						"--color": color && `var(--color-${color})`,
+						"--shape": shape && `var(--shape-${shape})`,
+					}}
+				></button>
+			}
+			style={button.style}
+		></Box>
 	)
 }
 
