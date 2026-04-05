@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        project: [web-*, electron]
+        project: [web, electron]
         include:
           - os: macos-latest
             project: electron
@@ -62,7 +62,7 @@ jobs:
         run: sudo apt install -y xvfb
 
       - name: Test E2E
-        run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e -- --project=${{ matrix.project }}
+        run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e -- --project=${{ matrix.project }}*
         env:
           ELECTRON_DISABLE_SANDBOX: 1
           DISPLAY: ":99.0"
