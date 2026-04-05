@@ -2,17 +2,16 @@ import { createContext, use, type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
 import {
-	Box,
 	cva,
 	defineCva,
 	mergeStyles,
 	type CvaProps,
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
+import { Box } from "@anitrove/unstyled/box"
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
-
 const listItemDefinition = defineCva({
 	base: {
 		...design.state({

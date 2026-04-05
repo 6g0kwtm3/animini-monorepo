@@ -6,7 +6,8 @@
 	"type": "module",
 	"exports": {
 		".": "./src/unstyled.ts",
-		"./value": "./src/unstyled-value.ts"
+		"./value": "./src/unstyled-value.ts",
+		"./box": "./src/unstyled-box.tsx"
 	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",

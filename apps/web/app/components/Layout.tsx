@@ -2,15 +2,13 @@ import { createContext, use, type ComponentProps, type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
 import {
-	Box,
 	cva,
 	defineCva,
 	mergeStyles,
-	useStyles,
 	type CvaProps,
-	type PreCompiledStyles,
+	type PreCompiledStyles
 } from "@anitrove/unstyled"
-
+import { Box, } from "@anitrove/unstyled/box"
 const layoutDefinition = defineCva({
 	base: { isolation: "isolate" },
 	variants: { navigation: { none: {}, bar: {}, rail: {}, drawer: {} } },
