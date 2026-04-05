@@ -24,7 +24,6 @@ export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 	}, [rawStyle])
 }
 
-
 /*
 Copyright 2022 Andrea Griffini
 
