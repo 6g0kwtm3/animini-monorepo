@@ -61,6 +61,7 @@ export default await typegen([
 			"@typescript-eslint/triple-slash-reference": "off",
 			"@typescript-eslint/only-throw-error": "off",
 			"@typescript-eslint/no-floating-promises": "error",
+			"@typescript-eslint/no-empty-object-type": "off",
 		},
 	})),
 	{
@@ -89,7 +90,6 @@ export default await typegen([
 	// "@typescript-eslint/explicit-module-boundary-types": "warn",
 	// "@typescript-eslint/method-signature-style": ["error", "property"],
 	// "@typescript-eslint/no-explicit-any": "off",
-	// "@typescript-eslint/no-empty-object-type": "off",
 	// 	},
 	// },
 
