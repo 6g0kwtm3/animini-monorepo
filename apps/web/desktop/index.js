@@ -1,7 +1,7 @@
 import path, { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { app, BrowserWindow } from "electron"
+import { app, BrowserWindow, session } from "electron"
 import { RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
 
@@ -13,7 +13,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 let url
 
 async function createWindow() {
-	const win = new BrowserWindow({ show: false })
+	const mainSession = session.fromPartition("persist:")
+	const win = new BrowserWindow({
+		show: false,
+		webPreferences: { session: mainSession },
+	})
 
 	url ??=
 		process.env.EXISTING_SERVER_URL
