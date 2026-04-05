@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { fn } from "storybook/test"
 
-import { Box, } from "@anitrove/unstyled/box"
+import { Box } from "@anitrove/unstyled/box"
 import { button } from "m3-react/button"
 import type { ComponentProps } from "react"
 
