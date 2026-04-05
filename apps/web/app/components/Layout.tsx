@@ -6,9 +6,9 @@ import {
 	defineCva,
 	mergeStyles,
 	type CvaProps,
-	type PreCompiledStyles
+	type PreCompiledStyles,
 } from "@anitrove/unstyled"
-import { Box, } from "@anitrove/unstyled/box"
+import { Box } from "@anitrove/unstyled/box"
 const layoutDefinition = defineCva({
 	base: { isolation: "isolate" },
 	variants: { navigation: { none: {}, bar: {}, rail: {}, drawer: {} } },
