@@ -50,12 +50,12 @@ export default defineConfig<Fixtures>({
 
 		/* Test against mobile viewports. */
 		{
-			name: "mobile-chrome",
+			name: "web-mobile-chrome",
 			use: { ...devices["Pixel 5"] },
 			// dependencies: ["setup"],
 		},
 		{
-			name: "mobile-webkit",
+			name: "web-mobile-webkit",
 			use: { ...devices["iPhone 12"] },
 			// dependencies: ["setup"],
 		},
