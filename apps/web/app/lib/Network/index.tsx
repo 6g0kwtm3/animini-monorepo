@@ -56,9 +56,12 @@ export const loadQueryMiddleware: Route.MiddlewareFunction = (
 	next
 ) => {
 	context.set(loadQuery, (query, ...args) => {
+		const signal = context.get(onAbortNavigationSignal)
+		if (signal.aborted) {
+			throw signal.reason
+		}
 		const queryRef = loadQuery_(environment, query, ...args)
-
-		context.get(onAbortNavigationSignal).addEventListener(
+		signal.addEventListener(
 			"abort",
 			() => {
 				queryRef.dispose()
