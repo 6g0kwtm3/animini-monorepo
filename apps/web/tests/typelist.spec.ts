@@ -2,6 +2,7 @@ import { type BrowserContext, type Locator, type Page } from "@playwright/test"
 import { graphql, HttpResponse } from "msw"
 
 import { type } from "arktype"
+import "temporal-polyfill-lite/global"
 import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
@@ -60,9 +61,7 @@ const cookies = [
 			)
 		),
 		sameSite: "Lax",
-		expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-		// node doesn't support Temporal
-		// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
+		expires: Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
 		path: "/",
 		domain: "localhost",
 	},
