@@ -25,6 +25,7 @@ import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
+import { Box } from "@anitrove/unstyled/box"
 import { Badge } from "~/components/Badge"
 import { precompileStyles } from "@anitrove/unstyled"
 import type {
