@@ -61,7 +61,7 @@ export function MediaListItem(props: {
 				<Box style={precompileStyles({ position: "relative" })}>
 					<ListItemImg>
 						<Skeleton full>
-							<MediaCover media={data} />
+							{entry?.media ? <MediaCover media={entry.media} /> : null}
 						</Skeleton>
 					</ListItemImg>
 					{entry?.private ? (
