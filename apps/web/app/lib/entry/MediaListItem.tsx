@@ -20,10 +20,13 @@ import { formatWatch } from "./ToWatch"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
+import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off"
 import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
+import { Box } from "@anitrove/unstyled/box"
+import { Badge } from "~/components/Badge"
 import { precompileStyles } from "@anitrove/unstyled"
 import type {
 	MediaListItemSubtitle_entry$key,
@@ -42,6 +45,7 @@ const MediaListItem_entry = graphql`
 		...ProgressIncrement_entry
 		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
+		private
 		media {
 			id
 			...MediaCover_media
@@ -57,11 +61,18 @@ export function MediaListItem(props: {
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
 			<ListItem render={<div />}>
-				<ListItemImg>
-					<Skeleton full>
-						{entry?.media ? <MediaCover media={entry.media} /> : null}
-					</Skeleton>
-				</ListItemImg>
+				<Box style={precompileStyles({ position: "relative" })}>
+					<ListItemImg>
+						<Skeleton full>
+							{entry?.media ? <MediaCover media={entry.media} /> : null}
+						</Skeleton>
+					</ListItemImg>
+					{entry?.private ? (
+						<Badge>
+							<MaterialSymbolsVisibilityOff></MaterialSymbolsVisibilityOff>
+						</Badge>
+					) : null}
+				</Box>
 				<ListItemContent
 					render={
 						<A
