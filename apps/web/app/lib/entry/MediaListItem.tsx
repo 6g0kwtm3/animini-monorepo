@@ -24,6 +24,7 @@ import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
+import { Badge } from "~/components/Badge"
 import { precompileStyles } from "@anitrove/unstyled"
 import type {
 	MediaListItemSubtitle_entry$key,
@@ -57,11 +58,18 @@ export function MediaListItem(props: {
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
 			<ListItem render={<div />}>
-				<ListItemImg>
-					<Skeleton full>
-						{entry?.media ? <MediaCover media={entry.media} /> : null}
-					</Skeleton>
-				</ListItemImg>
+				<Box style={precompileStyles({ position: "relative" })}>
+					<ListItemImg>
+						<Skeleton full>
+							<MediaCover media={data} />
+						</Skeleton>
+					</ListItemImg>
+					{entry?.private ? (
+						<Badge>
+							<MaterialSymbolsVisibilityOff></MaterialSymbolsVisibilityOff>
+						</Badge>
+					) : null}
+				</Box>
 				<ListItemContent
 					render={
 						<A
