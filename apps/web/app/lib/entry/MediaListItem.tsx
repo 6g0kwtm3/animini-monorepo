@@ -43,6 +43,7 @@ const MediaListItem_entry = graphql`
 		...ProgressIncrement_entry
 		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
+		private
 		media {
 			id
 			...MediaCover_media
