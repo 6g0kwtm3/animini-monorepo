@@ -20,6 +20,7 @@ import { formatWatch } from "./ToWatch"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
+import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off"
 import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
