@@ -24,10 +24,15 @@ import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off
 import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
+import { media, utilities } from "@anitrove/design"
+import {
+	mergeStyles,
+	precompileStyles,
+	type PreCompiledStyles,
+} from "@anitrove/unstyled"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import { Box } from "@anitrove/unstyled/box"
 import { Badge } from "~/components/Badge"
-import { precompileStyles } from "@anitrove/unstyled"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
@@ -49,18 +54,47 @@ const MediaListItem_entry = graphql`
 		media {
 			id
 			...MediaCover_media
+			coverImage {
+				theme
+			}
 		}
 	}
 `
 
-export function MediaListItem(props: {
-	entry: MediaListItem_entry$key | null
+export function MediaListItem({
+	entry: entryKey,
+	...props
+}: {
+	entry: MediaListItem_entry$key | null | undefined
+	style?: PreCompiledStyles
 }): ReactNode {
-	const entry = useFragment(MediaListItem_entry, props.entry)
+	const entry = useFragment(MediaListItem_entry, entryKey)
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem render={<div />}>
+			<ListItem
+				data-testid="media-list-item"
+				style={mergeStyles(
+					entry?.media?.coverImage?.theme ?? undefined,
+					precompileStyles({
+						gridColumn: "1 / -1",
+						display: "grid",
+						gridTemplateColumns: "subgrid",
+						...utilities.theme({
+							[media.hover]: { default: "light", [media.dark]: "dark" },
+							[media.focusWithin]: { default: "light", [media.dark]: "dark" },
+						}),
+						...utilities.contrast({
+							[media.hover]: { default: "standard", [media.dark]: "high" },
+							[media.focusWithin]: {
+								default: "standard",
+								[media.dark]: "high",
+							},
+						}),
+					}),
+					props.style
+				)}
+			>
 				<Box style={precompileStyles({ position: "relative" })}>
 					<ListItemImg>
 						<Skeleton full>
