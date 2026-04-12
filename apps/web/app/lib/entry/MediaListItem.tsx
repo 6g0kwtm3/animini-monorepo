@@ -25,10 +25,14 @@ import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
 import { media, utilities } from "@anitrove/design"
+import {
+	mergeStyles,
+	precompileStyles,
+	type PreCompiledStyles,
+} from "@anitrove/unstyled"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import { Box } from "@anitrove/unstyled/box"
 import { Badge } from "~/components/Badge"
-import { precompileStyles } from "@anitrove/unstyled"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
@@ -57,6 +61,7 @@ const MediaListItem_entry = graphql`
 	}
 `
 
+	style?: PreCompiledStyles
 export function MediaListItem(props: {
 	entry: MediaListItem_entry$key | null
 }): ReactNode {
