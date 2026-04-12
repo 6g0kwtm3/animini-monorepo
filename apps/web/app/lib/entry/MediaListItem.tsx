@@ -24,6 +24,7 @@ import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off
 import { ProgressIncrement } from "./Progress"
 
 import { A } from "@anitrove/a"
+import { media, utilities } from "@anitrove/design"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import { Box } from "@anitrove/unstyled/box"
 import { Badge } from "~/components/Badge"
