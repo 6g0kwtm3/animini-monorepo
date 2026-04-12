@@ -61,11 +61,14 @@ const MediaListItem_entry = graphql`
 	}
 `
 
+export function MediaListItem({
+	entry: entryKey,
+	...props
+}: {
+	entry: MediaListItem_entry$key | null | undefined
 	style?: PreCompiledStyles
-export function MediaListItem(props: {
-	entry: MediaListItem_entry$key | null
 }): ReactNode {
-	const entry = useFragment(MediaListItem_entry, props.entry)
+	const entry = useFragment(MediaListItem_entry, entryKey)
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
