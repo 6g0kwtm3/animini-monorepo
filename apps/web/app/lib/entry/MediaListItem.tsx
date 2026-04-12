@@ -66,7 +66,7 @@ export function MediaListItem(props: {
 			<ListItem
 				data-testid="media-list-item"
 				style={mergeStyles(
-					data?.coverImage?.theme ?? undefined,
+					entry?.media?.coverImage?.theme ?? undefined,
 					precompileStyles({
 						gridColumn: "1 / -1",
 						display: "grid",
