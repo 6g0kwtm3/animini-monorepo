@@ -83,10 +83,8 @@ const listItemContentDefinition = defineCva({
 		flexDirection: "column",
 		gridColumn: {
 			"&:first-child": "span 2 / span 2",
-			"&:last-child": {
-				base: "span 2 / span 2",
-				"&:first-child": "span 3 / span 3",
-			},
+			"&:last-child": "span 2 / span 2",
+			"&:only-child": "span 3 / span 3",
 		},
 	},
 	variants: {
