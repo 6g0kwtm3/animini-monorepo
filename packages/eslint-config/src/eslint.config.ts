@@ -7,7 +7,6 @@ import turbo from "eslint-plugin-turbo"
 import typegen from "eslint-typegen"
 import oxlintConfig from "oxlint-config" with { type: "json" }
 import path from "path"
-import tseslint from "typescript-eslint"
 
 export default await typegen([
 	{
@@ -37,33 +36,6 @@ export default await typegen([
 			"perfectionist/sort-objects": "off",
 		},
 	},
-	...[
-		...tseslint.configs.strictTypeChecked,
-		...tseslint.configs.stylisticTypeChecked,
-	].map((config) => ({
-		files: [
-			"**/*.js",
-			"**/*.cjs",
-			"**/*.mjs",
-			"**/*.jsx",
-			"**/*.cjsx",
-			"**/*.mjsx",
-			"**/*.ts",
-			"**/*.cts",
-			"**/*.mts",
-			"**/*.tsx",
-			"**/*.ctsx",
-			"**/*.mtsx",
-		],
-		...config,
-		rules: {
-			...config.rules,
-			"@typescript-eslint/triple-slash-reference": "off",
-			"@typescript-eslint/only-throw-error": "off",
-			"@typescript-eslint/no-floating-promises": "error",
-			"@typescript-eslint/no-empty-object-type": "off",
-		},
-	})),
 	{
 		name: "eslint-config/typescript-eslint/parser-options",
 		languageOptions: {
