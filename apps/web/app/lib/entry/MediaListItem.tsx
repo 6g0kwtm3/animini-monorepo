@@ -49,6 +49,9 @@ const MediaListItem_entry = graphql`
 		media {
 			id
 			...MediaCover_media
+			coverImage {
+				theme
+			}
 		}
 	}
 `
@@ -60,7 +63,29 @@ export function MediaListItem(props: {
 
 	return (
 		<li className="col-span-full grid grid-cols-subgrid">
-			<ListItem render={<div />}>
+			<ListItem
+				data-testid="media-list-item"
+				style={mergeStyles(
+					data?.coverImage?.theme ?? undefined,
+					precompileStyles({
+						gridColumn: "1 / -1",
+						display: "grid",
+						gridTemplateColumns: "subgrid",
+						...utilities.theme({
+							[media.hover]: { default: "light", [media.dark]: "dark" },
+							[media.focusWithin]: { default: "light", [media.dark]: "dark" },
+						}),
+						...utilities.contrast({
+							[media.hover]: { default: "standard", [media.dark]: "high" },
+							[media.focusWithin]: {
+								default: "standard",
+								[media.dark]: "high",
+							},
+						}),
+					}),
+					props.style
+				)}
+			>
 				<Box style={precompileStyles({ position: "relative" })}>
 					<ListItemImg>
 						<Skeleton full>
