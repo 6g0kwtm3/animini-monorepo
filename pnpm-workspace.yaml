@@ -20,7 +20,7 @@ catalog:
   '@codspeed/vitest-plugin': 5.2.0
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.0
-  '@graphql-tools/mock': 9.1.5
+  '@graphql-tools/mock': 9.1.6
   '@hono/node-server': 1.19.13
   '@iconify-json/material-symbols': 1.2.65
   '@inlang/paraglide-js': 2.15.3
