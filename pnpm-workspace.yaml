@@ -121,3 +121,12 @@ nodeLinker: hoisted
 
 patchedDependencies:
   flubber: patches/flubber.patch
+
+savePrefix: ''
+shellEmulator: true
+enablePrePostScripts: false
+resolutionMode: lowestDirect
+catalogMode: strict
+cleanupUnusedCatalogs: true
+verifyDepsBeforeRun: install
+optimisticRepeatInstall: true
