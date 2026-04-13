@@ -116,10 +116,6 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 		}
 
 		function onInvoke(event: ToggleEvent) {
-			if (!isInvokeEvent(event)) {
-				return
-			}
-
 			if (
 				(event.action === "show" || event.action === "auto")
 				&& !event.currentTarget.matches(":popover-open")
@@ -185,10 +181,6 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 interface ToggleEvent extends Event {
 	action: string
 	currentTarget: HTMLElement
-}
-
-function isInvokeEvent(event: Event | ToggleEvent) {
-	return "action" in event
 }
 
 const noop = () => () => {
