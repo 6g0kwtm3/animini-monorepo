@@ -74,7 +74,7 @@ export class RateLimiter {
 
 			// Record timestamp for all limits
 			for (const { timestamps } of this.timestamps) {
-				timestamps.push(now)
+				void timestamps.push(now)
 			}
 			void fn()
 		}
