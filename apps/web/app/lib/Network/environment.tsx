@@ -75,11 +75,22 @@ const fetchQuery = async function (
 const rateLimiter =
 	typeof document === "undefined"
 		? undefined
-		: new RateLimiter({ limit: 4, per: Temporal.Duration.from({ seconds: 1 }) })
+		: {
+				_30Per1Minute: new RateLimiter({
+					limit: 30,
+					per: Temporal.Duration.from({ minutes: 1 }),
+				}),
+				_4Per1Second: new RateLimiter({
+					limit: 4,
+					per: Temporal.Duration.from({ seconds: 1 }),
+				}),
+			}
 
 const rateLimitedFetch = rateLimiter
 	? (input: string | URL, init?: RequestInit): Promise<Response> =>
-			rateLimiter.execute(() => fetch(input, init))
+			rateLimiter._4Per1Second.execute(() =>
+				rateLimiter._30Per1Minute.execute(() => fetch(input, init))
+			)
 	: fetch
 
 // Create a network layer from the fetch function
