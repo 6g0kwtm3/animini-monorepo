@@ -5,8 +5,8 @@ export class RateLimiter {
 	private queue: (() => Promise<void>)[] = []
 
 	private timestamps: {
-		timestamps: Temporal.Instant[]
 		args: RateLimiterArgs
+		timestamps: Temporal.Instant[]
 	}[]
 
 	constructor(args: readonly RateLimiterArgs[]) {
