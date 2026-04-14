@@ -1,4 +1,7 @@
-type RateLimiterArgs = { limit: number; per: Temporal.Duration }
+interface RateLimiterArgs {
+	limit: number
+	per: Temporal.Duration
+}
 
 export class RateLimiter {
 	private processing = false
