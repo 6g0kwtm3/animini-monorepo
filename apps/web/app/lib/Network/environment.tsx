@@ -75,7 +75,10 @@ const fetchQuery = async function (
 const rateLimiter =
 	typeof document === "undefined"
 		? undefined
-		: new RateLimiter({ limit: 4, per: Temporal.Duration.from({ seconds: 1 }) })
+		: new RateLimiter([
+				{ limit: 30, per: Temporal.Duration.from({ minutes: 1 }) },
+				{ limit: 4, per: Temporal.Duration.from({ seconds: 1 }) },
+			])
 
 const rateLimitedFetch = rateLimiter
 	? (input: string | URL, init?: RequestInit): Promise<Response> =>

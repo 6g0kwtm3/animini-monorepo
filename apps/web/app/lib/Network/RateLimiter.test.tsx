@@ -13,10 +13,9 @@ void describe("RateLimiter", () => {
 
 	void describe("Basic functionality", () => {
 		it("should execute functions immediately when within rate limit", async () => {
-			const limiter = new RateLimiter({
-				limit: 3,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 3, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const results: number[] = []
 			const promises = [
@@ -30,10 +29,9 @@ void describe("RateLimiter", () => {
 		})
 
 		it("should delay execution when rate limit is exceeded", async () => {
-			const limiter = new RateLimiter({
-				limit: 2,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 2, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const results: number[] = []
 			const startTime = Date.now()
@@ -55,10 +53,9 @@ void describe("RateLimiter", () => {
 		})
 
 		it("should handle multiple batches correctly", async () => {
-			const limiter = new RateLimiter({
-				limit: 2,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 2, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const results: number[] = []
 			const timings: number[] = []
@@ -89,10 +86,9 @@ void describe("RateLimiter", () => {
 
 	void describe("Error handling", () => {
 		it("should propagate errors from executed functions", async () => {
-			const limiter = new RateLimiter({
-				limit: 1,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 1, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const error = new Error("Test error")
 			const promise = limiter.execute(() => {
@@ -103,10 +99,9 @@ void describe("RateLimiter", () => {
 		})
 
 		it("should continue processing queue after an error", async () => {
-			const limiter = new RateLimiter({
-				limit: 2,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 2, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const results: number[] = []
 			const promises = [
@@ -132,10 +127,9 @@ void describe("RateLimiter", () => {
 
 	void describe("Concurrency", () => {
 		it("should handle concurrent execute calls", async () => {
-			const limiter = new RateLimiter({
-				limit: 1,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 1, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const results: number[] = []
 			const promises = [
@@ -157,10 +151,9 @@ void describe("RateLimiter", () => {
 
 	void describe("Edge cases", () => {
 		it("should handle limit of 1", async () => {
-			const limiter = new RateLimiter({
-				limit: 1,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 0, 500), // 500ms
-			})
+			const limiter = new RateLimiter([
+				{ limit: 1, per: Temporal.Duration.from({ milliseconds: 500 }) },
+			])
 
 			const results: number[] = []
 			const timings: number[] = []
@@ -186,10 +179,9 @@ void describe("RateLimiter", () => {
 		})
 
 		it("should handle large number of queued items", async () => {
-			const limiter = new RateLimiter({
-				limit: 5,
-				per: new Temporal.Duration(0, 0, 0, 0, 0, 1),
-			})
+			const limiter = new RateLimiter([
+				{ limit: 5, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+			])
 
 			const results: number[] = []
 			const promises = Array.from({ length: 20 }, (_, i) =>
