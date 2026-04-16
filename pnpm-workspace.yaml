@@ -125,7 +125,6 @@ patchedDependencies:
 savePrefix: ''
 shellEmulator: true
 enablePrePostScripts: false
-resolutionMode: lowestDirect
 catalogMode: strict
 cleanupUnusedCatalogs: true
 verifyDepsBeforeRun: install
