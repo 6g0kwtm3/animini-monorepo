@@ -13,6 +13,7 @@
 		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{
+			"groupName": "digests",
 			"matchDepTypes": ["action"],
 			"matchUpdateTypes": ["digest"],
 			"automerge": false
