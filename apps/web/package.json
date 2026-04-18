@@ -97,6 +97,6 @@
 		"vitest": "catalog:"
 	},
 	"overrides": {
-		"react-router-dom": "npm:react-router-dom@7.14.0"
+		"react-router-dom": "npm:react-router-dom@7.14.1"
 	}
 }
