@@ -16,6 +16,7 @@
 		"eslint/no-unused-expressions ": "error",
 		"eslint/eqeqeq ": "error",
 		"oxc/no-barrel-file": "error",
+		"import/first": "error",
 		"import/no-cycle": "error",
 		"react/jsx-no-useless-fragment": "error",
 		"react/rules-of-hooks": "error",
