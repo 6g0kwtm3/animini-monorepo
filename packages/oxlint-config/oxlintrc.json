@@ -15,6 +15,7 @@
 	"rules": {
 		"eslint/no-unused-expressions ": "error",
 		"eslint/eqeqeq ": "error",
+		"eslint/prefer-template ": "error",
 		"oxc/no-barrel-file": "error",
 		"import/no-cycle": "error",
 		"react/jsx-no-useless-fragment": "error",
