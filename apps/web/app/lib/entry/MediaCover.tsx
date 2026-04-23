@@ -13,6 +13,7 @@ const cover = tv({
 })
 
 import * as Ariakit from "@ariakit/react"
+import { numberToString } from "../numberToString"
 
 interface MediaCoverProps extends Ariakit.RoleProps<"img"> {
 	media: MediaCover_media$key
@@ -46,12 +47,16 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 			}
 			loading="lazy"
 			sizes="auto"
-			srcSet={[
-				[100, data.coverImage?.medium],
-				[230, data.coverImage?.large],
-				[460, data.coverImage?.extraLarge],
-			]
-				.map(([width, url]) => (url ? `${url} ${width}w` : null))
+			srcSet={(
+				[
+					[100, data.coverImage?.medium],
+					[230, data.coverImage?.large],
+					[460, data.coverImage?.extraLarge],
+				] as const
+			)
+				.map(([width, url]) =>
+					url ? `${url} ${numberToString(width)}w` : null
+				)
 				.filter(Boolean)
 				.join(", ")}
 			alt=""
