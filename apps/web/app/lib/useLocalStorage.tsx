@@ -13,12 +13,12 @@ export function useStorage<T = undefined>(
 export function useStorage<T>(
 	storage: Storage,
 	key: string,
-	initialState: T | (() => T)
+	initialState: (() => T) | T
 ): [T, Dispatch<SetStateAction<T>>]
 export function useStorage<T>(
 	storage: Storage,
 	key: string,
-	initialState?: T | (() => T)
+	initialState?: (() => T) | T
 ): [T | undefined, Dispatch<SetStateAction<T | undefined>>] {
 	const [state, setState] = useState<T | undefined>((): T | undefined => {
 		const state = storage.getItem(key)
@@ -98,11 +98,11 @@ export function useSessionStorage<T = undefined>(
 ): [T | undefined, Dispatch<SetStateAction<T | undefined>>]
 export function useSessionStorage<T>(
 	key: string,
-	initialState?: T | (() => T)
+	initialState?: (() => T) | T
 ): [T, Dispatch<SetStateAction<T>>]
 export function useSessionStorage<T>(
 	key: string,
-	initialState?: T | (() => T)
+	initialState?: (() => T) | T
 ) {
 	return useStorage(sessionStorage, key, initialState)
 }
@@ -112,8 +112,8 @@ export function useLocalStorage<T = undefined>(
 ): [T | undefined, Dispatch<SetStateAction<T | undefined>>]
 export function useLocalStorage<T>(
 	key: string,
-	initialState?: T | (() => T)
+	initialState?: (() => T) | T
 ): [T, Dispatch<SetStateAction<T>>]
-export function useLocalStorage<T>(key: string, initialState?: T | (() => T)) {
+export function useLocalStorage<T>(key: string, initialState?: (() => T) | T) {
 	return useStorage(localStorage, key, initialState)
 }
