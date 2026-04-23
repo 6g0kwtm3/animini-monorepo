@@ -45,6 +45,15 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 				?? ""
 			}
 			loading="lazy"
+			sizes="auto"
+			srcSet={[
+				[100, data.coverImage?.medium],
+				[230, data.coverImage?.large],
+				[460, data.coverImage?.extraLarge],
+			]
+				.map(([width, url]) => (url ? `${url} ${width}w` : null))
+				.filter(Boolean)
+				.join(", ")}
 			alt=""
 			{...props}
 			style={{
