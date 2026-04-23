@@ -46,6 +46,7 @@
 		"//#stryker": {
 			"passThroughEnv": ["STRYKER_DASHBOARD_API_KEY"],
 			"cache": false
-		}
+		},
+		"bundlewatch": { "dependsOn": ["build"], "inputs": ["dist/**"] }
 	}
 }

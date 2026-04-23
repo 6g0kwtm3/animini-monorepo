@@ -8,6 +8,7 @@
 	"main": "desktop/index.js",
 	"scripts": {
 		"build": "cross-env NODE_ENV=production react-router build",
+		"bundlewatch": "bundlewatch",
 		"check": "tsgo --noEmit",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"deploy": "wrangler pages deploy ./build/client",
@@ -79,6 +80,7 @@
 		"@playwright/test": "catalog:",
 		"@types/flubber": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
+		"bundlewatch": "catalog:",
 		"cross-env": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:*",
@@ -98,5 +100,17 @@
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.14.1"
+	},
+	"bundlewatch": {
+		"files": [
+			{
+				"path": "dist/client/assets/*.js",
+				"maxSize": "150kB"
+			},
+			{
+				"path": "dist/client/assets/*.css",
+				"maxSize": "25kB"
+			}
+		]
 	}
 }
