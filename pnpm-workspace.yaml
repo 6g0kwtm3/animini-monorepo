@@ -57,7 +57,7 @@ catalog:
   '@types/react-relay': 18.2.1
   '@types/relay-runtime': 20.1.0
   '@typescript-eslint/parser': 8.57.1
-  '@typescript/native-preview': 7.0.0-dev.20260418.1
+  '@typescript/native-preview': 7.0.0-dev.20260421.1
   anitomy: 0.0.35
   arktype: 2.2.0
   babel-plugin-react-compiler: 1.0.0
@@ -84,7 +84,7 @@ catalog:
   graphql-config: 5.1.6
   hono: 4.12.14
   isbot: 5.1.39
-  knip: 6.4.1
+  knip: 6.6.0
   marked: 0.3.19
   motion: 12.38.0
   msw: 2.13.4
@@ -103,7 +103,7 @@ catalog:
   storybook: 10.3.5
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.2.2
-  temporal-polyfill-lite: 0.3.4
+  temporal-polyfill-lite: 0.3.5
   tsx: 4.21.0
   turbo: 2.8.0
   typescript: 6.0.3
@@ -114,7 +114,7 @@ catalog:
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vitest: 4.1.4
-  wrangler: 4.83.0
+  wrangler: 4.84.0
 # trustPolicy: no-downgrade
 # trustPolicyIgnoreAfter: 4320
 dedupePeers: true
