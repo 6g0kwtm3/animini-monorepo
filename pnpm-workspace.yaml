@@ -113,7 +113,7 @@ catalog:
   vite-plugin-babel: 1.6.0
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
-  vitest: 4.1.4
+  vitest: 4.1.5
   wrangler: 4.84.0
 # trustPolicy: no-downgrade
 # trustPolicyIgnoreAfter: 4320
