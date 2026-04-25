@@ -99,7 +99,7 @@
 		"vitest": "catalog:"
 	},
 	"overrides": {
-		"react-router-dom": "npm:react-router-dom@7.14.1"
+		"react-router-dom": "npm:react-router-dom@7.14.2"
 	},
 	"bundlewatch": {
 		"files": [
