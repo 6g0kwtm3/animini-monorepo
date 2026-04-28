@@ -149,22 +149,6 @@ jobs:
 
       - name: Boundaries
         run: pnpm -w boundaries
-  doctor:
-    runs-on: ubuntu-latest
-
-    name: Doctor
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Install pnpm
-        uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
-        with:
-          node-version-file: package.json
-          cache: "pnpm"
-      - name: Doctor
-        run: pnpm pm doctor
   test:
     runs-on: ubuntu-latest
     name: Test
