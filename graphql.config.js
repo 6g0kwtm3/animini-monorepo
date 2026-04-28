@@ -1,1 +1,1 @@
-export * from "@anitrove/graphql-config";
+export * from "@anitrove/graphql-config"
