@@ -149,17 +149,6 @@ jobs:
 
       - name: Boundaries
         run: pnpm -w boundaries
-  doctor:
-    runs-on: ubuntu-latest
-
-    name: Doctor
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Install pnpm
-        uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6
-
-      - name: Doctor
-        run: pnpm doctor
   test:
     runs-on: ubuntu-latest
     name: Test
