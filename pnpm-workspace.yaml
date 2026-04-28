@@ -22,8 +22,8 @@ catalog:
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.7
   '@hono/node-server': 2.0.0
-  '@iconify-json/material-symbols': 1.2.68
-  '@inlang/paraglide-js': 2.16.0
+  '@iconify-json/material-symbols': 1.2.69
+  '@inlang/paraglide-js': 2.16.1
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.59.1
@@ -57,7 +57,7 @@ catalog:
   '@types/react-relay': 18.2.1
   '@types/relay-runtime': 20.1.0
   '@typescript-eslint/parser': 8.57.1
-  '@typescript/native-preview': 7.0.0-dev.20260422.1
+  '@typescript/native-preview': 7.0.0-dev.20260424.2
   anitomy: 0.0.35
   arktype: 2.2.0
   babel-plugin-react-compiler: 1.0.0
@@ -66,7 +66,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 41.2.2
+  electron: 41.3.0
   electron-devtools-installer: 4.0.0
   eslint: 10.1.0
   eslint-plugin-oxlint: 1.56.0
@@ -82,17 +82,17 @@ catalog:
   flubber: 0.4.2
   graphql: 16.13.2
   graphql-config: 5.1.6
-  hono: 4.12.14
+  hono: 4.12.15
   isbot: 5.1.39
-  knip: 6.6.1
+  knip: 6.6.3
   marked: 0.3.19
   motion: 12.38.0
-  msw: 2.13.4
+  msw: 2.13.6
   nodemon: 3.1.14
   oxlint: 1.56.0
   oxlint-tsgolint: 0.21.1
   prettier: 3.8.1
-  prettier-plugin-tailwindcss: 0.7.2
+  prettier-plugin-tailwindcss: 0.7.3
   prop-types: 15.8.1
   react: 19.2.5
   react-dom: 19.2.5
@@ -114,7 +114,7 @@ catalog:
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vitest: 4.1.5
-  wrangler: 4.84.1
+  wrangler: 4.85.0
 # trustPolicy: no-downgrade
 # trustPolicyIgnoreAfter: 4320
 dedupePeers: true
