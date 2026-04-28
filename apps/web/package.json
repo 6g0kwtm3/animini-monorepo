@@ -73,6 +73,7 @@
 		"vite-plugin-relay": "catalog:"
 	},
 	"devDependencies": {
+		"@anitrove/graphql-config": "workspace:*",
 		"@babel/preset-typescript": "catalog:",
 		"@graphql-eslint/eslint-plugin": "catalog:",
 		"@graphql-tools/mock": "catalog:",

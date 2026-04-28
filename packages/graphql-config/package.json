@@ -1,0 +1,10 @@
+{
+	"$schema": "https://json.schemastore.org/package.json",
+	"name": "@anitrove/graphql-config",
+	"type": "module",
+	"private": true,
+	"exports": "./graphql.config.js",
+	"devDependencies": {
+		"graphql-config": "catalog:"
+	}
+}
