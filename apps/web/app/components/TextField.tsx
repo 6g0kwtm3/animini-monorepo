@@ -40,18 +40,18 @@ function OutlinedLabel({ children, ...props }: ComponentProps<"label">) {
 		<>
 			<Label
 				{...props}
-				className="text-body-sm text-on-surface-variant group-focus-within:text-primary group-hover:text-on-surface group-hover:group-focus-within:text-primary peer-placeholder-shown:text-body-lg peer-placeholder-shown:group-focus-within:text-body-sm peer-disabled:text-on-surface/[.38] peer-disabled:group-hover:text-on-surface/[.38] group-error:text-error group-focus-within:group-error:text-error group-error:group-focus-within:text-error group-error:group-hover:text-on-error-container group-focus-within:group-error:group-hover:text-error peer-disabled:group-error:text-on-surface/[.38] group-error:peer-disabled:text-on-surface/[.38] group-has-required:after:content-['*'] pointer-events-none absolute -top-2 left-4 transition-all ease-spatial-fast duration-spatial-fast peer-placeholder-shown:top-4 peer-placeholder-shown:group-focus-within:-top-2 peer-placeholder-shown:group-focus-within:left-4"
+				className="text-body-sm text-on-surface-variant group-focus-within:text-primary group-hover:text-on-surface group-hover:group-focus-within:text-primary peer-placeholder-shown:text-body-lg peer-placeholder-shown:group-focus-within:text-body-sm peer-disabled:text-on-surface/[.38] peer-disabled:group-hover:text-on-surface/[.38] group-error:text-error group-focus-within:group-error:text-error group-error:group-focus-within:text-error group-error:group-hover:text-on-error-container group-focus-within:group-error:group-hover:text-error peer-disabled:group-error:text-on-surface/[.38] group-error:peer-disabled:text-on-surface/[.38] ease-spatial-fast duration-spatial-fast pointer-events-none absolute -top-2 left-4 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:group-focus-within:-top-2 peer-placeholder-shown:group-focus-within:left-4 group-has-required:after:content-['*']"
 			>
 				{children}
 			</Label>
 
-			<fieldset className="border-outline group-focus-within:border-primary group-hover:border-on-surface group-focus-within:group-hover:border-primary group-has-disabled:border-outline/[.12] group-has-disabled:group-hover:border-outline/[.12] group-error:border-error group-error:group-focus-within:border-error group-error:group-hover:border-on-error-container group-error:group-hover:group-focus-within:border-error rounded-xs pointer-events-none absolute -top-[0.71875rem] bottom-0 left-0 right-0 border px-[0.625rem] transition-all group-focus-within:border-2 ease-effects-fast duration-effects-fast">
+			<fieldset className="border-outline group-focus-within:border-primary group-hover:border-on-surface group-focus-within:group-hover:border-primary group-has-disabled:border-outline/[.12] group-has-disabled:group-hover:border-outline/[.12] group-error:border-error group-error:group-focus-within:border-error group-error:group-hover:border-on-error-container group-error:group-hover:group-focus-within:border-error ease-effects-fast duration-effects-fast pointer-events-none absolute -top-[0.71875rem] right-0 bottom-0 left-0 rounded-xs border px-[0.625rem] transition-all group-focus-within:border-2">
 				<legend
 					className={
-						"group-has-placeholder-shown:max-w-0 group-has-placeholder-shown:group-focus-within:max-w-none overflow-hidden whitespace-nowrap opacity-0 transition-all"
+						"overflow-hidden whitespace-nowrap opacity-0 transition-all group-has-placeholder-shown:max-w-0 group-has-placeholder-shown:group-focus-within:max-w-none"
 					}
 				>
-					<span className="text-body-sm group-has-required:after:content-['*'] px-1">
+					<span className="text-body-sm px-1 group-has-required:after:content-['*']">
 						{children}
 					</span>
 				</legend>

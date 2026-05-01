@@ -6,7 +6,8 @@ const { graphql } = ReactRelay
 
 /**
  * @RelayResolver UserOptions.profileTheme: RelayResolverValue
- * @rootFragment userProfileThemeResolver_userOptions*/
+ * @rootFragment userProfileThemeResolver_userOptions
+ */
 export function profileTheme(
 	key: userProfileThemeResolver_userOptions$key
 ): null | Theme {

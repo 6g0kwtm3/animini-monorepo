@@ -15,7 +15,7 @@ import { tv } from "~/lib/tailwind-variants"
 
 const sheet = tv({
 	slots: {
-		root: "bg-surface-container-low fixed bottom-0 left-0 top-[4.5rem] mx-auto my-0 mt-auto flex h-fit max-h-[calc(100%-4.5rem)] w-full max-w-[40rem] flex-col overflow-hidden rounded-t-xl min-[640px]:left-14 min-[640px]:right-14 min-[640px]:top-14 min-[640px]:max-h-[calc(100%-3.5rem)] min-[640px]:w-[calc(100%-7rem)]",
+		root: "bg-surface-container-low fixed top-[4.5rem] bottom-0 left-0 mx-auto my-0 mt-auto flex h-fit max-h-[calc(100%-4.5rem)] w-full max-w-[40rem] flex-col overflow-hidden rounded-t-xl min-[640px]:top-14 min-[640px]:right-14 min-[640px]:left-14 min-[640px]:max-h-[calc(100%-3.5rem)] min-[640px]:w-[calc(100%-7rem)]",
 		backdrop: "bg-scrim/(--opacity)",
 		container:
 			"text-body-md text-on-surface flex w-full flex-col overflow-auto overscroll-contain",
@@ -89,7 +89,7 @@ export function Sheet({ modal, variant, ...props }: SheetProps): JSX.Element {
 function SheetHandle(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div
-			className="bg-on-surface-variant/[.4] rounded-xs mx-auto my-[1.375rem] h-1 w-8"
+			className="bg-on-surface-variant/[.4] mx-auto my-[1.375rem] h-1 w-8 rounded-xs"
 			{...props}
 		/>
 	)

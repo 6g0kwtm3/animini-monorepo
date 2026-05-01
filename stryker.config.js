@@ -1,4 +1,4 @@
-/** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
+/** @type {import("@stryker-mutator/api/core").PartialStrykerOptions} */
 export default {
 	_comment:
 		"This config was generated using 'stryker init'. Please take a look at: https://stryker-mutator.io/docs/stryker-js/configuration/ for more information.",

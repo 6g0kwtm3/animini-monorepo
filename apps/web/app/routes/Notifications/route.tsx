@@ -100,7 +100,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 			<LayoutPane>
 				{someNotRead ? (
 					<Form method="post">
-						<div className="fixed bottom-24 end-4 sm:bottom-4">
+						<div className="fixed end-4 bottom-24 sm:bottom-4">
 							<div className="relative">
 								<TooltipPlain store={store}>
 									<TooltipPlainTrigger

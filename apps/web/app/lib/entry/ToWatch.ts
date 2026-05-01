@@ -7,7 +7,8 @@ const { graphql } = ReactRelay
 
 /**
  * @RelayResolver MediaList.toWatch: Int
- * @rootFragment ToWatch_entry*/
+ * @rootFragment ToWatch_entry
+ */
 export function toWatch(data: ToWatch_entry$key): null | number {
 	const entry = readFragment(
 		graphql`

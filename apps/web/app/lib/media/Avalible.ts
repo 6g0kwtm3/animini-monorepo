@@ -8,7 +8,8 @@ const { graphql } = ReactRelay
 
 /**
  * @RelayResolver Media.avalible: Int
- * @rootFragment Avalible_media*/
+ * @rootFragment Avalible_media
+ */
 export function avalible(key: Avalible_media$key): null | number | undefined {
 	const media = readFragment(
 		graphql`

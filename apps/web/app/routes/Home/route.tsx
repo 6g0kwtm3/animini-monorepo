@@ -97,7 +97,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 																alt=""
 																loading="lazy"
 																src={activity.user.avatar.large}
-																className="bg-(image:--bg) h-10 w-10 rounded-full bg-cover object-cover"
+																className="h-10 w-10 rounded-full bg-(image:--bg) bg-cover object-cover"
 																style={
 																	activity.user.avatar.medium
 																		? {

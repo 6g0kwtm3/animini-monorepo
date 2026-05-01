@@ -9,7 +9,7 @@ const { graphql } = ReactRelay
 import { tv } from "~/lib/tailwind-variants"
 
 const cover = tv({
-	base: "in-[.transitioning]:[view-transition-name:media-cover] bg-cover bg-center object-cover object-center",
+	base: "bg-cover bg-center object-cover object-center in-[.transitioning]:[view-transition-name:media-cover]",
 })
 
 import * as Ariakit from "@ariakit/react"

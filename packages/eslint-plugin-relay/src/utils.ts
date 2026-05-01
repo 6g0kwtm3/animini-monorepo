@@ -17,9 +17,7 @@ export interface NodeWithLoc {
 	loc: { end: number; start: number }
 }
 
-/**
- * Returns a range object for auto fixers.
- */
+/** Returns a range object for auto fixers. */
 function getRange(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
@@ -32,9 +30,7 @@ function getRange(
 	]
 }
 
-/**
- * Returns a loc object for error reporting.
- */
+/** Returns a loc object for error reporting. */
 export function getLoc(
 	context: Rule.RuleContext,
 	templateNode: GraphqlTemplateExpression,
