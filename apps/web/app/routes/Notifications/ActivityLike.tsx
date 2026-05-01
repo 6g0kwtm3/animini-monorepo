@@ -65,7 +65,7 @@ export function ActivityLike(props: {
 					{notification.user.avatar?.large ? (
 						<img
 							src={notification.user.avatar.large}
-							className="bg-(image:--bg) h-14 w-14 bg-cover object-cover"
+							className="h-14 w-14 bg-(image:--bg) bg-cover object-cover"
 							style={
 								notification.user.avatar.medium
 									? { "--bg": `url(${notification.user.avatar.medium})` }

@@ -6,7 +6,8 @@ const { graphql } = ReactRelay
 
 /**
  * @RelayResolver MediaCoverImage.theme: RelayResolverValue
- * @rootFragment Theme_mediaCover*/
+ * @rootFragment Theme_mediaCover
+ */
 export function theme(key: Theme_mediaCover$key): null | Theme {
 	const media = readFragment(
 		graphql`

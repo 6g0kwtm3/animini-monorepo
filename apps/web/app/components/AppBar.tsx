@@ -19,16 +19,16 @@ const appBar = tv(
 			},
 			hide: {
 				true: {
-					root: "data-[hidden='true']:-translate-y-(--app-bar-height) transform-gpu transition-transform ease-spatial duration-spatial sm:data-[hidden='true']:translate-y-0",
+					root: "ease-spatial duration-spatial transform-gpu transition-transform data-[hidden='true']:-translate-y-(--app-bar-height) sm:data-[hidden='true']:translate-y-0",
 				},
 				false: { root: "" },
 			},
 			variant: {
 				centered: { root: "" },
-				small: { root: "h-16 px-2 pb-3 pt-3" },
+				small: { root: "h-16 px-2 pt-3 pb-3" },
 				medium: { root: "" },
 				large: {
-					root: "animate-app-bar-large h-28 px-2 pb-6 pt-3 [animation-range:0_7rem] [animation-timeline:scroll()]",
+					root: "animate-app-bar-large h-28 px-2 pt-3 pb-6 [animation-range:0_7rem] [animation-timeline:scroll()]",
 				},
 			},
 		},

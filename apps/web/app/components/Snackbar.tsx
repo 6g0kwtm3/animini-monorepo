@@ -172,7 +172,7 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 				popover="manual"
 				data-timeout={timeout}
 				ref={ref}
-				className="bg-inverse-surface text-body-md text-inverse-on-surface rounded-xs mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 p-4 shadow-sm [&:popover-open]:flex"
+				className="bg-inverse-surface text-body-md text-inverse-on-surface mb-7 line-clamp-2 hidden min-h-[3rem] max-w-[calc(100%-2rem)] flex-wrap items-center gap-3 rounded-xs p-4 shadow-sm [&:popover-open]:flex"
 			/>
 		</SnackbarContext.Provider>
 	)

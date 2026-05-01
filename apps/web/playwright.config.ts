@@ -1,9 +1,7 @@
 import { defineConfig, devices } from "@playwright/test"
 import type { Fixtures } from "./tests/fixtures"
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+/** See https://playwright.dev/docs/test-configuration. */
 export default defineConfig<Fixtures>({
 	testDir: "./tests",
 	timeout: 60000,

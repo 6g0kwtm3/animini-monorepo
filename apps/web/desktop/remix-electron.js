@@ -2,7 +2,7 @@ import { resolve } from "node:path"
 
 /** @typedef {import("react-router").AppLoadContext} AppLoadContext */
 /** @typedef {import("react-router").ServerBuild} ServerBuild */
-/** @import { HttpBindings } from "@hono/node-server" */
+/** @import {HttpBindings} from "@hono/node-server" */
 
 /**
  * @typedef {object} InitRemixOptions
@@ -12,8 +12,8 @@ import { resolve } from "node:path"
  *   production
  * @property {string} [publicFolder] The path where static assets are served
  *   from.
- * @property {()=> import('react-router').RouterContextProvider} [getLoadContext] A function to provide a
- *   `context` object to your loaders.
+ * @property {() => import("react-router").RouterContextProvider} [getLoadContext]
+ *   A function to provide a `context` object to your loaders.
  */
 
 import { serve } from "@hono/node-server"
