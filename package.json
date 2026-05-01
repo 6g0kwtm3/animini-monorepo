@@ -33,6 +33,7 @@
 		"eslint-plugin-pnpm": "catalog:",
 		"eslint-typegen": "catalog:",
 		"knip": "catalog:",
+		"oxfmt": "catalog:",
 		"oxlint": "catalog:",
 		"oxlint-config": "workspace:*",
 		"oxlint-tsgolint": "catalog:",
