@@ -1,0 +1,21 @@
+{
+	"semi": false,
+	"sortTailwindcss": { "functions": ["tv"] },
+	"useTabs": true,
+	"trailingComma": "es5",
+	"objectWrap": "collapse",
+	"printWidth": 80,
+	"sortPackageJson": false,
+	"ignorePatterns": [
+		"**/gql",
+		"pnpm-lock.yaml",
+		"pnpm-workspace.yaml",
+		"worker-configuration.d.ts",
+		"eslint-typegen.d.ts",
+		"**/.react-router",
+		"**/.tsup",
+		"**/dist",
+		"eslint-suppressions.json"
+	],
+	"jsdoc": true
+}
