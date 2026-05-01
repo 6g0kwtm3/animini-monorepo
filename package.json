@@ -12,7 +12,7 @@
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"dev": "turbo watch dev",
-		"format": "prettier . -w --cache --experimental-cli",
+		"format": "oxfmt && prettier . -w --cache --experimental-cli",
 		"bench": "turbo run --log-prefix=none bench --affected",
 		"test": "vitest --run --changed origin/master",
 		"test-e2e": "turbo run --log-prefix=none test-e2e --continue=dependencies-successful --log-order=stream",
