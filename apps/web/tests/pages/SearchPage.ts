@@ -5,7 +5,7 @@ export class SearchPage {
 	dialog: Locator
 	options: Locator
 	search: Locator
-	private constructor(private readonly page: Page) {
+	private constructor(page: Page) {
 		this.dialog = page.getByRole("dialog")
 		this.options = this.dialog.getByRole("option")
 		this.active = this.options.and(

@@ -4,11 +4,10 @@ import type { Value } from "./unstyled-value"
 
 export declare const PreCompiledStylesBrand: unique symbol
 export class PreCompiledStyles {
-	constructor(
-		/** @internal */ public readonly styles: {
-			[K in keyof Properties]?: string
-		}
-	) {}
+	/** @internal */ public readonly styles: { [K in keyof Properties]?: string }
+	constructor(styles: { [K in keyof Properties]?: string }) {
+		this.styles = styles
+	}
 }
 
 export function mergeStyles(

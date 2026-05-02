@@ -5,8 +5,7 @@ import { Nav } from "./Nav"
 export class MediaPage {
 	nav: Nav
 	title: Locator
-
-	private constructor(private readonly page: Page) {
+	private constructor(page: Page) {
 		this.nav = new Nav(page)
 		const main = page.getByRole("main")
 		this.title = main.getByRole("heading")
