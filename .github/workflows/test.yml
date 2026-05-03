@@ -2,6 +2,9 @@ name: Test
 
 on:
   push:
+    paths-ignore:
+      - ".claude/**"
+      - "**.md"
     branches:
       - renovate/**
   pull_request:

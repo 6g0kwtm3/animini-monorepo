@@ -2,6 +2,9 @@ name: Chromatic
 
 on:
   push:
+    paths-ignore:
+      - ".claude/**"
+      - "**.md"
     branches:
       - master
       - renovate/**
