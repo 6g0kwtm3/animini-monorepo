@@ -2,12 +2,12 @@ name: Test
 
 on:
   push:
-    paths-ignore:
-      - ".claude/**"
-      - "**.md"
     branches:
       - renovate/**
   pull_request:
+    paths-ignore:
+      - ".claude/**"
+      - "**.md"
   merge_group:
   workflow_dispatch:
 

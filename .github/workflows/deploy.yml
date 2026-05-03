@@ -2,13 +2,13 @@ name: Deploy
 
 on:
   push:
-    paths-ignore:
-      - ".claude/**"
-      - "**.md"
     branches:
       - master
       - renovate/**
   pull_request:
+    paths-ignore:
+      - ".claude/**"
+      - "**.md"
   merge_group:
   workflow_dispatch:
 
