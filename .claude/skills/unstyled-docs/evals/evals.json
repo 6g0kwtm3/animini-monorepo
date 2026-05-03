@@ -1,0 +1,140 @@
+{
+	"skill_name": "unstyled-docs",
+	"evals": [
+		{
+			"id": 1,
+			"name": "Basic cva documentation",
+			"prompt": "Generate JSDoc for the cva function from @anitrove/unstyled",
+			"expected_output": "JSDoc with @description, @param, @returns, @template, and @example sections showing cva usage",
+			"files": [],
+			"assertions": [
+				{
+					"text": "The generated JSDoc includes a @description section explaining what cva does",
+					"passed": true
+				},
+				{
+					"text": "The generated JSDoc includes @param documentation for the cva parameter with details about base, variants, defaultVariants, and compoundVariants",
+					"passed": true
+				},
+				{
+					"text": "The generated JSDoc includes @returns documentation describing the returned object structure",
+					"passed": true
+				},
+				{
+					"text": "The generated JSDoc includes @example sections with real usage examples from tests",
+					"passed": true
+				}
+			]
+		},
+		{
+			"id": 2,
+			"name": "precompileStyles documentation",
+			"prompt": "Generate JSDoc for precompileStyles function",
+			"expected_output": "JSDoc with proper @param documentation for the style parameter and @example showing simple and complex usage",
+			"files": [],
+			"assertions": [
+				{
+					"text": "The @param documentation explains what PreCompiledStyles contains",
+					"passed": true
+				},
+				{
+					"text": "The @returns documentation describes PreCompiledStyles and its .styles property",
+					"passed": true
+				},
+				{
+					"text": "The @example section shows different usage patterns including simple styles and media queries",
+					"passed": true
+				}
+			]
+		},
+		{
+			"id": 3,
+			"name": "mapValue documentation",
+			"prompt": "Generate JSDoc for mapValue function",
+			"expected_output": "JSDoc for mapValue showing how it transforms Value types with @param and @template documentation",
+			"files": [],
+			"assertions": [
+				{
+					"text": "The @template parameter A is documented with its constraint",
+					"passed": true
+				},
+				{
+					"text": "The @param value documentation explains both simple values and media query objects",
+					"passed": true
+				},
+				{
+					"text": "The @param fn documentation explains the transformation function signature",
+					"passed": true
+				},
+				{
+					"text": "The @example section shows transformation of both simple values and media query objects",
+					"passed": true
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "Type documentation",
+			"prompt": "Generate JSDoc for Properties interface",
+			"expected_output": "JSDoc for the Properties interface explaining the CSSProperties extension and custom properties support",
+			"files": [],
+			"assertions": [
+				{
+					"text": "The JSDoc includes a @description explaining the interface purpose",
+					"passed": true
+				},
+				{
+					"text": "The JSDoc includes @example showing how to use the interface",
+					"passed": true
+				}
+			]
+		},
+		{
+			"id": 5,
+			"name": "Complex cva with compound variants",
+			"prompt": "Generate JSDoc that includes examples showing compound variants usage",
+			"expected_output": "JSDoc with examples demonstrating base variants, simple variants, and compound variants",
+			"files": [],
+			"assertions": [
+				{
+					"text": "The JSDoc includes an example showing compound variants",
+					"passed": true
+				},
+				{
+					"text": "The JSDoc includes an example showing variants with media queries",
+					"passed": true
+				},
+				{
+					"text": "The JSDoc includes an example showing usage with Box component",
+					"passed": true
+				}
+			]
+		},
+		{
+			"id": 6,
+			"name": "Documentation consistency",
+			"prompt": "Review all generated JSDoc and ensure consistent formatting across all functions",
+			"expected_output": "All generated JSDoc should follow the same format with consistent parameter ordering and example style",
+			"files": [
+				"packages/unstyled/src/unstyled-cva.ts",
+				"packages/unstyled/src/unstyled-print.ts",
+				"packages/unstyled/src/unstyled-value.ts",
+				"packages/unstyled/src/unstyled-use-styles.tsx"
+			],
+			"assertions": [
+				{
+					"text": "All generated JSDoc uses the same @param parameter ordering",
+					"passed": true
+				},
+				{
+					"text": "All generated JSDoc uses backticks for code blocks",
+					"passed": true
+				},
+				{
+					"text": "All generated JSDoc includes relevant examples from test files",
+					"passed": true
+				}
+			]
+		}
+	]
+}
