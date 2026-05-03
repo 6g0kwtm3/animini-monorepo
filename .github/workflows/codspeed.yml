@@ -6,6 +6,9 @@ on:
       - master
       - renovate/**
   pull_request:
+    paths-ignore:
+      - ".claude/**"
+      - "**.md"
   # merge_group: # codespeed does not support merge groups
   workflow_dispatch:
 
