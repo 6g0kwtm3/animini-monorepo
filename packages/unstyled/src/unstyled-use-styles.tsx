@@ -2,7 +2,6 @@ import { useMemo, type ReactNode } from "react"
 import { invariant, numberToString } from "utilities"
 import { print, type PreCompiledStyles } from "./unstyled-print"
 
-
 /**
  * React hook that generates style classes for unstyled components.
  *
@@ -33,7 +32,7 @@ import { print, type PreCompiledStyles } from "./unstyled-print"
  * 	- A unique class name in the format `unstyled-{hash}`
  * 	- A React node representing a style element containing the styles
  *
- * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail 
+ * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail
  */
 export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 	return useMemo(() => {

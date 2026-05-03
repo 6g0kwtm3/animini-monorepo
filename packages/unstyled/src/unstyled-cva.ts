@@ -59,9 +59,9 @@ export type CvaProps<T> =
  * Applies component variant props to generate variant-specific styles.
  *
  * This function takes props that specify which variant options are active and
- * returns a {@link PreCompiledStyles} object with the corresponding variant styles
- * merged in. Each prop corresponds to a variant name, and the value specifies
- * which option to use for that variant.
+ * returns a {@link PreCompiledStyles} object with the corresponding variant
+ * styles merged in. Each prop corresponds to a variant name, and the value
+ * specifies which option to use for that variant.
  *
  * @example
  * 	// Basic usage

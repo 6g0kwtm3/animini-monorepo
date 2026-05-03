@@ -24,9 +24,10 @@ export class PreCompiledStyles {
 /**
  * Merges multiple {@link PreCompiledStyles} objects into one.
  *
- * This function combines multiple style objects into a single {@link PreCompiledStyles}
- * instance by iterating over each input and assigning its properties to the
- * result. Undefined properties are skipped during the merge.
+ * This function combines multiple style objects into a single
+ * {@link PreCompiledStyles} instance by iterating over each input and assigning
+ * its properties to the result. Undefined properties are skipped during the
+ * merge.
  *
  * This is useful for combining base styles with variant-specific styles or
  * merging theme styles with component-specific overrides.
@@ -60,9 +61,9 @@ export function mergeStyles(
 /**
  * Converts {@link PreCompiledStyles} to a CSS string representation.
  *
- * This function takes a {@link PreCompiledStyles} instance and generates a CSS string
- * by iterating over all properties and values. The output CSS uses CSS custom
- * properties (CSS variables) for variant options.
+ * This function takes a {@link PreCompiledStyles} instance and generates a CSS
+ * string by iterating over all properties and values. The output CSS uses CSS
+ * custom properties (CSS variables) for variant options.
  *
  * @example
  * 	// Simple styles
@@ -94,8 +95,8 @@ export function print(style: PreCompiledStyles): string {
  * Compiles raw styles into {@link PreCompiledStyles} for optimized rendering.
  *
  * This function takes an object with CSS properties and their values, which can
- * include media query objects, and returns a {@link PreCompiledStyles} instance that
- * can be directly used with CSS generation functions.
+ * include media query objects, and returns a {@link PreCompiledStyles} instance
+ * that can be directly used with CSS generation functions.
  *
  * The compilation process flattens nested media query objects and creates a
  * structured representation that can be efficiently processed for CSS output.
@@ -128,8 +129,8 @@ export function print(style: PreCompiledStyles): string {
  *   - Objects with media query keys (e.g., "&:hover", "@media") for responsive
  *     variants
  *
- * @returns {@link PreCompiledStyles} instance containing the compiled styles accessible
- *   via the `.styles` property
+ * @returns {@link PreCompiledStyles} Instance containing the compiled styles
+ *   accessible via the `.styles` property
  */
 export function precompileStyles(style: RawStyles): PreCompiledStyles {
 	return new PreCompiledStyles(
