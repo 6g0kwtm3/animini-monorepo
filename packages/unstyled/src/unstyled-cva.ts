@@ -25,6 +25,25 @@ export interface Cva<
 	variants: Variants
 }
 
+/**
+ * Identity function for cva objects that provides type safety.
+ *
+ * This function returns its input unchanged but ensures type correctness when
+ * defining component variants. It can be used to ensure a cva object conforms
+ * to the expected interface before passing it to other functions.
+ *
+ * @example
+ * 	// Basic usage
+ * 	const styles = defineCva({
+ * 		base: { color: "black" },
+ * 		variants: { size: { small: {}, large: {} } },
+ * 	})
+ *
+ * @template Variants - The variants object mapping variant names to their
+ *   styles
+ * @param cva - A cva definition object matching the Cva interface
+ * @returns The same cva object passed as input
+ */
 export function defineCva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(cva: Cva<Variants>): Cva<Variants> {
@@ -36,6 +55,30 @@ export type CvaProps<T> =
 		? { readonly [K in keyof Variants]?: Value<keyof Variants[K] & string> }
 		: never
 
+/**
+ * Applies component variant props to generate variant-specific styles.
+ *
+ * This function takes props that specify which variant options are active and
+ * returns a {@link PreCompiledStyles} object with the corresponding variant styles
+ * merged in. Each prop corresponds to a variant name, and the value specifies
+ * which option to use for that variant.
+ *
+ * @example
+ * 	// Basic usage
+ * 	const styles = cva({
+ * 		base: { padding: ".5rem" },
+ * 		variants: { size: { xs: {}, sm: {} } },
+ * 	})
+ *
+ * 	const variantStyles = applyProps({ size: "sm" })
+ *
+ * @template T - The cva type being used
+ * @param props - Props object where keys are variant names and values are the
+ *   selected option names for each variant. Values can be undefined to indicate
+ *   no variant is selected for that variant.
+ * @returns PreCompiledStyles object containing the variant-specific styles with
+ *   CSS custom property references for each variant option
+ */
 export function applyProps<T>(props: CvaProps<T>): PreCompiledStyles {
 	return precompileStyles(
 		Object.fromEntries(
@@ -51,6 +94,62 @@ type CompoundVariant<Variants> = {
 	[K in keyof Variants]?: NonEmptyArray<keyof Variants[K]>
 } & { css: RawStyles }
 
+/**
+ * Defines a component variant (cva) style object with base styles, variants,
+ * and optional compound variants.
+ *
+ * This function allows you to define flexible styling systems that support
+ * different states, sizes, colors, and other component variants through a
+ * composable pattern. The cva pattern enables creating styles that can be
+ * applied conditionally based on props while maintaining type safety.
+ *
+ * @example
+ * 	// Base styles with no variants
+ * 	const styles = cva({
+ * 		base: { backgroundColor: "blue", borderRadius: "4rem" },
+ * 		variants: {},
+ * 	})
+ *
+ * @example
+ * 	// CVA with variants
+ * 	const styles = cva({
+ * 		base: { display: "inline-block", padding: ".25rem" },
+ * 		variants: {
+ * 			size: { xs: { fontSize: "1rem" }, sm: { fontSize: "1.25rem" } },
+ * 		},
+ * 	})
+ *
+ * 	const appliedStyles = styles.variants({ size: "sm" })
+ *
+ * @example
+ * 	// CVA with compound variants
+ * 	const styles = cva({
+ * 		base: { padding: ".5rem" },
+ * 		variants: { size: { xs: {}, sm: {} }, shape: { round: {}, square: {} } },
+ * 		compoundVariants: [
+ * 			{ size: ["xs"], shape: ["round"], css: { borderRadius: ".25rem" } },
+ * 		],
+ * 	})
+ *
+ * @example
+ * 	// CVA with media queries
+ * 	const styles = cva({
+ * 		base: { color: { base: "black", "&:hover": "blue" } },
+ * 		variants: {},
+ * 	})
+ *
+ * @template Variants - The variants object mapping variant names to their
+ *   styles
+ * @param cva - The cva definition object containing:
+ *
+ *   - `base`: Base styles applied to all variants ({@link RawStyles})
+ *   - `variants`: Object mapping variant names to their style options
+ *   - `defaultVariants`: Default values for variant properties (optional)
+ *   - `compoundVariants`: Additional styles for specific variant combinations
+ *     (optional)
+ *
+ * @returns An object with `style` and `variants` properties
+ */
 export function cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(
@@ -207,6 +306,37 @@ function mergeCompoundVariantProperty<
 	return result.reduce(mergeValues)
 }
 
+/**
+ * Merges two {@link Value} objects, combining their properties.
+ *
+ * This internal function merges two {@link Value} objects by combining their
+ * properties. When both values are simple (not objects), they are concatenated
+ * as CSS would combine them. When they are objects, properties are merged
+ * recursively, with the second value taking precedence for conflicting
+ * properties.
+ *
+ * @example
+ * 	// Merging two simple values
+ * 	const merged = mergeValues("red", "blue")
+ * 	// Returns: "red blue"
+ *
+ * @example
+ * 	// Merging two object values
+ * 	const merged = mergeValues(
+ * 		{ base: "value1", hover: "value1-hover" },
+ * 		{ base: "value2", hover: "value2-hover" }
+ * 	)
+ * 	// Returns: {
+ * 	//   base: "value1 value2",
+ * 	//   hover: "value1-hover value2-hover",
+ * 	// }
+ *
+ * @param a - First Value object to merge
+ * @param b - Second Value object to merge
+ * @returns A new Value object containing merged properties from both inputs. If
+ *   both inputs are simple values, returns a concatenated string. If one or
+ *   both are objects, returns a merged object.
+ */
 function mergeValues<T extends number | string | undefined>(a: T, b: T): T
 function mergeValues(a: Value, b: Value): Value
 function mergeValues(a: Value, b: Value): Value {

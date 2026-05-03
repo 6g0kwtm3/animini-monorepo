@@ -2,7 +2,39 @@ import { useMemo, type ReactNode } from "react"
 import { invariant, numberToString } from "utilities"
 import { print, type PreCompiledStyles } from "./unstyled-print"
 
-/** @internal */
+
+/**
+ * React hook that generates style classes for unstyled components.
+ *
+ * This internal hook generates a unique CSS class name and injects a style tag
+ * containing the component's styles. The class name is derived from a SHA-256
+ * hash of the styles to ensure consistent class names for the same styles.
+ *
+ * The hook uses React's useMemo to cache the result based on the input styles,
+ * ensuring that identical styles produce the same class name without
+ * re-generating the style tag.
+ *
+ * @example
+ * 	// Usage in
+ * 	//	components```ts
+ * 	import { useStyles, precompileStyles } from "@anitrove/unstyled";
+ *
+ * 	const [className, styleElement] = useStyles(precompileStyles({
+ * 	color: "blue",
+ * 	}));
+ *
+ * 	return <div className={className} />;
+ *
+ * 	@param rawStyle - {@link PreCompiledStyles} instance containing the styles to
+ * 	generate a class name for. The styles are converted to a CSS string and
+ * 	injected into the document.
+ * 	@returns A tuple containing:
+ *
+ * 	- A unique class name in the format `unstyled-{hash}`
+ * 	- A React node representing a style element containing the styles
+ *
+ * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail 
+ */
 export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 	return useMemo(() => {
 		const styles = print(rawStyle)
