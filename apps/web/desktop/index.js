@@ -28,6 +28,10 @@ async function createWindow() {
 	await win.loadURL(url)
 	win.show()
 
+	void win.webContents.on("did-navigate-in-page", (event, url) => {
+		saveLastPage(url)
+	})
+
 	if (process.env.NODE_ENV === "development") {
 		win.webContents.openDevTools()
 	}
@@ -56,3 +60,25 @@ void app.on("window-all-closed", () => {
 		app.quit()
 	}
 })
+
+const storePath = path.join(app.getPath("userData"), "store.json")
+
+import { type } from "arktype"
+import fs from "node:fs"
+import { invariant } from "../app/lib/invariant.ts"
+
+/** @param {string} url */
+function saveLastPage(url) {
+	fs.writeFileSync(storePath, JSON.stringify({ lastPage: url }))
+}
+
+const LastPage = type({ lastPage: "string" })
+
+/** @returns {string | null} */
+function getLastPage() {
+	try {
+		return invariant(LastPage(JSON.parse(fs.readFileSync(storePath)))).lastPage
+	} catch {
+		return null
+	}
+}
