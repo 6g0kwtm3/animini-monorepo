@@ -126,97 +126,102 @@ export function ProgressIncrement(props: {
 							Save
 						</MenuListItem>
 					</form> */}
-					<MenuListItem>
-						<MenuItemLeadingIcon />
-						Edit
-					</MenuListItem>
+					<MenuListGroup>
+						<MenuListGroupItem>
+							<MenuItemLeadingIcon />
+							Edit
+						</MenuListGroupItem>
+					</MenuListGroup>
+					<MenuListGroup>
+						{(() => {
+							const shareData: ShareData = {
+								title: entry.media.title.userPreferred,
+								text: entry.media.title.userPreferred,
+								url: `https://${location.host}/media/${numberToString(entry.media.id)}`,
+							}
 
-					{(() => {
-						const shareData: ShareData = {
-							title: entry.media.title.userPreferred,
-							text: entry.media.title.userPreferred,
-							url: `https://${location.host}/media/${numberToString(entry.media.id)}`,
-						}
+							const canShare =
+								typeof navigator.canShare === "function"
+								&& navigator.canShare(shareData)
 
-						const canShare =
-							typeof navigator.canShare === "function"
-							&& navigator.canShare(shareData)
-
-						return (
-							canShare && (
-								<MenuListItem
-									render={<button type="button" />}
-									onClick={() => {
-										void (async () => {
-											await navigator.share(shareData)
-										})()
-									}}
-								>
-									<MenuItemLeadingIcon>
-										<MaterialSymbolsForward />
-									</MenuItemLeadingIcon>
-									Share
-								</MenuListItem>
+							return (
+								canShare && (
+									<MenuListGroupItem
+										render={<button type="button" />}
+										onClick={() => {
+											void (async () => {
+												await navigator.share(shareData).catch(() => {
+													alert("Sharing failed")
+												})
+											})()
+										}}
+									>
+										<MenuItemLeadingIcon>
+											<MaterialSymbolsForward />
+										</MenuItemLeadingIcon>
+										Share
+									</MenuListGroupItem>
+								)
 							)
-						)
-					})()}
+						})()}
+						<MenuListGroupItem>
+							<MenuItemLeadingIcon>
+								<MaterialSymbolsFavorite />
+							</MenuItemLeadingIcon>
+							Favourite
+						</MenuListGroupItem>
+						<Form action="" method="post">
+							<input type="hidden" name="intent" value="set_status" />
+							<input type="hidden" name="mediaId" value={entry.media.id} />
 
-					<MenuListItem>
-						<MenuItemLeadingIcon>
-							<MaterialSymbolsFavorite />
-						</MenuItemLeadingIcon>
-						Favourite
-					</MenuListItem>
+							<Menu>
+								<MenuListGroupItem render={<MenuTrigger />}>
+									<MenuItemLeadingIcon>
+										<MaterialSymbolsPlaylistAdd />
+									</MenuItemLeadingIcon>
+									Set status
+								</MenuListGroupItem>
 
-					<Form action="" method="post">
-						<input type="hidden" name="intent" value="set_status" />
-						<input type="hidden" name="mediaId" value={entry.media.id} />
-
-						<Menu>
-							<MenuListItem render={<MenuTrigger />}>
-								<MenuItemLeadingIcon>
-									<MaterialSymbolsPlaylistAdd />
-								</MenuItemLeadingIcon>
-								Set status
-							</MenuListItem>
-
-							<MenuList shift={-9}>
-								<MenuListItem
-									render={
-										<button
-											type="submit"
-											name="status"
-											value={"COMPLETED" satisfies MediaListStatus}
-										/>
-									}
-								>
-									Completed
-								</MenuListItem>
-								<MenuListItem
-									render={
-										<button
-											type="submit"
-											name="status"
-											value={"PAUSED" satisfies MediaListStatus}
-										/>
-									}
-								>
-									Paused
-								</MenuListItem>
-								<MenuListItem
-									render={
-										<button
-											type="submit"
-											name="status"
-											value={"DROPPED" satisfies MediaListStatus}
-										/>
-									}
-								>
-									Dropped
-								</MenuListItem>
-							</MenuList>
-						</Menu>
-					</Form>
+								<MenuList shift={-9}>
+									<MenuListGroup>
+										<MenuListGroupItem
+											render={
+												<button
+													type="submit"
+													name="status"
+													value={"COMPLETED" satisfies MediaListStatus}
+												/>
+											}
+										>
+											Completed
+										</MenuListGroupItem>
+										<MenuListGroupItem
+											render={
+												<button
+													type="submit"
+													name="status"
+													value={"PAUSED" satisfies MediaListStatus}
+												/>
+											}
+										>
+											Paused
+										</MenuListGroupItem>
+										<MenuListGroupItem
+											render={
+												<button
+													type="submit"
+													name="status"
+													value={"DROPPED" satisfies MediaListStatus}
+												/>
+											}
+										>
+											Dropped
+										</MenuListGroupItem>
+									</MenuListGroup>
+								</MenuList>
+							</Menu>
+						</Form>
+					</MenuListGroup>
 				</MenuList>
 			</Menu>
 		</div>
