@@ -3,9 +3,9 @@ import { FeedPage } from "./pages/IndexPage"
 
 const authFile = "playwright/.auth/user.json"
 
-test("authenticate", async ({ page, baseURL, worker }) => {
+test("authenticate", async ({ page, worker }) => {
 	worker.use(SuccessHandler)
-	await page.goto(baseURL ?? "/")
+
 	await page.keyboard.press("Control+.")
 	const indexPage = await FeedPage.new(page)
 	const loginPage = await indexPage.nav.gotoLogin()
