@@ -127,12 +127,6 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				/> */}
 				<Meta />
 				<Links />
-				{import.meta.env.DEV ? (
-					<script
-						async
-						src="https://unpkg.com/react-scan/dist/auto.global.js"
-					></script>
-				) : null}
 			</head>
 			<body>
 				<RelayEnvironment environment={environment}>
