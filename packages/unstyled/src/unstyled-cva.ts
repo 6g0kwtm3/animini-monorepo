@@ -176,7 +176,7 @@ export function cva<
 			result[property] = Object.entries(options)
 				.flatMap(([option, style]) => {
 					const value = style[property] ?? base[property]
-					if (value == undefined) return []
+					if (value == null) return []
 					return [
 						mapValue(value, (value) => {
 							return `var(--${variant}-${option}, ${numberOrStringToString(value)})`
@@ -287,7 +287,7 @@ function mergeCompoundVariantProperty<
 			index + 1,
 			[...currentOptions, option]
 		)
-		if (value == undefined) {
+		if (value == null) {
 			return []
 		}
 		return [
@@ -358,10 +358,10 @@ function mergeValues(a: Value, b: Value): Value {
 	const result: Value = {}
 
 	for (const [property, value] of Object.entries(a)) {
-		if (value === undefined) continue
-		if (b[property] !== undefined) {
+		if (value == null) continue
+		if (b[property] != null) {
 			result[property] = mergeValues(value, b[property])
-		} else if (b.base != undefined) {
+		} else if (b.base != null) {
 			const { base } = b
 			result[property] = mapValue(value, (property) =>
 				mergeValues(property, base)
@@ -372,10 +372,10 @@ function mergeValues(a: Value, b: Value): Value {
 	}
 
 	for (const [property, value] of Object.entries(b)) {
-		if (value === undefined) continue
-		if (a[property] !== undefined) {
+		if (value == null) continue
+		if (a[property] != null) {
 			result[property] = mergeValues(a[property], value)
-		} else if (a.base != undefined) {
+		} else if (a.base != null) {
 			const { base } = a
 			result[property] = mapValue(value, (property) =>
 				mergeValues(base, property)

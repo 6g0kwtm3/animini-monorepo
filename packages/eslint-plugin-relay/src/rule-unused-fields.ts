@@ -130,7 +130,7 @@ export const rule: Rule.RuleModule = {
 					const queriedFields = getGraphQLFieldNames(graphQLAst)
 					for (const field in queriedFields) {
 						if (
-							queriedFields[field] != undefined
+							queriedFields[field] != null
 							&& !foundMemberAccesses.has(field)
 							&& !isPageInfoField(field)
 							// Do not warn for unused __typename which can be a workaround

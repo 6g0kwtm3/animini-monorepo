@@ -14,7 +14,7 @@ import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 
 import { A } from "@anitrove/a"
-import { useState } from "react"
+
 import type { Airing_notification$key } from "~/gql/Airing_notification.graphql"
 import type { Airing_viewer$key } from "~/gql/Airing_viewer.graphql"
 import { useFragment } from "~/lib/Network"

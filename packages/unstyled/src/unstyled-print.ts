@@ -172,7 +172,7 @@ function printProperty(
 
 	let result = ""
 
-	if (base != undefined) {
+	if (base != null) {
 		result += `${tab.repeat(indent)}${propertyName}: ${numberOrStringToString(base)};\n`
 	}
 
