@@ -20,7 +20,8 @@
 		},
 		{ "groupName": "build", "extends": ["packages:vite"] },
 		{ "groupName": "test", "extends": ["packages:test"] },
-		{ "groupName": "linters", "extends": ["packages:linters"] }
+		{ "groupName": "linters", "extends": ["packages:linters"] },
+		{ "groupName": "linters", "matchPackageNames": ["/eslint/"] }
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
