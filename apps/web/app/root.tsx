@@ -62,12 +62,9 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: "stylesheet",
-			href:
-				"https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@"
-				+ fontWeights
-					.map((fontWeight) => `8..144,${numberToString(fontWeight)}`)
-					.join(";")
-				+ "&display=swap",
+			href: `https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@${fontWeights
+				.map((fontWeight) => `8..144,${numberToString(fontWeight)}`)
+				.join(";")}&display=swap`,
 		},
 	]
 }

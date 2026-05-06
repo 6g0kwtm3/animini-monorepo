@@ -89,9 +89,9 @@ catalog:
   motion: 12.38.0
   msw: 2.13.6
   nodemon: 3.1.14
-  oxfmt: 0.47.0
-  oxlint: 1.56.0
-  oxlint-tsgolint: 0.21.1
+  oxfmt: 0.48.0
+  oxlint: 1.63.0
+  oxlint-tsgolint: 0.22.1
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.7.3
   prop-types: 15.8.1
