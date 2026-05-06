@@ -24,7 +24,10 @@ export const rule: RuleModule<string> = {
 		return {
 			JSXOpeningElement(node: TSESTree.JSXOpeningElement) {
 				// Skip <Fragment /> elements
-				if (node.name.type === AST_NODE_TYPES.JSXIdentifier && node.name.name === "Fragment") {
+				if (
+					node.name.type === AST_NODE_TYPES.JSXIdentifier
+					&& node.name.name === "Fragment"
+				) {
 					return
 				}
 
