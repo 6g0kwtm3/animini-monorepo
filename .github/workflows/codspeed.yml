@@ -35,7 +35,7 @@ jobs:
           filter: blob:none
           fetch-depth: 0
       - name: Install pnpm
-        uses: pnpm/action-setup@26f6d4f2c533a43e6b5da0b4a5dd983f98f7b49a # v6
+        uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6
 
       - name: Use Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
@@ -47,7 +47,7 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@c381be0bfd20e844fb45594f6aa182ffcd94545c # v4
+        uses: CodSpeedHQ/action@3194d9a39c4d46684cb44bf7207fc56626aad8fd # v4
         with:
           run: pnpm exec turbo bench
           mode: simulation
