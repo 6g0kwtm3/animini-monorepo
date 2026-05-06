@@ -163,10 +163,9 @@ function printProperty(
 	property ??= { base: property }
 
 	if (typeof property !== "object") {
-		return (
-			tab.repeat(indent)
-			+ `${propertyName}: ${numberOrStringToString(property)};\n`
-		)
+		return `${tab.repeat(
+			indent
+		)}${propertyName}: ${numberOrStringToString(property)};\n`
 	}
 
 	const { base, ...rest } = property
@@ -174,15 +173,14 @@ function printProperty(
 	let result = ""
 
 	if (base != undefined) {
-		result +=
-			tab.repeat(indent) + `${propertyName}: ${numberOrStringToString(base)};\n`
+		result += `${tab.repeat(indent)}${propertyName}: ${numberOrStringToString(base)};\n`
 	}
 
 	for (const [selector, property] of Object.entries<undefined | Value>(rest)) {
 		if (property === undefined) continue
-		result += tab.repeat(indent) + `${selector} {\n`
+		result += `${tab.repeat(indent)}${selector} {\n`
 		result += printProperty(propertyName, property, indent + 1)
-		result += tab.repeat(indent) + `}\n`
+		result += `${tab.repeat(indent)}}\n`
 	}
 
 	return result

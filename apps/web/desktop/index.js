@@ -38,7 +38,7 @@ void app.whenReady().then(async () => {
 		const { default: installExtension, REACT_DEVELOPER_TOOLS } =
 			await import("electron-devtools-installer")
 
-		if (typeof installExtension == "function")
+		if (typeof installExtension === "function")
 			await installExtension(REACT_DEVELOPER_TOOLS)
 	}
 

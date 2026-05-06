@@ -41,7 +41,7 @@ export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 		thing.add(JSON.stringify(rawStyle))
 		const id = hex(thing.digest())
 
-		const className = `unstyled-` + id
+		const className = `unstyled-${id}`
 
 		return [
 			className,
@@ -272,6 +272,6 @@ function sha256() {
 
 function hex(reply: Uint8Array) {
 	let res = ""
-	reply.forEach((x) => (res += ("0" + x.toString(16)).slice(-2)))
+	reply.forEach((x) => (res += `0${x.toString(16)}`.slice(-2)))
 	return res
 }
