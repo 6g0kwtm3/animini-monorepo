@@ -7,12 +7,13 @@ import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql
 
 import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
+import type { UserListTabs_query$key } from "~/gql/UserListTabs_query.graphql"
 import {
 	useFragment,
 	usePreloadedQuery,
 	type NodeAndQueryFragment,
 } from "~/lib/Network"
-import type { UserListTabs_query$key } from "~/gql/UserListTabs_query.graphql"
+import { numberToString } from "~/lib/numberToString"
 
 const { graphql } = ReactRelay
 
@@ -21,6 +22,9 @@ const UserListTabs_query = graphql`
 		MediaListCollection(userName: $userName, type: $type) {
 			lists {
 				name
+				entries {
+					id
+				}
 			}
 		}
 	}
@@ -39,13 +43,18 @@ export function UserListTabs(props: {
 
 	const [searchParams] = useSearchParams()
 
+	const total = lists?.reduce<null | number>(
+		(acc, list) => (list.entries ? list.entries.length + (acc ?? 0) : acc),
+		null
+	)
+
 	return (
 		<TabsList>
 			<TabsListItem
 				id={"undefined"}
 				render={<A href={`.?${searchParams}`} relative="path"></A>}
 			>
-				All
+				All {total != null ? `(${numberToString(total)})` : ""}
 			</TabsListItem>
 			{lists?.map((list) => {
 				return (
@@ -57,6 +66,9 @@ export function UserListTabs(props: {
 							render={<A href={`${list.name}?${searchParams}`}></A>}
 						>
 							{list.name}
+							{list.entries?.length != null
+								? ` (${numberToString(list.entries.length)})`
+								: ""}
 						</TabsListItem>
 					)
 				)
