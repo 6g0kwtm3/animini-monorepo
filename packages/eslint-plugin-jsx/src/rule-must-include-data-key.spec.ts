@@ -62,6 +62,12 @@ void describe("rule-must-include-data-key", () => {
 		)
 	})
 
+	test("allows missing data-key for Fragment", async () => {
+		await valid(`
+        <Fragment key="foo" />
+        `)
+	})
+
 	test("reports error for missing data-key", async () => {
 		const { result } = await invalid({
 			code: `
