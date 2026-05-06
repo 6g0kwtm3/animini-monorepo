@@ -1,25 +1,15 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "eslint-config",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"dependencies": {
-		"@eslint/js": "catalog:",
-		"eslint-plugin-oxlint": "catalog:",
-		"eslint-plugin-perfectionist": "catalog:",
-		"eslint-plugin-turbo": "catalog:",
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*",
-		"typescript-eslint": "catalog:"
+		"oxlint-config": "workspace:*"
 	},
-	"peerDependencies": {
-		"eslint": "catalog:"
-	},
+	"peerDependencies": {},
 	"exports": {
 		".": {
-			"types": "./types.d.ts",
-			"default": "./src/eslint.config.ts"
+			"types": "./types.d.ts"
 		}
 	}
 }

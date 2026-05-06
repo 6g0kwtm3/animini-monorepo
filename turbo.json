@@ -26,15 +26,7 @@
 			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
 		},
 		"transit": { "dependsOn": ["^transit"] },
-		"check": { "dependsOn": ["transit", "eslint-typegen"] },
-		"eslint-typegen": {
-			"inputs": ["eslint.config.ts"],
-			"outputs": ["eslint-typegen.d.ts"]
-		},
-		"//#eslint-typegen": {
-			"inputs": ["eslint.config.ts"],
-			"outputs": ["eslint-typegen.d.ts"]
-		},
+		"check": { "dependsOn": ["transit"] },
 		"//#oxlint": {},
 		"lint": { "dependsOn": ["transit"] },
 		"//#lint": {},

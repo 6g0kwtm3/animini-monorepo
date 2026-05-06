@@ -8,8 +8,6 @@
 		"dev": "storybook dev -p 6006",
 		"build": "storybook build",
 		"build-storybook": "storybook build",
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {
@@ -30,11 +28,6 @@
 		"@types/prop-types": "catalog:",
 		"@types/react": "catalog:",
 		"csstype": "catalog:",
-		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
-		"eslint-plugin-storybook": "catalog:",
-		"eslint-typegen": "catalog:",
 		"prop-types": "catalog:",
 		"react": "catalog:",
 		"storybook": "catalog:",

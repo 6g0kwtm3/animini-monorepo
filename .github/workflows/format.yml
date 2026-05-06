@@ -48,7 +48,7 @@ jobs:
 
       - name: Lint
         if: ${{ !cancelled() }}
-        run: pnpm exec turbo oxlint lint --affected
+        run: pnpm exec turbo oxlint --affected
 
       - name: Format
         if: ${{ !cancelled() }}

@@ -6,14 +6,9 @@
 	"type": "module",
 	"exports": "./src/index.ts",
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"check": "tsgo --noEmit"
 	},
 	"devDependencies": {
-		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:^",
 		"tsx": "catalog:"
 	}
