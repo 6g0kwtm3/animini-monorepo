@@ -23,6 +23,14 @@ export const rule: RuleModule<string> = {
 	create(context: RuleContext<string, []>) {
 		return {
 			JSXOpeningElement(node: TSESTree.JSXOpeningElement) {
+				// Skip <Fragment /> elements
+				if (
+					node.name.type === AST_NODE_TYPES.JSXIdentifier
+					&& node.name.name === "Fragment"
+				) {
+					return
+				}
+
 				const byName = Object.fromEntries(
 					node.attributes.flatMap(
 						(attribute): [string, TSESTree.JSXAttribute][] => {
