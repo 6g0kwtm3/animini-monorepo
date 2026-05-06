@@ -20,7 +20,7 @@ import {
 	MenuItemTrailingIcon,
 	MenuItemTrailingText,
 	MenuList,
-	MenuListItem,
+	MenuListGroupItem,
 	MenuTrigger,
 } from "~/components/Menu"
 import {
@@ -170,7 +170,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 												Item 1
 											</MenuListItem> */}
 
-											<MenuListItem>
+											<MenuListGroupItem>
 												<MenuItemLeadingIcon>
 													<MaterialSymbolsContentCopy />
 												</MenuItemLeadingIcon>
@@ -181,8 +181,8 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 													</span>
 													+Shift+X
 												</MenuItemTrailingText>
-											</MenuListItem>
-											<MenuListItem>
+											</MenuListGroupItem>
+											<MenuListGroupItem>
 												<MenuItemLeadingIcon>
 													<MaterialSymbolsEdit />
 												</MenuItemLeadingIcon>
@@ -190,11 +190,11 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 												<MenuItemTrailingIcon>
 													<MaterialSymbolsCheck />
 												</MenuItemTrailingIcon>
-											</MenuListItem>
+											</MenuListGroupItem>
 											<MenuDivider />
 
 											<Menu>
-												<MenuListItem render={<MenuTrigger />}>
+												<MenuListGroupItem render={<MenuTrigger />}>
 													<MenuItemLeadingIcon>
 														<MaterialSymbolsCloud />
 													</MenuItemLeadingIcon>
@@ -202,14 +202,14 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 													<MenuItemTrailingIcon className="group-open:rotate-180">
 														<MaterialSymbolsChevronRight />
 													</MenuItemTrailingIcon>
-												</MenuListItem>
+												</MenuListGroupItem>
 												<MenuList className="-top-2 left-full">
-													<MenuListItem>
+													<MenuListGroupItem>
 														<MenuItemLeadingIcon>
 															<MaterialSymbolsVisibility />
 														</MenuItemLeadingIcon>
 														Item 1
-													</MenuListItem>
+													</MenuListGroupItem>
 												</MenuList>
 											</Menu>
 										</MenuList>

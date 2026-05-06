@@ -1,5 +1,6 @@
 import { useMemo, type ReactNode } from "react"
 import { invariant, numberToString } from "utilities"
+import { markerToSelector } from "./unstyled-marker"
 import { print, type PreCompiledStyles } from "./unstyled-print"
 
 /**
@@ -42,9 +43,11 @@ export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 		const id = hex(thing.digest())
 
 		const className = `unstyled-` + id
+		const classNames = rawStyle.markers.values().map(markerToSelector).toArray()
+		void classNames.push(className)
 
 		return [
-			className,
+			classNames.join(" "),
 			<style
 				href={className}
 				precedence="medium"

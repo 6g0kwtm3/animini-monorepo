@@ -1,5 +1,6 @@
 import { numberOrStringToString } from "utilities"
 import type { Properties, RawStyles } from "./unstyled-cva"
+import { Marker } from "./unstyled-marker"
 import type { Value } from "./unstyled-value"
 
 /**
@@ -15,6 +16,8 @@ import type { Value } from "./unstyled-value"
  *   options
  */
 export class PreCompiledStyles {
+	/** @internal */ readonly kind = "PreCompiledStyles" as const
+	/** @internal */ public readonly markers = new Set<Marker>()
 	/** @internal */ public readonly styles: { [K in keyof Properties]?: string }
 	constructor(styles: { [K in keyof Properties]?: string }) {
 		this.styles = styles
@@ -48,12 +51,23 @@ export class PreCompiledStyles {
  *   inputs in the order they were provided
  */
 export function mergeStyles(
-	...styles: (PreCompiledStyles | undefined)[]
+	...styles: (Marker | PreCompiledStyles | undefined)[]
 ): PreCompiledStyles {
 	const result = new PreCompiledStyles({})
 	for (const style of styles) {
 		if (style === undefined) continue
-		void Object.assign(result.styles, style.styles)
+		switch (style.kind) {
+			case "PreCompiledStyles": {
+				void Object.assign(result.styles, style.styles)
+				for (const marker of style.markers) {
+					void result.markers.add(marker)
+				}
+				break
+			}
+			case "Marker": {
+				void result.markers.add(style)
+			}
+		}
 	}
 	return result
 }
