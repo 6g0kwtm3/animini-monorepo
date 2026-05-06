@@ -6,8 +6,8 @@ export default {
 		v8_splitRouteModules: true,
 		v8_viteEnvironmentApi: true,
 		v8_middleware: true,
-		unstable_subResourceIntegrity: true,
 	},
+	subResourceIntegrity: true,
 	ssr: false,
 	buildDirectory: "dist",
 } satisfies Config
