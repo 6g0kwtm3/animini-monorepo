@@ -31,6 +31,8 @@ jobs:
   ollama-test:
     name: Ollama Test
     runs-on: ubuntu-latest
+    container:
+      image: ollama/ollama:latest
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -38,21 +40,8 @@ jobs:
           filter: blob:none
           fetch-depth: 0
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@26f6d4f2c533a43e6b5da0b4a5dd983f98f7b49a # v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
-        with:
-          node-version-file: package.json
-          cache: "pnpm"
-
-      - name: Install dependencies 📦
-        run: pnpm install --frozen-lockfile --prefer-offline
-
-      - name: Setup Ollama
-        uses: ai-action/setup-ollama@v2
       - name: Setup Claude
         run: curl -fsSL https://claude.ai/install.sh | bash
+
       - name: Test Ollama
         run: ollama launch claude --model qwen3.5 --yes -- -p "how does this repository work?"
