@@ -5,9 +5,12 @@ on:
     branches:
       - renovate/**
   pull_request:
-    paths-ignore:
-      - ".claude/**"
-      - "**.md"
+    paths:
+      - "**"
+      - "!.github/workflows/**"
+      - ".github/workflows/test.yml"
+      - "!.claude/**"
+      - "!**.md"
   merge_group:
   workflow_dispatch:
 

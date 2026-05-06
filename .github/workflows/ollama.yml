@@ -6,6 +6,7 @@ on:
       - renovate/**
   pull_request:
     paths:
+      - "**"
       - "!.github/workflows/**"
       - ".github/workflows/ollama.yml"
       - "!.claude/**"
