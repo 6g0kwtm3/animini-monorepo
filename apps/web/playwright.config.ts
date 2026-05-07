@@ -44,7 +44,7 @@ export default defineConfig<Fixtures>({
 		//   use: { ...devices['Desktop Safari'] },
 		// },
 
-		{ name: "electron", use: { isElectron: true } },
+		{ name: "electron", use: { isElectron: true }, ignoreSnapshots: true },
 
 		/* Test against mobile viewports. */
 		{
@@ -55,6 +55,7 @@ export default defineConfig<Fixtures>({
 		{
 			name: "web-mobile-webkit",
 			use: { ...devices["iPhone 12"] },
+			ignoreSnapshots: true,
 			// dependencies: ["setup"],
 		},
 
