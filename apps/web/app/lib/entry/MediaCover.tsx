@@ -60,6 +60,8 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 				.filter(Boolean)
 				.join(", ")}
 			alt=""
+			width={230}
+			height={320}
 			{...props}
 			style={{
 				backgroundImage: data.coverImage?.medium
