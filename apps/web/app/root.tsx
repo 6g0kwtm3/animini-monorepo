@@ -1,4 +1,4 @@
-import { captureException, startSpan } from "@sentry/react"
+import { captureException } from "@sentry/react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -25,7 +25,7 @@ import tailwind from "./tailwind.css?url"
 import { useSentryToolbar } from "@sentry/toolbar"
 import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
-import type { Route } from "./+types/root"
+
 import environment, {
 	loadQueryMiddleware,
 	RelayEnvironmentProvider,
@@ -143,18 +143,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	)
 }
 
-const clientLoggerMiddleware: Route.ClientMiddlewareFunction = (
-	{ request },
-	next
-) => {
-	return startSpan({ name: `Navigated to ${request.url}` }, () => {
-		// Run the remaining middlewares and all route loaders
-		return next()
-	})
-}
-
 export const clientMiddleware = [
-	clientLoggerMiddleware,
 	onAbortNavigationMiddleware,
 	loadQueryMiddleware,
 ]
