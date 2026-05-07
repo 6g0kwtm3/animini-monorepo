@@ -4,15 +4,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"dependencies": {
-		"@eslint/js": "catalog:",
-		"eslint-plugin-oxlint": "catalog:",
-		"eslint-plugin-perfectionist": "catalog:",
-		"eslint-plugin-turbo": "catalog:",
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*",
-		"typescript-eslint": "catalog:"
-	},
+	"dependencies": {},
 	"peerDependencies": {
 		"eslint": "catalog:"
 	},

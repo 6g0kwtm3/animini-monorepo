@@ -5,14 +5,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"dependencies": {
-		"eslint": "catalog:",
-		"eslint-plugin-jsx": "workspace:*",
-		"eslint-plugin-oxlint": "catalog:",
-		"eslint-plugin-react": "catalog:",
-		"eslint-plugin-react-hooks": "catalog:",
-		"eslint-plugin-react-refresh": "catalog:",
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*"
+		"eslint": "catalog:"
 	},
 	"devDependencies": {
 		"ts-config": "workspace:*"

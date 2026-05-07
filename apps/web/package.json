@@ -74,7 +74,6 @@
 	},
 	"devDependencies": {
 		"@babel/preset-typescript": "catalog:",
-		"@graphql-eslint/eslint-plugin": "catalog:",
 		"@graphql-tools/mock": "catalog:",
 		"@msw/playwright": "catalog:",
 		"@playwright/test": "catalog:",
@@ -83,10 +82,6 @@
 		"bundlewatch": "catalog:",
 		"cross-env": "catalog:",
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
-		"eslint-plugin-relay": "workspace:*",
-		"eslint-typegen": "catalog:",
 		"flubber": "catalog:",
 		"graphql-config": "catalog:",
 		"msw": "catalog:",
