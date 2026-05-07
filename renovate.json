@@ -32,5 +32,5 @@
 		// TODO: update
 		"dompurify"
 	],
-	"env": { "PNPM_MAX_WORKERS": 1, "pnpm_config_network_concurrency": 1 }
+	"env": { "PNPM_MAX_WORKERS": "1", "pnpm_config_network_concurrency": "1" }
 }
