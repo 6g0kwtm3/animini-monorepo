@@ -12,9 +12,7 @@ import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 // test.use({ storageState: "playwright/.auth/user.json" })
-import {
-	expect,
-} from "@playwright/test"
+import { expect } from "@playwright/test"
 class UserPage {
 	animeList: Locator
 	mangaList: Locator
