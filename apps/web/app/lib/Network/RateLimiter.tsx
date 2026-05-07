@@ -1,5 +1,3 @@
-
-
 interface RateLimiterArgs {
 	limit: number
 	per: Temporal.Duration
