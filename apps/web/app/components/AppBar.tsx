@@ -1,6 +1,12 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentProps, ComponentRef, ReactNode } from "react"
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import type { ComponentProps, ReactNode } from "react"
+import {
+	createContext,
+	useContext,
+	useDeferredValue,
+	useState,
+	useSyncExternalStore,
+} from "react"
 import type { VariantProps } from "tailwind-variants"
 
 import { numberToString } from "~/lib/numberToString"
@@ -53,54 +59,55 @@ export function AppBar({
 	hide,
 	...props
 }: AppBarProps): ReactNode {
-	const [scrolled, setScrolled] = useState(0)
-	const [hidden, setHidden] = useState(false)
-
-	const ref = useRef<ComponentRef<"nav">>(null)
-
 	const styles = appBar({ variant, elevate, hide })
 
-	useEffect(() => {
-		function listener() {
-			setScrolled((scrollY) => {
-				setHidden(scrollY < window.scrollY)
-				return window.scrollY
-			})
-		}
-		window.addEventListener("scroll", listener)
-		return () => {
-			window.removeEventListener("scroll", listener)
-		}
-	}, [])
-
-	const observer = useRef(
-		new ResizeObserver((nodes) => {
-			for (const node of nodes) {
-				if (node.target instanceof HTMLElement) {
-					node.target.style.setProperty(
-						"--app-bar-height",
-						`${numberToString(node.target.clientHeight)}px`
-					)
+	const scrolled = useDeferredValue(
+		useSyncExternalStore(
+			(onChange) => {
+				const controller = new AbortController()
+				window.addEventListener("scroll", onChange, controller)
+				return () => {
+					controller.abort()
 				}
-			}
-		})
+			},
+			() => window.scrollY,
+			() => 0
+		)
 	)
 
-	useEffect(() => {
-		const node = ref.current
-		if (!node) return
-		const observerCurrent = observer.current
-		observerCurrent.observe(node)
-		return () => {
-			observerCurrent.unobserve(node)
-		}
-	}, [])
+	const [prevScroll, setPrevScroll] = useState(scrolled)
+	const [hidden, setHidden] = useState(prevScroll < scrolled)
+
+	if (prevScroll !== scrolled) {
+		setPrevScroll(scrolled)
+		setHidden(prevScroll < scrolled)
+	}
+
+	const [observer] = useState(
+		() =>
+			new ResizeObserver((nodes) => {
+				for (const node of nodes) {
+					if (node.target instanceof HTMLElement) {
+						node.target.style.setProperty(
+							"--app-bar-height",
+							`${numberToString(node.target.clientHeight)}px`
+						)
+					}
+				}
+			})
+	)
 
 	return (
 		<AppBarContext.Provider value={styles}>
 			<nav
 				{...props}
-				ref={ref}
+				ref={(node) => {
+					if (!node) return
+					observer.observe(node)
+					return () => {
+						observer.unobserve(node)
+					}
+				}}
 				data-hidden={hidden}
 				data-elevated={scrolled !== 0}
 				className={styles.root({ className: props.className })}
