@@ -9,7 +9,6 @@
 		"build": "storybook build",
 		"build-storybook": "storybook build",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {

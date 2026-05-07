@@ -7,7 +7,6 @@
 	"exports": "./src/index.ts",
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
