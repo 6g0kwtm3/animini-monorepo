@@ -1,4 +1,5 @@
 import {
+	graphqlClientIntegration,
 	init,
 	reactErrorHandler,
 	reactRouterTracingIntegration,
@@ -7,6 +8,7 @@ import {
 import { startTransition, StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
 import { HydratedRouter } from "react-router/dom"
+import { API_URL } from "./lib/Network/environment"
 
 const tracing = reactRouterTracingIntegration({ useInstrumentationAPI: true })
 
@@ -18,7 +20,11 @@ init({
 			: "preview",
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
 	sendDefaultPii: true,
-	integrations: [tracing, replayIntegration()],
+	integrations: [
+		graphqlClientIntegration({ endpoints: [API_URL] }),
+		tracing,
+		replayIntegration(),
+	],
 
 	enableLogs: true,
 	tracesSampleRate: 1.0, //  Capture 100% of the transactions
