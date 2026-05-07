@@ -1,4 +1,4 @@
-import { metrics } from "@sentry/react"
+
 
 interface RateLimiterArgs {
 	limit: number
@@ -73,7 +73,6 @@ export class RateLimiter {
 			}
 
 			const fn = this.queue.shift()
-			metrics.gauge("rate_limiter.queue_length", this.queue.length)
 			if (!fn) {
 				throw new Error("RateLimiter queue is empty when trying to process")
 			}
