@@ -33,12 +33,12 @@ catalog:
   '@sentry/react': npm:@sentry/react-router@10.51.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.2.0
-  '@storybook/addon-a11y': 10.3.5
-  '@storybook/addon-docs': 10.3.5
-  '@storybook/addon-onboarding': 10.3.5
-  '@storybook/addon-themes': 10.3.5
-  '@storybook/addon-vitest': 10.3.5
-  '@storybook/react-vite': 10.3.5
+  '@storybook/addon-a11y': 10.3.6
+  '@storybook/addon-docs': 10.3.6
+  '@storybook/addon-onboarding': 10.3.6
+  '@storybook/addon-themes': 10.3.6
+  '@storybook/addon-vitest': 10.3.6
+  '@storybook/react-vite': 10.3.6
   '@stryker-mutator/api': 9.6.1
   '@stryker-mutator/core': 9.6.1
   '@stryker-mutator/vitest-runner': 9.6.1
@@ -101,7 +101,7 @@ catalog:
   react-router: 7.15.0
   relay-compiler: 20.1.1
   relay-runtime: 20.1.1
-  storybook: 10.3.5
+  storybook: 10.3.6
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.2.4
   temporal-polyfill-lite: 0.3.5
