@@ -34,6 +34,7 @@ export default defineConfig({
 			org: "animini",
 			project: "javascript-react",
 			authToken: process.env.SENTRY_AUTH_TOKEN,
+			reactComponentAnnotation: { enabled: true },
 		}),
 	],
 	preview: { port: 3000 },
