@@ -21,16 +21,16 @@
 		{ "groupName": "build", "extends": ["packages:vite"] },
 		{ "groupName": "test", "extends": ["packages:test"] },
 		{ "groupName": "linters", "extends": ["packages:linters"] },
-		{ "groupName": "linters", "matchPackageNames": ["/eslint/"] }
+		{ "groupName": "eslint", "matchPackageNames": ["/eslint/"] }
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
 	"ignoreDeps": [
 		// pinnned
+		"pnpm",
 		"@types/marked",
 		"marked",
 		// TODO: update
 		"dompurify"
-	],
-	"toolSettings": { "nodeMaxMemory": 2048 }
+	]
 }
