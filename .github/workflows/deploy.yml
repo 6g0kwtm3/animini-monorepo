@@ -57,7 +57,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          sourcemaps: apps/web/build
+          sourcemaps: apps/web/dist
   deploy:
     name: Deploy Cloudflare Pages
     runs-on: ubuntu-latest

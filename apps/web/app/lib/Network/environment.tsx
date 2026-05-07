@@ -22,7 +22,7 @@ import { RateLimiter } from "./RateLimiter"
 import { withRetry, type WithRetry } from "./withRetry"
 const { ROOT_TYPE } = RelayRuntime
 
-const API_URL = "https://graphql.anilist.co"
+export const API_URL = "https://graphql.anilist.co"
 const fetchQuery = async function (
 	operation: RequestParameters,
 	variables: Variables,
