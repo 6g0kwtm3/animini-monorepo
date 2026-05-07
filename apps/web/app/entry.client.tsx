@@ -30,6 +30,8 @@ init({
 	// plus 100% of sessions with an error
 	replaysSessionSampleRate: 0.1,
 	replaysOnErrorSampleRate: 1.0,
+
+	ignoreErrors: [`TypeError: Load failed`, `TypeError: Failed to fetch`],
 })
 
 startTransition(() => {
