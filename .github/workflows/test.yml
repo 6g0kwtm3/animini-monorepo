@@ -67,7 +67,7 @@ jobs:
       - name: Test E2E
         # TODO: fix electron
         continue-on-error: ${{ matrix.project == 'electron' }}
-        run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e -- --project=${{ matrix.project }}*
+        run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e -- --project=${{ matrix.project }}* --update-snapshots
         env:
           ELECTRON_DISABLE_SANDBOX: 1
           DISPLAY: ":99.0"
