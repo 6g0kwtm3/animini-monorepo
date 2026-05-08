@@ -31,7 +31,6 @@ async function createWindow() {
 			),
 			getLoadContext: () => new RouterContextProvider(),
 		}))
-	void win.loadURL(url)
 
 	void win.once("ready-to-show", () => {
 		win.show()
@@ -40,6 +39,7 @@ async function createWindow() {
 	if (process.env.NODE_ENV === "development") {
 		win.webContents.openDevTools()
 	}
+	await win.loadURL(url)
 }
 
 void app.whenReady().then(async () => {
