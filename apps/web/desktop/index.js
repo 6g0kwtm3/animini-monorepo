@@ -5,7 +5,7 @@ import { app, BrowserWindow, session } from "electron"
 import { RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
 
-export {}
+export { }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -31,8 +31,11 @@ async function createWindow() {
 			),
 			getLoadContext: () => new RouterContextProvider(),
 		}))
-	await win.loadURL(url)
-	win.show()
+	void win.loadURL(url)
+
+	void win.once("ready-to-show", () => {
+		win.show()
+	})
 
 	if (process.env.NODE_ENV === "development") {
 		win.webContents.openDevTools()
