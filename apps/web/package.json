@@ -11,7 +11,7 @@
 		"bundlewatch": "bundlewatch",
 		"check": "tsgo --noEmit",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"deploy": "wrangler pages deploy ./build/client",
+		"deploy": "wrangler pages deploy ./dist/client",
 		"dev": "react-router dev",
 		"electron:dev": "nodemon .",
 		"electron:start": "electron .",
