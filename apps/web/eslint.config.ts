@@ -13,7 +13,7 @@ export default typegen([
 		ignores: [
 			"app/gql/",
 			"app/paraglide/",
-			"public/build/",
+			"public/dist/",
 			"public/mockServiceWorker.js",
 			"**/schema.graphql",
 			".react-router/",

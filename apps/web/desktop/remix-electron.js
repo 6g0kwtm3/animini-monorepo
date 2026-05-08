@@ -11,6 +11,7 @@ import { resolve } from "node:path"
  * @property {string} [mode] The mode to run the app in, either development or
  *   production
  * @property {string} [publicFolder] The path where static assets are served
+ * @property {string} [buildDirectory] The path where the server build is output
  *   from.
  * @property {() => import("react-router").RouterContextProvider} [getLoadContext]
  *   A function to provide a `context` object to your loaders.
@@ -33,6 +34,7 @@ export async function initRemix({
 	mode,
 	publicFolder: _publicFolderOption = "public",
 	getLoadContext,
+	buildDirectory,
 }) {
 	await app.whenReady()
 
@@ -64,11 +66,13 @@ export async function initRemix({
 	} else {
 		void server.use(
 			"/assets",
-			serveStatic({ root: resolve(appRoot, "build/client/assets") })
+			serveStatic({ root: resolve(appRoot, buildDirectory, "client/assets") })
 		)
 	}
 
-	void server.use(serveStatic({ root: resolve(appRoot, "build/client") }))
+	void server.use(
+		serveStatic({ root: resolve(appRoot, buildDirectory, "client") })
+	)
 
 	const serverBuild = viteDevServer
 		? () =>
