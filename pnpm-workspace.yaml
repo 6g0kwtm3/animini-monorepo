@@ -124,6 +124,8 @@ dedupePeers: true
 enablePrePostScripts: false
 nodeLinker: hoisted
 optimisticRepeatInstall: true
+onlyBuiltDependencies:
+  - electron
 
 patchedDependencies:
   flubber: patches/flubber.patch
