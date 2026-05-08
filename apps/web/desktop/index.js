@@ -31,12 +31,15 @@ async function createWindow() {
 			),
 			getLoadContext: () => new RouterContextProvider(),
 		}))
-	await win.loadURL(url)
-	win.show()
+
+	void win.once("ready-to-show", () => {
+		win.show()
+	})
 
 	if (process.env.NODE_ENV === "development") {
 		win.webContents.openDevTools()
 	}
+	await win.loadURL(url)
 }
 
 void app.whenReady().then(async () => {
