@@ -66,8 +66,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.page)
 
 	const id = useId()
-	const activities = data.Page?.activities
-		?.filter((el) => el != null)
+	const activities = data.Page?.activities?.filter((el) => el != null)
 
 	return (
 		<LayoutBody>
