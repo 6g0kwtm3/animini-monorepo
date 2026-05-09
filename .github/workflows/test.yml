@@ -5,9 +5,6 @@ on:
     branches:
       - renovate/**
   pull_request:
-    paths-ignore:
-      - ".claude/**"
-      - "**.md"
   merge_group:
   workflow_dispatch:
 
