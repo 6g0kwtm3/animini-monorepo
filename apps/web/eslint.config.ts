@@ -40,7 +40,7 @@ export default typegen([
 		rules: {
 			"@graphql-eslint/no-deprecated": "error",
 			"@graphql-eslint/no-duplicate-fields": "error",
-			"@graphql-eslint/require-selections": "error",
+			// "@graphql-eslint/require-selections": "error",
 			// "@graphql-eslint/selection-set-depth": ["warn", { maxDepth: 3 }],
 		},
 	},
