@@ -22,8 +22,7 @@ const {
 	useQueryLoader: useQueryLoader_,
 } = ReactRelay
 
-export const { useFragment, RelayEnvironmentProvider } =
-	ReactRelay
+export const { useFragment, RelayEnvironmentProvider } = ReactRelay
 const { usePreloadedQuery: usePreloadedQuery_ } = ReactRelay
 
 function useQueryLoader<T extends RelayRuntime.OperationType>(
