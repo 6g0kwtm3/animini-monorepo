@@ -1,7 +1,14 @@
 import { type BrowserContext, type Locator, type Page } from "@playwright/test"
-import { graphql, HttpResponse } from "msw"
-
 import { type } from "arktype"
+import { graphql, HttpResponse } from "msw"
+import type {
+	SyncMediaMutation$rawResponse,
+	SyncMediaMutation$variables,
+} from "~/gql/SyncMediaMutation.graphql"
+import type {
+	routeNavUserListEntriesQuery$rawResponse,
+	routeNavUserListEntriesQuery$variables,
+} from "~/gql/routeNavUserListEntriesQuery.graphql"
 import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
@@ -31,6 +38,198 @@ class UserPage {
 
 const Viewer = { id: 1, name: "User" }
 const handlers = [
+	graphql.mutation<SyncMediaMutation$rawResponse, SyncMediaMutation$variables>(
+		"SyncMediaMutation",
+		() =>
+			HttpResponse.json({
+				data: {
+					SaveMediaListEntry: {
+						__typename: "MediaList",
+						status: "COMPLETED",
+						id: 2,
+						completedAt: { day: 0, month: 1, year: 2 },
+						private: true,
+						progress: 1,
+						score: 2,
+						startedAt: { day: 1, month: 2, year: 3 },
+						media: {
+							id: 2,
+							title: { userPreferred: "Contained media title" },
+							type: "MANGA",
+							status: "FINISHED",
+							relations: {
+								edges: [
+									{
+										id: 200,
+										relationType: "COMPILATION",
+										node: {
+											id: 1,
+											title: { userPreferred: "Media title" },
+											coverImage: { color: null, large: null, medium: null },
+										},
+									},
+								],
+							},
+							episodes: null,
+							coverImage: { color: null, large: null, medium: null },
+							chapters: 1,
+						},
+					},
+				},
+			})
+	),
+	graphql.query<
+		routeNavUserListEntriesQuery$rawResponse,
+		routeNavUserListEntriesQuery$variables
+	>(
+		"routeNavUserListEntriesQuery",
+		() =>
+			HttpResponse.json({
+				data: {
+					MediaListCollection: {
+						lists: [
+							{
+								__typename: "MediaListGroup",
+								status: "COMPLETED",
+								name: "List",
+								entries: [
+									{
+										__typename: "MediaList",
+										status: "COMPLETED",
+										id: 1,
+										completedAt: { day: 0, month: 1, year: 2 },
+										private: true,
+										progress: 12,
+										score: 2,
+										startedAt: { day: 1, month: 2, year: 3 },
+										media: {
+											id: 1,
+											title: { userPreferred: "Media title" },
+											type: "MANGA",
+											status: "FINISHED",
+											relations: {
+												edges: [
+													{
+														id: 100,
+														relationType: "CONTAINS",
+														node: {
+															id: 2,
+															title: { userPreferred: "Contained media title" },
+															coverImage: {
+																color: null,
+																large: null,
+																medium: null,
+															},
+														},
+													},
+												],
+											},
+											episodes: null,
+											coverImage: { color: null, large: null, medium: null },
+											chapters: 12,
+										},
+									},
+								],
+							},
+						],
+					},
+				},
+			}),
+		{ once: true }
+	),
+	graphql.query<
+		routeNavUserListEntriesQuery$rawResponse,
+		routeNavUserListEntriesQuery$variables
+	>("routeNavUserListEntriesQuery", () =>
+		HttpResponse.json({
+			data: {
+				MediaListCollection: {
+					lists: [
+						{
+							__typename: "MediaListGroup",
+							status: "COMPLETED",
+							name: "List",
+							entries: [
+								{
+									__typename: "MediaList",
+									status: "COMPLETED",
+									id: 1,
+									completedAt: { day: 0, month: 1, year: 2 },
+									private: true,
+									progress: 12,
+									score: 2,
+									startedAt: { day: 1, month: 2, year: 3 },
+									media: {
+										id: 1,
+										title: { userPreferred: "Media title" },
+										type: "MANGA",
+										status: "FINISHED",
+										relations: {
+											edges: [
+												{
+													id: 100,
+													relationType: "CONTAINS",
+													node: {
+														id: 2,
+														title: { userPreferred: "Contained media title" },
+														coverImage: {
+															color: null,
+															large: null,
+															medium: null,
+														},
+													},
+												},
+											],
+										},
+										episodes: null,
+										coverImage: { color: null, large: null, medium: null },
+										chapters: 12,
+									},
+								},
+								{
+									__typename: "MediaList",
+									status: "COMPLETED",
+									id: 2,
+									completedAt: { day: 0, month: 1, year: 2 },
+									private: true,
+									progress: 1,
+									score: 2,
+									startedAt: { day: 1, month: 2, year: 3 },
+									media: {
+										id: 2,
+										title: { userPreferred: "Contained media title" },
+										type: "MANGA",
+										status: "FINISHED",
+										relations: {
+											edges: [
+												{
+													id: 200,
+													relationType: "COMPILATION",
+													node: {
+														id: 1,
+														title: { userPreferred: "Media title" },
+														coverImage: {
+															color: null,
+															large: null,
+															medium: null,
+														},
+													},
+												},
+											],
+										},
+										episodes: null,
+										coverImage: { color: null, large: null, medium: null },
+										chapters: 1,
+									},
+								},
+							],
+						},
+					],
+				},
+			},
+		})
+	),
+
 	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
 		"routeNavUserQuery",
 		() =>
@@ -79,7 +278,6 @@ test.describe("fullscreen", () => {
 	test("anime list", async ({ page, isMobile, isElectron }) => {
 		test.skip(isMobile || isElectron)
 
-		await page.keyboard.press("Control+.")
 		const indexPage = await FeedPage.new(page)
 		// when
 		await indexPage.nav.animeList.click()
@@ -90,7 +288,6 @@ test.describe("fullscreen", () => {
 	test("manga list", async ({ page, isMobile, isElectron }) => {
 		test.skip(isMobile || isElectron)
 
-		await page.keyboard.press("Control+.")
 		const indexPage = await FeedPage.new(page)
 		// when
 		await indexPage.nav.mangaList.click()
@@ -100,7 +297,6 @@ test.describe("fullscreen", () => {
 })
 
 test("anime list", async ({ page }) => {
-	await page.keyboard.press("Control+.")
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
@@ -111,7 +307,6 @@ test("anime list", async ({ page }) => {
 })
 
 test("manga list", async ({ page }) => {
-	await page.keyboard.press("Control+.")
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
@@ -119,4 +314,19 @@ test("manga list", async ({ page }) => {
 	await userpage.mangaList.click()
 	// then
 	await TypelistPage.new(page)
+})
+
+test("sync media", async ({ page }) => {
+	const indexPage = await FeedPage.new(page)
+	await indexPage.nav.profile.click()
+	const userpage = UserPage.new(page)
+	await userpage.mangaList.click()
+	const typelist = await TypelistPage.new(page)
+	const entry = typelist.entry(/Media title/)
+	const containedEntry = typelist.entry(/Contained media title/)
+	// when
+	await entry.sync.click()
+	// then
+	await expect(containedEntry.progress).toHaveText(/1/)
+	await expect(containedEntry.privateBadge).toBeAttached()
 })
