@@ -50,7 +50,7 @@ const handlers = [
 				data: {
 					SaveMediaListEntry: {
 						__typename: "MediaList",
-						status: variables.status ?? "CURRENT",
+						status: variables.status,
 						id: variables.mediaId,
 						completedAt: null,
 						private: variables.private,
@@ -391,10 +391,9 @@ test("add to list", async ({ page }) => {
 	const userpage = UserPage.new(page)
 	await userpage.mangaList.click()
 	const typelist = await TypelistPage.new(page)
-	const entry = typelist.entry(/Media title/)
 	const containedEntry = typelist.entry(/Contained media title/)
 	// when
-	await entry.addToList.click()
+	await containedEntry.addToList.click()
 	// then
 	await expect(containedEntry.progress).toHaveText(/0/)
 	await expect(containedEntry.privateBadge).toBeAttached()
