@@ -12,7 +12,7 @@ import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 // test.use({ storageState: "playwright/.auth/user.json" })
-
+import { expect } from "@playwright/test"
 class UserPage {
 	animeList: Locator
 	mangaList: Locator
@@ -85,6 +85,7 @@ test.describe("fullscreen", () => {
 		await indexPage.nav.animeList.click()
 		// then
 		await TypelistPage.new(page)
+		await expect(page).toHaveScreenshot()
 	})
 
 	test("manga list", async ({ page, isMobile, isElectron }) => {
@@ -96,6 +97,7 @@ test.describe("fullscreen", () => {
 		await indexPage.nav.mangaList.click()
 		// then
 		await TypelistPage.new(page)
+		await expect(page).toHaveScreenshot()
 	})
 })
 
@@ -108,6 +110,7 @@ test("anime list", async ({ page }) => {
 	await userpage.animeList.click()
 	// then
 	await TypelistPage.new(page)
+	await expect(page).toHaveScreenshot()
 })
 
 test("manga list", async ({ page }) => {
@@ -119,4 +122,5 @@ test("manga list", async ({ page }) => {
 	await userpage.mangaList.click()
 	// then
 	await TypelistPage.new(page)
+	await expect(page).toHaveScreenshot()
 })
