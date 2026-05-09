@@ -22,7 +22,7 @@ const {
 	useQueryLoader: useQueryLoader_,
 } = ReactRelay
 
-export const { readInlineData, useFragment, RelayEnvironmentProvider } =
+export const { useFragment, RelayEnvironmentProvider } =
 	ReactRelay
 const { usePreloadedQuery: usePreloadedQuery_ } = ReactRelay
 
