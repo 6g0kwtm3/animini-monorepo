@@ -134,65 +134,6 @@ const handlers = [
 	graphql.query<
 		routeNavUserListEntriesQuery$rawResponse,
 		routeNavUserListEntriesQuery$variables
-	>(
-		"routeNavUserListEntriesQuery",
-		() =>
-			HttpResponse.json({
-				data: {
-					MediaListCollection: {
-						lists: [
-							{
-								__typename: "MediaListGroup",
-								status: "COMPLETED",
-								name: "List",
-								entries: [
-									{
-										__typename: "MediaList",
-										status: "COMPLETED",
-										id: 1,
-										completedAt: { day: 0, month: 1, year: 2 },
-										private: true,
-										progress: 12,
-										score: 2,
-										startedAt: { day: 1, month: 2, year: 3 },
-										media: {
-											id: 1,
-											title: { userPreferred: "Media title" },
-											type: "MANGA",
-											status: "FINISHED",
-											relations: {
-												edges: [
-													{
-														id: 100,
-														relationType: "CONTAINS",
-														node: {
-															id: 2,
-															title: { userPreferred: "Contained media title" },
-															coverImage: {
-																color: null,
-																large: null,
-																medium: null,
-															},
-														},
-													},
-												],
-											},
-											episodes: null,
-											coverImage: { color: null, large: null, medium: null },
-											chapters: 12,
-										},
-									},
-								],
-							},
-						],
-					},
-				},
-			}),
-		{ once: true }
-	),
-	graphql.query<
-		routeNavUserListEntriesQuery$rawResponse,
-		routeNavUserListEntriesQuery$variables
 	>("routeNavUserListEntriesQuery", () =>
 		HttpResponse.json({
 			data: {
@@ -239,42 +180,6 @@ const handlers = [
 										chapters: 12,
 									},
 								},
-								{
-									__typename: "MediaList",
-									status: "COMPLETED",
-									id: 2,
-									completedAt: { day: 0, month: 1, year: 2 },
-									private: true,
-									progress: 1,
-									score: 2,
-									startedAt: { day: 1, month: 2, year: 3 },
-									media: {
-										id: 2,
-										title: { userPreferred: "Contained media title" },
-										type: "MANGA",
-										status: "FINISHED",
-										relations: {
-											edges: [
-												{
-													id: 200,
-													relationType: "COMPILATION",
-													node: {
-														id: 1,
-														title: { userPreferred: "Media title" },
-														coverImage: {
-															color: null,
-															large: null,
-															medium: null,
-														},
-													},
-												},
-											],
-										},
-										episodes: null,
-										coverImage: { color: null, large: null, medium: null },
-										chapters: 1,
-									},
-								},
 							],
 						},
 					],
@@ -282,7 +187,6 @@ const handlers = [
 			},
 		})
 	),
-
 	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
 		"routeNavUserQuery",
 		() =>
