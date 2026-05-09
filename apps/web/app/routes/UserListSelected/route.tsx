@@ -37,6 +37,7 @@ import { BreadcrumbItem } from "~/components/Breadcrumb"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
 import { ProgressIncrement } from "~/lib/entry/Progress"
+import { SyncMedia } from "~/lib/entry/SyncMedia"
 import { invariant } from "~/lib/invariant"
 import type { Route } from "./+types/route"
 
@@ -47,12 +48,15 @@ const NavUserListEntriesQuery = graphql`
 	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {
+			...SyncMedia_mediaListCollection
 			lists {
 				name
 				entries {
 					id
 					status
 					...MediaListItem_entry
+					...SyncMedia_entry
+					...SyncMedia_source
 					...ProgressIncrement_entry
 					media @required(action: LOG) {
 						id
@@ -288,7 +292,16 @@ function AwaitList(props: Route.ComponentProps) {
 														})
 														.toArray()
 
-													return outOfSync.length !== 0 ? null : null
+													return outOfSync.length !== 0 ? (
+														<SyncMedia
+															source={entry}
+															targetMediaIds={outOfSync}
+															targetEntries={outOfSync
+																.map((mediaId) => allEntries.get(mediaId))
+																.filter((entry) => entry != null)}
+															mediaListCollection={data.MediaListCollection}
+														></SyncMedia>
+													) : null
 												})()}
 											<ProgressIncrement entry={entry} />
 										</div>
