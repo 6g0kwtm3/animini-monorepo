@@ -1,4 +1,5 @@
-import { type BrowserContext, type Locator, type Page } from "@playwright/test"
+import type { BrowserContext, Locator, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { type } from "arktype"
 import { graphql, HttpResponse } from "msw"
 import type {
