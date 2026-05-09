@@ -128,7 +128,7 @@ export function SyncMedia(props: {
 				for (const mediaId of props.targetMediaIds) {
 					const currentEntry = targets.get(mediaId)
 
-					mutation({
+					void mutation({
 						variables: {
 							mediaId: mediaId,
 							status: source.status,
@@ -149,7 +149,7 @@ export function SyncMedia(props: {
 						},
 						updater: (store, response) => {
 							for (const list of mediaListCollection.lists ?? []) {
-								if (list != null && list?.status === source.status) {
+								if (list != null && list.status === source.status) {
 									const { updatableData } =
 										store.readUpdatableFragment<SyncMedia_updatable$key>(
 											graphql`
@@ -167,7 +167,7 @@ export function SyncMedia(props: {
 									if (response?.SaveMediaListEntry != null) {
 										updatableData.entries = [
 											...(list.entries?.filter((entry) => entry != null) ?? []),
-											response?.SaveMediaListEntry,
+											response.SaveMediaListEntry,
 										]
 									}
 								}
