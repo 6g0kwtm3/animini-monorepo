@@ -24,6 +24,7 @@ import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
 import { numberToString } from "~/lib/numberToString"
 
+import { CompositeItem } from "@ariakit/react"
 import { Button, ButtonIcon, Icon } from "~/components/Button"
 import {
 	Menu,
@@ -93,7 +94,14 @@ export function ProgressIncrement(props: {
 						<input type="hidden" name="id" value={entry.id} />
 						<input type="hidden" name="intent" value="increment" />
 						<TooltipPlain>
-							<TooltipPlainTrigger render={<Button type="submit" />}>
+							<TooltipPlainTrigger
+								render={
+									<Button
+										type="submit"
+										render={<CompositeItem></CompositeItem>}
+									/>
+								}
+							>
 								<Progress entry={entry} />
 								<ButtonIcon>
 									<MaterialSymbolsAdd />
@@ -114,7 +122,11 @@ export function ProgressIncrement(props: {
 					</Form>
 				)}
 			<Menu>
-				<Icon title="Show more options" tooltip render={<MenuTrigger />}>
+				<Icon
+					title="Show more options"
+					tooltip
+					render={<MenuTrigger render={<CompositeItem />} />}
+				>
 					<MaterialSymbolsMoreHoriz />
 				</Icon>
 				<MenuList>
@@ -253,7 +265,7 @@ function Progress(props: { entry: Progress_entry$key }): ReactNode {
 	const episodes = entry.media?.episodes ?? entry.media?.chapters
 
 	return (
-		<span>
+		<span data-testid="progress">
 			{progress}
 			{episodes === progress ? null : Predicate.isNumber(
 					entry.media?.avalible
