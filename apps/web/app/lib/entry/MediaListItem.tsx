@@ -84,8 +84,7 @@ export function MediaListItem({
 	const data = useFragment(MediaListItem_media, mediaKey)
 
 	return (
-		<>
-			<ListItem
+		<ListItem
 				data-testid="media-list-item"
 				style={mergeStyles(
 					data.coverImage?.theme ?? undefined,
@@ -147,7 +146,6 @@ export function MediaListItem({
 				</ListItemContent>
 				{children}
 			</ListItem>
-		</>
 	)
 }
 
