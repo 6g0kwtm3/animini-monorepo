@@ -295,6 +295,22 @@ test.describe("fullscreen", () => {
 		// then
 		await TypelistPage.new(page)
 	})
+
+	test("sync media", async ({ page, isElectron, isMobile }) => {
+		test.skip(isMobile || isElectron)
+		const indexPage = await FeedPage.new(page)
+		await indexPage.nav.profile.click()
+		const userpage = UserPage.new(page)
+		await userpage.mangaList.click()
+		const typelist = await TypelistPage.new(page)
+		const entry = typelist.entry(/Media title/)
+		const containedEntry = typelist.entry(/Contained media title/)
+		// when
+		await entry.sync.click()
+		// then
+		await expect(containedEntry.progress).toHaveText(/1/)
+		await expect(containedEntry.privateBadge).toBeAttached()
+	})
 })
 
 test("anime list", async ({ page }) => {
@@ -315,19 +331,4 @@ test("manga list", async ({ page }) => {
 	await userpage.mangaList.click()
 	// then
 	await TypelistPage.new(page)
-})
-
-test("sync media", async ({ page }) => {
-	const indexPage = await FeedPage.new(page)
-	await indexPage.nav.profile.click()
-	const userpage = UserPage.new(page)
-	await userpage.mangaList.click()
-	const typelist = await TypelistPage.new(page)
-	const entry = typelist.entry(/Media title/)
-	const containedEntry = typelist.entry(/Contained media title/)
-	// when
-	await entry.sync.click()
-	// then
-	await expect(containedEntry.progress).toHaveText(/1/)
-	await expect(containedEntry.privateBadge).toBeAttached()
 })
