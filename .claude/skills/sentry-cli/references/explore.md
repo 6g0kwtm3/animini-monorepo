@@ -16,6 +16,7 @@ Query aggregate event data (Explore)
 Query aggregate event data (Explore)
 
 **Flags:**
+
 - `-F, --field <value>... - API field or aggregate (repeatable). E.g., title, "count()", "p50(transaction.duration)"`
 - `-d, --dataset <value> - Dataset to query (errors, spans, metrics, logs, replays) - (default: "errors")`
 - `-q, --query <value> - Search query (Sentry search syntax)`

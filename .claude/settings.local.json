@@ -1,6 +1,1 @@
-{
-  "enabledMcpjsonServers": [
-    "github"
-  ],
-  "enableAllProjectMcpServers": true
-}
+{ "enabledMcpjsonServers": ["github"], "enableAllProjectMcpServers": true }

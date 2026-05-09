@@ -16,6 +16,7 @@ Authenticate with Sentry
 Authenticate with Sentry
 
 **Flags:**
+
 - `--token <value> - Authenticate using an API token instead of OAuth`
 - `--timeout <value> - Timeout for OAuth flow in seconds (default: 900) - (default: "900")`
 - `--force - Re-authenticate without prompting`
@@ -48,6 +49,7 @@ sentry auth logout
 Refresh your authentication token
 
 **Flags:**
+
 - `--force - Force refresh even if token is still valid`
 
 **Examples:**
@@ -61,6 +63,7 @@ sentry auth refresh
 View authentication status
 
 **Flags:**
+
 - `--show-token - Show the stored token (masked by default)`
 - `-f, --fresh - Bypass cache, re-detect projects, and fetch fresh data`
 
@@ -91,6 +94,7 @@ sentry auth token
 Show the currently authenticated identity
 
 **Flags:**
+
 - `-f, --fresh - Bypass cache, re-detect projects, and fetch fresh data`
 
 All commands also support `--json`, `--fields`, `--help`, `--log-level`, and `--verbose` flags.

@@ -16,6 +16,7 @@ Work with Sentry releases
 List releases with adoption and health metrics
 
 **Flags:**
+
 - `-n, --limit <value> - Maximum number of releases to list - (default: "25")`
 - `-s, --sort <value> - Sort: date, sessions, users, crash_free_sessions (cfs), crash_free_users (cfu) - (default: "date")`
 - `-e, --environment <value>... - Filter by environment (repeatable, comma-separated)`
@@ -29,6 +30,7 @@ List releases with adoption and health metrics
 View release details with health metrics
 
 **Flags:**
+
 - `-f, --fresh - Bypass cache, re-detect projects, and fetch fresh data`
 
 ### `sentry release create <org/version...>`
@@ -36,6 +38,7 @@ View release details with health metrics
 Create a release
 
 **Flags:**
+
 - `-p, --project <value> - Associate with project(s), comma-separated`
 - `--finalize - Immediately finalize the release (set dateReleased)`
 - `--ref <value> - Git ref (branch or tag name)`
@@ -47,6 +50,7 @@ Create a release
 Finalize a release
 
 **Flags:**
+
 - `--released <value> - Custom release timestamp (ISO 8601). Defaults to now.`
 - `--url <value> - URL for the release`
 - `-n, --dry-run - Show what would happen without making changes`
@@ -56,6 +60,7 @@ Finalize a release
 Delete a release
 
 **Flags:**
+
 - `-y, --yes - Skip confirmation prompt`
 - `-f, --force - Force the operation without confirmation`
 - `-n, --dry-run - Show what would happen without making changes`
@@ -65,6 +70,7 @@ Delete a release
 Create a deploy for a release
 
 **Flags:**
+
 - `--url <value> - URL for the deploy`
 - `--started <value> - Deploy start time (ISO 8601)`
 - `--finished <value> - Deploy finish time (ISO 8601)`
@@ -80,6 +86,7 @@ List deploys for a release
 Set commits for a release
 
 **Flags:**
+
 - `--auto - Auto-discover commits via repository integration (needs local git checkout)`
 - `--local - Read commits from local git history`
 - `--clear - Clear all commits from the release`
