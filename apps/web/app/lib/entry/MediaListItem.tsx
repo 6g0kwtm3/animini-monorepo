@@ -85,67 +85,62 @@ export function MediaListItem({
 
 	return (
 		<ListItem
-				data-testid="media-list-item"
-				style={mergeStyles(
-					data.coverImage?.theme ?? undefined,
-					precompileStyles({
-						gridColumn: "1 / -1",
-						display: "grid",
-						gridTemplateColumns: "subgrid",
-						...utilities.theme({
-							[media.hover]: { default: "light", [media.dark]: "dark" },
-							[media.focusWithin]: { default: "light", [media.dark]: "dark" },
-						}),
-						...utilities.contrast({
-							[media.hover]: { default: "standard", [media.dark]: "high" },
-							[media.focusWithin]: {
-								default: "standard",
-								[media.dark]: "high",
-							},
-						}),
+			data-testid="media-list-item"
+			style={mergeStyles(
+				data.coverImage?.theme ?? undefined,
+				precompileStyles({
+					gridColumn: "1 / -1",
+					display: "grid",
+					gridTemplateColumns: "subgrid",
+					...utilities.theme({
+						[media.hover]: { default: "light", [media.dark]: "dark" },
+						[media.focusWithin]: { default: "light", [media.dark]: "dark" },
 					}),
-					props.style
-				)}
-				render={<CompositeRow></CompositeRow>}
+					...utilities.contrast({
+						[media.hover]: { default: "standard", [media.dark]: "high" },
+						[media.focusWithin]: { default: "standard", [media.dark]: "high" },
+					}),
+				}),
+				props.style
+			)}
+			render={<CompositeRow></CompositeRow>}
+		>
+			<Box style={precompileStyles({ position: "relative" })}>
+				<ListItemImg>
+					<Skeleton full>
+						<MediaCover media={data} />
+					</Skeleton>
+				</ListItemImg>
+				{entry?.private ? (
+					<Badge data-testid="private-badge">
+						<MaterialSymbolsVisibilityOff></MaterialSymbolsVisibilityOff>
+					</Badge>
+				) : null}
+			</Box>
+			<ListItemContent
+				render={
+					<CompositeItem render={<A href={route_media({ id: data.id })}></A>} />
+				}
 			>
-				<Box style={precompileStyles({ position: "relative" })}>
-					<ListItemImg>
-						<Skeleton full>
-							<MediaCover media={data} />
-						</Skeleton>
-					</ListItemImg>
-					{entry?.private ? (
-						<Badge data-testid="private-badge">
-							<MaterialSymbolsVisibilityOff></MaterialSymbolsVisibilityOff>
-						</Badge>
-					) : null}
-				</Box>
-				<ListItemContent
-					render={
-						<CompositeItem
-							render={<A href={route_media({ id: data.id })}></A>}
-						/>
-					}
+				<ListItemContentTitle>
+					<Skeleton>
+						<MediaTitle media={data}></MediaTitle>
+					</Skeleton>
+				</ListItemContentTitle>
+				<ListItemContentSubtitle
+					style={precompileStyles({
+						display: "flex",
+						flexWrap: "wrap",
+						gap: ".25rem",
+					})}
 				>
-					<ListItemContentTitle>
-						<Skeleton>
-							<MediaTitle media={data}></MediaTitle>
-						</Skeleton>
-					</ListItemContentTitle>
-					<ListItemContentSubtitle
-						style={precompileStyles({
-							display: "flex",
-							flexWrap: "wrap",
-							gap: ".25rem",
-						})}
-					>
-						<Skeleton className="max-w-[21.666666666666668ch]">
-							{entry ? <MediaListItemSubtitle entry={entry} /> : null}
-						</Skeleton>
-					</ListItemContentSubtitle>
-				</ListItemContent>
-				{children}
-			</ListItem>
+					<Skeleton className="max-w-[21.666666666666668ch]">
+						{entry ? <MediaListItemSubtitle entry={entry} /> : null}
+					</Skeleton>
+				</ListItemContentSubtitle>
+			</ListItemContent>
+			{children}
+		</ListItem>
 	)
 }
 
