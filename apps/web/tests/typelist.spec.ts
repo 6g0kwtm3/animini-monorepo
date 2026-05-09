@@ -3,6 +3,10 @@ import { expect } from "@playwright/test"
 import { type } from "arktype"
 import { graphql, HttpResponse } from "msw"
 import type {
+	AddToListMutation$rawResponse,
+	AddToListMutation$variables,
+} from "~/gql/AddToListMutation.graphql"
+import type {
 	SyncMediaMutation$rawResponse,
 	SyncMediaMutation$variables,
 } from "~/gql/SyncMediaMutation.graphql"
@@ -39,22 +43,22 @@ class UserPage {
 
 const Viewer = { id: 1, name: "User" }
 const handlers = [
-	graphql.mutation<SyncMediaMutation$rawResponse, SyncMediaMutation$variables>(
-		"SyncMediaMutation",
-		() =>
+	graphql.mutation<AddToListMutation$rawResponse, AddToListMutation$variables>(
+		"AddToListMutation",
+		({ variables }) =>
 			HttpResponse.json({
 				data: {
 					SaveMediaListEntry: {
 						__typename: "MediaList",
-						status: "COMPLETED",
-						id: 2,
-						completedAt: { day: 0, month: 1, year: 2 },
-						private: true,
-						progress: 1,
+						status: variables.status,
+						id: variables.mediaId,
+						completedAt: null,
+						private: variables.private,
+						progress: 0,
 						score: 2,
 						startedAt: { day: 1, month: 2, year: 3 },
 						media: {
-							id: 2,
+							id: variables.mediaId,
 							title: { userPreferred: "Contained media title" },
 							type: "MANGA",
 							status: "FINISHED",
@@ -79,64 +83,53 @@ const handlers = [
 				},
 			})
 	),
-	graphql.query<
-		routeNavUserListEntriesQuery$rawResponse,
-		routeNavUserListEntriesQuery$variables
-	>(
-		"routeNavUserListEntriesQuery",
-		() =>
+	graphql.mutation<SyncMediaMutation$rawResponse, SyncMediaMutation$variables>(
+		"SyncMediaMutation",
+		({ variables }) =>
 			HttpResponse.json({
 				data: {
-					MediaListCollection: {
-						lists: [
-							{
-								__typename: "MediaListGroup",
-								status: "COMPLETED",
-								name: "List",
-								entries: [
+					SaveMediaListEntry: {
+						__typename: "MediaList",
+						status: variables.status,
+						id: variables.mediaId,
+						completedAt: variables.completedAt && {
+							day: variables.completedAt.day,
+							month: variables.completedAt.month,
+							year: variables.completedAt.year,
+						},
+						private: variables.private,
+						progress: 1,
+						score: 2,
+						startedAt: variables.startedAt && {
+							day: variables.startedAt.day,
+							month: variables.startedAt.month,
+							year: variables.startedAt.year,
+						},
+						media: {
+							id: variables.mediaId,
+							title: { userPreferred: "Contained media title" },
+							type: "MANGA",
+							status: "FINISHED",
+							relations: {
+								edges: [
 									{
-										__typename: "MediaList",
-										status: "COMPLETED",
-										id: 1,
-										completedAt: { day: 0, month: 1, year: 2 },
-										private: true,
-										progress: 12,
-										score: 2,
-										startedAt: { day: 1, month: 2, year: 3 },
-										media: {
+										id: 200,
+										relationType: "COMPILATION",
+										node: {
 											id: 1,
 											title: { userPreferred: "Media title" },
-											type: "MANGA",
-											status: "FINISHED",
-											relations: {
-												edges: [
-													{
-														id: 100,
-														relationType: "CONTAINS",
-														node: {
-															id: 2,
-															title: { userPreferred: "Contained media title" },
-															coverImage: {
-																color: null,
-																large: null,
-																medium: null,
-															},
-														},
-													},
-												],
-											},
-											episodes: null,
 											coverImage: { color: null, large: null, medium: null },
-											chapters: 12,
 										},
 									},
 								],
 							},
-						],
+							episodes: null,
+							coverImage: { color: null, large: null, medium: null },
+							chapters: 1,
+						},
 					},
 				},
-			}),
-		{ once: true }
+			})
 	),
 	graphql.query<
 		routeNavUserListEntriesQuery$rawResponse,
@@ -187,42 +180,6 @@ const handlers = [
 										chapters: 12,
 									},
 								},
-								{
-									__typename: "MediaList",
-									status: "COMPLETED",
-									id: 2,
-									completedAt: { day: 0, month: 1, year: 2 },
-									private: true,
-									progress: 1,
-									score: 2,
-									startedAt: { day: 1, month: 2, year: 3 },
-									media: {
-										id: 2,
-										title: { userPreferred: "Contained media title" },
-										type: "MANGA",
-										status: "FINISHED",
-										relations: {
-											edges: [
-												{
-													id: 200,
-													relationType: "COMPILATION",
-													node: {
-														id: 1,
-														title: { userPreferred: "Media title" },
-														coverImage: {
-															color: null,
-															large: null,
-															medium: null,
-														},
-													},
-												},
-											],
-										},
-										episodes: null,
-										coverImage: { color: null, large: null, medium: null },
-										chapters: 1,
-									},
-								},
 							],
 						},
 					],
@@ -230,7 +187,6 @@ const handlers = [
 			},
 		})
 	),
-
 	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
 		"routeNavUserQuery",
 		() =>
@@ -331,4 +287,18 @@ test("manga list", async ({ page }) => {
 	await userpage.mangaList.click()
 	// then
 	await TypelistPage.new(page)
+})
+
+test("add to list", async ({ page }) => {
+	const indexPage = await FeedPage.new(page)
+	await indexPage.nav.profile.click()
+	const userpage = UserPage.new(page)
+	await userpage.mangaList.click()
+	const typelist = await TypelistPage.new(page)
+	const containedEntry = typelist.entry(/Contained media title/)
+	// when
+	await containedEntry.addToList.click()
+	// then
+	await expect(containedEntry.progress).toHaveText(/0/)
+	await expect(containedEntry.privateBadge).toBeAttached()
 })

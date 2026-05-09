@@ -80,7 +80,7 @@ export function SyncMedia(props: {
 				id
 				status
 				...MediaListItem_entry
-				# ...AddToList_originalEntry
+				...AddToList_originalEntry
 				...SyncMedia_entry
 				...SyncMedia_source
 				...ProgressIncrement_entry
@@ -88,7 +88,7 @@ export function SyncMedia(props: {
 				media {
 					id
 					...MediaListItem_media
-					# ...AddToList_media
+					...AddToList_media
 					relations {
 						edges {
 							id
@@ -96,7 +96,7 @@ export function SyncMedia(props: {
 							node {
 								id
 								...MediaListItem_media
-								# ...AddToList_media
+								...AddToList_media
 							}
 						}
 					}
