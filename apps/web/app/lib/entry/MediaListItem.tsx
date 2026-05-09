@@ -4,7 +4,6 @@ import { m } from "~/lib/paraglide"
 import ReactRelay from "react-relay"
 
 import type { ReactNode } from "react"
-import { useContext } from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -12,16 +11,13 @@ import {
 	ListItemContentTitle,
 	ListItemImg,
 } from "~/components/List"
-import MaterialSymbolsPriorityHigh from "~icons/material-symbols/priority-high"
-
-import { route_media } from "../route"
-import { MediaCover } from "./MediaCover"
-import { formatWatch } from "./ToWatch"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off"
-import { ProgressIncrement } from "./Progress"
+import { route_media } from "../route"
+import { MediaCover } from "./MediaCover"
+import { formatWatch } from "./ToWatch"
 
 import { A } from "@anitrove/a"
 import { media, utilities } from "@anitrove/design"
@@ -30,25 +26,25 @@ import {
 	precompileStyles,
 	type PreCompiledStyles,
 } from "@anitrove/unstyled"
+import { CompositeItem, CompositeRow } from "@ariakit/react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
+import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
+
 import { Box } from "@anitrove/unstyled/box"
 import { Badge } from "~/components/Badge"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
-import type { MediaListItemTitle_entry$key } from "~/gql/MediaListItemTitle_entry.graphql"
 import * as Predicate from "~/lib/Predicate"
 import { useFragment } from "../Network"
-import { Library } from "./Library"
+import { MediaTitle } from "./MediaTitle"
 
 const { graphql } = ReactRelay
 
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
 		id
-		...ProgressIncrement_entry
-		...MediaListItemTitle_entry
 		...MediaListItemSubtitle_entry
 		private
 		media {
@@ -61,21 +57,38 @@ const MediaListItem_entry = graphql`
 	}
 `
 
+const MediaListItem_media = graphql`
+	fragment MediaListItem_media on Media {
+		id
+		...MediaCover_media
+		...MediaTitle_media
+		coverImage {
+			theme
+		}
+	}
+`
+
 export function MediaListItem({
 	entry: entryKey,
+	media: mediaKey,
+	children,
 	...props
 }: {
+	children?: ReactNode
 	entry: MediaListItem_entry$key | null | undefined
+	media: MediaListItem_media$key
+
 	style?: PreCompiledStyles
 }): ReactNode {
 	const entry = useFragment(MediaListItem_entry, entryKey)
+	const data = useFragment(MediaListItem_media, mediaKey)
 
 	return (
-		<li className="col-span-full grid grid-cols-subgrid">
+		<>
 			<ListItem
 				data-testid="media-list-item"
 				style={mergeStyles(
-					entry?.media?.coverImage?.theme ?? undefined,
+					data.coverImage?.theme ?? undefined,
 					precompileStyles({
 						gridColumn: "1 / -1",
 						display: "grid",
@@ -94,29 +107,30 @@ export function MediaListItem({
 					}),
 					props.style
 				)}
+				render={<CompositeRow></CompositeRow>}
 			>
 				<Box style={precompileStyles({ position: "relative" })}>
 					<ListItemImg>
 						<Skeleton full>
-							{entry?.media ? <MediaCover media={entry.media} /> : null}
+							<MediaCover media={data} />
 						</Skeleton>
 					</ListItemImg>
 					{entry?.private ? (
-						<Badge>
+						<Badge data-testid="private-badge">
 							<MaterialSymbolsVisibilityOff></MaterialSymbolsVisibilityOff>
 						</Badge>
 					) : null}
 				</Box>
 				<ListItemContent
 					render={
-						<A
-							href={entry?.media ? route_media({ id: entry.media.id }) : ""}
-						></A>
+						<CompositeItem
+							render={<A href={route_media({ id: data.id })}></A>}
+						/>
 					}
 				>
 					<ListItemContentTitle>
 						<Skeleton>
-							{entry ? <MediaListItemTitle entry={entry} /> : null}
+							<MediaTitle media={data}></MediaTitle>
 						</Skeleton>
 					</ListItemContentTitle>
 					<ListItemContentSubtitle
@@ -131,48 +145,8 @@ export function MediaListItem({
 						</Skeleton>
 					</ListItemContentSubtitle>
 				</ListItemContent>
-
-				<Skeleton>
-					{entry ? <ProgressIncrement entry={entry} /> : null}
-				</Skeleton>
+				{children}
 			</ListItem>
-		</li>
-	)
-}
-
-const MediaListItemTitle_entry = graphql`
-	fragment MediaListItemTitle_entry on MediaList {
-		id
-		progress
-		media @required(action: LOG) {
-			id
-			title @required(action: LOG) {
-				userPreferred @required(action: LOG)
-			}
-		}
-	}
-`
-
-function MediaListItemTitle(props: {
-	entry: MediaListItemTitle_entry$key
-}): ReactNode {
-	const entry = useFragment(MediaListItemTitle_entry, props.entry)
-	const library = useContext(Library)
-
-	if (!entry) {
-		return null
-	}
-
-	const libraryHasNextEpisode = library[entry.media.title.userPreferred]?.some(
-		({ episode }) => episode.number === (entry.progress ?? 0) + 1
-	)
-
-	return (
-		<>
-			{libraryHasNextEpisode ? (
-				<MaterialSymbolsPriorityHigh className="i-inline text-primary inline" />
-			) : null}
-			{entry.media.title.userPreferred}
 		</>
 	)
 }
@@ -182,7 +156,6 @@ const MediaListItemSubtitle_entry = graphql`
 		id
 		score
 		toWatch
-		...Progress_entry
 		media {
 			id
 			type

@@ -1,6 +1,6 @@
 import { type } from "arktype"
 
-export const MediaListSortSchema = type(
+const MediaListSortSchema = type(
 	"'MediaSort.TitleEnglish'|'MediaListSort.ScoreDesc'|'MediaListSort.ProgressDesc'|'MediaListSort.UpdatedTimeDesc'|'MediaSort.IdDesc'|'MediaListSort.StartedOnDesc'|'MediaListSort.FinishedOnDesc'|'MediaSort.StartDateDesc'|'AVG_SCORE'|'MediaSort.PopularityDesc'"
 )
 

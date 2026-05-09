@@ -1,21 +1,12 @@
 import {
-	Await,
 	Outlet,
 	isRouteErrorResponse,
 	useRouteError,
-	useSearchParams,
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
-	type MetaFunction,
 } from "react-router"
 
 import { precompileStyles } from "@anitrove/unstyled"
-import {
-	AwaitLibrary,
-	MediaListHeader,
-	MediaListHeaderItem,
-	MediaListHeaderToWatch,
-} from "~/lib/list/MediaList"
 
 // import {} from 'glob'
 
@@ -33,87 +24,50 @@ import { client_get_client } from "~/lib/client"
 
 import { MediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
-import { MediaListSort, MediaListSortSchema } from "~/lib/MediaListSort"
-import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
-import { readInlineData } from "~/lib/Network"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
-import type {
-	routeNavUserListEntriesFilter_entries$data as NavUserListEntriesFilter_entries$data,
-	routeNavUserListEntriesFilter_entries$key as NavUserListEntriesFilter_entries$key,
-} from "~/gql/routeNavUserListEntriesFilter_entries.graphql"
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
-import type {
-	MediaStatus,
-	routeNavUserListEntriesSort_entries$key as NavUserListEntriesSort_entries$key,
-} from "~/gql/routeNavUserListEntriesSort_entries.graphql"
 
 import { captureException } from "@sentry/react"
-import { ArkErrors, type } from "arktype"
+import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
 import { BreadcrumbItem } from "~/components/Breadcrumb"
-import type { routeFuzzyDateOrder_fuzzyDate$key as routeFuzzyDate$key } from "~/gql/routeFuzzyDateOrder_fuzzyDate.graphql"
+import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
+import { ProgressIncrement } from "~/lib/entry/Progress"
 import { invariant } from "~/lib/invariant"
-import * as Order from "~/lib/Order"
 import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 
-const NavUserListEntriesSort_entries = graphql`
-	fragment routeNavUserListEntriesSort_entries on MediaList @inline {
-		id
-		...MediaListItem_entry
-		progress
-		score
-		toWatch
-		startedAt {
-			...routeFuzzyDateOrder_fuzzyDate
-		}
-		completedAt {
-			...routeFuzzyDateOrder_fuzzyDate
-		}
-		media {
-			id
-			popularity
-			startDate {
-				...routeFuzzyDateOrder_fuzzyDate
-			}
-			averageScore
-
-			status(version: 2)
-			title {
-				userPreferred
-			}
-		}
-		updatedAt
-	}
-`
-
-const NavUserListEntriesFilter_entries = graphql`
-	fragment routeNavUserListEntriesFilter_entries on MediaList @inline {
-		id
-		...routeNavUserListEntriesSort_entries
-		...MediaListHeaderToWatch_entries
-		toWatch
-		progress
-		media {
-			id
-			status(version: 2)
-			format
-		}
-	}
-`
-
 const NavUserListEntriesQuery = graphql`
-	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!) {
-		MediaListCollection(userName: $userName, type: $type) {
+	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
+	@raw_response_type {
+		MediaListCollection(userName: $userName, type: $type)
+			@required(action: LOG) {
 			lists {
 				name
 				entries {
 					id
-					...routeNavUserListEntriesFilter_entries
+					status
+					...MediaListItem_entry
+					...ProgressIncrement_entry
+					media @required(action: LOG) {
+						id
+						...MediaListItem_media
+						relations {
+							edges {
+								id
+								relationType(version: 2)
+								node {
+									id
+									...MediaListItem_media
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -121,11 +75,13 @@ const NavUserListEntriesQuery = graphql`
 `
 
 export const clientLoader = (args: ClientLoaderFunctionArgs) => {
+	const params = invariant(Params(args.params))
 	return {
 		Library: Promise.resolve<
 			Record<string, [AnitomyResult, ...AnitomyResult[]]>
 		>({}),
 		query: fetchSelectedList(args),
+		params,
 	}
 }
 
@@ -181,221 +137,23 @@ export const clientAction = (async (args) => {
 	if (intent === "set_status") {
 		return setStatus(formData)
 	}
+
 	throw Response.json(`Unknown intent: "${intent}"`, { status: 400 })
 }) satisfies ClientActionFunction
 
-async function fetchSelectedList(args: ClientLoaderFunctionArgs) {
+function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	const params = invariant(Params(args.params))
 
-	const client = client_get_client()
-
-	const data = await client.query<routeNavUserListEntriesQuery>(
-		NavUserListEntriesQuery,
-		{
-			userName: params.userName,
-			type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
-				params.typelist
-			],
-		}
-	)
-
-	if (typeof params.selected !== "string") {
-		return {
-			selectedList: {
-				name: "All",
-				entries: Object.values(
-					Object.fromEntries(
-						data?.MediaListCollection?.lists
-							?.flatMap((list) => list?.entries)
-							.filter((entry) => entry != null)
-							.map((entry) => [entry.id, entry]) ?? []
-					)
-				),
-			},
-		}
-	}
-
-	const selectedList = data?.MediaListCollection?.lists?.find(
-		(list) => list?.name === params.selected
-	)
-
-	if (!selectedList) {
-		throw Response.json("List not found", { status: 404 })
-	}
+	const selectedList = args.context.get(
+		loadQuery
+	)<routeNavUserListEntriesQuery>(NavUserListEntriesQuery, {
+		userName: params.userName,
+		type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
+			params.typelist
+		],
+	})
 
 	return { selectedList }
-}
-
-const FuzzyDate = graphql`
-	fragment routeFuzzyDateOrder_fuzzyDate on FuzzyDate @inline {
-		year
-		month
-		day
-	}
-`
-
-const OrderFuzzyDate = Order.combineAll([
-	Order.mapInput(
-		Order.number,
-		(date: null | routeFuzzyDate$key | undefined) =>
-			readInlineData(FuzzyDate, date)?.year ?? 0
-	),
-	Order.mapInput(
-		Order.number,
-		(date: null | routeFuzzyDate$key | undefined) =>
-			readInlineData(FuzzyDate, date)?.month ?? 0
-	),
-	Order.mapInput(
-		Order.number,
-		(date: null | routeFuzzyDate$key | undefined) =>
-			readInlineData(FuzzyDate, date)?.day ?? 0
-	),
-])
-
-function sortEntries(
-	data: readonly NavUserListEntriesSort_entries$key[],
-	searchParams: URLSearchParams
-) {
-	const entries = data.map((key) =>
-		readInlineData(NavUserListEntriesSort_entries, key)
-	)
-	const sorts = searchParams.getAll("sort")
-
-	const order: Order.Order<(typeof entries)[number]>[] = []
-
-	for (const unparsedSort of sorts) {
-		const sort = MediaListSortSchema(unparsedSort)
-
-		switch (sort) {
-			case MediaListSort.TitleEnglish:
-				void order.push(
-					Order.reverse(
-						Order.mapInput(
-							Order.string,
-							(entry) => entry.media?.title?.userPreferred ?? ""
-						)
-					)
-				)
-				continue
-
-			case MediaListSort.ScoreDesc:
-				void order.push(
-					Order.mapInput(Order.number, (entry) => entry.score ?? 0)
-				)
-				continue
-
-			case MediaListSort.ProgressDesc:
-				void order.push(
-					Order.mapInput(Order.number, (entry) => entry.progress ?? 0)
-				)
-				continue
-
-			case MediaListSort.UpdatedTimeDesc:
-				void order.push(
-					Order.mapInput(Order.number, (entry) => entry.updatedAt ?? 0)
-				)
-				continue
-
-			case MediaListSort.IdDesc:
-				void order.push(
-					Order.mapInput(Order.number, (entry) => entry.media?.id ?? 0)
-				)
-				continue
-
-			case MediaListSort.StartedOnDesc:
-				void order.push(
-					Order.mapInput(OrderFuzzyDate, (entry) => entry.startedAt)
-				)
-				continue
-
-			case MediaListSort.FinishedOnDesc:
-				void order.push(
-					Order.mapInput(OrderFuzzyDate, (entry) => entry.completedAt)
-				)
-				continue
-
-			case MediaListSort.StartDateDesc:
-				void order.push(
-					Order.mapInput(OrderFuzzyDate, (entry) => entry.media?.startDate)
-				)
-				continue
-
-			case MediaListSort.AvgScore:
-				void order.push(
-					Order.mapInput(
-						Order.number,
-						(entry) => entry.media?.averageScore ?? 0
-					)
-				)
-				continue
-
-			case MediaListSort.PopularityDesc:
-				void order.push(
-					Order.mapInput(Order.number, (entry) => entry.media?.popularity ?? 0)
-				)
-				continue
-
-			default:
-				if (sort instanceof ArkErrors) {
-					continue
-				}
-				sort satisfies never
-		}
-	}
-
-	void order.push(
-		Order.reverse(
-			Order.mapInput(
-				Order.number,
-				(entry) => (entry.toWatch ?? 1) || Number.POSITIVE_INFINITY
-			)
-		),
-		Order.reverse(
-			Order.mapInput(Order.number, (entry) => {
-				return [
-					"RELEASING" satisfies MediaStatus,
-					"NOT_YET_RELEASED" satisfies MediaStatus,
-				].indexOf(entry.media?.status ?? ("CANCELLED" satisfies MediaStatus))
-			})
-		)
-	)
-
-	return entries.toSorted(Order.reverse(Order.combineAll(order)))
-}
-
-function filterEntries(
-	data: readonly NavUserListEntriesFilter_entries$key[],
-	searchParams: URLSearchParams
-): NavUserListEntriesFilter_entries$data[] {
-	let entries = data.map((key) =>
-		readInlineData(NavUserListEntriesFilter_entries, key)
-	)
-	const status = searchParams.getAll("status")
-	const format = searchParams.getAll("format")
-	const progresses = searchParams.getAll("progress")
-
-	if (status.length !== 0) {
-		entries = entries.filter((entry) =>
-			status.includes(entry.media?.status ?? "")
-		)
-	}
-
-	if (format.length !== 0) {
-		entries = entries.filter((entry) =>
-			format.includes(entry.media?.format ?? "")
-		)
-	}
-
-	for (const progress of progresses) {
-		if (progress === "UNSEEN") {
-			entries = entries.filter((entry) => (entry.toWatch ?? 1) > 0)
-		}
-		if (progress === "STARTED") {
-			entries = entries.filter((entry) => (entry.progress ?? 0) > 0)
-		}
-	}
-
-	return entries
 }
 
 const Params = type({
@@ -416,10 +174,9 @@ function Title({ params }: Route.ComponentProps): ReactNode {
 }
 
 export default function Page(props: Route.ComponentProps): ReactNode {
-	const { loaderData, params } = props
-	const data = loaderData
-	const [search] = useSearchParams()
+	const { params } = props
 
+	const composite = Ariakit.useCompositeStore({})
 	return (
 		<ExtraOutlets title={<Title {...props} />}>
 			{params.userName ? (
@@ -429,80 +186,142 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 						: `${params.userName}'s manga list`}
 				</title>
 			) : null}
-			<MediaListHeader>
-				<MediaListHeaderItem subtitle={m.to_watch()}>
-					<Suspense fallback={<Skeleton>154h 43min</Skeleton>}>
-						<Await resolve={data.query}>
-							{({ selectedList }) => (
-								<MediaListHeaderToWatch
-									entries={filterEntries(
-										selectedList.entries?.filter((el) => el != null) ?? [],
-										search
-									)}
-								/>
-							)}
-						</Await>
-					</Suspense>
-				</MediaListHeaderItem>
-				<MediaListHeaderItem subtitle={m.total_entries()}>
-					<Suspense fallback={<Skeleton>80</Skeleton>}>
-						<Await resolve={data.query}>
-							{({ selectedList }) =>
-								filterEntries(
-									selectedList.entries?.filter((el) => el != null) ?? [],
-									search
-								).length
-							}
-						</Await>
-					</Suspense>
-				</MediaListHeaderItem>
-			</MediaListHeader>
 
 			<div className="">
-				<div className={``}>
-					<List style={precompileStyles({ containerType: "inline-size" })}>
-						<Suspense
-							fallback={
-								<Loading>
-									{Array.from({ length: 7 }, (_, i) => (
-										<MediaListItem key={i} data-key={i} entry={null} />
-									))}
-								</Loading>
-							}
-						>
-							<Await resolve={data.query}>
-								{({ selectedList }) => {
-									const mediaList = sortEntries(
-										filterEntries(
-											selectedList.entries?.filter((el) => el != null) ?? [],
-											search
-										),
-										search
-									).map((entry) => (
-										<MediaListItem
-											key={entry.id}
-											data-key={entry.id}
-											entry={entry}
-										/>
-									))
-
-									return (
-										<Suspense fallback={mediaList}>
-											<AwaitLibrary resolve={data.Library}>
-												{mediaList}
-											</AwaitLibrary>
-										</Suspense>
-									)
-								}}
-							</Await>
-						</Suspense>
-					</List>
-				</div>
+				<Ariakit.CompositeProvider store={composite}>
+					<Suspense fallback={<Loading>Loading...</Loading>}>
+						<AwaitList {...props}></AwaitList>
+					</Suspense>
+				</Ariakit.CompositeProvider>
 			</div>
 			<Outlet />
 		</ExtraOutlets>
 	)
 }
+
+function AwaitList(props: Route.ComponentProps) {
+	const data = usePreloadedQuery(props.loaderData.query.selectedList)
+
+	if (data == null) {
+		return null
+	}
+
+	const allEntries = new Map(
+		data.MediaListCollection.lists?.flatMap(
+			(list) =>
+				list?.entries?.flatMap((entry) =>
+					entry?.media.id ? [[entry.media.id, entry]] : []
+				) ?? []
+		)
+	)
+
+	const mediaList = new Map<number, MediaListMapEntry>()
+
+	let selectedList = data.MediaListCollection.lists
+
+	if (props.params.selected !== undefined) {
+		selectedList = data.MediaListCollection.lists?.filter(
+			(list) => list?.name === props.params.selected
+		)
+	}
+
+	for (const entry of selectedList?.flatMap((list) => list?.entries) ?? []) {
+		if (!entry?.media) {
+			continue
+		}
+
+		const compilation = entry.media.relations?.edges?.find((edge) => {
+			if (edge?.relationType === "COMPILATION") {
+				return true
+			}
+		})
+
+		if (!compilation?.node?.id) {
+			mergeMapEntries(mediaList, entry.media.id, {
+				media: entry.media,
+				originalEntry: entry,
+				relations: new Map(
+					entry.media.relations?.edges?.flatMap((edge) =>
+						edge?.relationType === "CONTAINS" && edge.node?.id
+							? [[edge.node.id, edge.node]]
+							: []
+					)
+				),
+			})
+			continue
+		}
+
+		mergeMapEntries(mediaList, compilation.node.id, {
+			media: compilation.node,
+			originalEntry: entry,
+			relations: new Map([[entry.media.id, entry.media]]),
+		})
+	}
+
+	return (
+		<List
+			render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
+			style={precompileStyles({ containerType: "inline-size" })}
+			data-size={mediaList.size}
+		>
+			{mediaList
+				.entries()
+				.map(([id, { media, relations }]) => {
+					const entry = allEntries.get(id)
+
+					return (
+						<>
+							<MediaListItem key={id} data-key={id} media={media} entry={entry}>
+								<Skeleton>
+									{entry ? (
+										<div className="flex justify-end">
+											{entry.status === "COMPLETED"
+												&& (() => {
+													const outOfSync = relations
+														.keys()
+														.filter((mediaId) => {
+															if (
+																allEntries.get(mediaId)?.status !== "COMPLETED"
+															) {
+																return true
+															}
+														})
+														.toArray()
+
+													return outOfSync.length !== 0 ? null : null
+												})()}
+											<ProgressIncrement entry={entry} />
+										</div>
+									) : null}
+								</Skeleton>
+							</MediaListItem>
+							{relations
+								.entries()
+								.map(([id, node]) => {
+									const entry = allEntries.get(id)
+									return (
+										<MediaListItem
+											key={id}
+											data-key={id}
+											media={node}
+											entry={entry}
+											style={precompileStyles({ marginBlockStart: "-.125rem" })}
+										>
+											<Skeleton>
+												{entry ? <ProgressIncrement entry={entry} /> : null}
+											</Skeleton>
+										</MediaListItem>
+									)
+								})
+								.toArray()}
+						</>
+					)
+				})
+				.toArray()}
+		</List>
+	)
+}
+
 export function ErrorBoundary(): ReactNode {
 	const error = useRouteError()
 
@@ -540,4 +359,24 @@ export function ErrorBoundary(): ReactNode {
 			</Card>
 		</ExtraOutlets>
 	)
+}
+interface MediaListMapEntry {
+	media: MediaListItem_media$key
+	originalEntry: unknown
+	relations: Map<number, MediaListItem_media$key>
+}
+
+function mergeMapEntries(
+	map: Map<number, MediaListMapEntry>,
+	key: number,
+	entry: MediaListMapEntry
+) {
+	const old = map.get(key)
+	if (!old) {
+		void map.set(key, entry)
+		return
+	}
+	for (const [key, node] of entry.relations.entries()) {
+		void old.relations.set(key, node)
+	}
 }
