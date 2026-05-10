@@ -1,13 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`rule-name-context > reports and fixes missing displayName for single context 1`] = `
+exports[`reports and fixes missing displayName for single context 1`] = `
 "
 				const FooContext = createContext(null);
 FooContext.displayName = "FooContext"
 			"
 `;
 
-exports[`rule-name-context > reports both when multiple declarations in one statement are missing displayName 1`] = `
+exports[`reports both when multiple declarations in one statement are missing displayName 1`] = `
 "
 				let AContext = createContext(null), BContext = createContext(null);
 BContext.displayName = "BContext"
@@ -15,7 +15,7 @@ AContext.displayName = "AContext"
 			"
 `;
 
-exports[`rule-name-context > reports only the context missing displayName when another is set 1`] = `
+exports[`reports only the context missing displayName when another is set 1`] = `
 "
 				const AContext = createContext(null);
 AContext.displayName = "AContext"
