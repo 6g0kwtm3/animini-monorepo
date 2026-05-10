@@ -4,5 +4,6 @@ export default defineConfig({
 	test: {
 		projects: ["apps/*", "packages/*"],
 		globalSetup: "./vitest.setup.ts",
+		mockReset: true,
 	},
 })
