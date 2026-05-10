@@ -42,95 +42,99 @@ class UserPage {
 }
 
 const Viewer = { id: 1, name: "User" }
+const AddToListMutationSuccess = graphql.mutation<
+	AddToListMutation$rawResponse,
+	AddToListMutation$variables
+>("AddToListMutation", ({ variables }) =>
+	HttpResponse.json({
+		data: {
+			SaveMediaListEntry: {
+				__typename: "MediaList",
+				status: variables.status,
+				id: variables.mediaId,
+				completedAt: null,
+				private: variables.private,
+				progress: 0,
+				score: 2,
+				startedAt: { day: 1, month: 2, year: 3 },
+				media: {
+					id: variables.mediaId,
+					title: { userPreferred: "Contained media title" },
+					type: "MANGA",
+					status: "FINISHED",
+					relations: {
+						edges: [
+							{
+								id: 200,
+								relationType: "COMPILATION",
+								node: {
+									id: 1,
+									title: { userPreferred: "Media title" },
+									coverImage: { color: null, large: null, medium: null },
+								},
+							},
+						],
+					},
+					episodes: null,
+					coverImage: { color: null, large: null, medium: null },
+					chapters: 1,
+				},
+			},
+		},
+	})
+)
+
+const SyncMediaMutationSuccess = graphql.mutation<
+	SyncMediaMutation$rawResponse,
+	SyncMediaMutation$variables
+>("SyncMediaMutation", ({ variables }) =>
+	HttpResponse.json({
+		data: {
+			SaveMediaListEntry: {
+				__typename: "MediaList",
+				status: variables.status,
+				id: variables.mediaId,
+				completedAt: variables.completedAt && {
+					day: variables.completedAt.day,
+					month: variables.completedAt.month,
+					year: variables.completedAt.year,
+				},
+				private: variables.private,
+				progress: 1,
+				score: 2,
+				startedAt: variables.startedAt && {
+					day: variables.startedAt.day,
+					month: variables.startedAt.month,
+					year: variables.startedAt.year,
+				},
+				media: {
+					id: variables.mediaId,
+					title: { userPreferred: "Contained media title" },
+					type: "MANGA",
+					status: "FINISHED",
+					relations: {
+						edges: [
+							{
+								id: 200,
+								relationType: "COMPILATION",
+								node: {
+									id: 1,
+									title: { userPreferred: "Media title" },
+									coverImage: { color: null, large: null, medium: null },
+								},
+							},
+						],
+					},
+					episodes: null,
+					coverImage: { color: null, large: null, medium: null },
+					chapters: 1,
+				},
+			},
+		},
+	})
+)
+
 const handlers = [
-	graphql.mutation<AddToListMutation$rawResponse, AddToListMutation$variables>(
-		"AddToListMutation",
-		({ variables }) =>
-			HttpResponse.json({
-				data: {
-					SaveMediaListEntry: {
-						__typename: "MediaList",
-						status: variables.status,
-						id: variables.mediaId,
-						completedAt: null,
-						private: variables.private,
-						progress: 0,
-						score: 2,
-						startedAt: { day: 1, month: 2, year: 3 },
-						media: {
-							id: variables.mediaId,
-							title: { userPreferred: "Contained media title" },
-							type: "MANGA",
-							status: "FINISHED",
-							relations: {
-								edges: [
-									{
-										id: 200,
-										relationType: "COMPILATION",
-										node: {
-											id: 1,
-											title: { userPreferred: "Media title" },
-											coverImage: { color: null, large: null, medium: null },
-										},
-									},
-								],
-							},
-							episodes: null,
-							coverImage: { color: null, large: null, medium: null },
-							chapters: 1,
-						},
-					},
-				},
-			})
-	),
-	graphql.mutation<SyncMediaMutation$rawResponse, SyncMediaMutation$variables>(
-		"SyncMediaMutation",
-		({ variables }) =>
-			HttpResponse.json({
-				data: {
-					SaveMediaListEntry: {
-						__typename: "MediaList",
-						status: variables.status,
-						id: variables.mediaId,
-						completedAt: variables.completedAt && {
-							day: variables.completedAt.day,
-							month: variables.completedAt.month,
-							year: variables.completedAt.year,
-						},
-						private: variables.private,
-						progress: 1,
-						score: 2,
-						startedAt: variables.startedAt && {
-							day: variables.startedAt.day,
-							month: variables.startedAt.month,
-							year: variables.startedAt.year,
-						},
-						media: {
-							id: variables.mediaId,
-							title: { userPreferred: "Contained media title" },
-							type: "MANGA",
-							status: "FINISHED",
-							relations: {
-								edges: [
-									{
-										id: 200,
-										relationType: "COMPILATION",
-										node: {
-											id: 1,
-											title: { userPreferred: "Media title" },
-											coverImage: { color: null, large: null, medium: null },
-										},
-									},
-								],
-							},
-							episodes: null,
-							coverImage: { color: null, large: null, medium: null },
-							chapters: 1,
-						},
-					},
-				},
-			})
-	),
 	graphql.query<
 		routeNavUserListEntriesQuery$rawResponse,
 		routeNavUserListEntriesQuery$variables
@@ -207,53 +211,70 @@ const handlers = [
 	SuccessHandler,
 ]
 
-const cookies = [
-	{
-		name: `anilist-token`,
-		value: invariant(
-			type("object.json.stringify")(
-				invariant(Token({ token: "", viewer: Viewer }))
-			)
-		),
-		sameSite: "Lax",
-		expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-		// node doesn't support Temporal
-		// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
-		path: "/",
-		domain: "localhost",
-	},
-] satisfies Parameters<BrowserContext["addCookies"]>[0]
+function login(context: BrowserContext) {
+	const cookies = [
+		{
+			name: `anilist-token`,
+			value: invariant(
+				type("object.json.stringify")(
+					invariant(Token({ token: "", viewer: Viewer }))
+				)
+			),
+			sameSite: "Lax",
+			expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
+			// node doesn't support Temporal
+			// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
+			path: "/",
+			domain: "localhost",
+		},
+	] satisfies Parameters<BrowserContext["addCookies"]>[0]
+
+	return context.addCookies(cookies)
+}
 
 // test.fixme(true, "fix main page")
 
-test.beforeEach(async ({ worker, context }) => {
+test("fullscreen anime list", async ({
+	newPage,
+	isMobile,
+	isElectron,
+	worker,
+	context,
+}) => {
+	test.skip(isMobile || isElectron)
 	worker.use(...handlers)
-	await context.addCookies(cookies)
+	await login(context)
+	await using page = await newPage()
+
+	const indexPage = await FeedPage.new(page)
+	// when
+	await indexPage.nav.animeList.click()
+	// then
+	await TypelistPage.new(page)
 })
 
-test.describe("fullscreen", () => {
-	test("anime list", async ({ page, isMobile, isElectron }) => {
-		test.skip(isMobile || isElectron)
-
-		const indexPage = await FeedPage.new(page)
-		// when
-		await indexPage.nav.animeList.click()
-		// then
-		await TypelistPage.new(page)
-	})
-
-	test("manga list", async ({ page, isMobile, isElectron }) => {
-		test.skip(isMobile || isElectron)
-
-		const indexPage = await FeedPage.new(page)
-		// when
-		await indexPage.nav.mangaList.click()
-		// then
-		await TypelistPage.new(page)
-	})
+test("fullscreen manga list", async ({
+	worker,
+	context,
+	newPage,
+	isMobile,
+	isElectron,
+}) => {
+	test.skip(isMobile || isElectron)
+	worker.use(...handlers)
+	await login(context)
+	await using page = await newPage()
+	const indexPage = await FeedPage.new(page)
+	// when
+	await indexPage.nav.mangaList.click()
+	// then
+	await TypelistPage.new(page)
 })
 
-test("anime list", async ({ page }) => {
+test("anime list", async ({ worker, newPage, context }) => {
+	worker.use(...handlers)
+	await login(context)
+	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
@@ -263,7 +284,10 @@ test("anime list", async ({ page }) => {
 	await TypelistPage.new(page)
 })
 
-test("manga list", async ({ page }) => {
+test("manga list", async ({ worker, context, newPage }) => {
+	worker.use(...handlers)
+	await login(context)
+	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
@@ -273,7 +297,10 @@ test("manga list", async ({ page }) => {
 	await TypelistPage.new(page)
 })
 
-test("add to list", async ({ page }) => {
+test("add to list", async ({ worker, newPage, context }) => {
+	worker.use(AddToListMutationSuccess, ...handlers)
+	await login(context)
+	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
@@ -286,7 +313,10 @@ test("add to list", async ({ page }) => {
 	await expect(containedEntry.progress).toHaveText(/0/)
 	await expect(containedEntry.privateBadge).toBeAttached()
 })
-test("sync media", async ({ page }) => {
+test("sync media", async ({ worker, newPage, context }) => {
+	worker.use(SyncMediaMutationSuccess, ...handlers)
+	await login(context)
+	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
 	const userpage = UserPage.new(page)
