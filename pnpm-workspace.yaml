@@ -95,8 +95,8 @@ catalog:
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.8.0
   prop-types: 15.8.1
-  react: 19.2.5
-  react-dom: 19.2.5
+  react: 19.2.6
+  react-dom: 19.2.6
   react-relay: 20.1.1
   react-router: 7.15.0
   relay-compiler: 20.1.1
