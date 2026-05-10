@@ -3,7 +3,7 @@ import { createRuleTester } from "eslint-vitest-rule-tester"
 import { describe, expect, test } from "vitest"
 import { rule } from "./rule-must-include-data-key"
 
-void describe("rule-must-include-data-key", () => {
+ 
 	const { valid, invalid } = createRuleTester({
 		rule,
 		languageOptions: {
@@ -137,4 +137,4 @@ void describe("rule-must-include-data-key", () => {
 		})
 		expect(result.output).toMatchSnapshot()
 	})
-})
+ 

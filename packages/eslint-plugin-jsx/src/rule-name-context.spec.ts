@@ -3,7 +3,7 @@ import { createRuleTester } from "eslint-vitest-rule-tester"
 import { describe, expect, test } from "vitest"
 import { rule } from "./rule-name-context"
 
-void describe("rule-name-context", () => {
+ 
 	const { valid, invalid } = createRuleTester({
 		rule,
 		languageOptions: { ecmaVersion: 6, parser: typescriptParser },
@@ -57,4 +57,4 @@ void describe("rule-name-context", () => {
 		})
 		expect(result.output).toMatchSnapshot()
 	})
-})
+ 
