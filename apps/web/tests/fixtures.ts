@@ -1,5 +1,5 @@
 import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
-import base, { type ElectronApplication } from "@playwright/test"
+import base, { type ElectronApplication, type Page } from "@playwright/test"
 
 import { addMocksToSchema } from "@graphql-tools/mock"
 import { _electron } from "@playwright/test"
@@ -46,6 +46,7 @@ export interface Fixtures extends Options {
 	handlers: AnyHandler[]
 	worker: NetworkFixture
 	electron: ElectronApplication | null
+	newPage: () => Promise<Page>
 }
 
 export const test = base.extend<Fixtures>({
@@ -95,16 +96,20 @@ export const test = base.extend<Fixtures>({
 		await provide(electron.context())
 	},
 
-	async page({ context, electron }, provide) {
-		if (electron == null) {
-			await using page = await context.newPage()
-			await page.goto("/")
-			await provide(page)
-			return
-		}
+	page() {
+		throw new Error("Use `newPage` instead")
+	},
 
-		const page = await electron.firstWindow()
-		await provide(page)
-		await page.close()
+	async newPage({ context, electron }, provide) {
+		await provide(async () => {
+			if (electron == null) {
+				const page = await context.newPage()
+				await page.goto("/")
+				return page
+			}
+
+			const page = await electron.firstWindow()
+			return page
+		})
 	},
 })

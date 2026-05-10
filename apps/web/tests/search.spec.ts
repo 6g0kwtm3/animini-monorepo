@@ -62,9 +62,12 @@ const handlers = [
 
 test.fixme(true, "fix main page")
 
-test("when search, ArrowDown should change focus", async ({ page, worker }) => {
+test("when search, ArrowDown should change focus", async ({
+	newPage,
+	worker,
+}) => {
 	worker.use(...handlers)
-
+	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
 	await page.keyboard.press("Control+k")
 	const searchPage = SearchPage.new(page)
@@ -76,9 +79,9 @@ test("when search, ArrowDown should change focus", async ({ page, worker }) => {
 	await expect(searchPage.options.nth(1).and(searchPage.active)).toBeVisible()
 })
 
-test("search", async ({ page, worker }) => {
+test("search", async ({ newPage, worker }) => {
 	worker.use(...handlers)
-
+	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
 	await page.keyboard.press("Control+k")
 	const searchPage = SearchPage.new(page)
