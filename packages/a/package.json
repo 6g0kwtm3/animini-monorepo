@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@anitrove/a",
+	"name": "@animedes/a",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -17,10 +17,10 @@
 	},
 	"devDependencies": {
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-typegen": "catalog:",
-		"ts-config": "workspace:^",
+		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "catalog:"
 	}

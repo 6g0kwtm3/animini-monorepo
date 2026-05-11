@@ -1,5 +1,5 @@
 {
-	"name": "animini-pwa",
+	"name": "animedes",
 	"pages_build_output_dir": "apps/web/dist/client",
 	"compatibility_date": "2024-11-11",
 	"placement": { "mode": "smart" },

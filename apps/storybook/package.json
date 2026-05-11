@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@anitrove/storybook",
+	"name": "@animedes/storybook",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -13,11 +13,11 @@
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {
-		"@anitrove/design": "workspace:*",
-		"load-assets": "workspace:*",
-		"m3-react": "workspace:*",
-		"markdown": "workspace:*",
-		"@anitrove/unstyled": "workspace:*"
+		"@anitrove/design": "workspace:@animedes/design@*",
+		"load-assets": "workspace:@animedes/load-assets@*",
+		"m3-react": "workspace:@animedes/m3-react@*",
+		"markdown": "workspace:@animedes/markdown@*",
+		"@anitrove/unstyled": "workspace:@animedes/unstyled@*"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",
@@ -31,14 +31,14 @@
 		"@types/react": "catalog:",
 		"csstype": "catalog:",
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-plugin-storybook": "catalog:",
 		"eslint-typegen": "catalog:",
 		"prop-types": "catalog:",
 		"react": "catalog:",
 		"storybook": "catalog:",
-		"ts-config": "workspace:*",
+		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:"

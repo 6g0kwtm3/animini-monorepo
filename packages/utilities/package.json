@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "utilities",
+	"name": "@animedes/utilities",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -13,9 +13,9 @@
 	"peerDependencies": {},
 	"devDependencies": {
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-typegen": "catalog:",
-		"ts-config": "workspace:^",
+		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "catalog:"
 	}
