@@ -48,7 +48,7 @@
 	"packageManager": "pnpm@10.23.0",
 	"devEngines": {
 		"runtime": {
-			"name": "@animedes/node",
+			"name": "node",
 			"version": "^24.14.1",
 			"onFail": "download"
 		}
