@@ -21,18 +21,8 @@ declare module "react" {
 function Button({ size, shape, color, ...props }: ButtonProps) {
 	return (
 		<Box
-			render={
-				<button
-					type="button"
-					{...props}
-					style={{
-						"--size": size && `var(--size-${size})`,
-						"--color": color && `var(--color-${color})`,
-						"--shape": shape && `var(--shape-${shape})`,
-					}}
-				></button>
-			}
-			style={button.style}
+			render={<button type="button" {...props}></button>}
+			style={button({ size, color, shape })}
 		></Box>
 	)
 }

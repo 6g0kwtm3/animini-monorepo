@@ -4,13 +4,20 @@ import type { CSSProperties } from "react"
 import { invariant, numberOrStringToString, numberToString } from "utilities"
 import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
+import type { Vars } from "./unstyled-vars"
 
 export interface Properties extends CSSProperties {
 	[key: `--${string}`]: number | string
 	[key: string]: number | string | undefined
 }
 
+export type DynamicVars = Record<`--${string}`, number | string>
+
 export type RawStyles = { [K in keyof Properties]?: Value<Properties[K]> }
+export type DynamicStyles = (
+	vars: Vars<Record<string, number | string>>
+) => RawStyles
+export type RawStylesV2 = DynamicStyles | RawStyles
 
 type NonEmptyArray<T> = [T, ...T[]]
 

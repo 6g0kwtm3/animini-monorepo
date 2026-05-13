@@ -1,6 +1,13 @@
 import { numberOrStringToString } from "utilities"
-import type { Properties, RawStyles } from "./unstyled-cva"
+import type {
+	DynamicStyles,
+	DynamicVars,
+	Properties,
+	RawStyles,
+	RawStylesV2,
+} from "./unstyled-cva"
 import type { Value } from "./unstyled-value"
+import { Var } from "./unstyled-vars"
 
 /**
  * Compiled styles object representing pre-processed CSS styles.
@@ -15,9 +22,11 @@ import type { Value } from "./unstyled-value"
  *   options
  */
 export class PreCompiledStyles {
+	/** @internal */ public readonly dynamicVars: { [K in keyof Properties]?: string }
 	/** @internal */ public readonly styles: { [K in keyof Properties]?: string }
-	constructor(styles: { [K in keyof Properties]?: string }) {
+	constructor(styles: { [K in keyof Properties]?: string }, dynamicVars: { [K in keyof Properties]?: string }) {
 		this.styles = styles
+		this.dynamicVars = dynamicVars
 	}
 }
 
@@ -50,10 +59,11 @@ export class PreCompiledStyles {
 export function mergeStyles(
 	...styles: (PreCompiledStyles | undefined)[]
 ): PreCompiledStyles {
-	const result = new PreCompiledStyles({})
+	const result = new PreCompiledStyles({}, {})
 	for (const style of styles) {
 		if (style === undefined) continue
 		void Object.assign(result.styles, style.styles)
+		void Object.assign(result.dynamicVars, style.dynamicVars)
 	}
 	return result
 }
@@ -132,26 +142,65 @@ export function print(style: PreCompiledStyles): string {
  * @returns {@link PreCompiledStyles} Instance containing the compiled styles
  *   accessible via the `.styles` property
  */
-export function precompileStyles(style: RawStyles): PreCompiledStyles {
-	return new PreCompiledStyles(
-		Object.fromEntries(
-			Object.entries(style).flatMap(([propertyName, property]) => {
-				if (property === undefined) return []
-
-				return [
-					[
-						propertyName,
-						printProperty(
-							propertyName.replace(/([A-Z])/g, "-$1").toLowerCase(),
-							property,
-							1
-						),
-					],
-				]
-			})
+export function precompileStyles<Styles extends RawStylesV2>(
+	style: Styles
+): PrecompileStyles<Styles> {
+	if (typeof style === "function") {
+		const styles = precompileStaticStyles(
+			style(
+				new Proxy(
+					{},
+					{
+						get(target, key: string) {
+							return new Var(key)
+						},
+					}
+				)
+			)
 		)
+
+		return (dynamicVars: DynamicVars) =>
+			new PreCompiledStyles(
+				styles,
+				Object.fromEntries(
+					Object.entries(dynamicVars).map(([key, value]) => [`--${key}`, numberOrStringToString(value)])
+				)
+			)
+	}
+	return new PreCompiledStyles(precompileStaticStyles(style), {})
+}
+
+export function precompileStaticStyles(style: RawStyles): { [K in keyof Properties]?: string } {
+	return Object.fromEntries(
+		Object.entries(style).flatMap(([propertyName, property]) => {
+			if (property === undefined) return []
+
+			return [
+				[
+					propertyName,
+					printProperty(
+						propertyName.replace(/([A-Z])/g, "-$1").toLowerCase(),
+						property,
+						1
+					),
+				],
+			]
+		})
 	)
 }
+
+export type PrecompileStyles<Styles extends RawStylesV2> =
+	Styles extends RawStyles
+		? Styles
+		: Styles extends DynamicStyles
+			? (vars: {
+					[K in keyof Parameters<Styles>[0]]: Parameters<Styles>[0] extends Var<
+						infer T
+					>
+						? T
+						: never
+				}) => ReturnType<Styles>
+			: never
 
 const tab = "  "
 

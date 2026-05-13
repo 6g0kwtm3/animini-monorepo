@@ -1,5 +1,6 @@
-import { useMemo, type ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { invariant, numberToString } from "utilities"
+import type { DynamicVars } from "./unstyled-cva"
 import { print, type PreCompiledStyles } from "./unstyled-print"
 
 /**
@@ -34,8 +35,10 @@ import { print, type PreCompiledStyles } from "./unstyled-print"
  *
  * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail
  */
-export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
-	return useMemo(() => {
+export function useStyles(
+	rawStyle: PreCompiledStyles
+): [string, ReactNode, DynamicVars] {
+	return useState((): [string, ReactNode, DynamicVars] => {
 		const styles = print(rawStyle)
 		const thing = sha256()
 		thing.add(JSON.stringify(rawStyle))
@@ -49,8 +52,9 @@ export function useStyles(rawStyle: PreCompiledStyles): [string, ReactNode] {
 				href={className}
 				precedence="medium"
 			>{`.${className} ${styles}`}</style>,
+			rawStyle.dynamicVars,
 		]
-	}, [rawStyle])
+	})[0]
 }
 
 /*

@@ -4,6 +4,20 @@ import type { RawStyles } from "@anitrove/unstyled"
 import type { Property } from "csstype"
 import colors from "./design-colors"
 
+import * as tokens from "./design-tokens"
+
+export function typescale(scale: Value<keyof typeof tokens.typescale>) {
+	return {
+		fontSize: mapValue(scale, (scale) => tokens.typescale[scale].fontSize),
+		fontWeight: mapValue(scale, (scale) => tokens.typescale[scale].fontWeight),
+		letterSpacing: mapValue(
+			scale,
+			(scale) => tokens.typescale[scale].letterSpacing
+		),
+		lineHeight: mapValue(scale, (scale) => tokens.typescale[scale].lineHeight),
+	}
+}
+
 export function contrast(value: string): Record<`--${string}`, string>
 export function contrast(
 	value: Value<string>

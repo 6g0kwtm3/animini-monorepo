@@ -1,13 +1,13 @@
 import { print } from "@anitrove/unstyled"
-import { describe, expect, it } from "vitest"
+import { expect, it } from "vitest"
 import { button } from "./m3-react-button"
 
 it("css size", () => {
-	expect(print(button.style).length).toMatchInlineSnapshot(`3581`)
+	expect(print(button({})).length).toMatchInlineSnapshot(`3581`)
 })
 
 it("print", () => {
-	expect(print(button.style)).toMatchInlineSnapshot(`
+	expect(print(button({}))).toMatchInlineSnapshot(`
 			"{
 			  display: inline-flex;
 			  align-items: center;
@@ -71,4 +71,14 @@ it("print", () => {
 			  }
 			}"
 		`)
+})
+
+it("vars", () => {
+	expect(button({}).dynamicVars).toMatchInlineSnapshot(`
+		{
+		  "--color": "filled",
+		  "--shape": "round",
+		  "--size": "sm",
+		}
+	`)
 })
