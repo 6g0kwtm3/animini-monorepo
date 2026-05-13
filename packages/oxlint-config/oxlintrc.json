@@ -14,6 +14,7 @@
 	],
 	"env": { "node": true, "browser": true },
 	"rules": {
+		"vitest/no-alias-methods": "error",
 		"eslint/no-unused-expressions": "error",
 		"eslint/eqeqeq": ["error", "always", { "null": "never" }],
 		"eslint/prefer-template": "error",
