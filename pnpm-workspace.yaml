@@ -124,6 +124,7 @@ dedupePeers: true
 enablePrePostScripts: false
 nodeLinker: hoisted
 optimisticRepeatInstall: true
+strictDepBuilds: true
 onlyBuiltDependencies:
   - electron
 
