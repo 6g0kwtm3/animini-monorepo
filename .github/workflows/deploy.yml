@@ -77,9 +77,10 @@ jobs:
         run: pnpm exec turbo --filter=@anitrove/web build
 
       - name: Deploy
-        run: pnpm exec wrangler pages deploy --branch=${{ github.head_ref || github.ref_name  }}
+        run: pnpm exec wrangler pages deploy --branch=${BRANCH}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          BRANCH: ${{ github.head_ref || github.ref_name  }}
 
   stryker:
     runs-on: ubuntu-latest
