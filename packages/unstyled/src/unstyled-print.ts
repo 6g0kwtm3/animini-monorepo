@@ -22,9 +22,14 @@ import { Var } from "./unstyled-vars"
  *   options
  */
 export class PreCompiledStyles {
-	/** @internal */ public readonly dynamicVars: { [K in keyof Properties]?: string }
+	/** @internal */ public readonly dynamicVars: {
+		[K in keyof Properties]?: string
+	}
 	/** @internal */ public readonly styles: { [K in keyof Properties]?: string }
-	constructor(styles: { [K in keyof Properties]?: string }, dynamicVars: { [K in keyof Properties]?: string }) {
+	constructor(
+		styles: { [K in keyof Properties]?: string },
+		dynamicVars: { [K in keyof Properties]?: string }
+	) {
 		this.styles = styles
 		this.dynamicVars = dynamicVars
 	}
@@ -163,14 +168,19 @@ export function precompileStyles<Styles extends RawStylesV2>(
 			new PreCompiledStyles(
 				styles,
 				Object.fromEntries(
-					Object.entries(dynamicVars).map(([key, value]) => [`--${key}`, numberOrStringToString(value)])
+					Object.entries(dynamicVars).map(([key, value]) => [
+						`--${key}`,
+						numberOrStringToString(value),
+					])
 				)
 			)
 	}
 	return new PreCompiledStyles(precompileStaticStyles(style), {})
 }
 
-export function precompileStaticStyles(style: RawStyles): { [K in keyof Properties]?: string } {
+export function precompileStaticStyles(style: RawStyles): {
+	[K in keyof Properties]?: string
+} {
 	return Object.fromEntries(
 		Object.entries(style).flatMap(([propertyName, property]) => {
 			if (property === undefined) return []
