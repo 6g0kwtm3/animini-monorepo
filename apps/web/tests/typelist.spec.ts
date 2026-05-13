@@ -197,10 +197,7 @@ const handlers = [
 		() =>
 			HttpResponse.json({
 				data: {
-					Viewer: {
-						id: numberToString(Viewer.id),
-						name: Viewer.name
-					},
+					Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
 					user: {
 						id: "1",
 						name: "User",

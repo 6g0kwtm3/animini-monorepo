@@ -130,7 +130,7 @@ export function SyncMedia(props: {
 
 					void mutation({
 						variables: {
-							mediaId: (mediaId),
+							mediaId: mediaId,
 							status: source.status,
 							private: source.private,
 
