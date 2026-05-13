@@ -5,6 +5,6 @@ bench("cva", () => {
 	void createButton()
 })
 
-bench("cva", () => {
-	button({})
+bench("apply vars", () => {
+	void button({})
 })

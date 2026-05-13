@@ -23,7 +23,6 @@ export function createButton() {
 			justifyContent: "center",
 			whiteSpace: "nowrap",
 			textBox: "trim-both cap alphabetic",
-			...design.tokens.typescale["label-lg"],
 			...design.state({
 				[media.hover]: "hover",
 				[media["focus-visible"]]: { base: "focus", [media.hover]: "focus" },
@@ -86,6 +85,7 @@ export function createButton() {
 				[is(size, "xl")]: "4rem",
 			}),
 			...design.utilities.typescale({
+				base: "label-lg",
 				[is(size, "md")]: "title-md",
 				[is(size, "lg")]: "headline-sm",
 				[is(size, "xl")]: "headline-lg",
