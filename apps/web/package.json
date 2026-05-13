@@ -77,6 +77,8 @@
 		"@msw/playwright": "catalog:",
 		"@playwright/test": "catalog:",
 		"@types/flubber": "catalog:",
+		"@vitejs/plugin-react": "catalog:",
+		"@vitejs/plugin-rsc": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
 		"bundlewatch": "catalog:",
 		"cross-env": "catalog:",
