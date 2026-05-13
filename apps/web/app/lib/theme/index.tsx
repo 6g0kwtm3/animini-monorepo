@@ -1,19 +1,19 @@
 import {
-	argbFromHex,
-	blueFromArgb,
-	DynamicColor,
-	greenFromArgb,
-	Hct,
-	MaterialDynamicColors,
-	redFromArgb,
-	SchemeTonalSpot,
+    argbFromHex,
+    blueFromArgb,
+    DynamicColor,
+    greenFromArgb,
+    Hct,
+    MaterialDynamicColors,
+    redFromArgb,
+    SchemeTonalSpot,
 } from "@material/material-color-utilities"
 import type { CSSProperties } from "react"
 
 import colors from "@anitrove/design/colors"
-import { precompileStyles, type PreCompiledStyles } from "@anitrove/unstyled"
+import { precompileStyles, type OutStyles } from "@anitrove/unstyled"
 
-export type Theme = PreCompiledStyles
+export type Theme = OutStyles
 
 const {
 	contentAccentToneDelta: _contentAccentToneDelta,

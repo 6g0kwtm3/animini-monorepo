@@ -3,22 +3,21 @@ import { media } from "@anitrove/design"
 import {
 	create,
 	is,
-	type PreCompiledStyles,
-	type RawStyles,
-	type Vars,
+	mergeStyles,
+	provide,
+	Var,
+	type OutStyles,
 } from "@anitrove/unstyled"
+
+const color = new Var<"elevated" | "filled" | "outlined" | "text" | "tonal">(
+	"--color"
+)
+const shape = new Var<"round" | "square">("--shape")
+const size = new Var<"lg" | "md" | "sm" | "xl" | "xs">("--size")
 
 export function createButton() {
 	return create({
-		button: ({
-			color,
-			shape,
-			size,
-		}: Vars<{
-			color: "elevated" | "filled" | "outlined" | "text" | "tonal"
-			shape: "round" | "square"
-			size: "lg" | "md" | "sm" | "xl" | "xs"
-		}>): RawStyles => ({
+		button: {
 			display: "inline-flex",
 			alignItems: "center",
 			justifyContent: "center",
@@ -112,20 +111,23 @@ export function createButton() {
 					},
 				},
 			},
-		}),
+		},
 	})
 }
 
 const styles = createButton()
 
-export function button({
-	color = "filled",
-	shape = "round",
-	size = "sm",
-}: {
-	color?: "elevated" | "filled" | "outlined" | "text" | "tonal"
-	shape?: "round" | "square"
-	size?: "lg" | "md" | "sm" | "xl" | "xs"
-} = {}): PreCompiledStyles {
-	return styles.button({ color, shape, size })
+export function button(
+	props: {
+		color?: "elevated" | "filled" | "outlined" | "text" | "tonal"
+		shape?: "round" | "square"
+		size?: "lg" | "md" | "sm" | "xl" | "xs"
+	} = {}
+): OutStyles {
+	return mergeStyles(
+		styles.button,
+		provide(color, props.color ?? "filled"),
+		provide(shape, props.shape ?? "round"),
+		provide(size, props.size ?? "sm")
+	)
 }

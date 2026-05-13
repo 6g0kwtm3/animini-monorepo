@@ -2,11 +2,11 @@ import { createContext, use, type ComponentProps, type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
 import {
-	cva,
-	defineCva,
-	mergeStyles,
-	type CvaProps,
-	type PreCompiledStyles,
+    cva,
+    defineCva,
+    mergeStyles,
+    type CvaProps,
+    type OutStyles,
 } from "@anitrove/unstyled"
 import { Box } from "@anitrove/unstyled/box"
 const layoutDefinition = defineCva({
@@ -62,7 +62,7 @@ interface LayoutProps
 	extends
 		CvaProps<typeof layoutDefinition>,
 		Omit<ComponentProps<"div">, "className" | "style"> {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function Layout({ style, navigation, ...props }: LayoutProps) {
@@ -84,7 +84,7 @@ interface LayoutBodyProps extends Omit<
 	ComponentProps<"main">,
 	"className" | "style"
 > {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function LayoutBody({ style, ...props }: LayoutBodyProps): ReactNode {
@@ -120,7 +120,7 @@ interface LayoutPaneProps
 	extends
 		CvaProps<typeof paneDefinition>,
 		Omit<Ariakit.RoleProps<"section">, "className" | "style"> {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function LayoutPane({

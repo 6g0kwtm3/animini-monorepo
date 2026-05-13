@@ -1,23 +1,16 @@
-import type { PreCompiledStyles } from "./unstyled-print"
+import type { OutStyles } from "./unstyled-print"
 
 import type { CSSProperties } from "react"
 import { invariant, numberOrStringToString, numberToString } from "utilities"
 import { precompileStyles } from "./unstyled-print"
 import { mapValue, type Value } from "./unstyled-value"
-import type { Vars } from "./unstyled-vars"
 
 export interface Properties extends CSSProperties {
 	[key: `--${string}`]: number | string
 	[key: string]: number | string | undefined
 }
 
-export type DynamicVars = Record<`--${string}`, number | string>
-
 export type RawStyles = { [K in keyof Properties]?: Value<Properties[K]> }
-export type DynamicStyles = (
-	vars: Vars<Record<string, number | string>>
-) => RawStyles
-export type RawStylesV2 = DynamicStyles | RawStyles
 
 type NonEmptyArray<T> = [T, ...T[]]
 
@@ -66,7 +59,7 @@ export type CvaProps<T> =
  * Applies component variant props to generate variant-specific styles.
  *
  * This function takes props that specify which variant options are active and
- * returns a {@link PreCompiledStyles} object with the corresponding variant
+ * returns a {@link OutStyles} object with the corresponding variant
  * styles merged in. Each prop corresponds to a variant name, and the value
  * specifies which option to use for that variant.
  *
@@ -86,7 +79,7 @@ export type CvaProps<T> =
  * @returns PreCompiledStyles object containing the variant-specific styles with
  *   CSS custom property references for each variant option
  */
-export function applyProps<T>(props: CvaProps<T>): PreCompiledStyles {
+export function applyProps<T>(props: CvaProps<T>): OutStyles {
 	return precompileStyles(
 		Object.fromEntries(
 			Object.entries(props).map(([key, value]) => [
@@ -161,7 +154,7 @@ export function cva<
 	Variants extends Record<Exclude<string, "css">, Record<string, RawStyles>>,
 >(
 	cva: Cva<Variants>
-): { style: PreCompiledStyles; variants: typeof applyProps<Cva<Variants>> } {
+): { style: OutStyles; variants: typeof applyProps<Cva<Variants>> } {
 	const { base, variants, defaultVariants = {}, compoundVariants = [] } = cva
 
 	const result: RawStyles = { ...base }

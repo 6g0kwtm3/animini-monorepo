@@ -2,11 +2,11 @@ import { createContext, use, type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
 import {
-	cva,
-	defineCva,
-	mergeStyles,
-	type CvaProps,
-	type PreCompiledStyles,
+    cva,
+    defineCva,
+    mergeStyles,
+    type CvaProps,
+    type OutStyles,
 } from "@anitrove/unstyled"
 import { Box } from "@anitrove/unstyled/box"
 import * as Ariakit from "@ariakit/react"
@@ -52,7 +52,7 @@ interface ListItemProps extends Omit<
 	Ariakit.RoleProps<"li">,
 	"className" | "style"
 > {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function ListItem({ style, ...props }: ListItemProps) {
@@ -106,7 +106,7 @@ interface ListItemContentProps extends Omit<
 	Ariakit.RoleProps,
 	"className" | "style"
 > {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function ListItemContent({
@@ -147,7 +147,7 @@ interface ListItemContentSubtitleProps extends Omit<
 	Ariakit.RoleProps,
 	"className" | "style"
 > {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function ListItemContentSubtitle({
@@ -185,7 +185,7 @@ interface ListItemImgProps extends Omit<
 	Ariakit.RoleProps,
 	"className" | "style"
 > {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 export function ListItemImg({ style, ...props }: ListItemImgProps): ReactNode {
@@ -257,7 +257,7 @@ interface ListProps
 	extends
 		CvaProps<typeof listDefinition>,
 		Omit<Ariakit.RoleProps<"ul">, "className" | "style"> {
-	style?: PreCompiledStyles
+	style?: OutStyles
 }
 
 const listDefinition = defineCva({

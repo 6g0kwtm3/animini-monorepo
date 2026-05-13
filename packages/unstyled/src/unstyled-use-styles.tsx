@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react"
 import { invariant, numberToString } from "utilities"
-import type { DynamicVars } from "./unstyled-cva"
-import { print, type PreCompiledStyles } from "./unstyled-print"
+
+import { print, type DynamicVars, type OutStyles } from "./unstyled-print"
 
 /**
  * React hook that generates style classes for unstyled components.
@@ -25,7 +25,7 @@ import { print, type PreCompiledStyles } from "./unstyled-print"
  *
  * 	return <div className={className} />;
  *
- * 	@param rawStyle - {@link PreCompiledStyles} instance containing the styles to
+ * 	@param rawStyle - {@link OutStyles} instance containing the styles to
  * 	generate a class name for. The styles are converted to a CSS string and
  * 	injected into the document.
  * 	@returns A tuple containing:
@@ -36,7 +36,7 @@ import { print, type PreCompiledStyles } from "./unstyled-print"
  * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail
  */
 export function useStyles(
-	rawStyle: PreCompiledStyles
+	rawStyle: OutStyles
 ): [string, ReactNode, DynamicVars] {
 	return useState((): [string, ReactNode, DynamicVars] => {
 		const styles = print(rawStyle)
