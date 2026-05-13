@@ -200,7 +200,7 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 
 			<div className="">
 				<Ariakit.CompositeProvider store={composite}>
-					<Suspense fallback={<Loading>Loading...</Loading>}>
+					<Suspense fallback={<Loading>Loading&hellip;</Loading>}>
 						<AwaitList {...props}></AwaitList>
 					</Suspense>
 				</Ariakit.CompositeProvider>
@@ -226,7 +226,7 @@ function AwaitList(props: Route.ComponentProps) {
 		)
 	)
 
-	const mediaList = new Map<number, MediaListMapEntry>()
+	const mediaList = new Map<string, MediaListMapEntry>()
 
 	let selectedList = data.MediaListCollection.lists
 
@@ -397,12 +397,12 @@ export function ErrorBoundary(): ReactNode {
 interface MediaListMapEntry {
 	media: MediaListItem_media$key & AddToList_media$key
 	originalEntry: AddToList_originalEntry$key
-	relations: Map<number, MediaListItem_media$key & AddToList_media$key>
+	relations: Map<string, MediaListItem_media$key & AddToList_media$key>
 }
 
 function mergeMapEntries(
-	map: Map<number, MediaListMapEntry>,
-	key: number,
+	map: Map<string, MediaListMapEntry>,
+	key: string,
 	entry: MediaListMapEntry
 ) {
 	const old = map.get(key)

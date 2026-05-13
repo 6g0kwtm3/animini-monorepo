@@ -110,7 +110,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 								{data.Viewer?.name && data.Viewer.name !== data.user.name ? (
 									<follow.Form
 										method="post"
-										action={`/follow/${numberToString(data.user.id)}`}
+										action={`/follow/${(data.user.id)}`}
 									>
 										<input
 											type="hidden"

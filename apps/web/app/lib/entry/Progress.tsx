@@ -77,11 +77,11 @@ export function ProgressIncrement(props: {
 	}
 
 	const progress =
-		(Number(optimisticEntry.id) === entry.id
+		(Number(optimisticEntry.id) === Number(entry.id)
 			? Number(optimisticEntry.progress)
 			: entry.progress) ?? 0
 
-	search.set("sheet", numberToString(entry.id))
+	search.set("sheet", (entry.id))
 
 	const episodes = entry.media.episodes ?? entry.media.chapters
 
@@ -147,7 +147,7 @@ export function ProgressIncrement(props: {
 						const shareData: ShareData = {
 							title: entry.media.title.userPreferred,
 							text: entry.media.title.userPreferred,
-							url: `https://${location.host}/media/${numberToString(entry.media.id)}`,
+							url: `https://${location.host}/media/${(entry.media.id)}`,
 						}
 
 						const canShare =
@@ -258,7 +258,7 @@ function Progress(props: { entry: Progress_entry$key }): ReactNode {
 		?? Object.fromEntries(navigation.formData ?? new FormData())
 
 	const progress =
-		(Number(optimisticEntry.id) === entry.id
+		(Number(optimisticEntry.id) === Number(entry.id)
 			? Number(optimisticEntry.progress)
 			: entry.progress) ?? 0
 

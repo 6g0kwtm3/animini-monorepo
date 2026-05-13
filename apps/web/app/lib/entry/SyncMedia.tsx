@@ -15,7 +15,7 @@ export function SyncMedia(props: {
 	mediaListCollection: SyncMedia_mediaListCollection$key
 	source: SyncMedia_source$key
 	targetEntries: SyncMedia_entry$key
-	targetMediaIds: number[]
+	targetMediaIds: string[]
 }) {
 	const targets = new Map(
 		useFragment(
@@ -130,7 +130,7 @@ export function SyncMedia(props: {
 
 					void mutation({
 						variables: {
-							mediaId: mediaId,
+							mediaId: Number(mediaId),
 							status: source.status,
 							private: source.private,
 

@@ -22,19 +22,19 @@ const handlers = [
 						media: [
 							{
 								coverImage: null,
-								id: 1,
+								id: "1",
 								title: { userPreferred: "Sousou no Frieren" },
 								type: "ANIME",
 							},
 							{
 								coverImage: null,
-								id: 2,
+								id: "2",
 								title: { userPreferred: "Sousou no Frieren" },
 								type: "MANGA",
 							},
 							{
 								coverImage: null,
-								id: 3,
+								id: "3",
 								title: { userPreferred: "Sousou no Frieren 2nd Season" },
 								type: "ANIME",
 							},
@@ -50,7 +50,7 @@ const handlers = [
 				data: {
 					Media: {
 						coverImage: null,
-						id: 1,
+						id: "1",
 						title: { userPreferred: "Sousou no Frieren" },
 						description: "",
 					},

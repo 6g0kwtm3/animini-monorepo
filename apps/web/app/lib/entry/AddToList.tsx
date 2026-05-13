@@ -104,7 +104,7 @@ export function AddToList({
 			action={() => {
 				void mutate({
 					variables: {
-						mediaId: media.id,
+						mediaId: Number(media.id),
 						status: source.status ?? "PLANNING",
 						private: source.private,
 					},
