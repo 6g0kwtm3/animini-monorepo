@@ -221,12 +221,12 @@ function AwaitList(props: Route.ComponentProps) {
 		data.MediaListCollection.lists?.flatMap(
 			(list) =>
 				list?.entries?.flatMap((entry) =>
-					entry?.media.id ? [[entry.media.id, entry]] : []
+					entry?.media.id ? [[Number(entry.media.id), entry]] : []
 				) ?? []
 		)
 	)
 
-	const mediaList = new Map<string, MediaListMapEntry>()
+	const mediaList = new Map<number, MediaListMapEntry>()
 
 	let selectedList = data.MediaListCollection.lists
 
@@ -237,7 +237,7 @@ function AwaitList(props: Route.ComponentProps) {
 	}
 
 	for (const entry of selectedList?.flatMap((list) => list?.entries) ?? []) {
-		if (!entry?.media) {
+		if (entry?.media == null) {
 			continue
 		}
 
@@ -247,14 +247,14 @@ function AwaitList(props: Route.ComponentProps) {
 			}
 		})
 
-		if (!compilation?.node?.id) {
-			mergeMapEntries(mediaList, entry.media.id, {
+		if (compilation?.node == null) {
+			mergeMapEntries(mediaList, Number(entry.media.id), {
 				media: entry.media,
 				originalEntry: entry,
 				relations: new Map(
 					entry.media.relations?.edges?.flatMap((edge) =>
 						edge?.relationType === "CONTAINS" && edge.node?.id
-							? [[edge.node.id, edge.node]]
+							? [[Number(edge.node.id), edge.node]]
 							: []
 					)
 				),
@@ -262,10 +262,10 @@ function AwaitList(props: Route.ComponentProps) {
 			continue
 		}
 
-		mergeMapEntries(mediaList, compilation.node.id, {
+		mergeMapEntries(mediaList, Number(compilation.node.id), {
 			media: compilation.node,
 			originalEntry: entry,
-			relations: new Map([[entry.media.id, entry.media]]),
+			relations: new Map([[Number(entry.media.id), entry.media]]),
 		})
 	}
 
@@ -397,12 +397,12 @@ export function ErrorBoundary(): ReactNode {
 interface MediaListMapEntry {
 	media: MediaListItem_media$key & AddToList_media$key
 	originalEntry: AddToList_originalEntry$key
-	relations: Map<string, MediaListItem_media$key & AddToList_media$key>
+	relations: Map<number, MediaListItem_media$key & AddToList_media$key>
 }
 
 function mergeMapEntries(
-	map: Map<string, MediaListMapEntry>,
-	key: string,
+	map: Map<number, MediaListMapEntry>,
+	key: number,
 	entry: MediaListMapEntry
 ) {
 	const old = map.get(key)

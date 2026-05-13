@@ -42,7 +42,7 @@ class UserPage {
 	}
 }
 
-const Viewer = { id: "1", name: "User" }
+const Viewer = { id: 1, name: "User" }
 const AddToListMutationSuccess = graphql.mutation<
 	AddToListMutation$rawResponse,
 	AddToListMutation$variables
@@ -197,7 +197,10 @@ const handlers = [
 		() =>
 			HttpResponse.json({
 				data: {
-					Viewer: Viewer,
+					Viewer: {
+						id: numberToString(Viewer.id),
+						name: Viewer.name
+					},
 					user: {
 						id: "1",
 						name: "User",
