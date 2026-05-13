@@ -122,6 +122,13 @@ cleanupUnusedCatalogs: true
 # trustPolicyIgnoreAfter: 4320
 dedupePeers: true
 enablePrePostScripts: false
+ignoredBuiltDependencies:
+  - '@sentry/cli'
+  - esbuild
+  - msw
+  - sharp
+  - workerd
+
 nodeLinker: hoisted
 optimisticRepeatInstall: true
 strictDepBuilds: true
