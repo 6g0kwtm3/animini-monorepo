@@ -5,7 +5,7 @@ import type { Value } from "./unstyled-value"
 /**
  * Compiled styles object representing pre-processed CSS styles.
  *
- * {@link PreCompiledStyles} is a wrapper around a styles object that provides a
+ * {@link OutStyles} is a wrapper around a styles object that provides a
  * structured representation of compiled CSS. The styles property contains CSS
  * properties with values that may include CSS custom properties for variant
  * options.
@@ -14,20 +14,24 @@ import type { Value } from "./unstyled-value"
  *   can be simple strings/numbers or CSS custom properties referencing variant
  *   options
  */
-export class PreCompiledStyles {
-	/** @internal */ public readonly styles: { [K in keyof Properties]?: string }
-	constructor(styles: { [K in keyof Properties]?: string }) {
-		this.styles = styles
+export class OutStyles {
+	/** @internal */ public readonly dynamicVars: DynamicVars
+	/** @internal */ public readonly preCompiledStyles: PreCompiledStyles
+	constructor(preCompiledStyles: PreCompiledStyles, dynamicVars: DynamicVars) {
+		this.preCompiledStyles = preCompiledStyles
+		this.dynamicVars = dynamicVars
 	}
 }
 
+export type PreCompiledStyles = { [K in keyof Properties]?: string }
+export type DynamicVars = Record<`--${string}`, string>
+
 /**
- * Merges multiple {@link PreCompiledStyles} objects into one.
+ * Merges multiple {@link OutStyles} objects into one.
  *
- * This function combines multiple style objects into a single
- * {@link PreCompiledStyles} instance by iterating over each input and assigning
- * its properties to the result. Undefined properties are skipped during the
- * merge.
+ * This function combines multiple style objects into a single {@link OutStyles}
+ * instance by iterating over each input and assigning its properties to the
+ * result. Undefined properties are skipped during the merge.
  *
  * This is useful for combining base styles with variant-specific styles or
  * merging theme styles with component-specific overrides.
@@ -47,23 +51,22 @@ export class PreCompiledStyles {
  *   input objects. The result's styles property includes properties from all
  *   inputs in the order they were provided
  */
-export function mergeStyles(
-	...styles: (PreCompiledStyles | undefined)[]
-): PreCompiledStyles {
-	const result = new PreCompiledStyles({})
+export function mergeStyles(...styles: (OutStyles | undefined)[]): OutStyles {
+	const result = new OutStyles({}, {})
 	for (const style of styles) {
 		if (style === undefined) continue
-		void Object.assign(result.styles, style.styles)
+		void Object.assign(result.preCompiledStyles, style.preCompiledStyles)
+		void Object.assign(result.dynamicVars, style.dynamicVars)
 	}
 	return result
 }
 
 /**
- * Converts {@link PreCompiledStyles} to a CSS string representation.
+ * Converts {@link OutStyles} to a CSS string representation.
  *
- * This function takes a {@link PreCompiledStyles} instance and generates a CSS
- * string by iterating over all properties and values. The output CSS uses CSS
- * custom properties (CSS variables) for variant options.
+ * This function takes a {@link OutStyles} instance and generates a CSS string by
+ * iterating over all properties and values. The output CSS uses CSS custom
+ * properties (CSS variables) for variant options.
  *
  * @example
  * 	// Simple styles
@@ -75,15 +78,15 @@ export function mergeStyles(
  * 	const css = print(styles)
  * 	// Output: "{\n  color: blue;\n  --size-xs: var(--size-xs);\n}"
  *
- * @param style - {@link PreCompiledStyles} instance to convert to CSS string
+ * @param style - {@link OutStyles} instance to convert to CSS string
  * @returns CSS string representing the compiled styles. The string includes all
  *   properties with their values, using CSS custom properties for variant
  *   options in the format var(--variant-option)
  * @internal
  */
-export function print(style: PreCompiledStyles): string {
+export function print(style: OutStyles): string {
 	let result = "{\n"
-	for (const property of Object.values(style.styles)) {
+	for (const property of Object.values(style.preCompiledStyles)) {
 		if (property === undefined) continue
 		result += property
 	}
@@ -92,11 +95,11 @@ export function print(style: PreCompiledStyles): string {
 }
 
 /**
- * Compiles raw styles into {@link PreCompiledStyles} for optimized rendering.
+ * Compiles raw styles into {@link OutStyles} for optimized rendering.
  *
  * This function takes an object with CSS properties and their values, which can
- * include media query objects, and returns a {@link PreCompiledStyles} instance
- * that can be directly used with CSS generation functions.
+ * include media query objects, and returns a {@link OutStyles} instance that can
+ * be directly used with CSS generation functions.
  *
  * The compilation process flattens nested media query objects and creates a
  * structured representation that can be efficiently processed for CSS output.
@@ -132,8 +135,9 @@ export function print(style: PreCompiledStyles): string {
  * @returns {@link PreCompiledStyles} Instance containing the compiled styles
  *   accessible via the `.styles` property
  */
-export function precompileStyles(style: RawStyles): PreCompiledStyles {
-	return new PreCompiledStyles(
+
+export function precompileStyles(style: RawStyles): OutStyles {
+	return new OutStyles(
 		Object.fromEntries(
 			Object.entries(style).flatMap(([propertyName, property]) => {
 				if (property === undefined) return []
@@ -149,7 +153,8 @@ export function precompileStyles(style: RawStyles): PreCompiledStyles {
 					],
 				]
 			})
-		)
+		),
+		{}
 	)
 }
 

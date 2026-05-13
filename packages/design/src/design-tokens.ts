@@ -54,7 +54,15 @@ export const typescale = Object.fromEntries(
 			},
 		]
 	)
-) as unknown as Record<keyof typeof fonts, RawStyles>
+) as unknown as Record<
+	keyof typeof fonts,
+	{
+		fontSize: string
+		fontWeight: number
+		letterSpacing: string
+		lineHeight: number
+	}
+>
 
 export const transitions = {
 	spatial: {

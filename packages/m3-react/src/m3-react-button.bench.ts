@@ -1,7 +1,10 @@
-import { cva } from "@anitrove/unstyled"
-import { bench, describe } from "vitest"
-import { buttonDefinition } from "./m3-react-button"
+import { bench } from "vitest"
+import { button, createButton } from "./m3-react-button"
 
 bench("cva", () => {
-	void cva(buttonDefinition)
+	void createButton()
+})
+
+bench("apply vars", () => {
+	void button({})
 })

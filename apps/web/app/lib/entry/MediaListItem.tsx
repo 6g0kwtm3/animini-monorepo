@@ -24,7 +24,7 @@ import { media, utilities } from "@anitrove/design"
 import {
 	mergeStyles,
 	precompileStyles,
-	type PreCompiledStyles,
+	type OutStyles,
 } from "@anitrove/unstyled"
 import { CompositeItem, CompositeRow } from "@ariakit/react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
@@ -78,7 +78,7 @@ export function MediaListItem({
 	entry: MediaListItem_entry$key | null | undefined
 	media: MediaListItem_media$key
 
-	style?: PreCompiledStyles
+	style?: OutStyles
 }): ReactNode {
 	const entry = useFragment(MediaListItem_entry, entryKey)
 	const data = useFragment(MediaListItem_media, mediaKey)
