@@ -81,7 +81,7 @@ export function ProgressIncrement(props: {
 			? Number(optimisticEntry.progress)
 			: entry.progress) ?? 0
 
-	search.set("sheet", (entry.id))
+	search.set("sheet", entry.id)
 
 	const episodes = entry.media.episodes ?? entry.media.chapters
 
@@ -147,7 +147,7 @@ export function ProgressIncrement(props: {
 						const shareData: ShareData = {
 							title: entry.media.title.userPreferred,
 							text: entry.media.title.userPreferred,
-							url: `https://${location.host}/media/${(entry.media.id)}`,
+							url: `https://${location.host}/media/${entry.media.id}`,
 						}
 
 						const canShare =

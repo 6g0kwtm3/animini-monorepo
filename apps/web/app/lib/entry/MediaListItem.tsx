@@ -119,7 +119,9 @@ export function MediaListItem({
 			</Box>
 			<ListItemContent
 				render={
-					<CompositeItem render={<A href={route_media({ id: Number(data.id) })}></A>} />
+					<CompositeItem
+						render={<A href={route_media({ id: Number(data.id) })}></A>}
+					/>
 				}
 			>
 				<ListItemContentTitle>

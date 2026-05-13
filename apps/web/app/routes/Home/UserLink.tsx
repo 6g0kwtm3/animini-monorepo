@@ -110,10 +110,7 @@ function UserCard(props: { userName: string }) {
 
 				<TooltipRichActions>
 					{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName ? (
-						<follow.Form
-							method="post"
-							action={`/follow/${(data.User.id)}`}
-						>
+						<follow.Form method="post" action={`/follow/${data.User.id}`}>
 							<input
 								type="hidden"
 								name="isFollowing"

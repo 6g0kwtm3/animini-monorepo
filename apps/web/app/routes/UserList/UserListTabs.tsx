@@ -23,7 +23,6 @@ const UserListTabs_query = graphql`
 			lists {
 				name
 				entries {
-					# eslint-disable-next-line eslint-plugin-relay/unused-fields
 					id
 				}
 			}

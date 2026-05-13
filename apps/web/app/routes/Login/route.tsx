@@ -66,10 +66,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 
 	const encoded = JSON.stringify({
 		token: token,
-		viewer: {
-			id: Number(data.Viewer.id),
-			name: (data.Viewer.name),
-		},
+		viewer: { id: Number(data.Viewer.id), name: data.Viewer.name },
 	} satisfies typeof Token.infer)
 
 	const setCookie = cookie.serialize(`anilist-token`, encoded, {

@@ -59,7 +59,9 @@ export function Airing(props: {
 		notification && (
 			<li className="col-span-full grid grid-cols-subgrid">
 				<ListItem
-					render={<A href={route_media({ id: Number(notification.media.id) })}></A>}
+					render={
+						<A href={route_media({ id: Number(notification.media.id) })}></A>
+					}
 				>
 					<ListItemImg>
 						<MediaCover media={notification.media} />

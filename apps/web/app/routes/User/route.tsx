@@ -108,10 +108,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 								</AppBarTitle>
 								<div className="flex-1" />
 								{data.Viewer?.name && data.Viewer.name !== data.user.name ? (
-									<follow.Form
-										method="post"
-										action={`/follow/${(data.user.id)}`}
-									>
+									<follow.Form method="post" action={`/follow/${data.user.id}`}>
 										<input
 											type="hidden"
 											name="isFollowing"
