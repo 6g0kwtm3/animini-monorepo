@@ -5,11 +5,11 @@ import ReactRelay from "react-relay"
 
 import type { ReactNode } from "react"
 import {
-    ListItem,
-    ListItemContent,
-    ListItemContentSubtitle,
-    ListItemContentTitle,
-    ListItemImg,
+	ListItem,
+	ListItemContent,
+	ListItemContentSubtitle,
+	ListItemContentTitle,
+	ListItemImg,
 } from "~/components/List"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
@@ -22,9 +22,9 @@ import { formatWatch } from "./ToWatch"
 import { A } from "@anitrove/a"
 import { media, utilities } from "@anitrove/design"
 import {
-    mergeStyles,
-    precompileStyles,
-    type OutStyles,
+	mergeStyles,
+	precompileStyles,
+	type OutStyles,
 } from "@anitrove/unstyled"
 import { CompositeItem, CompositeRow } from "@ariakit/react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
@@ -33,8 +33,8 @@ import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
 import { Box } from "@anitrove/unstyled/box"
 import { Badge } from "~/components/Badge"
 import type {
-    MediaListItemSubtitle_entry$key,
-    MediaType,
+	MediaListItemSubtitle_entry$key,
+	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import * as Predicate from "~/lib/Predicate"
 import { useFragment } from "../Network"

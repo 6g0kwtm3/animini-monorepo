@@ -24,8 +24,5 @@ export function provide<T extends number | string>(
 	_var: Var<T>,
 	value: T
 ): OutStyles {
-	return new OutStyles(
-		{},
-		{ [_var.name]: numberOrStringToString(value) }
-	)
+	return new OutStyles({}, { [_var.name]: numberOrStringToString(value) })
 }

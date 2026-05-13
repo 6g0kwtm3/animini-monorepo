@@ -29,10 +29,9 @@ export type DynamicVars = Record<`--${string}`, string>
 /**
  * Merges multiple {@link OutStyles} objects into one.
  *
- * This function combines multiple style objects into a single
- * {@link OutStyles} instance by iterating over each input and assigning
- * its properties to the result. Undefined properties are skipped during the
- * merge.
+ * This function combines multiple style objects into a single {@link OutStyles}
+ * instance by iterating over each input and assigning its properties to the
+ * result. Undefined properties are skipped during the merge.
  *
  * This is useful for combining base styles with variant-specific styles or
  * merging theme styles with component-specific overrides.
@@ -65,9 +64,9 @@ export function mergeStyles(...styles: (OutStyles | undefined)[]): OutStyles {
 /**
  * Converts {@link OutStyles} to a CSS string representation.
  *
- * This function takes a {@link OutStyles} instance and generates a CSS
- * string by iterating over all properties and values. The output CSS uses CSS
- * custom properties (CSS variables) for variant options.
+ * This function takes a {@link OutStyles} instance and generates a CSS string by
+ * iterating over all properties and values. The output CSS uses CSS custom
+ * properties (CSS variables) for variant options.
  *
  * @example
  * 	// Simple styles
@@ -99,8 +98,8 @@ export function print(style: OutStyles): string {
  * Compiles raw styles into {@link OutStyles} for optimized rendering.
  *
  * This function takes an object with CSS properties and their values, which can
- * include media query objects, and returns a {@link OutStyles} instance
- * that can be directly used with CSS generation functions.
+ * include media query objects, and returns a {@link OutStyles} instance that can
+ * be directly used with CSS generation functions.
  *
  * The compilation process flattens nested media query objects and creates a
  * structured representation that can be efficiently processed for CSS output.
