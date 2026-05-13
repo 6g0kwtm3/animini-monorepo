@@ -17,7 +17,7 @@ export function Box({ style, ...props }: BoxProps): ReactNode {
 		</>
 	)
 
-	return Object.keys(dynamicVars).length ? (
+	return Object.keys(dynamicVars).length !== 0 ? (
 		<div style={{ ...dynamicVars, display: "contents" }}>{children}</div>
 	) : (
 		children
