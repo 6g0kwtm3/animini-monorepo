@@ -25,7 +25,7 @@ type ActivityLikeNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The type of notification
@@ -70,7 +70,7 @@ type ActivityMentionNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The type of notification
@@ -110,7 +110,7 @@ type ActivityMessageNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The message activity
@@ -150,7 +150,7 @@ type ActivityReply {
 	"""
 	The id of the reply
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the currently authenticated user liked the reply
@@ -215,7 +215,7 @@ type ActivityReplyLikeNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The type of notification
@@ -260,7 +260,7 @@ type ActivityReplyNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The type of notification
@@ -305,7 +305,7 @@ type ActivityReplySubscribedNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The type of notification
@@ -394,7 +394,7 @@ type AiringNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The associated media of the airing schedule
@@ -444,7 +444,7 @@ type AiringSchedule {
 	"""
 	The id of the airing schedule item
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The associate media of the airing episode
@@ -556,7 +556,7 @@ type Character {
 	"""
 	The id of the character
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	Character images
@@ -808,7 +808,7 @@ type CharacterSubmission {
 	"""
 	The id of the submission
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	Whether the submission is locked
@@ -993,7 +993,7 @@ type FollowingNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The type of notification
@@ -2373,7 +2373,7 @@ type ListActivity {
 	"""
 	The id of the activity
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the currently authenticated user liked the activity
@@ -2593,7 +2593,7 @@ type Media {
 	"""
 	The id of the media
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The mal id of the media
@@ -2919,7 +2919,7 @@ type MediaDataChangeNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The media that received data changes
@@ -2964,7 +2964,7 @@ type MediaDeletionNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The reason for the media deletion
@@ -3062,7 +3062,7 @@ type MediaExternalLink {
 	"""
 	The id of the external link
 	"""
-	id: Int!
+	id: ID!
 	isDisabled: Boolean
 
 	"""
@@ -3200,7 +3200,7 @@ type MediaList {
 	"""
 	The id of the list entry
 	"""
-	id: Int!
+	id: ID!
 	media: Media
 
 	"""
@@ -3518,7 +3518,7 @@ type MediaMergeNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The media that was merged into
@@ -3563,7 +3563,7 @@ type MediaRank {
 	"""
 	The id of the rank
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The numerical rank of the media
@@ -3897,7 +3897,7 @@ type MediaSubmission {
 	"""
 	The id of the submission
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	Whether the submission is locked
@@ -3974,7 +3974,7 @@ type MediaTag {
 	"""
 	The id of the tag
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the tag is only for adult 18+ media
@@ -4186,7 +4186,7 @@ type MessageActivity {
 	"""
 	The id of the activity
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the currently authenticated user liked the activity
@@ -4276,7 +4276,7 @@ type ModAction {
 	"""
 	The id of the action
 	"""
-	id: Int!
+	id: ID!
 	mod: User
 	objectId: Int
 	objectType: String
@@ -7848,7 +7848,7 @@ type Recommendation {
 	"""
 	The id of the recommendation
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The media the recommendation is from
@@ -7929,7 +7929,7 @@ type RelatedMediaAdditionNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The associated media of the airing schedule
@@ -7954,7 +7954,7 @@ type Report {
 	When the entry data was created
 	"""
 	createdAt: Int
-	id: Int!
+	id: ID!
 	reason: String
 	reported: User
 	reporter: User
@@ -7982,7 +7982,7 @@ type Review {
 	"""
 	The id of the review
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The media the review is of
@@ -8124,7 +8124,7 @@ type RevisionHistory {
 	"""
 	The id of the media
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The media the mod feed entry references
@@ -8406,7 +8406,7 @@ type Staff {
 	"""
 	The id of the staff member
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The staff images
@@ -8734,7 +8734,7 @@ type StaffSubmission {
 	"""
 	The id of the submission
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	Whether the submission is locked
@@ -8795,7 +8795,7 @@ type Studio {
 	"""
 	The id of the studio
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the studio is an animation studio or a different kind of company
@@ -8946,7 +8946,7 @@ type TextActivity {
 	"""
 	The id of the activity
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the currently authenticated user liked the activity
@@ -9046,7 +9046,7 @@ type Thread {
 	"""
 	The id of the thread
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the currently authenticated user liked the thread
@@ -9146,7 +9146,7 @@ type ThreadCategory {
 	"""
 	The id of the category
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The name of the category
@@ -9181,7 +9181,7 @@ type ThreadComment {
 	"""
 	The id of the comment
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the currently authenticated user liked the comment
@@ -9261,7 +9261,7 @@ type ThreadCommentLikeNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The thread that the relevant comment belongs to
@@ -9311,7 +9311,7 @@ type ThreadCommentMentionNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The thread that the relevant comment belongs to
@@ -9361,7 +9361,7 @@ type ThreadCommentReplyNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The thread that the relevant comment belongs to
@@ -9419,7 +9419,7 @@ type ThreadCommentSubscribedNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The thread that the relevant comment belongs to
@@ -9464,7 +9464,7 @@ type ThreadLikeNotification {
 	"""
 	The id of the Notification
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	The thread that the relevant comment belongs to
@@ -9567,7 +9567,7 @@ type User {
 	"""
 	The id of the user
 	"""
-	id: Int!
+	id: ID!
 
 	"""
 	If the user is blocked by the authenticated user

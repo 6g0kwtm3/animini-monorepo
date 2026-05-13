@@ -12,10 +12,8 @@ export function behind(data: Behind_entry$key): null | number {
 	const entry = readFragment(
 		graphql`
 			fragment Behind_entry on MediaList {
-				id
 				progress
 				media {
-					id
 					avalible @required(action: NONE)
 				}
 			}

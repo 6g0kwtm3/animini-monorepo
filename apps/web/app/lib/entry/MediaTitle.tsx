@@ -5,7 +5,6 @@ import type { MediaTitle_media$key } from "~/gql/MediaTitle_media.graphql"
 
 const MediaTitle_media = graphql`
 	fragment MediaTitle_media on Media {
-		id
 		title @required(action: LOG) {
 			userPreferred @required(action: LOG)
 		}

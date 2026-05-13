@@ -38,7 +38,7 @@ export function SyncMedia(props: {
 				}
 			`,
 			props.targetEntries
-		).map((target) => [target.media?.id, target])
+		).map((target) => [Number(target.media?.id), target])
 	)
 
 	const source = useFragment(

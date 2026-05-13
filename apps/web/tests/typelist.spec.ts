@@ -23,6 +23,7 @@ import { Token } from "~/lib/viewer"
 import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
+import { numberToString } from "../app/lib/numberToString"
 // test.use({ storageState: "playwright/.auth/user.json" })
 
 class UserPage {
@@ -51,14 +52,14 @@ const AddToListMutationSuccess = graphql.mutation<
 			SaveMediaListEntry: {
 				__typename: "MediaList",
 				status: variables.status,
-				id: variables.mediaId,
+				id: numberToString(variables.mediaId),
 				completedAt: null,
 				private: variables.private,
 				progress: 0,
 				score: 2,
 				startedAt: { day: 1, month: 2, year: 3 },
 				media: {
-					id: variables.mediaId,
+					id: numberToString(variables.mediaId),
 					title: { userPreferred: "Contained media title" },
 					type: "MANGA",
 					status: "FINISHED",
@@ -68,7 +69,7 @@ const AddToListMutationSuccess = graphql.mutation<
 								id: 200,
 								relationType: "COMPILATION",
 								node: {
-									id: 1,
+									id: "1",
 									title: { userPreferred: "Media title" },
 									coverImage: { color: null, large: null, medium: null },
 								},
@@ -93,7 +94,7 @@ const SyncMediaMutationSuccess = graphql.mutation<
 			SaveMediaListEntry: {
 				__typename: "MediaList",
 				status: variables.status,
-				id: variables.mediaId,
+				id: numberToString(variables.mediaId),
 				completedAt: variables.completedAt && {
 					day: variables.completedAt.day,
 					month: variables.completedAt.month,
@@ -108,7 +109,7 @@ const SyncMediaMutationSuccess = graphql.mutation<
 					year: variables.startedAt.year,
 				},
 				media: {
-					id: variables.mediaId,
+					id: numberToString(variables.mediaId),
 					title: { userPreferred: "Contained media title" },
 					type: "MANGA",
 					status: "FINISHED",
@@ -118,7 +119,7 @@ const SyncMediaMutationSuccess = graphql.mutation<
 								id: 200,
 								relationType: "COMPILATION",
 								node: {
-									id: 1,
+									id: "1",
 									title: { userPreferred: "Media title" },
 									coverImage: { color: null, large: null, medium: null },
 								},
@@ -151,14 +152,14 @@ const handlers = [
 								{
 									__typename: "MediaList",
 									status: "COMPLETED",
-									id: 1,
+									id: "1",
 									completedAt: { day: 0, month: 1, year: 2 },
 									private: true,
 									progress: 12,
 									score: 2,
 									startedAt: { day: 1, month: 2, year: 3 },
 									media: {
-										id: 1,
+										id: "1",
 										title: { userPreferred: "Media title" },
 										type: "MANGA",
 										status: "FINISHED",
@@ -168,7 +169,7 @@ const handlers = [
 													id: 100,
 													relationType: "CONTAINS",
 													node: {
-														id: 2,
+														id: "2",
 														title: { userPreferred: "Contained media title" },
 														coverImage: {
 															color: null,
@@ -196,9 +197,9 @@ const handlers = [
 		() =>
 			HttpResponse.json({
 				data: {
-					Viewer: Viewer,
+					Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
 					user: {
-						id: 1,
+						id: "1",
 						name: "User",
 						avatar: null,
 						bannerImage: null,

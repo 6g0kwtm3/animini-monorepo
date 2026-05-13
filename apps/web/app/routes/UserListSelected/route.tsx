@@ -200,7 +200,7 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 
 			<div className="">
 				<Ariakit.CompositeProvider store={composite}>
-					<Suspense fallback={<Loading>Loading...</Loading>}>
+					<Suspense fallback={<Loading>Loading&hellip;</Loading>}>
 						<AwaitList {...props}></AwaitList>
 					</Suspense>
 				</Ariakit.CompositeProvider>
@@ -221,7 +221,7 @@ function AwaitList(props: Route.ComponentProps) {
 		data.MediaListCollection.lists?.flatMap(
 			(list) =>
 				list?.entries?.flatMap((entry) =>
-					entry?.media.id ? [[entry.media.id, entry]] : []
+					entry?.media.id ? [[Number(entry.media.id), entry]] : []
 				) ?? []
 		)
 	)
@@ -237,7 +237,7 @@ function AwaitList(props: Route.ComponentProps) {
 	}
 
 	for (const entry of selectedList?.flatMap((list) => list?.entries) ?? []) {
-		if (!entry?.media) {
+		if (entry?.media == null) {
 			continue
 		}
 
@@ -247,14 +247,14 @@ function AwaitList(props: Route.ComponentProps) {
 			}
 		})
 
-		if (!compilation?.node?.id) {
-			mergeMapEntries(mediaList, entry.media.id, {
+		if (compilation?.node == null) {
+			mergeMapEntries(mediaList, Number(entry.media.id), {
 				media: entry.media,
 				originalEntry: entry,
 				relations: new Map(
 					entry.media.relations?.edges?.flatMap((edge) =>
 						edge?.relationType === "CONTAINS" && edge.node?.id
-							? [[edge.node.id, edge.node]]
+							? [[Number(edge.node.id), edge.node]]
 							: []
 					)
 				),
@@ -262,10 +262,10 @@ function AwaitList(props: Route.ComponentProps) {
 			continue
 		}
 
-		mergeMapEntries(mediaList, compilation.node.id, {
+		mergeMapEntries(mediaList, Number(compilation.node.id), {
 			media: compilation.node,
 			originalEntry: entry,
-			relations: new Map([[entry.media.id, entry.media]]),
+			relations: new Map([[Number(entry.media.id), entry.media]]),
 		})
 	}
 

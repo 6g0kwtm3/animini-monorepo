@@ -16,9 +16,7 @@ export function toWatch(data: ToWatch_entry$key): null | number {
 				behind @required(action: NONE)
 				media {
 					duration
-					id
 				}
-				id
 			}
 		`,
 		data

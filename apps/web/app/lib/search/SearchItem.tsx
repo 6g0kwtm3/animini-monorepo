@@ -41,7 +41,7 @@ export function SearchItem({
 				{...props}
 				render={
 					<A
-						href={route_media({ id: data.id })}
+						href={route_media({ id: Number(data.id) })}
 						title={data.title.userPreferred}
 					/>
 				}
