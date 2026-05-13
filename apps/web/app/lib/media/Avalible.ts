@@ -18,10 +18,8 @@ export function avalible(key: Avalible_media$key): null | number | undefined {
 				episodes
 				chapters
 				nextAiringEpisode {
-					id
 					episode
 				}
-				id
 			}
 		`,
 		key

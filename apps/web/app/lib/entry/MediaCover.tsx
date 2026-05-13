@@ -26,7 +26,6 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 			@argumentDefinitions(
 				extraLarge: { type: "Boolean", defaultValue: false }
 			) {
-				id
 				coverImage {
 					extraLarge @include(if: $extraLarge)
 					large

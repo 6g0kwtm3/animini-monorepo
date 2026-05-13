@@ -18,7 +18,6 @@ export function User({ user, ...props }: UserProps): ReactNode {
 	const data = useFragment(
 		graphql`
 			fragment User_user on User {
-				id
 				name
 				bannerImage
 				avatar {

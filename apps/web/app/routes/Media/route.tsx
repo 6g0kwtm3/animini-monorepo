@@ -63,7 +63,6 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		graphql`
 			query routeNavMediaQuery($id: Int!) @raw_response_type {
 				Media(id: $id) {
-					id
 					coverImage {
 						color
 					}

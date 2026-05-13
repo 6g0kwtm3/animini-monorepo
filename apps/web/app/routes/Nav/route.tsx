@@ -51,7 +51,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 		graphql`
 			query routeNavQuery($isToken: Boolean = false) {
 				Viewer @include(if: $isToken) {
-					id
 					unreadNotificationCount
 				}
 				...SearchTrending_query

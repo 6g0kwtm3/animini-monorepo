@@ -32,7 +32,6 @@ export function ActivityLike(props: {
 				activityId
 				context
 				user {
-					id
 					name
 					avatar {
 						large
@@ -47,7 +46,6 @@ export function ActivityLike(props: {
 	const viewer = useFragment(
 		graphql`
 			fragment ActivityLike_viewer on User {
-				id
 				unreadNotificationCount
 			}
 		`,
