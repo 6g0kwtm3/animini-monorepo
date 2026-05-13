@@ -72,7 +72,7 @@ export default defineConfig<Fixtures>({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: "pnpm exec turbo --filter=@anitrove/web start",
+		command: "pnpm exec turbo --filter=@animedes/web start",
 		url: "http://localhost:3000",
 		reuseExistingServer: !process.env.CI,
 	},

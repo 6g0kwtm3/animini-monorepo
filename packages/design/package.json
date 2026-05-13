@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@anitrove/design",
+	"name": "@animedes/design",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -16,17 +16,17 @@
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
-		"@anitrove/unstyled": "workspace:*",
+		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
 		"@eslint/core": "*"
 	},
 	"devDependencies": {
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-typegen": "catalog:",
-		"ts-config": "workspace:^",
+		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
-		"utilities": "workspace:*"
+		"utilities": "workspace:@animedes/utilities@*"
 	},
 	"dependencies": {
 		"csstype": "catalog:"

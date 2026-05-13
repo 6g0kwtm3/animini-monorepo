@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "eslint-config",
+	"name": "@animedes/eslint-config",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -10,7 +10,7 @@
 		"eslint-plugin-perfectionist": "catalog:",
 		"eslint-plugin-turbo": "catalog:",
 		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*",
+		"oxlint-config": "workspace:@animedes/oxlint-config@*",
 		"typescript-eslint": "catalog:"
 	},
 	"peerDependencies": {

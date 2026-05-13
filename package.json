@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "anitrove",
+	"name": "@animedes/anitrove",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -35,7 +35,7 @@
 		"knip": "catalog:",
 		"oxfmt": "catalog:",
 		"oxlint": "catalog:",
-		"oxlint-config": "workspace:*",
+		"oxlint-config": "workspace:@animedes/oxlint-config@*",
 		"oxlint-tsgolint": "catalog:",
 		"prettier": "catalog:",
 		"prettier-plugin-tailwindcss": "catalog:",

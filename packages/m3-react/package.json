@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "m3-react",
+	"name": "@animedes/m3-react",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -17,19 +17,19 @@
 	"devDependencies": {
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-typegen": "catalog:",
-		"m3-core": "workspace:*",
-		"ts-config": "workspace:^",
+		"m3-core": "workspace:@animedes/m3-core@*",
+		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"vitest": "catalog:"
 	},
 	"dependencies": {
-		"@anitrove/design": "workspace:*"
+		"@anitrove/design": "workspace:@animedes/design@*"
 	},
 	"peerDependencies": {
-		"@anitrove/unstyled": "workspace:*",
+		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
 		"csstype": "catalog:",
 		"@eslint/core": "*"
 	}

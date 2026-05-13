@@ -1,21 +1,21 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "eslint-config-react",
+	"name": "@animedes/eslint-config-react",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"dependencies": {
 		"eslint": "catalog:",
-		"eslint-plugin-jsx": "workspace:*",
+		"eslint-plugin-jsx": "workspace:@animedes/eslint-plugin-jsx@*",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
 		"eslint-plugin-react-hooks": "catalog:",
 		"eslint-plugin-react-refresh": "catalog:",
 		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:*"
+		"oxlint-config": "workspace:@animedes/oxlint-config@*"
 	},
 	"devDependencies": {
-		"ts-config": "workspace:*"
+		"ts-config": "workspace:@animedes/ts-config@*"
 	},
 	"exports": {
 		".": {

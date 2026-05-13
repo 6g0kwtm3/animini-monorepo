@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@anitrove/unstyled",
+	"name": "@animedes/unstyled",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -25,13 +25,13 @@
 		"@ariakit/react": "catalog:",
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
-		"eslint-config": "workspace:*",
-		"eslint-config-react": "workspace:*",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-typegen": "catalog:",
-		"ts-config": "workspace:^",
+		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
-		"utilities": "workspace:^",
+		"utilities": "workspace:@animedes/utilities@*",
 		"vitest": "catalog:"
 	}
 }

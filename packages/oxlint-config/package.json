@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "oxlint-config",
+	"name": "@animedes/oxlint-config",
 	"type": "module",
 	"private": true,
 	"exports": "./oxlintrc.json"
