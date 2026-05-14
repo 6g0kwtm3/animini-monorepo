@@ -1,6 +1,6 @@
 import { numberOrStringToString } from "utilities"
-import type { Properties, RawStyles } from "./unstyled-cva"
-import type { Value } from "./unstyled-value"
+import type { Properties, RawStyles } from "./unstyled-cva.ts"
+import type { Value } from "./unstyled-value.ts"
 
 /**
  * Compiled styles object representing pre-processed CSS styles.
@@ -14,13 +14,9 @@ import type { Value } from "./unstyled-value"
  *   can be simple strings/numbers or CSS custom properties referencing variant
  *   options
  */
-export class OutStyles {
-	/** @internal */ public readonly dynamicVars: DynamicVars
-	/** @internal */ public readonly preCompiledStyles: PreCompiledStyles
-	constructor(preCompiledStyles: PreCompiledStyles, dynamicVars: DynamicVars) {
-		this.preCompiledStyles = preCompiledStyles
-		this.dynamicVars = dynamicVars
-	}
+export interface OutStyles {
+	/** @internal */ readonly dynamicVars: DynamicVars
+	/** @internal */ readonly preCompiledStyles: PreCompiledStyles
 }
 
 export type PreCompiledStyles = { [K in keyof Properties]?: string }
@@ -52,7 +48,7 @@ export type DynamicVars = Record<`--${string}`, string>
  *   inputs in the order they were provided
  */
 export function mergeStyles(...styles: (OutStyles | undefined)[]): OutStyles {
-	const result = new OutStyles({}, {})
+	const result: OutStyles = { preCompiledStyles: {}, dynamicVars: {} }
 	for (const style of styles) {
 		if (style === undefined) continue
 		void Object.assign(result.preCompiledStyles, style.preCompiledStyles)
@@ -137,8 +133,8 @@ export function print(style: OutStyles): string {
  */
 
 export function precompileStyles(style: RawStyles): OutStyles {
-	return new OutStyles(
-		Object.fromEntries(
+	return {
+		preCompiledStyles: Object.fromEntries(
 			Object.entries(style).flatMap(([propertyName, property]) => {
 				if (property === undefined) return []
 
@@ -154,8 +150,8 @@ export function precompileStyles(style: RawStyles): OutStyles {
 				]
 			})
 		),
-		{}
-	)
+		dynamicVars: {},
+	}
 }
 
 const tab = "  "

@@ -3,14 +3,16 @@ import { reactRouter } from "@react-router/dev/vite"
 import { sentryVitePlugin as sentry } from "@sentry/vite-plugin"
 import tailwindcss from "@tailwindcss/vite"
 import icons from "unplugin-icons/vite"
-import { defineConfig } from "vite"
+import { defineConfig, type Plugin } from "vite"
 import babel from "vite-plugin-babel"
 import inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
+import macros from "unplugin-macros/vite"
 
 export default defineConfig({
 	plugins: [
 		inspect(),
+		macros() as Plugin,
 		tailwindcss(),
 		babel({
 			filter: /\.[jt]sx?$/,
