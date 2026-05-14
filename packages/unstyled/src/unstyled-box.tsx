@@ -1,7 +1,7 @@
 import { Role, type RoleProps } from "@ariakit/react"
 import type { ReactNode } from "react"
-import { mergeStyles, type OutStyles } from "./unstyled-print"
-import { useStyles } from "./unstyled-use-styles"
+import { mergeStyles, type OutStyles } from "./unstyled-print.ts"
+import { useStyles } from "./unstyled-use-styles.tsx"
 
 export interface BoxProps extends Omit<RoleProps, "className" | "style"> {
 	style?: OutStyles

@@ -1,9 +1,9 @@
 import { expect, it, vi } from "vitest"
 
 import { numberToString } from "utilities"
-import { cva } from "./unstyled-cva"
-import { precompileStyles } from "./unstyled-print"
-import { mapValue, type Value } from "./unstyled-value"
+import { cva } from "./unstyled-cva.ts"
+import { precompileStyles } from "./unstyled-print.ts"
+import { mapValue, type Value } from "./unstyled-value.ts"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
 

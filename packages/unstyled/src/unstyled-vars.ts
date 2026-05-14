@@ -1,5 +1,5 @@
 import { numberOrStringToString } from "utilities"
-import { OutStyles } from "./unstyled-print"
+import type { OutStyles } from "./unstyled-print.ts"
 
 export type Vars<Vars extends Record<string, number | string>> = {
 	[K in keyof Vars]: Var<Vars[K]>
@@ -24,5 +24,8 @@ export function provide<T extends number | string>(
 	_var: Var<T>,
 	value: T
 ): OutStyles {
-	return new OutStyles({}, { [_var.name]: numberOrStringToString(value) })
+	return {
+		preCompiledStyles: {},
+		dynamicVars: { [_var.name]: numberOrStringToString(value) },
+	}
 }

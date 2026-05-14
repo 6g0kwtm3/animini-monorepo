@@ -1,7 +1,7 @@
 import { type Properties, type RawStyles } from "@anitrove/unstyled"
 
-import type Colors from "./design-colors"
-import fonts, { letterSpacing, pxToRem } from "./design-fonts"
+import type Colors from "./design-colors.ts"
+import fonts, { letterSpacing, pxToRem } from "./design-fonts.ts"
 
 export const borderRadius = {
 	none: "0",

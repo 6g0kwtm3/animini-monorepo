@@ -1,17 +1,18 @@
 import {
-	argbFromHex,
-	blueFromArgb,
-	DynamicColor,
-	greenFromArgb,
-	Hct,
-	MaterialDynamicColors,
-	redFromArgb,
-	SchemeTonalSpot,
+    argbFromHex,
+    blueFromArgb,
+    DynamicColor,
+    greenFromArgb,
+    Hct,
+    MaterialDynamicColors,
+    redFromArgb,
+    SchemeTonalSpot,
 } from "@material/material-color-utilities"
 import type { CSSProperties } from "react"
 
 import colors from "@anitrove/design/colors"
-import { precompileStyles, type OutStyles } from "@anitrove/unstyled"
+import { precompileStyles } from "@anitrove/unstyled"
+import { type OutStyles } from "@anitrove/unstyled"
 
 export type Theme = OutStyles
 

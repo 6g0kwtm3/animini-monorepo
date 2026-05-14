@@ -1,7 +1,7 @@
 import { numberToString } from "utilities"
 import { type Value, mapValue } from "@anitrove/unstyled/value"
-export * as utilities from "./design-utilities"
-export * as tokens from "./design-tokens"
+export * as utilities from "./design-utilities.ts"
+export * as tokens from "./design-tokens.ts"
 
 const states = { none: 0, hover: 0.08, focus: 0.1, pressed: 0.1, dragged: 0.16 }
 
