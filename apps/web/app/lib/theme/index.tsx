@@ -1,12 +1,12 @@
 import {
-    argbFromHex,
-    blueFromArgb,
-    DynamicColor,
-    greenFromArgb,
-    Hct,
-    MaterialDynamicColors,
-    redFromArgb,
-    SchemeTonalSpot,
+	argbFromHex,
+	blueFromArgb,
+	DynamicColor,
+	greenFromArgb,
+	Hct,
+	MaterialDynamicColors,
+	redFromArgb,
+	SchemeTonalSpot,
 } from "@material/material-color-utilities"
 import type { CSSProperties } from "react"
 
