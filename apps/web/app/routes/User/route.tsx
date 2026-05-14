@@ -65,7 +65,6 @@ import { data as json } from "react-router"
 import { Breadcrumb, BreadcrumbItem } from "~/components/Breadcrumb"
 import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"
-import { numberToString } from "~/lib/numberToString"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)

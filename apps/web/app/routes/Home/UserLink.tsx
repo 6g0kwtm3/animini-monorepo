@@ -30,7 +30,7 @@ import { type clientLoader as rootLoader } from "~/root"
 
 import { A } from "@anitrove/a"
 import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
-import { numberToString } from "~/lib/numberToString"
+
 import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
 import { precompileStyles } from "@anitrove/unstyled"
