@@ -7,10 +7,12 @@ import { defineConfig } from "vite"
 import babel from "vite-plugin-babel"
 import inspect from "vite-plugin-inspect"
 import relay from "vite-plugin-relay"
+import macros from 'unplugin-macros/vite'
 
 export default defineConfig({
 	plugins: [
 		inspect(),
+		macros(),
 		tailwindcss(),
 		babel({
 			filter: /\.[jt]sx?$/,

@@ -94,6 +94,7 @@
 		"temporal-polyfill-lite": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
+		"unplugin-macros": "catalog:",
 		"vite-plugin-babel": "catalog:",
 		"vite-plugin-inspect": "catalog:",
 		"vitest": "catalog:"
