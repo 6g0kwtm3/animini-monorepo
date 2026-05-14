@@ -13,7 +13,7 @@ import { precompileStyles } from "@anitrove/unstyled"
 import type { AnitomyResult } from "anitomy"
 
 import type { ReactNode } from "react"
-import { Suspense } from "react"
+import { Fragment, Suspense } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import { Card } from "~/components/Card"
@@ -281,7 +281,7 @@ function AwaitList(props: Route.ComponentProps) {
 					const entry = allEntries.get(id)
 
 					return (
-						<>
+						<Fragment key={id}>
 							<MediaListItem key={id} data-key={id} media={media} entry={entry}>
 								<Skeleton>
 									{entry ? (
@@ -348,7 +348,7 @@ function AwaitList(props: Route.ComponentProps) {
 									)
 								})
 								.toArray()}
-						</>
+						</Fragment>
 					)
 				})
 				.toArray()}
