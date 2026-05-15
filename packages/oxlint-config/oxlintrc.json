@@ -74,7 +74,6 @@
 			}
 		],
 
-		// todo: fix
 		"typescript/triple-slash-reference": "allow",
 		"eslint/no-unused-vars": "allow",
 		"jsx-a11y/anchor-has-content": "allow",
