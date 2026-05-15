@@ -1,6 +1,10 @@
 {
 	"$schema": "../../node_modules/oxlint/configuration_schema.json",
-	"options": { "typeAware": true },
+	"options": {
+		"typeAware": true,
+		"denyWarnings": true,
+		"respectEslintDisableDirectives": false
+	},
 	"plugins": [
 		"react",
 		"unicorn",
@@ -14,29 +18,43 @@
 	],
 	"env": { "node": true, "browser": true },
 	"rules": {
-		"vitest/no-alias-methods": "error",
-		"eslint/no-unused-expressions": "error",
-		"eslint/eqeqeq": ["error", "always", { "null": "never" }],
-		"eslint/prefer-template": "error",
-		"oxc/no-barrel-file": "error",
-		"import/no-cycle": "error",
-		"react/jsx-no-useless-fragment": "error",
-		"react/rules-of-hooks": "error",
-		"typescript/no-non-null-assertion": "error",
-		"no-non-null-asserted-nullish-coalescing": "error",
+		"vitest/no-alias-methods": "warn",
+		"vitest/expect-expect": [
+			"warn",
+			{
+				"assertFunctionNames": [
+					"expect",
+					"expectTypeOf",
+					"assert",
+					"assertType",
+					"valid",
+					"invalid"
+				]
+			}
+		],
+		"eslint/no-unused-expressions": "warn",
+		"eslint/eqeqeq": ["warn", "always", { "null": "never" }],
+		"eslint/prefer-template": "warn",
+		"oxc/no-barrel-file": "warn",
+		"import/no-cycle": "warn",
+		"react/jsx-no-useless-fragment": "warn",
+		"react/rules-of-hooks": "warn",
+		"react/jsx-key": "warn",
+		"typescript/no-non-null-assertion": "warn",
+		"no-non-null-asserted-nullish-coalescing": "warn",
 		"typescript/no-unnecessary-condition": [
-			"error",
+			"warn",
 			{ "checkTypePredicates": true }
 		],
-		"typescript/no-unnecessary-type-constraint": "error",
-		"typescript/switch-exhaustiveness-check": "error",
-		"typescript/consistent-type-definitions": ["error", "interface"],
-		"eslint/require-await": "error",
+		"typescript/no-unnecessary-type-constraint": "warn",
+		"typescript/switch-exhaustiveness-check": "warn",
+		"typescript/consistent-type-definitions": ["warn", "interface"],
+		"eslint/require-await": "warn",
 		"unicorn/no-document-cookie": "off",
-		"unicorn/consistent-existence-index-check": "error",
-		"unicorn/explicit-length-check": ["error", { "non-zero": "not-equal" }],
+		"unicorn/consistent-existence-index-check": "warn",
+		"unicorn/explicit-length-check": ["warn", { "non-zero": "not-equal" }],
 		"jest/expect-expect": [
-			"error",
+			"warn",
 			{
 				"assertFunctionNames": [
 					"expect",
@@ -54,9 +72,21 @@
 				"components": ["Link", "NavLink", "HashNavLink", "NavigationItem", "A"],
 				"specialLink": ["to", "href"]
 			}
-		]
+		],
+
+		"typescript/triple-slash-reference": "allow",
+		"eslint/no-unused-vars": "allow",
+		"jsx-a11y/anchor-has-content": "allow",
+		"import/namespace": "allow",
+		"eslint/no-shadow-restricted-names": "allow"
 	},
 	"settings": {
+		"jsdoc": {
+			"tagNamePreference": {
+				"rootFragment": "rootFragment",
+				"RelayResolver": "RelayResolver"
+			}
+		},
 		"react": {
 			"version": "19",
 			"linkComponents": [
