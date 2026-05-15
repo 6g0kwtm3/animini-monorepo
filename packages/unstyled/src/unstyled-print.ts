@@ -9,10 +9,6 @@ import type { Value } from "./unstyled-value.ts"
  * structured representation of compiled CSS. The styles property contains CSS
  * properties with values that may include CSS custom properties for variant
  * options.
- *
- * @property styles - Object mapping CSS property names to their values Values
- *   can be simple strings/numbers or CSS custom properties referencing variant
- *   options
  */
 export interface OutStyles {
 	/** @internal */ readonly dynamicVars: DynamicVars

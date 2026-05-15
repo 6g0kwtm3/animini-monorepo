@@ -53,7 +53,7 @@ function Image(props: ComponentProps<"img">) {
 		void cache.set(src, srcPromise)
 	}
 
-	return <img {...props} src={use(srcPromise)} />
+	return <img alt='' {...props} src={use(srcPromise)} />
 }
 
 const options: Options = {

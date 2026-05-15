@@ -46,14 +46,13 @@ export function useStyles(
 
 		const className = `unstyled-${id}`
 
-		return [
-			className,
+		const jsx = (
 			<style
 				href={className}
 				precedence="medium"
-			>{`.${className} ${styles}`}</style>,
-			rawStyle.dynamicVars,
-		]
+			>{`.${className} ${styles}`}</style>
+		)
+		return [className, jsx, rawStyle.dynamicVars]
 	})[0]
 }
 
