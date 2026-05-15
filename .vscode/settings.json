@@ -1,1 +1,4 @@
-{ "relay.rootDirectory": "./apps/web" }
+{
+	"relay.rootDirectory": "./apps/web",
+	"oxc.configPath": "./node_modules/oxlint-config/oxlintrc.json"
+}
