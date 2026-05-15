@@ -22,6 +22,7 @@
 		"import/no-cycle": "error",
 		"react/jsx-no-useless-fragment": "error",
 		"react/rules-of-hooks": "error",
+		"react/jsx-key": "error",
 		"typescript/no-non-null-assertion": "error",
 		"no-non-null-asserted-nullish-coalescing": "error",
 		"typescript/no-unnecessary-condition": [
