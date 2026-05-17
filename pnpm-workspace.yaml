@@ -112,7 +112,7 @@ catalog:
   unplugin-icons: 23.0.1
   unplugin-macros: 0.20.0
   vite: 8.0.12
-  vite-plugin-babel: 1.6.0
+  vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vitest: 4.1.6
