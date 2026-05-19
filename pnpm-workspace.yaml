@@ -68,8 +68,8 @@ catalog:
   dompurify: 3.2.5
   electron: 42.0.1
   electron-devtools-installer: 4.0.0
-  eslint: 10.3.0
-  eslint-plugin-oxlint: 1.64.0
+  eslint: 10.4.0
+  eslint-plugin-oxlint: 1.65.0
   eslint-plugin-perfectionist: 5.9.0
   eslint-plugin-pnpm: 1.6.0
   eslint-plugin-react: 7.37.5
