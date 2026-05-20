@@ -6,11 +6,11 @@
 
 ## Files
 
-| File | Purpose |
-|------|---------|
-| `CONTEXT.md` | Domain language, key terms, patterns used in this codebase |
-| `docs/adr/` | Architectural Decision Records (past decisions) |
-| `CONTEXT-MAP.md` | (optional) Points to per-context docs for monorepos |
+| File             | Purpose                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| `CONTEXT.md`     | Domain language, key terms, patterns used in this codebase |
+| `docs/adr/`      | Architectural Decision Records (past decisions)            |
+| `CONTEXT-MAP.md` | (optional) Points to per-context docs for monorepos        |
 
 ## Rules for consuming domain docs
 

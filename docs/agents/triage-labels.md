@@ -2,13 +2,13 @@
 
 ## The five canonical roles
 
-| Label | Meaning | When applied |
-|-------|---------|--------------|
-| `needs-triage` | Maintainer needs to evaluate | Newly created issue |
-| `needs-info` | Waiting on reporter for details | Issue creator or maintainer adds more info |
-| `ready-for-agent` | Fully specified, AFK-ready | Issue has enough detail for an agent to work on |
-| `ready-for-human` | Needs human implementation | Human will pick this up |
-| `wontfix` | Will not be actioned | Duplicate, won't implement, etc. |
+| Label             | Meaning                         | When applied                                    |
+| ----------------- | ------------------------------- | ----------------------------------------------- |
+| `needs-triage`    | Maintainer needs to evaluate    | Newly created issue                             |
+| `needs-info`      | Waiting on reporter for details | Issue creator or maintainer adds more info      |
+| `ready-for-agent` | Fully specified, AFK-ready      | Issue has enough detail for an agent to work on |
+| `ready-for-human` | Needs human implementation      | Human will pick this up                         |
+| `wontfix`         | Will not be actioned            | Duplicate, won't implement, etc.                |
 
 ## State machine
 
