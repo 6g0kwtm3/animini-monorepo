@@ -4,7 +4,6 @@
 	"compilerOptions": {
 		// dts
 		"declaration": true,
-		"emitDeclarationOnly": true,
-		"stripInternal": true
+		"emitDeclarationOnly": true
 	}
 }
