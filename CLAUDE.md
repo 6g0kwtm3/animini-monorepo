@@ -43,3 +43,17 @@ These guidelines are crucial for maintaining code integrity, especially around l
 
 - **Dependency Management**: Use `pnpm` for package management and understand that `turbo.json` dictates the necessary build order between packages.
 - **Readability**: When fixing or adding functionality, consider which package is responsible for the core logic versus which package simply consumes that logic.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues (`gh issue create`, `gh pr create`). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: one `CONTEXT.md` + `docs/adr/` at repo root. See `docs/agents/domain.md`.
