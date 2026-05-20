@@ -4,6 +4,9 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"repository": {
+		"url": "https://github.com/6g0kwtm3/animini-monorepo"		
+	},
 	"scripts": {
 		"build": "turbo run --log-prefix=none build --continue=dependencies-successful --affected",
 		"bundlewatch": "turbo run bundlewatch --continue=dependencies-successful --affected",
