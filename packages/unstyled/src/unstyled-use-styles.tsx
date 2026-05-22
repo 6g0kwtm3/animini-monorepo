@@ -1,7 +1,7 @@
-import { useState, type ReactNode } from "react"
+import { useState } from "react"
 import { invariant, numberToString } from "utilities"
 
-import { print, type DynamicVars, type OutStyles } from "./unstyled-print"
+import { print, type OutStyles, type PreCompiledStyles } from "./unstyled-print"
 
 /**
  * React hook that generates style classes for unstyled components.
@@ -35,10 +35,12 @@ import { print, type DynamicVars, type OutStyles } from "./unstyled-print"
  *
  * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail
  */
-export function useStyles(
-	rawStyle: OutStyles
-): [string, ReactNode, DynamicVars] {
-	return useState((): [string, ReactNode, DynamicVars] => {
+export function useStyles(rawStyle: PreCompiledStyles) {
+	return useState(() => {
+		if (Object.keys(rawStyle).length === 0) {
+			return null
+		}
+
 		const styles = print(rawStyle)
 		const thing = sha256()
 		thing.add(JSON.stringify(rawStyle))
@@ -52,7 +54,7 @@ export function useStyles(
 				precedence="medium"
 			>{`.${className} ${styles}`}</style>
 		)
-		return [className, jsx, rawStyle.dynamicVars]
+		return { className, jsx, styles }
 	})[0]
 }
 
@@ -83,7 +85,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // sha256() returns an object you can call .add(data) zero or more time and .digest() at the end
 // digest is a 32-byte Uint8Array instance with an added .hex() function.
 // Input should be either a string (that will be encoded as UTF-8) or an array-like object with values 0..255.
-function sha256() {
+export function sha256(): {
+	add: (data: string | Uint8Array) => void
+	digest: () => Uint8Array<ArrayBuffer>
+} {
 	let bp = 0,
 		h0 = 0x6a09e667,
 		h1 = 0xbb67ae85,
@@ -273,7 +278,7 @@ function sha256() {
 	return { add, digest }
 }
 
-function hex(reply: Uint8Array) {
+export function hex(reply: Uint8Array): string {
 	let res = ""
 	reply.forEach((x) => (res += `0${x.toString(16)}`.slice(-2)))
 	return res

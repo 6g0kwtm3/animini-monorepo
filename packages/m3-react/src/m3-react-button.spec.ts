@@ -3,11 +3,11 @@ import { expect, it } from "vitest"
 import { button } from "./m3-react-button"
 
 it("css size", () => {
-	expect(print(button({})).length).toMatchInlineSnapshot(`4798`)
+	expect(print(button({}).preCompiledStyles).length).toMatchInlineSnapshot(`4798`)
 })
 
 it("print", () => {
-	expect(print(button({}))).toMatchInlineSnapshot(`
+	expect(print(button({}).preCompiledStyles)).toMatchInlineSnapshot(`
 		"{
 		  display: inline-flex;
 		  align-items: center;

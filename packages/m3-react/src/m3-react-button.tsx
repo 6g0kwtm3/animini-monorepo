@@ -10,10 +10,10 @@ import {
 } from "@anitrove/unstyled"
 
 const color = new Var<"elevated" | "filled" | "outlined" | "text" | "tonal">(
-	"--color"
+	"--var-color"
 )
-const shape = new Var<"round" | "square">("--shape")
-const size = new Var<"lg" | "md" | "sm" | "xl" | "xs">("--size")
+const shape = new Var<"round" | "square">("--var-shape")
+const size = new Var<"lg" | "md" | "sm" | "xl" | "xs">("--var-size")
 
 export function createButton() {
 	return create({
