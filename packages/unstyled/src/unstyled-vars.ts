@@ -1,11 +1,12 @@
-import { numberOrStringToString } from "utilities"
-import type { OutStyles } from "./unstyled-print.ts"
+import { numberOrStringToString } from "utilities";
+import type { OutStyles } from "./unstyled-print.ts";
 
 export type Vars<Vars extends Record<string, number | string>> = {
 	[K in keyof Vars]: Var<Vars[K]>
 }
 
-export class Var<_T extends number | string> {
+export class Var<T extends number | string> {
+	public $T!: T;
 	/** @internal */
 	public name: `--${string}`
 	constructor(name: `--${string}`) {
