@@ -41,6 +41,7 @@ import {
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
+import { styles } from "./route.styles" with { type: "macro" }
 
 const { graphql } = ReactRelay
 
@@ -61,7 +62,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	return { trending: data }
 }
-import * as design from "@anitrove/design"
+
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
@@ -70,7 +71,7 @@ export default function NavRoute({
 	const { pathname } = useLocation()
 
 	return (
-		<Layout navigation={{ base: "bar", [design.media.sm]: "rail" }}>
+		<Layout style={styles.layout}>
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
 				<Ariakit.ToolbarItem
 					render={
