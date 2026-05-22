@@ -152,7 +152,8 @@ export function precompileStyles(style: RawStyles): OutStyles {
 				]
 			}
 		),
-		([key]) => (key.startsWith("--var-") ? "preCompiledVars" : "preCompiledStyles")
+		([key]) =>
+			key.startsWith("--var-") ? "preCompiledVars" : "preCompiledStyles"
 	)
 	return {
 		preCompiledStyles: Object.fromEntries(grouped.preCompiledStyles ?? []),
