@@ -50,7 +50,7 @@ interface LayoutPaneProps extends Omit<
 
 export function LayoutPane({
 	style,
-	variant = 'flexible',
+	variant = "flexible",
 	...props
 }: LayoutPaneProps): ReactNode {
 	return (
