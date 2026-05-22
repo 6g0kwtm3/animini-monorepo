@@ -3,7 +3,9 @@ import { expect, it } from "vitest"
 import { button } from "./m3-react-button"
 
 it("css size", () => {
-	expect(print(button({}).preCompiledStyles).length).toMatchInlineSnapshot(`4798`)
+	expect(print(button({}).preCompiledStyles).length).toMatchInlineSnapshot(
+		`4798`
+	)
 })
 
 it("print", () => {
