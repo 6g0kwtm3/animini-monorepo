@@ -30,8 +30,11 @@ import { Layout } from "~/components/Layout"
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 
 import { A } from "@anitrove/a"
+import * as design from "@anitrove/design"
+import { precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
+import { Navigation as NavigationVar } from "~/components/Layout.styles"
 import { fab } from "~/lib/button"
 import {
 	loadQuery,
@@ -61,7 +64,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	return { trending: data }
 }
-import * as design from "@anitrove/design"
+
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
@@ -70,7 +73,11 @@ export default function NavRoute({
 	const { pathname } = useLocation()
 
 	return (
-		<Layout navigation={{ base: "bar", [design.media.sm]: "rail" }}>
+		<Layout
+			style={precompileStyles({
+				[NavigationVar.name]: { base: "bar", [design.media.sm]: "rail" },
+			})}
+		>
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
 				<Ariakit.ToolbarItem
 					render={
