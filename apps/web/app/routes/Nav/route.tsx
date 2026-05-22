@@ -30,11 +30,8 @@ import { Layout } from "~/components/Layout"
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 
 import { A } from "@anitrove/a"
-import * as design from "@anitrove/design"
-import { precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
-import { Navigation as NavigationVar } from "~/components/Layout.styles"
 import { fab } from "~/lib/button"
 import {
 	loadQuery,
@@ -44,6 +41,7 @@ import {
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
+import { styles } from "./route.styles" with { type: "macro" }
 
 const { graphql } = ReactRelay
 
@@ -73,11 +71,7 @@ export default function NavRoute({
 	const { pathname } = useLocation()
 
 	return (
-		<Layout
-			style={precompileStyles({
-				[NavigationVar.name]: { base: "bar", [design.media.sm]: "rail" },
-			})}
-		>
+		<Layout style={styles.layout}>
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
 				<Ariakit.ToolbarItem
 					render={
