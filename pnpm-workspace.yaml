@@ -115,7 +115,7 @@ catalog:
   vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
-  vitest: 4.1.6
+  vitest: 4.1.7
   wrangler: 4.88.0
 catalogMode: strict
 cleanupUnusedCatalogs: true
