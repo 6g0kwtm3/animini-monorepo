@@ -5,7 +5,7 @@ import { readFragment } from "../Network"
 const { graphql } = ReactRelay
 
 /**
- * @RelayResolver MediaList.behind: Int
+ * @relayField MediaList.behind: Int
  * @rootFragment Behind_entry
  */
 export function behind(data: Behind_entry$key): null | number {

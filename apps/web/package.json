@@ -47,8 +47,6 @@
 		"@tailwindcss/vite": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
-		"@types/react-relay": "catalog:",
-		"@types/relay-runtime": "catalog:",
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
 		"cookie": "catalog:",
