@@ -1,4 +1,3 @@
-import ReactRelay from "react-relay"
 import { Outlet, useLocation, useRouteLoaderData } from "react-router"
 import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
@@ -33,32 +32,20 @@ import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
 import { fab } from "~/lib/button"
-import {
-	loadQuery,
-	usePreloadedQuery,
-	type NodeAndQueryFragment,
-} from "~/lib/Network"
+import { serverPreloadQuery, useQueryFromServer } from "~/lib/Network"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
 
-const { graphql } = ReactRelay
+import { navRouteQuery } from "./query"
 
-export const clientLoader = (args: Route.ClientLoaderArgs) => {
+export const clientLoader = (_args: Route.ClientLoaderArgs) => {
 	const viewer = Viewer()
 
-	const data = args.context.get(loadQuery)<routeNavQuery>(
-		graphql`
-			query routeNavQuery($isToken: Boolean = false) {
-				Viewer @include(if: $isToken) {
-					unreadNotificationCount
-				}
-				...SearchTrending_query
-			}
-		`,
-		{ isToken: viewer != null }
-	)
+	const data = serverPreloadQuery<routeNavQuery>(navRouteQuery, {
+		isToken: viewer != null,
+	})
 
 	return { trending: data }
 }
@@ -171,9 +158,9 @@ export default function NavRoute({
 function UnreadNotificationBadge({
 	queryRef,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	queryRef: ReturnType<typeof serverPreloadQuery<routeNavQuery>>
 }): ReactNode {
-	const data = usePreloadedQuery(queryRef)
+	const data = useQueryFromServer<routeNavQuery>(navRouteQuery, queryRef)
 
 	return (
 		(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (

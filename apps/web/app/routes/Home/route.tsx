@@ -19,37 +19,36 @@ import { precompileStyles } from "@anitrove/unstyled"
 import { Composite, CompositeItem, useCompositeStore } from "@ariakit/react"
 import { Markdown } from "markdown/Markdown"
 import type { routeNavFeedQuery } from "~/gql/routeNavFeedQuery.graphql"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { serverPreloadQuery, useQueryFromServer } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { options } from "./options"
 const { graphql } = ReactRelay
 
-export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const page = args.context.get(loadQuery)<routeNavFeedQuery>(
-		graphql`
-			query routeNavFeedQuery($perPage: Int) {
-				Page(perPage: $perPage) {
-					activities(sort: [ID_DESC], type_in: [TEXT]) {
-						__typename
-						... on TextActivity {
-							id
-							createdAt
-							text
-							user {
-								id
-								name
-								avatar {
-									large
-									medium
-								}
-							}
+const HomeQuery = graphql`
+	query routeNavFeedQuery($perPage: Int) {
+		Page(perPage: $perPage) {
+			activities(sort: [ID_DESC], type_in: [TEXT]) {
+				__typename
+				... on TextActivity {
+					id
+					createdAt
+					text
+					user {
+						id
+						name
+						avatar {
+							large
+							medium
 						}
 					}
 				}
 			}
-		`,
-		{}
-	)
+		}
+	}
+`
+
+export const clientLoader = (_args: Route.ClientLoaderArgs) => {
+	const page = serverPreloadQuery<routeNavFeedQuery>(HomeQuery, {})
 
 	// const ids =
 	// 	page?.activities?.flatMap((activity) => {
@@ -63,7 +62,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 }
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(loaderData.page)
+	const data = useQueryFromServer<routeNavFeedQuery>(HomeQuery, loaderData.page)
 
 	const id = useId()
 	const activities = data.Page?.activities?.filter((el) => el != null)

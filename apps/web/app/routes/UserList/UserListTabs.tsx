@@ -9,11 +9,12 @@ import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
 import type { UserListTabs_query$key } from "~/gql/UserListTabs_query.graphql"
 import {
+	serverPreloadQuery,
 	useFragment,
-	usePreloadedQuery,
-	type NodeAndQueryFragment,
+	useQueryFromServer,
 } from "~/lib/Network"
 import { numberToString } from "~/lib/numberToString"
+import { UserListTabsQuery } from "./query"
 
 const { graphql } = ReactRelay
 
@@ -31,9 +32,13 @@ const UserListTabs_query = graphql`
 `
 
 export function UserListTabs(props: {
-	queryRef: NodeAndQueryFragment<UserListTabsQueryOperation>
+	queryRef: ReturnType<typeof serverPreloadQuery<UserListTabsQueryOperation>>
 }) {
-	const queryKey: UserListTabs_query$key = usePreloadedQuery(props.queryRef)
+	const queryKey: UserListTabs_query$key =
+		useQueryFromServer<UserListTabsQueryOperation>(
+			UserListTabsQuery,
+			props.queryRef
+		)
 	const data = useFragment(UserListTabs_query, queryKey)
 	const lists = data.MediaListCollection?.lists
 		?.filter((el) => el != null)

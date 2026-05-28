@@ -27,7 +27,8 @@ import {
 import { copySearchParams } from "~/lib/copySearchParams"
 
 import { ErrorBoundary } from "@sentry/react"
-import { usePreloadedQuery, type NodeAndQueryFragment } from "../Network"
+import { navRouteQuery } from "~/routes/Nav/query"
+import { serverPreloadQuery, useQueryFromServer } from "../Network"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 
@@ -54,7 +55,7 @@ import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 export function Search({
 	queryRef,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	queryRef: ReturnType<typeof serverPreloadQuery<routeNavQuery>>
 }): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
@@ -142,9 +143,9 @@ export function Search({
 function SearchTrendingData({
 	queryRef,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	queryRef: ReturnType<typeof serverPreloadQuery<routeNavQuery>>
 }) {
-	const data = usePreloadedQuery(queryRef)
+	const data = useQueryFromServer<routeNavQuery>(navRouteQuery, queryRef)
 
 	return <SearchTrending query={data} />
 }

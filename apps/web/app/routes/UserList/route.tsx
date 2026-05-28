@@ -47,7 +47,7 @@ import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
 import { Label } from "~/components/Label"
 import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
-import { loadQuery } from "~/lib/Network"
+import { serverPreloadQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs } from "./UserListTabs"
 
@@ -67,22 +67,15 @@ function useOptimisticLocation() {
 	return location
 }
 
-import ReactRelay from "react-relay"
 import { BreadcrumbItem } from "~/components/Breadcrumb"
-const { graphql } = ReactRelay
-
-const UserListTabsQuery = graphql`
-	query routeUserListTabsQuery($userName: String!, $type: MediaType!) {
-		...UserListTabs_query
-	}
-`
+import { UserListTabsQuery } from "./query"
 
 const Typelist = type('"animelist"|"mangalist"')
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const typelist = invariant(Typelist(args.params.typelist))
 
 	return {
-		UserListTabsQuery: args.context.get(loadQuery)<UserListTabsQueryOperation>(
+		UserListTabsQuery: serverPreloadQuery<UserListTabsQueryOperation>(
 			UserListTabsQuery,
 			{
 				userName: args.params.userName,
