@@ -84,7 +84,7 @@
 		"jsdoc": {
 			"tagNamePreference": {
 				"rootFragment": "rootFragment",
-				"RelayResolver": "RelayResolver"
+				"RelayResolver": "relayField"
 			}
 		},
 		"react": {
