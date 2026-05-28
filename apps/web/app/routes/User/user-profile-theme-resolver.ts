@@ -5,7 +5,7 @@ import { getThemeFromHex, type Theme } from "~/lib/theme"
 const { graphql } = ReactRelay
 
 /**
- * @RelayResolver UserOptions.profileTheme: RelayResolverValue
+ * @relayField UserOptions.profileTheme: RelayResolverValue
  * @rootFragment userProfileThemeResolver_userOptions
  */
 export function profileTheme(
