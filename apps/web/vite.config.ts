@@ -17,7 +17,7 @@ const relayRuntimeTypeOnlyImports = {
 		if (!id.endsWith(".graphql.ts")) return null
 		const next = code.replace(
 			/^import \{([^}]+)\} from (['"])relay-runtime\2/gm,
-			"import type {$1} from $2relay-runtime$2",
+			"import type {$1} from $2relay-runtime$2"
 		)
 		return next === code ? null : { code: next, map: null }
 	},

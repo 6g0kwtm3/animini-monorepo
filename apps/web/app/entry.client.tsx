@@ -55,7 +55,7 @@ init({
 	ignoreErrors: [`TypeError: Load failed`, `TypeError: Failed to fetch`],
 })
 
-void setServerCallback(
+setServerCallback(
 	createCallServer({
 		createFromReadableStream,
 		createTemporaryReferenceSet,
