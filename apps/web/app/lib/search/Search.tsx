@@ -27,8 +27,6 @@ import {
 import { copySearchParams } from "~/lib/copySearchParams"
 
 import { ErrorBoundary } from "@sentry/react"
-import { navRouteQuery } from "~/routes/Nav/query"
-import { serverPreloadQuery, useQueryFromServer } from "../Network"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
 
@@ -50,12 +48,12 @@ function useOptimisticLocation() {
 
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
-import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
 
 export function Search({
-	queryRef,
+	query,
 }: {
-	queryRef: ReturnType<typeof serverPreloadQuery<routeNavQuery>>
+	query: SearchTrending_query$key
 }): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
@@ -130,7 +128,7 @@ export function Search({
 					) : (
 						<ErrorBoundary fallback={<>Error</>}>
 							<Suspense fallback="">
-								<SearchTrendingData queryRef={queryRef} />
+								<SearchTrending query={query} />
 							</Suspense>
 						</ErrorBoundary>
 					)}
@@ -138,16 +136,6 @@ export function Search({
 			</Form>
 		</SearchView>
 	)
-}
-
-function SearchTrendingData({
-	queryRef,
-}: {
-	queryRef: ReturnType<typeof serverPreloadQuery<routeNavQuery>>
-}) {
-	const data = useQueryFromServer<routeNavQuery>(navRouteQuery, queryRef)
-
-	return <SearchTrending query={data} />
 }
 
 export function SearchButton(
