@@ -48,7 +48,8 @@ const { graphql } = ReactRelay
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const viewer = Viewer()
 
-	const data = args.context.get(loadQuery)<routeNavQuery>(
+	const data = loadQuery<routeNavQuery>(
+		args.request.signal,
 		graphql`
 			query routeNavQuery($isToken: Boolean = false) {
 				Viewer @include(if: $isToken) {

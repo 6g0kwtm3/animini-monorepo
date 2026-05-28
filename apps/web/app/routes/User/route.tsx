@@ -29,7 +29,8 @@ const { graphql } = ReactRelay
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const { userName } = args.params
 
-	const data = args.context.get(loadQuery)<routeNavUserQuery>(
+	const data = loadQuery<routeNavUserQuery>(
+		args.request.signal,
 		graphql`
 			query routeNavUserQuery($userName: String!, $token: Boolean!)
 			@raw_response_type {

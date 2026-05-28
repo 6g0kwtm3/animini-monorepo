@@ -155,14 +155,16 @@ export const clientAction = (async (args) => {
 function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	const params = invariant(Params(args.params))
 
-	const selectedList = args.context.get(
-		loadQuery
-	)<routeNavUserListEntriesQuery>(NavUserListEntriesQuery, {
-		userName: params.userName,
-		type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
-			params.typelist
-		],
-	})
+	const selectedList = loadQuery<routeNavUserListEntriesQuery>(
+		args.request.signal,
+		NavUserListEntriesQuery,
+		{
+			userName: params.userName,
+			type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
+				params.typelist
+			],
+		}
+	)
 
 	return { selectedList }
 }

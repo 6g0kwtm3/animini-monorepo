@@ -55,7 +55,7 @@ init({
 	ignoreErrors: [`TypeError: Load failed`, `TypeError: Failed to fetch`],
 })
 
-setServerCallback(
+void setServerCallback(
 	createCallServer({
 		createFromReadableStream,
 		createTemporaryReferenceSet,
@@ -70,7 +70,7 @@ void createFromReadableStream<RSCPayload>(getRSCStream()).then((payload) => {
 				? ((await payload.formState) as ReactFormState)
 				: undefined
 
-		hydrateRoot(
+		void hydrateRoot(
 			document,
 			<StrictMode>
 				<RSCHydratedRouter

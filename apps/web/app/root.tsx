@@ -26,10 +26,7 @@ import { useSentryToolbar } from "@sentry/toolbar"
 import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 
-import environment, {
-	loadQueryMiddleware,
-	RelayEnvironmentProvider,
-} from "./lib/Network"
+import environment, { RelayEnvironmentProvider } from "./lib/Network"
 import { languageToLocale } from "./lib/useLocale"
 
 const RelayEnvironment = RelayEnvironmentProvider as (props: {
@@ -40,10 +37,6 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 import fonts from "@anitrove/design/fonts"
 import { precompileStyles } from "@anitrove/unstyled"
 import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
-import {
-	onAbortNavigationMiddleware,
-	useSetupOnAbortNavigation,
-} from "./lib/abort-signal-middleware"
 import { LoadingIndicator } from "./lib/loading-renderer"
 import { numberToString } from "./lib/numberToString"
 
@@ -101,8 +94,6 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 		languageToLocale(params.locale ?? null)
 		?? ({ lang: "en", dir: "ltr" } as const)
 
-	useSetupOnAbortNavigation()
-
 	return (
 		<html
 			lang={lang}
@@ -135,18 +126,10 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
-				<Scripts
-				// nonce={nonce}
-				/>
 			</body>
 		</html>
 	)
 }
-
-export const clientMiddleware = [
-	onAbortNavigationMiddleware,
-	loadQueryMiddleware,
-]
 
 export default function App(): ReactNode {
 	return <Outlet />

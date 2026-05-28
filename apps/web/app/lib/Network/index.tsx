@@ -6,10 +6,7 @@ import RelayRuntime, {
 	type MutationParameters,
 	type OperationType,
 } from "relay-runtime"
-import { onAbortNavigationSignal } from "../abort-signal-middleware"
 
-import { createContext as createMiddlewareContext } from "react-router"
-import type { Route } from "../../+types/root"
 import environment from "./environment"
 
 export const { readFragment } = RelayRuntime
@@ -43,34 +40,23 @@ export type NodeAndQueryFragment<T extends RelayRuntime.OperationType> =
 		preloadedQuery: PreloadedQuery<T>,
 	]
 
-type LoadQuery = <T extends RelayRuntime.OperationType>(
+export function loadQuery<T extends RelayRuntime.OperationType>(
+	signal: AbortSignal,
 	query: ReactRelay.GraphQLTaggedNode,
 	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
-) => NodeAndQueryFragment<T>
-
-export const loadQuery = createMiddlewareContext<LoadQuery>()
-
-export const loadQueryMiddleware: Route.MiddlewareFunction = (
-	{ context },
-	next
-) => {
-	context.set(loadQuery, (query, ...args) => {
-		const signal = context.get(onAbortNavigationSignal)
-		if (signal.aborted) {
-			throw signal.reason
-		}
-		const queryRef = loadQuery_(environment, query, ...args)
-		signal.addEventListener(
-			"abort",
-			() => {
-				queryRef.dispose()
-			},
-			{ once: true }
-		)
-		return [query, queryRef]
-	})
-
-	return next()
+): NodeAndQueryFragment<T> {
+	if (signal.aborted) {
+		throw signal.reason
+	}
+	const queryRef = loadQuery_<T>(environment, query, ...args)
+	signal.addEventListener(
+		"abort",
+		() => {
+			queryRef.dispose()
+		},
+		{ once: true }
+	)
+	return [query, queryRef]
 }
 
 export function usePreloadedQuery<T extends OperationType>(
