@@ -34,9 +34,8 @@ const { graphql } = ReactRelay
 
 export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	return {
-		routeNavNotificationsQuery: args.context.get(
-			loadQuery
-		)<routeNavNotificationsQueryOperation>(
+		routeNavNotificationsQuery: loadQuery<routeNavNotificationsQueryOperation>(
+			args.request.signal,
 			graphql`
 				query routeNavNotificationsQuery {
 					Viewer @required(action: THROW) {

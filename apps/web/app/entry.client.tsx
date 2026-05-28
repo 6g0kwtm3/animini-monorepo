@@ -1,3 +1,20 @@
+import "virtual:react-router/unstable_rsc/inject-hmr-runtime"
+
+import {
+	createFromReadableStream,
+	createTemporaryReferenceSet,
+	encodeReply,
+	setServerCallback,
+} from "@vitejs/plugin-rsc/browser"
+import { startTransition, StrictMode } from "react"
+import { hydrateRoot, type ReactFormState } from "react-dom/client"
+import {
+	unstable_createCallServer as createCallServer,
+	unstable_getRSCStream as getRSCStream,
+	unstable_RSCHydratedRouter as RSCHydratedRouter,
+	type unstable_RSCPayload as RSCPayload,
+} from "react-router/dom"
+
 import {
 	graphqlClientIntegration,
 	init,
@@ -5,9 +22,7 @@ import {
 	reactRouterTracingIntegration,
 	replayIntegration,
 } from "@sentry/react"
-import { startTransition, StrictMode } from "react"
-import { hydrateRoot } from "react-dom/client"
-import { HydratedRouter } from "react-router/dom"
+
 import { API_URL } from "./lib/Network/environment"
 
 const tracing = reactRouterTracingIntegration({ useInstrumentationAPI: true })
@@ -40,21 +55,42 @@ init({
 	ignoreErrors: [`TypeError: Load failed`, `TypeError: Failed to fetch`],
 })
 
-startTransition(() => {
-	void hydrateRoot(
-		document,
-		<StrictMode>
-			<HydratedRouter instrumentations={[tracing.clientInstrumentation]} />
-		</StrictMode>,
-		{
-			// Callback called when an error is thrown and not caught by an ErrorBoundary.
-			onUncaughtError: reactErrorHandler((error, errorInfo) => {
-				console.warn("Uncaught error", error, errorInfo.componentStack)
-			}),
-			// Callback called when React catches an error in an ErrorBoundary.
-			onCaughtError: reactErrorHandler(),
-			// Callback called when React automatically recovers from errors.
-			onRecoverableError: reactErrorHandler(),
-		}
-	)
+setServerCallback(
+	createCallServer({
+		createFromReadableStream,
+		createTemporaryReferenceSet,
+		encodeReply,
+	})
+)
+
+void createFromReadableStream<RSCPayload>(getRSCStream()).then((payload) => {
+	startTransition(async () => {
+		const formState =
+			payload.type === "render"
+				? ((await payload.formState) as ReactFormState)
+				: undefined
+
+		void hydrateRoot(
+			document,
+			<StrictMode>
+				<RSCHydratedRouter
+					instrumentations={[tracing.clientInstrumentation]}
+					createFromReadableStream={createFromReadableStream}
+					payload={payload}
+				/>
+			</StrictMode>,
+			{
+				formState,
+
+				// Callback called when an error is thrown and not caught by an ErrorBoundary.
+				onUncaughtError: reactErrorHandler((error, errorInfo) => {
+					console.warn("Uncaught error", error, errorInfo.componentStack)
+				}),
+				// Callback called when React catches an error in an ErrorBoundary.
+				onCaughtError: reactErrorHandler(),
+				// Callback called when React automatically recovers from errors.
+				onRecoverableError: reactErrorHandler(),
+			}
+		)
+	})
 })

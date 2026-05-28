@@ -25,7 +25,8 @@ import { options } from "./options"
 const { graphql } = ReactRelay
 
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const page = args.context.get(loadQuery)<routeNavFeedQuery>(
+	const page = loadQuery<routeNavFeedQuery>(
+		args.request.signal,
 		graphql`
 			query routeNavFeedQuery($perPage: Int) {
 				Page(perPage: $perPage) {

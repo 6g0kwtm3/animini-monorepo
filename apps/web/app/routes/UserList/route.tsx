@@ -82,7 +82,8 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const typelist = invariant(Typelist(args.params.typelist))
 
 	return {
-		UserListTabsQuery: args.context.get(loadQuery)<UserListTabsQueryOperation>(
+		UserListTabsQuery: loadQuery<UserListTabsQueryOperation>(
+			args.request.signal,
 			UserListTabsQuery,
 			{
 				userName: args.params.userName,
