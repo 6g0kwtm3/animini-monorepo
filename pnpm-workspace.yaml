@@ -16,7 +16,7 @@ blockExoticSubdeps: true
 catalog:
   '@ariakit/react': 0.4.26
   '@ark/attest': 0.56.0
-  '@babel/preset-typescript': 7.28.5
+  '@babel/preset-typescript': 7.29.7
   '@chromatic-com/storybook': 5.1.2
   '@codspeed/vitest-plugin': 5.4.0
   '@eslint/js': 10.0.1
