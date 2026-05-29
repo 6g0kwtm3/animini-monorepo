@@ -3,18 +3,11 @@ import * as Order from "~/lib/Order"
 
 import { TabsList, TabsListItem } from "~/components/Tabs"
 
-import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
-
 import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
 import type { UserListTabs_query$key } from "~/gql/UserListTabs_query.graphql"
-import {
-	serverPreloadQuery,
-	useFragment,
-	useQueryFromServer,
-} from "~/lib/Network"
+import { useFragment } from "~/lib/Network"
 import { numberToString } from "~/lib/numberToString"
-import { UserListTabsQuery } from "./query"
 
 const { graphql } = ReactRelay
 
@@ -31,15 +24,8 @@ const UserListTabs_query = graphql`
 	}
 `
 
-export function UserListTabs(props: {
-	queryRef: ReturnType<typeof serverPreloadQuery<UserListTabsQueryOperation>>
-}) {
-	const queryKey: UserListTabs_query$key =
-		useQueryFromServer<UserListTabsQueryOperation>(
-			UserListTabsQuery,
-			props.queryRef
-		)
-	const data = useFragment(UserListTabs_query, queryKey)
+export function UserListTabs(props: { query: UserListTabs_query$key }) {
+	const data = useFragment(UserListTabs_query, props.query)
 	const lists = data.MediaListCollection?.lists
 		?.filter((el) => el != null)
 		.toSorted(

@@ -44,12 +44,21 @@ import { precompileStyles } from "@anitrove/unstyled"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
+import ReactRelay from "react-relay"
 import { Label } from "~/components/Label"
 import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
-import { serverPreloadQuery } from "~/lib/Network"
+import { serverPreloadQuery, useQueryFromServer } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs } from "./UserListTabs"
+
+const { graphql } = ReactRelay
+
+const UserListTabsQuery = graphql`
+	query routeUserListTabsQuery($userName: String!, $type: MediaType!) {
+		...UserListTabs_query
+	}
+`
 
 function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()
@@ -68,7 +77,6 @@ function useOptimisticLocation() {
 }
 
 import { BreadcrumbItem } from "~/components/Breadcrumb"
-import { UserListTabsQuery } from "./query"
 
 const Typelist = type('"animelist"|"mangalist"')
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
@@ -115,6 +123,11 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 
 	const params = useParams()
 
+	const userListTabsQuery = useQueryFromServer<UserListTabsQueryOperation>(
+		UserListTabsQuery,
+		loaderData.UserListTabsQuery
+	)
+
 	return (
 		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
 			<div className="flex flex-col gap-4">
@@ -136,7 +149,7 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 								<MaterialSymbolsMoreHoriz />
 							</Icon>
 						</AppBar>
-						<UserListTabs queryRef={loaderData.UserListTabsQuery} />
+						<UserListTabs query={userListTabsQuery} />
 					</div>
 					<TabsPanel tabId={params.selected} className="flex flex-col gap-4">
 						<Ariakit.HeadingLevel>
