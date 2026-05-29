@@ -12,7 +12,7 @@ import macros from "unplugin-macros/vite"
 export default defineConfig({
 	plugins: [
 		inspect(),
-		macros() as Plugin,
+		macros(),
 		tailwindcss(),
 		babel({
 			filter: /\.[jt]sx?$/,
