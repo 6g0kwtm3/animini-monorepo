@@ -105,7 +105,7 @@ catalog:
   tailwindcss: 4.3.0
   temporal-polyfill-lite: 0.3.6
   tsx: 4.21.0
-  turbo: 2.8.0
+  turbo: 2.9.16
   typescript: 6.0.3
   typescript-eslint: 8.60.0
   unplugin-icons: 23.0.1
