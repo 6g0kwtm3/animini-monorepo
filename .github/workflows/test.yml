@@ -34,7 +34,7 @@ jobs:
             project: electron
           - os: windows-latest
             project: electron
-    container: ${{ case(matrix.project == 'electron', null, 'mcr.microsoft.com/playwright:v1.60.0-jammy') }}
+
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Socket Firewall
@@ -64,7 +64,7 @@ jobs:
 
       - name: Install playwright 📦
         run: pnpm --filter=web exec playwright install --with-deps
-        if: steps.affected-test-e2e.outcome == 'failure'  && matrix.project == 'electron'
+        if: steps.affected-test-e2e.outcome == 'failure'
         timeout-minutes: 5
 
       - name: Install xvfb 📦
