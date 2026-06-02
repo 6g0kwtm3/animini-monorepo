@@ -34,7 +34,7 @@ jobs:
             project: electron
           - os: windows-latest
             project: electron
-    container: ${{ case(matrix.project == 'electron', null, 'mcr.microsoft.com/playwright:v1.60.0-jammy') }}
+
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Socket Firewall
@@ -57,16 +57,22 @@ jobs:
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Check affected — test-e2e
+        id: affected-test-e2e
+        continue-on-error: true
+        run: pnpm exec turbo query affected --tasks test-e2e --exit-code
+
       - name: Install playwright 📦
         run: pnpm --filter=web exec playwright install --with-deps
-        if: matrix.project == 'electron'
+        if: steps.affected-test-e2e.outcome == 'failure'
         timeout-minutes: 5
 
       - name: Install xvfb 📦
-        if: matrix.os == 'ubuntu-latest' && matrix.project == 'electron'
+        if: steps.affected-test-e2e.outcome == 'failure'  && matrix.os == 'ubuntu-latest' && matrix.project == 'electron'
         run: sudo apt install -y xvfb
 
       - name: Test E2E
+        if: steps.affected-test-e2e.outcome == 'failure'
         run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e -- --project=${{ matrix.project }}*
         env:
           ELECTRON_DISABLE_SANDBOX: 1
