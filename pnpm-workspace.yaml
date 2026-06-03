@@ -149,3 +149,6 @@ shellEmulator: true
 strictDepBuilds: true
 
 verifyDepsBeforeRun: install
+
+overrides: 
+  yauzl: 3.3.1
