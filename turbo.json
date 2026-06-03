@@ -17,7 +17,13 @@
 		"ELECTRON_DISABLE_SANDBOX",
 		"DISPLAY"
 	],
-	"globalDependencies": ["!.github/**", "!.claude/**", "!docs/**"],
+	"globalDependencies": [
+		"!.github/**",
+		"!.claude/**",
+		"!docs/**",
+		"!.vscode/**",
+		".github/workflows/**"
+	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
 		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
