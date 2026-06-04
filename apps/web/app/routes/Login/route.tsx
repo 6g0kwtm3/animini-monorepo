@@ -79,8 +79,8 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	setUser({ id: data.Viewer.id, username: data.Viewer.name })
 
 	return redirect(
-		searchParams.get("redirect")
-			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name }),
+		searchParams.get("redirect") ??
+			route_user_list({ typelist: "animelist", userName: data.Viewer.name }),
 		{ headers: { "Set-Cookie": setCookie } }
 	)
 }
