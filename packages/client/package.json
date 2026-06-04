@@ -1,0 +1,32 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@animedes/client",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": "./src/index.ts",
+	"scripts": {
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
+		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"check": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"utilities": "workspace:@animedes/utilities@*"
+	},
+	"peerDependencies": {
+		"eslint": "catalog:",
+		"graphql": "catalog:",
+		"@eslint/core": "*"
+	},
+	"devDependencies": {
+		"@types/estree": "catalog:",
+		"@typescript-eslint/parser": "catalog:",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"eslint-typegen": "catalog:",
+		"eslint-vitest-rule-tester": "catalog:",
+		"ts-config": "workspace:@animedes/ts-config@*",
+		"tsx": "catalog:",
+		"vitest": "catalog:",
+		"@types/node": "catalog:"
+	}
+}

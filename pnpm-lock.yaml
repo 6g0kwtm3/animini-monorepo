@@ -45,6 +45,9 @@ catalogs:
     '@msw/playwright':
       specifier: 0.6.7
       version: 0.6.7
+    '@openfeature/web-sdk':
+      specifier: 1.8.0
+      version: 1.8.0
     '@playwright/test':
       specifier: 1.60.0
       version: 1.60.0
@@ -506,6 +509,9 @@ importers:
       '@material/material-color-utilities':
         specifier: 'catalog:'
         version: 0.4.0
+      '@openfeature/web-sdk':
+        specifier: 'catalog:'
+        version: 1.8.0(@openfeature/core@1.10.0)
       '@react-router/dev':
         specifier: 'catalog:'
         version: 8.0.0-pre.0(react-router@8.0.0-pre.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(wrangler@4.88.0)
@@ -2406,6 +2412,14 @@ packages:
 
   '@open-draft/until@2.1.0':
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
+
+  '@openfeature/core@1.10.0':
+    resolution: {integrity: sha512-C3ynxtPYhe5qVJgQIqCNxZXeRXo4t1Eo86uiROr8+sD6F2OjEJGIp6VOGxz+r6jkad2s8Br9BnUJOvskhai/3A==}
+
+  '@openfeature/web-sdk@1.8.0':
+    resolution: {integrity: sha512-B7NTG/mm9blV1Z7YjjcWhuoOHcDzyrHKwMRMcku9i9vvQGAE6ilVJPS3C/SsdvnOn2tDqm2lAg9SxvaJTRgp+Q==}
+    peerDependencies:
+      '@openfeature/core': ^1.10.0
 
   '@opentelemetry/api-logs@0.214.0':
     resolution: {integrity: sha512-40lSJeqYO8Uz2Yj7u94/SJWE/wONa7rmMKjI1ZcIjgf3MHNHv1OZUCrCETGuaRF62d5pQD1wKIW+L4lmSMTzZA==}
@@ -8795,6 +8809,12 @@ snapshots:
       outvariant: 1.4.3
 
   '@open-draft/until@2.1.0': {}
+
+  '@openfeature/core@1.10.0': {}
+
+  '@openfeature/web-sdk@1.8.0(@openfeature/core@1.10.0)':
+    dependencies:
+      '@openfeature/core': 1.10.0
 
   '@opentelemetry/api-logs@0.214.0':
     dependencies:

@@ -49,8 +49,11 @@ const { graphql } = ReactRelay
 const NavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type {
-		MediaListCollection(userName: $userName, type: $type)
-			@required(action: LOG) {
+		MediaListCollection(
+			userName: $userName
+			type: $type
+			sort: [UPDATED_TIME_DESC]
+		) @required(action: LOG) {
 			...SyncMedia_mediaListCollection
 			...AddToList_mediaListCollection
 			lists {

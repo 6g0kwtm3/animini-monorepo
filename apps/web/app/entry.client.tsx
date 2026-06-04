@@ -1,6 +1,8 @@
 import {
 	graphqlClientIntegration,
 	init,
+	openFeatureIntegration,
+	OpenFeatureIntegrationHook,
 	reactErrorHandler,
 	reactRouterTracingIntegration,
 	replayIntegration,
@@ -9,7 +11,8 @@ import { startTransition, StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
 import { HydratedRouter } from "react-router/dom"
 import { API_URL } from "./lib/Network/environment"
-
+import { OpenFeature } from "@openfeature/web-sdk"
+import { client } from "./lib/feature-flags"
 const tracing = reactRouterTracingIntegration({ useInstrumentationAPI: true })
 
 init({
@@ -24,6 +27,7 @@ init({
 		graphqlClientIntegration({ endpoints: [API_URL] }),
 		tracing,
 		replayIntegration(),
+		openFeatureIntegration(),
 	],
 
 	enableLogs: true,
@@ -39,6 +43,8 @@ init({
 
 	ignoreErrors: [`TypeError: Load failed`, `TypeError: Failed to fetch`],
 })
+
+client.addHooks(new OpenFeatureIntegrationHook())
 
 startTransition(() => {
 	void hydrateRoot(

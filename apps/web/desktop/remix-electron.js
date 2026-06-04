@@ -6,8 +6,8 @@ import { resolve } from "node:path"
 
 /**
  * @typedef {object} InitRemixOptions
- * @property {ServerBuild | string} serverBuild The path to the server build, or
- *   the server build itself.
+ * @property {ServerBuild | () => Promise<ServerBuild>} serverBuild The path to
+ *   the server build, or the server build itself.
  * @property {string} [mode] The mode to run the app in, either development or
  *   production
  * @property {string} [publicFolder] The path where static assets are served
@@ -22,7 +22,7 @@ import { serveStatic } from "@hono/node-server/serve-static"
 import { app } from "electron"
 import { Hono } from "hono"
 import { createRequestHandler } from "react-router"
-import { pathToFileURL } from "url"
+
 /**
  * Initialize and configure remix-electron
  *
@@ -79,10 +79,8 @@ export async function initRemix({
 				/** @type {Promise<ServerBuild>} */ (
 					viteDevServer.ssrLoadModule("virtual:react-router/server-build")
 				)
-		: typeof serverBuildOption === "string"
-			? /** @type {ServerBuild} */ (
-					await import(pathToFileURL(serverBuildOption).toString())
-				)
+		: typeof serverBuildOption === "function"
+			? await serverBuildOption()
 			: serverBuildOption
 
 	// handle SSR requests

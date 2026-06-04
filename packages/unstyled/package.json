@@ -7,7 +7,8 @@
 	"exports": {
 		".": "./src/unstyled.ts",
 		"./value": "./src/unstyled-value.ts",
-		"./box": "./src/unstyled-box.tsx"
+		"./box": "./src/unstyled-box.tsx",
+		"./macro": "./src/unstyled-macro.tsx"
 	},
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
