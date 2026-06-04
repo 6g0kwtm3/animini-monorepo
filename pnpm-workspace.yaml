@@ -29,8 +29,8 @@ catalog:
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.60.0
   '@prettier/plugin-oxc': 0.1.4
-  '@react-router/dev': 7.16.0
-  '@react-router/node': 7.16.0
+  '@react-router/dev': v8.0.0-pre.0
+  '@react-router/node': v8.0.0-pre.0
   '@sentry/react': npm:@sentry/react-router@10.55.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.2.1
@@ -97,7 +97,7 @@ catalog:
   react: 19.2.6
   react-dom: 19.2.6
   react-relay: 21.0.1
-  react-router: 7.16.0
+  react-router: v8.0.0-pre.0
   relay-compiler: 21.0.1
   relay-runtime: 21.0.1
   storybook: 10.4.1
