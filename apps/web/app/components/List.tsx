@@ -1,4 +1,4 @@
-import { createContext, use, type ReactNode } from "react"
+import { type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
 import {
@@ -12,42 +12,7 @@ import { Box } from "@anitrove/unstyled/box"
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
-const listItemDefinition = defineCva({
-	base: {
-		...design.state({
-			[design.media.hover]: "hover",
-			[design.media["focus-visible"]]: "focus",
-			[design.media.active]: "focus",
-		}),
-		gridColumn: "1 / -1",
-		display: "grid",
-		gridTemplateColumns: "subgrid",
-		...design.utilities.paddingX("1rem"),
-		borderRadius: {
-			base: design.tokens.borderRadius.xs,
-			"&:first-child": `${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs}`,
-			"&:last-child": `${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
-			[design.media.hover]: design.tokens.borderRadius.md,
-			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-			[design.media.focusWithin]: design.tokens.borderRadius.lg,
-			[design.media.active]: design.tokens.borderRadius.lg,
-		},
-		transitionProperty: { [design.media.motionSafe]: "border-radius" },
-		...design.tokens.transitions.spatial.fast,
-		backgroundColor: design.tokens.colors.surface,
-	},
-	variants: {
-		lines: {
-			one: { minHeight: "3.5rem", alignItems: "center" },
-			two: { minHeight: "4.5rem", alignItems: "center" },
-			three: { minHeight: "5.5rem", alignItems: "flex-start" },
-		},
-	},
-	defaultVariants: { lines: "two" },
-})
-
-const listItem = cva(listItemDefinition)
-
+import { styles } from "./List.styles" with { type: "macro" }
 interface ListItemProps extends Omit<
 	Ariakit.RoleProps<"li">,
 	"className" | "style"
@@ -56,11 +21,10 @@ interface ListItemProps extends Omit<
 }
 
 export function ListItem({ style, ...props }: ListItemProps) {
-	const lines = use(Lines)
 	return (
 		<Box
 			render={<Ariakit.Role.li {...props} />}
-			style={mergeStyles(listItem.style, listItem.variants({ lines }), style)}
+			style={mergeStyles(styles.listItem, style)}
 		/>
 	)
 }
@@ -76,32 +40,6 @@ export function ListItemContentTitle(props: Ariakit.RoleProps): ReactNode {
 	)
 }
 
-const listItemContentDefinition = defineCva({
-	base: {
-		display: "flex",
-		height: "100%",
-		flexDirection: "column",
-		gridColumn: {
-			"&:first-child": "span 2 / span 2",
-			"&:last-child": "span 2 / span 2",
-			"&:only-child": "span 3 / span 3",
-		},
-	},
-	variants: {
-		lines: {
-			one: { justifyContent: "center", ...design.utilities.paddingY(".5rem") },
-			two: { justifyContent: "center", ...design.utilities.paddingY(".5rem") },
-			three: {
-				justifyContent: "flex-start",
-				...design.utilities.paddingY(".75rem"),
-			},
-		},
-	},
-	defaultVariants: { lines: "two" },
-})
-
-const liteItemContent = cva(listItemContentDefinition)
-
 interface ListItemContentProps extends Omit<
 	Ariakit.RoleProps,
 	"className" | "style"
@@ -113,24 +51,11 @@ export function ListItemContent({
 	style,
 	...props
 }: ListItemContentProps): ReactNode {
-	const lines = use(Lines)
-	return (
-		<Box
-			{...props}
-			style={mergeStyles(
-				liteItemContent.style,
-				liteItemContent.variants({ lines }),
-				style
-			)}
-		/>
-	)
+	return <Box {...props} style={mergeStyles(styles.listItemContent, style)} />
 }
 
 const listItemSubtitleDefinition = defineCva({
-	base: {
-		color: design.tokens.colors["on-surface-variant"],
-		...design.tokens.typescale["body-md"],
-	},
+	base: {},
 	variants: {
 		lines: {
 			one: { display: "none" },
@@ -154,17 +79,7 @@ export function ListItemContentSubtitle({
 	style,
 	...props
 }: ListItemContentSubtitleProps): ReactNode {
-	const lines = use(Lines)
-	return (
-		<Box
-			{...props}
-			style={mergeStyles(
-				listItemSubtitle.style,
-				listItemSubtitle.variants({ lines }),
-				style
-			)}
-		/>
-	)
+	return <Box {...props} style={mergeStyles(listItemSubtitle.style, style)} />
 }
 
 const listItemImgDefinition = defineCva({
@@ -189,17 +104,7 @@ interface ListItemImgProps extends Omit<
 }
 
 export function ListItemImg({ style, ...props }: ListItemImgProps): ReactNode {
-	const lines = use(Lines)
-	return (
-		<Box
-			{...props}
-			style={mergeStyles(
-				listItemImg.style,
-				listItemImg.variants({ lines }),
-				style
-			)}
-		/>
-	)
+	return <Box {...props} style={mergeStyles(listItemImg.style, style)} />
 }
 
 export function ListItemAvatar(props: Ariakit.RoleProps): ReactNode {
@@ -275,16 +180,11 @@ const listDefinition = defineCva({
 
 const list = cva(listDefinition)
 
-const Lines = createContext<ListProps["lines"]>(undefined)
-Lines.displayName = "Lines"
-
 export function List({ style, lines, ...props }: ListProps): ReactNode {
 	return (
-		<Lines value={lines}>
-			<Box
-				render={<Ariakit.Role.ul {...props} />}
-				style={mergeStyles(list.style, list.variants({ lines }), style)}
-			/>
-		</Lines>
+		<Box
+			render={<Ariakit.Role.ul {...props} />}
+			style={mergeStyles(list.style, list.variants({ lines }), style)}
+		/>
 	)
 }

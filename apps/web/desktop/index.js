@@ -4,6 +4,7 @@ import config from "../react-router.config.ts"
 import { app, BrowserWindow, session } from "electron"
 import { RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
+import { pathToFileURL } from "url"
 
 export {}
 
@@ -23,12 +24,12 @@ async function createWindow() {
 		process.env.EXISTING_SERVER_URL
 		?? (await initRemix({
 			buildDirectory: config.buildDirectory,
-			serverBuild: path.join(
-				__dirname,
-				"..",
-				config.buildDirectory,
-				"server/index.js"
-			),
+			serverBuild: () =>
+				import(
+					pathToFileURL(
+						path.join(__dirname, "..", config.buildDirectory, "server/index.js")
+					).toString()
+				),
 			getLoadContext: () => new RouterContextProvider(),
 		}))
 

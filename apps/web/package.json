@@ -36,6 +36,7 @@
 		"@iconify-json/material-symbols": "catalog:",
 		"@inlang/paraglide-js": "catalog:",
 		"@material/material-color-utilities": "catalog:",
+		"@openfeature/web-sdk": "catalog:",
 		"@react-router/dev": "catalog:",
 		"@react-router/node": "catalog:",
 		"@sentry/react": "catalog:",

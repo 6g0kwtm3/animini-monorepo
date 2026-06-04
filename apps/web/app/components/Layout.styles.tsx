@@ -1,23 +1,11 @@
 import { create, is, Var } from "@anitrove/unstyled"
-import { createContext, use, type ComponentProps, type ReactNode } from "react"
 
 import * as design from "@anitrove/design"
-import {
-	cva,
-	defineCva,
-	mergeStyles,
-	precompileStyles,
-	provide,
-	type CvaProps,
-	type OutStyles,
-} from "@anitrove/unstyled"
-import { Box } from "@anitrove/unstyled/box"
+import { createVar } from "@anitrove/unstyled/macro" with { type: "macro" }
 
-export const Navigation = new Var<"bar" | "drawer" | "none" | "rail">(
-	"--navigation"
-)
+export const Navigation = createVar<"bar" | "drawer" | "none" | "rail">()
 
-export const Variant = new Var<"fixed" | "flexible">("--variant")
+export const Variant = new Var<"fixed" | "flexible">("--var-variant")
 
 export const styles = create({
 	layout: { isolation: "isolate" },

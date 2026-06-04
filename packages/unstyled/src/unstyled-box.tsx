@@ -1,6 +1,6 @@
 import { Role, type RoleProps } from "@ariakit/react"
 import type { ReactNode } from "react"
-import { mergeStyles, type OutStyles } from "./unstyled-print.ts"
+import { type OutStyles } from "./unstyled-print.ts"
 import { useStyles } from "./unstyled-use-styles.tsx"
 
 export interface BoxProps extends Omit<RoleProps, "className" | "style"> {
@@ -8,17 +8,26 @@ export interface BoxProps extends Omit<RoleProps, "className" | "style"> {
 }
 
 export function Box({ style, ...props }: BoxProps): ReactNode {
-	const [className, jsx, dynamicVars] = useStyles(mergeStyles(style))
+	const box = useStyles(style?.preCompiledStyles ?? {})
+	const wrapper = useStyles(style?.preCompiledVars ?? {})
 
 	const children = (
 		<>
-			<Role {...props} className={className}></Role>
-			{jsx}
+			<Role {...props} className={box?.className}></Role>
+			{box?.jsx}
 		</>
 	)
 
-	return Object.keys(dynamicVars).length !== 0 ? (
-		<div style={{ ...dynamicVars, display: "contents" }}>{children}</div>
+	return wrapper || Object.keys(style?.dynamicVars ?? {}).length !== 0 ? (
+		<>
+			<div
+				style={{ ...style?.dynamicVars, display: "contents" }}
+				className={wrapper?.className}
+			>
+				{children}
+			</div>
+			{wrapper?.jsx}
+		</>
 	) : (
 		children
 	)

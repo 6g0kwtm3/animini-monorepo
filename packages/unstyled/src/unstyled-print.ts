@@ -13,6 +13,7 @@ import type { Value } from "./unstyled-value.ts"
 export interface OutStyles {
 	/** @internal */ readonly dynamicVars: DynamicVars
 	/** @internal */ readonly preCompiledStyles: PreCompiledStyles
+	/** @internal */ readonly preCompiledVars: PreCompiledStyles
 }
 
 export type PreCompiledStyles = { [K in keyof Properties]?: string }
@@ -44,10 +45,15 @@ export type DynamicVars = Record<`--${string}`, string>
  *   inputs in the order they were provided
  */
 export function mergeStyles(...styles: (OutStyles | undefined)[]): OutStyles {
-	const result: OutStyles = { preCompiledStyles: {}, dynamicVars: {} }
+	const result: OutStyles = {
+		preCompiledStyles: {},
+		dynamicVars: {},
+		preCompiledVars: {},
+	}
 	for (const style of styles) {
 		if (style === undefined) continue
 		void Object.assign(result.preCompiledStyles, style.preCompiledStyles)
+		void Object.assign(result.preCompiledVars, style.preCompiledVars)
 		void Object.assign(result.dynamicVars, style.dynamicVars)
 	}
 	return result
@@ -76,9 +82,9 @@ export function mergeStyles(...styles: (OutStyles | undefined)[]): OutStyles {
  *   options in the format var(--variant-option)
  * @internal
  */
-export function print(style: OutStyles): string {
+export function print(style: PreCompiledStyles): string {
 	let result = "{\n"
-	for (const property of Object.values(style.preCompiledStyles)) {
+	for (const property of Object.values(style)) {
 		if (property === undefined) continue
 		result += property
 	}
@@ -129,9 +135,9 @@ export function print(style: OutStyles): string {
  */
 
 export function precompileStyles(style: RawStyles): OutStyles {
-	return {
-		preCompiledStyles: Object.fromEntries(
-			Object.entries(style).flatMap(([propertyName, property]) => {
+	const grouped = Object.groupBy(
+		Object.entries(style).flatMap(
+			([propertyName, property]): [string, string][] => {
 				if (property === undefined) return []
 
 				return [
@@ -144,8 +150,14 @@ export function precompileStyles(style: RawStyles): OutStyles {
 						),
 					],
 				]
-			})
+			}
 		),
+		([key]) =>
+			key.startsWith("--var-") ? "preCompiledVars" : "preCompiledStyles"
+	)
+	return {
+		preCompiledStyles: Object.fromEntries(grouped.preCompiledStyles ?? []),
+		preCompiledVars: Object.fromEntries(grouped.preCompiledVars ?? []),
 		dynamicVars: {},
 	}
 }
