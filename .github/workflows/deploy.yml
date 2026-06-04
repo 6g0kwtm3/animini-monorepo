@@ -52,7 +52,7 @@ jobs:
         run: pnpm exec turbo --filter=@animedes/web build
 
       - name: Create Sentry release
-        uses: getsentry/action-release@f71adb49d4b2aeeda98052d3de234bbb0f3e03ab # v3.6.1
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
@@ -92,6 +92,7 @@ jobs:
         run: pnpm exec wrangler pages deploy --branch=${BRANCH}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: e9b0348e83d33e46fbb82c3271317d70
           BRANCH: ${{ github.head_ref || github.ref_name  }}
 
   stryker:

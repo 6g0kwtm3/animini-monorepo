@@ -14,17 +14,17 @@ allowBuilds:
 blockExoticSubdeps: true
 
 catalog:
-  '@ariakit/react': 0.4.26
+  '@ariakit/react': 0.4.29
   '@ark/attest': 0.56.0
   '@babel/preset-typescript': 7.29.7
-  '@chromatic-com/storybook': 5.1.2
-  '@codspeed/vitest-plugin': 5.4.0
+  '@chromatic-com/storybook': 5.2.1
+  '@codspeed/vitest-plugin': 5.5.0
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.7
-  '@hono/node-server': 2.0.1
-  '@iconify-json/material-symbols': 1.2.70
-  '@inlang/paraglide-js': 2.18.0
+  '@hono/node-server': 2.0.4
+  '@iconify-json/material-symbols': 1.2.75
+  '@inlang/paraglide-js': 2.18.1
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.60.0
@@ -33,7 +33,7 @@ catalog:
   '@react-router/node': v8.0.0-pre.0
   '@sentry/react': npm:@sentry/react-router@10.55.0
   '@sentry/toolbar': 1.0.0-beta.11
-  '@sentry/vite-plugin': 5.2.1
+  '@sentry/vite-plugin': 5.3.0
   '@storybook/addon-a11y': 10.4.1
   '@storybook/addon-docs': 10.4.1
   '@storybook/addon-onboarding': 10.4.1
@@ -56,7 +56,7 @@ catalog:
   '@types/react': 19.2.15
   '@types/react-dom': 19.2.3
   '@typescript-eslint/parser': 8.60.0
-  '@typescript/native-preview': 7.0.0-dev.20260506.1
+  '@typescript/native-preview': 7.0.0-dev.20260601.1
   anitomy: 0.0.35
   arktype: 2.2.0
   babel-plugin-react-compiler: 1.0.0
@@ -65,7 +65,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 42.0.1
+  electron: 42.3.0
   electron-devtools-installer: 4.0.0
   eslint: 10.4.1
   eslint-plugin-oxlint: 1.67.0
@@ -81,16 +81,16 @@ catalog:
   flubber: 0.4.2
   graphql: 16.14.0
   graphql-config: 5.1.6
-  hono: 4.12.18
+  hono: 4.12.23
   isbot: 5.1.40
-  knip: 6.12.0
+  knip: 6.15.0
   marked: 0.3.19
-  motion: 12.38.0
-  msw: 2.14.3
+  motion: 12.40.0
+  msw: 2.14.6
   nodemon: 3.1.14
-  oxfmt: 0.48.0
+  oxfmt: 0.53.0
   oxlint: 1.63.0
-  oxlint-tsgolint: 0.22.1
+  oxlint-tsgolint: 0.23.0
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.8.0
   prop-types: 15.8.1
@@ -103,8 +103,8 @@ catalog:
   storybook: 10.4.1
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.0
-  temporal-polyfill-lite: 0.3.6
-  tsx: 4.21.0
+  temporal-polyfill-lite: 0.4.0
+  tsx: 4.22.4
   turbo: 2.9.16
   typescript: 6.0.3
   typescript-eslint: 8.60.0
@@ -115,7 +115,7 @@ catalog:
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vitest: 4.1.7
-  wrangler: 4.88.0
+  wrangler: 4.96.0
 
 catalogMode: strict
 
@@ -151,4 +151,4 @@ strictDepBuilds: true
 verifyDepsBeforeRun: install
 
 overrides: 
-  yauzl: 3.3.1
+  yauzl: 3.3.2
