@@ -67,8 +67,8 @@ export function ProgressIncrement(props: {
 	const navigation = useNavigation()
 
 	const optimisticEntry =
-		actionData?.SaveMediaListEntry ??
-		Object.fromEntries(navigation.formData ?? new FormData())
+		actionData?.SaveMediaListEntry
+		?? Object.fromEntries(navigation.formData ?? new FormData())
 
 	const [search] = useSearchParams()
 
@@ -87,8 +87,8 @@ export function ProgressIncrement(props: {
 
 	return (
 		<div className="flex justify-end">
-			{Predicate.isString(data?.Viewer?.name) &&
-				data.Viewer.name === params.userName && (
+			{Predicate.isString(data?.Viewer?.name)
+				&& data.Viewer.name === params.userName && (
 					<Form className="hidden @md:block" method="post">
 						<input type="hidden" name="progress" value={progress + 1} />
 						<input type="hidden" name="id" value={entry.id} />
@@ -151,8 +151,8 @@ export function ProgressIncrement(props: {
 						}
 
 						const canShare =
-							typeof navigator.canShare === "function" &&
-							navigator.canShare(shareData)
+							typeof navigator.canShare === "function"
+							&& navigator.canShare(shareData)
 
 						return (
 							canShare && (
@@ -254,8 +254,8 @@ function Progress(props: { entry: Progress_entry$key }): ReactNode {
 	const navigation = useNavigation()
 
 	const optimisticEntry =
-		actionData?.SaveMediaListEntry ??
-		Object.fromEntries(navigation.formData ?? new FormData())
+		actionData?.SaveMediaListEntry
+		?? Object.fromEntries(navigation.formData ?? new FormData())
 
 	const progress =
 		(Number(optimisticEntry.id) === Number(entry.id)

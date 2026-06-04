@@ -20,8 +20,8 @@ async function createWindow() {
 	})
 
 	url ??=
-		process.env.EXISTING_SERVER_URL ??
-		(await initRemix({
+		process.env.EXISTING_SERVER_URL
+		?? (await initRemix({
 			buildDirectory: config.buildDirectory,
 			serverBuild: path.join(
 				__dirname,

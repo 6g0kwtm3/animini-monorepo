@@ -286,8 +286,8 @@ function AwaitList(props: Route.ComponentProps) {
 								<Skeleton>
 									{entry ? (
 										<div className="flex justify-end">
-											{entry.status === "COMPLETED" &&
-												(() => {
+											{entry.status === "COMPLETED"
+												&& (() => {
 													const outOfSync = relations
 														.keys()
 														.filter((mediaId) => {

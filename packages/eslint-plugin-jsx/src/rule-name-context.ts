@@ -16,10 +16,10 @@ export const rule: Rule.RuleModule = {
 			VariableDeclaration(node) {
 				for (const subnode of node.declarations) {
 					if (
-						subnode.id.type === "Identifier" &&
-						subnode.init?.type === "CallExpression" &&
-						subnode.init.callee.type === "Identifier" &&
-						subnode.init.callee.name === "createContext"
+						subnode.id.type === "Identifier"
+						&& subnode.init?.type === "CallExpression"
+						&& subnode.init.callee.type === "Identifier"
+						&& subnode.init.callee.name === "createContext"
 					) {
 						declarations.set(subnode.id.name, node)
 					}
@@ -27,10 +27,10 @@ export const rule: Rule.RuleModule = {
 			},
 			AssignmentExpression(node) {
 				if (
-					node.left.type === "MemberExpression" &&
-					node.left.object.type === "Identifier" &&
-					node.left.property.type === "Identifier" &&
-					node.left.property.name === "displayName"
+					node.left.type === "MemberExpression"
+					&& node.left.object.type === "Identifier"
+					&& node.left.property.type === "Identifier"
+					&& node.left.property.name === "displayName"
 				) {
 					declarations.delete(node.left.object.name)
 				}

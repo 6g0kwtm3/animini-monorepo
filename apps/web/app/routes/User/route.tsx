@@ -80,9 +80,9 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const params = useParams()
 
 	const isFollow =
-		follow.formData?.get("isFollowing") ??
-		follow.data?.ToggleFollow.isFollowing ??
-		data.user.isFollowing
+		follow.formData?.get("isFollowing")
+		?? follow.data?.ToggleFollow.isFollowing
+		?? data.user.isFollowing
 
 	return (
 		<LayoutBody

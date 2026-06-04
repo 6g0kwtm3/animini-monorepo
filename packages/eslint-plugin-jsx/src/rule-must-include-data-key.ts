@@ -25,8 +25,8 @@ export const rule: RuleModule<string> = {
 			JSXOpeningElement(node: TSESTree.JSXOpeningElement) {
 				// Skip <Fragment /> elements
 				if (
-					node.name.type === AST_NODE_TYPES.JSXIdentifier &&
-					node.name.name === "Fragment"
+					node.name.type === AST_NODE_TYPES.JSXIdentifier
+					&& node.name.name === "Fragment"
 				) {
 					return
 				}
@@ -109,8 +109,8 @@ function isEqual(
 	}
 
 	if (
-		a.value.type === AST_NODE_TYPES.JSXElement ||
-		b.value.type === AST_NODE_TYPES.JSXElement
+		a.value.type === AST_NODE_TYPES.JSXElement
+		|| b.value.type === AST_NODE_TYPES.JSXElement
 	) {
 		return true
 	}
@@ -151,8 +151,8 @@ function stableStringify(
 		}
 
 		return (
-			getStaticValue(value as TSESTree.Node, context) ??
-			Object.fromEntries(
+			getStaticValue(value as TSESTree.Node, context)
+			?? Object.fromEntries(
 				Object.entries(value).toSorted(([a], [b]) => a.localeCompare(b))
 			)
 		)

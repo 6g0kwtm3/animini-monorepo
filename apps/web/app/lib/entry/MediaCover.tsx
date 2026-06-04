@@ -39,10 +39,10 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 	return (
 		<Ariakit.Role.img
 			src={
-				data.coverImage?.extraLarge ??
-				data.coverImage?.large ??
-				data.coverImage?.medium ??
-				""
+				data.coverImage?.extraLarge
+				?? data.coverImage?.large
+				?? data.coverImage?.medium
+				?? ""
 			}
 			loading="lazy"
 			sizes="auto"
