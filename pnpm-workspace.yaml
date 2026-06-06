@@ -114,7 +114,7 @@ catalog:
   vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
-  vitest: 4.1.7
+  vitest: 4.1.8
   wrangler: 4.97.0
 
 catalogMode: strict
