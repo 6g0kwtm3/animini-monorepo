@@ -55,7 +55,7 @@ catalog:
   '@types/prop-types': 15.7.15
   '@types/react': 19.2.15
   '@types/react-dom': 19.2.3
-  '@typescript-eslint/parser': 8.60.0
+  '@typescript-eslint/parser': 8.60.1
   '@typescript/native-preview': 7.0.0-dev.20260602.1
   anitomy: 0.0.35
   arktype: 2.2.0
@@ -68,13 +68,13 @@ catalog:
   electron: 42.3.0
   electron-devtools-installer: 4.0.0
   eslint: 10.4.1
-  eslint-plugin-oxlint: 1.67.0
+  eslint-plugin-oxlint: 1.68.0
   eslint-plugin-perfectionist: 5.9.0
   eslint-plugin-pnpm: 1.6.1
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-hooks: 7.1.1
   eslint-plugin-react-refresh: 0.5.2
-  eslint-plugin-storybook: 10.4.1
+  eslint-plugin-storybook: 10.4.2
   eslint-plugin-turbo: 2.9.16
   eslint-typegen: 2.3.1
   eslint-vitest-rule-tester: 3.1.0
@@ -107,7 +107,7 @@ catalog:
   tsx: 4.22.4
   turbo: 2.9.16
   typescript: 6.0.3
-  typescript-eslint: 8.60.0
+  typescript-eslint: 8.60.1
   unplugin-icons: 23.0.1
   unplugin-macros: 0.20.0
   vite: 8.0.12
