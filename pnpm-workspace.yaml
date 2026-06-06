@@ -23,8 +23,8 @@ catalog:
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.7
   '@hono/node-server': 2.0.4
-  '@iconify-json/material-symbols': 1.2.75
-  '@inlang/paraglide-js': 2.18.1
+  '@iconify-json/material-symbols': 1.2.76
+  '@inlang/paraglide-js': 2.18.2
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.60.0
@@ -56,7 +56,7 @@ catalog:
   '@types/react': 19.2.15
   '@types/react-dom': 19.2.3
   '@typescript-eslint/parser': 8.60.0
-  '@typescript/native-preview': 7.0.0-dev.20260601.1
+  '@typescript/native-preview': 7.0.0-dev.20260602.1
   anitomy: 0.0.35
   arktype: 2.2.0
   babel-plugin-react-compiler: 1.0.0
@@ -79,7 +79,7 @@ catalog:
   eslint-typegen: 2.3.1
   eslint-vitest-rule-tester: 3.1.0
   flubber: 0.4.2
-  graphql: 16.14.0
+  graphql: 16.14.1
   graphql-config: 5.1.6
   hono: 4.12.23
   isbot: 5.1.40
@@ -115,7 +115,7 @@ catalog:
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vitest: 4.1.7
-  wrangler: 4.96.0
+  wrangler: 4.97.0
 
 catalogMode: strict
 
