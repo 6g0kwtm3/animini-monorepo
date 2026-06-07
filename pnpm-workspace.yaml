@@ -31,7 +31,7 @@ catalog:
   '@prettier/plugin-oxc': 0.1.4
   '@react-router/dev': v8.0.0-pre.0
   '@react-router/node': v8.0.0-pre.0
-  '@sentry/react': npm:@sentry/react-router@10.55.0
+  '@sentry/react': npm:@sentry/react-router@10.56.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.3.0
   '@storybook/addon-a11y': 10.4.2
