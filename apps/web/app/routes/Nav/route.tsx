@@ -1,4 +1,3 @@
-import ReactRelay from "react-relay"
 import { Outlet, useLocation, useRouteLoaderData } from "react-router"
 import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
@@ -33,34 +32,35 @@ import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
 import { fab } from "~/lib/button"
+import ReactRelay from "react-relay"
+import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
 import {
-	loadQuery,
-	usePreloadedQuery,
-	type NodeAndQueryFragment,
+	serverPreloadQuery,
+	useFragment,
+	useQueryFromServer,
 } from "~/lib/Network"
+
+const { graphql } = ReactRelay
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
 
-const { graphql } = ReactRelay
+const navRouteQuery = graphql`
+	query routeNavQuery($isToken: Boolean = false) {
+		...SearchTrending_query
+		...UnreadNotificationBadge_query @arguments(isToken: $isToken)
+	}
+`
 
-export const clientLoader = (args: Route.ClientLoaderArgs) => {
+export const clientLoader = (_args: Route.ClientLoaderArgs) => {
 	const viewer = Viewer()
 
-	const data = args.context.get(loadQuery)<routeNavQuery>(
-		graphql`
-			query routeNavQuery($isToken: Boolean = false) {
-				Viewer @include(if: $isToken) {
-					unreadNotificationCount
-				}
-				...SearchTrending_query
-			}
-		`,
-		{ isToken: viewer != null }
-	)
+	const navRouteQueryRef = serverPreloadQuery<routeNavQuery>(navRouteQuery, {
+		isToken: viewer != null,
+	})
 
-	return { trending: data }
+	return { navRouteQueryRef }
 }
 
 export default function NavRoute({
@@ -69,6 +69,11 @@ export default function NavRoute({
 	const rootData = useRouteLoaderData<typeof rootLoader>("root")
 
 	const { pathname } = useLocation()
+
+	const data = useQueryFromServer<routeNavQuery>(
+		navRouteQuery,
+		loaderData.navRouteQueryRef
+	)
 
 	return (
 		<Layout style={styles.layout}>
@@ -142,7 +147,7 @@ export default function NavRoute({
 					badge={
 						<ErrorBoundary>
 							<Suspense>
-								<UnreadNotificationBadge queryRef={loaderData.trending} />
+								<UnreadNotificationBadge query={data} />
 							</Suspense>
 						</ErrorBoundary>
 					}
@@ -163,17 +168,27 @@ export default function NavRoute({
 				</SearchButton>
 			</Navigation>
 			<Outlet />
-			<Search queryRef={loaderData.trending} />
+			<Search query={data} />
 		</Layout>
 	)
 }
 
 function UnreadNotificationBadge({
-	queryRef,
+	query,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	query: UnreadNotificationBadge_query$key
 }): ReactNode {
-	const data = usePreloadedQuery(queryRef)
+	const data = useFragment(
+		graphql`
+			fragment UnreadNotificationBadge_query on Query
+			@argumentDefinitions(isToken: { type: "Boolean", defaultValue: false }) {
+				Viewer @include(if: $isToken) {
+					unreadNotificationCount
+				}
+			}
+		`,
+		query
+	)
 
 	return (
 		(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (

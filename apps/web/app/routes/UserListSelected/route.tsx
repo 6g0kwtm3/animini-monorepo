@@ -26,7 +26,7 @@ import { MediaListItem } from "~/lib/entry/MediaListItem"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 
 import ReactRelay from "react-relay"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { serverPreloadQuery, useQueryFromServer } from "~/lib/Network"
 
 import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 
@@ -155,14 +155,15 @@ export const clientAction = (async (args) => {
 function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 	const params = invariant(Params(args.params))
 
-	const selectedList = args.context.get(
-		loadQuery
-	)<routeNavUserListEntriesQuery>(NavUserListEntriesQuery, {
-		userName: params.userName,
-		type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
-			params.typelist
-		],
-	})
+	const selectedList = serverPreloadQuery<routeNavUserListEntriesQuery>(
+		NavUserListEntriesQuery,
+		{
+			userName: params.userName,
+			type: ({ animelist: "ANIME", mangalist: "MANGA" } as const)[
+				params.typelist
+			],
+		}
+	)
 
 	return { selectedList }
 }
@@ -211,7 +212,10 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 }
 
 function AwaitList(props: Route.ComponentProps) {
-	const data = usePreloadedQuery(props.loaderData.query.selectedList)
+	const data = useQueryFromServer<routeNavUserListEntriesQuery>(
+		NavUserListEntriesQuery,
+		props.loaderData.query.selectedList
+	)
 
 	if (data == null) {
 		return null

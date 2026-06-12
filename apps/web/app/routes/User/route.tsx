@@ -22,34 +22,36 @@ import { User } from "./User"
 
 import { ExtraOutlet } from "extra-outlet"
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { serverPreloadQuery, useQueryFromServer } from "~/lib/Network"
 import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 const { graphql } = ReactRelay
+
+const UserQuery = graphql`
+	query routeNavUserQuery($userName: String!, $token: Boolean!)
+	@raw_response_type {
+		Viewer @include(if: $token) {
+			id
+			name
+		}
+		user: User(name: $userName) {
+			id
+			isFollowing
+			name
+			options {
+				profileTheme
+			}
+			...User_user
+		}
+	}
+`
 
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const { userName } = args.params
 
-	const data = args.context.get(loadQuery)<routeNavUserQuery>(
-		graphql`
-			query routeNavUserQuery($userName: String!, $token: Boolean!)
-			@raw_response_type {
-				Viewer @include(if: $token) {
-					id
-					name
-				}
-				user: User(name: $userName) {
-					id
-					isFollowing
-					name
-					options {
-						profileTheme
-					}
-					...User_user
-				}
-			}
-		`,
-		{ token: !!sessionStorage.getItem("anilist-token"), userName }
-	)
+	const data = serverPreloadQuery<routeNavUserQuery>(UserQuery, {
+		token: !!sessionStorage.getItem("anilist-token"),
+		userName,
+	})
 
 	return { routeNavUserQuery: data }
 }
@@ -67,7 +69,10 @@ import { LayoutBody, LayoutPane } from "~/components/Layout"
 import { Tabs, TabsPanel } from "~/components/Tabs"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
+	const data = useQueryFromServer<routeNavUserQuery>(
+		UserQuery,
+		loaderData.routeNavUserQuery
+	)
 
 	if (!data.user) {
 		throw json("User not found", { status: 404 })

@@ -22,7 +22,7 @@ import { media } from "@anitrove/design"
 import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
 import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import { serverPreloadQuery, useQueryFromServer } from "~/lib/Network"
 import { client_get_client } from "~/lib/client"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
 import type { Route } from "./+types/route"
@@ -32,42 +32,41 @@ import { RelatedMediaAddition } from "./RelatedMediaAddition"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => {
-	return {
-		routeNavNotificationsQuery: args.context.get(
-			loadQuery
-		)<routeNavNotificationsQueryOperation>(
-			graphql`
-				query routeNavNotificationsQuery {
-					Viewer @required(action: THROW) {
-						id
-						unreadNotificationCount
-						...Airing_viewer
-						...RelatedMediaAddition_viewer
-						...ActivityLike_viewer
-					}
-					Page {
-						notifications(
-							type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]
-						) {
-							... on AiringNotification {
-								id
-								...Airing_notification @alias
-							}
-							... on RelatedMediaAdditionNotification {
-								id
-								...RelatedMediaAddition_notification @alias
-							}
-							... on ActivityLikeNotification {
-								id
-								...ActivityLike_notification @alias
-							}
-						}
-					}
+const NotificationsQuery = graphql`
+	query routeNavNotificationsQuery {
+		Viewer @required(action: THROW) {
+			id
+			unreadNotificationCount
+			...Airing_viewer
+			...RelatedMediaAddition_viewer
+			...ActivityLike_viewer
+		}
+		Page {
+			notifications(type_in: [AIRING, RELATED_MEDIA_ADDITION, ACTIVITY_LIKE]) {
+				... on AiringNotification {
+					id
+					...Airing_notification @alias
 				}
-			`,
-			{}
-		),
+				... on RelatedMediaAdditionNotification {
+					id
+					...RelatedMediaAddition_notification @alias
+				}
+				... on ActivityLikeNotification {
+					id
+					...ActivityLike_notification @alias
+				}
+			}
+		}
+	}
+`
+
+export const clientLoader = (_args: ClientLoaderFunctionArgs) => {
+	return {
+		routeNavNotificationsQuery:
+			serverPreloadQuery<routeNavNotificationsQueryOperation>(
+				NotificationsQuery,
+				{}
+			),
 	}
 }
 
@@ -91,7 +90,10 @@ export const clientAction = (async () => {
 }) satisfies ActionFunction
 
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = usePreloadedQuery(loaderData.routeNavNotificationsQuery)
+	const data = useQueryFromServer<routeNavNotificationsQueryOperation>(
+		NotificationsQuery,
+		loaderData.routeNavNotificationsQuery
+	)
 	const store = useTooltipStore()
 	const someNotRead = data.Viewer.unreadNotificationCount ?? 0
 
