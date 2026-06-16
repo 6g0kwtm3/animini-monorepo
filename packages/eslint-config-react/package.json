@@ -9,7 +9,6 @@
 		"eslint-plugin-jsx": "workspace:@animedes/eslint-plugin-jsx@*",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-react": "catalog:",
-		"eslint-plugin-react-hooks": "catalog:",
 		"eslint-plugin-react-refresh": "catalog:",
 		"eslint-typegen": "catalog:",
 		"oxlint-config": "workspace:@animedes/oxlint-config@*"
