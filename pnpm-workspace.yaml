@@ -72,7 +72,6 @@ catalog:
   eslint-plugin-perfectionist: 5.9.0
   eslint-plugin-pnpm: 1.6.1
   eslint-plugin-react: 7.37.5
-  eslint-plugin-react-hooks: 7.1.1
   eslint-plugin-react-refresh: 0.5.2
   eslint-plugin-storybook: 10.4.4
   eslint-plugin-turbo: 2.9.18
@@ -89,7 +88,7 @@ catalog:
   msw: 2.14.6
   nodemon: 3.1.14
   oxfmt: 0.53.0
-  oxlint: 1.63.0
+  oxlint: 1.70.0
   oxlint-tsgolint: 0.23.0
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.8.0
@@ -139,6 +138,9 @@ onlyBuiltDependencies:
 
 optimisticRepeatInstall: true
 
+overrides:
+  yauzl: 3.3.2
+
 patchedDependencies:
   flubber: patches/flubber.patch
 
@@ -149,6 +151,3 @@ shellEmulator: true
 strictDepBuilds: true
 
 verifyDepsBeforeRun: install
-
-overrides: 
-  yauzl: 3.3.2

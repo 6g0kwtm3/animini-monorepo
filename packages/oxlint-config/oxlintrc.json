@@ -32,6 +32,7 @@
 				]
 			}
 		],
+		"react/react-compiler": "error",
 		"eslint/no-unused-expressions": "warn",
 		"eslint/eqeqeq": ["warn", "always", { "null": "never" }],
 		"eslint/prefer-template": "warn",
@@ -77,6 +78,7 @@
 		"typescript/triple-slash-reference": "allow",
 		"eslint/no-unused-vars": "allow",
 		"jsx-a11y/anchor-has-content": "allow",
+		"jsx-a11y/control-has-associated-label": "allow",
 		"import/namespace": "allow",
 		"eslint/no-shadow-restricted-names": "allow"
 	},
@@ -99,13 +101,6 @@
 			"formComponents": ["Form"],
 			"buttonComponents": ["Button", "BaseButton", "Icon"]
 		},
-		"jsx-a11y": {
-			"components": {
-				"Link": "a",
-				"NavLink": "a",
-				"HashNavLink": "a",
-				"A": "a"
-			}
-		}
+		"jsx-a11y": { "controlComponents": ["Link", "NavLink", "HashNavLink", "A"] }
 	}
 }
