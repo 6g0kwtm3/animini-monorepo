@@ -11,7 +11,6 @@ import oxlintConfig from "oxlint-config" with { type: "json" }
 export default await typegen([
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat["jsx-runtime"],
-	reactHooks.configs.flat["recommended"],
 	reactRefresh.configs.vite,
 	jsx.configs.recommended,
 	{

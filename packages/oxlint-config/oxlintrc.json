@@ -32,6 +32,7 @@
 				]
 			}
 		],
+		"react/react-compiler": "error",
 		"eslint/no-unused-expressions": "warn",
 		"eslint/eqeqeq": ["warn", "always", { "null": "never" }],
 		"eslint/prefer-template": "warn",
