@@ -101,11 +101,6 @@
 			"formComponents": ["Form"],
 			"buttonComponents": ["Button", "BaseButton", "Icon"]
 		},
-		"jsx-a11y": {			"controlComponents": 
-			[	"Link",
-				"NavLink",
-				"HashNavLink",
-				"A"]
-		}
+		"jsx-a11y": { "controlComponents": ["Link", "NavLink", "HashNavLink", "A"] }
 	}
 }
