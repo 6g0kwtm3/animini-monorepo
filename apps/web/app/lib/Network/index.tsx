@@ -77,7 +77,7 @@ export function usePreloadedQuery<T extends OperationType>(
 	nodeAndQuery: NodeAndQueryFragment<T>,
 	options?: { UNSTABLE_renderPolicy?: RelayRuntime.RenderPolicy | undefined }
 ) {
-	return usePreloadedQuery_(...nodeAndQuery, options)
+	return usePreloadedQuery_(nodeAndQuery[0], nodeAndQuery[1], options)
 }
 
 export function commitLocalUpdate(
