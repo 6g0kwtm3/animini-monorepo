@@ -94,7 +94,7 @@ export function Search({
 			className="search-view-fullscreen sm:search-view-docked"
 			defaultValue={searchParams.get("q") ?? ""}
 		>
-			<Form role="search" action="/search" className={"flex w-full flex-col"}>
+			<Form action="/search" className={"flex w-full flex-col"}>
 				<>
 					<SearchViewInput
 						placeholder="Search anime or manga"
