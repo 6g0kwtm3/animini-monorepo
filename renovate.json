@@ -19,9 +19,7 @@
 			"automerge": false
 		},
 		{ "groupName": "build", "extends": ["packages:vite"] },
-		{ "groupName": "test", "extends": ["packages:test"] },
-		{ "groupName": "linters", "extends": ["packages:linters"] },
-		{ "groupName": "eslint", "matchPackageNames": ["/eslint/"] }
+		{ "groupName": "test", "extends": ["packages:test"] }
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
