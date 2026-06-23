@@ -31,7 +31,7 @@
 		"@stryker-mutator/core": "catalog:",
 		"@stryker-mutator/vitest-runner": "catalog:",
 		"@types/node": "catalog:",
-		"@typescript/native-preview": "catalog:",
+		"@typescript/native-preview": "file:native-preview.tgz",
 		"eslint": "catalog:",
 		"eslint-plugin-pnpm": "catalog:",
 		"eslint-typegen": "catalog:",
