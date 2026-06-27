@@ -48,12 +48,12 @@ If the test still flakes after you've given it your best, delete it. Don't feel 
 
 These are the symptoms you'll see in mitigation. Knowing them up front speeds the diagnosis:
 
-| Symptom | Likely cause |
-| --- | --- |
-| Fails only on CI | Env difference (Node version, clock resolution, parallelism, locale) |
-| Fails when run with other tests | Shared state, global mocks, port collisions |
-| Fails intermittently | Real HTTP, real timers, real FS |
-| Always green | No-op assertion, assertion implied by the action |
-| Always green until a refactor | Test was coupled to implementation, not intention |
-| Fails immediately on first run, then passes | Setup is racy (init order, async setup not awaited) |
-| Fails only after a sibling test failed | Resource from a failed test was never cleaned up (server, port, temp file). Fix the resource, not the symptom — wrap the resource in a disposable. See [structure.md](structure.md). |
+| Symptom                                     | Likely cause                                                                                                                                                                         |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Fails only on CI                            | Env difference (Node version, clock resolution, parallelism, locale)                                                                                                                 |
+| Fails when run with other tests             | Shared state, global mocks, port collisions                                                                                                                                          |
+| Fails intermittently                        | Real HTTP, real timers, real FS                                                                                                                                                      |
+| Always green                                | No-op assertion, assertion implied by the action                                                                                                                                     |
+| Always green until a refactor               | Test was coupled to implementation, not intention                                                                                                                                    |
+| Fails immediately on first run, then passes | Setup is racy (init order, async setup not awaited)                                                                                                                                  |
+| Fails only after a sibling test failed      | Resource from a failed test was never cleaned up (server, port, temp file). Fix the resource, not the symptom — wrap the resource in a disposable. See [structure.md](structure.md). |

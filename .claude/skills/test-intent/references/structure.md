@@ -10,30 +10,39 @@ Nesting trades cognitive load for line count. Each `describe` level adds variabl
 
 ```ts
 // ❌ Nested: what is `handleSubmit`? Who assigns it? Where?
-describe('Login', () => {
-  let handleSubmit
-  beforeEach(() => { handleSubmit = jest.fn() })
+describe("Login", () => {
+	let handleSubmit
+	beforeEach(() => {
+		handleSubmit = jest.fn()
+	})
 
-  describe('when valid', () => {
-    beforeEach(() => { /* sets up user, utils */ })
-    describe('on submit', () => {
-      it('calls onSubmit', () => {
-        expect(handleSubmit).toHaveBeenCalled() // where did it come from?
-      })
-    })
-  })
+	describe("when valid", () => {
+		beforeEach(() => {
+			/* sets up user, utils */
+		})
+		describe("on submit", () => {
+			it("calls onSubmit", () => {
+				expect(handleSubmit).toHaveBeenCalled() // where did it come from?
+			})
+		})
+	})
 })
 ```
 
 ```ts
 // ✅ Flat: every value is local, every test is self-contained
-test('Login calls onSubmit with credentials when valid input is submitted', () => {
-  const handleSubmit = jest.fn()
-  const { getByLabelText, getByText } = render(<Login onSubmit={handleSubmit} />)
-  userEvent.type(getByLabelText(/username/i), 'michelle')
-  userEvent.type(getByLabelText(/password/i), 'smith')
-  userEvent.click(getByText(/submit/i))
-  expect(handleSubmit).toHaveBeenCalledWith({ username: 'michelle', password: 'smith' })
+test("Login calls onSubmit with credentials when valid input is submitted", () => {
+	const handleSubmit = jest.fn()
+	const { getByLabelText, getByText } = render(
+		<Login onSubmit={handleSubmit} />
+	)
+	userEvent.type(getByLabelText(/username/i), "michelle")
+	userEvent.type(getByLabelText(/password/i), "smith")
+	userEvent.click(getByText(/submit/i))
+	expect(handleSubmit).toHaveBeenCalledWith({
+		username: "michelle",
+		password: "smith",
+	})
 })
 ```
 
@@ -45,18 +54,18 @@ When duplication starts to bite, extract a **function** that returns a value —
 
 ```ts
 function setupSuccessCase() {
-  const handleSubmit = jest.fn()
-  const utils = render(<Login onSubmit={handleSubmit} />)
-  const user = { username: 'michelle', password: 'smith' }
-  userEvent.type(utils.getByLabelText(/username/i), user.username)
-  userEvent.type(utils.getByLabelText(/password/i), user.password)
-  userEvent.click(utils.getByText(/submit/i))
-  return { ...utils, handleSubmit, user }
+	const handleSubmit = jest.fn()
+	const utils = render(<Login onSubmit={handleSubmit} />)
+	const user = { username: "michelle", password: "smith" }
+	userEvent.type(utils.getByLabelText(/username/i), user.username)
+	userEvent.type(utils.getByLabelText(/password/i), user.password)
+	userEvent.click(utils.getByText(/submit/i))
+	return { ...utils, handleSubmit, user }
 }
 
-test('Login calls onSubmit on success', () => {
-  const { handleSubmit, user } = setupSuccessCase()
-  expect(handleSubmit).toHaveBeenCalledWith(user)
+test("Login calls onSubmit on success", () => {
+	const { handleSubmit, user } = setupSuccessCase()
+	expect(handleSubmit).toHaveBeenCalledWith(user)
 })
 ```
 
@@ -83,11 +92,11 @@ Flat tests have one sharp edge: cleanup that lives at the end of the test body d
 
 ```ts
 // ❌ Looks flat, but cleanup is skipped on assertion failure
-test('auth flow', async () => {
-  const server = createTestServer()
-  await server.listen()
-  // ...test body...
-  await server.close() // never runs if anything above throws
+test("auth flow", async () => {
+	const server = createTestServer()
+	await server.listen()
+	// ...test body...
+	await server.close() // never runs if anything above throws
 })
 ```
 
@@ -95,20 +104,20 @@ The fix is **disposable objects**: co-locate the cleanup callback with the resou
 
 ```ts
 function createTestServer() {
-  const server = new Server()
-  return {
-    instance: server,
-    async [Symbol.asyncDispose]() {
-      await server.close()
-    },
-  }
+	const server = new Server()
+	return {
+		instance: server,
+		async [Symbol.asyncDispose]() {
+			await server.close()
+		},
+	}
 }
 
-test('auth flow', async () => {
-  await using server = createTestServer()
-  await server.instance.listen()
-  // ...test body...
-  // server.close() runs here, even if the body threw
+test("auth flow", async () => {
+	await using server = createTestServer()
+	await server.instance.listen()
+	// ...test body...
+	// server.close() runs here, even if the body threw
 })
 ```
 
