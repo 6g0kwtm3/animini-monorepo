@@ -1,7 +1,7 @@
 {
-  "permissions": {
-    "allow": [
-      "PowerShell(*)",
+	"permissions": {
+		"allow": [
+			"PowerShell(*)",
 			"Bash(*)",
 			"Edit(*)",
 			"Write(*)",
