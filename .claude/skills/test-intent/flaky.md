@@ -56,3 +56,4 @@ These are the symptoms you'll see in mitigation. Knowing them up front speeds th
 | Always green | No-op assertion, assertion implied by the action |
 | Always green until a refactor | Test was coupled to implementation, not intention |
 | Fails immediately on first run, then passes | Setup is racy (init order, async setup not awaited) |
+| Fails only after a sibling test failed | Resource from a failed test was never cleaned up (server, port, temp file). Fix the resource, not the symptom — wrap the resource in a disposable. See [structure.md](structure.md). |

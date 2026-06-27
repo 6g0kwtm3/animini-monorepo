@@ -1,6 +1,6 @@
 ---
 name: test-intent
-description: Write tests that validate the intention behind the system, not the implementation. Use when writing or reviewing a test, deciding what to test, mocking dependencies, drawing test boundaries, dealing with flaky tests, or when the user mentions testing implementation details, false positives, or test setup.
+description: Write tests that validate the intention behind the system, not the implementation. Use when writing or reviewing a test, deciding what to test, mocking dependencies, drawing test boundaries, organizing multiple tests in one file, fixing cleanup patterns, dealing with flaky tests, or when the user mentions testing implementation details, false positives, test setup, nested describes, or mutable test variables.
 ---
 
 # Tests validate intention
@@ -35,6 +35,8 @@ Every test is **setup → action → assertion**, no matter the language or leve
 
 When in doubt about any of the three, ask: _which part of this serves the intention, and which part is implementation leaking in?_
 
+When the test touches a resource that needs cleanup (server, temp dir, mock), put the cleanup next to the resource via **`using` / `Symbol.dispose`**, not at the bottom of the test body. An assertion that throws must not leave a server running. See [structure.md](structure.md) for flat-test shape and the disposable-object pattern.
+
 ---
 
 ## Boundaries
@@ -65,10 +67,10 @@ A passing test is suspicious until proven guilty. Three failure modes to spot:
 
 ## What this skill is not
 
-This skill is about writing a single test well. It is not:
+This skill is about writing and shaping good tests. It is not:
 
 - The **TDD loop** — see `tdd` for red-green-refactor and tracer bullets.
 - A coverage target — code coverage is a tool, not a goal. A 100%-covered implementation-detail test is worse than a 50%-covered intention test. See [coverage.md](coverage.md).
 - A code-style guide for test files.
 
-When the work is "drive this feature with tests," invoke `tdd`. When the work is "write or fix this one test so it actually validates something," you're here.
+When the work is "drive this feature with tests," invoke `tdd`. When the work is "write, organize, or fix tests so they actually validate something," you're here.
