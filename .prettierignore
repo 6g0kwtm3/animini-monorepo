@@ -7,3 +7,5 @@ eslint-typegen.d.ts
 **/.tsup
 **/dist
 eslint-suppressions.json
+skills
+skills-lock.json

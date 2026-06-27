@@ -15,7 +15,9 @@
 		"**/.react-router",
 		"**/.tsup",
 		"**/dist",
-		"eslint-suppressions.json"
+		"eslint-suppressions.json",
+		"skills",
+		"skills-lock.json"
 	],
 	"jsdoc": true
 }
