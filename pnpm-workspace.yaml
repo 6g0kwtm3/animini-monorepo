@@ -28,7 +28,7 @@ catalog:
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.61.1
-  '@prettier/plugin-oxc': 0.1.4
+  '@prettier/plugin-oxc': 0.2.0
   '@react-router/dev': 8.1.0
   '@react-router/node': 8.1.0
   '@sentry/react': npm:@sentry/react-router@10.62.0
@@ -87,8 +87,8 @@ catalog:
   motion: 12.40.0
   msw: 2.14.6
   nodemon: 3.1.14
-  oxfmt: 0.53.0
-  oxlint: 1.70.0
+  oxfmt: 0.57.0
+  oxlint: 1.72.0
   oxlint-tsgolint: 0.23.0
   prettier: 3.8.1
   prettier-plugin-tailwindcss: 0.8.0
