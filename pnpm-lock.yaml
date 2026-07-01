@@ -10,8 +10,8 @@ catalogs:
       specifier: 0.4.30
       version: 0.4.30
     '@ark/attest':
-      specifier: 0.56.0
-      version: 0.56.0
+      specifier: 0.56.1
+      version: 0.56.1
     '@babel/preset-typescript':
       specifier: 7.29.7
       version: 7.29.7
@@ -324,7 +324,7 @@ importers:
     devDependencies:
       '@ark/attest':
         specifier: 'catalog:'
-        version: 0.56.0(typescript@6.0.3)
+        version: 0.56.1(typescript@6.0.3)
       '@prettier/plugin-oxc':
         specifier: 'catalog:'
         version: 0.1.4
@@ -1187,8 +1187,8 @@ packages:
   '@ariakit/utils@0.1.3':
     resolution: {integrity: sha512-OMdM631rIiDLYr1nnd1vtGyLvlYt08APMa2TJACA8Myn80PF+XtH9ZLBXTVUuUnlrYVyY2duX+EOkg6z9/NeCA==}
 
-  '@ark/attest@0.56.0':
-    resolution: {integrity: sha512-Pngs8f1UJiWbeO8LKVdyBL0K3rT/PDVACR7TPyCEULNcN8V1rVec6dKvUnQVpQSj60p4ejlK6dKs+fQoqdUMqA==}
+  '@ark/attest@0.56.1':
+    resolution: {integrity: sha512-CAdgwT9Q/vV3vXh/8CiRgMoEVc32ld3TW/eMKKADh3GuV7Xf4JJQf2Ipx5PBo3D1e41aEv98YUnUQ5/WusZSkw==}
     hasBin: true
     peerDependencies:
       typescript: '*'
@@ -4339,17 +4339,17 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
-  arkregex@0.0.4:
-    resolution: {integrity: sha512-biS/FkvSwQq59TZ453piUp8bxMui11pgOMV9WHAnli1F8o0ayNCZzUwQadL/bGIUic5TkS/QlPcyMuI8ZIwedQ==}
-
   arkregex@0.0.5:
     resolution: {integrity: sha512-ncYjBdLlh5/QnVsAA8De16Tc9EqmYM7y/WU9j+236KcyYNUXogpz3sC4ATIZYzzLxwI+0sEOaQLEmLmRleaEXw==}
 
-  arktype@2.1.28:
-    resolution: {integrity: sha512-LVZqXl2zWRpNFnbITrtFmqeqNkPPo+KemuzbGSY6jvJwCb4v8NsDzrWOLHnQgWl26TkJeWWcUNUeBpq2Mst1/Q==}
+  arkregex@0.0.6:
+    resolution: {integrity: sha512-9mvuMKQuibfWhBrsNYhsKhNb6k9oEHoAJ/FvDiqe8h+E9Siwe0/cro1WVOGgpajXQ9ZHd24yCOf2k35Q/QqUQw==}
 
   arktype@2.2.0:
     resolution: {integrity: sha512-t54MZ7ti5BhOEvzEkgKnWvqj+UbDfWig+DHr5I34xatymPusKLS0lQpNJd8M6DzmIto2QGszHfNKoFIT8tMCZQ==}
+
+  arktype@2.2.1:
+    resolution: {integrity: sha512-CWPJxNoSxrS+NYGB3ufwc/blFonESEW5vBQyYPVS0rf4STu8VWoAWfKJSl5vVVm56h4yxpwbODeYwy6XFKvojA==}
 
   array-buffer-byte-length@1.0.2:
     resolution: {integrity: sha512-LHE+8BuR7RYGDKvnrmcuSq3tDcKv9OFEXQt/HpbZhY7V6h0zlUXutnAD82GiFx9rdieCMjkvtcsPqBwgUl1Iiw==}
@@ -7593,14 +7593,15 @@ snapshots:
 
   '@ariakit/utils@0.1.3': {}
 
-  '@ark/attest@0.56.0(typescript@6.0.3)':
+  '@ark/attest@0.56.1(typescript@6.0.3)':
     dependencies:
       '@ark/fs': 0.56.0
+      '@ark/schema': 0.56.0
       '@ark/util': 0.56.0
       '@prettier/sync': 0.6.1(prettier@3.6.2)
       '@typescript/analyze-trace': 0.10.1
       '@typescript/vfs': 1.6.1(typescript@6.0.3)
-      arktype: 2.1.28
+      arktype: 2.2.1
       prettier: 3.6.2
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -10472,25 +10473,25 @@ snapshots:
 
   aria-query@5.3.2: {}
 
-  arkregex@0.0.4:
-    dependencies:
-      '@ark/util': 0.56.0
-
   arkregex@0.0.5:
     dependencies:
       '@ark/util': 0.56.0
 
-  arktype@2.1.28:
+  arkregex@0.0.6:
     dependencies:
-      '@ark/schema': 0.56.0
       '@ark/util': 0.56.0
-      arkregex: 0.0.4
 
   arktype@2.2.0:
     dependencies:
       '@ark/schema': 0.56.0
       '@ark/util': 0.56.0
       arkregex: 0.0.5
+
+  arktype@2.2.1:
+    dependencies:
+      '@ark/schema': 0.56.0
+      '@ark/util': 0.56.0
+      arkregex: 0.0.6
 
   array-buffer-byte-length@1.0.2:
     dependencies:
