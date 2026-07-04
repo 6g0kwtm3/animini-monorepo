@@ -36,20 +36,15 @@ jobs:
           filter: blob:none
           fetch-depth: 0
           persist-credentials: false
-      - name: Install pnpm
-        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
-
-      - name: Use Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+      - uses: voidzero-dev/setup-vp@2dec1e33f4ab2c6d5bce1b0c4607961bb1a3f7a1 # v1.12.0
         with:
           node-version-file: package.json
-          package-manager-cache: false
 
       - name: Install dependencies 📦
-        run: sfw pnpm install --frozen-lockfile --prefer-offline
+        run: sfw vp install --frozen-lockfile --prefer-offline 
 
       - name: Run benchmarks
         uses: CodSpeedHQ/action@9d332c4d90b43981c3e55ae8e38e68709996240f # v4.17.0
         with:
-          run: pnpm exec turbo bench
+          run: vp run bench
           mode: simulation
