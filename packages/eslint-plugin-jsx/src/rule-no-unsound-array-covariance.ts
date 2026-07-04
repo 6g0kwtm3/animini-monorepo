@@ -33,7 +33,7 @@ export const rule: RuleModule<string> = {
 
 		function getArrayElementType(t: ts.Type): null | ts.Type {
 			// TypeScript's internal checker API handles non-Object types by returning an empty array; we check for that and fall back to the fallback inspection. For Array<T>/ReadonlyArray<T>/<tuple>, getTypeArguments returns [element]. We trust this path when we've confirmed t is a Type (not nullish) from earlier filtering — it's safe here in all rule paths since `getTypeAtLocation` never emits undefined or object-flags-less Types.
-			const args = checker.getTypeArguments(t) as [] | ts.Type[]   // cast to satisfy TS, runtime behavior matches the guard logic below
+			const args = checker.getTypeArguments(t) as [] | ts.Type[] // cast to satisfy TS, runtime behavior matches the guard logic below
 			if (args.length === 1 && args[0]) return args[0]
 			return null
 		}
