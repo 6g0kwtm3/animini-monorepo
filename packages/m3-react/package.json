@@ -9,7 +9,6 @@
 		"./list": "./src/m3-react-list.tsx"
 	},
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "vp lint --max-warnings 0 . --fix",
 		"bench": "vitest bench --run",
 		"check": "tsgo --noEmit"
@@ -17,7 +16,6 @@
 	"devDependencies": {
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-typegen": "catalog:",
 		"m3-core": "workspace:@animedes/m3-core@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",

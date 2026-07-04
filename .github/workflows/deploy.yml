@@ -41,7 +41,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Build
         run: pnpm exec turbo --filter=@animedes/web build
@@ -73,7 +73,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Build
         run: pnpm exec turbo --filter=@animedes/web build
@@ -103,7 +103,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Check
         run: pnpm exec turbo check
@@ -139,7 +139,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Bundlewatch
         run: pnpm -w bundlewatch

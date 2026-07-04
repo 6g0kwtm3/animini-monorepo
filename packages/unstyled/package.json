@@ -10,7 +10,6 @@
 		"./box": "./src/unstyled-box.tsx"
 	},
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "vp lint --max-warnings 0 . --fix",
 		"bench": "vitest bench --run",
 		"check": "tsgo --noEmit"
@@ -25,7 +24,6 @@
 		"@ariakit/react": "catalog:",
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "catalog:",

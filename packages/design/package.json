@@ -11,7 +11,6 @@
 		"./fonts": "./src/design-fonts.ts"
 	},
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "vp lint --max-warnings 0 . --fix",
 		"check": "tsgo --noEmit"
 	},
@@ -20,7 +19,6 @@
 	},
 	"devDependencies": {
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "catalog:",

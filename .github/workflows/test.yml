@@ -51,7 +51,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Check affected — test-e2e
         id: affected-test-e2e
@@ -102,7 +102,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Typecheck
         run: pnpm -w check
@@ -126,7 +126,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Relay
         run: pnpm exec turbo relay router paraglide
@@ -152,7 +152,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Boundaries
         run: pnpm -w boundaries
@@ -174,7 +174,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Test
         run: pnpm exec turbo test

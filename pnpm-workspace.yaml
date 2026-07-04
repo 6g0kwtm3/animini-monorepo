@@ -19,8 +19,6 @@ catalog:
   '@babel/preset-typescript': 7.29.7
   '@chromatic-com/storybook': 5.2.1
   '@codspeed/vitest-plugin': 5.5.0
-  '@eslint/js': 10.0.1
-  '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.8
   '@hono/node-server': 2.0.8
   '@iconify-json/material-symbols': 1.2.82
@@ -55,7 +53,6 @@ catalog:
   '@types/prop-types': 15.7.15
   '@types/react': 19.2.17
   '@types/react-dom': 19.2.3
-  '@typescript-eslint/parser': 8.62.0
   '@typescript/native-preview': 7.0.0-dev.20260602.1
   anitomy: 0.0.35
   arktype: 2.2.2
@@ -67,15 +64,7 @@ catalog:
   dompurify: 3.2.5
   electron: 42.3.0
   electron-devtools-installer: 4.0.0
-  eslint: 10.6.0
-  eslint-plugin-oxlint: 1.71.0
-  eslint-plugin-perfectionist: 5.9.1
   eslint-plugin-pnpm: 1.6.1
-  eslint-plugin-react: 7.37.5
-  eslint-plugin-react-refresh: 0.5.3
-  eslint-plugin-storybook: 10.4.6
-  eslint-plugin-turbo: 2.10.0
-  eslint-typegen: 2.3.1
   eslint-vitest-rule-tester: 3.1.0
   flubber: 0.4.2
   graphql: 16.14.2
@@ -104,16 +93,15 @@ catalog:
   tailwindcss: 4.3.1
   temporal-polyfill-lite: 0.4.0
   tsx: 4.22.4
-  turbo: 2.10.0
   typescript: 6.0.3
-  typescript-eslint: 8.62.0
   unplugin-icons: 23.0.1
   unplugin-macros: 0.20.0
-  vite: 8.0.12
+  vite: npm:@voidzero-dev/vite-plus-core@latest
   vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
-  vitest: 4.1.9
+  vite-plus: 0.2.2
+  vitest: npm:@voidzero-dev/vite-plus-test@latest
   wrangler: 4.97.0
 
 catalogMode: strict
@@ -139,10 +127,20 @@ onlyBuiltDependencies:
 optimisticRepeatInstall: true
 
 overrides:
+  vite: 'catalog:'
+  vitest: 'catalog:'
   yauzl: 3.3.2
 
 patchedDependencies:
   flubber: patches/flubber.patch
+
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'
 
 savePrefix: ''
 

@@ -42,15 +42,6 @@
 			"inputs": ["eslint.config.ts"],
 			"outputs": ["eslint-typegen.d.ts"]
 		},
-		"//#oxlint": {
-			"dependsOn": [
-				"@animedes/web#relay",
-				"@animedes/web#router",
-				"@animedes/web#paraglide"
-			]
-		},
-		"lint": { "dependsOn": ["transit"] },
-		"//#lint": {},
 		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] },
 		"//#test": {},
 		"bench": { "cache": false, "passThroughEnv": ["CODSPEED_*"] },

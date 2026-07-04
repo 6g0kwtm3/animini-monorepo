@@ -43,7 +43,7 @@ jobs:
           node-version-file: package.json
 
       - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline 
+        run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Lint & Format
         if: ${{ !cancelled() }}

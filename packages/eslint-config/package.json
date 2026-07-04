@@ -4,10 +4,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"dependencies": {
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:@animedes/oxlint-config@*"
-	},
+	"dependencies": {},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",
