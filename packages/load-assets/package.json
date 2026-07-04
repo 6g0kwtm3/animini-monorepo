@@ -7,7 +7,7 @@
 	"exports": "./src/index.ts",
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"lint": "vp lint --max-warnings 0 . --fix",
 		"check": "tsgo --noEmit"
 	},
 	"peerDependencies": {
@@ -17,9 +17,7 @@
 	},
 	"devDependencies": {
 		"@types/bun": "catalog:",
-		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",

@@ -1,0 +1,50 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "oxc",
+    "typescript",
+    "unicorn",
+    "react"
+  ],
+  "categories": {
+    "correctness": "warn"
+  },
+  "env": {
+    "builtin": true
+  },
+  "ignorePatterns": [
+    "playwright",
+    "packages",
+    "apps",
+    ".stryker-tmp"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "package.json",
+        "**/package.json"
+      ],
+      "rules": {
+        "pnpm/json-enforce-catalog": "error",
+        "pnpm/json-valid-catalog": "error",
+        "pnpm/json-prefer-workspace-settings": "error"
+      },
+      "jsPlugins": [
+        "eslint-plugin-pnpm"
+      ]
+    },
+    {
+      "files": [
+        "pnpm-workspace.yaml"
+      ],
+      "rules": {
+        "pnpm/yaml-no-unused-catalog-item": "error",
+        "pnpm/yaml-no-duplicate-catalog-item": "error",
+        "pnpm/yaml-valid-packages": "error"
+      },
+      "jsPlugins": [
+        "eslint-plugin-pnpm"
+      ]
+    }
+  ]
+}

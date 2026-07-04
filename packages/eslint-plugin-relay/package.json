@@ -7,20 +7,17 @@
 	"exports": "./src/index.ts",
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"lint": "vp lint --max-warnings 0 . --fix",
 		"check": "tsgo --noEmit"
 	},
 	"dependencies": {
 		"utilities": "workspace:@animedes/utilities@*"
 	},
 	"peerDependencies": {
-		"eslint": "catalog:",
-		"graphql": "catalog:",
-		"@eslint/core": "*"
+		"graphql": "catalog:"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
-		"@typescript-eslint/parser": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-typegen": "catalog:",
 		"eslint-vitest-rule-tester": "catalog:",
