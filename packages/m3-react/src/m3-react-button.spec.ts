@@ -1,5 +1,5 @@
 import { print } from "@anitrove/unstyled"
-import { expect, it } from "vitest"
+import { expect, it } from "vite-plus/test"
 import { button } from "./m3-react-button"
 
 it("css size", () => {

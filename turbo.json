@@ -42,24 +42,6 @@
 			"inputs": ["eslint.config.ts"],
 			"outputs": ["eslint-typegen.d.ts"]
 		},
-		"//#oxlint": {
-			"dependsOn": [
-				"@animedes/web#relay",
-				"@animedes/web#router",
-				"@animedes/web#paraglide"
-			]
-		},
-		"lint": { "dependsOn": ["transit"] },
-		"//#lint": {},
-		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] },
-		"//#test": {},
-		"bench": { "cache": false, "passThroughEnv": ["CODSPEED_*"] },
-		"//#format": {},
-		"//#knip": {},
-		"//#stryker": {
-			"passThroughEnv": ["STRYKER_DASHBOARD_API_KEY"],
-			"cache": false
-		},
-		"bundlewatch": { "dependsOn": ["build"], "inputs": ["dist/**"] }
+		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] }
 	}
 }

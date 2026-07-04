@@ -90,7 +90,7 @@ const network = Network.create((...args) =>
 	withRetry(() => fetchQuery(...args), { maxRetries: 5 })
 )
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
+// oxlint-disable-next-line @typescript-eslint/no-namespace
 declare namespace globalThis {
 	let __RELAY_STORE__: Store | undefined
 }
@@ -109,20 +109,20 @@ const environment = new Environment({
 		{
 			handle(field, record, argValues) {
 				if (
-					record?.getType() === ROOT_TYPE
-					&& (field.name === "User"
-						|| field.name === "Media"
-						|| field.name === "AiringSchedule"
-						|| field.name === "Character"
-						|| field.name === "Staff"
-						|| field.name === "MediaList"
-						|| field.name === "Studio"
-						|| field.name === "Review"
-						|| field.name === "ActivityReply"
-						|| field.name === "Thread"
-						|| field.name === "ThreadComment"
-						|| field.name === "Recommendation")
-					&& Object.hasOwn(argValues, "id")
+					record?.getType() === ROOT_TYPE &&
+					(field.name === "User" ||
+						field.name === "Media" ||
+						field.name === "AiringSchedule" ||
+						field.name === "Character" ||
+						field.name === "Staff" ||
+						field.name === "MediaList" ||
+						field.name === "Studio" ||
+						field.name === "Review" ||
+						field.name === "ActivityReply" ||
+						field.name === "Thread" ||
+						field.name === "ThreadComment" ||
+						field.name === "Recommendation") &&
+					Object.hasOwn(argValues, "id")
 				) {
 					return `${field.name}:${String(argValues.id)}`
 				}

@@ -1,6 +1,6 @@
 import { afterEach } from "node:test"
 import "temporal-polyfill-lite/global"
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test"
 import { RateLimiter } from "./RateLimiter"
 
 beforeEach(() => {

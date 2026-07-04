@@ -1,4 +1,4 @@
-import { expect, it, vi } from "vitest"
+import { expect, it, vi } from "vite-plus/test"
 
 import { numberToString } from "utilities"
 import { cva } from "./unstyled-cva.ts"

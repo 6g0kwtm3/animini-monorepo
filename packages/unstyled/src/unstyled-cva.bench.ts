@@ -1,4 +1,4 @@
-import { bench } from "vitest"
+import { bench } from "vite-plus/test"
 import { cva } from "./unstyled-cva.ts"
 
 bench("empty", () => {

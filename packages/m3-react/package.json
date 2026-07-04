@@ -9,28 +9,22 @@
 		"./list": "./src/m3-react-list.tsx"
 	},
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"lint": "vp lint --max-warnings 0 . --fix",
 		"bench": "vitest bench --run",
 		"check": "tsgo --noEmit"
 	},
 	"devDependencies": {
 		"@codspeed/vitest-plugin": "catalog:",
-		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
-		"eslint-typegen": "catalog:",
 		"m3-core": "workspace:@animedes/m3-core@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:",
-		"vitest": "catalog:"
+		"tsx": "catalog:"
 	},
 	"dependencies": {
 		"@anitrove/design": "workspace:@animedes/design@*"
 	},
 	"peerDependencies": {
 		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
-		"csstype": "catalog:",
-		"@eslint/core": "*"
+		"csstype": "catalog:"
 	}
 }
