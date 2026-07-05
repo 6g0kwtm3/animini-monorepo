@@ -10,8 +10,8 @@ catalogs:
       specifier: 0.4.31
       version: 0.4.31
     '@ark/attest':
-      specifier: 0.56.1
-      version: 0.56.1
+      specifier: 0.56.2
+      version: 0.56.2
     '@babel/preset-typescript':
       specifier: 7.29.7
       version: 7.29.7
@@ -324,7 +324,7 @@ importers:
     devDependencies:
       '@ark/attest':
         specifier: 'catalog:'
-        version: 0.56.1(typescript@6.0.3)
+        version: 0.56.2(typescript@6.0.3)
       '@prettier/plugin-oxc':
         specifier: 'catalog:'
         version: 0.2.0
@@ -1187,23 +1187,17 @@ packages:
   '@ariakit/utils@0.1.4':
     resolution: {integrity: sha512-gIC/FR/gcOtp2FQQDOnRPfxizJjqp4PSQWS7fH2tNr6O6iTwwW8CPao7VUpu8Y8xKeMXrvzHvkOHhBhfBf4OrA==}
 
-  '@ark/attest@0.56.1':
-    resolution: {integrity: sha512-CAdgwT9Q/vV3vXh/8CiRgMoEVc32ld3TW/eMKKADh3GuV7Xf4JJQf2Ipx5PBo3D1e41aEv98YUnUQ5/WusZSkw==}
+  '@ark/attest@0.56.2':
+    resolution: {integrity: sha512-3JGCXMjJ2Ze3OungsUZrxG9B2k8M/B6R2AHkRr9yQn0Q3oEREumwj5tVuabnNuiP73gWYwzAO+LzsaRtvXQpog==}
     hasBin: true
     peerDependencies:
       typescript: '*'
 
-  '@ark/fs@0.56.0':
-    resolution: {integrity: sha512-zY/wDDhcvmt6/upQwZM766PAnvIzdEMcgydUGd9pqY9FMGNo9I9uE4RYAfms9AeUUtbZJu2h2Ua0tvFsO5XF4Q==}
-
-  '@ark/schema@0.56.0':
-    resolution: {integrity: sha512-ECg3hox/6Z/nLajxXqNhgPtNdHWC9zNsDyskwO28WinoFEnWow4IsERNz9AnXRhTZJnYIlAJ4uGn3nlLk65vZA==}
+  '@ark/fs@0.56.1':
+    resolution: {integrity: sha512-n2SqArzHBaoh1CYVr/pvL05Xe1cAhF+GsJn6ccJdOVHPKPP8emCr8lcfOr2BB56vP8WJdMvrEehkSRVgE93OlQ==}
 
   '@ark/schema@0.56.1':
     resolution: {integrity: sha512-1Cf2g9nKD8K/3JGRu+gCCfYw5d4qR8YLLjDs5W5kpmaButCYWAPFUJqSXyBATPjglzCd4tIkp398iPYVs8MjRA==}
-
-  '@ark/util@0.56.0':
-    resolution: {integrity: sha512-BghfRC8b9pNs3vBoDJhcta0/c1J1rsoS1+HgVUreMFPdhz/CRAKReAu57YEllNaSy98rWAdY1gE+gFup7OXpgA==}
 
   '@ark/util@0.56.1':
     resolution: {integrity: sha512-Tp1rTik3q5Z+jAeeDxr5JZpmVIw0miti1ykSEHyZv5Pw3TIJl2xbN6KTacOxITp0l3s9ytlrWd30Zvqcy5vzoQ==}
@@ -4238,14 +4232,8 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
-  arkregex@0.0.6:
-    resolution: {integrity: sha512-9mvuMKQuibfWhBrsNYhsKhNb6k9oEHoAJ/FvDiqe8h+E9Siwe0/cro1WVOGgpajXQ9ZHd24yCOf2k35Q/QqUQw==}
-
   arkregex@0.0.7:
     resolution: {integrity: sha512-O/Ltrn9EUSn3ui0KVzfyrWGDUsHlzKxDVBtpQxL/6JmLRMAZAebfSNf/A/J5Ny5S6QIwrXX+RfXsu888HMs35A==}
-
-  arktype@2.2.1:
-    resolution: {integrity: sha512-CWPJxNoSxrS+NYGB3ufwc/blFonESEW5vBQyYPVS0rf4STu8VWoAWfKJSl5vVVm56h4yxpwbODeYwy6XFKvojA==}
 
   arktype@2.2.2:
     resolution: {integrity: sha512-YYf1xhL2dh5aPZFlsY0RAsxv5HZqfLGLptH2ZP3JidTmsGRW8VOymhPjjMTkerL12vR2YtX0SK4c1mATtae8SA==}
@@ -7488,31 +7476,25 @@ snapshots:
 
   '@ariakit/utils@0.1.4': {}
 
-  '@ark/attest@0.56.1(typescript@6.0.3)':
+  '@ark/attest@0.56.2(typescript@6.0.3)':
     dependencies:
-      '@ark/fs': 0.56.0
-      '@ark/schema': 0.56.0
-      '@ark/util': 0.56.0
+      '@ark/fs': 0.56.1
+      '@ark/schema': 0.56.1
+      '@ark/util': 0.56.1
       '@prettier/sync': 0.6.1(prettier@3.6.2)
       '@typescript/analyze-trace': 0.10.1
       '@typescript/vfs': 1.6.1(typescript@6.0.3)
-      arktype: 2.2.1
+      arktype: 2.2.2
       prettier: 3.6.2
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
 
-  '@ark/fs@0.56.0': {}
-
-  '@ark/schema@0.56.0':
-    dependencies:
-      '@ark/util': 0.56.0
+  '@ark/fs@0.56.1': {}
 
   '@ark/schema@0.56.1':
     dependencies:
       '@ark/util': 0.56.1
-
-  '@ark/util@0.56.0': {}
 
   '@ark/util@0.56.1': {}
 
@@ -10349,19 +10331,9 @@ snapshots:
 
   aria-query@5.3.2: {}
 
-  arkregex@0.0.6:
-    dependencies:
-      '@ark/util': 0.56.0
-
   arkregex@0.0.7:
     dependencies:
       '@ark/util': 0.56.1
-
-  arktype@2.2.1:
-    dependencies:
-      '@ark/schema': 0.56.0
-      '@ark/util': 0.56.0
-      arkregex: 0.0.6
 
   arktype@2.2.2:
     dependencies:
