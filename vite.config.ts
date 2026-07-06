@@ -4,16 +4,16 @@ export default defineConfig({
   run: {
     tasks: {
       bench: {
-        command: "vp run --log-prefix=none bench --affected",
+        command: "vp run bench --affected",
         cache: false,
         // untrackedEnv: ["CODSPEED_*"],
       },
       bundlewatch: {
-        command: "vp run bundlewatch --continue=dependencies-successful --affected",
+        command: "vp run bundlewatch --affected",
         dependsOn: ["build"],
       },
       test: {
-        command: "vitest --run --changed origin/master",
+        command: "vp test --changed origin/master",
         cache: true,
       },
       stryker: {

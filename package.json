@@ -8,9 +8,8 @@
   },
   "type": "module",
   "scripts": {
-    "build": "vp run --log-prefix=none build --continue=dependencies-successful --affected",
-    "dev": "turbo watch dev",
-    "test-e2e": "vp run --log-prefix=none test-e2e --continue=dependencies-successful --log-order=stream"
+    "build": "vp run build --affected",
+    "test-e2e": "vp run test-e2e --log-order=stream"
   },
   "devDependencies": {
     "@ark/attest": "catalog:",

@@ -1,33 +1,32 @@
 {
-	"$schema": "https://json.schemastore.org/package",
-	"name": "@animedes/unstyled",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"exports": {
-		".": "./src/unstyled.ts",
-		"./value": "./src/unstyled-value.ts",
-		"./box": "./src/unstyled-box.tsx"
-	},
-	"scripts": {
-		"lint": "vp lint --max-warnings 0 . --fix",
-		"bench": "vitest bench --run",
-		"check": "tsgo --noEmit"
-	},
-	"peerDependencies": {
-		"@ariakit/react": "catalog:",
-		"@types/react": "catalog:",
-		"csstype": "catalog:",
-		"react": "catalog:"
-	},
-	"devDependencies": {
-		"@ariakit/react": "catalog:",
-		"@codspeed/vitest-plugin": "catalog:",
-		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:",
-		"typescript": "catalog:",
-		"utilities": "workspace:@animedes/utilities@*",
-		"vitest": "catalog:"
-	}
+  "$schema": "https://json.schemastore.org/package",
+  "name": "@animedes/unstyled",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/unstyled.ts",
+    "./value": "./src/unstyled-value.ts",
+    "./box": "./src/unstyled-box.tsx"
+  },
+  "scripts": {
+    "lint": "vp lint --max-warnings 0 . --fix",
+    "bench": "vitest bench --run",
+    "check": "tsgo --noEmit"
+  },
+  "peerDependencies": {
+    "@ariakit/react": "catalog:",
+    "@types/react": "catalog:",
+    "csstype": "catalog:",
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@ariakit/react": "catalog:",
+    "@codspeed/vitest-plugin": "catalog:",
+    "eslint-config": "workspace:@animedes/eslint-config@*",
+    "ts-config": "workspace:@animedes/ts-config@*",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "utilities": "workspace:@animedes/utilities@*"
+  }
 }

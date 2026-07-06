@@ -1,31 +1,30 @@
 {
-	"$schema": "https://json.schemastore.org/package",
-	"name": "@animedes/m3-react",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"exports": {
-		"./button": "./src/m3-react-button.tsx",
-		"./list": "./src/m3-react-list.tsx"
-	},
-	"scripts": {
-		"lint": "vp lint --max-warnings 0 . --fix",
-		"bench": "vitest bench --run",
-		"check": "tsgo --noEmit"
-	},
-	"devDependencies": {
-		"@codspeed/vitest-plugin": "catalog:",
-		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"m3-core": "workspace:@animedes/m3-core@*",
-		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:",
-		"vitest": "catalog:"
-	},
-	"dependencies": {
-		"@anitrove/design": "workspace:@animedes/design@*"
-	},
-	"peerDependencies": {
-		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
-		"csstype": "catalog:"
-	}
+  "$schema": "https://json.schemastore.org/package",
+  "name": "@animedes/m3-react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./button": "./src/m3-react-button.tsx",
+    "./list": "./src/m3-react-list.tsx"
+  },
+  "scripts": {
+    "lint": "vp lint --max-warnings 0 . --fix",
+    "bench": "vitest bench --run",
+    "check": "tsgo --noEmit"
+  },
+  "devDependencies": {
+    "@codspeed/vitest-plugin": "catalog:",
+    "eslint-config": "workspace:@animedes/eslint-config@*",
+    "m3-core": "workspace:@animedes/m3-core@*",
+    "ts-config": "workspace:@animedes/ts-config@*",
+    "tsx": "catalog:"
+  },
+  "dependencies": {
+    "@anitrove/design": "workspace:@animedes/design@*"
+  },
+  "peerDependencies": {
+    "@anitrove/unstyled": "workspace:@animedes/unstyled@*",
+    "csstype": "catalog:"
+  }
 }

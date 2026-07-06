@@ -1,27 +1,26 @@
 {
-	"$schema": "https://json.schemastore.org/package",
-	"name": "@animedes/eslint-plugin-relay",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"exports": "./src/index.ts",
-	"scripts": {
-		"lint": "vp lint --max-warnings 0 . --fix",
-		"check": "tsgo --noEmit"
-	},
-	"dependencies": {
-		"utilities": "workspace:@animedes/utilities@*"
-	},
-	"peerDependencies": {
-		"graphql": "catalog:"
-	},
-	"devDependencies": {
-		"@types/estree": "catalog:",
-		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-vitest-rule-tester": "catalog:",
-		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:",
-		"vitest": "catalog:",
-		"@types/node": "catalog:"
-	}
+  "$schema": "https://json.schemastore.org/package",
+  "name": "@animedes/eslint-plugin-relay",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "lint": "vp lint --max-warnings 0 . --fix",
+    "check": "tsgo --noEmit"
+  },
+  "dependencies": {
+    "utilities": "workspace:@animedes/utilities@*"
+  },
+  "devDependencies": {
+    "@types/estree": "catalog:",
+    "@types/node": "catalog:",
+    "eslint-config": "workspace:@animedes/eslint-config@*",
+    "eslint-vitest-rule-tester": "catalog:",
+    "ts-config": "workspace:@animedes/ts-config@*",
+    "tsx": "catalog:"
+  },
+  "peerDependencies": {
+    "graphql": "catalog:"
+  }
 }
