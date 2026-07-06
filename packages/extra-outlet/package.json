@@ -8,7 +8,7 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsgo --noEmit"
+		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
 		"@types/react": "catalog:",

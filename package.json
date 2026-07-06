@@ -31,7 +31,6 @@
 		"@stryker-mutator/core": "catalog:",
 		"@stryker-mutator/vitest-runner": "catalog:",
 		"@types/node": "catalog:",
-		"@typescript/native-preview": "catalog:",
 		"eslint": "catalog:",
 		"eslint-plugin-pnpm": "catalog:",
 		"eslint-typegen": "catalog:",
@@ -45,6 +44,7 @@
 		"tsx": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:",
+		"typescript-7": "catalog:",
 		"vitest": "catalog:",
 		"wrangler": "catalog:"
 	},
