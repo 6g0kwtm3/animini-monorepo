@@ -3,6 +3,8 @@
 	"labels": ["dependencies"],
 	"extends": [
 		"config:best-practices",
+		"group:allDigest",
+		"group:allNonMajor",
 		":pinAllExceptPeerDependencies",
 		":automergeStableNonMajor",
 		"schedule:daily",
@@ -19,8 +21,9 @@
 		},
 		{ "groupName": "build", "extends": ["packages:vite"] },
 		{ "groupName": "test", "extends": ["packages:test"] },
-		{ "groupName": "linters", "extends": ["packages:linters"] },
-		{ "groupName": "eslint", "matchPackageNames": ["/eslint/"] }
+		{ "groupName": "eslint", "matchPackageNames": ["/eslint/"] },
+		{ "groupName": "oxlint", "matchPackageNames": ["/oxlint/"] },
+		{ "groupName": "prettier", "matchPackageNames": ["/prettier/"] }
 	],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
