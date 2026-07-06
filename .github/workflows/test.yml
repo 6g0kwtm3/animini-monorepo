@@ -105,9 +105,6 @@ jobs:
       - name: Install dependencies 📦
         run: sfw vp install --frozen-lockfile --prefer-offline
 
-      - name: Relay
-        run: vp run relay router paraglide
-
       - name: Knip
         run: vp run knip
 

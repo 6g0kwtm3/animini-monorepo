@@ -24,6 +24,7 @@ export default defineConfig({
       knip: {
         command: "knip --cache",
         cache: true,
+        dependsOn: ["@animedes/web#relay", "@animedes/web#router", "@animedes/web#paraglide"],
       },
       "check:fix": {
         command: "vp check --fix",
