@@ -56,7 +56,7 @@ jobs:
       - name: Check affected — test-e2e
         id: affected-test-e2e
         continue-on-error: true
-        run: pnpm exec turbo query affected --tasks test-e2e --exit-code
+        run: vp run query affected --tasks test-e2e --exit-code
 
       - name: Install playwright 📦
         run: pnpm --filter=web exec playwright install --with-deps
@@ -84,29 +84,6 @@ jobs:
             apps/web/test-results/
           retention-days: 7
 
-  typecheck:
-    runs-on: ubuntu-latest
-    name: Typecheck
-    steps:
-      - name: Install Socket Firewall
-        uses: socketdev/action@ba6de6cc0565af1f42295590380973573297e31f
-        with:
-          mode: firewall-free
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          filter: blob:none
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: voidzero-dev/setup-vp@2dec1e33f4ab2c6d5bce1b0c4607961bb1a3f7a1 # v1.12.0
-        with:
-          node-version-file: package.json
-
-      - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline
-
-      - name: Typecheck
-        run: pnpm -w check
-
   knip:
     runs-on: ubuntu-latest
 
@@ -129,33 +106,11 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Relay
-        run: pnpm exec turbo relay router paraglide
+        run: vp run relay router paraglide
 
       - name: Knip
-        run: pnpm exec turbo knip
+        run: vp run knip
 
-  boundaries:
-    runs-on: ubuntu-latest
-
-    name: Boundaries
-    steps:
-      - name: Install Socket Firewall
-        uses: socketdev/action@ba6de6cc0565af1f42295590380973573297e31f
-        with:
-          mode: firewall-free
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          persist-credentials: false
-
-      - uses: voidzero-dev/setup-vp@2dec1e33f4ab2c6d5bce1b0c4607961bb1a3f7a1 # v1.12.0
-        with:
-          node-version-file: package.json
-
-      - name: Install dependencies 📦
-        run: sfw vp install --frozen-lockfile --prefer-offline
-
-      - name: Boundaries
-        run: pnpm -w boundaries
   test:
     runs-on: ubuntu-latest
     name: Test
@@ -177,4 +132,4 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Test
-        run: pnpm exec turbo test
+        run: vp run test

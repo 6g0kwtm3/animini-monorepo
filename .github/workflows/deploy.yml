@@ -44,7 +44,7 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Build
-        run: pnpm exec turbo --filter=@animedes/web build
+        run: vp run --filter=@animedes/web build
 
       - name: Create Sentry release
         uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
@@ -76,7 +76,7 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Build
-        run: pnpm exec turbo --filter=@animedes/web build
+        run: vp run --filter=@animedes/web build
 
       - name: Deploy
         run: pnpm exec wrangler pages deploy --branch=${BRANCH}
@@ -106,7 +106,7 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Check
-        run: pnpm exec turbo check
+        run: vp run check
 
       - name: Cache Incremental
         uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
@@ -116,7 +116,7 @@ jobs:
           enableCrossOsArchive: true
 
       - name: Coverage
-        run: pnpm exec turbo stryker
+        run: vp run stryker
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_KEY }}
 
