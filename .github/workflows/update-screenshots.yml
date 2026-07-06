@@ -48,7 +48,7 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Install playwright 📦
-        run: pnpm --filter=web exec playwright install --with-deps
+        run: vp --filter=web exec playwright install --with-deps
 
       - name: Configure Git
         run: |
@@ -57,7 +57,7 @@ jobs:
 
       # the magic happens below 🪄
       - name: Update Visual Regression Screenshots
-        run: pnpm -w test-e2e -- --project=web-mobile-chrome --update-snapshots
+        run: vp -w test-e2e -- --project=web-mobile-chrome --update-snapshots
 
       # check what changed
       - name: Check for changes

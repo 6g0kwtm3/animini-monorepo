@@ -79,7 +79,7 @@ jobs:
         run: vp run --filter=@animedes/web build
 
       - name: Deploy
-        run: pnpm exec wrangler pages deploy --branch=${BRANCH}
+        run: vp exec wrangler pages deploy --branch=${BRANCH}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: e9b0348e83d33e46fbb82c3271317d70

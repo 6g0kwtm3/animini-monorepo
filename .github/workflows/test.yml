@@ -59,7 +59,7 @@ jobs:
         run: vp run query affected --tasks test-e2e --exit-code
 
       - name: Install playwright 📦
-        run: pnpm --filter=web exec playwright install --with-deps
+        run: vp --filter=web exec playwright install --with-deps
         if: steps.affected-test-e2e.outcome == 'failure'
         timeout-minutes: 5
 
@@ -69,7 +69,7 @@ jobs:
 
       - name: Test E2E
         if: steps.affected-test-e2e.outcome == 'failure'
-        run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} pnpm -w test-e2e -- --project=${{ matrix.project }}*
+        run: ${{ matrix.os == 'ubuntu-latest' && matrix.project == 'electron' && 'xvfb-run --auto-servernum' || '' }} vp -w test-e2e -- --project=${{ matrix.project }}*
         env:
           ELECTRON_DISABLE_SANDBOX: 1
           DISPLAY: ":99.0"

@@ -42,6 +42,7 @@ export default defineConfig({
 		semi: false,
 		sortTailwindcss: { functions: ["tv"] },
 		useTabs: true,
+		// sortImports: true,
 		trailingComma: "es5",
 		objectWrap: "collapse",
 		printWidth: 80,
