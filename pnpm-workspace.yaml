@@ -15,23 +15,23 @@ blockExoticSubdeps: true
 
 catalog:
   '@ariakit/react': 0.4.31
-  '@ark/attest': 0.56.1
+  '@ark/attest': 0.56.2
   '@babel/preset-typescript': 7.29.7
   '@chromatic-com/storybook': 5.2.1
-  '@codspeed/vitest-plugin': 5.5.0
+  '@codspeed/vitest-plugin': 5.7.1
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.8
   '@hono/node-server': 2.0.8
   '@iconify-json/material-symbols': 1.2.82
-  '@inlang/paraglide-js': 2.18.2
+  '@inlang/paraglide-js': 2.20.2
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.61.1
   '@prettier/plugin-oxc': 0.2.0
   '@react-router/dev': 8.1.0
   '@react-router/node': 8.1.0
-  '@sentry/react': npm:@sentry/react-router@10.62.0
+  '@sentry/react': npm:@sentry/react-router@10.63.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.3.0
   '@storybook/addon-a11y': 10.4.6
@@ -46,7 +46,7 @@ catalog:
   '@svgr/core': 8.1.0
   '@svgr/plugin-jsx': 8.1.0
   '@tailwindcss/typography': 0.5.20
-  '@tailwindcss/vite': 4.3.1
+  '@tailwindcss/vite': 4.3.2
   '@types/bun': 1.3.14
   '@types/estree': 1.0.9
   '@types/flubber': 0.4.0
@@ -56,7 +56,7 @@ catalog:
   '@types/react': 19.2.17
   '@types/react-dom': 19.2.3
   '@typescript-eslint/parser': 8.62.1
-  '@typescript/native-preview': 7.0.0-dev.20260602.1
+  '@typescript/native-preview': 7.0.0-dev.20260703.1
   anitomy: 0.0.35
   arktype: 2.2.2
   babel-plugin-react-compiler: 1.0.0
@@ -65,7 +65,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 42.3.0
+  electron: 42.5.2
   electron-devtools-installer: 4.0.0
   eslint: 10.6.0
   eslint-plugin-oxlint: 1.71.0
@@ -80,11 +80,11 @@ catalog:
   flubber: 0.4.2
   graphql: 16.14.2
   graphql-config: 5.1.6
-  hono: 4.12.23
-  isbot: 5.1.40
-  knip: 6.23.0
+  hono: 4.12.27
+  isbot: 5.1.44
+  knip: 6.24.0
   marked: 0.3.19
-  motion: 12.40.0
+  motion: 12.42.2
   msw: 2.14.6
   nodemon: 3.1.14
   oxfmt: 0.57.0
@@ -101,20 +101,20 @@ catalog:
   relay-runtime: 21.0.1
   storybook: 10.4.6
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
-  tailwindcss: 4.3.1
-  temporal-polyfill-lite: 0.4.0
-  tsx: 4.22.4
-  turbo: 2.10.0
+  tailwindcss: 4.3.2
+  temporal-polyfill-lite: 0.4.2
+  tsx: 4.23.0
+  turbo: 2.10.2
   typescript: 6.0.3
   typescript-eslint: 8.62.1
   unplugin-icons: 23.0.1
-  unplugin-macros: 0.20.0
+  unplugin-macros: 0.20.2
   vite: 8.0.12
   vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vitest: 4.1.9
-  wrangler: 4.97.0
+  wrangler: 4.107.0
 
 catalogMode: strict
 
@@ -139,7 +139,7 @@ onlyBuiltDependencies:
 optimisticRepeatInstall: true
 
 overrides:
-  yauzl: 3.3.2
+  yauzl: 3.4.0
 
 patchedDependencies:
   flubber: patches/flubber.patch
