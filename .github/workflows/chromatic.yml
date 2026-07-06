@@ -53,3 +53,4 @@ jobs:
           zip: true
           onlyChanged: true
           workingDir: apps/storybook
+          buildCommand: vp run build
