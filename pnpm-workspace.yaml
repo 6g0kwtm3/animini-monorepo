@@ -22,7 +22,7 @@ catalog:
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.8
-  '@hono/node-server': 2.0.6
+  '@hono/node-server': 2.0.8
   '@iconify-json/material-symbols': 1.2.82
   '@inlang/paraglide-js': 2.18.2
   '@material/material-color-utilities': 0.4.0
