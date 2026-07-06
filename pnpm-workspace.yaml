@@ -56,7 +56,6 @@ catalog:
   '@types/react': 19.2.17
   '@types/react-dom': 19.2.3
   '@typescript-eslint/parser': 8.62.1
-  '@typescript/native-preview': 7.0.0-dev.20260602.1
   anitomy: 0.0.35
   arktype: 2.2.2
   babel-plugin-react-compiler: 1.0.0
@@ -105,7 +104,8 @@ catalog:
   temporal-polyfill-lite: 0.4.0
   tsx: 4.22.4
   turbo: 2.10.0
-  typescript: 6.0.3
+  typescript: npm:@typescript/typescript6@^6.0.0
+  typescript-7: npm:typescript@rc
   typescript-eslint: 8.62.1
   unplugin-icons: 23.0.1
   unplugin-macros: 0.20.0

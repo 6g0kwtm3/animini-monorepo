@@ -8,7 +8,7 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsgo --noEmit"
+		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {},
 	"devDependencies": {
@@ -17,6 +17,7 @@
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "npm:@typescript/typescript6@^6.0.0",
+		"typescript-7": "npm:typescript@rc"
 	}
 }

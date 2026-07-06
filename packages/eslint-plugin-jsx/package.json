@@ -8,7 +8,7 @@
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsgo --noEmit"
+		"check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@typescript-eslint/utils": "latest"
@@ -16,7 +16,7 @@
 	"peerDependencies": {
 		"eslint": "catalog:",
 		"graphql": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "^6.0.0"
 	},
 	"devDependencies": {
 		"@types/estree": "catalog:",
@@ -28,6 +28,8 @@
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"vitest": "catalog:",
-		"@types/node": "catalog:"
+		"@types/node": "catalog:",
+		"typescript": "npm:@typescript/typescript6@^6.0.0",
+		"typescript-7": "npm:typescript@rc"
 	}
 }

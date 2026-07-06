@@ -9,7 +9,7 @@
 	"scripts": {
 		"build": "cross-env NODE_ENV=production react-router build",
 		"bundlewatch": "bundlewatch",
-		"check": "tsgo --noEmit",
+		"check": "tsc --noEmit",
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"deploy": "wrangler pages deploy ./dist/client",
 		"dev": "react-router dev",

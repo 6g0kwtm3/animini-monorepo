@@ -19,11 +19,9 @@ export default typegen([
 			".react-router/",
 		],
 	},
-	// @ts-expect-error TODO: fix types
 	...base,
-	// @ts-expect-error TODO: fix types
-	...react, // @ts-expect-error TODO: fix types
-	relay.configs.recommended, // @ts-expect-error TODO: fix types
+	...react,
+	relay.configs.recommended,
 	{
 		name: "web/@graphql-eslint/eslint-plugin/processor",
 		files: ["**/*.{js,jsx,ts,tsx}"],
@@ -35,7 +33,7 @@ export default typegen([
 		languageOptions: {
 			parser: graphql.parser,
 			parserOptions: { graphQLConfig: graphQLConfig },
-		}, // @ts-expect-error TODO: fix types
+		},
 		plugins: { "@graphql-eslint": { rules: graphql.rules } },
 		rules: {
 			"@graphql-eslint/no-deprecated": "error",
