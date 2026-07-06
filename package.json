@@ -1,43 +1,42 @@
 {
-	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@animedes/anitrove",
-	"version": "0.0.0",
-	"private": true,
-	"repository": {
-		"url": "https://github.com/6g0kwtm3/animini-monorepo"
-	},
-	"type": "module",
-	"scripts": {
-		"build": "vp run build --affected",
-		"test-e2e": "vp run test-e2e --log-order=stream"
-	},
-	"devDependencies": {
-		"@ark/attest": "catalog:",
-		"@prettier/plugin-oxc": "catalog:",
-		"@stryker-mutator/api": "catalog:",
-		"@stryker-mutator/core": "catalog:",
-		"@stryker-mutator/vitest-runner": "catalog:",
-		"@types/node": "catalog:",
-		"@typescript/native-preview": "catalog:",
-		"eslint-plugin-pnpm": "catalog:",
-		"knip": "catalog:",
-		"oxfmt": "catalog:",
-		"oxlint": "catalog:",
-		"oxlint-tsgolint": "catalog:",
-		"prettier": "catalog:",
-		"prettier-plugin-tailwindcss": "catalog:",
-		"tsx": "catalog:",
-		"typescript": "catalog:",
-		"vite-plus": "catalog:",
-		"vitest": "catalog:",
-		"wrangler": "catalog:"
-	},
-	"devEngines": {
-		"runtime": {
-			"name": "node",
-			"version": "^24.14.1",
-			"onFail": "download"
-		}
-	},
-	"packageManager": "pnpm@10.22.0"
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@animedes/anitrove",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "url": "https://github.com/6g0kwtm3/animini-monorepo"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "vp run build --affected",
+    "test-e2e": "vp run test-e2e --log-order=stream"
+  },
+  "devDependencies": {
+    "@ark/attest": "catalog:",
+    "@prettier/plugin-oxc": "catalog:",
+    "@stryker-mutator/api": "catalog:",
+    "@stryker-mutator/core": "catalog:",
+    "@stryker-mutator/vitest-runner": "catalog:",
+    "@types/node": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "eslint-plugin-pnpm": "catalog:",
+    "knip": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:",
+    "wrangler": "catalog:"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.14.1",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@10.22.0"
 }

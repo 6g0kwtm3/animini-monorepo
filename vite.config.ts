@@ -2,7 +2,9 @@ import { defineConfig } from "vite-plus"
 
 export default defineConfig({
 	run: {
+		cache: true,
 		tasks: {
+
 			bench: {
 				command: "vp run bench --affected",
 				cache: false,

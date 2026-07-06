@@ -101,7 +101,6 @@ catalog:
   vite-plugin-inspect: 11.3.3
   vite-plugin-relay: 2.1.0
   vite-plus: latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
   wrangler: 4.97.0
 
 catalogMode: strict
@@ -137,10 +136,8 @@ patchedDependencies:
 peerDependencyRules:
   allowAny:
     - vite
-    - vitest
   allowedVersions:
     vite: '*'
-    vitest: '*'
 
 savePrefix: ''
 
