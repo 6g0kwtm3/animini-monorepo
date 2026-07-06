@@ -1,6 +1,6 @@
 import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
-import { expect, test } from "vitest"
+import { expect, test } from "vite-plus/test"
 import { rule } from "./rule-must-include-data-key"
 
 const { valid, invalid } = createRuleTester({

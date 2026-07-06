@@ -67,8 +67,8 @@ export function RelatedMediaAddition(props: {
 					</ListItemImg>
 					<ListItemContent>
 						<ListItemContentTitle>
-							{(notification.createdAt ?? 0)
-								> (viewer.unreadNotificationCount ?? 0) && (
+							{(notification.createdAt ?? 0) >
+								(viewer.unreadNotificationCount ?? 0) && (
 								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
 							)}{" "}
 							{m.recently_added()}

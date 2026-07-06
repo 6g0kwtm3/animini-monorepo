@@ -4,15 +4,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"dependencies": {
-		"eslint": "catalog:",
-		"eslint-plugin-jsx": "workspace:@animedes/eslint-plugin-jsx@*",
-		"eslint-plugin-oxlint": "catalog:",
-		"eslint-plugin-react": "catalog:",
-		"eslint-plugin-react-refresh": "catalog:",
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:@animedes/oxlint-config@*"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"ts-config": "workspace:@animedes/ts-config@*"
 	},

@@ -1,23 +1,21 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@animedes/storybook",
-	"private": true,
 	"version": "0.0.0",
+	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "storybook dev -p 6006",
 		"build": "storybook build",
-		"build-storybook": "storybook build",
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
-		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"lint": "vp lint --max-warnings 0 . --fix",
 		"load-assets": "bun bin/loadAssets.ts"
 	},
 	"dependencies": {
 		"@anitrove/design": "workspace:@animedes/design@*",
+		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
 		"load-assets": "workspace:@animedes/load-assets@*",
 		"m3-react": "workspace:@animedes/m3-react@*",
-		"markdown": "workspace:@animedes/markdown@*",
-		"@anitrove/unstyled": "workspace:@animedes/unstyled@*"
+		"markdown": "workspace:@animedes/markdown@*"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",
@@ -30,11 +28,7 @@
 		"@types/prop-types": "catalog:",
 		"@types/react": "catalog:",
 		"csstype": "catalog:",
-		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
-		"eslint-plugin-storybook": "catalog:",
-		"eslint-typegen": "catalog:",
 		"prop-types": "catalog:",
 		"react": "catalog:",
 		"storybook": "catalog:",

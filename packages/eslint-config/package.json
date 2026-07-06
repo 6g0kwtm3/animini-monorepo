@@ -4,18 +4,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"dependencies": {
-		"@eslint/js": "catalog:",
-		"eslint-plugin-oxlint": "catalog:",
-		"eslint-plugin-perfectionist": "catalog:",
-		"eslint-plugin-turbo": "catalog:",
-		"eslint-typegen": "catalog:",
-		"oxlint-config": "workspace:@animedes/oxlint-config@*",
-		"typescript-eslint": "catalog:"
-	},
-	"peerDependencies": {
-		"eslint": "catalog:"
-	},
+	"dependencies": {},
 	"exports": {
 		".": {
 			"types": "./types.d.ts",

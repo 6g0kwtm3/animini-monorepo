@@ -171,8 +171,8 @@ function MediaListItemSubtitle(props: {
 				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
 			</div>
 
-			{entry.media?.type === ("ANIME" satisfies MediaType)
-				&& Predicate.isNumber(watch) && (
+			{entry.media?.type === ("ANIME" satisfies MediaType) &&
+				Predicate.isNumber(watch) && (
 					<>
 						&middot;
 						<div>
