@@ -1,13 +1,13 @@
-import { print } from "@anitrove/unstyled";
-import { expect, it } from "vite-plus/test";
-import { button } from "./m3-react-button";
+import { print } from "@anitrove/unstyled"
+import { expect, it } from "vite-plus/test"
+import { button } from "./m3-react-button"
 
 it("css size", () => {
-  expect(print(button({})).length).toMatchInlineSnapshot(`4798`);
-});
+	expect(print(button({})).length).toMatchInlineSnapshot(`4798`)
+})
 
 it("print", () => {
-  expect(print(button({}))).toMatchInlineSnapshot(`
+	expect(print(button({}))).toMatchInlineSnapshot(`
 		"{
 		  display: inline-flex;
 		  align-items: center;
@@ -215,15 +215,15 @@ it("print", () => {
 		    }
 		  }
 		}"
-	`);
-});
+	`)
+})
 
 it("vars", () => {
-  expect(button({}).dynamicVars).toMatchInlineSnapshot(`
+	expect(button({}).dynamicVars).toMatchInlineSnapshot(`
 		{
 		  "--color": "filled",
 		  "--shape": "round",
 		  "--size": "sm",
 		}
-	`);
-});
+	`)
+})

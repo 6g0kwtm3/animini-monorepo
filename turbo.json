@@ -1,47 +1,47 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "envMode": "loose",
-  "globalPassThroughEnv": [
-    "DEV",
-    "CF_PAGES_BRANCH",
-    "NODE_ENV",
-    "CI",
-    "BASE_URL",
-    "PLAYWRIGHT_BROWSERS_PATH",
-    "GITHUB_REF",
-    "GITHUB_REPOSITORY",
-    "GITHUB_ACTION",
-    // electron:
-    "HONO_PORT",
-    "EXISTING_SERVER_URL",
-    "ELECTRON_DISABLE_SANDBOX",
-    "DISPLAY"
-  ],
-  "globalDependencies": [
-    "!.github/**",
-    "!.claude/**",
-    "!docs/**",
-    "!.vscode/**",
-    ".github/workflows/**"
-  ],
-  "tasks": {
-    "dev": { "cache": false, "persistent": true, "with": ["check"] },
-    "start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "storybook-static/**"],
-      "passThroughEnv": ["SENTRY_AUTH_TOKEN"]
-    },
-    "transit": { "dependsOn": ["^transit"] },
-    "check": { "dependsOn": ["transit", "eslint-typegen"] },
-    "eslint-typegen": {
-      "inputs": ["eslint.config.ts"],
-      "outputs": ["eslint-typegen.d.ts"]
-    },
-    "//#eslint-typegen": {
-      "inputs": ["eslint.config.ts"],
-      "outputs": ["eslint-typegen.d.ts"]
-    },
-    "test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] }
-  }
+	"$schema": "https://turbo.build/schema.json",
+	"envMode": "loose",
+	"globalPassThroughEnv": [
+		"DEV",
+		"CF_PAGES_BRANCH",
+		"NODE_ENV",
+		"CI",
+		"BASE_URL",
+		"PLAYWRIGHT_BROWSERS_PATH",
+		"GITHUB_REF",
+		"GITHUB_REPOSITORY",
+		"GITHUB_ACTION",
+		// electron:
+		"HONO_PORT",
+		"EXISTING_SERVER_URL",
+		"ELECTRON_DISABLE_SANDBOX",
+		"DISPLAY"
+	],
+	"globalDependencies": [
+		"!.github/**",
+		"!.claude/**",
+		"!docs/**",
+		"!.vscode/**",
+		".github/workflows/**"
+	],
+	"tasks": {
+		"dev": { "cache": false, "persistent": true, "with": ["check"] },
+		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", "storybook-static/**"],
+			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
+		},
+		"transit": { "dependsOn": ["^transit"] },
+		"check": { "dependsOn": ["transit", "eslint-typegen"] },
+		"eslint-typegen": {
+			"inputs": ["eslint.config.ts"],
+			"outputs": ["eslint-typegen.d.ts"]
+		},
+		"//#eslint-typegen": {
+			"inputs": ["eslint.config.ts"],
+			"outputs": ["eslint-typegen.d.ts"]
+		},
+		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] }
+	}
 }
