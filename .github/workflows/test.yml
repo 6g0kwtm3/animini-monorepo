@@ -59,7 +59,7 @@ jobs:
         run: vp run query affected --tasks test-e2e --exit-code
 
       - name: Install playwright 📦
-        run: vp --filter=web exec playwright install --with-deps
+        run: vp exec --filter=web playwright install --with-deps
         if: steps.affected-test-e2e.outcome == 'failure'
         timeout-minutes: 5
 

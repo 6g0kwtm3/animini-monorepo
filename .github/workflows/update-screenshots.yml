@@ -48,7 +48,7 @@ jobs:
         run: sfw vp install --frozen-lockfile --prefer-offline
 
       - name: Install playwright 📦
-        run: vp --filter=web exec playwright install --with-deps
+        run: vp exec --filter=web playwright install --with-deps
 
       - name: Configure Git
         run: |
