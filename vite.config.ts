@@ -3,6 +3,19 @@ import { defineConfig } from "vite-plus";
 export default defineConfig({
   run: {
     tasks: {
+      bench: {
+        command: "vp run --log-prefix=none bench --affected",
+        cache: false,
+        // untrackedEnv: ["CODSPEED_*"],
+      },
+      bundlewatch: {
+        command: "vp run bundlewatch --continue=dependencies-successful --affected",
+        dependsOn: ["build"],
+      },
+      test: {
+        command: "vitest --run --changed origin/master",
+        cache: true,
+      },
       stryker: {
         command: "stryker run --incremental",
         cache: true,
