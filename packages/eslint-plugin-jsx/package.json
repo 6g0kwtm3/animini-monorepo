@@ -29,7 +29,7 @@
 		"tsx": "catalog:",
 		"vitest": "catalog:",
 		"@types/node": "catalog:",
-		"typescript": "npm:@typescript/typescript6@^6.0.0",
+		"typescript": "npm:@typescript/typescript6@6.0.2",
 		"@typescript/native": "npm:typescript@rc"
 	}
 }
