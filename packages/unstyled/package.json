@@ -30,7 +30,7 @@
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
-		"typescript": "npm:@typescript/typescript6@^6.0.0",
+		"typescript": "npm:@typescript/typescript6@6.0.2",
 		"@typescript/native": "npm:typescript@rc",
 		"utilities": "workspace:@animedes/utilities@*",
 		"vitest": "catalog:"
