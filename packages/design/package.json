@@ -26,7 +26,7 @@
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"typescript": "npm:@typescript/typescript6@^6.0.0",
-		"typescript-7": "npm:typescript@rc",
+		"@typescript/native": "npm:typescript@rc",
 		"utilities": "workspace:@animedes/utilities@*"
 	},
 	"dependencies": {
