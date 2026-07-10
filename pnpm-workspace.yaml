@@ -23,7 +23,7 @@ catalog:
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.9
   '@hono/node-server': 2.0.8
-  '@iconify-json/material-symbols': 1.2.82
+  '@iconify-json/material-symbols': 1.2.83
   '@inlang/paraglide-js': 2.20.2
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
@@ -86,7 +86,7 @@ catalog:
   motion: 12.42.2
   msw: 2.14.6
   nodemon: 3.1.14
-  oxfmt: 0.57.0
+  oxfmt: 0.58.0
   oxlint: 1.73.0
   oxlint-tsgolint: 0.24.0
   prettier: 3.9.4
@@ -103,8 +103,8 @@ catalog:
   tailwindcss: 4.3.2
   temporal-polyfill-lite: 0.4.2
   tsx: 4.23.0
-  turbo: 2.10.3
-  typescript: npm:@typescript/typescript6@6.0.1
+  turbo: 2.10.4
+  typescript: npm:@typescript/typescript6@6.0.2
   '@typescript/native': npm:typescript@rc
   typescript-eslint: 8.63.0
   unplugin-icons: 23.0.1
