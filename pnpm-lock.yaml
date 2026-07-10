@@ -187,8 +187,8 @@ catalogs:
       specifier: 10.4.6
       version: 10.4.6
     eslint-plugin-turbo:
-      specifier: 2.10.3
-      version: 2.10.3
+      specifier: 2.10.4
+      version: 2.10.4
     eslint-typegen:
       specifier: 2.3.1
       version: 2.3.1
@@ -769,7 +769,7 @@ importers:
         version: 5.9.1(@typescript/typescript6@6.0.1)(eslint@10.6.0(jiti@2.7.0))
       eslint-plugin-turbo:
         specifier: 'catalog:'
-        version: 2.10.3(eslint@10.6.0(jiti@2.7.0))(turbo@2.10.3)
+        version: 2.10.4(eslint@10.6.0(jiti@2.7.0))(turbo@2.10.3)
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.3.1(eslint@10.6.0(jiti@2.7.0))
@@ -4766,8 +4766,8 @@ packages:
       eslint: '>=8'
       storybook: ^10.4.6
 
-  eslint-plugin-turbo@2.10.3:
-    resolution: {integrity: sha512-R6aIYTa0bqxPn1IhAom3/zIJF9lPChAq+o7cywdEY8GxPnktGMW04P6oFCrg/V3zvhtF4+n1d5Og2r0GqrBtQA==}
+  eslint-plugin-turbo@2.10.4:
+    resolution: {integrity: sha512-nhpzZoQmjlXlrEkeYbzPA/uXnMmUUpkp/88mEU2V+vhGEO1z/CwlBg+3m64JkgO+MX4ODRoBiSo0gg35KcPryA==}
     peerDependencies:
       eslint: '>6.6.0'
       turbo: '>2.0.0'
@@ -10970,7 +10970,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-turbo@2.10.3(eslint@10.6.0(jiti@2.7.0))(turbo@2.10.3):
+  eslint-plugin-turbo@2.10.4(eslint@10.6.0(jiti@2.7.0))(turbo@2.10.3):
     dependencies:
       dotenv: 16.0.3
       eslint: 10.6.0(jiti@2.7.0)
