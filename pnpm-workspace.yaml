@@ -28,7 +28,7 @@ catalog:
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.61.1
-  '@prettier/plugin-oxc': 0.2.0
+  '@prettier/plugin-oxc': 0.2.1
   '@react-router/dev': 8.1.0
   '@react-router/node': 8.1.0
   '@sentry/react': npm:@sentry/react-router@10.63.0
