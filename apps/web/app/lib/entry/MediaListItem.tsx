@@ -20,12 +20,7 @@ import { MediaCover } from "./MediaCover"
 import { formatWatch } from "./ToWatch"
 
 import { A } from "@anitrove/a"
-import { media, utilities } from "@anitrove/design"
-import {
-	mergeStyles,
-	precompileStyles,
-	type OutStyles,
-} from "@anitrove/unstyled"
+import { mergeStyles, type OutStyles } from "@anitrove/unstyled"
 import { CompositeItem, CompositeRow } from "@ariakit/react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
@@ -38,6 +33,7 @@ import type {
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
 import * as Predicate from "~/lib/Predicate"
 import { useFragment } from "../Network"
+import { styles } from "./MediaListItem.styles" with { type: "macro" }
 import { MediaTitle } from "./MediaTitle"
 
 const { graphql } = ReactRelay
@@ -88,24 +84,12 @@ export function MediaListItem({
 			data-testid="media-list-item"
 			style={mergeStyles(
 				data.coverImage?.theme ?? undefined,
-				precompileStyles({
-					gridColumn: "1 / -1",
-					display: "grid",
-					gridTemplateColumns: "subgrid",
-					...utilities.theme({
-						[media.hover]: { default: "light", [media.dark]: "dark" },
-						[media.focusWithin]: { default: "light", [media.dark]: "dark" },
-					}),
-					...utilities.contrast({
-						[media.hover]: { default: "standard", [media.dark]: "high" },
-						[media.focusWithin]: { default: "standard", [media.dark]: "high" },
-					}),
-				}),
+				styles.item,
 				props.style
 			)}
 			render={<CompositeRow></CompositeRow>}
 		>
-			<Box style={precompileStyles({ position: "relative" })}>
+			<Box style={styles.avatar}>
 				<ListItemImg>
 					<Skeleton full>
 						<MediaCover media={data} />
@@ -129,13 +113,7 @@ export function MediaListItem({
 						<MediaTitle media={data}></MediaTitle>
 					</Skeleton>
 				</ListItemContentTitle>
-				<ListItemContentSubtitle
-					style={precompileStyles({
-						display: "flex",
-						flexWrap: "wrap",
-						gap: ".25rem",
-					})}
-				>
+				<ListItemContentSubtitle style={styles.subtitle}>
 					<Skeleton className="max-w-[21.666666666666668ch]">
 						{entry ? <MediaListItemSubtitle entry={entry} /> : null}
 					</Skeleton>

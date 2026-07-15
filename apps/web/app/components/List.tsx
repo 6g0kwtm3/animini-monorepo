@@ -19,9 +19,9 @@ const listItemDefinition = defineCva({
 			[design.media["focus-visible"]]: "focus",
 			[design.media.active]: "focus",
 		}),
-		gridColumn: "1 / -1",
 		display: "grid",
-		gridTemplateColumns: "subgrid",
+		gridTemplateColumns: "auto minmax(0, 1fr) auto",
+		columnGap: "1rem",
 		...design.utilities.paddingX("1rem"),
 		borderRadius: {
 			base: design.tokens.borderRadius.xs,
@@ -35,12 +35,25 @@ const listItemDefinition = defineCva({
 		transitionProperty: { [design.media.motionSafe]: "border-radius" },
 		...design.tokens.transitions.spatial.fast,
 		backgroundColor: design.tokens.colors.surface,
+		contentVisibility: "auto",
 	},
 	variants: {
 		lines: {
-			one: { minHeight: "3.5rem", alignItems: "center" },
-			two: { minHeight: "4.5rem", alignItems: "center" },
-			three: { minHeight: "5.5rem", alignItems: "flex-start" },
+			one: {
+				minHeight: "3.5rem",
+				containIntrinsicSize: "3.5rem",
+				alignItems: "center",
+			},
+			two: {
+				minHeight: "4.5rem",
+				containIntrinsicSize: "4.5rem",
+				alignItems: "center",
+			},
+			three: {
+				minHeight: "5.5rem",
+				containIntrinsicSize: "5.5rem",
+				alignItems: "flex-start",
+			},
 		},
 	},
 	defaultVariants: { lines: "two" },
@@ -261,11 +274,7 @@ interface ListProps
 }
 
 const listDefinition = defineCva({
-	base: {
-		display: "grid",
-		gridTemplateColumns: "auto minmax(0, 1fr) auto",
-		columnGap: "1rem",
-	},
+	base: { display: "flex", flexDirection: "column" },
 	variants: {
 		lines: { one: {}, two: {}, three: {} },
 		segmented: { true: { rowGap: ".125rem" }, false: {} },
