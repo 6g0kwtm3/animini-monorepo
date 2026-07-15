@@ -20,10 +20,7 @@ import { MediaCover } from "./MediaCover"
 import { formatWatch } from "./ToWatch"
 
 import { A } from "@anitrove/a"
-import {
-	mergeStyles,
-	type OutStyles
-} from "@anitrove/unstyled"
+import { mergeStyles, type OutStyles } from "@anitrove/unstyled"
 import { CompositeItem, CompositeRow } from "@ariakit/react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
@@ -152,8 +149,8 @@ function MediaListItemSubtitle(props: {
 				<MaterialSymbolsStarOutline className="i-inline inline" /> {entry.score}
 			</div>
 
-			{entry.media?.type === ("ANIME" satisfies MediaType) &&
-				Predicate.isNumber(watch) && (
+			{entry.media?.type === ("ANIME" satisfies MediaType)
+				&& Predicate.isNumber(watch) && (
 					<>
 						&middot;
 						<div>

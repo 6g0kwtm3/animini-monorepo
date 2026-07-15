@@ -52,8 +52,6 @@ export const styles = create({
 			[media.focusWithin]: { default: "standard", [media.dark]: "high" },
 		}),
 	},
-	avatar: {
-    position: "relative" 
-  },
+	avatar: { position: "relative" },
 	subtitle: { display: "flex", flexWrap: "wrap", gap: ".25rem" },
 })
