@@ -3,7 +3,7 @@ import { m } from "~/lib/paraglide"
 
 import ReactRelay from "react-relay"
 
-import type { ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import {
 	ListItem,
 	ListItemContent,
@@ -15,15 +15,10 @@ import {
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
 import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off"
-import { route_media } from "../route"
 import { MediaCover } from "./MediaCover"
 import { formatWatch } from "./ToWatch"
 
-import { A } from "@anitrove/a"
-import {
-	mergeStyles,
-	type OutStyles
-} from "@anitrove/unstyled"
+import { mergeStyles, type OutStyles } from "@anitrove/unstyled"
 import { CompositeItem, CompositeRow } from "@ariakit/react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
@@ -67,23 +62,26 @@ const MediaListItem_media = graphql`
 	}
 `
 
+interface MediaListItemProps extends ComponentProps<typeof ListItem> {
+	children?: ReactNode
+	entry: MediaListItem_entry$key | null | undefined
+	media: MediaListItem_media$key
+	type: "anime" | "manga"
+}
+
 export function MediaListItem({
 	entry: entryKey,
 	media: mediaKey,
 	children,
+	type,
 	...props
-}: {
-	children?: ReactNode
-	entry: MediaListItem_entry$key | null | undefined
-	media: MediaListItem_media$key
-
-	style?: OutStyles
-}): ReactNode {
+}: MediaListItemProps): ReactNode {
 	const entry = useFragment(MediaListItem_entry, entryKey)
 	const data = useFragment(MediaListItem_media, mediaKey)
 
 	return (
 		<ListItem
+			{...props}
 			data-testid="media-list-item"
 			style={mergeStyles(
 				data.coverImage?.theme ?? undefined,
@@ -107,7 +105,7 @@ export function MediaListItem({
 			<ListItemContent
 				render={
 					<CompositeItem
-						render={<A href={route_media({ id: Number(data.id) })}></A>}
+						render={<a href={`https://anilist.co/${type}/${data.id}/`}></a>}
 					/>
 				}
 			>

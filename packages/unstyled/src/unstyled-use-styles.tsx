@@ -55,7 +55,7 @@ export function useStyles(
 }
 
 function hex(hash: bigint | number) {
-	return hash.toString(16).padStart(16, "0")
+	return hash.toString(16)//.padStart(16, "0")
 }
 
 export function hash32(str: string): number {
