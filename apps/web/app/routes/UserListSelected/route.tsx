@@ -264,9 +264,9 @@ function AwaitList(props: Route.ComponentProps) {
 		})
 	}
 
-	const type: "anime" | "manga" = ({ animelist: "anime", mangalist: "manga" } as const)[
-		props.loaderData.params.typelist
-	]
+	const type: "anime" | "manga" = (
+		{ animelist: "anime", mangalist: "manga" } as const
+	)[props.loaderData.params.typelist]
 
 	const output = mediaList
 		.entries()
@@ -363,14 +363,14 @@ function AwaitList(props: Route.ComponentProps) {
 										<Skeleton>
 											{entry ? (
 												<div className="flex justify-end">
-													{entry.status === "COMPLETED" &&
-														(() => {
+													{entry.status === "COMPLETED"
+														&& (() => {
 															const outOfSync = relations
 																.keys()
 																.filter((mediaId) => {
 																	if (
-																		allEntries.get(mediaId)?.status !==
-																		"COMPLETED"
+																		allEntries.get(mediaId)?.status
+																		!== "COMPLETED"
 																	) {
 																		return true
 																	}
