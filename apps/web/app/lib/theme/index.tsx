@@ -5,7 +5,7 @@ import {
 	Hct,
 	MaterialDynamicColors,
 	redFromArgb,
-	SchemeTonalSpot
+	SchemeTonalSpot,
 } from "@material/material-color-utilities"
 import type { CSSProperties } from "react"
 
