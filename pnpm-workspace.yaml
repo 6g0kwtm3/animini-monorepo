@@ -120,7 +120,7 @@ catalogMode: strict
 
 cleanupUnusedCatalogs: true
 
-dedupePeers: true
+# dedupePeers: true
 
 enablePrePostScripts: false
 
