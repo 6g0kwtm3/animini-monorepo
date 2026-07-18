@@ -11,8 +11,7 @@ import {
 import type { CSSProperties } from "react"
 
 import colors from "@anitrove/design/colors"
-import { precompileStyles } from "@anitrove/unstyled"
-import { type OutStyles } from "@anitrove/unstyled"
+import { precompileStyles, type OutStyles } from "@anitrove/unstyled"
 
 export type Theme = OutStyles
 
@@ -29,30 +28,29 @@ export function getThemeFromHex(hex: string): Theme {
 
 	return precompileStyles(
 		Object.fromEntries(
-			Object.keys(colors.light).flatMap((key) => {
-				const color = key.replaceAll(/-([a-z])/g, (_, l: string) =>
-					l.toUpperCase()
-				)
-
-				const dynamicColor = dynamicColors[color]
-				if (!dynamicColor) {
-					console.warn(`Unknown color ${color}`)
-					return []
-				}
-
+			(
+				[
+					["standard", 0],
+					["high", 0.35],
+				] as const
+			).flatMap(([contrast, contrastLevel]): readonly [string, string][] => {
 				return (
 					[
-						["standard", 0],
-						["high", 0.35],
+						["light", false],
+						["dark", true],
 					] as const
-				).flatMap(([contrast, contrastLevel]) => {
-					return (
-						[
-							["light", false],
-							["dark", true],
-						] as const
-					).map(([theme, isDark]) => {
-						const spot = new SchemeTonalSpot(main, isDark, contrastLevel)
+				).flatMap(([theme, isDark]): readonly [string, string][] => {
+					const spot = new SchemeTonalSpot(main, isDark, contrastLevel)
+
+					return Object.keys(colors.light).map((key): [string, string] => {
+						const color = key.replaceAll(/-([a-z])/g, (_, l: string) =>
+							l.toUpperCase()
+						)
+
+						const dynamicColor = dynamicColors[color]
+						if (!dynamicColor) {
+							throw new Error(`Unknown color ${color}`)
+						}
 
 						return [
 							`--${key}-${theme}-${contrast}`,
