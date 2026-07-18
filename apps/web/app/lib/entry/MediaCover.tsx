@@ -36,39 +36,40 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 		media
 	)
 
+	const src =
+		data.coverImage?.extraLarge ??
+		data.coverImage?.large ??
+		data.coverImage?.medium
 	return (
-		<Ariakit.Role.img
-			src={
-				data.coverImage?.extraLarge
-				?? data.coverImage?.large
-				?? data.coverImage?.medium
-				?? ""
-			}
-			loading="lazy"
-			sizes="auto"
-			srcSet={(
-				[
-					[100, data.coverImage?.medium],
-					[230, data.coverImage?.large],
-					[460, data.coverImage?.extraLarge],
-				] as const
-			)
-				.map(([width, url]) =>
-					url ? `${url} ${numberToString(width)}w` : null
+		src && (
+			<Ariakit.Role.img
+				src={src}
+				loading="lazy"
+				sizes="auto"
+				srcSet={(
+					[
+						[100, data.coverImage?.medium],
+						[230, data.coverImage?.large],
+						[460, data.coverImage?.extraLarge],
+					] as const
 				)
-				.filter(Boolean)
-				.join(", ")}
-			alt=""
-			width={230}
-			height={320}
-			{...props}
-			style={{
-				backgroundImage: data.coverImage?.medium
-					? `url(${data.coverImage.medium})`
-					: undefined,
-				...props.style,
-			}}
-			className={cover({ className: props.className })}
-		></Ariakit.Role.img>
+					.map(([width, url]) =>
+						url ? `${url} ${numberToString(width)}w` : null
+					)
+					.filter(Boolean)
+					.join(", ")}
+				alt=""
+				width={230}
+				height={320}
+				{...props}
+				style={{
+					backgroundImage: data.coverImage?.medium
+						? `url(${data.coverImage.medium})`
+						: undefined,
+					...props.style,
+				}}
+				className={cover({ className: props.className })}
+			></Ariakit.Role.img>
+		)
 	)
 }
