@@ -143,6 +143,7 @@ const handlers = [
 		HttpResponse.json({
 			data: {
 				MediaListCollection: {
+					__typename: "MediaListCollection",
 					lists: [
 						{
 							__typename: "MediaListGroup",

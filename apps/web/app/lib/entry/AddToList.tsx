@@ -5,11 +5,11 @@ import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off
 import { CompositeItem } from "@ariakit/react"
 import { Button, ButtonIcon } from "~/components/Button"
 
+import type { FragmentRefs } from "relay-runtime"
 import type { AddToListMutation } from "~/gql/AddToListMutation.graphql"
 import type { AddToList_media$key } from "~/gql/AddToList_media.graphql"
 import type { AddToList_mediaListCollection$key } from "~/gql/AddToList_mediaListCollection.graphql"
 import type { AddToList_originalEntry$key } from "~/gql/AddToList_originalEntry.graphql"
-import type { AddToList_updatable$key } from "~/gql/AddToList_updatable.graphql"
 import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
@@ -32,22 +32,6 @@ export function AddToList({
 			}
 		`,
 		originalEntry
-	)
-
-	const mediaListCollection = useFragment(
-		graphql`
-			fragment AddToList_mediaListCollection on MediaListCollection {
-				lists {
-					...AddToList_updatable
-					status
-					entries {
-						id
-						...AddToList_assignable
-					}
-				}
-			}
-		`,
-		mediaListCollectionKey
 	)
 
 	const media = useFragment(
@@ -117,25 +101,37 @@ export function AddToList({
 					// 	},
 					// },
 					updater: (store, response) => {
+						const { updatableData: mediaListCollection } =
+							store.readUpdatableFragment<AddToList_mediaListCollection$key>(
+								graphql`
+									fragment AddToList_mediaListCollection on MediaListCollection
+									@updatable {
+										lists {
+											status
+											entries {
+												__typename
+												__id
+												...AddToList_assignable
+											}
+										}
+									}
+								`,
+								mediaListCollectionKey
+							)
+
 						for (const list of mediaListCollection.lists ?? []) {
 							if (list != null && list.status === source.status) {
-								const { updatableData } =
-									store.readUpdatableFragment<AddToList_updatable$key>(
-										graphql`
-											fragment AddToList_updatable on MediaListGroup
-											@updatable {
-												entries {
-													id
-													...AddToList_assignable
-												}
-											}
-										`,
-										list
-									)
-
 								if (response?.SaveMediaListEntry != null) {
-									updatableData.entries = [
-										...(list.entries?.filter((entry) => entry != null) ?? []),
+									list.entries = [
+										...(list.entries?.filter(
+											(
+												entry
+											): entry is {
+												readonly " $fragmentSpreads": FragmentRefs<"AddToList_assignable">
+												readonly __id: string
+												readonly __typename: "MediaList"
+											} => entry != null
+										) ?? []),
 										response.SaveMediaListEntry,
 									]
 								}

@@ -137,6 +137,7 @@ export const rule: Rule.RuleModule = {
 							// when only interested in existence of an object.
 							&& field !== "__typename"
 							&& field !== "id"
+							&& field !== "__id"
 						) {
 							context.report({
 								node: templateLiteral,
