@@ -29,23 +29,25 @@ export function theme(key: Theme_mediaCover$key): null | Theme {
 		return null
 	}
 
-	const argb = argbFromHex(media.color)
+	const argb1 = argbFromHex(media.color)
 
-	const closestColor = themes.blue
-	let closestTheme: Theme = closestColor.theme
-	let closestDistance = distance(argb, closestColor.argb)
+	let closestTheme: Theme = DEFAULT_COLOR.theme
+	let closestDistance = calculateDistance(argb1, DEFAULT_COLOR.argb)
 
-	for (const [name, { argb, theme }] of Object.entries(themes)) {
-		if (distance(argb, argb) < closestDistance) {
+	for (const { argb, theme } of Object.values(themes)) {
+		const distance = calculateDistance(argb1, argb)
+		if (distance < closestDistance) {
 			closestTheme = theme
-			closestDistance = distance(argb, argb)
+			closestDistance = distance
 		}
 	}
 
 	return closestTheme
 }
 
-function distance(argb1: number, argb2: number): number {
+const DEFAULT_COLOR = themes.blue
+
+function calculateDistance(argb1: number, argb2: number): number {
 	return Math.sqrt(
 		(redFromArgb(argb1) - redFromArgb(argb2)) ** 2
 			+ (greenFromArgb(argb1) - greenFromArgb(argb2)) ** 2
