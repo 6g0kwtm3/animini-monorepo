@@ -1,12 +1,14 @@
-import { memo, type ComponentProps, type ReactNode } from "react"
+import { memo, use, type ComponentProps, type ReactNode } from "react"
 import { Link as RouterLink } from "react-router"
+import { PrefetchProvider } from "./provider"
 
-const MemoLink: typeof RouterLink = memo(RouterLink)
-
-interface LinkProps extends Omit<ComponentProps<typeof MemoLink>, "to"> {
+export interface LinkProps extends Omit<ComponentProps<typeof MemoLink>, "to"> {
 	href: ComponentProps<typeof MemoLink>["to"]
 }
 
+export const MemoLink: typeof RouterLink = memo(RouterLink)
+
 export function A({ href, ...props }: LinkProps): ReactNode {
-	return <MemoLink prefetch="viewport" {...props} to={href} />
+	const prefetch = use(PrefetchProvider)
+	return <MemoLink prefetch={prefetch} {...props} to={href} />
 }
