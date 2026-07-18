@@ -73,14 +73,15 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		sameSite: "lax",
 		maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
 		path: "/",
+		secure: true,
 	})
 
 	document.cookie = setCookie
 	setUser({ id: data.Viewer.id, username: data.Viewer.name })
 
 	return redirect(
-		searchParams.get("redirect")
-			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name }),
+		searchParams.get("redirect") ??
+			route_user_list({ typelist: "animelist", userName: data.Viewer.name }),
 		{ headers: { "Set-Cookie": setCookie } }
 	)
 }
