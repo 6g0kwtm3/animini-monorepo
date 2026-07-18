@@ -11,7 +11,6 @@
 		":separateMultipleMajorReleases"
 	],
 	"packageRules": [
-		{ "matchPackageNames": ["@types/**"], "groupName": "types" },
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
 		{
 			"groupName": "digests",
@@ -25,7 +24,6 @@
 		{ "groupName": "oxlint", "matchPackageNames": ["/oxlint/"] },
 		{ "groupName": "prettier", "matchPackageNames": ["/prettier/"] }
 	],
-	"postUpdateOptions": ["pnpmDedupe"],
 	"automergeType": "branch",
 	"ignoreDeps": [
 		// pinnned
