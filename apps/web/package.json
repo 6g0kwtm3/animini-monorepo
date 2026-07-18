@@ -21,7 +21,7 @@
 		"relay-watch": "relay-compiler --watch",
 		"router": "react-router typegen",
 		"start": "vite preview",
-		"test-e2e": "playwright test"
+		"test-e2e": "NO_PROXY=localhost playwright test"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module",
