@@ -25,8 +25,6 @@ const listItemDefinition = defineCva({
 		...design.utilities.paddingX("1rem"),
 		borderRadius: {
 			base: design.tokens.borderRadius.xs,
-			"&:first-child": `${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs}`,
-			"&:last-child": `${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
 			[design.media.hover]: design.tokens.borderRadius.md,
 			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
 			[design.media.focusWithin]: design.tokens.borderRadius.lg,
@@ -38,6 +36,44 @@ const listItemDefinition = defineCva({
 		contentVisibility: "auto",
 	},
 	variants: {
+		first: {
+			false: {},
+			true: {
+				borderTopLeftRadius: {
+					base: design.tokens.borderRadius.lg,
+					[design.media.hover]: design.tokens.borderRadius.md,
+					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
+					[design.media.focusWithin]: design.tokens.borderRadius.lg,
+					[design.media.active]: design.tokens.borderRadius.lg,
+				},
+				borderTopRightRadius: {
+					base: design.tokens.borderRadius.lg,
+					[design.media.hover]: design.tokens.borderRadius.md,
+					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
+					[design.media.focusWithin]: design.tokens.borderRadius.lg,
+					[design.media.active]: design.tokens.borderRadius.lg,
+				},
+			},
+		},
+		last: {
+			false: {},
+			true: {
+				borderBottomLeftRadius: {
+					base: design.tokens.borderRadius.lg,
+					[design.media.hover]: design.tokens.borderRadius.md,
+					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
+					[design.media.focusWithin]: design.tokens.borderRadius.lg,
+					[design.media.active]: design.tokens.borderRadius.lg,
+				},
+				borderBottomRightRadius: {
+					base: design.tokens.borderRadius.lg,
+					[design.media.hover]: design.tokens.borderRadius.md,
+					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
+					[design.media.focusWithin]: design.tokens.borderRadius.lg,
+					[design.media.active]: design.tokens.borderRadius.lg,
+				},
+			},
+		},
 		lines: {
 			one: {
 				minHeight: "3.5rem",
@@ -56,24 +92,28 @@ const listItemDefinition = defineCva({
 			},
 		},
 	},
-	defaultVariants: { lines: "two" },
+	defaultVariants: { lines: "two", first: "false", last: "false" },
 })
 
 const listItem = cva(listItemDefinition)
 
-interface ListItemProps extends Omit<
-	Ariakit.RoleProps<"li">,
-	"className" | "style"
-> {
+interface ListItemProps
+	extends
+		CvaProps<typeof listItemDefinition>,
+		Omit<Ariakit.RoleProps<"li">, "className" | "style"> {
 	style?: OutStyles
 }
 
-export function ListItem({ style, ...props }: ListItemProps) {
+export function ListItem({ style, first, last, ...props }: ListItemProps) {
 	const lines = use(Lines)
 	return (
 		<Box
 			render={<Ariakit.Role.li {...props} />}
-			style={mergeStyles(listItem.style, listItem.variants({ lines }), style)}
+			style={mergeStyles(
+				listItem.style,
+				listItem.variants({ lines, first, last }),
+				style
+			)}
 		/>
 	)
 }

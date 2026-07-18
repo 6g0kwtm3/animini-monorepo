@@ -1,3 +1,5 @@
+import { precompileStyles } from "@anitrove/unstyled"
+import { useWindowVirtualizer } from "@tanstack/react-virtual"
 import {
 	Outlet,
 	isRouteErrorResponse,
@@ -5,15 +7,12 @@ import {
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
 } from "react-router"
-
-import { precompileStyles } from "@anitrove/unstyled"
-
 // import {} from 'glob'
 
 import type { AnitomyResult } from "anitomy"
 
-import type { ReactNode } from "react"
-import { Fragment, Suspense } from "react"
+import type { ComponentRef, ReactNode } from "react"
+import { Suspense, useState } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import { Card } from "~/components/Card"
@@ -164,7 +163,7 @@ function fetchSelectedList(args: ClientLoaderFunctionArgs) {
 		],
 	})
 
-	return { selectedList }
+	return { selectedList, params }
 }
 
 const Params = type({
@@ -213,12 +212,8 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 function AwaitList(props: Route.ComponentProps) {
 	const data = usePreloadedQuery(props.loaderData.query.selectedList)
 
-	if (data == null) {
-		return null
-	}
-
 	const allEntries = new Map(
-		data.MediaListCollection.lists?.flatMap(
+		data?.MediaListCollection.lists?.flatMap(
 			(list) =>
 				list?.entries?.flatMap((entry) =>
 					entry?.media.id ? [[Number(entry.media.id), entry]] : []
@@ -228,10 +223,10 @@ function AwaitList(props: Route.ComponentProps) {
 
 	const mediaList = new Map<number, MediaListMapEntry>()
 
-	let selectedList = data.MediaListCollection.lists
+	let selectedList = data?.MediaListCollection.lists
 
 	if (props.params.selected !== undefined) {
-		selectedList = data.MediaListCollection.lists?.filter(
+		selectedList = data?.MediaListCollection.lists?.filter(
 			(list) => list?.name === props.params.selected
 		)
 	}
@@ -269,90 +264,188 @@ function AwaitList(props: Route.ComponentProps) {
 		})
 	}
 
+	const type: "anime" | "manga" = (
+		{ animelist: "anime", mangalist: "manga" } as const
+	)[props.loaderData.params.typelist]
+
+	const output = mediaList
+		.entries()
+		.flatMap(([id, { media, relations, originalEntry }]) => {
+			return [
+				{ type: "MediaListItem", id, media, relations, originalEntry } as const,
+				...relations
+					.entries()
+					.map(([id, node]) => {
+						return {
+							type: "Relation",
+							id,
+							media,
+							relations,
+							originalEntry,
+							node,
+						} as const
+					})
+					.toArray(),
+			]
+		})
+		.toArray()
+
+	const [ref, setRef] = useState<ComponentRef<"div"> | null>(null)
+
+	const virtualizer = useWindowVirtualizer({
+		count: output.length,
+		estimateSize: (index) => {
+			const item = output[index]
+			if (item == null) {
+				return 0
+			}
+			switch (item.type) {
+				case "MediaListItem": {
+					return 72
+				}
+				case "Relation": {
+					return 70
+				}
+			}
+		},
+		gap: 2,
+		scrollMargin: ref?.offsetTop ?? 0,
+		overscan: 10,
+	})
+
+	if (data == null) {
+		return null
+	}
+
 	return (
-		<List
-			render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
-			style={precompileStyles({ containerType: "inline-size" })}
-			data-size={mediaList.size}
-		>
-			{mediaList
-				.entries()
-				.map(([id, { media, relations, originalEntry }]) => {
-					const entry = allEntries.get(id)
-
-					return (
-						<Fragment key={id}>
-							<MediaListItem key={id} data-key={id} media={media} entry={entry}>
-								<Skeleton>
-									{entry ? (
-										<div className="flex justify-end">
-											{entry.status === "COMPLETED"
-												&& (() => {
-													const outOfSync = relations
-														.keys()
-														.filter((mediaId) => {
-															if (
-																allEntries.get(mediaId)?.status !== "COMPLETED"
-															) {
-																return true
-															}
-														})
-														.toArray()
-
-													return outOfSync.length !== 0 ? (
-														<SyncMedia
-															source={entry}
-															targetMediaIds={outOfSync}
-															targetEntries={outOfSync
-																.map((mediaId) => allEntries.get(mediaId))
-																.filter((entry) => entry != null)}
-															mediaListCollection={data.MediaListCollection}
-														></SyncMedia>
-													) : null
-												})()}
-											<ProgressIncrement entry={entry} />
-										</div>
-									) : (
-										<AddToList
-											media={media}
-											originalEntry={originalEntry}
-											mediaListCollection={data.MediaListCollection}
-										></AddToList>
-									)}
-								</Skeleton>
-							</MediaListItem>
-							{relations
-								.entries()
-								.map(([id, node]) => {
-									const entry = allEntries.get(id)
-									return (
-										<MediaListItem
-											key={id}
-											data-key={id}
-											media={node}
-											entry={entry}
-											style={precompileStyles({ marginBlockStart: "-.125rem" })}
-										>
-											<Skeleton>
-												{entry ? (
+		<div ref={setRef} className="">
+			<List
+				render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
+				style={precompileStyles({
+					containerType: "inline-size",
+					height: `${virtualizer.getTotalSize()}px`,
+					position: "relative",
+				})}
+				data-size={mediaList.size}
+				lines={"two"}
+			>
+				{virtualizer.getVirtualItems().map((virtualItem) => {
+					const item = output[virtualItem.index]
+					if (item == null) {
+						return null
+					}
+					switch (item.type) {
+						case "MediaListItem": {
+							const { id, media, relations, originalEntry } = item
+							const entry = allEntries.get(id)
+							return (
+								<div
+									style={{
+										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
+									}}
+									className="absolute top-0 left-0 w-full"
+									ref={virtualizer.measureElement}
+									data-index={virtualItem.index}
+									key={id}
+									data-key={id}
+								>
+									<MediaListItem
+										first={virtualItem.index === 0 ? "true" : "false"}
+										last={
+											virtualItem.index === output.length - 1 ? "true" : "false"
+										}
+										key={id}
+										data-key={id}
+										media={media}
+										entry={entry}
+										type={type}
+									>
+										<Skeleton>
+											{entry ? (
+												<div className="flex justify-end">
+													{entry.status === "COMPLETED"
+														&& (() => {
+															const outOfSync = relations
+																.keys()
+																.filter((mediaId) => {
+																	if (
+																		allEntries.get(mediaId)?.status
+																		!== "COMPLETED"
+																	) {
+																		return true
+																	}
+																})
+																.toArray()
+															return outOfSync.length !== 0 ? (
+																<SyncMedia
+																	source={entry}
+																	targetMediaIds={outOfSync}
+																	targetEntries={outOfSync
+																		.map((mediaId) => allEntries.get(mediaId))
+																		.filter((entry) => entry != null)}
+																	mediaListCollection={data.MediaListCollection}
+																></SyncMedia>
+															) : null
+														})()}
 													<ProgressIncrement entry={entry} />
-												) : (
-													<AddToList
-														media={node}
-														originalEntry={originalEntry}
-														mediaListCollection={data.MediaListCollection}
-													></AddToList>
-												)}
-											</Skeleton>
-										</MediaListItem>
-									)
-								})
-								.toArray()}
-						</Fragment>
-					)
-				})
-				.toArray()}
-		</List>
+												</div>
+											) : (
+												<AddToList
+													media={media}
+													originalEntry={originalEntry}
+													mediaListCollection={data.MediaListCollection}
+												></AddToList>
+											)}
+										</Skeleton>
+									</MediaListItem>
+								</div>
+							)
+						}
+						case "Relation": {
+							const { id, originalEntry, node } = item
+							const entry = allEntries.get(id)
+							return (
+								<div
+									style={{
+										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
+									}}
+									className="absolute top-0 left-0 w-full"
+									ref={virtualizer.measureElement}
+									data-index={virtualItem.index}
+									key={id}
+									data-key={id}
+								>
+									<MediaListItem
+										first={virtualItem.index === 0 ? "true" : "false"}
+										last={
+											virtualItem.index === output.length - 1 ? "true" : "false"
+										}
+										key={id}
+										data-key={id}
+										media={node}
+										entry={entry}
+										type={type}
+										style={precompileStyles({ marginBlockStart: "-.125rem" })}
+									>
+										<Skeleton>
+											{entry ? (
+												<ProgressIncrement entry={entry} />
+											) : (
+												<AddToList
+													media={node}
+													originalEntry={originalEntry}
+													mediaListCollection={data.MediaListCollection}
+												></AddToList>
+											)}
+										</Skeleton>
+									</MediaListItem>
+								</div>
+							)
+						}
+					}
+				})}
+			</List>
+		</div>
 	)
 }
 

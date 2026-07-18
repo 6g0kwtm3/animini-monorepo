@@ -45,6 +45,7 @@
 		"@svgr/plugin-jsx": "catalog:",
 		"@tailwindcss/typography": "catalog:",
 		"@tailwindcss/vite": "catalog:",
+		"@tanstack/react-virtual": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"anitomy": "catalog:",
