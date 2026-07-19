@@ -14,7 +14,7 @@ allowBuilds:
 blockExoticSubdeps: true
 
 catalog:
-  '@ariakit/react': 0.4.32
+  '@ariakit/react': 0.4.34
   '@ark/attest': 0.56.3
   '@babel/preset-typescript': 7.29.7
   '@chromatic-com/storybook': 5.2.1
@@ -22,7 +22,7 @@ catalog:
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.0
   '@graphql-tools/mock': 9.1.10
-  '@hono/node-server': 2.0.9
+  '@hono/node-server': 2.0.10
   '@iconify-json/material-symbols': 1.2.85
   '@inlang/paraglide-js': 2.22.0
   '@material/material-color-utilities': 0.4.0
@@ -31,22 +31,22 @@ catalog:
   '@prettier/plugin-oxc': 0.2.1
   '@react-router/dev': 8.2.0
   '@react-router/node': 8.2.0
-  '@sentry/react': npm:@sentry/react-router@10.65.0
+  '@sentry/react': npm:@sentry/react-router@10.66.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
-  '@storybook/addon-a11y': 10.5.0
-  '@storybook/addon-docs': 10.5.0
-  '@storybook/addon-onboarding': 10.5.0
-  '@storybook/addon-themes': 10.5.0
-  '@storybook/addon-vitest': 10.5.0
-  '@storybook/react-vite': 10.5.0
+  '@storybook/addon-a11y': 10.5.2
+  '@storybook/addon-docs': 10.5.2
+  '@storybook/addon-onboarding': 10.5.2
+  '@storybook/addon-themes': 10.5.2
+  '@storybook/addon-vitest': 10.5.2
+  '@storybook/react-vite': 10.5.2
   '@stryker-mutator/api': 9.6.1
   '@stryker-mutator/core': 9.6.1
   '@stryker-mutator/vitest-runner': 9.6.1
   '@svgr/core': 8.1.0
   '@svgr/plugin-jsx': 8.1.0
   '@tailwindcss/typography': 0.5.20
-  '@tailwindcss/vite': 4.3.2
+  '@tailwindcss/vite': 4.3.3
   '@tanstack/react-virtual': 3.14.6
   '@types/bun': 1.3.14
   '@types/estree': 1.0.9
@@ -83,7 +83,7 @@ catalog:
   graphql-config: 5.1.6
   hono: 4.12.30
   isbot: 5.2.1
-  knip: 6.26.0
+  knip: 6.27.0
   marked: 0.3.19
   motion: 12.42.2
   msw: 2.15.0
@@ -100,9 +100,9 @@ catalog:
   react-router: 8.2.0
   relay-compiler: 21.0.1
   relay-runtime: 21.0.1
-  storybook: 10.5.0
+  storybook: 10.5.2
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
-  tailwindcss: 4.3.2
+  tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.2
   tsx: 4.23.1
   turbo: 2.10.5
