@@ -178,8 +178,8 @@ catalogs:
       specifier: 5.10.0
       version: 5.10.0
     eslint-plugin-pnpm:
-      specifier: 1.6.1
-      version: 1.6.1
+      specifier: 1.7.0
+      version: 1.7.0
     eslint-plugin-react:
       specifier: 7.37.5
       version: 7.37.5
@@ -190,8 +190,8 @@ catalogs:
       specifier: 10.5.3
       version: 10.5.3
     eslint-plugin-turbo:
-      specifier: 2.10.5
-      version: 2.10.5
+      specifier: 2.10.6
+      version: 2.10.6
     eslint-typegen:
       specifier: 2.3.1
       version: 2.3.1
@@ -351,7 +351,7 @@ importers:
         version: 10.7.0(jiti@2.7.0)
       eslint-plugin-pnpm:
         specifier: 'catalog:'
-        version: 1.6.1(eslint@10.7.0(jiti@2.7.0))
+        version: 1.7.0(eslint@10.7.0(jiti@2.7.0))
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.3.1(eslint@10.7.0(jiti@2.7.0))
@@ -775,7 +775,7 @@ importers:
         version: 5.10.0(@typescript/typescript6@6.0.2)(eslint@10.7.0(jiti@2.7.0))
       eslint-plugin-turbo:
         specifier: 'catalog:'
-        version: 2.10.5(eslint@10.7.0(jiti@2.7.0))(turbo@2.10.6)
+        version: 2.10.6(eslint@10.7.0(jiti@2.7.0))(turbo@2.10.6)
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.3.1(eslint@10.7.0(jiti@2.7.0))
@@ -4833,8 +4833,8 @@ packages:
     peerDependencies:
       eslint: ^8.45.0 || ^9.0.0 || ^10.0.0
 
-  eslint-plugin-pnpm@1.6.1:
-    resolution: {integrity: sha512-pgcaJclu3YxZ/WMsiKMF58bHQasbGVARSMqCJvFaETYxSc7KcR2H74UVWV6exuGv9nNv9c0KKqn4PVHQlzMSEg==}
+  eslint-plugin-pnpm@1.7.0:
+    resolution: {integrity: sha512-SZaPARN1+NMqAjQOlQjHu59SnN/o299N5Z4HTyhwWYnfkQkjdiydayHBegwXER3VecRF/Rf7eHw3sGcTF+uLOQ==}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
 
@@ -4855,8 +4855,8 @@ packages:
       eslint: '>=8'
       storybook: ^10.5.3
 
-  eslint-plugin-turbo@2.10.5:
-    resolution: {integrity: sha512-4a1hbA04A4D5ZdSpzTAVn2JL0RqEOava+u6MJzxMoY5ckWfqdgcmJnez7a83gj4bUTomBqDP6vlb4Q7LqrfYaw==}
+  eslint-plugin-turbo@2.10.6:
+    resolution: {integrity: sha512-E+/00+SPK2QHFN6b52rD5zlE9ikpgPZLENsXVvWxfXznxrPm1su0l9vJ7QCWSrVcePodksjcA3YGOCMaPVnAxw==}
     peerDependencies:
       eslint: '>6.6.0'
       turbo: '>2.0.0'
@@ -6252,8 +6252,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  pnpm-workspace-yaml@1.6.1:
-    resolution: {integrity: sha512-yTeZntGWi8m9WNuhoVsP0DpFc4sC1U0+rr/qR6Zi9n2g3sxXY+JfccjXjjruNz96tM8I09yaJUA86doRnNLkbg==}
+  pnpm-workspace-yaml@1.7.0:
+    resolution: {integrity: sha512-cgjaozHkjWL4H8oKZydEWE4mg31XydK3/1cLKjHvwnFAXutp45yAlMKljpOdZEq4TtLuzYAMvy9j05wRm3aoPw==}
 
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
@@ -11141,13 +11141,13 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-pnpm@1.6.1(eslint@10.7.0(jiti@2.7.0)):
+  eslint-plugin-pnpm@1.7.0(eslint@10.7.0(jiti@2.7.0)):
     dependencies:
       empathic: 2.0.1
       eslint: 10.7.0(jiti@2.7.0)
       jsonc-eslint-parser: 3.1.0
       pathe: 2.0.3
-      pnpm-workspace-yaml: 1.6.1
+      pnpm-workspace-yaml: 1.7.0
       tinyglobby: 0.2.17
       yaml: 2.9.0
       yaml-eslint-parser: 2.1.0
@@ -11188,7 +11188,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-turbo@2.10.5(eslint@10.7.0(jiti@2.7.0))(turbo@2.10.6):
+  eslint-plugin-turbo@2.10.6(eslint@10.7.0(jiti@2.7.0))(turbo@2.10.6):
     dependencies:
       dotenv: 16.0.3
       eslint: 10.7.0(jiti@2.7.0)
@@ -12648,7 +12648,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  pnpm-workspace-yaml@1.6.1:
+  pnpm-workspace-yaml@1.7.0:
     dependencies:
       yaml: 2.9.0
 
