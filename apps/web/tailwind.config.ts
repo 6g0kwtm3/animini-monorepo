@@ -98,8 +98,8 @@ export const config = {
 				{
 					state: (opacity: number | string) => {
 						const stateColor = `color-mix(in oklab, currentColor, transparent ${numberToString(
-							100
-								- Number(
+							100 -
+								Number(
 									Predicate.isString(opacity)
 										? opacity.replace("%", "")
 										: opacity * 100
@@ -162,8 +162,8 @@ export const config = {
 					values: Object.assign(
 						Object.fromEntries(
 							Object.entries<string>(
-								(ctx.theme("spacing") as Record<string, string> | undefined)
-									?? {}
+								(ctx.theme("spacing") as Record<string, string> | undefined) ??
+									{}
 							).filter(([key]) => 5 <= Number(key) && Number(key) <= 12)
 						),
 						{ DEFAULT: "1.5rem" }

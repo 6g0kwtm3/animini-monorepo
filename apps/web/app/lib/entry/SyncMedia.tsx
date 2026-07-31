@@ -135,15 +135,15 @@ export function SyncMedia(props: {
 							private: source.private,
 
 							completedAt:
-								currentEntry?.completedAt?.day == null
-								&& currentEntry?.completedAt?.month == null
-								&& currentEntry?.completedAt?.year == null
+								currentEntry?.completedAt?.day == null &&
+								currentEntry?.completedAt?.month == null &&
+								currentEntry?.completedAt?.year == null
 									? source.completedAt
 									: null,
 							startedAt:
-								currentEntry?.startedAt?.day == null
-								&& currentEntry?.startedAt?.month == null
-								&& currentEntry?.startedAt?.year == null
+								currentEntry?.startedAt?.day == null &&
+								currentEntry?.startedAt?.month == null &&
+								currentEntry?.startedAt?.year == null
 									? source.startedAt
 									: null,
 						},

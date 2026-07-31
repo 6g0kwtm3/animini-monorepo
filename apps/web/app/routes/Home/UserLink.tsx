@@ -115,9 +115,9 @@ function UserCard(props: { userName: string }) {
 								type="hidden"
 								name="isFollowing"
 								value={
-									(follow.formData?.get("isFollowing")
-									?? follow.data?.ToggleFollow.isFollowing
-									?? data.User.isFollowing)
+									(follow.formData?.get("isFollowing") ??
+									follow.data?.ToggleFollow.isFollowing ??
+									data.User.isFollowing)
 										? ""
 										: "true"
 								}
@@ -125,9 +125,9 @@ function UserCard(props: { userName: string }) {
 							/>
 
 							<Button type="submit" aria-disabled={!data.User.id}>
-								{(follow.formData?.get("isFollowing")
-								?? follow.data?.ToggleFollow.isFollowing
-								?? data.User.isFollowing)
+								{(follow.formData?.get("isFollowing") ??
+								follow.data?.ToggleFollow.isFollowing ??
+								data.User.isFollowing)
 									? m.unfollow_button()
 									: m.follow_button()}
 							</Button>

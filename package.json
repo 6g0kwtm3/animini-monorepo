@@ -1,56 +1,56 @@
 {
-  "$schema": "https://json.schemastore.org/package.json",
-  "name": "@animedes/anitrove",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "repository": {
-    "url": "https://github.com/6g0kwtm3/animini-monorepo"
-  },
-  "scripts": {
-    "build": "turbo run --log-prefix=none build --continue=dependencies-successful --affected",
-    "bundlewatch": "turbo run bundlewatch --continue=dependencies-successful --affected",
-    "check": "turbo run --log-prefix=none check --continue=dependencies-successful --affected",
-    "turbo:lint": "turbo run --log-prefix=none lint --continue=dependencies-successful --affected",
-    "lint": "eslint --max-warnings 0 --cache . --fix",
-    "eslint-typegen": "node --import=tsx eslint.config.ts",
-    "dev": "turbo watch dev",
-    "format": "oxfmt",
-    "bench": "turbo run --log-prefix=none bench --affected",
-    "test": "vitest --run --changed origin/master",
-    "test-e2e": "turbo run --log-prefix=none test-e2e --continue=dependencies-successful --log-order=stream",
-    "stryker": "stryker run --incremental",
-    "knip": "knip --cache",
-    "boundaries": "turbo boundaries",
-    "oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix --report-unused-disable-directives"
-  },
-  "devDependencies": {
-    "@ark/attest": "catalog:",
-    "@stryker-mutator/api": "catalog:",
-    "@stryker-mutator/core": "catalog:",
-    "@stryker-mutator/vitest-runner": "catalog:",
-    "@types/node": "catalog:",
-    "@typescript/native": "catalog:",
-    "eslint": "catalog:",
-    "eslint-plugin-pnpm": "catalog:",
-    "eslint-typegen": "catalog:",
-    "knip": "catalog:",
-    "oxfmt": "catalog:",
-    "oxlint": "catalog:",
-    "oxlint-config": "workspace:@animedes/oxlint-config@*",
-    "oxlint-tsgolint": "catalog:",
-    "tsx": "catalog:",
-    "turbo": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:",
-    "wrangler": "catalog:"
-  },
-  "packageManager": "pnpm@10.22.0",
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "^24.14.1",
-      "onFail": "download"
-    }
-  }
+	"$schema": "https://json.schemastore.org/package.json",
+	"name": "@animedes/anitrove",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"repository": {
+		"url": "https://github.com/6g0kwtm3/animini-monorepo"
+	},
+	"scripts": {
+		"build": "turbo run --log-prefix=none build --continue=dependencies-successful --affected",
+		"bundlewatch": "turbo run bundlewatch --continue=dependencies-successful --affected",
+		"check": "turbo run --log-prefix=none check --continue=dependencies-successful --affected",
+		"turbo:lint": "turbo run --log-prefix=none lint --continue=dependencies-successful --affected",
+		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"eslint-typegen": "node --import=tsx eslint.config.ts",
+		"dev": "turbo watch dev",
+		"format": "oxfmt",
+		"bench": "turbo run --log-prefix=none bench --affected",
+		"test": "vitest --run --changed origin/master",
+		"test-e2e": "turbo run --log-prefix=none test-e2e --continue=dependencies-successful --log-order=stream",
+		"stryker": "stryker run --incremental",
+		"knip": "knip --cache",
+		"boundaries": "turbo boundaries",
+		"oxlint": "oxlint -c ./node_modules/oxlint-config/oxlintrc.json --fix --report-unused-disable-directives"
+	},
+	"devDependencies": {
+		"@ark/attest": "catalog:",
+		"@stryker-mutator/api": "catalog:",
+		"@stryker-mutator/core": "catalog:",
+		"@stryker-mutator/vitest-runner": "catalog:",
+		"@types/node": "catalog:",
+		"@typescript/native": "catalog:",
+		"eslint": "catalog:",
+		"eslint-plugin-pnpm": "catalog:",
+		"eslint-typegen": "catalog:",
+		"knip": "catalog:",
+		"oxfmt": "catalog:",
+		"oxlint": "catalog:",
+		"oxlint-config": "workspace:@animedes/oxlint-config@*",
+		"oxlint-tsgolint": "catalog:",
+		"tsx": "catalog:",
+		"turbo": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:",
+		"wrangler": "catalog:"
+	},
+	"packageManager": "pnpm@10.22.0",
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": "^24.14.1",
+			"onFail": "download"
+		}
+	}
 }

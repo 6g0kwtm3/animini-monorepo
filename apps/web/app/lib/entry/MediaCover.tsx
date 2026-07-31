@@ -37,9 +37,9 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 	)
 
 	const src =
-		data.coverImage?.extraLarge
-		?? data.coverImage?.large
-		?? data.coverImage?.medium
+		data.coverImage?.extraLarge ??
+		data.coverImage?.large ??
+		data.coverImage?.medium
 	return (
 		src && (
 			<Ariakit.Role.img
