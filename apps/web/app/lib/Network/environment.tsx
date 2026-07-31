@@ -109,20 +109,20 @@ const environment = new Environment({
 		{
 			handle(field, record, argValues) {
 				if (
-					record?.getType() === ROOT_TYPE
-					&& (field.name === "User"
-						|| field.name === "Media"
-						|| field.name === "AiringSchedule"
-						|| field.name === "Character"
-						|| field.name === "Staff"
-						|| field.name === "MediaList"
-						|| field.name === "Studio"
-						|| field.name === "Review"
-						|| field.name === "ActivityReply"
-						|| field.name === "Thread"
-						|| field.name === "ThreadComment"
-						|| field.name === "Recommendation")
-					&& Object.hasOwn(argValues, "id")
+					record?.getType() === ROOT_TYPE &&
+					(field.name === "User" ||
+						field.name === "Media" ||
+						field.name === "AiringSchedule" ||
+						field.name === "Character" ||
+						field.name === "Staff" ||
+						field.name === "MediaList" ||
+						field.name === "Studio" ||
+						field.name === "Review" ||
+						field.name === "ActivityReply" ||
+						field.name === "Thread" ||
+						field.name === "ThreadComment" ||
+						field.name === "Recommendation") &&
+					Object.hasOwn(argValues, "id")
 				) {
 					return `${field.name}:${String(argValues.id)}`
 				}
