@@ -69,7 +69,7 @@ const NavUserListEntriesQuery = graphql`
 						relations {
 							edges {
 								id
-								relationType(version: 2)
+								relationType(version: 3)
 								node {
 									id
 									...MediaListItem_media
