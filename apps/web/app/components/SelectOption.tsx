@@ -3,9 +3,7 @@ import type { ReactNode } from "react"
 import { createMenu } from "~/lib/menu"
 
 const { item } = createMenu({})
-export function SelectOption(
-	props: Ariakit.ComboboxItemProps
-): ReactNode {
+export function SelectOption(props: Ariakit.ComboboxItemProps): ReactNode {
 	return (
 		<Ariakit.ComboboxItem
 			{...props}
