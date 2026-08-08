@@ -45,12 +45,12 @@
 		"vitest": "catalog:",
 		"wrangler": "catalog:"
 	},
-	"packageManager": "pnpm@10.22.0",
+	"packageManager": "pnpm@12.0.0-rc.9",
 	"devEngines": {
 		"runtime": {
 			"name": "node",
 			"version": "^24.14.1",
-			"onFail": "download"
+			"onFail": "error"
 		}
 	}
 }
