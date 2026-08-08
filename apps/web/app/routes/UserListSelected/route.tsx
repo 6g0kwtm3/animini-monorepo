@@ -350,10 +350,8 @@ function AwaitList(props: Route.ComponentProps) {
 									data-key={id}
 								>
 									<MediaListItem
-										first={virtualItem.index === 0 ? "true" : "false"}
-										last={
-											virtualItem.index === output.length - 1 ? "true" : "false"
-										}
+										first={virtualItem.index === 0}
+										last={virtualItem.index === output.length - 1}
 										key={id}
 										data-key={id}
 										media={media}

@@ -5,113 +5,39 @@ import {
 	cva,
 	defineCva,
 	mergeStyles,
-	type CvaProps,
-	type OutStyles,
+	provide,
+	type OutStyles
 } from "@anitrove/unstyled"
 import { Box } from "@anitrove/unstyled/box"
 import * as Ariakit from "@ariakit/react"
 import type { VariantProps } from "tailwind-variants"
 import { tv } from "~/lib/tailwind-variants"
-const listItemDefinition = defineCva({
-	base: {
-		...design.state({
-			[design.media.hover]: "hover",
-			[design.media["focus-visible"]]: "focus",
-			[design.media.active]: "focus",
-		}),
-		display: "grid",
-		gridTemplateColumns: "auto minmax(0, 1fr) auto",
-		columnGap: "1rem",
-		...design.utilities.paddingX("1rem"),
-		borderRadius: {
-			base: design.tokens.borderRadius.xs,
-			[design.media.hover]: design.tokens.borderRadius.md,
-			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-			[design.media.focusWithin]: design.tokens.borderRadius.lg,
-			[design.media.active]: design.tokens.borderRadius.lg,
-		},
-		transitionProperty: { [design.media.motionSafe]: "border-radius" },
-		...design.tokens.transitions.spatial.fast,
-		backgroundColor: design.tokens.colors.surface,
-		contentVisibility: "auto",
-	},
-	variants: {
-		first: {
-			false: {},
-			true: {
-				borderTopLeftRadius: {
-					base: design.tokens.borderRadius.lg,
-					[design.media.hover]: design.tokens.borderRadius.md,
-					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-					[design.media.focusWithin]: design.tokens.borderRadius.lg,
-					[design.media.active]: design.tokens.borderRadius.lg,
-				},
-				borderTopRightRadius: {
-					base: design.tokens.borderRadius.lg,
-					[design.media.hover]: design.tokens.borderRadius.md,
-					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-					[design.media.focusWithin]: design.tokens.borderRadius.lg,
-					[design.media.active]: design.tokens.borderRadius.lg,
-				},
-			},
-		},
-		last: {
-			false: {},
-			true: {
-				borderBottomLeftRadius: {
-					base: design.tokens.borderRadius.lg,
-					[design.media.hover]: design.tokens.borderRadius.md,
-					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-					[design.media.focusWithin]: design.tokens.borderRadius.lg,
-					[design.media.active]: design.tokens.borderRadius.lg,
-				},
-				borderBottomRightRadius: {
-					base: design.tokens.borderRadius.lg,
-					[design.media.hover]: design.tokens.borderRadius.md,
-					[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
-					[design.media.focusWithin]: design.tokens.borderRadius.lg,
-					[design.media.active]: design.tokens.borderRadius.lg,
-				},
-			},
-		},
-		lines: {
-			one: {
-				minHeight: "3.5rem",
-				containIntrinsicSize: "3.5rem",
-				alignItems: "center",
-			},
-			two: {
-				minHeight: "4.5rem",
-				containIntrinsicSize: "4.5rem",
-				alignItems: "center",
-			},
-			three: {
-				minHeight: "5.5rem",
-				containIntrinsicSize: "5.5rem",
-				alignItems: "flex-start",
-			},
-		},
-	},
-	defaultVariants: { lines: "two", first: "false", last: "false" },
-})
+import {
+	First,
+	Last,
+	Lines,
+	styles,
+} from "./List.styles" with { type: "macro" }
 
-const listItem = cva(listItemDefinition)
-
-interface ListItemProps
-	extends
-		CvaProps<typeof listItemDefinition>,
-		Omit<Ariakit.RoleProps<"li">, "className" | "style"> {
+interface ListItemProps extends Omit<
+	Ariakit.RoleProps<"li">,
+	"className" | "style"
+> {
 	style?: OutStyles
+	first: boolean
+	last: boolean
 }
 
 export function ListItem({ style, first, last, ...props }: ListItemProps) {
-	const lines = use(Lines)
+	const lines = use(LinesContext)
 	return (
 		<Box
 			render={<Ariakit.Role.li {...props} />}
 			style={mergeStyles(
-				listItem.style,
-				listItem.variants({ lines, first, last }),
+				styles.listItem,
+				provide(First, first ? "true" : "false"),
+				provide(Last, last ? "true" : "false"),
+				provide(Lines, lines),
 				style
 			)}
 		/>
@@ -166,7 +92,7 @@ export function ListItemContent({
 	style,
 	...props
 }: ListItemContentProps): ReactNode {
-	const lines = use(Lines)
+	const lines = use(LinesContext)
 	return (
 		<Box
 			{...props}
@@ -207,7 +133,7 @@ export function ListItemContentSubtitle({
 	style,
 	...props
 }: ListItemContentSubtitleProps): ReactNode {
-	const lines = use(Lines)
+	const lines = use(LinesContext)
 	return (
 		<Box
 			{...props}
@@ -242,7 +168,7 @@ interface ListItemImgProps extends Omit<
 }
 
 export function ListItemImg({ style, ...props }: ListItemImgProps): ReactNode {
-	const lines = use(Lines)
+	const lines = use(LinesContext)
 	return (
 		<Box
 			{...props}
@@ -306,34 +232,40 @@ export function ListItemTrailingSupportingText(
 	)
 }
 
-interface ListProps
-	extends
-		CvaProps<typeof listDefinition>,
-		Omit<Ariakit.RoleProps<"ul">, "className" | "style"> {
+interface ListProps extends Omit<
+	Ariakit.RoleProps<"ul">,
+	"className" | "style"
+> {
 	style?: OutStyles
+	lines?: typeof Lines.$T
 }
 
+const DEFAULT_LINES = "two" as const
 const listDefinition = defineCva({
 	base: { display: "flex", flexDirection: "column" },
 	variants: {
 		lines: { one: {}, two: {}, three: {} },
 		segmented: { true: { rowGap: ".125rem" }, false: {} },
 	},
-	defaultVariants: { lines: "two", segmented: "true" },
+	defaultVariants: { lines: DEFAULT_LINES, segmented: "true" },
 })
 
 const list = cva(listDefinition)
 
-const Lines = createContext<ListProps["lines"]>(undefined)
-Lines.displayName = "Lines"
+const LinesContext = createContext<typeof Lines.$T>(DEFAULT_LINES)
+LinesContext.displayName = "LinesContext"
 
-export function List({ style, lines, ...props }: ListProps): ReactNode {
+export function List({
+	style,
+	lines = DEFAULT_LINES,
+	...props
+}: ListProps): ReactNode {
 	return (
-		<Lines value={lines}>
+		<LinesContext value={lines}>
 			<Box
 				render={<Ariakit.Role.ul {...props} />}
 				style={mergeStyles(list.style, list.variants({ lines }), style)}
 			/>
-		</Lines>
+		</LinesContext>
 	)
 }
