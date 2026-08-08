@@ -20,13 +20,20 @@ import type { RelatedMediaAddition_viewer$key } from "~/gql/RelatedMediaAddition
 import { useFragment } from "~/lib/Network"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import { RelativeTimeSince } from "./RelativeTimeSince"
+import type { ComponentProps } from "react"
 
 const { graphql } = ReactRelay
 
-export function RelatedMediaAddition(props: {
+interface RelatedMediaAdditionProps extends ComponentProps<typeof ListItem> {
 	notification: RelatedMediaAddition_notification$key
 	viewer: RelatedMediaAddition_viewer$key
-}) {
+}
+
+export function RelatedMediaAddition({
+	notification: notificationKey,
+	viewer: viewerKey,
+	...props
+}: RelatedMediaAdditionProps) {
 	const notification = useFragment(
 		graphql`
 			fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification {
@@ -41,7 +48,7 @@ export function RelatedMediaAddition(props: {
 				}
 			}
 		`,
-		props.notification
+		notificationKey
 	)
 
 	const viewer = useFragment(
@@ -51,45 +58,44 @@ export function RelatedMediaAddition(props: {
 				unreadNotificationCount
 			}
 		`,
-		props.viewer
+		viewerKey
 	)
 
 	return (
 		notification && (
-			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={
-						<A href={route_media({ id: Number(notification.media.id) })}></A>
-					}
-				>
-					<ListItemImg>
-						<MediaCover media={notification.media} />
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) >
-								(viewer.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
-							)}{" "}
-							{m.recently_added()}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred}
-						>
-							{notification.media.title.userPreferred}
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					{notification.createdAt ? (
-						<ListItemTrailingSupportingText>
-							<RelativeTimeSince
-								date={Temporal.Instant.fromEpochMilliseconds(
-									notification.createdAt * 1000
-								)}
-							/>
-						</ListItemTrailingSupportingText>
-					) : null}
-				</ListItem>
-			</li>
+			<ListItem
+				render={
+					<A href={route_media({ id: Number(notification.media.id) })}></A>
+				}
+				{...props}
+			>
+				<ListItemImg>
+					<MediaCover media={notification.media} />
+				</ListItemImg>
+				<ListItemContent>
+					<ListItemContentTitle>
+						{(notification.createdAt ?? 0) >
+							(viewer.unreadNotificationCount ?? 0) && (
+							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+						)}{" "}
+						{m.recently_added()}
+					</ListItemContentTitle>
+					<ListItemContentSubtitle
+						title={notification.media.title.userPreferred}
+					>
+						{notification.media.title.userPreferred}
+					</ListItemContentSubtitle>
+				</ListItemContent>
+				{notification.createdAt ? (
+					<ListItemTrailingSupportingText>
+						<RelativeTimeSince
+							date={Temporal.Instant.fromEpochMilliseconds(
+								notification.createdAt * 1000
+							)}
+						/>
+					</ListItemTrailingSupportingText>
+				) : null}
+			</ListItem>
 		)
 	)
 }

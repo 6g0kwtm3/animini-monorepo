@@ -99,7 +99,11 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 											style={precompileStyles({ margin: "-1rem" })}
 											render={<address />}
 										>
-											<ListItem style={precompileStyles({ ...state("none") })}>
+											<ListItem
+												first={i === 0}
+												last={i === activities.length - 1}
+												style={precompileStyles({ ...state("none") })}
+											>
 												<div className="col-start-1 h-10 w-10">
 													{activity.user?.avatar?.large ? (
 														<img

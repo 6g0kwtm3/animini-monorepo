@@ -20,10 +20,16 @@ import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outli
 import { RelativeTimeSince } from "./RelativeTimeSince"
 const { graphql } = ReactRelay
 
-export function ActivityLike(props: {
+interface ActivityLikeProps extends React.ComponentProps<typeof ListItem> {
 	notification: ActivityLike_notification$key
 	viewer: ActivityLike_viewer$key
-}) {
+}
+
+export function ActivityLike({
+	notification: notificationKey,
+	viewer: viewerKey,
+	...props
+}: ActivityLikeProps) {
 	const notification = useFragment(
 		graphql`
 			fragment ActivityLike_notification on ActivityLikeNotification {
@@ -40,7 +46,7 @@ export function ActivityLike(props: {
 				}
 			}
 		`,
-		props.notification
+		notificationKey
 	)
 
 	const viewer = useFragment(
@@ -49,7 +55,7 @@ export function ActivityLike(props: {
 				unreadNotificationCount
 			}
 		`,
-		props.viewer
+		viewerKey
 	)
 
 	return (
@@ -58,6 +64,7 @@ export function ActivityLike(props: {
 				render={
 					<A href={`/activity/${numberToString(notification.activityId)}`}></A>
 				}
+				{...props}
 			>
 				<ListItemImg>
 					{notification.user.avatar?.large ? (

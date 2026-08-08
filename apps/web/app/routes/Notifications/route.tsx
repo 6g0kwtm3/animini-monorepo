@@ -19,8 +19,10 @@ import {
 import { fab } from "~/lib/button"
 
 import { media } from "@anitrove/design"
+import { precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
+import { Lines } from "~/components/List.styles"
 import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { client_get_client } from "~/lib/client"
@@ -95,6 +97,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const store = useTooltipStore()
 	const someNotRead = data.Viewer.unreadNotificationCount ?? 0
 
+	const notifications = data.Page?.notifications?.filter((el) => el != null)
 	return (
 		<LayoutBody>
 			<LayoutPane>
@@ -122,50 +125,58 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					</Form>
 				) : null}
 				<Card variant="elevated" className="max-sm:contents">
-					{!data.Page?.notifications?.length && (
+					{!notifications?.length && (
 						<Ariakit.Heading>No Notifications</Ariakit.Heading>
 					)}
 
 					<div className="-mx-4 sm:-my-4">
-						<List lines={{ base: "three", [media.sm]: "two" }}>
-							{data.Page?.notifications
-								?.filter((el) => el != null)
-								.map((notification) => {
-									if (notification.Airing_notification) {
-										return (
-											<Airing
-												key={notification.id}
-												data-key={notification.id}
-												notification={notification.Airing_notification}
-												viewer={data.Viewer}
-											/>
-										)
-									}
-									if (notification.RelatedMediaAddition_notification) {
-										return (
-											<RelatedMediaAddition
-												key={notification.id}
-												data-key={notification.id}
-												notification={
-													notification.RelatedMediaAddition_notification
-												}
-												viewer={data.Viewer}
-											/>
-										)
-									}
-									if (notification.ActivityLike_notification) {
-										return (
-											<ActivityLike
-												key={notification.id}
-												data-key={notification.id}
-												notification={notification.ActivityLike_notification}
-												viewer={data.Viewer}
-											/>
-										)
-									}
+						<List
+							style={precompileStyles({
+								[Lines.name]: { base: "three", [media.sm]: "two" },
+							})}
+						>
+							{notifications?.map((notification, i) => {
+								if (notification.Airing_notification) {
+									return (
+										<Airing
+											key={notification.id}
+											data-key={notification.id}
+											notification={notification.Airing_notification}
+											viewer={data.Viewer}
+											first={i === 0}
+											last={i === notifications.length - 1}
+										/>
+									)
+								}
+								if (notification.RelatedMediaAddition_notification) {
+									return (
+										<RelatedMediaAddition
+											key={notification.id}
+											data-key={notification.id}
+											notification={
+												notification.RelatedMediaAddition_notification
+											}
+											viewer={data.Viewer}
+											first={i === 0}
+											last={i === notifications.length - 1}
+										/>
+									)
+								}
+								if (notification.ActivityLike_notification) {
+									return (
+										<ActivityLike
+											key={notification.id}
+											data-key={notification.id}
+											notification={notification.ActivityLike_notification}
+											viewer={data.Viewer}
+											first={i === 0}
+											last={i === notifications.length - 1}
+										/>
+									)
+								}
 
-									return null
-								})}
+								return null
+							})}
 						</List>
 					</div>
 				</Card>

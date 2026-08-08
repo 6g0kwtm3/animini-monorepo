@@ -92,7 +92,7 @@ function MediaCard(props: { mediaId: number; type: string }) {
 				render={
 					<Card className={`not-prose`} render={<span />}>
 						<List style={precompileStyles({ padding: "0" })} render={<span />}>
-							<ListItem render={<span />}>
+							<ListItem first last render={<span />}>
 								<ListItemImg render={<span></span>}>
 									<MediaCover media={media} />
 								</ListItemImg>

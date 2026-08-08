@@ -24,10 +24,16 @@ import { RelativeTimeSince } from "./RelativeTimeSince"
 
 const { graphql } = ReactRelay
 
-export function Airing(props: {
+interface AiringProps extends React.ComponentProps<typeof ListItem> {
 	notification: Airing_notification$key
 	viewer: Airing_viewer$key
-}) {
+}
+
+export function Airing({
+	notification: notificationKey,
+	viewer: viewerKey,
+	...props
+}: AiringProps) {
 	const notification = useFragment(
 		graphql`
 			fragment Airing_notification on AiringNotification {
@@ -43,7 +49,7 @@ export function Airing(props: {
 				}
 			}
 		`,
-		props.notification
+		notificationKey
 	)
 
 	const viewer = useFragment(
@@ -53,44 +59,43 @@ export function Airing(props: {
 				unreadNotificationCount
 			}
 		`,
-		props.viewer
+		viewerKey
 	)
 	return (
 		notification && (
-			<li className="col-span-full grid grid-cols-subgrid">
-				<ListItem
-					render={
-						<A href={route_media({ id: Number(notification.media.id) })}></A>
-					}
-				>
-					<ListItemImg>
-						<MediaCover media={notification.media} />
-					</ListItemImg>
-					<ListItemContent>
-						<ListItemContentTitle>
-							{(notification.createdAt ?? 0) >
-								(viewer.unreadNotificationCount ?? 0) && (
-								<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
-							)}{" "}
-							{m.episode_aired({ episode: notification.episode })}
-						</ListItemContentTitle>
-						<ListItemContentSubtitle
-							title={notification.media.title.userPreferred}
-						>
-							{notification.media.title.userPreferred}
-						</ListItemContentSubtitle>
-					</ListItemContent>
-					{notification.createdAt ? (
-						<ListItemTrailingSupportingText>
-							<RelativeTimeSince
-								date={Temporal.Instant.fromEpochMilliseconds(
-									notification.createdAt * 1000
-								)}
-							/>
-						</ListItemTrailingSupportingText>
-					) : null}
-				</ListItem>
-			</li>
+			<ListItem
+				render={
+					<A href={route_media({ id: Number(notification.media.id) })}></A>
+				}
+				{...props}
+			>
+				<ListItemImg>
+					<MediaCover media={notification.media} />
+				</ListItemImg>
+				<ListItemContent>
+					<ListItemContentTitle>
+						{(notification.createdAt ?? 0) >
+							(viewer.unreadNotificationCount ?? 0) && (
+							<MaterialSymbolsWarningOutline className="i-inline text-tertiary inline" />
+						)}{" "}
+						{m.episode_aired({ episode: notification.episode })}
+					</ListItemContentTitle>
+					<ListItemContentSubtitle
+						title={notification.media.title.userPreferred}
+					>
+						{notification.media.title.userPreferred}
+					</ListItemContentSubtitle>
+				</ListItemContent>
+				{notification.createdAt ? (
+					<ListItemTrailingSupportingText>
+						<RelativeTimeSince
+							date={Temporal.Instant.fromEpochMilliseconds(
+								notification.createdAt * 1000
+							)}
+						/>
+					</ListItemTrailingSupportingText>
+				) : null}
+			</ListItem>
 		)
 	)
 }

@@ -86,7 +86,7 @@ function UserCard(props: { userName: string }) {
 			<>
 				<div className="-mx-4 -my-2">
 					<List>
-						<ListItem style={precompileStyles({ ...state("none") })}>
+						<ListItem first last style={precompileStyles({ ...state("none") })}>
 							<ListItemAvatar>
 								{data.User.avatar?.large ? (
 									<img
