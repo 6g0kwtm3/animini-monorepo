@@ -7,7 +7,7 @@ import { TextFieldOutlined } from "./TextField"
 import { createMenu } from "~/lib/menu"
 
 const { input } = createTextField({})
-interface SelectFactoryProps extends Ariakit.SelectProps {
+interface SelectFactoryProps extends Ariakit.ComboboxSelectProps {
 	children: ReactNode
 	label: ReactNode
 	name: string
@@ -18,28 +18,30 @@ export function SelectFactory({
 	...props
 }: SelectFactoryProps): ReactNode {
 	return (
-		<Ariakit.SelectProvider>
+		<Ariakit.ComboboxProvider>
 			<TextFieldOutlined>
 				<Select {...props} />
-				<Ariakit.SelectLabel className="sr-only">{label}</Ariakit.SelectLabel>
+				<Ariakit.ComboboxSelectLabel className="sr-only">
+					{label}
+				</Ariakit.ComboboxSelectLabel>
 				<TextFieldOutlined.Label htmlFor={props.name}>
 					{label}
 				</TextFieldOutlined.Label>
 			</TextFieldOutlined>
-		</Ariakit.SelectProvider>
+		</Ariakit.ComboboxProvider>
 	)
 }
 
 const { root } = createMenu()
 
-export function Select({ children, ...props }: Ariakit.SelectProps) {
+export function Select({ children, ...props }: Ariakit.ComboboxSelectProps) {
 	return (
 		<>
-			<Ariakit.Select
+			<Ariakit.ComboboxSelect
 				{...props}
 				className={input({ className: "cursor-default" })}
 			/>
-			<Ariakit.SelectPopover
+			<Ariakit.ComboboxPopover
 				sameWidth
 				className={root({
 					className:
@@ -47,7 +49,7 @@ export function Select({ children, ...props }: Ariakit.SelectProps) {
 				})}
 			>
 				{children}
-			</Ariakit.SelectPopover>
+			</Ariakit.ComboboxPopover>
 		</>
 	)
 }
