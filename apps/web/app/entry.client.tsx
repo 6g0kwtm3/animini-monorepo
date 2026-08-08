@@ -1,4 +1,5 @@
 import {
+	createSentryClientInstrumentation,
 	graphqlClientIntegration,
 	init,
 	reactErrorHandler,
@@ -44,7 +45,9 @@ startTransition(() => {
 	void hydrateRoot(
 		document,
 		<StrictMode>
-			<HydratedRouter instrumentations={[tracing.clientInstrumentation]} />
+			<HydratedRouter
+				instrumentations={[createSentryClientInstrumentation()]}
+			/>
 		</StrictMode>,
 		{
 			// Callback called when an error is thrown and not caught by an ErrorBoundary.
