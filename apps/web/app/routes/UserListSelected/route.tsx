@@ -1,5 +1,4 @@
 import { precompileStyles } from "@anitrove/unstyled"
-import { useWindowVirtualizer } from "@tanstack/react-virtual"
 import {
 	Outlet,
 	isRouteErrorResponse,
@@ -7,6 +6,7 @@ import {
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
 } from "react-router"
+import { useWindowVirtualizer } from "./use-window-virtualizer"
 // import {} from 'glob'
 
 import type { AnitomyResult } from "anitomy"
@@ -231,7 +231,9 @@ function AwaitList(props: Route.ComponentProps) {
 		)
 	}
 
-	for (const entry of selectedList?.flatMap((list) => list?.entries) ?? []) {
+	for (const entry of data?.MediaListCollection.lists?.flatMap(
+		(list) => list?.entries
+	) ?? []) {
 		if (entry?.media == null) {
 			continue
 		}
@@ -311,6 +313,8 @@ function AwaitList(props: Route.ComponentProps) {
 		gap: 2,
 		scrollMargin: ref?.offsetTop ?? 0,
 		overscan: 10,
+		useFlushSync: false,
+		directDomUpdates: true,
 	})
 
 	if (data == null) {
@@ -323,13 +327,13 @@ function AwaitList(props: Route.ComponentProps) {
 				render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
 				style={precompileStyles({
 					containerType: "inline-size",
-					height: `${virtualizer.getTotalSize()}px`,
 					position: "relative",
 				})}
 				data-size={mediaList.size}
 				lines={"two"}
+				ref={virtualizer.containerRef}
 			>
-				{virtualizer.getVirtualItems().map((virtualItem) => {
+				{virtualizer.virtualItems.map((virtualItem) => {
 					const item = output[virtualItem.index]
 					if (item == null) {
 						return null
@@ -340,9 +344,6 @@ function AwaitList(props: Route.ComponentProps) {
 							const entry = allEntries.get(id)
 							return (
 								<div
-									style={{
-										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-									}}
 									className="absolute top-0 left-0 w-full"
 									ref={virtualizer.measureElement}
 									data-index={virtualItem.index}
@@ -406,9 +407,6 @@ function AwaitList(props: Route.ComponentProps) {
 							const entry = allEntries.get(id)
 							return (
 								<div
-									style={{
-										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-									}}
 									className="absolute top-0 left-0 w-full"
 									ref={virtualizer.measureElement}
 									data-index={virtualItem.index}
