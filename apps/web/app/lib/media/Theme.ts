@@ -49,8 +49,8 @@ const DEFAULT_COLOR = themes.blue
 
 function calculateDistance(argb1: number, argb2: number): number {
 	return Math.sqrt(
-		(redFromArgb(argb1) - redFromArgb(argb2)) ** 2
-			+ (greenFromArgb(argb1) - greenFromArgb(argb2)) ** 2
-			+ (blueFromArgb(argb1) - blueFromArgb(argb2)) ** 2
+		(redFromArgb(argb1) - redFromArgb(argb2)) ** 2 +
+			(greenFromArgb(argb1) - greenFromArgb(argb2)) ** 2 +
+			(blueFromArgb(argb1) - blueFromArgb(argb2)) ** 2
 	)
 }
