@@ -69,7 +69,7 @@ catalog:
   electron-devtools-installer: 4.0.0
   eslint: 10.8.0
   eslint-plugin-oxlint: 1.77.0
-  eslint-plugin-perfectionist: 5.10.0
+  eslint-plugin-perfectionist: 5.10.1
   eslint-plugin-pnpm: 1.7.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-refresh: 0.5.3
