@@ -184,8 +184,8 @@ catalogs:
       specifier: 0.5.3
       version: 0.5.3
     eslint-plugin-storybook:
-      specifier: 10.5.6
-      version: 10.5.6
+      specifier: 10.5.7
+      version: 10.5.7
     eslint-plugin-turbo:
       specifier: 2.10.8
       version: 2.10.8
@@ -436,7 +436,7 @@ importers:
         version: link:../../packages/eslint-config-react
       eslint-plugin-storybook:
         specifier: 'catalog:'
-        version: 10.5.6(@typescript/typescript6@6.0.2)(eslint@10.8.0(jiti@2.7.0))(storybook@10.5.6(@types/react@19.2.18)(prettier@3.9.6)(react@19.2.8))
+        version: 10.5.7(@typescript/typescript6@6.0.2)(eslint@10.8.0(jiti@2.7.0))(storybook@10.5.6(@types/react@19.2.18)(prettier@3.9.6)(react@19.2.8))
       eslint-typegen:
         specifier: 'catalog:'
         version: 2.3.1(eslint@10.8.0(jiti@2.7.0))
@@ -4691,11 +4691,11 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@10.5.6:
-    resolution: {integrity: sha512-uOXhNkIH+iTdyViSmWnCrwtapasL57M3nq5yfST1H7y9djRLyuAIfNcf9cPBedc2G1oqI8jn3up/VHdN3y3Btw==}
+  eslint-plugin-storybook@10.5.7:
+    resolution: {integrity: sha512-mLpamG1Rsica2jYbUzIZOEuy7Fm1IMtVLMvvxGTpjTVKUMxTXJsANx3MBpH2VSbGQB8Yzlt5399WL/O07K97Ig==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.5.6
+      storybook: ^10.5.7
 
   eslint-plugin-turbo@2.10.8:
     resolution: {integrity: sha512-D6/FZUlP5IkZl/Wahoyi9q/UYFnyuh0cyqf3x5aHJNTmlu+bC6+h03cNPzPoQS7708ts54KYreUZW+FdRG5BWg==}
@@ -10907,7 +10907,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@10.5.6(@typescript/typescript6@6.0.2)(eslint@10.8.0(jiti@2.7.0))(storybook@10.5.6(@types/react@19.2.18)(prettier@3.9.6)(react@19.2.8)):
+  eslint-plugin-storybook@10.5.7(@typescript/typescript6@6.0.2)(eslint@10.8.0(jiti@2.7.0))(storybook@10.5.6(@types/react@19.2.18)(prettier@3.9.6)(react@19.2.8)):
     dependencies:
       '@typescript-eslint/types': 8.66.0
       '@typescript-eslint/utils': 8.66.0(@typescript/typescript6@6.0.2)(eslint@10.8.0(jiti@2.7.0))
