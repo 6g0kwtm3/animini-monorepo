@@ -20,10 +20,7 @@ interface SearchItemProps extends ComponentProps<typeof ListItem> {
 	media: SearchItem_media$key
 }
 
-export function SearchItem({
-	media,
-	...props
-}: SearchItemProps) {
+export function SearchItem({ media, ...props }: SearchItemProps) {
 	const data = useFragment(
 		graphql`
 			fragment SearchItem_media on Media {

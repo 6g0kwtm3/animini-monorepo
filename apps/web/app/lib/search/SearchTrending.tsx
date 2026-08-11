@@ -52,9 +52,13 @@ export function SearchTrending(props: {
 							<SearchViewItem
 								key={media.id}
 								data-key={media.id}
-								render={<SearchItem
-								first={i === 0}
-								last={i === arr.length - 1}  media={media} />}
+								render={
+									<SearchItem
+										first={i === 0}
+										last={i === arr.length - 1}
+										media={media}
+									/>
+								}
 							/>
 						))}
 				</List>

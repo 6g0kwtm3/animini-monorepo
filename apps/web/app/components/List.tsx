@@ -6,7 +6,7 @@ import {
 	defineCva,
 	mergeStyles,
 	provide,
-	type OutStyles
+	type OutStyles,
 } from "@anitrove/unstyled"
 import { Box } from "@anitrove/unstyled/box"
 import * as Ariakit from "@ariakit/react"
