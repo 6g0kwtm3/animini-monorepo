@@ -75,10 +75,7 @@ function MediaCard(props: { mediaId: number; type: string }) {
 				style={mergeStyles(
 					media.coverImage?.theme ?? undefined,
 					precompileStyles({
-						...utilities.theme({
-							base: "light",
-							[design.media.dark]: "dark",
-						}),
+						...utilities.theme({ base: "light", [design.media.dark]: "dark" }),
 						...utilities.contrast({
 							base: "standard",
 							[design.media.contrastMore]: "high",
