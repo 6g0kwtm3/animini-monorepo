@@ -41,13 +41,6 @@ const MediaListItem_entry = graphql`
 		id
 		...MediaListItemSubtitle_entry
 		private
-		media {
-			id
-			...MediaCover_media
-			coverImage {
-				theme
-			}
-		}
 	}
 `
 
