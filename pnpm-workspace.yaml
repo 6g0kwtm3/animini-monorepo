@@ -17,14 +17,14 @@ catalog:
   '@ariakit/react': 0.4.36
   '@ark/attest': 0.56.3
   '@babel/preset-typescript': 7.29.7
-  '@chromatic-com/storybook': 5.2.1
+  '@chromatic-com/storybook': 5.3.0
   '@codspeed/vitest-plugin': 5.7.1
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.1
   '@graphql-tools/mock': 9.1.12
   '@hono/node-server': 2.1.0
   '@iconify-json/material-symbols': 1.2.88
-  '@inlang/paraglide-js': 2.23.1
+  '@inlang/paraglide-js': 2.23.2
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.62.1
@@ -33,12 +33,12 @@ catalog:
   '@sentry/react': npm:@sentry/react-router@10.69.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
-  '@storybook/addon-a11y': 10.5.6
-  '@storybook/addon-docs': 10.5.6
-  '@storybook/addon-onboarding': 10.5.6
-  '@storybook/addon-themes': 10.5.6
-  '@storybook/addon-vitest': 10.5.6
-  '@storybook/react-vite': 10.5.6
+  '@storybook/addon-a11y': 10.5.7
+  '@storybook/addon-docs': 10.5.7
+  '@storybook/addon-onboarding': 10.5.7
+  '@storybook/addon-themes': 10.5.7
+  '@storybook/addon-vitest': 10.5.7
+  '@storybook/react-vite': 10.5.7
   '@stryker-mutator/api': 9.6.1
   '@stryker-mutator/core': 9.6.1
   '@stryker-mutator/vitest-runner': 9.6.1
@@ -80,9 +80,9 @@ catalog:
   flubber: 0.4.2
   graphql: 16.14.2
   graphql-config: 5.1.6
-  hono: 4.13.0
+  hono: 4.13.1
   isbot: 5.2.1
-  knip: 6.31.0
+  knip: 6.32.0
   marked: 0.3.19
   motion: 13.0.0
   msw: 2.15.0
@@ -97,12 +97,12 @@ catalog:
   react-router: 8.3.0
   relay-compiler: 21.0.1
   relay-runtime: 21.0.1
-  storybook: 10.5.6
+  storybook: 10.5.7
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.2
-  tsx: 4.23.8
-  turbo: 2.10.8
+  tsx: 4.23.11
+  turbo: 2.10.9
   typescript: npm:@typescript/typescript6@6.0.2
   typescript-eslint: 8.66.0
   unplugin-icons: 23.0.1
@@ -112,7 +112,7 @@ catalog:
   vite-plugin-inspect: 12.0.2
   vite-plugin-relay: 2.1.0
   vitest: 4.1.10
-  wrangler: 4.119.0
+  wrangler: 4.120.0
 
 catalogMode: strict
 
