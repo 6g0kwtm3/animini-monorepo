@@ -44,12 +44,12 @@ import { MediaTitle } from "./MediaTitle"
 export const styles = create({
 	item: {
 		...utilities.theme({
-			[media.hover]: { default: "light", [media.dark]: "dark" },
-			[media.focusWithin]: { default: "light", [media.dark]: "dark" },
+			[media.hover]: { base: "light", [media.dark]: "dark" },
+			[media.focusWithin]: { base: "light", [media.dark]: "dark" },
 		}),
 		...utilities.contrast({
-			[media.hover]: { default: "standard", [media.dark]: "high" },
-			[media.focusWithin]: { default: "standard", [media.dark]: "high" },
+			[media.hover]: { base: "standard", [media.dark]: "high" },
+			[media.focusWithin]: { base: "standard", [media.dark]: "high" },
 		}),
 	},
 	avatar: { position: "relative" },

@@ -76,11 +76,11 @@ function MediaCard(props: { mediaId: number; type: string }) {
 					media.coverImage?.theme ?? undefined,
 					precompileStyles({
 						...utilities.theme({
-							default: "light",
+							base: "light",
 							[design.media.dark]: "dark",
 						}),
 						...utilities.contrast({
-							default: "standard",
+							base: "standard",
 							[design.media.contrastMore]: "high",
 						}),
 						display: "inline-flex",
