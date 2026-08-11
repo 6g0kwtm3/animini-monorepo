@@ -257,9 +257,15 @@ function SheetSort() {
 						params.typelist === "animelist"
 							? ANIME_SORT_OPTIONS
 							: MANGA_SORT_OPTIONS
-					).map(([value, label]) => {
+					).map(([value, label], i, arr) => {
 						return (
-							<ListItem render={<Label />} key={value} data-key={value}>
+							<ListItem
+								first={i === 0}
+								last={i === arr.length - 1}
+								render={<Label />}
+								key={value}
+								data-key={value}
+							>
 								<Radio name="sort" value={value} />
 								<ListItemContent>
 									<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -295,9 +301,15 @@ function SheetFilter() {
 							params.typelist === "animelist"
 								? ANIME_STATUS_OPTIONS
 								: MANGA_STATUS_OPTIONS
-						).map(([value, label]) => {
+						).map(([value, label], i, arr) => {
 							return (
-								<ListItem render={<Label />} key={value} data-key={value}>
+								<ListItem
+									first={i === 0}
+									last={i === arr.length - 1}
+									render={<Label />}
+									key={value}
+									data-key={value}
+								>
 									<Checkbox name="status" value={value} />
 									<div className="col-span-2 col-start-2">
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -322,9 +334,15 @@ function SheetFilter() {
 							params.typelist === "animelist"
 								? ANIME_FORMAT_OPTIONS
 								: MANGA_FORMAT_OPTIONS
-						).map(([value, label]) => {
+						).map(([value, label], i, arr) => {
 							return (
-								<ListItem render={<Label />} key={value} data-key={value}>
+								<ListItem
+									first={i === 0}
+									last={i === arr.length - 1}
+									render={<Label />}
+									key={value}
+									data-key={value}
+								>
 									<Checkbox name="format" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
@@ -349,9 +367,15 @@ function SheetFilter() {
 							params.typelist === "animelist"
 								? ANIME_PROGRESS_OPTIONS
 								: MANGA_PROGRESS_OPTIONS
-						).map(([value, label]) => {
+						).map(([value, label], i, arr) => {
 							return (
-								<ListItem render={<Label />} key={value} data-key={value}>
+								<ListItem
+									first={i === 0}
+									last={i === arr.length - 1}
+									render={<Label />}
+									key={value}
+									data-key={value}
+								>
 									<Checkbox name="progress" value={value} />
 									<ListItemContent>
 										<ListItemContentTitle>{label}</ListItemContentTitle>
