@@ -48,11 +48,17 @@ export function SearchTrending(props: {
 				>
 					{data.trending.media
 						.filter((el) => el != null)
-						.map((media) => (
+						.map((media, i, arr) => (
 							<SearchViewItem
 								key={media.id}
 								data-key={media.id}
-								render={<SearchItem media={media} />}
+								render={
+									<SearchItem
+										first={i === 0}
+										last={i === arr.length - 1}
+										media={media}
+									/>
+								}
 							/>
 						))}
 				</List>

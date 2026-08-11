@@ -45,11 +45,13 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 						<List>
 							{data?.page?.media
 								?.filter((el) => el != null)
-								.map((media) => (
+								.map((media, i, arr) => (
 									<SearchItem
 										media={media}
 										key={media.id}
 										data-key={media.id}
+										first={i === 0}
+										last={i === arr.length - 1}
 									/>
 								))}
 						</List>
