@@ -6,8 +6,14 @@ import icons from "unplugin-icons/vite"
 import { defineConfig, type Plugin } from "vite"
 import babel from "vite-plugin-babel"
 import inspect from "vite-plugin-inspect"
-import relay from "vite-plugin-relay"
+import relay from "unplugin-relay/vite"
 import macros from "unplugin-macros/vite"
+import relayConfig from "./relay.config.json" with { type: "json" }
+import path from "path"
+
+if (relayConfig.language !== "typescript") {
+	throw new Error(`relayConfig.language !== "typescript"`)
+}
 
 export default defineConfig({
 	plugins: [
@@ -31,7 +37,11 @@ export default defineConfig({
 				props.height = "1em"
 			},
 		}),
-		relay,
+		relay({
+			language: relayConfig.language,
+			eagerEsModules: relayConfig.eagerEsModules,
+			artifactDirectory: path.resolve(relayConfig.artifactDirectory),
+		}),
 		sentry({
 			org: "animini",
 			project: "javascript-react",

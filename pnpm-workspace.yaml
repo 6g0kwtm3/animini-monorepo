@@ -107,10 +107,10 @@ catalog:
   typescript-eslint: 8.67.0
   unplugin-icons: 23.0.1
   unplugin-macros: 0.20.2
+  unplugin-relay: 0.1.0
   vite: 8.0.12
   vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 12.0.2
-  vite-plugin-relay: 2.1.0
   vitest: 4.1.10
   wrangler: 4.120.0
 
