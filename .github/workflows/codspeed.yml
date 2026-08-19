@@ -53,3 +53,4 @@ jobs:
         with:
           run: pnpm exec turbo bench
           mode: simulation
+        timeout-minutes: 5
