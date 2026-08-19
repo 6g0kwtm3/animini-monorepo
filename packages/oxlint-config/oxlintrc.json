@@ -32,7 +32,11 @@
 				]
 			}
 		],
-		"react/react-compiler": "error",
+		"react/no-deriving-state-in-effects": "error",
+		"react/capitalized-calls": "error",
+		"react/exhaustive-effect-dependencies": "error",
+		"react/hooks": "error",
+		"react/memo-dependencies": "error",
 		"eslint/no-unused-expressions": "warn",
 		"eslint/eqeqeq": ["warn", "always", { "null": "never" }],
 		"eslint/prefer-template": "warn",

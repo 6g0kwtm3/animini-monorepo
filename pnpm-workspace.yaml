@@ -88,7 +88,7 @@ catalog:
   msw: 2.15.0
   nodemon: 3.1.14
   oxfmt: 0.64.0
-  oxlint: 1.78.0
+  oxlint: 1.79.0
   oxlint-tsgolint: 7.0.2001
   prop-types: 15.8.1
   react: 19.2.8
