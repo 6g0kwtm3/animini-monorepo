@@ -33,9 +33,9 @@ export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 			const state = queue.current.at(0) === this ? "open" : "closed"
 
 			if (
-				state === "closed" &&
-				"newState" in event &&
-				event.newState === "open"
+				state === "closed"
+				&& "newState" in event
+				&& event.newState === "open"
 			) {
 				event.preventDefault()
 
@@ -117,16 +117,16 @@ function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 
 		function onInvoke(event: ToggleEvent) {
 			if (
-				(event.action === "show" || event.action === "auto") &&
-				!event.currentTarget.matches(":popover-open")
+				(event.action === "show" || event.action === "auto")
+				&& !event.currentTarget.matches(":popover-open")
 			) {
 				event.currentTarget.showPopover()
 				return
 			}
 
 			if (
-				(event.action === "hide" || event.action === "auto") &&
-				event.currentTarget.matches(":popover-open")
+				(event.action === "hide" || event.action === "auto")
+				&& event.currentTarget.matches(":popover-open")
 			) {
 				event.currentTarget.hidePopover()
 			}

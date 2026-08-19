@@ -80,9 +80,9 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 					continue
 				}
 				if (
-					ancestorNode.kind === Kind.OPERATION_DEFINITION &&
-					(ancestorNode.operation === OperationTypeNode.MUTATION ||
-						ancestorNode.operation === OperationTypeNode.SUBSCRIPTION)
+					ancestorNode.kind === Kind.OPERATION_DEFINITION
+					&& (ancestorNode.operation === OperationTypeNode.MUTATION
+						|| ancestorNode.operation === OperationTypeNode.SUBSCRIPTION)
 				) {
 					return
 				}
@@ -94,9 +94,9 @@ function getGraphQLFragmentSpreads(graphQLAst: DocumentNode) {
 				if (directiveNode.name.value === "relay") {
 					for (const argumentNode of directiveNode.arguments ?? []) {
 						if (
-							argumentNode.name.value === "mask" &&
-							"value" in argumentNode.value &&
-							argumentNode.value.value === false
+							argumentNode.name.value === "mask"
+							&& "value" in argumentNode.value
+							&& argumentNode.value.value === false
 						) {
 							return
 						}
@@ -135,8 +135,8 @@ export const rule: Rule.RuleModule = {
 		schema: [],
 		messages: {
 			"must-colocate-fragment-spreads":
-				`This spreads the fragment \`{{ fragment }}\` but ` +
-				"this module does not use it directly.",
+				`This spreads the fragment \`{{ fragment }}\` but `
+				+ "this module does not use it directly.",
 		},
 	},
 	create(context) {
@@ -162,9 +162,9 @@ export const rule: Rule.RuleModule = {
 							fragment.startsWith(name)
 						)
 						if (
-							queriedFragments[fragment] &&
-							!matchedModuleName &&
-							!fragmentsInTheSameModule.has(fragment)
+							queriedFragments[fragment]
+							&& !matchedModuleName
+							&& !fragmentsInTheSameModule.has(fragment)
 						) {
 							context.report({
 								node,
@@ -179,9 +179,9 @@ export const rule: Rule.RuleModule = {
 
 			ImportDeclaration(node) {
 				if (
-					"importKind" in node &&
-					node.importKind === "value" &&
-					typeof node.source.value === "string"
+					"importKind" in node
+					&& node.importKind === "value"
+					&& typeof node.source.value === "string"
 				) {
 					foundImportedModules.push(getModuleName(node.source.value))
 				}
@@ -189,8 +189,8 @@ export const rule: Rule.RuleModule = {
 
 			ImportExpression(node) {
 				if (
-					node.source.type === "Literal" &&
-					typeof node.source.value === "string"
+					node.source.type === "Literal"
+					&& typeof node.source.value === "string"
 				) {
 					// Allow dynamic imports like import(`test/${fileName}`); and (path) => import(path);
 					// These would have node.source.value undefined

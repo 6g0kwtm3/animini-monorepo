@@ -9,8 +9,8 @@ export function hasPrecedingEslintDisableComment(
 ) {
 	const prevNode = node.loc?.startToken.prev
 	return (
-		prevNode?.kind === TokenKind.COMMENT &&
-		prevNode.value.startsWith(commentText)
+		prevNode?.kind === TokenKind.COMMENT
+		&& prevNode.value.startsWith(commentText)
 	)
 }
 export interface NodeWithLoc {
@@ -67,9 +67,9 @@ export function isGraphQLTemplate(
 	node: ESTree.TaggedTemplateExpression
 ): node is GraphqlTemplateExpression {
 	return (
-		node.tag.type === "Identifier" &&
-		node.tag.name === "graphql" &&
-		node.quasi.quasis.length === 1
+		node.tag.type === "Identifier"
+		&& node.tag.name === "graphql"
+		&& node.quasi.quasis.length === 1
 	)
 }
 

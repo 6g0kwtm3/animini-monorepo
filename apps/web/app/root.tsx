@@ -98,8 +98,8 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 	const isHydrated = useIsHydrated()
 	const params = useParams()
 	const { lang, dir } =
-		languageToLocale(params.locale ?? null) ??
-		({ lang: "en", dir: "ltr" } as const)
+		languageToLocale(params.locale ?? null)
+		?? ({ lang: "en", dir: "ltr" } as const)
 
 	useSetupOnAbortNavigation()
 
