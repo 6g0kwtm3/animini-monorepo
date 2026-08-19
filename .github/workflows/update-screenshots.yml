@@ -53,7 +53,8 @@ jobs:
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
       - name: Install playwright 📦
-        run: pnpm --filter=web exec playwright install --with-deps
+        run: pnpm --filter=web exec playwright install chrome webkit --with-deps
+        timeout-minutes: 10
 
       - name: Configure Git
         run: |
