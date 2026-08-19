@@ -65,7 +65,7 @@ jobs:
 
       - name: Install playwright 📦
         run: pnpm --filter=web exec playwright install chrome webkit --with-deps
-        if: steps.affected-test-e2e.outcome == 'failure'
+        if: steps.affected-test-e2e.outcome == 'failure' && matrix.project != 'electron'
         timeout-minutes: 10
 
       - name: Install xvfb 📦
