@@ -52,6 +52,13 @@ jobs:
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Cache playwright binaries
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright
+
       - name: Install playwright 📦
         run: pnpm --filter=web exec playwright install chromium-headless-shell webkit --with-deps
         timeout-minutes: 5

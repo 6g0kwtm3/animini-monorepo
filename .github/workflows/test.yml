@@ -63,6 +63,23 @@ jobs:
         continue-on-error: true
         run: pnpm exec turbo query affected --tasks test-e2e --exit-code
 
+      - name: Cache playwright binaries
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            ~/Library/Caches/ms-playwright
+          key: playwright
+        if: steps.affected-test-e2e.outcome == 'failure' && matrix.os != 'windows-latest'
+
+      - name: Cache playwright binaries
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~\AppData\Local\ms-playwright
+          key: playwright
+        if: steps.affected-test-e2e.outcome == 'failure' && matrix.os == 'windows-latest'
+
       - name: Install playwright 📦
         run: pnpm --filter=web exec playwright install chromium-headless-shell webkit --with-deps
         if: steps.affected-test-e2e.outcome == 'failure'
