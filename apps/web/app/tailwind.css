@@ -17,6 +17,7 @@
 	::backdrop,
 	::file-selector-button {
 		border-color: var(--color-gray-200, currentColor);
+		text-box: trim-both cap alphabetic;
 	}
 }
 
