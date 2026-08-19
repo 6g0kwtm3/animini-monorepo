@@ -39,9 +39,9 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 		},
 		OperationDefinition(node) {
 			if (
-				node.operation === OperationTypeNode.MUTATION ||
-				node.operation === OperationTypeNode.SUBSCRIPTION ||
-				hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)
+				node.operation === OperationTypeNode.MUTATION
+				|| node.operation === OperationTypeNode.SUBSCRIPTION
+				|| hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)
 			) {
 				return false
 			}
@@ -130,22 +130,22 @@ export const rule: Rule.RuleModule = {
 					const queriedFields = getGraphQLFieldNames(graphQLAst)
 					for (const field in queriedFields) {
 						if (
-							queriedFields[field] != null &&
-							!foundMemberAccesses.has(field) &&
-							!isPageInfoField(field) &&
+							queriedFields[field] != null
+							&& !foundMemberAccesses.has(field)
+							&& !isPageInfoField(field)
 							// Do not warn for unused __typename which can be a workaround
 							// when only interested in existence of an object.
-							field !== "__typename" &&
-							field !== "id" &&
-							field !== "__id"
+							&& field !== "__typename"
+							&& field !== "id"
+							&& field !== "__id"
 						) {
 							context.report({
 								node: templateLiteral,
 								loc: getLoc(context, templateLiteral, queriedFields[field]),
 								data: { field },
 								message:
-									`This queries for the field \`{{ field }}\` but this file does ` +
-									"not seem to use it directly.",
+									`This queries for the field \`{{ field }}\` but this file does `
+									+ "not seem to use it directly.",
 							})
 						}
 					}
@@ -177,9 +177,9 @@ export const rule: Rule.RuleModule = {
 			ObjectPattern(node) {
 				node.properties.forEach((node) => {
 					if (
-						node.type === "Property" &&
-						!node.computed &&
-						"name" in node.key
+						node.type === "Property"
+						&& !node.computed
+						&& "name" in node.key
 					) {
 						foundMemberAccesses.add(node.key.name)
 					}

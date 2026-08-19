@@ -253,8 +253,8 @@ function mergeCompoundVariantProperty<
 				})
 				.reduceRight<undefined | Value>((acc, compoundVariant) => {
 					return acc ?? compoundVariant.css[property]
-				}, undefined) ??
-			currentOptions.reduceRight<undefined | Value>(
+				}, undefined)
+			?? currentOptions.reduceRight<undefined | Value>(
 				(acc, variant, i): undefined | Value => {
 					const propertyVariant = propertyVariants[i]
 					invariant(
@@ -264,8 +264,8 @@ function mergeCompoundVariantProperty<
 					return acc ?? variants[propertyVariant]?.[variant]?.[property]
 				},
 				undefined
-			) ??
-			base[property]
+			)
+			?? base[property]
 		)
 	}
 	const variant = propertyVariants[index]

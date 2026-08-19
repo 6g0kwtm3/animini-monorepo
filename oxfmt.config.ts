@@ -22,4 +22,5 @@ export default defineConfig({
 		"skills-lock.json",
 	],
 	endOfLine: process.platform === "win32" ? "crlf" : "lf",
+	experimentalOperatorPosition: "start",
 })
