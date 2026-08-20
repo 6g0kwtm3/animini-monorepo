@@ -35,7 +35,9 @@ export function NavigationItem({
 				{icon}
 				{activeIcon}
 			</NavigationItemIcon>
-			<div className="max-w-full break-words">{children}</div>
+			<div className="max-w-full wrap-break-word [text-box:trim-both_cap_alphabetic]">
+				{children}
+			</div>
 			{badge}
 			<TouchTarget />
 		</Ariakit.CompositeItem>
