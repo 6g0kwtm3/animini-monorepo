@@ -8,7 +8,7 @@ export const btnIcon = tv({
 
 export const createButton = tv({
 	slots: {
-		root: "text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-active:state-pressed data-focus-visible:state-focus inline-flex h-10 min-w-[3rem] items-center justify-center rounded-[1.25rem] whitespace-nowrap select-none aria-disabled:cursor-not-allowed",
+		root: "text-label-lg hover:state-hover focus-visible:state-focus active:state-pressed aria-disabled:text-on-surface/[.38] aria-disabled:state-none data-active:state-pressed data-focus-visible:state-focus inline-flex h-10 min-w-[3rem] items-center justify-center rounded-[1.25rem] whitespace-nowrap select-none [text-box:trim-both_cap_alphabetic] aria-disabled:cursor-not-allowed",
 		icon: "dummy i-[1.125rem] h-[1.125rem] w-[1.125rem]",
 	},
 	variants: {
