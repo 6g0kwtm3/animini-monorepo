@@ -169,8 +169,8 @@ catalogs:
       specifier: 10.8.1
       version: 10.8.1
     eslint-plugin-oxlint:
-      specifier: 1.78.0
-      version: 1.78.0
+      specifier: 1.79.0
+      version: 1.79.0
     eslint-plugin-perfectionist:
       specifier: 5.10.1
       version: 5.10.1
@@ -751,7 +751,7 @@ importers:
         version: 10.8.1(jiti@2.7.0)
       eslint-plugin-oxlint:
         specifier: 'catalog:'
-        version: 1.78.0(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
+        version: 1.79.0(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
       eslint-plugin-perfectionist:
         specifier: 'catalog:'
         version: 5.10.1(@typescript/typescript6@6.0.2)(eslint@10.8.1(jiti@2.7.0))
@@ -778,7 +778,7 @@ importers:
         version: link:../eslint-plugin-jsx
       eslint-plugin-oxlint:
         specifier: 'catalog:'
-        version: 1.78.0(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
+        version: 1.79.0(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
       eslint-plugin-react:
         specifier: 'catalog:'
         version: 7.37.5(eslint@10.8.1(jiti@2.7.0))
@@ -4928,10 +4928,10 @@ packages:
       '@eslint/json':
         optional: true
 
-  eslint-plugin-oxlint@1.78.0:
-    resolution: {integrity: sha512-kTyevY8wGGOvmOuEoWsP+MN1PEUaAbjka3MqPIcjqp3ZW3lXiu8OX/HyNFhTG8qCZi0qWYqnvgMYOUFAsu/Diw==}
+  eslint-plugin-oxlint@1.79.0:
+    resolution: {integrity: sha512-KpxU5mvO6gOMYKeJAaebF8lShP763U2lGUjGYmXf6YRvjlw4vME4ID9Ne8fLv8wU6LSImxYFINbzoyELt4Dsvg==}
     peerDependencies:
-      oxlint: ~1.78.0
+      oxlint: ~1.79.0
 
   eslint-plugin-perfectionist@5.10.1:
     resolution: {integrity: sha512-Kprsp9Us0GqAesYaAIzUViw57xYp5WBqzXrcE0Mtww++E5fexWXYBipMuuD7yvyH4vvpBH0+oJ+OMAmZ0oYXkw==}
@@ -11247,7 +11247,7 @@ snapshots:
       esquery: 1.7.0
       jsonc-eslint-parser: 3.3.0
 
-  eslint-plugin-oxlint@1.78.0(oxlint@1.79.0(oxlint-tsgolint@7.0.2001)):
+  eslint-plugin-oxlint@1.79.0(oxlint@1.79.0(oxlint-tsgolint@7.0.2001)):
     dependencies:
       jsonc-parser: 3.3.1
       oxlint: 1.79.0(oxlint-tsgolint@7.0.2001)
