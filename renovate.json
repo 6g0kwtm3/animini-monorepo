@@ -1,37 +1,40 @@
 {
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"labels": ["dependencies"],
-	"extends": [
-		"config:best-practices",
-		"group:allDigest",
-		"group:allNonMajor",
-		":pinAllExceptPeerDependencies",
-		":automergeStableNonMajor",
-		"schedule:daily",
-		":separateMultipleMajorReleases"
-	],
-	"packageRules": [
-		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
-		{
-			"groupName": "digests",
-			"matchDepTypes": ["action"],
-			"matchUpdateTypes": ["digest"],
-			"automerge": false
-		},
-		{ "groupName": "build", "extends": ["packages:vite"] },
-		{ "groupName": "test", "extends": ["packages:test"] },
-		{ "groupName": "eslint", "matchPackageNames": ["/eslint/"] },
-		{ "groupName": "oxlint", "matchPackageNames": ["/oxlint/"] },
-		{ "groupName": "prettier", "matchPackageNames": ["/prettier/"] }
-	],
-	"automergeType": "branch",
-	"ignoreDeps": [
-		// pinnned
-		"pnpm",
-		"@types/marked",
-		"marked",
-		// TODO: update
-		"dompurify",
-		"unplugin-macros"
-	]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "labels": ["dependencies"],
+  "extends": [
+    "config:best-practices",
+    "group:allDigest",
+    "group:allNonMajor",
+    ":pinAllExceptPeerDependencies",
+    ":automergeStableNonMajor",
+    "schedule:daily",
+    ":separateMultipleMajorReleases"
+  ],
+  "packageRules": [
+    { "matchPackageNames": ["/relay/"], "groupName": "relay" },
+    {
+      "groupName": "digests",
+      "matchDepTypes": ["action"],
+      "matchUpdateTypes": ["digest"],
+      "automerge": false
+    },
+    { "groupName": "build", "extends": ["packages:vite"] },
+    { "groupName": "test", "extends": ["packages:test"] },
+    { "groupName": "eslint", "matchPackageNames": ["/eslint/"] },
+    { "groupName": "oxlint", "matchPackageNames": ["/oxlint/"] },
+    { "groupName": "prettier", "matchPackageNames": ["/prettier/"] }
+  ],
+  "lockFileMaintenance": {
+    "automerge": true
+  },
+  "automergeType": "branch",
+  "ignoreDeps": [
+    // pinnned
+    "pnpm",
+    "@types/marked",
+    "marked",
+    // TODO: update
+    "dompurify",
+    "unplugin-macros"
+  ]
 }
