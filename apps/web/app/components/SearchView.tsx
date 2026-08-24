@@ -33,7 +33,7 @@ export function SearchView({ ...props }: SearchViewProps) {
 			<Ariakit.ComboboxProvider
 				focusLoop={true}
 				open={props.open}
-				includesBaseElement={true}
+				compositeElementInFocusOrder={true}
 			>
 				{props.children}
 			</Ariakit.ComboboxProvider>
