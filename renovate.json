@@ -27,7 +27,6 @@
 	"automergeType": "branch",
 	"ignoreDeps": [
 		// pinnned
-		"pnpm",
 		"@types/marked",
 		"marked",
 		// TODO: update
