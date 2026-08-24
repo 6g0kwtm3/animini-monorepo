@@ -57,6 +57,7 @@ catalog:
   '@types/react-dom': 19.2.4
   '@typescript-eslint/parser': 8.67.0
   '@typescript/native': npm:typescript@rc
+  '@vitejs/plugin-react': 6.1.0
   anitomy: 0.0.35
   arktype: 2.2.3
   babel-plugin-react-compiler: 1.0.0
@@ -87,6 +88,7 @@ catalog:
   motion: 13.1.1
   msw: 2.15.0
   nodemon: 3.1.14
+  oxc-transform-react: 0.145.0
   oxfmt: 0.64.0
   oxlint: 1.79.0
   oxlint-tsgolint: 7.0.2001
@@ -109,7 +111,6 @@ catalog:
   unplugin-macros: 0.20.2
   unplugin-relay: 0.1.0
   vite: 8.0.12
-  vite-plugin-babel: 1.7.0
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
   wrangler: 4.125.0
