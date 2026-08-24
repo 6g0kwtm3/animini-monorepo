@@ -24,6 +24,7 @@
 		{ "groupName": "oxlint", "matchPackageNames": ["/oxlint/"] },
 		{ "groupName": "prettier", "matchPackageNames": ["/prettier/"] }
 	],
+	"lockFileMaintenance": { "automerge": true },
 	"automergeType": "branch",
 	"ignoreDeps": [
 		// pinnned
