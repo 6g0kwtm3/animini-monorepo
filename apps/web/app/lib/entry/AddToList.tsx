@@ -111,7 +111,7 @@ export function AddToList({
 											entries {
 												__typename
 												__id
-												...AddToList_assignable @alias
+												...AddToList_assignable
 											}
 										}
 									}

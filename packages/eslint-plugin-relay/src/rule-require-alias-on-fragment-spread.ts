@@ -1,6 +1,6 @@
 import type { Rule } from "eslint"
 
-import { OperationTypeNode, visit, type DocumentNode } from "graphql"
+import { Kind, OperationTypeNode, visit, type DocumentNode } from "graphql"
 import {
 	getGraphQLAST,
 	getLoc,
@@ -27,7 +27,7 @@ function getFragmentSpreadsWithoutAlias(graphQLAst: DocumentNode) {
 					continue
 				}
 				if (
-					ancestorNode.kind === "OperationDefinition"
+					ancestorNode.kind === Kind.OPERATION_DEFINITION
 					&& (ancestorNode.operation === OperationTypeNode.MUTATION
 						|| ancestorNode.operation === OperationTypeNode.SUBSCRIPTION)
 				) {

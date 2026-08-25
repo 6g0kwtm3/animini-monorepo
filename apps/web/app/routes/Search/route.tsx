@@ -47,7 +47,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 								?.filter((el) => el != null)
 								.map((media, i, arr) => (
 									<SearchItem
-										media={media}
+										media={media.SearchItem_media}
 										key={media.id}
 										data-key={media.id}
 										first={i === 0}

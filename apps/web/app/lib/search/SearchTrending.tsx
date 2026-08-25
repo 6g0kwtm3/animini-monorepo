@@ -56,7 +56,7 @@ export function SearchTrending(props: {
 									<SearchItem
 										first={i === 0}
 										last={i === arr.length - 1}
-										media={media}
+										media={media.SearchItem_media}
 									/>
 								}
 							/>

@@ -86,7 +86,7 @@ export function MediaListItem({
 			<Box style={styles.avatar}>
 				<ListItemImg>
 					<Skeleton full>
-						<MediaCover media={data} />
+						<MediaCover media={data.MediaCover_media} />
 					</Skeleton>
 				</ListItemImg>
 				{entry?.private ? (
@@ -104,12 +104,16 @@ export function MediaListItem({
 			>
 				<ListItemContentTitle>
 					<Skeleton>
-						<MediaTitle media={data}></MediaTitle>
+						<MediaTitle media={data.MediaTitle_media}></MediaTitle>
 					</Skeleton>
 				</ListItemContentTitle>
 				<ListItemContentSubtitle style={styles.subtitle}>
 					<Skeleton className="max-w-[21.666666666666668ch]">
-						{entry ? <MediaListItemSubtitle entry={entry} /> : null}
+						{entry ? (
+							<MediaListItemSubtitle
+								entry={entry.MediaListItemSubtitle_entry}
+							/>
+						) : null}
 					</Skeleton>
 				</ListItemContentSubtitle>
 			</ListItemContent>

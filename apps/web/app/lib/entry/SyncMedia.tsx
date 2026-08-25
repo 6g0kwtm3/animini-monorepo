@@ -161,7 +161,7 @@ export function SyncMedia(props: {
 													}
 												}
 											`,
-											list
+											list.SyncMedia_updatable
 										)
 
 									if (response?.SaveMediaListEntry != null) {

@@ -142,7 +142,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 											key={notification.id}
 											data-key={notification.id}
 											notification={notification.Airing_notification}
-											viewer={data.Viewer}
+											viewer={data.Viewer.Airing_viewer}
 											first={i === 0}
 											last={i === notifications.length - 1}
 										/>
@@ -156,7 +156,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 											notification={
 												notification.RelatedMediaAddition_notification
 											}
-											viewer={data.Viewer}
+											viewer={data.Viewer.RelatedMediaAddition_viewer}
 											first={i === 0}
 											last={i === notifications.length - 1}
 										/>
@@ -168,7 +168,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 											key={notification.id}
 											data-key={notification.id}
 											notification={notification.ActivityLike_notification}
-											viewer={data.Viewer}
+											viewer={data.Viewer.ActivityLike_viewer}
 											first={i === 0}
 											last={i === notifications.length - 1}
 										/>

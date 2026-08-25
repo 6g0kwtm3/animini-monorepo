@@ -102,7 +102,7 @@ export function ProgressIncrement(props: {
 									/>
 								}
 							>
-								<Progress entry={entry} />
+								<Progress entry={entry.Progress_entry} />
 								<ButtonIcon>
 									<MaterialSymbolsAdd />
 								</ButtonIcon>

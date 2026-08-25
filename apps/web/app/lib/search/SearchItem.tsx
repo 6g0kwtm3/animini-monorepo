@@ -47,7 +47,7 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 				}
 			>
 				<ListItemAvatar>
-					<MediaCover media={data} />
+					<MediaCover media={data.MediaCover_media} />
 				</ListItemAvatar>
 
 				<ListItemContent>

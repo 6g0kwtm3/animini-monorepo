@@ -70,7 +70,7 @@ export function RelatedMediaAddition({
 				{...props}
 			>
 				<ListItemImg>
-					<MediaCover media={notification.media} />
+					<MediaCover media={notification.media.MediaCover_media} />
 				</ListItemImg>
 				<ListItemContent>
 					<ListItemContentTitle>
