@@ -498,15 +498,15 @@ export function ErrorBoundary(): ReactNode {
 }
 interface MediaListMapEntry {
 	media: {
-		MediaListItem_media: MediaListItem_media$key
 		AddToList_media: AddToList_media$key
+		MediaListItem_media: MediaListItem_media$key
 	}
 	originalEntry: AddToList_originalEntry$key
 	relations: Map<
 		number,
 		{
-			MediaListItem_media: MediaListItem_media$key
 			AddToList_media: AddToList_media$key
+			MediaListItem_media: MediaListItem_media$key
 		}
 	>
 }
