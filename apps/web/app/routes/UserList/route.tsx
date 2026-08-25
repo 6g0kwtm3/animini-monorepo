@@ -73,7 +73,7 @@ const { graphql } = ReactRelay
 
 const UserListTabsQuery = graphql`
 	query routeUserListTabsQuery($userName: String!, $type: MediaType!) {
-		...UserListTabs_query
+		...UserListTabs_query @alias
 	}
 `
 

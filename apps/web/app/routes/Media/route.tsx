@@ -66,7 +66,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 					coverImage {
 						color
 					}
-					...MediaCover_media @arguments(extraLarge: true)
+					...MediaCover_media @arguments(extraLarge: true) @alias
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}
@@ -125,7 +125,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 						className="grid flex-1 gap-4 rounded-[2.75rem]"
 					>
 						<MediaCover
-							media={data.Media}
+							media={data.Media.MediaCover_media}
 							className="rounded-xl [view-transition-name:media-cover]"
 						/>
 

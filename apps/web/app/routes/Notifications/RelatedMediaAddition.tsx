@@ -43,7 +43,7 @@ export function RelatedMediaAddition({
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}
-					...MediaCover_media
+					...MediaCover_media @alias
 					id
 				}
 			}
@@ -70,7 +70,7 @@ export function RelatedMediaAddition({
 				{...props}
 			>
 				<ListItemImg>
-					<MediaCover media={notification.media} />
+					<MediaCover media={notification.media.MediaCover_media} />
 				</ListItemImg>
 				<ListItemContent>
 					<ListItemContentTitle>

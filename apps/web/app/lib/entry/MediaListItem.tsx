@@ -39,7 +39,7 @@ const { graphql } = ReactRelay
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
 		id
-		...MediaListItemSubtitle_entry
+		...MediaListItemSubtitle_entry @alias
 		private
 	}
 `
@@ -47,8 +47,8 @@ const MediaListItem_entry = graphql`
 const MediaListItem_media = graphql`
 	fragment MediaListItem_media on Media {
 		id
-		...MediaCover_media
-		...MediaTitle_media
+		...MediaCover_media @alias
+		...MediaTitle_media @alias
 		coverImage {
 			theme
 		}
@@ -86,7 +86,7 @@ export function MediaListItem({
 			<Box style={styles.avatar}>
 				<ListItemImg>
 					<Skeleton full>
-						<MediaCover media={data} />
+						<MediaCover media={data.MediaCover_media} />
 					</Skeleton>
 				</ListItemImg>
 				{entry?.private ? (
@@ -104,12 +104,16 @@ export function MediaListItem({
 			>
 				<ListItemContentTitle>
 					<Skeleton>
-						<MediaTitle media={data}></MediaTitle>
+						<MediaTitle media={data.MediaTitle_media}></MediaTitle>
 					</Skeleton>
 				</ListItemContentTitle>
 				<ListItemContentSubtitle style={styles.subtitle}>
 					<Skeleton className="max-w-[21.666666666666668ch]">
-						{entry ? <MediaListItemSubtitle entry={entry} /> : null}
+						{entry ? (
+							<MediaListItemSubtitle
+								entry={entry.MediaListItemSubtitle_entry}
+							/>
+						) : null}
 					</Skeleton>
 				</ListItemContentSubtitle>
 			</ListItemContent>

@@ -44,7 +44,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 					options {
 						profileTheme
 					}
-					...User_user
+					...User_user @alias
 				}
 			}
 		`,
@@ -133,7 +133,7 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 							</AppBar>
 						</div>
 
-						<User user={data.user} />
+						<User user={data.user.User_user} />
 						<TabsPanel tabId={params.typelist ?? "undefined"}>
 							<Outlet />
 						</TabsPanel>

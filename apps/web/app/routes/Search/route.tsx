@@ -24,7 +24,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 				page: Page(perPage: 10) {
 					media(search: $q, sort: $sort) {
 						id
-						...SearchItem_media
+						...SearchItem_media @alias
 					}
 				}
 			}
@@ -47,7 +47,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 								?.filter((el) => el != null)
 								.map((media, i, arr) => (
 									<SearchItem
-										media={media}
+										media={media.SearchItem_media}
 										key={media.id}
 										data-key={media.id}
 										first={i === 0}

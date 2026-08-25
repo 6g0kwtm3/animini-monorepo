@@ -58,7 +58,7 @@ export function AddToList({
 				status
 				...MediaListItem_entry
 				...AddToList_originalEntry
-				...SyncMedia_entry
+				...SyncMedia_entry_plural
 				...SyncMedia_source
 				...ProgressIncrement_entry
 				...AddToList_assignable

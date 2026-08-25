@@ -1,7 +1,7 @@
 import { CompositeItem } from "@ariakit/react"
 import ReactRelay, { useMutation } from "react-relay"
 import { Button, ButtonIcon } from "~/components/Button"
-import type { SyncMedia_entry$key } from "~/gql/SyncMedia_entry.graphql"
+import type { SyncMedia_entry_plural$key } from "~/gql/SyncMedia_entry_plural.graphql"
 import type { SyncMedia_mediaListCollection$key } from "~/gql/SyncMedia_mediaListCollection.graphql"
 import type { SyncMedia_source$key } from "~/gql/SyncMedia_source.graphql"
 import type { SyncMedia_updatable$key } from "~/gql/SyncMedia_updatable.graphql"
@@ -14,13 +14,13 @@ const { graphql } = ReactRelay
 export function SyncMedia(props: {
 	mediaListCollection: SyncMedia_mediaListCollection$key
 	source: SyncMedia_source$key
-	targetEntries: SyncMedia_entry$key
+	targetEntries: SyncMedia_entry_plural$key
 	targetMediaIds: number[]
 }) {
 	const targets = new Map(
 		useFragment(
 			graphql`
-				fragment SyncMedia_entry on MediaList @relay(plural: true) {
+				fragment SyncMedia_entry_plural on MediaList @relay(plural: true) {
 					id
 					startedAt {
 						day
@@ -81,7 +81,7 @@ export function SyncMedia(props: {
 				status
 				...MediaListItem_entry
 				...AddToList_originalEntry
-				...SyncMedia_entry
+				...SyncMedia_entry_plural
 				...SyncMedia_source
 				...ProgressIncrement_entry
 				...SyncMedia_assignable
@@ -109,7 +109,7 @@ export function SyncMedia(props: {
 		graphql`
 			fragment SyncMedia_mediaListCollection on MediaListCollection {
 				lists {
-					...SyncMedia_updatable
+					...SyncMedia_updatable @alias
 					status
 					entries {
 						id
@@ -161,7 +161,7 @@ export function SyncMedia(props: {
 													}
 												}
 											`,
-											list
+											list.SyncMedia_updatable
 										)
 
 									if (response?.SaveMediaListEntry != null) {

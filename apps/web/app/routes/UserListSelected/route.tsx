@@ -50,30 +50,30 @@ const NavUserListEntriesQuery = graphql`
 	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {
-			...SyncMedia_mediaListCollection
-			...AddToList_mediaListCollection
+			...SyncMedia_mediaListCollection @alias
+			...AddToList_mediaListCollection @alias
 			lists {
 				name
 				entries {
 					id
 					status
-					...MediaListItem_entry
-					...SyncMedia_entry
-					...SyncMedia_source
-					...ProgressIncrement_entry
-					...AddToList_originalEntry
+					...MediaListItem_entry @alias
+					...SyncMedia_entry_plural
+					...SyncMedia_source @alias
+					...ProgressIncrement_entry @alias
+					...AddToList_originalEntry @alias
 					media @required(action: LOG) {
 						id
-						...MediaListItem_media
-						...AddToList_media
+						...MediaListItem_media @alias
+						...AddToList_media @alias
 						relations {
 							edges {
 								id
 								relationType(version: 3)
 								node {
 									id
-									...MediaListItem_media
-									...AddToList_media
+									...MediaListItem_media @alias
+									...AddToList_media @alias
 								}
 							}
 						}
@@ -245,7 +245,7 @@ function AwaitList(props: Route.ComponentProps) {
 		if (compilation?.node == null) {
 			mergeMapEntries(mediaList, Number(entry.media.id), {
 				media: entry.media,
-				originalEntry: entry,
+				originalEntry: entry.AddToList_originalEntry,
 				relations: new Map(
 					entry.media.relations?.edges?.flatMap((edge) =>
 						edge?.relationType === "CONTAINS" && edge.node?.id
@@ -259,7 +259,7 @@ function AwaitList(props: Route.ComponentProps) {
 
 		mergeMapEntries(mediaList, Number(compilation.node.id), {
 			media: compilation.node,
-			originalEntry: entry,
+			originalEntry: entry.AddToList_originalEntry,
 			relations: new Map([[Number(entry.media.id), entry.media]]),
 		})
 	}
@@ -354,8 +354,8 @@ function AwaitList(props: Route.ComponentProps) {
 										last={virtualItem.index === output.length - 1}
 										key={id}
 										data-key={id}
-										media={media}
-										entry={entry}
+										media={media.MediaListItem_media}
+										entry={entry?.MediaListItem_entry}
 										type={type}
 									>
 										<Skeleton>
@@ -376,22 +376,30 @@ function AwaitList(props: Route.ComponentProps) {
 																.toArray()
 															return outOfSync.length !== 0 ? (
 																<SyncMedia
-																	source={entry}
+																	source={entry.SyncMedia_source}
 																	targetMediaIds={outOfSync}
 																	targetEntries={outOfSync
 																		.map((mediaId) => allEntries.get(mediaId))
 																		.filter((entry) => entry != null)}
-																	mediaListCollection={data.MediaListCollection}
+																	mediaListCollection={
+																		data.MediaListCollection
+																			.SyncMedia_mediaListCollection
+																	}
 																></SyncMedia>
 															) : null
 														})()}
-													<ProgressIncrement entry={entry} />
+													<ProgressIncrement
+														entry={entry.ProgressIncrement_entry}
+													/>
 												</div>
 											) : (
 												<AddToList
-													media={media}
+													media={media.AddToList_media}
 													originalEntry={originalEntry}
-													mediaListCollection={data.MediaListCollection}
+													mediaListCollection={
+														data.MediaListCollection
+															.AddToList_mediaListCollection
+													}
 												></AddToList>
 											)}
 										</Skeleton>
@@ -418,19 +426,24 @@ function AwaitList(props: Route.ComponentProps) {
 										last={virtualItem.index === output.length - 1}
 										key={id}
 										data-key={id}
-										media={node}
-										entry={entry}
+										media={node.MediaListItem_media}
+										entry={entry?.MediaListItem_entry}
 										type={type}
 										style={precompileStyles({ marginBlockStart: "-.125rem" })}
 									>
 										<Skeleton>
 											{entry ? (
-												<ProgressIncrement entry={entry} />
+												<ProgressIncrement
+													entry={entry.ProgressIncrement_entry}
+												/>
 											) : (
 												<AddToList
-													media={node}
+													media={node.AddToList_media}
 													originalEntry={originalEntry}
-													mediaListCollection={data.MediaListCollection}
+													mediaListCollection={
+														data.MediaListCollection
+															.AddToList_mediaListCollection
+													}
 												></AddToList>
 											)}
 										</Skeleton>
@@ -484,9 +497,18 @@ export function ErrorBoundary(): ReactNode {
 	)
 }
 interface MediaListMapEntry {
-	media: MediaListItem_media$key & AddToList_media$key
+	media: {
+		AddToList_media: AddToList_media$key
+		MediaListItem_media: MediaListItem_media$key
+	}
 	originalEntry: AddToList_originalEntry$key
-	relations: Map<number, MediaListItem_media$key & AddToList_media$key>
+	relations: Map<
+		number,
+		{
+			AddToList_media: AddToList_media$key
+			MediaListItem_media: MediaListItem_media$key
+		}
+	>
 }
 
 function mergeMapEntries(

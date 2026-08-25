@@ -124,7 +124,7 @@ export function Search({
 												<SearchItem
 													first={i === 0}
 													last={i === arr.length - 1}
-													media={media}
+													media={media.SearchItem_media}
 												/>
 											}
 										/>
@@ -152,7 +152,7 @@ function SearchTrendingData({
 }) {
 	const data = usePreloadedQuery(queryRef)
 
-	return <SearchTrending query={data} />
+	return <SearchTrending query={data.SearchTrending_query} />
 }
 
 export function SearchButton(

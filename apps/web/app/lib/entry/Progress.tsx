@@ -44,7 +44,7 @@ const ProgressIncrement_entry = graphql`
 	fragment ProgressIncrement_entry on MediaList {
 		id
 		progress
-		...Progress_entry
+		...Progress_entry @alias
 		media @required(action: LOG) {
 			avalible
 			id
@@ -102,7 +102,7 @@ export function ProgressIncrement(props: {
 									/>
 								}
 							>
-								<Progress entry={entry} />
+								<Progress entry={entry.Progress_entry} />
 								<ButtonIcon>
 									<MaterialSymbolsAdd />
 								</ButtonIcon>

@@ -44,7 +44,7 @@ export function Airing({
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}
-					...MediaCover_media
+					...MediaCover_media @alias
 					id
 				}
 			}
@@ -70,7 +70,7 @@ export function Airing({
 				{...props}
 			>
 				<ListItemImg>
-					<MediaCover media={notification.media} />
+					<MediaCover media={notification.media.MediaCover_media} />
 				</ListItemImg>
 				<ListItemContent>
 					<ListItemContentTitle>
