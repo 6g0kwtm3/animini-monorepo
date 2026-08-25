@@ -23,7 +23,7 @@ function getFragmentSpreadsWithoutAlias(graphQLAst: DocumentNode) {
 	visit(graphQLAst, {
 		FragmentSpread(node, _key, _parent, _path, ancestors) {
 			for (const ancestorNode of ancestors) {
-				if (Array.isArray(ancestorNode)) {
+				if (isReadonlyArray(ancestorNode)) {
 					continue
 				}
 				if (
@@ -48,6 +48,13 @@ function getFragmentSpreadsWithoutAlias(graphQLAst: DocumentNode) {
 			}
 
 			if (!node.loc) {
+				return
+			}
+
+			if (
+				node.name.value.endsWith("_assignable")
+				|| node.name.value.endsWith("_plural")
+			) {
 				return
 			}
 
@@ -112,4 +119,8 @@ function getEndRange(
 	const graphQLStart = templateNode.quasi.quasis[0].range[0] + 1
 	const end = graphQLStart + graphQLNode.loc.end
 	return [end, end]
+}
+
+function isReadonlyArray(value: unknown): value is readonly unknown[] {
+	return Array.isArray(value)
 }

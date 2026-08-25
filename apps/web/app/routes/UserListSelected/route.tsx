@@ -58,7 +58,7 @@ const NavUserListEntriesQuery = graphql`
 					id
 					status
 					...MediaListItem_entry @alias
-					...SyncMedia_entry @alias
+					...SyncMedia_entry_plural
 					...SyncMedia_source @alias
 					...ProgressIncrement_entry @alias
 					...AddToList_originalEntry @alias
