@@ -26,7 +26,7 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 			fragment SearchItem_media on Media {
 				id
 				type
-				...MediaCover_media
+				...MediaCover_media @alias
 				title @required(action: LOG) {
 					userPreferred @required(action: LOG)
 				}

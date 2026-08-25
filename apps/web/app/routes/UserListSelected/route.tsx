@@ -50,30 +50,30 @@ const NavUserListEntriesQuery = graphql`
 	@raw_response_type {
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {
-			...SyncMedia_mediaListCollection
-			...AddToList_mediaListCollection
+			...SyncMedia_mediaListCollection @alias
+			...AddToList_mediaListCollection @alias
 			lists {
 				name
 				entries {
 					id
 					status
-					...MediaListItem_entry
-					...SyncMedia_entry
-					...SyncMedia_source
-					...ProgressIncrement_entry
-					...AddToList_originalEntry
+					...MediaListItem_entry @alias
+					...SyncMedia_entry @alias
+					...SyncMedia_source @alias
+					...ProgressIncrement_entry @alias
+					...AddToList_originalEntry @alias
 					media @required(action: LOG) {
 						id
-						...MediaListItem_media
-						...AddToList_media
+						...MediaListItem_media @alias
+						...AddToList_media @alias
 						relations {
 							edges {
 								id
 								relationType(version: 3)
 								node {
 									id
-									...MediaListItem_media
-									...AddToList_media
+									...MediaListItem_media @alias
+									...AddToList_media @alias
 								}
 							}
 						}

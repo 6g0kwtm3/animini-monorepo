@@ -26,7 +26,7 @@ export function SearchTrending(props: {
 				trending: Page(perPage: 10) {
 					media(sort: [TRENDING_DESC]) {
 						id
-						...SearchItem_media
+						...SearchItem_media @alias
 					}
 				}
 			}

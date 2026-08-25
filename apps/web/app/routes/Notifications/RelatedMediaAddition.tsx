@@ -43,7 +43,7 @@ export function RelatedMediaAddition({
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}
-					...MediaCover_media
+					...MediaCover_media @alias
 					id
 				}
 			}

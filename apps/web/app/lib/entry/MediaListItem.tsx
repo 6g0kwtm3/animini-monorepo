@@ -39,7 +39,7 @@ const { graphql } = ReactRelay
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList {
 		id
-		...MediaListItemSubtitle_entry
+		...MediaListItemSubtitle_entry @alias
 		private
 	}
 `
@@ -47,8 +47,8 @@ const MediaListItem_entry = graphql`
 const MediaListItem_media = graphql`
 	fragment MediaListItem_media on Media {
 		id
-		...MediaCover_media
-		...MediaTitle_media
+		...MediaCover_media @alias
+		...MediaTitle_media @alias
 		coverImage {
 			theme
 		}

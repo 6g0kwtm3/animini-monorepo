@@ -44,9 +44,9 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 					Viewer @required(action: THROW) {
 						id
 						unreadNotificationCount
-						...Airing_viewer
-						...RelatedMediaAddition_viewer
-						...ActivityLike_viewer
+						...Airing_viewer @alias
+						...RelatedMediaAddition_viewer @alias
+						...ActivityLike_viewer @alias
 					}
 					Page {
 						notifications(

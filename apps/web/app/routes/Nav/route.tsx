@@ -54,7 +54,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 				Viewer @include(if: $isToken) {
 					unreadNotificationCount
 				}
-				...SearchTrending_query
+				...SearchTrending_query @alias
 			}
 		`,
 		{ isToken: viewer != null }

@@ -62,7 +62,7 @@ function MediaCard(props: { mediaId: number; type: string }) {
 					coverImage {
 						theme
 					}
-					...MediaCover_media
+					...MediaCover_media @alias
 				}
 			}
 		`,

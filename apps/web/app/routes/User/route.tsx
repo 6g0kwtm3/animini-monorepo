@@ -44,7 +44,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 					options {
 						profileTheme
 					}
-					...User_user
+					...User_user @alias
 				}
 			}
 		`,

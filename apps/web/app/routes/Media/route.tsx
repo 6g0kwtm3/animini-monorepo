@@ -66,7 +66,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 					coverImage {
 						color
 					}
-					...MediaCover_media @arguments(extraLarge: true)
+					...MediaCover_media @arguments(extraLarge: true) @alias
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}

@@ -24,7 +24,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 				page: Page(perPage: 10) {
 					media(search: $q, sort: $sort) {
 						id
-						...SearchItem_media
+						...SearchItem_media @alias
 					}
 				}
 			}

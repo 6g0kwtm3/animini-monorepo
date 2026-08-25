@@ -109,11 +109,11 @@ export function SyncMedia(props: {
 		graphql`
 			fragment SyncMedia_mediaListCollection on MediaListCollection {
 				lists {
-					...SyncMedia_updatable
+					...SyncMedia_updatable @alias
 					status
 					entries {
 						id
-						...SyncMedia_assignable
+						...SyncMedia_assignable @alias
 					}
 				}
 			}
@@ -157,7 +157,7 @@ export function SyncMedia(props: {
 												@updatable {
 													entries {
 														id
-														...SyncMedia_assignable
+														...SyncMedia_assignable @alias
 													}
 												}
 											`,
