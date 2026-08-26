@@ -182,6 +182,8 @@ optimisticRepeatInstall: true
 overrides:
   yauzl: 3.4.0
 
+minimumReleaseAgeExcludePrune: true
+
 patchedDependencies:
   flubber: patches/flubber.patch
 
