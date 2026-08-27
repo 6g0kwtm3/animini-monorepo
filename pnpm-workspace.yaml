@@ -54,7 +54,7 @@ catalog:
   '@types/node': 24.13.3
   '@types/prop-types': 15.7.15
   '@types/react': 19.2.18
-  '@types/react-dom': 19.2.4
+  '@types/react-dom': 19.2.5
   '@typescript-eslint/parser': 8.67.0
   '@typescript/native': npm:typescript@rc
   anitomy: 0.0.35
