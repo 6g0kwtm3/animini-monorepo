@@ -1,7 +1,5 @@
 import type { JSX, ReactNode } from "react"
 import { useMemo } from "react"
-
-import createDOMPurify from "dompurify"
 import { markdownToHtml } from "./markdown-to-html"
 
 export interface Options {
@@ -16,6 +14,10 @@ export function Markdown(props: {
 	children: string
 	options: Options
 }): ReactNode {
+	if (typeof window === "undefined") {
+		throw new Error("Markdown is not supported on the server")
+	}
+
 	return useMemo(
 		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),
 		[props.children, props.options]
@@ -29,17 +31,9 @@ function parse(html: string, options: Options): ReactNode {
 }
 
 function sanitizeHtml(t: string) {
-	const DOMPurify = createDOMPurify(window)
-
-	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
-		if ("target" in node) {
-			node.setAttribute("target", "_blank")
-			node.setAttribute("rel", "noopener noreferrer")
-		}
-	})
-
-	const out: string = DOMPurify.sanitize(t, {
-		ALLOWED_TAGS: [
+	const div = document.createElement("div")
+	const sanitizer = new Sanitizer({
+		elements: [
 			"a",
 			"b",
 			"blockquote",
@@ -67,10 +61,12 @@ function sanitizeHtml(t: string) {
 			"strong",
 			"ul",
 		],
-		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"],
+		attributes: ["align", "height", "href", "src", "target", "width", "rel"],
 	})
 
-	return out
+	div.setHTML(t, { sanitizer })
+
+	return div.innerHTML
 }
 
 function getAttributes(attributes: Record<string, string>) {
