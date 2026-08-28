@@ -1,8 +1,7 @@
-import createDOMPurify from "dompurify"
 import { use, useMemo } from "react"
 import { browser } from "react-dom"
 
-import { markdownToHtml } from "./markdown-to-html"
+import { markdownToHtml, type Html } from "./markdown-to-html"
 
 import type { Stable } from "@animedes/react-stable"
 import type { JSX, ReactNode } from "react"
@@ -18,15 +17,16 @@ export interface Options {
 export interface MarkdownProps {
 	children: Stable<string>
 	options: Stable<Options>
-	enableSanitizerWebAPI: boolean
+	sanitizeHTML: Stable<(html: Html) => Html>
 }
 
 export function Markdown(props: MarkdownProps): ReactNode {
 	void use(browser("Markdown is not supported on the server"))
 
 	return useMemo(
-		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),
-		[props.children, props.options]
+		() =>
+			parse(markdownToHtml(props.children, props.sanitizeHTML), props.options),
+		[props.children, props.options, props.sanitizeHTML]
 	)
 }
 
@@ -34,53 +34,6 @@ function parse(html: string, options: Options): ReactNode {
 	const subdocument = new DOMParser().parseFromString(html, "text/html")
 
 	return traverseCollection(subdocument.body.childNodes, options)
-}
-
-function sanitizeHtml(t: string) {
-	const DOMPurify = createDOMPurify(window)
-
-	DOMPurify.addHook("afterSanitizeAttributes", (node) => {
-		if ("target" in node) {
-			node.setAttribute("target", "_blank")
-			node.setAttribute("rel", "noopener noreferrer")
-		}
-	})
-
-	const out: string = DOMPurify.sanitize(t, {
-		ALLOWED_TAGS: [
-			"a",
-			"b",
-			"blockquote",
-			"br",
-			"center",
-			"del",
-			"div",
-			"em",
-			"font",
-			"h1",
-			"h2",
-			"h3",
-			"h4",
-			"h5",
-			"hr",
-			"i",
-			"img",
-			"li",
-			"ol",
-			"p",
-			"pre",
-			"code",
-			"span",
-			"strike",
-			"strong",
-			"ul",
-			"u",
-			"ins",
-		],
-		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"],
-	})
-
-	return out
 }
 
 function getAttributes(attributes: Record<string, string>) {

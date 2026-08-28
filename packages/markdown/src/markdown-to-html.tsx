@@ -1,9 +1,12 @@
 import marked from "marked"
 
+export type Html = string
+export type Markdown = string
+
 export function markdownToHtml(
-	markdown: string,
-	sanitizeHtml: (html: string) => string
-): string {
+	markdown: Markdown,
+	sanitizeHtml: (html: Html) => Html
+): Html {
 	void marked.setOptions({
 		gfm: true,
 		tables: true,
