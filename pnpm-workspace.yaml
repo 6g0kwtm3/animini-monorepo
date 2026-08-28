@@ -64,7 +64,6 @@ catalog:
   bundlewatch: 0.4.2
   cross-env: 10.1.0
   csstype: 3.2.3
-  dompurify: 3.2.5
   electron: 44.4.0
   electron-devtools-installer: 4.0.0
   eslint: 10.10.0
