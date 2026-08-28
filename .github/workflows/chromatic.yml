@@ -52,7 +52,7 @@ jobs:
         run: pnpm exec turbo --filter=@animedes/storybook^... build
 
       - name: Publish to Chromatic
-        uses: chromaui/action@fd5e7e8b66d1a6862ed8866c21e93788217f7cf7 # latest
+        uses: chromaui/action@69be7d88fc9479eedbe5b2861f847eb48f97cabc # latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true
