@@ -183,6 +183,7 @@ overrides:
   yauzl: 3.4.0
 
 minimumReleaseAgeExcludePrune: true
+minimumReleaseAge: 0
 
 patchedDependencies:
   flubber: patches/flubber.patch
