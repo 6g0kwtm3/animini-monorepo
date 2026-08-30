@@ -82,7 +82,7 @@ catalog:
   graphql-config: 5.1.6
   hono: 4.13.5
   isbot: 5.2.1
-  knip: 6.32.2
+  knip: 6.32.3
   marked: 0.3.19
   motion: 13.1.1
   msw: 2.15.0
