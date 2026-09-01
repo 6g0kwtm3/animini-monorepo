@@ -64,7 +64,6 @@ catalog:
   cookie: 1.1.1
   cross-env: 10.1.0
   csstype: 3.2.3
-  dompurify: 3.2.5
   electron: 44.0.0
   electron-devtools-installer: 4.0.0
   eslint: 10.9.1
@@ -149,29 +148,8 @@ minimumReleaseAgeExclude:
   - '@oxc-transform-relay/binding-win32-arm64-msvc@0.145.0'
   - '@oxc-transform-relay/binding-win32-ia32-msvc@0.145.0'
   - '@oxc-transform-relay/binding-win32-x64-msvc@0.145.0'
-  - '@oxfmt/binding-android-arm-eabi@0.64.0'
-  - '@oxfmt/binding-android-arm64@0.64.0'
-  - '@oxfmt/binding-darwin-arm64@0.64.0'
-  - '@oxfmt/binding-darwin-x64@0.64.0'
-  - '@oxfmt/binding-freebsd-x64@0.64.0'
-  - '@oxfmt/binding-linux-arm-gnueabihf@0.64.0'
-  - '@oxfmt/binding-linux-arm-musleabihf@0.64.0'
-  - '@oxfmt/binding-linux-arm64-gnu@0.64.0'
-  - '@oxfmt/binding-linux-arm64-musl@0.64.0'
-  - '@oxfmt/binding-linux-ppc64-gnu@0.64.0'
-  - '@oxfmt/binding-linux-riscv64-gnu@0.64.0'
-  - '@oxfmt/binding-linux-riscv64-musl@0.64.0'
-  - '@oxfmt/binding-linux-s390x-gnu@0.64.0'
-  - '@oxfmt/binding-linux-x64-gnu@0.64.0'
-  - '@oxfmt/binding-linux-x64-musl@0.64.0'
-  - '@oxfmt/binding-openharmony-arm64@0.64.0'
-  - '@oxfmt/binding-win32-arm64-msvc@0.64.0'
-  - '@oxfmt/binding-win32-ia32-msvc@0.64.0'
-  - '@oxfmt/binding-win32-x64-msvc@0.64.0'
   - oxc-transform-relay@0.145.0
-  - oxfmt@0.64.0
   - unplugin-relay@0.1.0
-
 nodeLinker: hoisted
 
 onlyBuiltDependencies:
