@@ -18,12 +18,10 @@ export function typescale(scale: Value<keyof typeof tokens.typescale>) {
 	}
 }
 
-export function contrast(value: string): Record<`--${string}`, string>
+export type ContrastValue = "high" | "standard"
+
 export function contrast(
-	value: Value<string>
-): Record<`--${string}`, Value<string>>
-export function contrast(
-	value: Value<string>
+	value: Value<ContrastValue>
 ): Record<`--${string}`, Value<string>> {
 	return Object.fromEntries(
 		Object.keys(colors.dark).flatMap(
@@ -43,12 +41,10 @@ export function contrast(
 	)
 }
 
-export function theme(value: string): Record<`--${string}`, string>
+export type ThemeValue = "dark" | "light"
+
 export function theme(
-	value: Value<string>
-): Record<`--${string}`, Value<string>>
-export function theme(
-	value: Value<string>
+	value: Value<ThemeValue>
 ): Record<`--${string}`, Value<string>> {
 	return Object.fromEntries(
 		Object.keys(colors.dark).map((key): [`--${string}`, Value<string>] => {
