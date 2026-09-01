@@ -73,6 +73,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		sameSite: "lax",
 		maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
 		path: "/",
+		secure: true,
 	})
 
 	document.cookie = setCookie
