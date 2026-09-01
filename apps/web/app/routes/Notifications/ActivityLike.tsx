@@ -1,5 +1,5 @@
 import { A } from "@anitrove/a"
-import "temporal-polyfill-lite/global"
+
 import { precompileStyles } from "@anitrove/unstyled"
 
 import ReactRelay from "react-relay"

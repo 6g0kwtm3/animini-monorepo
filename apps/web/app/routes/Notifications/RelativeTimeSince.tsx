@@ -1,6 +1,6 @@
 import { getLocale } from "~/paraglide/runtime"
 import { useState } from "react"
-import "temporal-polyfill-lite/global"
+
 export function RelativeTimeSince(props: { date: Temporal.Instant }) {
 	const [dateNow] = useState(() => Temporal.Now.instant())
 
