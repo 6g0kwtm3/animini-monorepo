@@ -30,7 +30,7 @@ catalog:
   '@playwright/test': 1.62.1
   '@react-router/dev': 8.3.1
   '@react-router/node': 8.3.1
-  '@sentry/react': npm:@sentry/react-router@10.72.0
+  '@sentry/react': npm:@sentry/react-router@10.73.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
   '@storybook/addon-a11y': 10.5.10
@@ -65,7 +65,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 44.0.0
+  electron: 44.1.0
   electron-devtools-installer: 4.0.0
   eslint: 10.9.1
   eslint-plugin-oxlint: 1.80.0
@@ -82,7 +82,7 @@ catalog:
   graphql-config: 5.1.6
   hono: 4.13.5
   isbot: 5.2.2
-  knip: 6.33.0
+  knip: 6.34.0
   marked: 0.3.19
   motion: 13.1.1
   msw: 2.15.0
@@ -101,7 +101,7 @@ catalog:
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.2
-  tsx: 4.23.12
+  tsx: 4.23.13
   turbo: 2.10.12
   typescript: npm:@typescript/typescript6@6.0.2
   typescript-eslint: 8.68.0
