@@ -153,3 +153,6 @@ strictDepBuilds: true
 verifyDepsBeforeRun: install
 
 minimumReleaseAgeStrict: false
+
+
+enableGlobalVirtualStore: true

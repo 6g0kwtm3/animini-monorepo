@@ -1,6 +1,8 @@
 import { animate, motion, useMotionValue } from "motion/react"
 
-import { interpolate, type Options } from "flubber"
+import flubber from "flubber"
+import type { Options } from "flubber"
+const { interpolate } = flubber
 import { MotionValue, useTransform } from "motion/react"
 import { useEffect, useState } from "react"
 
