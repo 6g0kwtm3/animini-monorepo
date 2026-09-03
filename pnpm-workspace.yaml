@@ -14,10 +14,10 @@ allowBuilds:
 blockExoticSubdeps: true
 
 catalog:
-  '@ariakit/react': 0.4.38
+  '@ariakit/react': 0.4.39
   '@ark/attest': 0.56.3
   '@babel/preset-typescript': 7.29.7
-  '@chromatic-com/storybook': 5.3.0
+  '@chromatic-com/storybook': 5.3.1
   '@codspeed/vitest-plugin': 5.7.1
   '@eslint/js': 10.0.1
   '@graphql-eslint/eslint-plugin': 4.4.1
@@ -33,12 +33,12 @@ catalog:
   '@sentry/react': npm:@sentry/react-router@10.73.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
-  '@storybook/addon-a11y': 10.5.10
-  '@storybook/addon-docs': 10.5.10
-  '@storybook/addon-onboarding': 10.5.10
-  '@storybook/addon-themes': 10.5.10
-  '@storybook/addon-vitest': 10.5.10
-  '@storybook/react-vite': 10.5.10
+  '@storybook/addon-a11y': 10.6.0
+  '@storybook/addon-docs': 10.6.0
+  '@storybook/addon-onboarding': 10.6.0
+  '@storybook/addon-themes': 10.6.0
+  '@storybook/addon-vitest': 10.6.0
+  '@storybook/react-vite': 10.6.0
   '@stryker-mutator/api': 10.0.0
   '@stryker-mutator/core': 10.0.0
   '@stryker-mutator/vitest-runner': 10.0.0
@@ -54,7 +54,7 @@ catalog:
   '@types/node': 24.13.3
   '@types/prop-types': 15.7.15
   '@types/react': 19.2.18
-  '@types/react-dom': 19.2.5
+  '@types/react-dom': 19.2.7
   '@typescript-eslint/parser': 8.68.0
   '@typescript/native': npm:typescript@rc
   anitomy: 0.0.35
@@ -65,7 +65,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 44.1.0
+  electron: 44.1.1
   electron-devtools-installer: 4.0.0
   eslint: 10.9.1
   eslint-plugin-oxlint: 1.80.0
@@ -84,10 +84,10 @@ catalog:
   isbot: 5.2.2
   knip: 6.34.0
   marked: 0.3.19
-  motion: 13.1.1
+  motion: 13.2.0
   msw: 2.15.0
   nodemon: 3.1.14
-  oxfmt: 0.65.0
+  oxfmt: 0.66.0
   oxlint: 1.80.0
   oxlint-tsgolint: 7.0.2001
   prop-types: 15.8.1
@@ -97,10 +97,10 @@ catalog:
   react-router: 8.3.1
   relay-compiler: 21.0.1
   relay-runtime: 21.0.1
-  storybook: 10.5.10
+  storybook: 10.6.0
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.3
-  temporal-polyfill-lite: 0.4.2
+  temporal-polyfill-lite: 0.4.3
   tsx: 4.23.13
   turbo: 2.10.12
   typescript: npm:@typescript/typescript6@6.0.2
@@ -112,7 +112,7 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
-  wrangler: 4.127.1
+  wrangler: 4.128.0
 
 catalogMode: strict
 
