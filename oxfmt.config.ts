@@ -20,6 +20,7 @@ export default defineConfig({
 		"eslint-suppressions.json",
 		"skills",
 		"skills-lock.json",
+		"apm.lock.yaml",
 	],
 	endOfLine: process.platform === "win32" ? "crlf" : "lf",
 	experimentalOperatorPosition: "start",

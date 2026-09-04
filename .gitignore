@@ -29,3 +29,6 @@ storybook-static
 # stryker temp files
 .stryker-tmp
 reports
+
+# APM dependencies
+apm_modules/
