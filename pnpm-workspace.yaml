@@ -65,7 +65,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 44.1.1
+  electron: 44.2.0
   electron-devtools-installer: 4.0.0
   eslint: 10.9.1
   eslint-plugin-oxlint: 1.80.0
@@ -112,7 +112,7 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
-  wrangler: 4.128.0
+  wrangler: 4.129.0
 
 catalogMode: strict
 
