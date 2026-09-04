@@ -249,9 +249,6 @@ catalogs:
     bundlewatch:
       specifier: 0.4.2
       version: 0.4.2
-    cookie:
-      specifier: 1.1.1
-      version: 1.1.1
     cross-env:
       specifier: 10.1.0
       version: 10.1.0
@@ -627,9 +624,6 @@ importers:
       arktype:
         specifier: 'catalog:'
         version: 2.2.3
-      cookie:
-        specifier: 'catalog:'
-        version: 1.1.1
       electron:
         specifier: 'catalog:'
         version: 44.2.0(supports-color@5.5.0)

@@ -1,6 +1,5 @@
-import ReactRelay from "react-relay"
+import ReactRelay, { useFragment } from "react-relay"
 import { Outlet, useLocation, useRouteLoaderData } from "react-router"
-import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
@@ -28,7 +27,7 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
-
+import { UnreadNotificationBadge } from './UnreadNotificationBadge'
 import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
@@ -43,21 +42,19 @@ import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-ou
 import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
+import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
 
 const { graphql } = ReactRelay
 
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const viewer = Viewer()
-
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
-			query routeNavQuery($isToken: Boolean = false) @raw_response_type {
-				Viewer @include(if: $isToken) {
-					unreadNotificationCount
-				}
+			query routeNavQuery @raw_response_type {
+				Viewer: userFromToken @required(action: THROW)
+				...UnreadNotificationBadge_query @alias
 			}
 		`,
-		{ isToken: viewer != null }
+		{}
 	)
 
 	const { searchParams } = args.url
@@ -80,10 +77,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
-
 	const { pathname } = useLocation()
-
 	return (
 		<Layout style={styles.layout}>
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
@@ -108,61 +102,20 @@ export default function NavRoute({
 				>
 					Feed
 				</NavigationItem>
-				{rootData?.Viewer ? (
-					<>
+				<ErrorBoundary
+					fallback={
+						// TODO: differentiate between logged in/out, runtime and network error
 						<NavigationItem
-							href={route_user({ userName: rootData.Viewer.name })}
+							href={route_login({ redirect: pathname })}
 							icon={<MaterialSymbolsPersonOutline />}
 							activeIcon={<MaterialSymbolsPerson />}
 						>
-							Profile
+							Login
 						</NavigationItem>
-						<NavigationItem
-							className="max-sm:hidden"
-							href={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "animelist",
-							})}
-							icon={<MaterialSymbolsPlayArrowOutline />}
-							activeIcon={<MaterialSymbolsPlayArrow />}
-						>
-							Anime List
-						</NavigationItem>
-						<NavigationItem
-							href={route_user_list({
-								userName: rootData.Viewer.name,
-								typelist: "mangalist",
-							})}
-							className="max-sm:hidden"
-							icon={<MaterialSymbolsMenuBookOutline />}
-							activeIcon={<MaterialSymbolsMenuBook />}
-						>
-							Manga List
-						</NavigationItem>
-					</>
-				) : (
-					<NavigationItem
-						href={route_login({ redirect: pathname })}
-						icon={<MaterialSymbolsPersonOutline />}
-						activeIcon={<MaterialSymbolsPerson />}
-					>
-						Login
-					</NavigationItem>
-				)}
-				<NavigationItem
-					href="/notifications"
-					icon={<MaterialSymbolsNotificationsOutline />}
-					activeIcon={<MaterialSymbolsNotifications />}
-					badge={
-						<ErrorBoundary>
-							<Suspense>
-								<UnreadNotificationBadge queryRef={loaderData.trending} />
-							</Suspense>
-						</ErrorBoundary>
 					}
 				>
-					Notifications
-				</NavigationItem>
+					<ViewerButtons queryRef={loaderData.trending}></ViewerButtons>
+				</ErrorBoundary>
 				<SearchButton
 					render={
 						<NavigationItem
@@ -202,18 +155,57 @@ function SearchTrendingData({
 	return <SearchTrending query={data.SearchTrending_query} />
 }
 
-function UnreadNotificationBadge({
-	queryRef,
-}: {
+function ViewerButtons(props: {
 	queryRef: NodeAndQueryFragment<routeNavQuery>
-}): ReactNode {
-	const data = usePreloadedQuery(queryRef)
-
+}) {
+	const rootData = usePreloadedQuery(props.queryRef)
 	return (
-		(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (
-			<NavigationItemLargeBadge>
-				{data.Viewer?.unreadNotificationCount}
-			</NavigationItemLargeBadge>
-		)
+		<>
+			<NavigationItem
+				href={route_user({ userName: rootData.Viewer.name })}
+				icon={<MaterialSymbolsPersonOutline />}
+				activeIcon={<MaterialSymbolsPerson />}
+			>
+				Profile
+			</NavigationItem>
+			<NavigationItem
+				className="max-sm:hidden"
+				href={route_user_list({
+					userName: rootData.Viewer.name,
+					typelist: "animelist",
+				})}
+				icon={<MaterialSymbolsPlayArrowOutline />}
+				activeIcon={<MaterialSymbolsPlayArrow />}
+			>
+				Anime List
+			</NavigationItem>
+			<NavigationItem
+				href={route_user_list({
+					userName: rootData.Viewer.name,
+					typelist: "mangalist",
+				})}
+				className="max-sm:hidden"
+				icon={<MaterialSymbolsMenuBookOutline />}
+				activeIcon={<MaterialSymbolsMenuBook />}
+			>
+				Manga List
+			</NavigationItem>
+			<NavigationItem
+				href="/notifications"
+				icon={<MaterialSymbolsNotificationsOutline />}
+				activeIcon={<MaterialSymbolsNotifications />}
+				badge={
+					<ErrorBoundary>
+						<Suspense>
+							<UnreadNotificationBadge
+								queryKey={rootData.UnreadNotificationBadge_query}
+							/>
+						</Suspense>
+					</ErrorBoundary>
+				}
+			>
+				Notifications
+			</NavigationItem>
+		</>
 	)
 }

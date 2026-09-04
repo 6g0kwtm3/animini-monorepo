@@ -50,7 +50,6 @@
 		"@types/react-dom": "catalog:",
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
-		"cookie": "catalog:",
 		"electron": "catalog:",
 		"electron-devtools-installer": "catalog:",
 		"extra-outlet": "workspace:@animedes/extra-outlet@*",

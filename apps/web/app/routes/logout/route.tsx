@@ -1,22 +1,13 @@
 import { setUser } from "@sentry/react"
-import * as cookie from "cookie"
 import { redirect, type ClientLoaderFunctionArgs } from "react-router"
 import { commitLocalUpdate } from "~/lib/Network"
 
-export const clientAction = (args: ClientLoaderFunctionArgs) => {
+export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	const url = new URL(args.request.url)
-
-	const setCookie = cookie.serialize(`anilist-token`, "", {
-		sameSite: "lax",
-		maxAge: 0,
-		path: "/",
-	})
-	document.cookie = setCookie
+	await cookieStore.delete(`anilist-token`)
 	setUser(null)
 	commitLocalUpdate((store) => {
 		store.invalidateStore()
 	})
-	return redirect(url.searchParams.get("redirect") ?? "/", {
-		headers: { "Set-Cookie": setCookie },
-	})
+	return redirect(url.searchParams.get("redirect") ?? "/")
 }

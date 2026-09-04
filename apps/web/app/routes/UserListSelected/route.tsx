@@ -81,6 +81,7 @@ const NavUserListEntriesQuery = graphql`
 				}
 			}
 		}
+		...ProgressIncrement_query @alias
 	}
 `
 
@@ -388,6 +389,7 @@ function AwaitList(props: Route.ComponentProps) {
 														})()}
 													<ProgressIncrement
 														entry={entry.ProgressIncrement_entry}
+														query={data.ProgressIncrement_query}
 													/>
 												</div>
 											) : (
@@ -433,6 +435,7 @@ function AwaitList(props: Route.ComponentProps) {
 											{entry ? (
 												<ProgressIncrement
 													entry={entry.ProgressIncrement_entry}
+													query={data.ProgressIncrement_query}
 												/>
 											) : (
 												<AddToList
