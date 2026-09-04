@@ -16,7 +16,6 @@ import { SnackbarQueue } from "./components/Snackbar"
 import * as Ariakit from "@ariakit/react"
 import { type ReactNode } from "react"
 import { Card } from "./components/Card"
-import { Viewer } from "./lib/Remix"
 
 import theme from "@anitrove/design/theme"
 
@@ -70,10 +69,7 @@ export const links: LinksFunction = () => {
 }
 
 export const clientLoader = (args: ClientLoaderFunctionArgs) => {
-	const viewer = Viewer()
-
 	return {
-		Viewer: viewer,
 		// nonce: Buffer.from(crypto.randomUUID()).toString('base64'),
 		language: args.request.headers.get("accept-language"),
 	}

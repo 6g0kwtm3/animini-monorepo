@@ -35,6 +35,7 @@ import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
 import { precompileStyles } from "@anitrove/unstyled"
 import { state } from "@anitrove/design"
+import { use } from "react"
 const { graphql } = ReactRelay
 
 export function UserLink(props: { children: ReactNode; userName: string }) {
@@ -62,6 +63,7 @@ function UserCard(props: { userName: string }) {
 	const data = useLazyLoadQuery<UserLinkCardQuery>(
 		graphql`
 			query UserLinkCardQuery($userName: String!) {
+				Viewer: userFromToken
 				User(name: $userName) {
 					id
 					avatar {
@@ -76,7 +78,6 @@ function UserCard(props: { userName: string }) {
 		{ userName: props.userName }
 	)
 
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
 	const follow = useFetcher<typeof userFollowAction>({
 		key: `${props.userName}-follow`,
 	})
@@ -109,7 +110,7 @@ function UserCard(props: { userName: string }) {
 				</div>
 
 				<TooltipRichActions>
-					{rootData?.Viewer?.name && rootData.Viewer.name !== props.userName ? (
+					{data.Viewer?.name && data.Viewer.name !== props.userName ? (
 						<follow.Form method="post" action={`/follow/${data.User.id}`}>
 							<input
 								type="hidden"

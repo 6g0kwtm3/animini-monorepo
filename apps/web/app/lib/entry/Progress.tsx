@@ -38,6 +38,8 @@ import {
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
 } from "~/components/Tooltip"
+import { use } from "react"
+import type { ProgressIncrement_query$key } from "~/gql/ProgressIncrement_query.graphql"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
@@ -57,11 +59,18 @@ const ProgressIncrement_entry = graphql`
 	}
 `
 
+const ProgressIncrement_query = graphql`
+	fragment ProgressIncrement_query on Query {
+		Viewer: userFromToken
+	}
+`
+
 export function ProgressIncrement(props: {
 	entry: ProgressIncrement_entry$key
+	query: ProgressIncrement_query$key
 }): ReactNode {
 	const entry = useFragment(ProgressIncrement_entry, props.entry)
-	const data = useRouteLoaderData<typeof rootLoader>("root")
+	const data = useFragment(ProgressIncrement_query, props.query)
 	const params = useParams()
 	const actionData = useActionData<typeof selectedAction>()
 	const navigation = useNavigation()
@@ -87,7 +96,7 @@ export function ProgressIncrement(props: {
 
 	return (
 		<div className="flex justify-end">
-			{Predicate.isString(data?.Viewer?.name)
+			{Predicate.isString(data.Viewer?.name)
 				&& data.Viewer.name === params.userName && (
 					<Form className="hidden @md:block" method="post">
 						<input type="hidden" name="progress" value={progress + 1} />
