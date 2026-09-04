@@ -5,8 +5,6 @@ import {
 	TextFieldOutlinedInput,
 } from "~/components/TextField"
 
-import * as cookie from "cookie"
-
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
@@ -69,19 +67,19 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		viewer: { id: Number(data.Viewer.id), name: data.Viewer.name },
 	} satisfies typeof Token.infer)
 
-	const setCookie = cookie.serialize(`anilist-token`, encoded, {
+	await cookieStore.set({
+		name: `anilist-token`,
+		value: encoded,
 		sameSite: "lax",
-		maxAge: 8 * 7 * 24 * 60 * 60, // 8 weeks
+		expires: Date.now() + 8 * 7 * 24 * 60 * 60 * 1000, // 8 weeks
 		path: "/",
 	})
 
-	document.cookie = setCookie
 	setUser({ id: data.Viewer.id, username: data.Viewer.name })
 
 	return redirect(
 		searchParams.get("redirect")
-			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name }),
-		{ headers: { "Set-Cookie": setCookie } }
+			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name })
 	)
 }
 

@@ -1,6 +1,5 @@
-import ReactRelay from "react-relay"
+import ReactRelay, { useFragment } from "react-relay"
 import { Outlet, useLocation, useRouteLoaderData } from "react-router"
-import { Viewer } from "~/lib/Remix"
 import type { clientLoader as rootLoader } from "~/root"
 import MaterialSymbolsTravelExplore from "~icons/material-symbols/travel-explore"
 
@@ -33,31 +32,27 @@ import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
 import { fab } from "~/lib/button"
-import {
-	loadQuery,
-	usePreloadedQuery,
-	type NodeAndQueryFragment,
-} from "~/lib/Network"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
+import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
 
 const { graphql } = ReactRelay
 
-export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const viewer = Viewer()
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
+	const token = await cookieStore.get(`anilist-token`)
 
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
 			query routeNavQuery($isToken: Boolean = false) {
-				Viewer @include(if: $isToken) {
-					unreadNotificationCount
-				}
+				...UnreadNotificationBadge_query @alias
 				...SearchTrending_query @alias
+				userFromToken
 			}
 		`,
-		{ isToken: viewer != null }
+		{ isToken: token != null }
 	)
 
 	return { trending: data }
@@ -66,7 +61,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
-	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+	const rootData = usePreloadedQuery(loaderData.trending)
 
 	const { pathname } = useLocation()
 
@@ -94,10 +89,10 @@ export default function NavRoute({
 				>
 					Feed
 				</NavigationItem>
-				{rootData?.Viewer ? (
+				{rootData.userFromToken ? (
 					<>
 						<NavigationItem
-							href={route_user({ userName: rootData.Viewer.name })}
+							href={route_user({ userName: rootData.userFromToken.name })}
 							icon={<MaterialSymbolsPersonOutline />}
 							activeIcon={<MaterialSymbolsPerson />}
 						>
@@ -106,7 +101,7 @@ export default function NavRoute({
 						<NavigationItem
 							className="max-sm:hidden"
 							href={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: rootData.userFromToken.name,
 								typelist: "animelist",
 							})}
 							icon={<MaterialSymbolsPlayArrowOutline />}
@@ -116,7 +111,7 @@ export default function NavRoute({
 						</NavigationItem>
 						<NavigationItem
 							href={route_user_list({
-								userName: rootData.Viewer.name,
+								userName: rootData.userFromToken.name,
 								typelist: "mangalist",
 							})}
 							className="max-sm:hidden"
@@ -142,7 +137,9 @@ export default function NavRoute({
 					badge={
 						<ErrorBoundary>
 							<Suspense>
-								<UnreadNotificationBadge queryRef={loaderData.trending} />
+								<UnreadNotificationBadge
+									queryRef={rootData.UnreadNotificationBadge_query}
+								/>
 							</Suspense>
 						</ErrorBoundary>
 					}
@@ -168,12 +165,20 @@ export default function NavRoute({
 	)
 }
 
+const UnreadNotificationBadge_query = graphql`
+	fragment UnreadNotificationBadge_query on Query {
+		Viewer @include(if: $isToken) {
+			unreadNotificationCount
+		}
+	}
+`
+
 function UnreadNotificationBadge({
 	queryRef,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	queryRef: UnreadNotificationBadge_query$key
 }): ReactNode {
-	const data = usePreloadedQuery(queryRef)
+	const data = useFragment(UnreadNotificationBadge_query, queryRef)
 
 	return (
 		(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (

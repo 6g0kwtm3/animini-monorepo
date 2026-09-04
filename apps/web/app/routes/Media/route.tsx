@@ -44,6 +44,7 @@ import type { ReactNode } from "react"
 import { A } from "@anitrove/a"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
+import type { Edit_query$key } from "~/gql/Edit_query.graphql"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
@@ -72,6 +73,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 					}
 					description
 				}
+				...Edit_query @alias
 			}
 		`,
 		{ id: Number(args.params.mediaId) }
@@ -83,6 +85,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 
 	return {
 		Media: data.Media,
+		query: data,
 		theme: Predicate.isString(data.Media.coverImage?.color)
 			? getThemeFromHex(data.Media.coverImage.color)
 			: precompileStyles({}),
@@ -95,6 +98,7 @@ export const meta = ((args) => {
 }) satisfies Route.MetaFunction
 
 import * as design from "@anitrove/design"
+import { useFragment } from "~/lib/Network"
 
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = loaderData
@@ -225,7 +229,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					</Card>
 				</div>
 
-				<Edit />
+				<Edit query={data.query.Edit_query} />
 
 				{outlet ? (
 					<AnimatePresence mode="wait">
@@ -237,12 +241,18 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	)
 }
 
-function Edit() {
+const Edit_query = graphql`
+	fragment Edit_query on Query {
+		Viewer: userFromToken
+	}
+`
+
+function Edit(props: { query: Edit_query$key }) {
 	const { mediaId } = useParams()
 
 	const store = useTooltipStore()
 
-	const root = useRouteLoaderData<typeof rootLoader>("root")
+	const root = useFragment(Edit_query, props.query)
 
 	return (
 		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
@@ -252,7 +262,7 @@ function Edit() {
 						render={
 							<A
 								href={
-									root?.Viewer
+									root.Viewer != null
 										? route_media_edit({ id: Number(mediaId) })
 										: route_login({
 												redirect: route_media_edit({ id: Number(mediaId) }),
