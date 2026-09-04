@@ -194,6 +194,6 @@ shellEmulator: true
 
 strictDepBuilds: true
 
-verifyDepsBeforeRun: warn
+verifyDepsBeforeRun: install
 
 minimumReleaseAgeStrict: false
