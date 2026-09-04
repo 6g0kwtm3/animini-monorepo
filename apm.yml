@@ -10,6 +10,7 @@ author: PatrykWalach
 dependencies:
   apm:
     - PatrykWalach/skills
+    - mattpocock/skills
   mcp: []
 includes: auto
 scripts: {}
