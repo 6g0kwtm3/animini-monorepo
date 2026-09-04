@@ -1,5 +1,4 @@
 import {
-	argbFromHex,
 	blueFromArgb,
 	DynamicColor,
 	greenFromArgb,
@@ -23,8 +22,8 @@ const {
 
 const dynamicColors: Record<string, DynamicColor> = rest
 
-export function getThemeFromHex(hex: string): Theme {
-	const main = Hct.fromInt(argbFromHex(hex))
+export function getThemeFromArgb(argb: number): Theme {
+	const main = Hct.fromInt(argb)
 
 	return precompileStyles(
 		Object.fromEntries(

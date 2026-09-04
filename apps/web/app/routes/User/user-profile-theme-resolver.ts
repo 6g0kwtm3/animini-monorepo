@@ -1,7 +1,9 @@
+import type { OutStyles } from "@anitrove/unstyled"
 import ReactRelay from "react-relay"
 import type { userProfileThemeResolver_userOptions$key } from "~/gql/userProfileThemeResolver_userOptions.graphql"
 import { readFragment } from "~/lib/Network"
-import { getThemeFromHex, type Theme } from "~/lib/theme"
+import { type Theme } from "~/lib/theme"
+import { themes } from "~/lib/theme/themes"
 const { graphql } = ReactRelay
 
 /**
@@ -20,17 +22,8 @@ export function profileTheme(
 		key
 	)
 
-	const color = options.profileColor
-		? {
-				blue: "#3db4f2",
-				purple: "#c063ff",
-				green: "#4cca51",
-				orange: "#ef881a",
-				red: "#e13333",
-				pink: "#fc9dd6",
-				gray: "#677b94",
-			}[options.profileColor]
+	const newLocal: Record<string, { theme: OutStyles }> = { ...themes }
+	return options.profileColor
+		? (newLocal[options.profileColor]?.theme ?? null)
 		: null
-
-	return color ? getThemeFromHex(color) : null
 }

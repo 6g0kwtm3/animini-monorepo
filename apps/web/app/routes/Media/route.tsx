@@ -48,9 +48,7 @@ import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"
-import * as Predicate from "~/lib/Predicate"
 import { route_login, route_media_edit } from "~/lib/route"
-import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 import type { Route } from "./+types/route"
@@ -64,7 +62,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 			query routeNavMediaQuery($id: Int!) @raw_response_type {
 				Media(id: $id) {
 					coverImage {
-						color
+						theme
 					}
 					...MediaCover_media @arguments(extraLarge: true) @alias
 					title @required(action: LOG) {
@@ -81,12 +79,7 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		throw Response.json("Media not found", { status: 404 })
 	}
 
-	return {
-		Media: data.Media,
-		theme: Predicate.isString(data.Media.coverImage?.color)
-			? getThemeFromHex(data.Media.coverImage.color)
-			: precompileStyles({}),
-	}
+	return { Media: data.Media }
 }
 
 export const meta = ((args) => {
@@ -105,7 +98,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	return (
 		<LayoutBody
 			style={mergeStyles(
-				data.theme,
+				data.Media.coverImage?.theme ?? precompileStyles({}),
 				precompileStyles({
 					...design.utilities.contrast({
 						base: "standard",
