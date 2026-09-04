@@ -55,7 +55,7 @@ catalog:
   '@types/prop-types': 15.7.15
   '@types/react': 19.2.18
   '@types/react-dom': 19.2.7
-  '@typescript-eslint/parser': 8.68.0
+  '@typescript-eslint/parser': 8.69.0
   '@typescript/native': npm:typescript@rc
   anitomy: 0.0.35
   arktype: 2.2.3
@@ -69,7 +69,7 @@ catalog:
   electron-devtools-installer: 4.0.0
   eslint: 10.9.1
   eslint-plugin-oxlint: 1.80.0
-  eslint-plugin-perfectionist: 5.10.1
+  eslint-plugin-perfectionist: 5.11.0
   eslint-plugin-pnpm: 1.8.0
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-refresh: 0.5.5
@@ -104,7 +104,7 @@ catalog:
   tsx: 4.23.13
   turbo: 2.10.12
   typescript: npm:@typescript/typescript6@6.0.2
-  typescript-eslint: 8.68.0
+  typescript-eslint: 8.69.0
   unplugin-icons: 23.0.1
   unplugin-macros: 0.20.2
   unplugin-relay: 0.1.1
