@@ -68,7 +68,7 @@ catalog:
   electron: 44.2.0
   electron-devtools-installer: 4.0.0
   eslint: 10.9.1
-  eslint-plugin-oxlint: 1.80.0
+  eslint-plugin-oxlint: 1.81.0
   eslint-plugin-perfectionist: 5.11.0
   eslint-plugin-pnpm: 1.8.0
   eslint-plugin-react: 7.37.5
@@ -88,7 +88,7 @@ catalog:
   msw: 2.15.0
   nodemon: 3.1.14
   oxfmt: 0.66.0
-  oxlint: 1.80.0
+  oxlint: 1.81.0
   oxlint-tsgolint: 7.0.2001
   prop-types: 15.8.1
   react: 19.2.8
