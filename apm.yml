@@ -1,0 +1,15 @@
+name: remix-pwa
+version: 1.0.0
+description: APM project for remix-pwa
+author: PatrykWalach
+# Which agent platforms to deploy to (uncomment to pin):
+# targets:
+#   - copilot
+#   - claude
+
+dependencies:
+  apm:
+    - PatrykWalach/skills
+  mcp: []
+includes: auto
+scripts: {}

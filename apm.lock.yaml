@@ -1,0 +1,91 @@
+lockfile_version: '1'
+generated_at: '2026-09-04T10:15:51.121358+00:00'
+apm_version: 0.29.0
+dependencies:
+- repo_url: patrykwalach/skills
+  materialization_repo_url: PatrykWalach/skills
+  name: skills
+  host: github.com
+  resolved_commit: 7452c27709e8803ae2cdaca4236774ad8e869628
+  version: unknown
+  package_type: skill_bundle
+  deployed_files:
+  - .agents/skills/test-intent
+  - .agents/skills/test-intent/SKILL.md
+  - .agents/skills/test-intent/references/assertions.md
+  - .agents/skills/test-intent/references/boundaries.md
+  - .agents/skills/test-intent/references/coverage.md
+  - .agents/skills/test-intent/references/flaky.md
+  - .agents/skills/test-intent/references/structure.md
+  deployed_file_hashes:
+    .agents/skills/test-intent/SKILL.md: sha256:a4a1c6f1a1813d930e1bc204098013f207e488a0b3ce9e47f6d6b29bc0797b2b
+    .agents/skills/test-intent/references/assertions.md: sha256:1a9365449a9c085f6343058176bfc2e19ae7e90025b304d36ed28a07f5887298
+    .agents/skills/test-intent/references/boundaries.md: sha256:b0e77701a87ec7e7c9ffa7a7566724f8002b5b293dfe0c0a7e22369c8bdde9aa
+    .agents/skills/test-intent/references/coverage.md: sha256:6832790cb303922f360d6ca771f051c8a248443f9abe59f495e2159ab72fd48b
+    .agents/skills/test-intent/references/flaky.md: sha256:5aa96c96d19325b2fef74995cfb044bf25ec479a67dc2bc077f36a8b978c536c
+    .agents/skills/test-intent/references/structure.md: sha256:aee203b3fba57cbad9b962c7ffbfb51b61b3ea72a27e57a601c8512bf3e4b2c3
+  content_hash: sha256:2b7cbf9886cfcf2d9c4e45e3516e94d01bd5c15ada374f7a943920b3fe591cc5
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: sha256:a4a1c6f1a1813d930e1bc204098013f207e488a0b3ce9e47f6d6b29bc0797b2b
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent/references/assertions.md
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: sha256:1a9365449a9c085f6343058176bfc2e19ae7e90025b304d36ed28a07f5887298
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent/references/boundaries.md
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: sha256:b0e77701a87ec7e7c9ffa7a7566724f8002b5b293dfe0c0a7e22369c8bdde9aa
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent/references/coverage.md
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: sha256:6832790cb303922f360d6ca771f051c8a248443f9abe59f495e2159ab72fd48b
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent/references/flaky.md
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: sha256:5aa96c96d19325b2fef74995cfb044bf25ec479a67dc2bc077f36a8b978c536c
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-intent/references/structure.md
+  runtime: null
+  scope: project
+  owners:
+  - patrykwalach/skills
+  active_owner: patrykwalach/skills
+  content_hash: sha256:aee203b3fba57cbad9b962c7ffbfb51b61b3ea72a27e57a601c8512bf3e4b2c3
