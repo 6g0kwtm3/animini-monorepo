@@ -197,3 +197,6 @@ strictDepBuilds: true
 verifyDepsBeforeRun: warn
 
 minimumReleaseAgeStrict: false
+
+
+enableGlobalVirtualStore: true
