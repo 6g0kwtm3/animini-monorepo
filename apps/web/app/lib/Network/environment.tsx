@@ -44,8 +44,11 @@ const fetchQuery = async function (
 	if (headers instanceof ArkErrors) {
 		headers = new Headers()
 	}
-	headers.set("Content-Type", "application/json")
-	headers.set("Accept", "application/json")
+	headers.set("Content-Type", "application/json; charset=utf-8")
+	headers.set(
+		"Accept",
+		"application/graphql-response+json, application/json; charset=utf-8"
+	)
 
 	if (token) {
 		headers.set("Authorization", `Bearer ${token}`)
