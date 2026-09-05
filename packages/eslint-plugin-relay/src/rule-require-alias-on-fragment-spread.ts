@@ -21,23 +21,16 @@ export const rule: GraphQLESLintRule = {
 	create(context) {
 		const spreadsWithoutAlias: GraphQLESTreeNode<FragmentSpreadNode>[] = []
 
-		let ancestorNode: GraphQLESTreeNode<OperationDefinitionNode> | null = null
 		return {
 			OperationDefinition(node) {
-				ancestorNode = node
-			},
-			"OperationDefinition:exit"() {
-				ancestorNode = null
+				if (
+					node.operation === OperationTypeNode.MUTATION
+					|| node.operation === OperationTypeNode.SUBSCRIPTION
+				) {
+					return false
+				}
 			},
 			FragmentSpread(node) {
-				if (
-					ancestorNode != null
-					&& (ancestorNode.operation === OperationTypeNode.MUTATION
-						|| ancestorNode.operation === OperationTypeNode.SUBSCRIPTION)
-				) {
-					return
-				}
-
 				const hasAlias = (node.directives ?? []).some(
 					(d) => d.name.value === "alias"
 				)
