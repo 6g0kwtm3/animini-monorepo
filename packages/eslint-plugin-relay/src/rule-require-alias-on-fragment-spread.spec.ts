@@ -73,7 +73,11 @@ test("reports error for fragment spread without @alias in fragment", async () =>
 		`,
 		errors: ["require-alias-on-fragment-spread"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`fragment foo on Page { ...Component_fragment @alias }\`;
+				"
+	`)
 })
 
 test("reports error for fragment spread without @alias in query", async () => {
@@ -83,7 +87,11 @@ test("reports error for fragment spread without @alias in query", async () => {
 		`,
 		errors: ["require-alias-on-fragment-spread"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`query Root { ...Component_fragment @alias }\`;
+				"
+	`)
 })
 
 test("reports errors for multiple fragment spreads without @alias", async () => {
@@ -99,7 +107,14 @@ test("reports errors for multiple fragment spreads without @alias", async () => 
 			"require-alias-on-fragment-spread",
 		],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`fragment foo on Page {
+						...ComponentA_fragment @alias
+						...ComponentB_fragment @alias
+					}\`;
+				"
+	`)
 })
 
 test("reports error only for spread without @alias when mixed", async () => {
@@ -112,7 +127,14 @@ test("reports error only for spread without @alias when mixed", async () => {
 		`,
 		errors: ["require-alias-on-fragment-spread"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`fragment foo on Page {
+						...ComponentA_fragment @alias
+						...ComponentB_fragment @alias
+					}\`;
+				"
+	`)
 })
 
 test("reports error for nested fragment spread without @alias", async () => {
@@ -126,7 +148,15 @@ test("reports error for nested fragment spread without @alias", async () => {
 		`,
 		errors: ["require-alias-on-fragment-spread"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`fragment foo on Page {
+						some_field {
+							...Component_fragment @alias
+						}
+					}\`;
+				"
+	`)
 })
 
 test("reports errors for two spreads without @alias where one is nested", async () => {
@@ -144,7 +174,16 @@ test("reports errors for two spreads without @alias where one is nested", async 
 			"require-alias-on-fragment-spread",
 		],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`fragment foo on Page {
+						...ComponentA_fragment @alias
+						nested {
+							...ComponentA_fragment @alias
+						}
+					}\`;
+				"
+	`)
 })
 
 test("reports errors for nested fragment spreads where outer has @alias but inner does not", async () => {
@@ -159,7 +198,16 @@ test("reports errors for nested fragment spreads where outer has @alias but inne
 		`,
 		errors: ["require-alias-on-fragment-spread"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					graphql\`fragment Foo on Page {
+						...Foo @alias
+						nested {
+							...Foo @alias
+						}
+					}\`;
+				"
+	`)
 })
 
 test("allows nested fragment spreads both with @alias", async () => {

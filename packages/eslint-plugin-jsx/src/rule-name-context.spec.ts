@@ -32,7 +32,12 @@ test("reports and fixes missing displayName for single context", async () => {
 			`,
 		errors: ["name-context"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+						const FooContext = createContext(null);
+		FooContext.displayName = "FooContext"
+					"
+	`)
 })
 
 test("reports only the context missing displayName when another is set", async () => {
@@ -44,7 +49,14 @@ test("reports only the context missing displayName when another is set", async (
 			`,
 		errors: ["name-context"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+						const AContext = createContext(null);
+		AContext.displayName = "AContext"
+						const BContext = createContext(null);
+						BContext.displayName = "BContext";
+					"
+	`)
 })
 
 test("reports both when multiple declarations in one statement are missing displayName", async () => {
@@ -54,5 +66,11 @@ test("reports both when multiple declarations in one statement are missing displ
 			`,
 		errors: ["name-context", "name-context"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+						let AContext = createContext(null), BContext = createContext(null);
+		BContext.displayName = "BContext"
+		AContext.displayName = "AContext"
+					"
+	`)
 })
