@@ -18,7 +18,7 @@ import { precompileStyles } from "@anitrove/unstyled"
 const { graphql } = ReactRelay
 
 export function SearchTrending(props: {
-	query: SearchTrending_query$key
+	queryKey: SearchTrending_query$key
 }): ReactNode {
 	const data = useFragment(
 		graphql`
@@ -31,7 +31,7 @@ export function SearchTrending(props: {
 				}
 			}
 		`,
-		props.query
+		props.queryKey
 	)
 
 	return data.trending?.media && data.trending.media.length !== 0 ? (

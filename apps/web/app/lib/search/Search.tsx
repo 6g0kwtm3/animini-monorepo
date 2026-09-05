@@ -50,11 +50,12 @@ function useOptimisticLocation() {
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
 
 export function Search({
-	queryRef,
+	queryKey,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	queryKey: SearchTrending_query$key
 }): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
@@ -135,7 +136,7 @@ export function Search({
 					) : (
 						<ErrorBoundary fallback={<>Error</>}>
 							<Suspense fallback="">
-								<SearchTrendingData queryRef={queryRef} />
+								<SearchTrending queryKey={queryKey} />
 							</Suspense>
 						</ErrorBoundary>
 					)}
@@ -143,16 +144,6 @@ export function Search({
 			</Form>
 		</SearchView>
 	)
-}
-
-function SearchTrendingData({
-	queryRef,
-}: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
-}) {
-	const data = usePreloadedQuery(queryRef)
-
-	return <SearchTrending query={data.SearchTrending_query} />
 }
 
 export function SearchButton(

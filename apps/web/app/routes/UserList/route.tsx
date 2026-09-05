@@ -47,7 +47,7 @@ import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
 import { Label } from "~/components/Label"
 import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
-import { loadQuery } from "~/lib/Network"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
 import { UserListTabs } from "./UserListTabs"
 
@@ -122,6 +122,8 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 
 	const params = useParams()
 
+	const data = usePreloadedQuery(loaderData.UserListTabsQuery)
+
 	return (
 		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
 			<div className="flex flex-col gap-4">
@@ -143,7 +145,7 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 								<MaterialSymbolsMoreHoriz />
 							</Icon>
 						</AppBar>
-						<UserListTabs queryRef={loaderData.UserListTabsQuery} />
+						<UserListTabs queryKey={data.UserListTabs_query} />
 					</div>
 					<TabsPanel tabId={params.selected} className="flex flex-col gap-4">
 						<Ariakit.HeadingLevel>
