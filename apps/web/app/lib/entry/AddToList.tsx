@@ -56,24 +56,24 @@ export function AddToList({
 			) {
 				id
 				status
-				...MediaListItem_entry
-				...AddToList_originalEntry
+				...MediaListItem_entry @alias
+				...AddToList_originalEntry @alias
 				...SyncMedia_entry_plural
-				...SyncMedia_source
-				...ProgressIncrement_entry
+				...SyncMedia_source @alias
+				...ProgressIncrement_entry @alias
 				...AddToList_assignable
 				media {
 					id
-					...MediaListItem_media
-					...AddToList_media
+					...MediaListItem_media @alias
+					...AddToList_media @alias
 					relations {
 						edges {
 							id
 							relationType(version: 3)
 							node {
 								id
-								...MediaListItem_media
-								...AddToList_media
+								...MediaListItem_media @alias
+								...AddToList_media @alias
 							}
 						}
 					}
