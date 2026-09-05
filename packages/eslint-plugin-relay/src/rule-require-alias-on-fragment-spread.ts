@@ -31,9 +31,9 @@ export const rule: GraphQLESLintRule = {
 			},
 			FragmentSpread(node) {
 				if (
-					ancestorNode?.kind === Kind.OPERATION_DEFINITION
-					&& (ancestorNode?.operation === OperationTypeNode.MUTATION
-						|| ancestorNode?.operation === OperationTypeNode.SUBSCRIPTION)
+					ancestorNode != null
+					&& (ancestorNode.operation === OperationTypeNode.MUTATION
+						|| ancestorNode.operation === OperationTypeNode.SUBSCRIPTION)
 				) {
 					return
 				}
@@ -43,10 +43,6 @@ export const rule: GraphQLESLintRule = {
 				)
 
 				if (hasAlias) {
-					return
-				}
-
-				if (!node.loc) {
 					return
 				}
 
