@@ -74,7 +74,11 @@ test("reports error for missing data-key", async () => {
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        <li key="foo" data-key="foo" />
+		        "
+	`)
 })
 
 test("reports error for missing data-key with boolean value", async () => {
@@ -84,7 +88,11 @@ test("reports error for missing data-key with boolean value", async () => {
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        <li key data-key />
+		        "
+	`)
 })
 
 test("reports error for different data-key", async () => {
@@ -94,7 +102,11 @@ test("reports error for different data-key", async () => {
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        <li key={foo + bar} data-key={foo + bar} />
+		        "
+	`)
 })
 
 test("reports error for different data-key with computed value", async () => {
@@ -104,7 +116,11 @@ test("reports error for different data-key with computed value", async () => {
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+						<li key="foo" data-key="foo" />
+		        "
+	`)
 })
 
 test("reports error when data-key is a boolean attribute without value", async () => {
@@ -114,7 +130,11 @@ test("reports error when data-key is a boolean attribute without value", async (
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+						<li key="foo" data-key="foo" />
+		        "
+	`)
 })
 
 test("reports error for missing data-key with computed value", async () => {
@@ -124,7 +144,11 @@ test("reports error for missing data-key with computed value", async () => {
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        <li key={foo + bar} data-key={foo + bar} />
+		        "
+	`)
 })
 
 test("reports error for different data-key with computed value", async () => {
@@ -134,5 +158,9 @@ test("reports error for different data-key with computed value", async () => {
         `,
 		errors: ["data-key-must-match-key"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        <li key={foo + bar} data-key={foo + bar} />
+		        "
+	`)
 })

@@ -155,7 +155,11 @@ test("reports error for unused fragment spread in fragment", async () => {
         `,
 		errors: ["must-colocate-fragment-spreads"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        graphql\`fragment foo on Page { ...unused1 }\`;
+		        "
+	`)
 })
 
 test("reports errors for multiple unused fragment spreads", async () => {
@@ -168,7 +172,11 @@ test("reports errors for multiple unused fragment spreads", async () => {
 			"must-colocate-fragment-spreads",
 		],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        graphql\`fragment Test on Page { ...unused1, ...unused2 }\`;
+		        "
+	`)
 })
 
 test("reports error for unused fragment spread in query", async () => {
@@ -178,7 +186,11 @@ test("reports error for unused fragment spread in query", async () => {
         `,
 		errors: ["must-colocate-fragment-spreads"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        graphql\`query Root { ...unused1 }\`;
+		        "
+	`)
 })
 
 test("reports error for unused fragment spread even with used fragments", async () => {
@@ -189,7 +201,12 @@ test("reports error for unused fragment spread even with used fragments", async 
         `,
 		errors: ["must-colocate-fragment-spreads"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        import { Component } from './used1.js';
+		        graphql\`fragment foo on Page { ...used1 ...unused1 }\`;
+		        "
+	`)
 })
 
 test("reports error for unused fragment spread with relay mask directive", async () => {
@@ -199,7 +216,11 @@ test("reports error for unused fragment spread with relay mask directive", async
         `,
 		errors: ["must-colocate-fragment-spreads"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        graphql\`fragment foo on Page { ...unused1 @relay(mask: true) }\`;
+		        "
+	`)
 })
 
 test("reports error for unused component fragment", async () => {
@@ -212,5 +233,12 @@ test("reports error for unused component fragment", async () => {
         `,
 		errors: ["must-colocate-fragment-spreads"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		        import type { MyType } from '../shared/component.js';
+		        graphql\`fragment foo on Page {
+		          ...component_fragment
+		        }\`;
+		        "
+	`)
 })

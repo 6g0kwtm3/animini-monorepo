@@ -43,7 +43,12 @@ test("reports error for unused return values", async () => {
         `,
 		errors: ["return-value-not-used"],
 	})
-	expect(result.output).toMatchSnapshot()
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+		      declare function foo(): number;
+					foo();
+		        "
+	`)
 })
 
 test("allows used return values", async () => {
