@@ -35,6 +35,7 @@ import { ErrorBoundary } from "@sentry/react"
 import { fab } from "~/lib/button"
 import {
 	loadQuery,
+	useFragment,
 	usePreloadedQuery,
 	type NodeAndQueryFragment,
 } from "~/lib/Network"
@@ -42,6 +43,7 @@ import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
+import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
 
 const { graphql } = ReactRelay
 
@@ -51,9 +53,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
 			query routeNavQuery($isToken: Boolean = false) {
-				Viewer @include(if: $isToken) {
-					unreadNotificationCount
-				}
+				...UnreadNotificationBadge_query @alias
 				...SearchTrending_query @alias
 			}
 		`,
@@ -67,6 +67,7 @@ export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
 	const rootData = useRouteLoaderData<typeof rootLoader>("root")
+	const data = usePreloadedQuery(loaderData.trending)
 
 	const { pathname } = useLocation()
 
@@ -142,7 +143,9 @@ export default function NavRoute({
 					badge={
 						<ErrorBoundary>
 							<Suspense>
-								<UnreadNotificationBadge queryRef={loaderData.trending} />
+								<UnreadNotificationBadge
+									queryKey={data.UnreadNotificationBadge_query}
+								/>
 							</Suspense>
 						</ErrorBoundary>
 					}
@@ -163,17 +166,25 @@ export default function NavRoute({
 				</SearchButton>
 			</Navigation>
 			<Outlet />
-			<Search queryRef={loaderData.trending} />
+			<Search queryKey={data.SearchTrending_query} />
 		</Layout>
 	)
 }
 
+const UnreadNotificationBadge_query = graphql`
+	fragment UnreadNotificationBadge_query on Query {
+		Viewer @include(if: $isToken) {
+			unreadNotificationCount
+		}
+	}
+`
+
 function UnreadNotificationBadge({
-	queryRef,
+	queryKey,
 }: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
+	queryKey: UnreadNotificationBadge_query$key
 }): ReactNode {
-	const data = usePreloadedQuery(queryRef)
+	const data = useFragment(UnreadNotificationBadge_query, queryKey)
 
 	return (
 		(data.Viewer?.unreadNotificationCount ?? 0) > 0 && (

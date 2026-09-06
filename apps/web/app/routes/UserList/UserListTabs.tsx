@@ -30,13 +30,8 @@ const UserListTabs_query = graphql`
 	}
 `
 
-export function UserListTabs(props: {
-	queryRef: NodeAndQueryFragment<UserListTabsQueryOperation>
-}) {
-	const queryKey: UserListTabs_query$key = usePreloadedQuery(
-		props.queryRef
-	).UserListTabs_query
-	const data = useFragment(UserListTabs_query, queryKey)
+export function UserListTabs(props: { queryKey: UserListTabs_query$key }) {
+	const data = useFragment(UserListTabs_query, props.queryKey)
 	const lists = data.MediaListCollection?.lists
 		?.filter((el) => el != null)
 		.toSorted(
