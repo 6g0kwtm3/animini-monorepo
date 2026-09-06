@@ -51,6 +51,38 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 
 			fieldNames[nameNode.value] = { loc: nameNode.loc }
 		},
+		InlineFragment(node) {
+			// TODO: Ignore inline fragments that are direct children of query as used in mutation or query definitions.
+			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
+				return false
+			}
+
+			const aliasDirective = node.directives?.find(
+				(directive) => directive.name.value === "alias"
+			)
+			if (aliasDirective == null) {
+				return
+			}
+			const asArgument = aliasDirective.arguments?.find(
+				(argument) => argument.name.value === "as"
+			)
+
+			const nameNode =
+				asArgument?.value.kind === Kind.STRING ? asArgument.value : null
+
+			if (nameNode == null) {
+				// relay compiler error
+				return
+			}
+
+			if (!nameNode.loc) {
+				throw new Error(
+					"Expected GraphQL AST node to have location information"
+				)
+			}
+
+			fieldNames[nameNode.value] = { loc: nameNode.loc }
+		},
 		Field(node) {
 			// TODO: Ignore fields that are direct children of query as used in mutation or query definitions.
 			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
