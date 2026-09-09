@@ -12,7 +12,7 @@ const { graphql } = ReactRelay
 export function toWatch(data: ToWatch_entry$key): null | number {
 	const entry = readFragment(
 		graphql`
-			fragment ToWatch_entry on MediaList {
+			fragment ToWatch_entry on MediaList @throwOnFieldError {
 				behind @required(action: NONE)
 				media {
 					duration

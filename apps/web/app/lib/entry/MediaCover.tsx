@@ -23,6 +23,7 @@ export function MediaCover({ media, ...props }: MediaCoverProps): ReactNode {
 	const data = useFragment(
 		graphql`
 			fragment MediaCover_media on Media
+			@throwOnFieldError
 			@argumentDefinitions(
 				extraLarge: { type: "Boolean", defaultValue: false }
 			) {

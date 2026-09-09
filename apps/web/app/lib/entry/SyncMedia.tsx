@@ -20,7 +20,9 @@ export function SyncMedia(props: {
 	const targets = new Map(
 		useFragment(
 			graphql`
-				fragment SyncMedia_entry_plural on MediaList @relay(plural: true) {
+				fragment SyncMedia_entry_plural on MediaList
+				@throwOnFieldError
+				@relay(plural: true) {
 					id
 					startedAt {
 						day
@@ -43,7 +45,7 @@ export function SyncMedia(props: {
 
 	const source = useFragment(
 		graphql`
-			fragment SyncMedia_source on MediaList {
+			fragment SyncMedia_source on MediaList @throwOnFieldError {
 				id
 				private
 				status
@@ -107,7 +109,8 @@ export function SyncMedia(props: {
 
 	const mediaListCollection = useFragment(
 		graphql`
-			fragment SyncMedia_mediaListCollection on MediaListCollection {
+			fragment SyncMedia_mediaListCollection on MediaListCollection
+			@throwOnFieldError {
 				lists {
 					...SyncMedia_updatable @alias
 					status

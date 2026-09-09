@@ -36,7 +36,7 @@ export function Airing({
 }: AiringProps) {
 	const notification = useFragment(
 		graphql`
-			fragment Airing_notification on AiringNotification {
+			fragment Airing_notification on AiringNotification @throwOnFieldError {
 				id
 				episode
 				createdAt
@@ -54,7 +54,7 @@ export function Airing({
 
 	const viewer = useFragment(
 		graphql`
-			fragment Airing_viewer on User {
+			fragment Airing_viewer on User @throwOnFieldError {
 				id
 				unreadNotificationCount
 			}

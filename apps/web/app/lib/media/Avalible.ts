@@ -13,7 +13,7 @@ const { graphql } = ReactRelay
 export function avalible(key: Avalible_media$key): null | number | undefined {
 	const media = readFragment(
 		graphql`
-			fragment Avalible_media on Media {
+			fragment Avalible_media on Media @throwOnFieldError {
 				status(version: 2)
 				episodes
 				chapters

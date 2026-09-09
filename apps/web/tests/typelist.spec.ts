@@ -63,6 +63,8 @@ const AddToListMutationSuccess = graphql.mutation<
 					title: { userPreferred: "Contained media title" },
 					type: "MANGA",
 					status: "FINISHED",
+					nextAiringEpisode: null,
+					duration: null,
 					relations: {
 						edges: [
 							{
@@ -113,6 +115,8 @@ const SyncMediaMutationSuccess = graphql.mutation<
 					title: { userPreferred: "Contained media title" },
 					type: "MANGA",
 					status: "FINISHED",
+					nextAiringEpisode: null,
+					duration: null,
 					relations: {
 						edges: [
 							{
@@ -164,6 +168,8 @@ const handlers = [
 										title: { userPreferred: "Media title" },
 										type: "MANGA",
 										status: "FINISHED",
+										nextAiringEpisode: null,
+										duration: null,
 										relations: {
 											edges: [
 												{

@@ -11,7 +11,7 @@ const { graphql } = ReactRelay
 export function theme(key: Theme_mediaCover$key): null | Theme {
 	const media = readFragment(
 		graphql`
-			fragment Theme_mediaCover on MediaCoverImage {
+			fragment Theme_mediaCover on MediaCoverImage @throwOnFieldError {
 				color
 			}
 		`,

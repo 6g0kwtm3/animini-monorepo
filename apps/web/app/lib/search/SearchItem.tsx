@@ -23,7 +23,7 @@ interface SearchItemProps extends ComponentProps<typeof ListItem> {
 export function SearchItem({ media, ...props }: SearchItemProps) {
 	const data = useFragment(
 		graphql`
-			fragment SearchItem_media on Media {
+			fragment SearchItem_media on Media @throwOnFieldError {
 				id
 				type
 				...MediaCover_media @alias

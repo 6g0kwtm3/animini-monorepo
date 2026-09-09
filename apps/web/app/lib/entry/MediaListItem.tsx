@@ -37,7 +37,7 @@ import { MediaTitle } from "./MediaTitle"
 const { graphql } = ReactRelay
 
 const MediaListItem_entry = graphql`
-	fragment MediaListItem_entry on MediaList {
+	fragment MediaListItem_entry on MediaList @throwOnFieldError {
 		id
 		...MediaListItemSubtitle_entry @alias
 		private
@@ -45,7 +45,7 @@ const MediaListItem_entry = graphql`
 `
 
 const MediaListItem_media = graphql`
-	fragment MediaListItem_media on Media {
+	fragment MediaListItem_media on Media @throwOnFieldError {
 		id
 		...MediaCover_media @alias
 		...MediaTitle_media @alias
@@ -123,7 +123,7 @@ export function MediaListItem({
 }
 
 const MediaListItemSubtitle_entry = graphql`
-	fragment MediaListItemSubtitle_entry on MediaList {
+	fragment MediaListItemSubtitle_entry on MediaList @throwOnFieldError {
 		id
 		score
 		toWatch

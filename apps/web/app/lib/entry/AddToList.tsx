@@ -25,7 +25,7 @@ export function AddToList({
 }) {
 	const source = useFragment(
 		graphql`
-			fragment AddToList_originalEntry on MediaList {
+			fragment AddToList_originalEntry on MediaList @throwOnFieldError {
 				id
 				private
 				status
@@ -36,7 +36,7 @@ export function AddToList({
 
 	const media = useFragment(
 		graphql`
-			fragment AddToList_media on Media {
+			fragment AddToList_media on Media @throwOnFieldError {
 				id
 			}
 		`,
