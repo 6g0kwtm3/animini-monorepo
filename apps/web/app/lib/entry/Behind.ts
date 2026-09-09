@@ -11,7 +11,7 @@ const { graphql } = ReactRelay
 export function behind(data: Behind_entry$key): null | number {
 	const entry = readFragment(
 		graphql`
-			fragment Behind_entry on MediaList {
+			fragment Behind_entry on MediaList @throwOnFieldError {
 				progress
 				media {
 					avalible @required(action: NONE)

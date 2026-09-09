@@ -32,7 +32,7 @@ export function ActivityLike({
 }: ActivityLikeProps) {
 	const notification = useFragment(
 		graphql`
-			fragment ActivityLike_notification on ActivityLikeNotification {
+			fragment ActivityLike_notification on ActivityLikeNotification @throwOnFieldError {
 				id
 				createdAt
 				activityId
@@ -51,7 +51,7 @@ export function ActivityLike({
 
 	const viewer = useFragment(
 		graphql`
-			fragment ActivityLike_viewer on User {
+			fragment ActivityLike_viewer on User @throwOnFieldError {
 				unreadNotificationCount
 			}
 		`,

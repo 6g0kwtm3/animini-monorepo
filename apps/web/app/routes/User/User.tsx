@@ -17,7 +17,7 @@ interface UserProps extends ComponentProps<"div"> {
 export function User({ user, ...props }: UserProps): ReactNode {
 	const data = useFragment(
 		graphql`
-			fragment User_user on User {
+			fragment User_user on User @throwOnFieldError {
 				name
 				bannerImage
 				avatar {

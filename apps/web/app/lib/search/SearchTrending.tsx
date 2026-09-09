@@ -22,7 +22,7 @@ export function SearchTrending(props: {
 }): ReactNode {
 	const data = useFragment(
 		graphql`
-			fragment SearchTrending_query on Query {
+			fragment SearchTrending_query on Query @throwOnFieldError {
 				trending: Page(perPage: 10) {
 					media(sort: [TRENDING_DESC]) {
 						id

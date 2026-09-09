@@ -41,7 +41,7 @@ import {
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`
-	fragment ProgressIncrement_entry on MediaList {
+	fragment ProgressIncrement_entry on MediaList @throwOnFieldError {
 		id
 		progress
 		...Progress_entry @alias
@@ -235,7 +235,7 @@ export function ProgressIncrement(props: {
 	)
 }
 const Progress_entry = graphql`
-	fragment Progress_entry on MediaList {
+	fragment Progress_entry on MediaList @throwOnFieldError {
 		id
 		progress
 		media {

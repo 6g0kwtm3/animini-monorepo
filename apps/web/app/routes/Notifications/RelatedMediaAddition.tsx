@@ -36,7 +36,7 @@ export function RelatedMediaAddition({
 }: RelatedMediaAdditionProps) {
 	const notification = useFragment(
 		graphql`
-			fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification {
+			fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification @throwOnFieldError {
 				id
 				createdAt
 				media @required(action: LOG) {
@@ -53,7 +53,7 @@ export function RelatedMediaAddition({
 
 	const viewer = useFragment(
 		graphql`
-			fragment RelatedMediaAddition_viewer on User {
+			fragment RelatedMediaAddition_viewer on User @throwOnFieldError {
 				id
 				unreadNotificationCount
 			}
