@@ -61,7 +61,7 @@ export function UserLink(props: { children: ReactNode; userName: string }) {
 function UserCard(props: { userName: string }) {
 	const data = useLazyLoadQuery<UserLinkCardQuery>(
 		graphql`
-			query UserLinkCardQuery($userName: String!) {
+			query UserLinkCardQuery($userName: String!) @raw_response_type {
 				User(name: $userName) {
 					id
 					avatar {

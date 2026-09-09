@@ -1,6 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 import type { ComponentProps, ReactNode } from "react"
-import { Suspense, useEffect } from "react"
+import { Suspense, useLayoutEffect } from "react"
 import {
 	Form,
 	useFetcher,
@@ -61,21 +61,19 @@ export function Search({
 	const submit = useFetcher<typeof searchLoader>()
 
 	const show = searchParams.get("sheet") === "search"
-	searchParams.delete("sheet")
-
-	const sheetParams = copySearchParams(searchParams)
-	sheetParams.set("sheet", "search")
 	const navigate = useNavigate()
 
 	const listener = useEffectEvent((event: KeyboardEvent) => {
 		if ((event.metaKey || event.ctrlKey) && event.key === "k") {
 			event.preventDefault()
-			void navigate({ search: `?${sheetParams}` })
+			const openSheet = copySearchParams(searchParams)
+			openSheet.set("sheet", "search")
+			void navigate({ search: `?${openSheet}` })
 		}
 	})
 
 	// bind command + k
-	useEffect(() => {
+	useLayoutEffect(() => {
 		window.addEventListener("keydown", listener)
 		return () => {
 			window.removeEventListener("keydown", listener)
@@ -89,7 +87,9 @@ export function Search({
 			aria-label="Search anime or manga"
 			open={show}
 			onClose={() => {
-				void navigate({ search: `?${searchParams}` })
+				const closedSheet = copySearchParams(searchParams)
+				closedSheet.delete("sheet")
+				void navigate({ search: `?${closedSheet}` })
 			}}
 			className="search-view-fullscreen sm:search-view-docked"
 			defaultValue={searchParams.get("q") ?? ""}
