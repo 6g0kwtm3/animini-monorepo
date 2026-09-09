@@ -1,4 +1,3 @@
-import * as cookie from "cookie"
 import RelayRuntime, {
 	Environment,
 	Network,
@@ -29,9 +28,7 @@ const fetchQuery = async function (
 	cacheConfig: CacheConfig,
 	uploadables?: null | UploadableMap
 ): Promise<WithRetry<typeof GraphQLResponse.inferOut>> {
-	const cookies = cookie.parse(document.cookie)
-
-	let token = cookies["anilist-token"]
+	let token = (await cookieStore.get("anilist-token"))?.value
 
 	if (isString(token)) {
 		const parsedToken = JsonToToken(token)

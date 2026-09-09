@@ -90,7 +90,8 @@
 		"jsdoc": {
 			"tagNamePreference": {
 				"rootFragment": "rootFragment",
-				"RelayResolver": "relayField"
+				"RelayResolver": "relayField",
+				"live": "live"
 			}
 		},
 		"react": {
