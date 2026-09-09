@@ -96,10 +96,8 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 }
 
 const UserSetStatus = graphql`
-	mutation routeUserSetStatusMutation(
-		$mediaId: Int!
-		$status: MediaListStatus!
-	) {
+	mutation routeUserSetStatusMutation($mediaId: Int!, $status: MediaListStatus!)
+	@raw_response_type {
 		SaveMediaListEntry(mediaId: $mediaId, status: $status) {
 			id
 			progress

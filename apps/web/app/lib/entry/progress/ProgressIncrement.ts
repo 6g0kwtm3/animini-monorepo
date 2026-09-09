@@ -23,7 +23,8 @@ export const increment = async (
 
 	const data = await client.mutation<ProgressIncrementMutation>({
 		mutation: graphql`
-			mutation ProgressIncrementMutation($id: Int!, $progress: Int) {
+			mutation ProgressIncrementMutation($id: Int!, $progress: Int)
+			@raw_response_type {
 				SaveMediaListEntry(id: $id, progress: $progress) {
 					id
 					progress

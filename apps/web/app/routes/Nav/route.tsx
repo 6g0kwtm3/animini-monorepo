@@ -50,7 +50,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
-			query routeNavQuery($isToken: Boolean = false) {
+			query routeNavQuery($isToken: Boolean = false) @raw_response_type {
 				Viewer @include(if: $isToken) {
 					unreadNotificationCount
 				}

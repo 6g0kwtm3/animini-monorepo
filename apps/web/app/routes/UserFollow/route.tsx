@@ -19,7 +19,7 @@ export const clientAction = (async (args) => {
 
 	const data = await client.mutation<routeUserFollowMutation>({
 		mutation: graphql`
-			mutation routeUserFollowMutation($userId: Int!) {
+			mutation routeUserFollowMutation($userId: Int!) @raw_response_type {
 				ToggleFollow(userId: $userId) {
 					id
 					name @required(action: LOG)

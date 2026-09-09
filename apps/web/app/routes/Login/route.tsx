@@ -43,7 +43,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	})
 	const data = await client.query<NavLoginQuery>(
 		graphql`
-			query routeNavLoginQuery {
+			query routeNavLoginQuery @raw_response_type {
 				Viewer {
 					id
 					name
