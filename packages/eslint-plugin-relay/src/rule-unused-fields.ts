@@ -7,7 +7,7 @@
 
 import type { Rule } from "eslint"
 import type * as ESTree from "estree"
-import { OperationTypeNode, visit, type DocumentNode } from "graphql"
+import { Kind, OperationTypeNode, visit, type DocumentNode } from "graphql"
 import {
 	getGraphQLAST,
 	getLoc,
@@ -24,6 +24,33 @@ function getGraphQLFieldNames(graphQLAst: DocumentNode) {
 	const fieldNames: Record<string, NodeWithLoc> = {}
 
 	visit(graphQLAst, {
+		FragmentSpread(node) {
+			// TODO: Ignore fragment spreads that are direct children of query as used in mutation or query definitions.
+			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
+				return false
+			}
+
+			const aliasDirective = node.directives?.find(
+				(directive) => directive.name.value === "alias"
+			)
+			if (aliasDirective == null) {
+				return false
+			}
+			const asArgument = aliasDirective.arguments?.find(
+				(argument) => argument.name.value === "as"
+			)
+
+			const nameNode =
+				asArgument?.value.kind === Kind.STRING ? asArgument.value : node.name
+
+			if (!nameNode.loc) {
+				throw new Error(
+					"Expected GraphQL AST node to have location information"
+				)
+			}
+
+			fieldNames[nameNode.value] = { loc: nameNode.loc }
+		},
 		Field(node) {
 			// TODO: Ignore fields that are direct children of query as used in mutation or query definitions.
 			if (hasPrecedingEslintDisableComment(node, ESLINT_DISABLE_COMMENT)) {
