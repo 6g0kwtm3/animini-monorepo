@@ -18,7 +18,7 @@ import { numberToString } from "~/lib/numberToString"
 const { graphql } = ReactRelay
 
 const UserListTabs_query = graphql`
-	fragment UserListTabs_query on Query {
+	fragment UserListTabs_query on Query @throwOnFieldError {
 		MediaListCollection(userName: $userName, type: $type) {
 			lists {
 				name

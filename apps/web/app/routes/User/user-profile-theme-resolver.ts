@@ -13,7 +13,8 @@ export function profileTheme(
 ): null | Theme {
 	const options = readFragment(
 		graphql`
-			fragment userProfileThemeResolver_userOptions on UserOptions @throwOnFieldError {
+			fragment userProfileThemeResolver_userOptions on UserOptions
+			@throwOnFieldError {
 				profileColor
 			}
 		`,

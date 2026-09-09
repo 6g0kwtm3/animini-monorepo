@@ -32,7 +32,8 @@ export function ActivityLike({
 }: ActivityLikeProps) {
 	const notification = useFragment(
 		graphql`
-			fragment ActivityLike_notification on ActivityLikeNotification @throwOnFieldError {
+			fragment ActivityLike_notification on ActivityLikeNotification
+			@throwOnFieldError {
 				id
 				createdAt
 				activityId

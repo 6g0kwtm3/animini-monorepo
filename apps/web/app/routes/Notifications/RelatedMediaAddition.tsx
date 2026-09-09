@@ -36,7 +36,8 @@ export function RelatedMediaAddition({
 }: RelatedMediaAdditionProps) {
 	const notification = useFragment(
 		graphql`
-			fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification @throwOnFieldError {
+			fragment RelatedMediaAddition_notification on RelatedMediaAdditionNotification
+			@throwOnFieldError {
 				id
 				createdAt
 				media @required(action: LOG) {
