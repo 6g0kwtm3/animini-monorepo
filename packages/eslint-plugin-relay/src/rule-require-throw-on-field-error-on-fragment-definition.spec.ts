@@ -60,6 +60,24 @@ test("reports fragment definition missing @throwOnFieldError", async () => {
 	`)
 })
 
+test("reports fragment definition missing @throwOnFieldError with directive", async () => {
+	const { result } = await invalid({
+		code: graphql`
+			fragment foo on Page @directive {
+				name
+			}
+		`,
+		errors: ["require-throw-on-field-error-on-fragment-definition"],
+	})
+	expect(result.output).toMatchInlineSnapshot(`
+		"
+					fragment foo on Page @throwOnFieldError @directive {
+						name
+					}
+				"
+	`)
+})
+
 test("reports multiple fragment definitions missing @throwOnFieldError", async () => {
 	const { result } = await invalid({
 		code: graphql`
