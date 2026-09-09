@@ -11,8 +11,13 @@ import { onAbortNavigationSignal } from "../abort-signal-middleware"
 import { createContext as createMiddlewareContext } from "react-router"
 import type { Route } from "../../+types/root"
 import environment from "./environment"
-
+import RscRelay from "react-relay/rsc_EXPERIMENTAL"
+const { createServerEnvironment } = RscRelay
+import RscClientRelay from "react-relay/rsc-client_EXPERIMENTAL"
+const { useQueryFromServer } = RscClientRelay
 export const { readFragment } = RelayRuntime
+
+const { serverPreloadQuery } = createServerEnvironment(() => environment)
 
 const {
 	commitMutation: commitMutation_,
@@ -40,12 +45,12 @@ function useQueryLoader<T extends RelayRuntime.OperationType>(
 export type NodeAndQueryFragment<T extends RelayRuntime.OperationType> =
 	readonly [
 		gqlQuery: ReactRelay.GraphQLTaggedNode,
-		preloadedQuery: PreloadedQuery<T>,
+		preloadedQuery: RscRelay.PreloadedQueryRef<T["variables"], T["response"]>,
 	]
 
 type LoadQuery = <T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode,
-	...args: Shift<Shift<Parameters<typeof loadQuery_<T>>>>
+	variables: T["variables"]
 ) => NodeAndQueryFragment<T>
 
 export const loadQuery = createMiddlewareContext<LoadQuery>()
@@ -59,14 +64,14 @@ export const loadQueryMiddleware: Route.MiddlewareFunction = (
 		if (signal.aborted) {
 			throw signal.reason
 		}
-		const queryRef = loadQuery_(environment, query, ...args)
-		signal.addEventListener(
-			"abort",
-			() => {
-				queryRef.dispose()
-			},
-			{ once: true }
-		)
+		const queryRef = serverPreloadQuery(query, ...args)
+		// signal.addEventListener(
+		// 	"abort",
+		// 	() => {
+		// 		queryRef.dispose()
+		// 	},
+		// 	{ once: true }
+		// )
 		return [query, queryRef]
 	})
 
@@ -75,9 +80,9 @@ export const loadQueryMiddleware: Route.MiddlewareFunction = (
 
 export function usePreloadedQuery<T extends OperationType>(
 	nodeAndQuery: NodeAndQueryFragment<T>,
-	options?: { UNSTABLE_renderPolicy?: RelayRuntime.RenderPolicy | undefined }
+	options?: { staleThresholdMs?: number }
 ) {
-	return usePreloadedQuery_(nodeAndQuery[0], nodeAndQuery[1], options)
+	return useQueryFromServer(nodeAndQuery[0], nodeAndQuery[1], options)
 }
 
 export function commitLocalUpdate(
