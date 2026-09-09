@@ -66,7 +66,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 		searchParams.get("sheet") === "search"
 			? args.context.get(loadQuery)<routeNavTrendingQuery>(
 					graphql`
-						query routeNavTrendingQuery {
+						query routeNavTrendingQuery @raw_response_type {
 							...SearchTrending_query @alias
 						}
 					`,
