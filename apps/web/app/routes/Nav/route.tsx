@@ -9,7 +9,7 @@ import {
 	NavigationItem,
 	NavigationItemLargeBadge,
 } from "~/components/Navigation"
-
+import { SearchTrending } from "~/lib/search/SearchTrending"
 import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
 import { Search, SearchButton } from "~/lib/search/Search"
@@ -42,6 +42,7 @@ import MaterialSymbolsMenuBook from "~icons/material-symbols/menu-book"
 import MaterialSymbolsMenuBookOutline from "~icons/material-symbols/menu-book-outline"
 import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
+import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 
 const { graphql } = ReactRelay
 
@@ -54,13 +55,26 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 				Viewer @include(if: $isToken) {
 					unreadNotificationCount
 				}
-				...SearchTrending_query @alias
 			}
 		`,
 		{ isToken: viewer != null }
 	)
 
-	return { trending: data }
+	const { searchParams } = args.url
+
+	const routeNavTrendingQueryRef =
+		searchParams.get("sheet") === "search"
+			? args.context.get(loadQuery)<routeNavTrendingQuery>(
+					graphql`
+						query routeNavTrendingQuery {
+							...SearchTrending_query @alias
+						}
+					`,
+					{}
+				)
+			: null
+
+	return { trending: data, routeNavTrendingQueryRef }
 }
 
 export default function NavRoute({
@@ -163,9 +177,29 @@ export default function NavRoute({
 				</SearchButton>
 			</Navigation>
 			<Outlet />
-			<Search queryRef={loaderData.trending} />
+			<Search>
+				{loaderData.routeNavTrendingQueryRef != null ? (
+					<ErrorBoundary fallback={<>Error</>}>
+						<Suspense fallback="">
+							<SearchTrendingData
+								queryRef={loaderData.routeNavTrendingQueryRef}
+							/>
+						</Suspense>
+					</ErrorBoundary>
+				) : null}
+			</Search>
 		</Layout>
 	)
+}
+
+function SearchTrendingData({
+	queryRef,
+}: {
+	queryRef: NodeAndQueryFragment<routeNavTrendingQuery>
+}) {
+	const data = usePreloadedQuery(queryRef)
+
+	return <SearchTrending query={data.SearchTrending_query} />
 }
 
 function UnreadNotificationBadge({

@@ -49,17 +49,12 @@ function useOptimisticLocation() {
 
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
-import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
+import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 
-export function Search({
-	queryRef,
-}: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
-}): ReactNode {
+export function Search(props: { children?: ReactNode }): ReactNode {
 	const searchParams = useOptimisticSearchParams()
 
 	const submit = useFetcher<typeof searchLoader>()
-
 	const show = searchParams.get("sheet") === "search"
 	const navigate = useNavigate()
 
@@ -133,26 +128,12 @@ export function Search({
 							</SearchViewBodyGroup>
 						</SearchViewBody>
 					) : (
-						<ErrorBoundary fallback={<>Error</>}>
-							<Suspense fallback="">
-								<SearchTrendingData queryRef={queryRef} />
-							</Suspense>
-						</ErrorBoundary>
+						props.children
 					)}
 				</>
 			</Form>
 		</SearchView>
 	)
-}
-
-function SearchTrendingData({
-	queryRef,
-}: {
-	queryRef: NodeAndQueryFragment<routeNavQuery>
-}) {
-	const data = usePreloadedQuery(queryRef)
-
-	return <SearchTrending query={data.SearchTrending_query} />
 }
 
 export function SearchButton(
