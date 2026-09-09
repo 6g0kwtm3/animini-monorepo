@@ -27,7 +27,7 @@ import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-
 import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
-import { UnreadNotificationBadge } from './UnreadNotificationBadge'
+import { UnreadNotificationBadge } from "./UnreadNotificationBadge"
 import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
