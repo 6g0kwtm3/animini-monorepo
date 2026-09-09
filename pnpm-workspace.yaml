@@ -27,7 +27,7 @@ catalog:
   '@inlang/paraglide-js': 2.25.0
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
-  '@playwright/test': 1.62.1
+  '@playwright/test': 1.63.0
   '@react-router/dev': 8.3.1
   '@react-router/node': 8.3.1
   '@sentry/react': npm:@sentry/react-router@10.73.0
@@ -47,7 +47,7 @@ catalog:
   '@tailwindcss/typography': 0.5.20
   '@tailwindcss/vite': 4.3.3
   '@tanstack/react-virtual': 3.14.10
-  '@types/bun': 1.4.0
+  '@types/bun': 1.4.1
   '@types/estree': 1.0.9
   '@types/flubber': 0.4.0
   '@types/marked': 0.3.0
@@ -80,7 +80,7 @@ catalog:
   flubber: 0.4.2
   graphql: 16.14.2
   graphql-config: 5.1.6
-  hono: 4.13.5
+  hono: 4.13.7
   isbot: 5.2.2
   knip: 6.34.0
   marked: 0.3.19
