@@ -31,6 +31,7 @@
 		"@anitrove/a": "workspace:@animedes/a@*",
 		"@anitrove/design": "workspace:@animedes/design@*",
 		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
+		"@animedes/react-stable": "workspace:@animedes/react-stable@*",
 		"@ariakit/react": "catalog:",
 		"@hono/node-server": "catalog:",
 		"@iconify-json/material-symbols": "catalog:",

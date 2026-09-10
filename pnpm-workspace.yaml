@@ -137,12 +137,15 @@ optimisticRepeatInstall: true
 
 overrides:
   yauzl: 3.4.0
+  '@animedes/react-stable': 'workspace:'
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAge: 0
 
 patchedDependencies:
+  '@types/react': patches/@types__react.patch
   flubber: patches/flubber.patch
+  framer-motion: patches/framer-motion.patch
 
 savePrefix: ''
 
@@ -153,3 +156,11 @@ strictDepBuilds: true
 verifyDepsBeforeRun: install
 
 minimumReleaseAgeStrict: false
+
+packageExtensions:
+  '@types/react':
+    peerDependencies:
+      '@animedes/react-stable': '*'
+  'framer-motion':
+    peerDependencies:
+      '@animedes/react-stable': '*'

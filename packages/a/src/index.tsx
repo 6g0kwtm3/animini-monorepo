@@ -1,7 +1,7 @@
 import { memo, type ComponentProps, type ReactNode } from "react"
 import { Link as RouterLink } from "react-router"
 
-const MemoLink: typeof RouterLink = memo(RouterLink)
+const MemoLink: typeof RouterLink = RouterLink
 
 interface LinkProps extends Omit<ComponentProps<typeof MemoLink>, "to"> {
 	href: ComponentProps<typeof MemoLink>["to"]

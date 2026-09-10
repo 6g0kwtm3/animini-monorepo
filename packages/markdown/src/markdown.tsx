@@ -1,5 +1,6 @@
 import type { JSX, ReactNode } from "react"
 import { useMemo } from "react"
+import type { Stable } from "@animedes/react-stable"
 
 import createDOMPurify from "dompurify"
 import { markdownToHtml } from "./markdown-to-html"
@@ -13,8 +14,8 @@ export interface Options {
 }
 
 export function Markdown(props: {
-	children: string
-	options: Options
+	children: Stable<string>
+	options: Stable<Options>
 }): ReactNode {
 	return useMemo(
 		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),

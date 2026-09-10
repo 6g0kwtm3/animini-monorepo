@@ -15,15 +15,17 @@ import {
 	useSyncExternalStore,
 } from "react"
 import * as Predicate from "~/lib/Predicate"
-
+import { stable, type Stable } from "@animedes/react-stable"
 type OnBeforeToggle = (
 	this: HTMLElement,
 	event: HTMLElementEventMap["beforetoggle"]
 ) => void
 
-const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
-	console.warn("Snackbar is outside of SnackbarQueue")
-})
+const SnackbarQueueContext = createContext<Stable<OnBeforeToggle>>(
+	stable(() => {
+		console.warn("Snackbar is outside of SnackbarQueue")
+	})
+)
 SnackbarQueueContext.displayName = "SnackbarQueueContext"
 export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 	const queue = useRef<Set<HTMLElement>>(new Set())

@@ -15,7 +15,8 @@
 	},
 	"peerDependencies": {
 		"@types/react": "catalog:",
-		"react": "catalog:"
+		"react": "catalog:",
+		"@animedes/react-stable": "workspace:"
 	},
 	"dependencies": {
 		"@types/marked": "catalog:",
