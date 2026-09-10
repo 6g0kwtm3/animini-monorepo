@@ -10,7 +10,7 @@ import {
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle,
 } from "~/components/List"
-
+import { stable } from "@animedes/react-stable"
 // console.log(R)
 
 import { A } from "@anitrove/a"
@@ -139,7 +139,9 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 										<ErrorBoundary fallback={<>Failed to parse markdown</>}>
 											<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto">
 												{activity.text ? (
-													<Markdown options={options}>{activity.text}</Markdown>
+													<Markdown options={stable(options)}>
+														{activity.text}
+													</Markdown>
 												) : null}
 											</div>
 										</ErrorBoundary>

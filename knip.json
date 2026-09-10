@@ -1,5 +1,7 @@
 {
-	"vitest": { "entry": ["**/*.@(spec|test|setup|bench).?(c|m)[jt]s?(x)"] },
+	"vitest": {
+		"entry": ["**/*.@(spec|test|setup|bench|test-d).?(c|m)[jt]s?(x)"]
+	},
 	"workspaces": {
 		"apps/storybook": { "entry": ["env.ts", ".storybook/modes.ts"] },
 		"apps/web": {
