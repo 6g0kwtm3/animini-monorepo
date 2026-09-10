@@ -26,11 +26,12 @@ const SnackbarQueueContext = createContext<OnBeforeToggle>(() => {
 })
 SnackbarQueueContext.displayName = "SnackbarQueueContext"
 export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
-	const queue = useRef<HTMLElement[]>([])
+	const queue = useRef<Set<HTMLElement>>(new Set())
 
 	const add = useCallback<OnBeforeToggle>(
 		function (event) {
-			const state = queue.current.at(0) === this ? "open" : "closed"
+			const state =
+				queue.current.values().next().value === this ? "open" : "closed"
 
 			if (
 				state === "closed"
@@ -39,16 +40,12 @@ export function SnackbarQueue(props: PropsWithChildren<object>): ReactNode {
 			) {
 				event.preventDefault()
 
-				queue.current = queue.current.includes(this)
-					? queue.current
-					: [...queue.current, this]
+				void queue.current.add(this)
 				return
 			}
 
 			if ("newState" in event && event.newState === "closed") {
-				queue.current = queue.current.includes(this)
-					? queue.current.filter((f) => f !== this)
-					: queue.current
+				void queue.current.delete(this)
 				return
 			}
 
