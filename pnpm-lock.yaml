@@ -292,8 +292,8 @@ catalogs:
       specifier: 2.3.1
       version: 2.3.1
     eslint-vitest-rule-tester:
-      specifier: 3.1.0
-      version: 3.1.0
+      specifier: 3.2.0
+      version: 3.2.0
     flubber:
       specifier: 0.4.2
       version: 0.4.2
@@ -922,7 +922,7 @@ importers:
         version: 2.3.1(eslint@10.10.0)
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 3.1.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11)
+        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
@@ -971,7 +971,7 @@ importers:
         version: 2.3.1(eslint@10.10.0)
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 3.1.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11)
+        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
@@ -5591,11 +5591,11 @@ packages:
     resolution: {integrity: sha512-tD40eHxA35h0PEIZNeIjkHoDR4YjjJp34biM0mDvplBe//mB+IHCqHDGV7pxF+7MklTvighcCPPZC7ynWyjdTA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  eslint-vitest-rule-tester@3.1.0:
-    resolution: {integrity: sha512-WpGoPMh+AF3DwtBtJHyTuVFvffs8+82LLTmuTpIqT7j9pN4Hs45rsvVe+HdglF2qfnJXkNEyyrNaw/IdqdM/rg==}
+  eslint-vitest-rule-tester@3.2.0:
+    resolution: {integrity: sha512-flgkW5526o/bSCm/2XIqCjAKfhc7eG58s+lJzH/7OUn+ep9oM7+CkNdhhD+/0wBkFdJ8k4DIpETn07J9aNDL0w==}
     peerDependencies:
       eslint: ^9.10.0 || ^10.0.0
-      vitest: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
+      vitest: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
   eslint@10.10.0:
     resolution: {integrity: sha512-NPXn6r5zl4uET1DAVPaOwzX3rut4c0wcmw3dWJAfOsTM5+TogXo0DDjz8pwm/hL8cyVNpHqeK4JpN0NjnyFFNw==}
@@ -12345,7 +12345,7 @@ snapshots:
 
   eslint-visitor-keys@5.0.1: {}
 
-  eslint-vitest-rule-tester@3.1.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11):
+  eslint-vitest-rule-tester@3.2.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11):
     dependencies:
       '@typescript-eslint/utils': 8.70.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)
       eslint: 10.10.0(jiti@2.7.0)(supports-color@10.2.2)
