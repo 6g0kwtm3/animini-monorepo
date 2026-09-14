@@ -2,10 +2,6 @@ packages:
   - packages/*
   - apps/*
 
-gitBranchLockfile: true
-mergeGitBranchLockfilesBranchPattern:
-  - renovate/*
-
 allowBuilds:
   '0': electron\
   '@sentry/cli': false
