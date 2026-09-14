@@ -436,8 +436,8 @@ catalogs:
       specifier: 8.70.0
       version: 8.70.0
     unplugin-icons:
-      specifier: 23.0.1
-      version: 23.0.1
+      specifier: 24.0.0
+      version: 24.0.0
     unplugin-macros:
       specifier: 0.20.2
       version: 0.20.2
@@ -608,7 +608,7 @@ importers:
         version: 4.23.13
       unplugin-icons:
         specifier: 'catalog:'
-        version: 23.0.1(@svgr/core@8.1.0)
+        version: 24.0.0(@svgr/core@8.1.0)(esbuild@0.28.2)(rolldown@1.2.8)(rollup@4.63.2)(vite@8.3.0)
       vite:
         specifier: 'catalog:'
         version: 8.3.0(@types/node@24.13.4)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
@@ -731,7 +731,7 @@ importers:
         version: 4.3.3
       unplugin-icons:
         specifier: 'catalog:'
-        version: 23.0.1(@svgr/core@8.1.0)
+        version: 24.0.0(@svgr/core@8.1.0)(esbuild@0.28.2)(rolldown@1.2.8)(rollup@4.63.2)(vite@8.3.0)
       unplugin-relay:
         specifier: 'catalog:'
         version: 0.1.2(esbuild@0.28.2)(rolldown@1.2.8)(rollup@4.63.2)(vite@8.3.0)
@@ -7672,12 +7672,13 @@ packages:
     resolution: {integrity: sha512-6bc58dPYhCMHHuwxldQxO3RRNZ4eCogZ/st++0+fcC1nr0jiGUtAdBJ2qzmLQWSxbtz42pWt4QQMiZ9HvZf5cg==}
     engines: {node: '>=0.10.0'}
 
-  unplugin-icons@23.0.1:
-    resolution: {integrity: sha512-rv0XEJepajKzDLvRUWASM8K+8+/CCfZn2jtogXqg6RIp7kpatRc/aFrVJn8ANQA09e++lPEEv9yX8cC9enc+QQ==}
+  unplugin-icons@24.0.0:
+    resolution: {integrity: sha512-wV6c7I0PtiIP8KIU7Z1Ukyc2uzgY9ind3RXNu7j63L9qTWDn7CzLnW9FD57DKbfGpWKQv3qyV2PCtBG8Y5Llcg==}
     peerDependencies:
       '@svgr/core': '>=7.0.0'
       '@svgx/core': ^1.0.1
       '@vue/compiler-sfc': ^3.0.2
+      '@vue/compiler-vapor': ^3.6.0-rc.5
       svelte: ^3.0.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
       '@svgr/core':
@@ -7685,6 +7686,8 @@ packages:
       '@svgx/core':
         optional: true
       '@vue/compiler-sfc':
+        optional: true
+      '@vue/compiler-vapor':
         optional: true
       svelte:
         optional: true
@@ -14580,15 +14583,25 @@ snapshots:
     dependencies:
       normalize-path: 2.1.1
 
-  unplugin-icons@23.0.1(@svgr/core@8.1.0):
+  unplugin-icons@24.0.0(@svgr/core@8.1.0)(esbuild@0.28.2)(rolldown@1.2.8)(rollup@4.63.2)(vite@8.3.0):
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@iconify/utils': 3.1.7
       local-pkg: 1.2.1
       obug: 2.2.1
-      unplugin: 2.3.11
+      unplugin: 3.3.0(esbuild@0.28.2)(rolldown@1.2.8)(rollup@4.63.2)(vite@8.3.0)
     optionalDependencies:
       '@svgr/core': 8.1.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
+    transitivePeerDependencies:
+      - '@farmfe/core'
+      - '@rspack/core'
+      - bun-types-no-globals
+      - esbuild
+      - rolldown
+      - rollup
+      - unloader
+      - vite
+      - webpack
 
   unplugin-macros@0.20.2(@types/node@24.13.4)(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.8)(rollup@4.63.2)(tsx@4.23.13)(yaml@2.9.1):
     dependencies:
