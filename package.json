@@ -45,7 +45,7 @@
 		"vitest": "catalog:",
 		"wrangler": "catalog:"
 	},
-	"packageManager": "pnpm@12.4.0",
+	"packageManager": "pnpm@12.4.1",
 	"devEngines": {
 		"runtime": {
 			"name": "node",
