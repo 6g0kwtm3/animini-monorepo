@@ -73,6 +73,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		sameSite: "lax",
 		expires: Date.now() + 8 * 7 * 24 * 60 * 60 * 1000, // 8 weeks
 		path: "/",
+		secure: true,
 	})
 
 	setUser({ id: data.Viewer.id, username: data.Viewer.name })
