@@ -1,27 +1,22 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@animedes/extra-outlet",
+	"name": "@animedes/react-stable",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/index.ts",
+	"exports": "./src/stable.ts",
 	"scripts": {
 		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"check": "tsc --noEmit"
 	},
-	"peerDependencies": {
-		"@types/react": "catalog:",
-		"react": "catalog:",
-		"react-router": "catalog:",
-		"@animedes/react-stable": "workspace:"
-	},
 	"devDependencies": {
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:"
+		"tsx": "catalog:",
+		"typescript": "npm:@typescript/typescript6@6.0.2",
+		"@typescript/native": "npm:typescript@rc"
 	}
 }

@@ -1,0 +1,181 @@
+diff --git a/index.d.ts b/index.d.ts
+index 3a2f677611e3075fe4e71a85af4c37b95ab592be..fc80eb90d017d0496123922be013556f634b02df 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -3,7 +3,7 @@
+ // for reference and documentation on how exactly to do it.
+ 
+ /// <reference path="global.d.ts" />
+-
++import { Stable, DeepStable, StableProps } from "@animedes/react-stable";
+ import * as CSS from "csstype";
+ 
+ type NativeAnimationEvent = AnimationEvent;
+@@ -987,7 +987,7 @@ declare namespace React {
+         state: Readonly<S>;
+     }
+ 
+-    class PureComponent<P = {}, S = {}, SS = any> extends Component<P, S, SS> {}
++    class PureComponent<P = {}, S = {}, SS = any> extends Component<StableProps<P>, S, SS> {}
+ 
+     /**
+      * @deprecated Use `ClassicComponent` from `create-react-class`
+@@ -1558,7 +1558,7 @@ declare namespace React {
+ 
+     // will show `Memo(${Component.displayName || Component.name})` in devtools by default,
+     // but can be given its own specific name
+-    type MemoExoticComponent<T extends ComponentType<any>> = NamedExoticComponent<CustomComponentPropsWithRef<T>> & {
++    type MemoExoticComponent<T extends ComponentType<any>> = NamedExoticComponent<StableProps<CustomComponentPropsWithRef<T>>> & {
+         readonly type: T;
+     };
+ 
+@@ -1581,10 +1581,10 @@ declare namespace React {
+      * ```
+      */
+     function memo<P extends object>(
+-        Component: FunctionComponent<P>,
++        Component: FunctionComponent<Stable<P>>,
+         propsAreEqual?: (prevProps: Readonly<P>, nextProps: Readonly<P>) => boolean,
+-    ): NamedExoticComponent<P>;
+-    function memo<T extends ComponentType<any>>(
++    ): NamedExoticComponent<StableProps<P>>;
++    function memo<T extends ComponentType<Stable<any>>>(
+         Component: T,
+         propsAreEqual?: (prevProps: Readonly<ComponentProps<T>>, nextProps: Readonly<ComponentProps<T>>) => boolean,
+     ): MemoExoticComponent<T>;
+@@ -1666,7 +1666,7 @@ declare namespace React {
+     // types used to try and prevent the compiler from reducing S
+     // to a supertype common with the second argument to useReducer()
+     type ReducerState<R extends Reducer<any, any>> = R extends Reducer<infer S, any> ? S : never;
+-    type DependencyList = readonly unknown[];
++    type DependencyList = readonly Stable<unknown>[];
+ 
+     // NOTE: callbacks are _only_ allowed to return either void, or a destructor.
+     type EffectCallback = () => void | Destructor;
+@@ -1693,7 +1693,7 @@ declare namespace React {
+      * @version 16.8.0
+      * @see {@link https://react.dev/reference/react/useState}
+      */
+-    function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
++    function useState<S>(initialState: S | (() => S)): DeepStable<[S, Dispatch<SetStateAction<S>>]>;
+     // convenience overload when first argument is omitted
+     /**
+      * Returns a stateful value, and a function to update it.
+@@ -1701,7 +1701,7 @@ declare namespace React {
+      * @version 16.8.0
+      * @see {@link https://react.dev/reference/react/useState}
+      */
+-    function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
++    function useState<S = undefined>(): DeepStable<[S | undefined, Dispatch<SetStateAction<S | undefined>>]>;
+     /**
+      * An alternative to `useState`.
+      *
+@@ -1715,7 +1715,7 @@ declare namespace React {
+     function useReducer<S, A extends AnyActionArg>(
+         reducer: (prevState: S, ...args: A) => S,
+         initialState: S,
+-    ): [S, ActionDispatch<A>];
++    ): DeepStable<[S, ActionDispatch<A>]>;
+     /**
+      * An alternative to `useState`.
+      *
+@@ -1730,7 +1730,7 @@ declare namespace React {
+         reducer: (prevState: S, ...args: A) => S,
+         initialArg: I,
+         init: (i: I) => S,
+-    ): [S, ActionDispatch<A>];
++    ): DeepStable<[S, ActionDispatch<A>]>;
+     /**
+      * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+      * (`initialValue`). The returned object will persist for the full lifetime of the component.
+@@ -1741,7 +1741,7 @@ declare namespace React {
+      * @version 16.8.0
+      * @see {@link https://react.dev/reference/react/useRef}
+      */
+-    function useRef<T>(initialValue: T): RefObject<T>;
++    function useRef<T>(initialValue: T): Stable<RefObject<T>>;
+     // convenience overload for refs given as a ref prop as they typically start with a null value
+     /**
+      * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+@@ -1753,7 +1753,7 @@ declare namespace React {
+      * @version 16.8.0
+      * @see {@link https://react.dev/reference/react/useRef}
+      */
+-    function useRef<T>(initialValue: T | null): RefObject<T | null>;
++    function useRef<T>(initialValue: T | null): Stable<RefObject<T | null>>;
+     // convenience overload for undefined initialValue
+     /**
+      * `useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument
+@@ -1765,7 +1765,7 @@ declare namespace React {
+      * @version 16.8.0
+      * @see {@link https://react.dev/reference/react/useRef}
+      */
+-    function useRef<T>(initialValue: T | undefined): RefObject<T | undefined>;
++    function useRef<T>(initialValue: T | undefined): Stable<RefObject<T | undefined>>;
+     /**
+      * The signature is identical to `useEffect`, but it fires synchronously after all DOM mutations.
+      * Use this to read layout from the DOM and synchronously re-render. Updates scheduled inside
+@@ -1817,7 +1817,7 @@ declare namespace React {
+     // A specific function type would not trigger implicit any.
+     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/52873#issuecomment-845806435 for a comparison between `Function` and more specific types.
+     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+-    function useCallback<T extends Function>(callback: T, deps: DependencyList): T;
++    function useCallback<T extends Function>(callback: T, deps: DependencyList): DeepStable<T>;
+     /**
+      * `useMemo` will only recompute the memoized value when one of the `deps` has changed.
+      *
+@@ -1825,7 +1825,7 @@ declare namespace React {
+      * @see {@link https://react.dev/reference/react/useMemo}
+      */
+     // allow undefined, but don't make it optional as that is very likely a mistake
+-    function useMemo<T>(factory: () => T, deps: DependencyList): T;
++    function useMemo<T>(factory: () => T, deps: DependencyList): DeepStable<T>;
+     /**
+      * `useDebugValue` can be used to display a label for custom hooks in React DevTools.
+      *
+@@ -1882,7 +1882,7 @@ declare namespace React {
+      *
+      * @see {@link https://react.dev/reference/react/useTransition}
+      */
+-    export function useTransition(): [boolean, TransitionStartFunction];
++    export function useTransition(): DeepStable<[boolean, TransitionStartFunction]>;
+ 
+     /**
+      * Similar to `useTransition` but allows uses where hooks are not available.
+@@ -1930,17 +1930,17 @@ declare namespace React {
+     // keep in sync with `useSyncExternalStore` from `use-sync-external-store`
+     export function useSyncExternalStore<Snapshot>(
+         subscribe: (onStoreChange: () => void) => () => void,
+-        getSnapshot: () => Snapshot,
++        getSnapshot: () => Stable<Snapshot>,
+         getServerSnapshot?: () => Snapshot,
+-    ): Snapshot;
++    ): DeepStable<Snapshot>;
+ 
+     export function useOptimistic<State>(
+         passthrough: State,
+-    ): [State, (action: State | ((pendingState: State) => State)) => void];
++    ): DeepStable<[State, (action: State | ((pendingState: State) => State)) => void]>;
+     export function useOptimistic<State, Action>(
+         passthrough: State,
+         reducer: (state: State, action: Action) => State,
+-    ): [State, (action: Action) => void];
++    ): DeepStable<[State, (action: Action) => void]>;
+ 
+     interface UntrackedReactPromise<T> extends PromiseLike<T> {
+         status?: void;
+@@ -1983,12 +1983,12 @@ declare namespace React {
+         action: (state: Awaited<State>) => State | Promise<State>,
+         initialState: Awaited<State>,
+         permalink?: string,
+-    ): [state: Awaited<State>, dispatch: () => void, isPending: boolean];
++    ): DeepStable<[state: Awaited<State>, dispatch: () => void, isPending: boolean]>;
+     export function useActionState<State, Payload>(
+         action: (state: Awaited<State>, payload: Payload) => State | Promise<State>,
+         initialState: Awaited<State>,
+         permalink?: string,
+-    ): [state: Awaited<State>, dispatch: (payload: Payload) => void, isPending: boolean];
++    ): DeepStable<[state: Awaited<State>, dispatch: (payload: Payload) => void, isPending: boolean]>;
+ 
+     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+     export function cache<CachedFunction extends Function>(fn: CachedFunction): CachedFunction;

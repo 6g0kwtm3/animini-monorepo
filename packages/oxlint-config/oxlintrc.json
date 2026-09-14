@@ -17,6 +17,9 @@
 		"vitest"
 	],
 	"env": { "node": true, "browser": true },
+	"overrides": [
+		{ "files": ["**/*.test-d.ts"], "rules": { "vitest/expect-expect": "off" } }
+	],
 	"rules": {
 		"vitest/no-alias-methods": "warn",
 		"vitest/expect-expect": [

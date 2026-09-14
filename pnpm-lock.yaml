@@ -462,14 +462,22 @@ catalogs:
 
 overrides:
   yauzl: 3.4.0
+  '@animedes/react-stable': 'workspace:'
+
+packageExtensionsChecksum: sha256-cL80la65MMUg1zOTjB9Gi0k3p5/lBhiUQs024QHU5SI=
 
 patchedDependencies:
+  '@types/react': 0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3
   flubber: 594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26
+  framer-motion: 99da4cb6dba94a8ba6bbfb85e7c6bb14a69da037cfcd92e8cdc0d3b5f744db17
 
 importers:
 
   .:
     devDependencies:
+      '@animedes/react-stable':
+        specifier: 'workspace:'
+        version: link:packages/react-stable
       '@ark/attest':
         specifier: 'catalog:'
         version: 0.56.3(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
@@ -572,7 +580,7 @@ importers:
         version: 15.7.15
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
@@ -615,6 +623,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@animedes/react-stable':
+        specifier: 'workspace:'
+        version: link:../../packages/react-stable
       '@anitrove/a':
         specifier: workspace:@animedes/a@*
         version: link:../../packages/a
@@ -671,7 +682,7 @@ importers:
         version: 3.14.11(react-dom@19.3.0)(react@19.3.0)
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.3.0(@types/react@19.3.0)
@@ -819,7 +830,7 @@ importers:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -1041,9 +1052,12 @@ importers:
 
   packages/extra-outlet:
     dependencies:
+      '@animedes/react-stable':
+        specifier: 'workspace:'
+        version: link:../react-stable
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -1074,7 +1088,7 @@ importers:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       markdown:
         specifier: workspace:@animedes/markdown@*
         version: link:../markdown
@@ -1176,12 +1190,15 @@ importers:
 
   packages/markdown:
     dependencies:
+      '@animedes/react-stable':
+        specifier: 'workspace:'
+        version: link:../react-stable
       '@types/marked':
         specifier: 'catalog:'
         version: 0.3.0
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       dompurify:
         specifier: 'catalog:'
         version: 3.2.5
@@ -1213,13 +1230,37 @@ importers:
 
   packages/oxlint-config: {}
 
+  packages/react-stable:
+    devDependencies:
+      '@typescript/native':
+        specifier: npm:typescript@rc
+        version: typescript@7.0.1-rc
+      eslint:
+        specifier: 'catalog:'
+        version: 10.10.0(jiti@2.7.0)(supports-color@10.2.2)
+      eslint-config:
+        specifier: workspace:@animedes/eslint-config@*
+        version: link:../eslint-config
+      eslint-typegen:
+        specifier: 'catalog:'
+        version: 2.3.1(eslint@10.10.0)
+      ts-config:
+        specifier: workspace:@animedes/ts-config@*
+        version: link:../ts-config
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.13
+      typescript:
+        specifier: npm:@typescript/typescript6@6.0.2
+        version: '@typescript/typescript6@6.0.2'
+
   packages/ts-config: {}
 
   packages/unstyled:
     dependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.3.0
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       csstype:
         specifier: 'catalog:'
         version: 3.2.3
@@ -9689,7 +9730,7 @@ snapshots:
   '@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.3.0)':
     dependencies:
       '@types/mdx': 2.0.14
-      '@types/react': 19.3.0
+      '@types/react': 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       react: 19.3.0
 
   '@msw/playwright@0.6.7(msw@2.15.0)':
@@ -10646,7 +10687,7 @@ snapshots:
       ts-dedent: 2.3.0
       unplugin: 2.3.11
     optionalDependencies:
-      '@types/react': 19.3.0
+      '@types/react': 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
     transitivePeerDependencies:
       - '@types/react-dom'
 
@@ -10688,7 +10729,7 @@ snapshots:
       react-dom: 19.3.0(react@19.3.0)
       storybook: 10.6.0(@types/react@19.3.0)(prettier@3.6.2)(react@19.3.0)
     optionalDependencies:
-      '@types/react': 19.3.0
+      '@types/react': 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
   '@storybook/react-vite@10.6.0(@types/react-dom@19.3.0)(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(react-dom@19.3.0)(react@19.3.0)(rollup@4.63.2)(storybook@10.6.0)(supports-color@10.2.2)(vite@8.3.0)':
@@ -10724,7 +10765,7 @@ snapshots:
       react-dom: 19.3.0(react@19.3.0)
       storybook: 10.6.0(@types/react@19.3.0)(prettier@3.6.2)(react@19.3.0)
     optionalDependencies:
-      '@types/react': 19.3.0
+      '@types/react': 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
       typescript: '@typescript/typescript6@6.0.2'
     transitivePeerDependencies:
@@ -11072,10 +11113,11 @@ snapshots:
 
   '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
-      '@types/react': 19.3.0
+      '@types/react': 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
 
-  '@types/react@19.3.0':
+  '@types/react@19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)':
     dependencies:
+      '@animedes/react-stable': link:packages/react-stable
       csstype: 3.2.3
 
   '@types/resolve@1.20.6': {}
@@ -12501,8 +12543,9 @@ snapshots:
     dependencies:
       fetch-blob: 3.2.0
 
-  framer-motion@13.2.0(react-dom@19.3.0)(react@19.3.0):
+  framer-motion@13.2.0(patch_hash=99da4cb6dba94a8ba6bbfb85e7c6bb14a69da037cfcd92e8cdc0d3b5f744db17)(react-dom@19.3.0)(react@19.3.0):
     dependencies:
+      '@animedes/react-stable': link:packages/react-stable
       motion-dom: 13.2.0
       motion-utils: 13.0.0
       tslib: 2.8.1
@@ -13256,7 +13299,7 @@ snapshots:
 
   motion@13.2.0(react-dom@19.3.0)(react@19.3.0):
     dependencies:
-      framer-motion: 13.2.0(react-dom@19.3.0)(react@19.3.0)
+      framer-motion: 13.2.0(patch_hash=99da4cb6dba94a8ba6bbfb85e7c6bb14a69da037cfcd92e8cdc0d3b5f744db17)(react-dom@19.3.0)(react@19.3.0)
       tslib: 2.8.1
     optionalDependencies:
       react: 19.3.0
@@ -14240,7 +14283,7 @@ snapshots:
       use-sync-external-store: 1.7.0(react@19.3.0)
       ws: 8.21.3
     optionalDependencies:
-      '@types/react': 19.3.0
+      '@types/react': 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
       prettier: 3.6.2
     transitivePeerDependencies:
       - bufferutil
