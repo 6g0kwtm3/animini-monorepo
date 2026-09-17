@@ -177,20 +177,14 @@ function ViewerButtons(props: {
 			</NavigationItem>
 			<NavigationItem
 				className="max-sm:hidden"
-				href={route_user_list({
-					userName: viewer.name,
-					typelist: "animelist",
-				})}
+				href={route_user_list({ userName: viewer.name, typelist: "animelist" })}
 				icon={<MaterialSymbolsPlayArrowOutline />}
 				activeIcon={<MaterialSymbolsPlayArrow />}
 			>
 				Anime List
 			</NavigationItem>
 			<NavigationItem
-				href={route_user_list({
-					userName: viewer.name,
-					typelist: "mangalist",
-				})}
+				href={route_user_list({ userName: viewer.name, typelist: "mangalist" })}
 				className="max-sm:hidden"
 				icon={<MaterialSymbolsMenuBookOutline />}
 				activeIcon={<MaterialSymbolsMenuBook />}
