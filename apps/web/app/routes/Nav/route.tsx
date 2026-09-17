@@ -50,7 +50,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
 			query routeNavQuery @raw_response_type {
-				Viewer: userFromToken @required(action: THROW)
+				Viewer: userFromToken
 				...UnreadNotificationBadge_query @alias
 			}
 		`,
@@ -77,7 +77,6 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 export default function NavRoute({
 	loaderData,
 }: Route.ComponentProps): ReactNode {
-	const { pathname } = useLocation()
 	return (
 		<Layout style={styles.layout}>
 			<Navigation className="navigation-bar sm:navigation-rail sm:navigation-start">
@@ -102,18 +101,7 @@ export default function NavRoute({
 				>
 					Feed
 				</NavigationItem>
-				<ErrorBoundary
-					fallback={
-						// TODO: differentiate between logged in/out, runtime and network error
-						<NavigationItem
-							href={route_login({ redirect: pathname })}
-							icon={<MaterialSymbolsPersonOutline />}
-							activeIcon={<MaterialSymbolsPerson />}
-						>
-							Login
-						</NavigationItem>
-					}
-				>
+				<ErrorBoundary fallback={<LoginLink />}>
 					<ViewerButtons queryRef={loaderData.trending}></ViewerButtons>
 				</ErrorBoundary>
 				<SearchButton
@@ -155,14 +143,33 @@ function SearchTrendingData({
 	return <SearchTrending query={data.SearchTrending_query} />
 }
 
+function LoginLink() {
+	const { pathname } = useLocation()
+	return (
+		<NavigationItem
+			href={route_login({ redirect: pathname })}
+			icon={<MaterialSymbolsPersonOutline />}
+			activeIcon={<MaterialSymbolsPerson />}
+		>
+			Login
+		</NavigationItem>
+	)
+}
+
 function ViewerButtons(props: {
 	queryRef: NodeAndQueryFragment<routeNavQuery>
 }) {
 	const rootData = usePreloadedQuery(props.queryRef)
+	const viewer = rootData.Viewer
+
+	if (viewer == null) {
+		return <LoginLink />
+	}
+
 	return (
 		<>
 			<NavigationItem
-				href={route_user({ userName: rootData.Viewer.name })}
+				href={route_user({ userName: viewer.name })}
 				icon={<MaterialSymbolsPersonOutline />}
 				activeIcon={<MaterialSymbolsPerson />}
 			>
@@ -170,20 +177,14 @@ function ViewerButtons(props: {
 			</NavigationItem>
 			<NavigationItem
 				className="max-sm:hidden"
-				href={route_user_list({
-					userName: rootData.Viewer.name,
-					typelist: "animelist",
-				})}
+				href={route_user_list({ userName: viewer.name, typelist: "animelist" })}
 				icon={<MaterialSymbolsPlayArrowOutline />}
 				activeIcon={<MaterialSymbolsPlayArrow />}
 			>
 				Anime List
 			</NavigationItem>
 			<NavigationItem
-				href={route_user_list({
-					userName: rootData.Viewer.name,
-					typelist: "mangalist",
-				})}
+				href={route_user_list({ userName: viewer.name, typelist: "mangalist" })}
 				className="max-sm:hidden"
 				icon={<MaterialSymbolsMenuBookOutline />}
 				activeIcon={<MaterialSymbolsMenuBook />}
