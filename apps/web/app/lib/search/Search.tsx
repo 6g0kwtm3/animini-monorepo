@@ -50,6 +50,7 @@ function useOptimisticLocation() {
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
+import { navigation } from "../navigation"
 
 export function Search(props: { children?: ReactNode }): ReactNode {
 	const searchParams = useOptimisticSearchParams()

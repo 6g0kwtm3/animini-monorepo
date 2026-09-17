@@ -35,7 +35,7 @@ export function SearchTrending(props: {
 	)
 
 	return data.trending?.media && data.trending.media.length !== 0 ? (
-		<SearchViewBody>
+		<>
 			<SearchViewBodyGroup>
 				<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>
 					Trending
@@ -63,6 +63,6 @@ export function SearchTrending(props: {
 						))}
 				</List>
 			</SearchViewBodyGroup>
-		</SearchViewBody>
+		</>
 	) : null
 }

@@ -43,6 +43,8 @@ import type { Route } from "./+types/route"
 import { styles } from "./route.styles" with { type: "macro" }
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
+import { SearchRecentMedia } from "~/lib/search/SearchRecentMedia"
+import { SearchViewBody } from "~/components/SearchView"
 
 const { graphql } = ReactRelay
 
@@ -59,19 +61,35 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 
 	const { searchParams } = args.url
 
+	const pattern = new URLPattern({ pathname: "/media/:mediaId" })
+	const recentMediaIds = new Set(
+		navigation
+			.entries?.()
+			.map((entry) => {
+				const match = entry.url ? pattern.exec(entry.url) : null
+
+				const mediaId = match?.pathname.groups.mediaId
+
+				return Number(mediaId)
+			})
+			.toReversed()
+	)
+
 	const routeNavTrendingQueryRef =
 		searchParams.get("sheet") === "search"
 			? args.context.get(loadQuery)<routeNavTrendingQuery>(
 					graphql`
-						query routeNavTrendingQuery @raw_response_type {
+						query routeNavTrendingQuery($recentMediaIds: [Int])
+						@raw_response_type {
+							...SearchRecentMedia_query @alias
 							...SearchTrending_query @alias
 						}
 					`,
-					{}
+					{ recentMediaIds: recentMediaIds.values().toArray().toSorted() }
 				)
 			: null
 
-	return { trending: data, routeNavTrendingQueryRef }
+	return { trending: data, routeNavTrendingQueryRef, recentMediaIds }
 }
 
 export default function NavRoute({
@@ -123,6 +141,7 @@ export default function NavRoute({
 					<ErrorBoundary fallback={<>Error</>}>
 						<Suspense fallback="">
 							<SearchTrendingData
+								recentMediaIds={loaderData.recentMediaIds}
 								queryRef={loaderData.routeNavTrendingQueryRef}
 							/>
 						</Suspense>
@@ -135,12 +154,22 @@ export default function NavRoute({
 
 function SearchTrendingData({
 	queryRef,
+	recentMediaIds,
 }: {
+	recentMediaIds: ReadonlySet<number>
 	queryRef: NodeAndQueryFragment<routeNavTrendingQuery>
 }) {
 	const data = usePreloadedQuery(queryRef)
 
-	return <SearchTrending query={data.SearchTrending_query} />
+	return (
+		<SearchViewBody>
+			<SearchRecentMedia
+				recentMediaIds={recentMediaIds}
+				query={data.SearchRecentMedia_query}
+			/>
+			<SearchTrending query={data.SearchTrending_query} />
+		</SearchViewBody>
+	)
 }
 
 function LoginLink() {
