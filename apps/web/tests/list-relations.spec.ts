@@ -19,22 +19,21 @@ import { numberToString } from "../app/lib/numberToString"
 
 const Viewer = { id: 1, name: "User" }
 
-const contains = (id: string, title: string) => ({
-	id: 100 * Number(id),
-	relationType: "CONTAINS",
-	node: {
-		id,
-		title: { userPreferred: title },
-		coverImage: { color: null, large: null, medium: null },
-	},
-} as const)
+const contains = (id: string, title: string) =>
+	({
+		id: 100 * Number(id),
+		relationType: "CONTAINS",
+		node: {
+			id,
+			title: { userPreferred: title },
+			coverImage: { color: null, large: null, medium: null },
+		},
+	}) as const
 
 const media = (
 	id: string,
 	title: string,
-	relations: {
-		edges: ReadonlyArray<ReturnType<typeof contains>>
-	} | null
+	relations: null | { edges: readonly ReturnType<typeof contains>[] }
 ) => ({
 	id,
 	title: { userPreferred: title },
