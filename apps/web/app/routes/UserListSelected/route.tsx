@@ -230,7 +230,15 @@ function AwaitList(props: Route.ComponentProps) {
 		)
 	}
 
-	for (const entry of selectedList?.flatMap((list) => list?.entries) ?? []) {
+	const selectedIds = new Set(
+		selectedList?.flatMap((list) =>
+			list?.entries?.map((entry) => Number(entry?.media.id))
+		) ?? []
+	)
+
+	for (const entry of data?.MediaListCollection.lists?.flatMap(
+		(list) => list?.entries
+	) ?? []) {
 		if (entry?.media == null) {
 			continue
 		}
@@ -269,6 +277,7 @@ function AwaitList(props: Route.ComponentProps) {
 
 	const output = mediaList
 		.entries()
+		.filter(([id]) => selectedIds.has(id))
 		.flatMap(([id, { media, relations, originalEntry }]) => {
 			return [
 				{ type: "MediaListItem", id, media, relations, originalEntry } as const,
