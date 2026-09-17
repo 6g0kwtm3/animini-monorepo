@@ -12,5 +12,6 @@ export default {
 	mutate: [
 		"+(apps|packages)/*/{src,app}/**/!(*.+(s|S)pec|*.+(t|T)est|*.+(b|B)ench).+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 		"!{src,lib}/**/__tests__/**/*.+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
+		"!apps/web/app/+(gql|paraglide)/**/*.+(cjs|mjs|js|ts|mts|cts|jsx|tsx|html|vue|svelte)",
 	],
 }
