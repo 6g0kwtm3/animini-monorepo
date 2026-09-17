@@ -73,7 +73,9 @@ export function userFromToken(): LiveState<null | {
 					}
 				},
 				{ signal: controller.signal }
-			)
+      )
+
+
 
 			return () => {
 				controller.abort()
