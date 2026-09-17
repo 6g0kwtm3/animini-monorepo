@@ -161,8 +161,8 @@ function SearchTrendingData({
 	queryRef,
 	recentMediaIds,
 }: {
-	recentMediaIds: ReadonlySet<number>
 	queryRef: NodeAndQueryFragment<routeNavTrendingQuery>
+	recentMediaIds: ReadonlySet<number>
 }) {
 	const data = usePreloadedQuery(queryRef)
 

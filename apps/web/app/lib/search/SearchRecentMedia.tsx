@@ -18,8 +18,8 @@ import { precompileStyles } from "@anitrove/unstyled"
 const { graphql } = ReactRelay
 
 export function SearchRecentMedia(props: {
-	recentMediaIds: ReadonlySet<number>
 	query: SearchRecentMedia_query$key
+	recentMediaIds: ReadonlySet<number>
 }): ReactNode {
 	const data = useFragment(
 		graphql`
