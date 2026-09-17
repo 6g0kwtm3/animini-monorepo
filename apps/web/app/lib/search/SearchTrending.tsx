@@ -35,34 +35,32 @@ export function SearchTrending(props: {
 	)
 
 	return data.trending?.media && data.trending.media.length !== 0 ? (
-		<>
-			<SearchViewBodyGroup>
-				<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>
-					Trending
-				</Ariakit.ComboboxGroupLabel>
+		<SearchViewBodyGroup>
+			<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>
+				Trending
+			</Ariakit.ComboboxGroupLabel>
 
-				<List
-					render={<div />}
-					lines={"one"}
-					style={precompileStyles({ marginTop: "-.5rem" })}
-				>
-					{data.trending.media
-						.filter((el) => el != null)
-						.map((media, i, arr) => (
-							<SearchViewItem
-								key={media.id}
-								data-key={media.id}
-								render={
-									<SearchItem
-										first={i === 0}
-										last={i === arr.length - 1}
-										media={media.SearchItem_media}
-									/>
-								}
-							/>
-						))}
-				</List>
-			</SearchViewBodyGroup>
-		</>
+			<List
+				render={<div />}
+				lines={"one"}
+				style={precompileStyles({ marginTop: "-.5rem" })}
+			>
+				{data.trending.media
+					.filter((el) => el != null)
+					.map((media, i, arr) => (
+						<SearchViewItem
+							key={media.id}
+							data-key={media.id}
+							render={
+								<SearchItem
+									first={i === 0}
+									last={i === arr.length - 1}
+									media={media.SearchItem_media}
+								/>
+							}
+						/>
+					))}
+			</List>
+		</SearchViewBodyGroup>
 	) : null
 }

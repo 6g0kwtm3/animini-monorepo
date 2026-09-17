@@ -64,7 +64,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const pattern = new URLPattern({ pathname: "/media/:mediaId" })
 	const recentMediaIds = new Set(
 		navigation
-			.entries?.()
+			.entries()
 			.map((entry) => {
 				const match = entry.url ? pattern.exec(entry.url) : null
 
@@ -85,7 +85,12 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 							...SearchTrending_query @alias
 						}
 					`,
-					{ recentMediaIds: recentMediaIds.values().toArray().toSorted() }
+					{
+						recentMediaIds: recentMediaIds
+							.values()
+							.toArray()
+							.toSorted((a, b) => a - b),
+					}
 				)
 			: null
 

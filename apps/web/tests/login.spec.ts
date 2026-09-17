@@ -88,8 +88,8 @@ test("logging in with a valid token signs the user in", async ({
 	const cookie = (await page.context().cookies()).find(
 		(cookie) => cookie.name === "anilist-token"
 	)
-	expect(cookie).toBeDefined()
-	expect(JSON.parse(cookie!.value)).toEqual({
+	if (cookie?.value == null) throw new Error("cookie not found")
+	expect(JSON.parse(cookie.value)).toEqual({
 		token: TOKEN,
 		viewer: { id: 1, name: "User" },
 	})

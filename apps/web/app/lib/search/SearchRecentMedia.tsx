@@ -49,7 +49,7 @@ export function SearchRecentMedia(props: {
 				style={precompileStyles({ marginTop: "-.5rem" })}
 			>
 				{data.recentMedia.media
-					?.filter((el) => el != null)
+					.filter((el) => el != null)
 					.toSorted(
 						(a, b) =>
 							(order.get(Number(a.id)) ?? -1) - (order.get(Number(b.id)) ?? -1)
