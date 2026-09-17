@@ -1,5 +1,6 @@
+import { browser } from "react-dom"
 import type { JSX, ReactNode } from "react"
-import { useMemo } from "react"
+import { useMemo, use } from "react"
 import type { Stable } from "@animedes/react-stable"
 
 import createDOMPurify from "dompurify"
@@ -17,6 +18,8 @@ export function Markdown(props: {
 	children: Stable<string>
 	options: Stable<Options>
 }): ReactNode {
+	void use(browser("Markdown is not supported on the server"))
+
 	return useMemo(
 		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),
 		[props.children, props.options]
