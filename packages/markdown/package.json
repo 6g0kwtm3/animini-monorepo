@@ -15,6 +15,7 @@
 	},
 	"peerDependencies": {
 		"@types/react": "catalog:",
+		"react-dom": "catalog:",
 		"react": "catalog:",
 		"@animedes/react-stable": "workspace:"
 	},

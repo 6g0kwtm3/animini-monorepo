@@ -1208,6 +1208,9 @@ importers:
       react:
         specifier: 'catalog:'
         version: 19.3.0
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.3.0(react@19.3.0)
     devDependencies:
       eslint:
         specifier: 'catalog:'
