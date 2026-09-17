@@ -1,6 +1,6 @@
 import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
 import base, { type ElectronApplication, type Page } from "@playwright/test"
-
+import { Viewer } from "../app/lib/viewer/index"
 import { addMocksToSchema } from "@graphql-tools/mock"
 import { _electron } from "@playwright/test"
 import fs from "fs"
@@ -47,6 +47,7 @@ export interface Fixtures extends Options {
 	worker: NetworkFixture
 	electron: ElectronApplication | null
 	newPage: () => Promise<Page>
+	login: (viewer: typeof Viewer.infer) => Promise<void>
 }
 
 export const test = base.extend<Fixtures>({
@@ -110,6 +111,23 @@ export const test = base.extend<Fixtures>({
 
 			const page = await electron.firstWindow()
 			return page
+		})
+	},
+
+	login({ context }, provide) {
+		return provide(async (viewer: typeof Viewer.infer) => {
+			await context.addCookies([
+				{
+					name: `anilist-token`,
+					value: JSON.stringify({ token: "", viewer }),
+					sameSite: "Lax",
+					expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
+					// node doesn't support Temporal
+					// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
+					path: "/",
+					domain: "localhost",
+				},
+			])
 		})
 	},
 })

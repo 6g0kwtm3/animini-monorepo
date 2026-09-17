@@ -219,27 +219,6 @@ const handlers = [
 	SuccessHandler,
 ]
 
-function login(context: BrowserContext) {
-	const cookies = [
-		{
-			name: `anilist-token`,
-			value: invariant(
-				type("object.json.stringify")(
-					invariant(Token({ token: "", viewer: Viewer }))
-				)
-			),
-			sameSite: "Lax",
-			expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-			// node doesn't support Temporal
-			// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
-			path: "/",
-			domain: "localhost",
-		},
-	] satisfies Parameters<BrowserContext["addCookies"]>[0]
-
-	return context.addCookies(cookies)
-}
-
 // test.fixme(true, "fix main page")
 
 test("fullscreen anime list", async ({
@@ -247,11 +226,11 @@ test("fullscreen anime list", async ({
 	isMobile,
 	isElectron,
 	worker,
-	context,
+	login,
 }) => {
 	test.skip(isMobile || isElectron)
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 
 	const indexPage = await FeedPage.new(page)
@@ -263,14 +242,14 @@ test("fullscreen anime list", async ({
 
 test("fullscreen manga list", async ({
 	worker,
-	context,
 	newPage,
 	isMobile,
 	isElectron,
+	login,
 }) => {
 	test.skip(isMobile || isElectron)
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	// when
@@ -279,9 +258,9 @@ test("fullscreen manga list", async ({
 	await TypelistPage.new(page)
 })
 
-test("anime list", async ({ worker, newPage, context }) => {
+test("anime list", async ({ worker, newPage, login }) => {
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
@@ -292,9 +271,9 @@ test("anime list", async ({ worker, newPage, context }) => {
 	await TypelistPage.new(page)
 })
 
-test("manga list", async ({ worker, context, newPage }) => {
+test("manga list", async ({ worker, newPage, login }) => {
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
@@ -305,9 +284,9 @@ test("manga list", async ({ worker, context, newPage }) => {
 	await TypelistPage.new(page)
 })
 
-test("add to list", async ({ worker, newPage, context }) => {
+test("add to list", async ({ worker, newPage, login }) => {
 	worker.use(AddToListMutationSuccess, ...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
@@ -321,9 +300,9 @@ test("add to list", async ({ worker, newPage, context }) => {
 	await expect(containedEntry.progress).toHaveText(/0/)
 	await expect(containedEntry.privateBadge).toBeAttached()
 })
-test("sync media", async ({ worker, newPage, context }) => {
+test("sync media", async ({ worker, newPage, login }) => {
 	worker.use(SyncMediaMutationSuccess, ...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
