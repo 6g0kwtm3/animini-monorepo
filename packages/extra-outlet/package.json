@@ -19,7 +19,6 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
-		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:"
+		"ts-config": "workspace:@animedes/ts-config@*"
 	}
 }

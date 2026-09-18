@@ -39,7 +39,6 @@
 		"oxlint": "catalog:",
 		"oxlint-config": "workspace:@animedes/oxlint-config@*",
 		"oxlint-tsgolint": "catalog:",
-		"tsx": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:",
 		"vitest": "catalog:",

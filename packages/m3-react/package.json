@@ -20,7 +20,6 @@
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"m3-core": "workspace:@animedes/m3-core@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:",
 		"vitest": "catalog:"
 	},
 	"dependencies": {
