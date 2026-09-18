@@ -148,6 +148,70 @@ test("allows fragment spread with eslint disable comment", async () => {
 	)
 })
 
+test("reports error when a fragment spread is preceded by a generic comment", async () => {
+	await invalid({
+		code: `
+        graphql\`fragment foo on Page {
+          # just a comment
+          ...unused1
+        }\`;
+        `,
+		errors: ["must-colocate-fragment-spreads"],
+	})
+})
+
+test("does not treat unknown directives as @module", async () => {
+	await invalid({
+		code: `
+        graphql\`fragment foo on Page { ...unused1 @foobar }\`;
+        `,
+		errors: ["must-colocate-fragment-spreads"],
+	})
+})
+
+test("does not treat non-mask relay arguments as @relay(mask: false)", async () => {
+	await invalid({
+		code: `
+        graphql\`fragment foo on Page { ...unused1 @relay(foo: false) }\`;
+        `,
+		errors: ["must-colocate-fragment-spreads"],
+	})
+})
+
+test("does not treat ordinary calls as CommonJS requires", async () => {
+	await invalid({
+		code: `
+        foo('./component.js');
+        graphql\`fragment foo on Page { ...component_fragment }\`;
+        `,
+		errors: ["must-colocate-fragment-spreads"],
+	})
+})
+
+test("does not crash on require() calls without arguments", async () => {
+	await valid(`
+        const Component = require();
+        `)
+})
+
+test("does not add imports for require() calls with non-string literals", async () => {
+	await valid(`
+        const Component = require(123);
+        `)
+})
+
+test("ignores the rule for non-graphql tagged templates", async () => {
+	await valid(`
+        const tpl = someTemplate\`fragment bar on Page { ...unused1 }\`;
+        `)
+})
+
+test("ignores graphql templates with syntax errors", async () => {
+	await valid(`
+        graphql\`{ this is }\`;
+        `)
+})
+
 test("reports error for unused fragment spread in fragment", async () => {
 	const { result } = await invalid({
 		code: `
