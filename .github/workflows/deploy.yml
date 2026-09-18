@@ -213,8 +213,6 @@ jobs:
       - name: Install playwright 📦
         if: steps.affected-test-e2e.outcome == 'failure'
         uses: $/.github/actions/playwright-install
-        with:
-          os: ${{ matrix.os }}
         timeout-minutes: 5
 
       - name: Install xvfb 📦
