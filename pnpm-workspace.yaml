@@ -139,6 +139,7 @@ optimisticRepeatInstall: true
 overrides:
   yauzl: 3.4.0
   '@animedes/react-stable': 'workspace:'
+  'msw>graphql': 17.0.2
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAge: 0

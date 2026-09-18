@@ -460,6 +460,7 @@ catalogs:
 overrides:
   yauzl: 3.4.0
   '@animedes/react-stable': 'workspace:'
+  msw>graphql: 17.0.2
 
 packageExtensionsChecksum: sha256-cL80la65MMUg1zOTjB9Gi0k3p5/lBhiUQs024QHU5SI=
 
@@ -6031,10 +6032,6 @@ packages:
         optional: true
       ws:
         optional: true
-
-  graphql@16.14.2:
-    resolution: {integrity: sha512-Chq1s4CY7jmh8gO2qvLIJyfCDIN+EHLFW/9iShnp1z8FjBQMoodWP1kDC36VAMXXIvAjj4ARa7ntfAV2BrjsbA==}
-    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   graphql@17.0.2:
     resolution: {integrity: sha512-FRWbddMxfkjiB7z+aQDWIR+E34xo9I8c9mtK2RPv8PmMzKRvrdsreHL/Ui/TmwHJfhHChEtsFPyMHKI+xuarQQ==}
@@ -12933,8 +12930,6 @@ snapshots:
       crossws: 0.4.12(srvx@1.0.5)
       ws: 8.21.3
 
-  graphql@16.14.2: {}
-
   graphql@17.0.2: {}
 
   gzip-size@6.0.0:
@@ -13558,7 +13553,7 @@ snapshots:
       '@open-draft/deferred-promise': 3.0.0
       '@types/statuses': 2.0.6
       cookie: 1.1.1
-      graphql: 16.14.2
+      graphql: 17.0.2
       headers-polyfill: 5.0.1
       is-node-process: 1.2.0
       outvariant: 1.4.3
