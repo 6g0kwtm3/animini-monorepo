@@ -1,11 +1,6 @@
 name: Install playwright 📦
 description: Installs Playwright dependencies
 
-inputs:
-  os:
-    type: string
-    required: true
-
 runs:
   using: composite
   steps:
@@ -21,8 +16,8 @@ runs:
         path: |
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-        key: playwright-${{ steps.playwright.outputs.version }}
-      if: inputs.os != 'windows-latest'
+        key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      if: runner.os != 'Windows'
 
     - name: Cache playwright binaries
       id: cache-windows
@@ -30,8 +25,8 @@ runs:
       with:
         path: |
           ~\AppData\Local\ms-playwright
-        key: playwright-${{ steps.playwright.outputs.version }}
-      if: inputs.os == 'windows-latest'
+        key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      if: runner.os == 'Windows'
 
     - name: Install playwright 📦
       shell: bash

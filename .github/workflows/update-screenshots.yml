@@ -54,8 +54,6 @@ jobs:
 
       - name: Install playwright 📦
         uses: $/.github/actions/playwright-install
-        with:
-          os: ${{ matrix.os }}
         timeout-minutes: 5
 
       - name: Configure Git
