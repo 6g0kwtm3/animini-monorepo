@@ -1,13 +1,13 @@
 // @ts-check
-/// <reference path="./eslint-typegen.d.ts" />
+
 import jsx from "eslint-plugin-jsx"
 import oxlint from "eslint-plugin-oxlint"
 import { default as reactPlugin } from "eslint-plugin-react"
 import reactRefresh from "eslint-plugin-react-refresh"
-import typegen from "eslint-typegen"
+
 import oxlintConfig from "oxlint-config" with { type: "json" }
 
-export default await typegen([
+export default [
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat["jsx-runtime"],
 	reactRefresh.configs.vite,
@@ -37,4 +37,4 @@ export default await typegen([
 		},
 	},
 	...oxlint.buildFromOxlintConfig(oxlintConfig),
-])
+]

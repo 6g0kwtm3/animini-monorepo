@@ -345,9 +345,6 @@ catalogs:
     eslint-plugin-turbo:
       specifier: 2.10.13
       version: 2.10.13
-    eslint-typegen:
-      specifier: 2.3.1
-      version: 2.3.1
     eslint-vitest-rule-tester:
       specifier: 3.2.0
       version: 3.2.0
@@ -505,9 +502,6 @@ importers:
       eslint-plugin-pnpm:
         specifier: 'catalog:'
         version: 1.9.1(eslint@10.10.0)
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       knip:
         specifier: 'catalog:'
         version: 6.37.0
@@ -523,9 +517,6 @@ importers:
       oxlint-tsgolint:
         specifier: 'catalog:'
         version: 7.0.2001
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       turbo:
         specifier: 'catalog:'
         version: 2.10.13
@@ -599,9 +590,6 @@ importers:
       eslint-plugin-storybook:
         specifier: 'catalog:'
         version: 10.6.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       prop-types:
         specifier: 'catalog:'
         version: 15.8.1
@@ -792,9 +780,6 @@ importers:
       eslint-plugin-relay:
         specifier: workspace:@animedes/eslint-plugin-relay@*
         version: link:../../packages/eslint-plugin-relay
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       flubber:
         specifier: 'catalog:'
         version: 0.4.2(patch_hash=594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26)
@@ -853,15 +838,9 @@ importers:
       eslint-config-react:
         specifier: workspace:@animedes/eslint-config-react@*
         version: link:../eslint-config-react
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -887,15 +866,9 @@ importers:
       eslint-config:
         specifier: workspace:@animedes/eslint-config@*
         version: link:../eslint-config
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -920,9 +893,6 @@ importers:
       eslint-plugin-turbo:
         specifier: 'catalog:'
         version: 2.10.13(eslint@10.10.0)(turbo@2.10.13)
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       oxlint-config:
         specifier: workspace:@animedes/oxlint-config@*
         version: link:../oxlint-config
@@ -947,9 +917,6 @@ importers:
       eslint-plugin-react-refresh:
         specifier: 'catalog:'
         version: 0.5.7(eslint@10.10.0)
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       oxlint-config:
         specifier: workspace:@animedes/oxlint-config@*
         version: link:../oxlint-config
@@ -988,18 +955,12 @@ importers:
       eslint-config:
         specifier: workspace:@animedes/eslint-config@*
         version: link:../eslint-config
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
         version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -1037,18 +998,12 @@ importers:
       eslint-config:
         specifier: workspace:@animedes/eslint-config@*
         version: link:../eslint-config
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
         version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.10.0)(supports-color@10.2.2)(vitest@4.1.11)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       vitest:
         specifier: 'catalog:'
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.5)(msw@2.15.0)(vite@8.3.0)
@@ -1077,15 +1032,9 @@ importers:
       eslint-config-react:
         specifier: workspace:@animedes/eslint-config-react@*
         version: link:../eslint-config-react
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
 
   packages/load-assets:
     dependencies:
@@ -1117,15 +1066,9 @@ importers:
       eslint-config-react:
         specifier: workspace:@animedes/eslint-config-react@*
         version: link:../eslint-config-react
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -1138,15 +1081,9 @@ importers:
       eslint-config:
         specifier: workspace:@animedes/eslint-config@*
         version: link:../eslint-config
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
 
   packages/m3-react:
     dependencies:
@@ -1175,18 +1112,12 @@ importers:
       eslint-config-react:
         specifier: workspace:@animedes/eslint-config-react@*
         version: link:../eslint-config-react
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       m3-core:
         specifier: workspace:@animedes/m3-core@*
         version: link:../m3-core
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       vitest:
         specifier: 'catalog:'
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.5)(msw@2.15.0)(vite@7.3.6)
@@ -1224,15 +1155,9 @@ importers:
       eslint-config-react:
         specifier: workspace:@animedes/eslint-config-react@*
         version: link:../eslint-config-react
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
 
   packages/oxlint-config: {}
 
@@ -1247,15 +1172,9 @@ importers:
       eslint-config:
         specifier: workspace:@animedes/eslint-config@*
         version: link:../eslint-config
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -1292,15 +1211,9 @@ importers:
       eslint-config-react:
         specifier: workspace:@animedes/eslint-config-react@*
         version: link:../eslint-config-react
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -1322,15 +1235,9 @@ importers:
       eslint-config:
         specifier: workspace:@animedes/eslint-config@*
         version: link:../eslint-config
-      eslint-typegen:
-        specifier: 'catalog:'
-        version: 2.3.1(eslint@10.10.0)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
-      tsx:
-        specifier: 'catalog:'
-        version: 4.23.13
       typescript:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
@@ -1345,12 +1252,6 @@ packages:
 
   '@antfu/install-pkg@2.1.0':
     resolution: {integrity: sha512-sdg9NxU3zR4Mnawfbc/x6GB5Wf17WYud5qOuEuxXjaKpYpMkISSJEjItGebXJ2bQ4DIcly4NYH23mtkGJjvKUw==}
-
-  '@apidevtools/json-schema-ref-parser@14.2.1':
-    resolution: {integrity: sha512-HmdFw9CDYqM6B25pqGBpNeLCKvGPlIx1EbLrVL0zPvj50CJQUHyBNBw45Muk0kEIkogo1VZvOKHajdMuAzSxRg==}
-    engines: {node: '>= 20'}
-    peerDependencies:
-      '@types/json-schema': ^7.0.15
 
   '@ariakit/components@0.1.13':
     resolution: {integrity: sha512-s2tlnFMCjl7giCKD7TX5pHkRjl7rM0DIWXKytGnyrX1nSOagQ/89sigZJVtxZefcqnbc+4KUWF58VatSHxNmBQ==}
@@ -5823,11 +5724,6 @@ packages:
     resolution: {integrity: sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  eslint-typegen@2.3.1:
-    resolution: {integrity: sha512-zVdh8rThBvv2o5T/K524Fr5iy1Jo0q09rHL7y7FbOhgMB177T2gw+shxfC4ChCEqdq6/y6LJA4j8Fbr/Xls9aw==}
-    peerDependencies:
-      eslint: ^9.0.0 || ^10.0.0
-
   eslint-visitor-keys@3.4.3:
     resolution: {integrity: sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -6469,9 +6365,6 @@ packages:
 
   json-rpc-2.0@1.8.0:
     resolution: {integrity: sha512-4nw+XlJbk5XokA7BtqHGu+0PEiUPfAkRzXXd1Cgjy1c3F2UI/3Gy7yr76wyJEv3X1F1SRGGF8xPAPPhelBiGmA==}
-
-  json-schema-to-typescript-lite@15.0.0:
-    resolution: {integrity: sha512-5mMORSQm9oTLyjM4mWnyNBi2T042Fhg1/0gCIB6X8U/LVpM2A+Nmj2yEyArqVouDmFThDxpEXcnTgSrjkGJRFA==}
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
@@ -8392,11 +8285,6 @@ snapshots:
     dependencies:
       package-manager-detector: 1.8.0
       tinyexec: 1.3.1
-
-  '@apidevtools/json-schema-ref-parser@14.2.1(@types/json-schema@7.0.15)':
-    dependencies:
-      '@types/json-schema': 7.0.15
-      js-yaml: 4.3.2
 
   '@ariakit/components@0.1.13':
     dependencies:
@@ -12632,12 +12520,6 @@ snapshots:
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
-  eslint-typegen@2.3.1(eslint@10.10.0):
-    dependencies:
-      eslint: 10.10.0(jiti@2.7.0)(supports-color@10.2.2)
-      json-schema-to-typescript-lite: 15.0.0
-      ohash: 2.0.12
-
   eslint-visitor-keys@3.4.3: {}
 
   eslint-visitor-keys@5.0.1: {}
@@ -13345,11 +13227,6 @@ snapshots:
   json-parse-even-better-errors@2.3.1: {}
 
   json-rpc-2.0@1.8.0: {}
-
-  json-schema-to-typescript-lite@15.0.0:
-    dependencies:
-      '@apidevtools/json-schema-ref-parser': 14.2.1(@types/json-schema@7.0.15)
-      '@types/json-schema': 7.0.15
 
   json-schema-traverse@0.4.1: {}
 

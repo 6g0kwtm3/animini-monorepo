@@ -6,15 +6,12 @@
 	"type": "module",
 	"exports": "./src/index.ts",
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-typegen": "catalog:",
-		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:"
+		"ts-config": "workspace:@animedes/ts-config@*"
 	}
 }

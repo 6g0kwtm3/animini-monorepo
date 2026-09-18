@@ -10,7 +10,6 @@
 		"./box": "./src/unstyled-box.tsx"
 	},
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"bench": "vitest bench --run",
 		"check": "tsc --noEmit"
@@ -27,9 +26,7 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
-		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"tsx": "catalog:",
 		"typescript": "npm:@typescript/typescript6@6.0.2",
 		"@typescript/native": "npm:typescript@rc",
 		"utilities": "workspace:@animedes/utilities@*",

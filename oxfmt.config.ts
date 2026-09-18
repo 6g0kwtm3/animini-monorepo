@@ -13,7 +13,7 @@ export default defineConfig({
 		"pnpm-lock.yaml",
 		"pnpm-workspace.yaml",
 		"worker-configuration.d.ts",
-		"eslint-typegen.d.ts",
+
 		"**/.react-router",
 		"**/.tsup",
 		"**/dist",

@@ -1,25 +1,18 @@
 // @ts-check
-/// <reference path="./eslint-typegen.d.ts" />
+
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
 import perfectionist from "eslint-plugin-perfectionist"
 import turbo from "eslint-plugin-turbo"
-import typegen from "eslint-typegen"
+
 import oxlintConfig from "oxlint-config" with { type: "json" }
 import path from "path"
 import tseslint from "typescript-eslint"
 
-export default await typegen([
+export default [
 	{
 		name: "eslint-config/ignores",
-		ignores: [
-			".tsup/",
-			"dist/",
-			"tmp/",
-			"playwright/",
-			".wrangler/",
-			"eslint-typegen.d.ts",
-		],
+		ignores: [".tsup/", "dist/", "tmp/", "playwright/", ".wrangler/"],
 	},
 	turbo.configs["flat/recommended"],
 	eslint.configs.recommended,
@@ -103,4 +96,4 @@ export default await typegen([
 		},
 	},
 	...oxlint.buildFromOxlintConfig(oxlintConfig),
-])
+]
