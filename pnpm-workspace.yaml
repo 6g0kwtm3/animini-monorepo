@@ -25,13 +25,13 @@ catalog:
   '@graphql-tools/mock': 9.1.14
   '@hono/node-server': 2.1.1
   '@iconify-json/material-symbols': 1.2.92
-  '@inlang/paraglide-js': 2.25.2
+  '@inlang/paraglide-js': 2.25.4
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.63.0
   '@react-router/dev': 8.4.0
   '@react-router/node': 8.4.0
-  '@sentry/react': npm:@sentry/react-router@10.74.0
+  '@sentry/react': npm:@sentry/react-router@10.75.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
   '@storybook/addon-a11y': 10.6.0
@@ -65,7 +65,7 @@ catalog:
   cross-env: 10.1.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 44.4.0
+  electron: 44.4.2
   electron-devtools-installer: 4.0.0
   eslint: 10.10.0
   eslint-plugin-oxlint: 1.82.0
@@ -82,9 +82,9 @@ catalog:
   graphql-config: 5.1.7
   hono: 4.13.8
   isbot: 5.2.2
-  knip: 6.35.1
+  knip: 6.37.0
   marked: 0.3.19
-  motion: 13.3.0
+  motion: 13.4.0
   msw: 2.15.0
   nodemon: 3.1.14
   oxfmt: 0.68.0
@@ -112,7 +112,7 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
-  wrangler: 4.132.0
+  wrangler: 4.134.0
 
 catalogMode: strict
 
