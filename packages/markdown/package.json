@@ -21,7 +21,6 @@
 	},
 	"dependencies": {
 		"@types/marked": "catalog:",
-		"dompurify": "catalog:",
 		"marked": "catalog:"
 	},
 	"devDependencies": {

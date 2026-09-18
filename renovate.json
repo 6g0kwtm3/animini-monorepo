@@ -31,7 +31,6 @@
 		"@types/marked",
 		"marked",
 		// TODO: update
-		"dompurify",
 		"unplugin-macros"
 	]
 }
