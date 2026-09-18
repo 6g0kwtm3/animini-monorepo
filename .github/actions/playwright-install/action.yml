@@ -36,4 +36,3 @@ runs:
     - name: Install playwright 📦
       shell: bash
       run: pnpm --filter=web exec playwright install chromium-headless-shell webkit --with-deps
-      if: steps.cache.outputs.cache-hit != 'true' && steps.cache-windows.outputs.cache-hit != 'true'
