@@ -11,9 +11,7 @@
 		},
 		"router": { "outputs": [".react-router/**"] },
 		"relay": { "outputs": ["app/gql/**"] },
-		"check": {
-			"dependsOn": ["transit", "router", "paraglide", "relay", "eslint-typegen"]
-		},
+		"check": { "dependsOn": ["transit", "router", "paraglide", "relay"] },
 		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] }
 	}
 }

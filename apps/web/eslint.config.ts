@@ -1,13 +1,11 @@
 // @ts-check
-/// <reference path="./eslint-typegen.d.ts" />
 import * as graphql from "@graphql-eslint/eslint-plugin"
 import base from "eslint-config"
 import react from "eslint-config-react"
 import relay from "eslint-plugin-relay"
-import typegen from "eslint-typegen"
 import graphQLConfig from "./graphql.config.js"
 
-export default typegen([
+export default [
 	{
 		name: "web/ignores",
 		ignores: [
@@ -42,4 +40,4 @@ export default typegen([
 			// "@graphql-eslint/selection-set-depth": ["warn", { maxDepth: 3 }],
 		},
 	},
-])
+]

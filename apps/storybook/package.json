@@ -8,7 +8,6 @@
 		"dev": "storybook dev -p 6006",
 		"build": "storybook build",
 		"build-storybook": "storybook build",
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"load-assets": "bun bin/loadAssets.ts"
 	},
@@ -34,7 +33,6 @@
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"eslint-plugin-storybook": "catalog:",
-		"eslint-typegen": "catalog:",
 		"prop-types": "catalog:",
 		"react": "catalog:",
 		"storybook": "catalog:",

@@ -9,7 +9,6 @@
 		"./Markdown": "./src/markdown.tsx"
 	},
 	"scripts": {
-		"eslint-typegen": "node --import=tsx eslint.config.ts",
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"check": "tsc --noEmit"
 	},
@@ -28,7 +27,6 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
-		"eslint-typegen": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:"
 	}

@@ -9,7 +9,6 @@
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-perfectionist": "catalog:",
 		"eslint-plugin-turbo": "catalog:",
-		"eslint-typegen": "catalog:",
 		"oxlint-config": "workspace:@animedes/oxlint-config@*",
 		"typescript-eslint": "catalog:"
 	},
