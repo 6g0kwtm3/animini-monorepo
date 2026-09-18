@@ -27,6 +27,7 @@
 	"devDependencies": {
 		"@animedes/react-stable": "catalog:",
 		"@ark/attest": "catalog:",
+		"@playwright/test": "catalog:",
 		"@stryker-mutator/api": "catalog:",
 		"@stryker-mutator/core": "catalog:",
 		"@stryker-mutator/vitest-runner": "catalog:",
