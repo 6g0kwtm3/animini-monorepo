@@ -1,0 +1,23 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": ["ts-config/tsconfig.json"],
+	"compilerOptions": {
+		"incremental": true,
+		"target": "es2022",
+		"module": "node18",
+		"declaration": true,
+		"sourceMap": true,
+		"rootDir": "./src",
+		"outDir": "./lib",
+
+		/* Strict Type-Checking Options */
+		"strict": true,
+
+		/* Additional Checks */
+
+		"moduleResolution": "node16",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["src"]
+}
