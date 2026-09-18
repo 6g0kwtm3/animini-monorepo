@@ -127,7 +127,9 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: reports/stryker-incremental.json
-          key: stryker-incremental
+          key: stryker-incremental-${{ github.sha }}
+          restore-keys: |
+            stryker-incremental-
           enableCrossOsArchive: true
 
       - name: Coverage
@@ -208,6 +210,11 @@ jobs:
         continue-on-error: true
         run: pnpm exec turbo query affected --tasks test-e2e --exit-code
 
+      - name: Playwright version
+        run: echo "version=$(pnpm exec playwright --version)" >> $GITHUB_OUTPUT
+        id: playwright
+        if: steps.affected-test-e2e.outcome == 'failure'
+
       - name: Cache playwright binaries
         id: cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -215,7 +222,7 @@ jobs:
           path: |
             ~/.cache/ms-playwright
             ~/Library/Caches/ms-playwright
-          key: playwright
+          key: playwright-${{ steps.playwright.outputs.version }}
         if: steps.affected-test-e2e.outcome == 'failure' && matrix.os != 'windows-latest'
 
       - name: Cache playwright binaries
@@ -224,7 +231,7 @@ jobs:
         with:
           path: |
             ~\AppData\Local\ms-playwright
-          key: playwright
+          key: playwright-${{ steps.playwright.outputs.version }}
         if: steps.affected-test-e2e.outcome == 'failure' && matrix.os == 'windows-latest'
 
       - name: Install playwright 📦
