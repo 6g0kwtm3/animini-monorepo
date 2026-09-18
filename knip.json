@@ -3,7 +3,9 @@
 		"entry": ["**/*.@(spec|test|setup|bench|test-d).?(c|m)[jt]s?(x)"]
 	},
 	"workspaces": {
-		".": { "ignoreDependencies": ["@animedes/react-stable"] },
+		".": {
+			"ignoreDependencies": ["@animedes/react-stable", "@playwright/test"]
+		},
 		"apps/storybook": { "entry": ["env.ts", ".storybook/modes.ts"] },
 		"apps/web": {
 			"paths": {
