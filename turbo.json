@@ -55,5 +55,10 @@
 		},
 		"bundlewatch": { "dependsOn": ["build"], "inputs": ["dist/**"] }
 	},
-	"futureFlags": { "affectedUsingTaskInputs": true }
+	"futureFlags": {
+		"affectedUsingTaskInputs": true,
+		"githubActionsRemoteBaseRefFallback": true,
+		"watchUsingTaskInputs": true,
+		"filterUsingTasks": true
+	}
 }
