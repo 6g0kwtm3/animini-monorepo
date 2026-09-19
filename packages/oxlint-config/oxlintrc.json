@@ -58,8 +58,9 @@
 		"typescript/switch-exhaustiveness-check": "warn",
 		"typescript/consistent-type-definitions": ["warn", "interface"],
 		"eslint/require-await": "warn",
-		"unicorn/no-document-cookie": "off",
+		"unicorn/no-document-cookie": "warn",
 		"unicorn/consistent-existence-index-check": "warn",
+		"unicorn/prefer-number-coercion": "warn",
 		"unicorn/explicit-length-check": ["warn", { "non-zero": "not-equal" }],
 		"jest/expect-expect": [
 			"warn",
