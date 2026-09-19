@@ -163,11 +163,14 @@ jobs:
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Build
+        run: pnpm exec turbo --filter=@animedes/web build
+
       - name: Bundlewatch
-        run: pnpm -w bundlewatch
-        env:
-          BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
-          CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+        uses: relative-ci/agent-action@v3
+        with:
+          key: ${{ secrets.RELATIVE_CI_KEY }}
+          webpackStatsFile: ./apps/web/dist/client/bundle-stats.html
 
   test-e2e:
     name: Test E2E
