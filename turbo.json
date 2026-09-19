@@ -54,5 +54,6 @@
 			"cache": false
 		},
 		"bundlewatch": { "dependsOn": ["build"], "inputs": ["dist/**"] }
-	}
+	},
+	"futureFlags": { "affectedUsingTaskInputs": true }
 }
