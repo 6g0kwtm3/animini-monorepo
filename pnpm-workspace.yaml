@@ -59,6 +59,7 @@ catalog:
   '@types/react-dom': 19.3.0
   '@typescript-eslint/parser': 8.70.0
   '@typescript/native': npm:typescript@rc
+  '@vitejs/plugin-react': 6.1.0
   anitomy: 0.0.35
   arktype: 2.2.3
   babel-plugin-react-compiler: 1.0.0
@@ -89,6 +90,7 @@ catalog:
   nodemon: 3.1.14
   oxfmt: 0.68.0
   oxlint: 1.83.0
+  oxc-transform-react: 0.145.0
   oxlint-tsgolint: 7.0.2001
   prop-types: 15.8.1
   react: 19.3.0
