@@ -167,7 +167,7 @@ jobs:
         run: pnpm exec turbo --filter=@animedes/web build
 
       - name: Bundlewatch
-        uses: relative-ci/agent-action@v3
+        uses: relative-ci/agent-action@fcf45416581928e8dd62eded78ce98c78e5149f8
         with:
           key: ${{ secrets.RELATIVE_CI_KEY }}
           webpackStatsFile: ./apps/web/dist/client/webpack-stats.json
