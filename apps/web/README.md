@@ -2,6 +2,7 @@
 
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2F6g0kwtm3%2Fanimini-monorepo%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/6g0kwtm3/animini-monorepo/master)
 [![CodSpeed Badge](https://img.shields.io/endpoint?url=https://codspeed.io/badge.json)](https://codspeed.io/6g0kwtm3/animini-monorepo)
+[![RelativeCI](https://badges.relative-ci.com/badges/PApOQ2k9xWB640NrDasI?branch=master&style=flat)](https://app.relative-ci.com/projects/PApOQ2k9xWB640NrDasI)
 
 📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
 

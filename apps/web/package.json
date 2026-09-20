@@ -8,7 +8,6 @@
 	"main": "desktop/index.js",
 	"scripts": {
 		"build": "cross-env NODE_ENV=production react-router build",
-		"bundlewatch": "bundlewatch",
 		"check": "tsc --noEmit",
 		"deploy": "wrangler pages deploy ./dist/client",
 		"dev": "react-router dev",
@@ -27,10 +26,10 @@
 		"maintained node versions"
 	],
 	"dependencies": {
+		"@animedes/react-stable": "workspace:@animedes/react-stable@*",
 		"@anitrove/a": "workspace:@animedes/a@*",
 		"@anitrove/design": "workspace:@animedes/design@*",
 		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",
-		"@animedes/react-stable": "workspace:@animedes/react-stable@*",
 		"@ariakit/react": "catalog:",
 		"@hono/node-server": "catalog:",
 		"@iconify-json/material-symbols": "catalog:",
@@ -78,7 +77,6 @@
 		"@playwright/test": "catalog:",
 		"@types/flubber": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
-		"bundlewatch": "catalog:",
 		"cross-env": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
@@ -88,6 +86,7 @@
 		"graphql-config": "catalog:",
 		"msw": "catalog:",
 		"nodemon": "catalog:",
+		"rollup-plugin-webpack-stats": "catalog:",
 		"temporal-polyfill-lite": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
@@ -98,17 +97,5 @@
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.18.4"
-	},
-	"bundlewatch": {
-		"files": [
-			{
-				"path": "dist/client/assets/*.js",
-				"maxSize": "150kB"
-			},
-			{
-				"path": "dist/client/assets/*.css",
-				"maxSize": "25kB"
-			}
-		]
 	}
 }

@@ -10,6 +10,7 @@ import relay from "unplugin-relay/vite"
 import macros from "unplugin-macros/vite"
 import relayConfig from "./relay.config.json" with { type: "json" }
 import path from "path"
+import webpackStatsPlugin from "rollup-plugin-webpack-stats"
 
 if (relayConfig.language !== "typescript") {
 	throw new Error(`relayConfig.language !== "typescript"`)
@@ -17,6 +18,7 @@ if (relayConfig.language !== "typescript") {
 
 export default defineConfig({
 	plugins: [
+		webpackStatsPlugin(),
 		inspect(),
 		macros(),
 		tailwindcss(),
@@ -51,7 +53,16 @@ export default defineConfig({
 	],
 	preview: { port: 3000 },
 	server: { port: 3000 },
-	build: { sourcemap: true },
+	build: {
+		sourcemap: true,
+		rollupOptions: {
+			output: {
+				assetFileNames: "assets/[name].[hash][extname]",
+				chunkFileNames: "assets/[name].[hash].js",
+				entryFileNames: "assets/[name].[hash].js",
+			},
+		},
+	},
 	resolve: { tsconfigPaths: true },
 	envPrefix: ["VITE_", "CF_", "NODE_"],
 })
