@@ -52,11 +52,6 @@
 		"//#stryker": {
 			"passThroughEnv": ["STRYKER_DASHBOARD_API_KEY"],
 			"cache": false
-		},
-		"bundlewatch": {
-			"dependsOn": ["build"],
-			"cache": false,
-			"passThroughEnv": ["BUNDLEWATCH_GITHUB_TOKEN", "CI_COMMIT_SHA"]
 		}
 	},
 	"futureFlags": {
