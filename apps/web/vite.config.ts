@@ -16,7 +16,6 @@ if (relayConfig.language !== "typescript") {
 }
 
 export default defineConfig({
-	devtools: { build: { withApp: true } },
 	plugins: [
 		webpackStatsPlugin(),
 		inspect({ build: true }),
