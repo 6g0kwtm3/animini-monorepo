@@ -408,6 +408,9 @@ catalogs:
     rollup-plugin-bundle-stats:
       specifier: 4.22.3
       version: 4.22.3
+    rollup-plugin-webpack-stats:
+      specifier: 4.0.0
+      version: 4.0.0
     storybook:
       specifier: 10.6.0
       version: 10.6.0
@@ -793,6 +796,9 @@ importers:
       rollup-plugin-bundle-stats:
         specifier: 'catalog:'
         version: 4.22.3(core-js@3.50.0)(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0)
+      rollup-plugin-webpack-stats:
+        specifier: 'catalog:'
+        version: 4.0.0(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0)
       temporal-polyfill-lite:
         specifier: 'catalog:'
         version: 0.4.3
@@ -7304,9 +7310,39 @@ packages:
       vite:
         optional: true
 
+  rollup-plugin-stats@3.0.0:
+    resolution: {integrity: sha512-MQFEUEpzwrb4Yd2twj/I3j86WTW1h60wQNwTA3XklhsvPQ/e+cIj6BbKTcpiXmDR4ZJteTrnWD1B2y+yyEx82g==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      rolldown: ^1.0.0-beta.0
+      rollup: ^3.0.0 || ^4.0.0
+      vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      rolldown:
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
+
   rollup-plugin-webpack-stats@3.1.3:
     resolution: {integrity: sha512-g6hILvZevBgrTPSmtYsvSeEB9MU1Rc8CrHcJKEIH0J8vSATrdXPkl/Dne/6h/wMhy6hI6Ve2aL6bsCSof7NU2g==}
     engines: {node: '>=18'}
+    peerDependencies:
+      rolldown: ^1.0.0-beta.0
+      rollup: ^3.0.0 || ^4.0.0
+      vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      rolldown:
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
+
+  rollup-plugin-webpack-stats@4.0.0:
+    resolution: {integrity: sha512-2VpqvuAuVnf35UTuqI7ydLkq3BBf/XdLQc9UQCsZ+62m//w83LaYS97SfjLkZoXdsUXVNGYjZZ3eRBwyCA/xSA==}
+    engines: {node: '>=22'}
     peerDependencies:
       rolldown: ^1.0.0-beta.0
       rollup: ^3.0.0 || ^4.0.0
@@ -14283,9 +14319,23 @@ snapshots:
       rollup: 4.63.3
       vite: 8.3.0(@types/node@24.13.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
 
+  rollup-plugin-stats@3.0.0(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0):
+    optionalDependencies:
+      rolldown: 1.2.9
+      rollup: 4.63.3
+      vite: 8.3.0(@types/node@24.13.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
+
   rollup-plugin-webpack-stats@3.1.3(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0):
     dependencies:
       rollup-plugin-stats: 2.1.3(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0)
+    optionalDependencies:
+      rolldown: 1.2.9
+      rollup: 4.63.3
+      vite: 8.3.0(@types/node@24.13.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
+
+  rollup-plugin-webpack-stats@4.0.0(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0):
+    dependencies:
+      rollup-plugin-stats: 3.0.0(rolldown@1.2.9)(rollup@4.63.3)(vite@8.3.0)
     optionalDependencies:
       rolldown: 1.2.9
       rollup: 4.63.3

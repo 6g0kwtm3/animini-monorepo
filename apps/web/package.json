@@ -87,6 +87,7 @@
 		"msw": "catalog:",
 		"nodemon": "catalog:",
 		"rollup-plugin-bundle-stats": "catalog:",
+		"rollup-plugin-webpack-stats": "catalog:",
 		"temporal-polyfill-lite": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",

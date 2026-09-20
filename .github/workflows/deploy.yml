@@ -170,7 +170,7 @@ jobs:
         uses: relative-ci/agent-action@v3
         with:
           key: ${{ secrets.RELATIVE_CI_KEY }}
-          webpackStatsFile: ./apps/web/dist/client/bundle-stats.html
+          webpackStatsFile: ./apps/web/dist/client/webpack-stats.json
 
   test-e2e:
     name: Test E2E

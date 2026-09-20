@@ -10,7 +10,7 @@ import relay from "unplugin-relay/vite"
 import macros from "unplugin-macros/vite"
 import relayConfig from "./relay.config.json" with { type: "json" }
 import path from "path"
-import { bundleStats } from "rollup-plugin-bundle-stats"
+import webpackStatsPlugin from "rollup-plugin-webpack-stats"
 
 if (relayConfig.language !== "typescript") {
 	throw new Error(`relayConfig.language !== "typescript"`)
@@ -18,7 +18,7 @@ if (relayConfig.language !== "typescript") {
 
 export default defineConfig({
 	plugins: [
-		bundleStats(),
+		webpackStatsPlugin(),
 		inspect(),
 		macros(),
 		tailwindcss(),
