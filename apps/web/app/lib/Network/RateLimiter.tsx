@@ -144,7 +144,7 @@ export class RateLimiter {
 		const ledger = JsonToLedgerBucketSchema(localStorage.getItem(this.key))
 
 		if (ledger instanceof ArkErrors) {
-			return this.defaults
+			return this.defaults.map((bucket) => ({ ...bucket, timestamps: [] }))
 		}
 
 		return this.defaults.map((bucket, index) => {
