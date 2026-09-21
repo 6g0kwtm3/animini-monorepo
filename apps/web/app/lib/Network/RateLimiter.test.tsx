@@ -240,7 +240,9 @@ void describe("Config changes", () => {
 		void vi.stubGlobal("localStorage", storage)
 		storage.setItem(
 			"test",
-			JSON.stringify([{ limit: 2, perMs: 60000, timestamps: [Date.now(), Date.now()] }])
+			JSON.stringify([
+				{ limit: 2, perMs: 60000, timestamps: [Date.now(), Date.now()] },
+			])
 		)
 
 		const limiter = new RateLimiter("test", [
@@ -250,7 +252,9 @@ void describe("Config changes", () => {
 		const outcome = await Promise.race([
 			limiter.execute(() => "granted"),
 			new Promise<string>((resolve) =>
-				setTimeout(() => { resolve("waited"); }, 200)
+				setTimeout(() => {
+					resolve("waited")
+				}, 200)
 			),
 		])
 
