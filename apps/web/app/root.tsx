@@ -10,6 +10,7 @@ import {
 	useRouteError,
 	type ClientLoaderFunctionArgs,
 	type LinksFunction,
+	type MiddlewareFunction,
 } from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
@@ -122,7 +123,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<Links />
 			</head>
 			<body>
-				<ClientMiddleware value={clientMiddleware}>
+				<ClientMiddleware value={clientMiddleware as MiddlewareFunction[]}>
 					<RelayEnvironment environment={environment}>
 						<SnackbarQueue>
 							<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
