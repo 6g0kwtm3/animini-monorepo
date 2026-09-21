@@ -32,12 +32,11 @@ export class RateLimiter {
 	private queue: QueuedEntry[] = []
 
 	constructor(key: string, args: readonly RateLimiterArgs[]) {
-		this.defaults = ((args: readonly RateLimiterArgs[]): LedgerBucket[] =>
-			args.map(({ limit, per }) => ({
-				limit,
-				perMs: per.total({ unit: "millisecond" }),
-				timestamps: [],
-			})))(args)
+		this.defaults = args.map(({ limit, per }) => ({
+			limit,
+			perMs: per.total({ unit: "millisecond" }),
+			timestamps: [],
+		}))
 		this.key = key
 	}
 
@@ -105,7 +104,7 @@ export class RateLimiter {
 	}
 
 	private async claimToken(): Promise<ClaimResult> {
-		return await this.withLock(() => {
+		return await navigator.locks.request(this.key, () => {
 			const now = Temporal.Now.instant().epochMilliseconds
 			const buckets = this.readLedger()
 
@@ -145,17 +144,13 @@ export class RateLimiter {
 		const ledger = JsonToLedgerBucketSchema(localStorage.getItem(this.key))
 
 		if (ledger instanceof ArkErrors) {
-			return this.defaults.map((bucket) => ({ ...bucket, timestamps: [] }))
+			return this.defaults
 		}
 
 		return this.defaults.map((bucket, index) => {
 			const timestamps = ledger[index]?.timestamps ?? []
 			return { ...bucket, timestamps: [...timestamps] }
 		})
-	}
-
-	private async withLock<T>(fn: () => Promise<T> | T): Promise<T> {
-		return await navigator.locks.request(this.key, () => fn())
 	}
 
 	private writeLedger(buckets: readonly LedgerBucket[]): void {
