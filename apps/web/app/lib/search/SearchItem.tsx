@@ -39,8 +39,8 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 	const prefetch = usePrefetch(
 		`/:locale?/media/:mediaId`,
 		{ mediaId: data.id },
-		(args) => {
-			import("~/routes/Media/route").then(({ clientLoader }) =>
+		async (args) => {
+			await import("~/routes/Media/route").then(({ clientLoader }) =>
 				clientLoader(args)
 			)
 		}
