@@ -1,33 +1,63 @@
+import { ArkErrors, type } from "arktype"
+
 interface RateLimiterArgs {
 	limit: number
 	per: Temporal.Duration
 }
 
+type ClaimResult = { waitMs: number; what: "wait" } | { what: "grant" }
+
+interface QueuedEntry {
+	reject: (reason: Error) => void
+	run: () => Promise<void>
+}
+
+const LedgerBucketSchema = type({
+	limit: "number",
+	perMs: "number",
+	timestamps: "number[]",
+})
+
+type LedgerBucket = typeof LedgerBucketSchema.infer
+
+const JsonToLedgerBucketSchema = type("string.json.parse").to(
+	LedgerBucketSchema.array()
+)
+
 export class RateLimiter {
+	private defaults: LedgerBucket[]
+	private key: string
+
 	private processing = false
-	private queue: (() => Promise<void>)[] = []
+	private queue: QueuedEntry[] = []
 
-	private timestamps: {
-		args: RateLimiterArgs
-		timestamps: Temporal.Instant[]
-	}[]
-
-	constructor(args: readonly RateLimiterArgs[]) {
-		this.timestamps = args.map((args) => ({ args, timestamps: [] }))
+	constructor(key: string, args: readonly RateLimiterArgs[]) {
+		this.defaults = ((args: readonly RateLimiterArgs[]): LedgerBucket[] =>
+			args.map(({ limit, per }) => ({
+				limit,
+				perMs: per.total({ unit: "millisecond" }),
+				timestamps: [],
+			})))(args)
+		this.key = key
 	}
 
 	execute<T>(fn: () => T): Promise<Awaited<T>> {
 		return new Promise<Awaited<T>>((resolve, reject) => {
-			void this.queue.push(async () => {
-				try {
-					resolve(await fn())
-				} catch (error) {
-					if (error instanceof Error) {
-						reject(error)
-					} else {
-						reject(new Error(`RateLimiter execution failed`, { cause: error }))
+			void this.queue.push({
+				reject,
+				run: async () => {
+					try {
+						resolve(await fn())
+					} catch (error) {
+						if (error instanceof Error) {
+							reject(error)
+						} else {
+							reject(
+								new Error(`RateLimiter execution failed`, { cause: error })
+							)
+						}
 					}
-				}
+				},
 			})
 			void this.run().catch(() => {
 				//
@@ -39,49 +69,100 @@ export class RateLimiter {
 		if (this.processing) return
 		this.processing = true
 
-		while (this.queue.length !== 0) {
-			const now = Temporal.Now.instant()
-
-			// Clean timestamps for each limit
-			this.timestamps = this.timestamps.map(({ args, timestamps }) => {
-				return {
-					args,
-					timestamps: timestamps.filter(
-						(t) => t.add(args.per).epochMilliseconds > now.epochMilliseconds
-					),
+		try {
+			while (this.queue.length !== 0) {
+				let claim: ClaimResult
+				try {
+					claim = await this.claimToken()
+				} catch (error) {
+					const reason =
+						error instanceof Error
+							? error
+							: new Error(`RateLimiter claim failed`, { cause: error })
+					for (const entry of this.queue) {
+						entry.reject(reason)
+					}
+					this.queue.length = 0
+					return
 				}
-			})
 
-			// Check if any limit is exceeded and calculate max wait time
+				if (claim.what === "wait") {
+					await new Promise<void>((resolve) =>
+						setTimeout(resolve, claim.waitMs)
+					)
+					continue
+				}
+
+				const entry = this.queue.shift()
+				if (!entry) {
+					throw new Error("RateLimiter queue is empty when trying to process")
+				}
+				void entry.run()
+			}
+		} finally {
+			this.processing = false
+		}
+	}
+
+	private async claimToken(): Promise<ClaimResult> {
+		return await this.withLock(() => {
+			const now = Temporal.Now.instant().epochMilliseconds
+			const buckets = this.readLedger()
+
+			let changed = false
+			for (const bucket of buckets) {
+				const kept = bucket.timestamps.filter(
+					(stamp) => stamp + bucket.perMs > now
+				)
+				if (kept.length !== bucket.timestamps.length) changed = true
+				bucket.timestamps = kept
+			}
+
 			let maxWait = 0
-			for (const { timestamps, args } of this.timestamps) {
-				if (timestamps.length >= args.limit) {
-					const earliest = timestamps[0]
-					if (earliest) {
-						const nextAllowed = earliest.add(args.per)
-						const waitMs = nextAllowed.epochMilliseconds - now.epochMilliseconds
-						if (waitMs > maxWait) maxWait = waitMs
+			for (const bucket of buckets) {
+				if (bucket.timestamps.length >= bucket.limit && bucket.limit > 0) {
+					const earliest = bucket.timestamps[0]
+					if (earliest !== undefined) {
+						maxWait = Math.max(maxWait, earliest + bucket.perMs - now)
 					}
 				}
 			}
 
 			if (maxWait > 0) {
-				await new Promise((r) => setTimeout(r, maxWait))
-				continue
+				if (changed) this.writeLedger(buckets)
+				return { what: "wait", waitMs: maxWait }
 			}
 
-			const fn = this.queue.shift()
-			if (!fn) {
-				throw new Error("RateLimiter queue is empty when trying to process")
+			for (const bucket of buckets) {
+				void bucket.timestamps.push(now)
 			}
+			this.writeLedger(buckets)
+			return { what: "grant" }
+		})
+	}
 
-			// Record timestamp for all limits
-			for (const { timestamps } of this.timestamps) {
-				void timestamps.push(now)
-			}
-			void fn()
+	private readLedger(): LedgerBucket[] {
+		const ledger = JsonToLedgerBucketSchema(localStorage.getItem(this.key))
+
+		if (ledger instanceof ArkErrors) {
+			return this.defaults.map((bucket) => ({ ...bucket, timestamps: [] }))
 		}
 
-		this.processing = false
+		return this.defaults.map((bucket, index) => {
+			const timestamps = ledger[index]?.timestamps ?? []
+			return { ...bucket, timestamps: [...timestamps] }
+		})
+	}
+
+	private async withLock<T>(fn: () => Promise<T> | T): Promise<T> {
+		return await navigator.locks.request(this.key, () => fn())
+	}
+
+	private writeLedger(buckets: readonly LedgerBucket[]): void {
+		try {
+			localStorage.setItem(this.key, JSON.stringify(buckets))
+		} catch {
+			return
+		}
 	}
 }

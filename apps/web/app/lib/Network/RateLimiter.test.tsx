@@ -4,16 +4,65 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { RateLimiter } from "./RateLimiter"
 
 beforeEach(() => {
+	void vi.stubGlobal("navigator", { locks: new FakeLockManager() })
+	void vi.stubGlobal("localStorage", new FakeStorage())
 	void vi.useFakeTimers()
 })
 
 afterEach(() => {
+	void vi.unstubAllGlobals()
 	void vi.useRealTimers()
 })
 
+class FakeLockManager {
+	private held = false
+	private waiters: (() => void)[] = []
+
+	async request<T>(name: string, callback: () => Promise<T>): Promise<T> {
+		while (this.held) {
+			await new Promise<void>((resolve) => void this.waiters.push(resolve))
+		}
+		this.held = true
+		try {
+			return await callback()
+		} finally {
+			this.held = false
+			this.waiters.shift()?.()
+		}
+	}
+}
+
+class FakeStorage implements Storage {
+	get length(): number {
+		return this.data.size
+	}
+
+	private data = new Map<string, string>()
+
+	clear(): void {
+		this.data.clear()
+	}
+
+	getItem(key: string): null | string {
+		return this.data.get(key) ?? null
+	}
+
+	key(index: number): null | string {
+		return [...this.data.keys()][index] ?? null
+	}
+
+	removeItem(key: string): void {
+		void this.data.delete(key)
+	}
+
+	setItem(key: string, value: string): void {
+		void this.data.set(key, value)
+	}
+}
+
 void describe("Basic functionality", () => {
 	it("should execute functions immediately when within rate limit", async () => {
-		const limiter = new RateLimiter([
+		const limiter = new RateLimiter("test", [
 			{ limit: 3, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
 		])
 
@@ -29,7 +78,7 @@ void describe("Basic functionality", () => {
 	})
 
 	it("should delay execution when rate limit is exceeded", async () => {
-		const limiter = new RateLimiter([
+		const limiter = new RateLimiter("test", [
 			{ limit: 2, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
 		])
 
@@ -53,7 +102,7 @@ void describe("Basic functionality", () => {
 	})
 
 	it("should handle multiple batches correctly", async () => {
-		const limiter = new RateLimiter([
+		const limiter = new RateLimiter("test", [
 			{ limit: 2, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
 		])
 
@@ -86,7 +135,7 @@ void describe("Basic functionality", () => {
 
 void describe("Concurrency", () => {
 	it("should handle concurrent execute calls", async () => {
-		const limiter = new RateLimiter([
+		const limiter = new RateLimiter("test", [
 			{ limit: 1, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
 		])
 
@@ -110,7 +159,7 @@ void describe("Concurrency", () => {
 
 void describe("Edge cases", () => {
 	it("should handle limit of 1", async () => {
-		const limiter = new RateLimiter([
+		const limiter = new RateLimiter("test", [
 			{ limit: 1, per: Temporal.Duration.from({ milliseconds: 500 }) },
 		])
 
@@ -138,7 +187,7 @@ void describe("Edge cases", () => {
 	})
 
 	it("should handle large number of queued items", async () => {
-		const limiter = new RateLimiter([
+		const limiter = new RateLimiter("test", [
 			{ limit: 5, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
 		])
 
@@ -151,5 +200,60 @@ void describe("Edge cases", () => {
 		await Promise.all(promises)
 
 		expect(results).toEqual(Array.from({ length: 20 }, (_, i) => i + 1))
+	})
+})
+
+void describe("Cross-tab", () => {
+	it("should share the rate limit across limiter instances", async () => {
+		const first = new RateLimiter("test", [
+			{ limit: 1, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+		])
+		const second = new RateLimiter("test", [
+			{ limit: 1, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+		])
+
+		const results: string[] = []
+		await first.execute(() => {
+			void results.push("first")
+			return "first"
+		})
+		expect(results).toEqual(["first"])
+
+		const secondRun = second.execute(() => {
+			void results.push("second")
+			return "second"
+		})
+		expect(results).toEqual(["first"])
+
+		await vi.runAllTimersAsync()
+		await secondRun
+
+		expect(results).toEqual(["first", "second"])
+	})
+})
+
+void describe("Config changes", () => {
+	it("should apply the new limits over a stored ledger from a previous version", async () => {
+		void vi.useRealTimers()
+
+		const storage = new FakeStorage()
+		void vi.stubGlobal("localStorage", storage)
+		storage.setItem(
+			"test",
+			JSON.stringify([{ limit: 2, perMs: 60000, timestamps: [Date.now(), Date.now()] }])
+		)
+
+		const limiter = new RateLimiter("test", [
+			{ limit: 4, per: new Temporal.Duration(0, 0, 0, 0, 0, 1) },
+		])
+
+		const outcome = await Promise.race([
+			limiter.execute(() => "granted"),
+			new Promise<string>((resolve) =>
+				setTimeout(() => { resolve("waited"); }, 200)
+			),
+		])
+
+		expect(outcome).toBe("granted")
 	})
 })
