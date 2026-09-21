@@ -4,7 +4,10 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": "./src/index.tsx",
+	"exports": {
+		".": "./src/index.tsx",
+		"./prefetch": "./src/prefetch.tsx"
+	},
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"check": "tsc --noEmit"

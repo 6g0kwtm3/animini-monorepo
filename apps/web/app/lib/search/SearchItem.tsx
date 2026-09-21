@@ -14,6 +14,7 @@ import { MediaCover } from "../entry/MediaCover"
 import { useFragment } from "../Network"
 import { route_media } from "../route"
 import type { ComponentProps } from "react"
+import { usePrefetch } from "@anitrove/a/prefetch"
 const { graphql } = ReactRelay
 
 interface SearchItemProps extends ComponentProps<typeof ListItem> {
@@ -27,7 +28,7 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 				id
 				type
 				...MediaCover_media @alias
-				title @required(action: LOG) {
+				title {
 					userPreferred @required(action: LOG)
 				}
 			}
@@ -35,14 +36,27 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 		media
 	)
 
+	const prefetch = usePrefetch(
+		`/:locale?/media/:mediaId`,
+		{ mediaId: data.id },
+		async (args) => {
+			await import("~/routes/Media/route").then(({ clientLoader }) =>
+				clientLoader(args)
+			)
+		}
+	)
+
 	return (
-		data && (
+		data.title != null && (
 			<ListItem
 				{...props}
+				onFocus={prefetch}
 				render={
 					<A
 						href={route_media({ id: Number(data.id) })}
 						title={data.title.userPreferred}
+						onMouseEnter={prefetch}
+						onFocus={prefetch}
 					/>
 				}
 			>

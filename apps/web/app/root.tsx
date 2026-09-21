@@ -10,6 +10,7 @@ import {
 	useRouteError,
 	type ClientLoaderFunctionArgs,
 	type LinksFunction,
+	type MiddlewareFunction,
 } from "react-router"
 import { SnackbarQueue } from "./components/Snackbar"
 
@@ -20,7 +21,7 @@ import { Card } from "./components/Card"
 import theme from "@anitrove/design/theme"
 
 import tailwind from "./tailwind.css?url"
-
+import { ClientMiddleware } from "@anitrove/a/prefetch"
 import { useSentryToolbar } from "@sentry/toolbar"
 import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
@@ -122,11 +123,13 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 				<Links />
 			</head>
 			<body>
-				<RelayEnvironment environment={environment}>
-					<SnackbarQueue>
-						<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
-					</SnackbarQueue>
-				</RelayEnvironment>
+				<ClientMiddleware value={clientMiddleware as MiddlewareFunction[]}>
+					<RelayEnvironment environment={environment}>
+						<SnackbarQueue>
+							<Ariakit.HeadingLevel>{children}</Ariakit.HeadingLevel>
+						</SnackbarQueue>
+					</RelayEnvironment>
+				</ClientMiddleware>
 				{/* {import.meta.env.DEV && <SentryToolbar></SentryToolbar>} */}
 				<ScrollRestoration
 				//  nonce={nonce}
