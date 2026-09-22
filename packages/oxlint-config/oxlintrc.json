@@ -45,6 +45,11 @@
 		"eslint/prefer-template": "warn",
 		"oxc/no-barrel-file": "warn",
 		"import/no-cycle": "warn",
+		"import/extensions": [
+			"error",
+			"always",
+			{ "checkTypeImports": true, "ignorePackages": true }
+		],
 		"react/jsx-no-useless-fragment": "warn",
 		"react/rules-of-hooks": "warn",
 		"react/jsx-key": "warn",
