@@ -67,14 +67,14 @@ catalog:
   dompurify: 3.2.5
   electron: 44.4.3
   electron-devtools-installer: 4.0.0
-  eslint: 10.10.0
+  eslint: 10.11.0
   eslint-plugin-oxlint: 1.83.0
   eslint-plugin-perfectionist: 5.11.1
   eslint-plugin-pnpm: 1.9.1
   eslint-plugin-react: 7.37.5
   eslint-plugin-react-refresh: 0.5.7
   eslint-plugin-storybook: 10.6.0
-  eslint-plugin-turbo: 2.10.13
+  eslint-plugin-turbo: 2.11.2
 
   eslint-vitest-rule-tester: 3.2.0
   flubber: 0.4.2
