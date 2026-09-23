@@ -1,26 +1,11 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": [
-    "ts-config/tsconfig.isolated.json"
-  ],
-  "compilerOptions": {
-    "types": [
-      "bun"
-    ],
-    "outDir": "tmp"
-  },
-  "references": [
-    {
-      "path": "../markdown"
-    },
-    {
-      "path": "../eslint-config"
-    },
-    {
-      "path": "../eslint-config-react"
-    },
-    {
-      "path": "../ts-config"
-    }
-  ]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": ["ts-config/tsconfig.isolated.json"],
+	"compilerOptions": { "types": ["bun"], "outDir": "tmp" },
+	"references": [
+		{ "path": "../markdown" },
+		{ "path": "../eslint-config" },
+		{ "path": "../eslint-config-react" },
+		{ "path": "../ts-config" }
+	]
 }

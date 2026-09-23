@@ -1,11 +1,7 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "packages/react-stable"
-    },
-    {
-      "path": "packages/oxlint-config"
-    }
-  ]
+	"files": [],
+	"references": [
+		{ "path": "packages/react-stable" },
+		{ "path": "packages/oxlint-config" }
+	]
 }

@@ -1,20 +1,6 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": [
-    "ts-config/tsconfig.dts.json"
-  ],
-  "compilerOptions": {
-    "outDir": "tmp",
-    "types": [
-      "node"
-    ]
-  },
-  "references": [
-    {
-      "path": "../eslint-config"
-    },
-    {
-      "path": "../ts-config"
-    }
-  ]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": ["ts-config/tsconfig.dts.json"],
+	"compilerOptions": { "outDir": "tmp", "types": ["node"] },
+	"references": [{ "path": "../eslint-config" }, { "path": "../ts-config" }]
 }
