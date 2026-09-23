@@ -1,13 +1,46 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": ["ts-config/tsconfig.json"],
-	"compilerOptions": {
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-
-		// Vite takes care of building everything, not tsc.
-		"noEmit": true,
-		"types": ["unplugin-icons/types/react"]
-	},
-	"include": [".storybook/**/*", "**/*"]
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "ts-config/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    
+    // Vite takes care of building everything, not tsc.
+    "noEmit": true,
+    "types": [
+      "unplugin-icons/types/react"
+    ]
+  },
+  "include": [
+    ".storybook/**/*",
+    "**/*"
+  ],
+  "references": [
+    {
+      "path": "../../packages/design"
+    },
+    {
+      "path": "../../packages/unstyled"
+    },
+    {
+      "path": "../../packages/load-assets"
+    },
+    {
+      "path": "../../packages/m3-react"
+    },
+    {
+      "path": "../../packages/markdown"
+    },
+    {
+      "path": "../../packages/eslint-config"
+    },
+    {
+      "path": "../../packages/eslint-config-react"
+    },
+    {
+      "path": "../../packages/ts-config"
+    }
+  ]
 }

@@ -1,5 +1,26 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": ["ts-config/tsconfig.isolated.json"],
-	"compilerOptions": { "outDir": "tmp", "types": ["node"] }
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "ts-config/tsconfig.isolated.json"
+  ],
+  "compilerOptions": {
+    "outDir": "tmp",
+    "types": [
+      "node"
+    ]
+  },
+  "references": [
+    {
+      "path": "../eslint-config"
+    },
+    {
+      "path": "../eslint-config-react"
+    },
+    {
+      "path": "../ts-config"
+    },
+    {
+      "path": "../utilities"
+    }
+  ]
 }

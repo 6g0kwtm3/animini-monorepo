@@ -1,5 +1,23 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": ["ts-config/tsconfig.isolated.json"],
-	"compilerOptions": { "outDir": "tmp" }
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "ts-config/tsconfig.isolated.json"
+  ],
+  "compilerOptions": {
+    "outDir": "tmp"
+  },
+  "references": [
+    {
+      "path": "../react-stable"
+    },
+    {
+      "path": "../eslint-config"
+    },
+    {
+      "path": "../eslint-config-react"
+    },
+    {
+      "path": "../ts-config"
+    }
+  ]
 }

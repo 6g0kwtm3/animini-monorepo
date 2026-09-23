@@ -1,15 +1,65 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"include": ["**/*", ".react-router/types/**/*"],
-	"extends": ["ts-config/tsconfig.json"],
-	"compilerOptions": {
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"rootDirs": [".", "./.react-router/types"],
-		"paths": { "~/*": ["./app/*"], "#lib/*": ["./app/lib/*"] },
-		// Vite takes care of building everything, not tsc.
-		"noEmit": true,
-		"types": ["unplugin-icons/types/react"]
-	},
-	"exclude": ["dist"]
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "include": [
+    "**/*",
+    ".react-router/types/**/*"
+  ],
+  "extends": [
+    "ts-config/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "rootDirs": [
+      ".",
+      "./.react-router/types"
+    ],
+    "paths": {
+      "~/*": [
+        "./app/*"
+      ],
+      "#lib/*": [
+        "./app/lib/*"
+      ]
+    },
+    "noEmit": true,
+    "types": [
+      "unplugin-icons/types/react"
+    ]
+  },
+  "exclude": [
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "../../packages/react-stable"
+    },
+    {
+      "path": "../../packages/a"
+    },
+    {
+      "path": "../../packages/design"
+    },
+    {
+      "path": "../../packages/unstyled"
+    },
+    {
+      "path": "../../packages/extra-outlet"
+    },
+    {
+      "path": "../../packages/markdown"
+    },
+    {
+      "path": "../../packages/eslint-config"
+    },
+    {
+      "path": "../../packages/eslint-config-react"
+    },
+    {
+      "path": "../../packages/eslint-plugin-relay"
+    },
+    {
+      "path": "../../packages/ts-config"
+    }
+  ]
 }
