@@ -1,5 +1,11 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": ["ts-config/tsconfig.dts.json"],
-	"compilerOptions": { "outDir": "tmp", "types": ["node"] }
+	"compilerOptions": { "outDir": "tmp", "types": ["node"] },
+	"references": [
+		{ "path": "../unstyled" },
+		{ "path": "../eslint-config" },
+		{ "path": "../ts-config" },
+		{ "path": "../utilities" }
+	]
 }
