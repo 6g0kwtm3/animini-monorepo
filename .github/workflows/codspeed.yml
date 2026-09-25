@@ -24,6 +24,7 @@ concurrency:
 
 jobs:
   bench:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     name: Benchmark
     steps:
