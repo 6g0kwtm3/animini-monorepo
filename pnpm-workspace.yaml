@@ -167,3 +167,6 @@ packageExtensions:
   'framer-motion':
     dependencies:
       '@animedes/react-stable': '*'
+
+
+saveTypes: true
