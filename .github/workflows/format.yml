@@ -23,6 +23,7 @@ concurrency:
 
 jobs:
   format:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     name: Lint & Format
     permissions:

@@ -23,6 +23,7 @@ concurrency:
 
 jobs:
   typecheck:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     name: Typecheck
     steps:
@@ -51,6 +52,7 @@ jobs:
         run: pnpm -w check
 
   knip:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
 
     name: Knip
@@ -83,6 +85,7 @@ jobs:
         run: pnpm exec turbo knip
 
   boundaries:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
 
     name: Boundaries
@@ -110,6 +113,7 @@ jobs:
       - name: Boundaries
         run: pnpm -w boundaries
   test:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     name: Test
     steps:

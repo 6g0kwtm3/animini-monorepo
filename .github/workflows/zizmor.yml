@@ -13,6 +13,7 @@ permissions: {}
 
 jobs:
   zizmor:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     permissions:
       security-events: write
