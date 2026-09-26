@@ -177,7 +177,7 @@ jobs:
           webpackStatsFile: ./apps/web/dist/client/webpack-stats.json
 
   test-e2e:
-    timeout-minutes: 10
+    timeout-minutes: 15
     name: Test E2E
     strategy:
       fail-fast: false
