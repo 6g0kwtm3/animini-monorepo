@@ -7,7 +7,7 @@
 	"type": "module",
 	"main": "desktop/index.js",
 	"scripts": {
-		"build": "cross-env NODE_ENV=production react-router build",
+		"build": "NODE_ENV=production react-router build",
 		"check": "tsc --noEmit",
 		"deploy": "wrangler pages deploy ./dist/client",
 		"dev": "react-router dev",
@@ -77,7 +77,6 @@
 		"@playwright/test": "catalog:",
 		"@types/flubber": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
-		"cross-env": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
