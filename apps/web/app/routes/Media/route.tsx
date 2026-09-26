@@ -2,13 +2,10 @@ import {
 	type ClientLoaderFunctionArgs,
 	useLocation,
 	useOutlet,
-	useParams,
-	useRouteLoaderData,
 } from "react-router"
 
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
 
-import { useTooltipStore } from "@ariakit/react"
 import { cloneElement } from "react"
 import ReactRelay from "react-relay"
 import { Card } from "~/components/Card"
@@ -23,13 +20,7 @@ import {
 	MenuListItem,
 	MenuTrigger,
 } from "~/components/Menu"
-import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
-} from "~/components/Tooltip"
-import { button, fab } from "~/lib/button"
-import type { clientLoader as rootLoader } from "~/root"
+import { button } from "~/lib/button"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
 import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
@@ -41,20 +32,16 @@ import { Button } from "~/components/Button"
 
 import type { ReactNode } from "react"
 
-import { A } from "@anitrove/a"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
-import type { Edit_query$key } from "~/gql/Edit_query.graphql"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
-import { m } from "~/lib/paraglide"
 import * as Predicate from "~/lib/Predicate"
-import { route_login, route_media_edit } from "~/lib/route"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
-import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 import type { Route } from "./+types/route"
+import { Edit } from "./Edit"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
@@ -98,7 +85,6 @@ export const meta = ((args) => {
 }) satisfies Route.MetaFunction
 
 import * as design from "@anitrove/design"
-import { useFragment } from "~/lib/Network"
 
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = loaderData
@@ -238,49 +224,5 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 				) : null}
 			</PaneFlexible>
 		</LayoutBody>
-	)
-}
-
-const Edit_query = graphql`
-	fragment Edit_query on Query @throwOnFieldError {
-		Viewer: userFromToken
-	}
-`
-
-function Edit(props: { query: Edit_query$key }) {
-	const { mediaId } = useParams()
-
-	const store = useTooltipStore()
-
-	const root = useFragment(Edit_query, props.query)
-
-	return (
-		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
-			<div className="relative">
-				<TooltipPlain store={store}>
-					<TooltipPlainTrigger
-						render={
-							<A
-								href={
-									root.Viewer != null
-										? route_media_edit({ id: Number(mediaId) })
-										: route_login({
-												redirect: route_media_edit({ id: Number(mediaId) }),
-											})
-								}
-								preventScrollReset={true}
-								className={fab({})}
-								onClick={() => {
-									store.setOpen(false)
-								}}
-							>
-								<MaterialSymbolsEditOutline />
-							</A>
-						}
-					/>
-					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
-				</TooltipPlain>
-			</div>
-		</motion.div>
 	)
 }
