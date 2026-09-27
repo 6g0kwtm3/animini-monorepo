@@ -42,7 +42,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 					isFollowing
 					name
 					options {
-						profileTheme
+						profileTheme @catch(to: NULL)
 					}
 					...User_user @alias
 				}
