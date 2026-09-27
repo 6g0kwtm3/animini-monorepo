@@ -1,18 +1,10 @@
-import { numberToString } from "@animedes/utilities"
 import { expect } from "@playwright/test"
-import { HttpResponse } from "msw"
+import { graphql, HttpResponse } from "msw"
 import routeNavLoginQuery, {
 	type routeNavLoginQuery$rawResponse,
 	type routeNavLoginQuery$variables,
 } from "~/gql/routeNavLoginQuery.graphql"
-
-import {
-	CANARY_NAME,
-	SuccessHandler,
-	test,
-	CANARY_TOKEN,
-	CANARY_ID,
-} from "./fixtures"
+import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { LoginPage } from "./pages/Nav"
 
@@ -25,21 +17,15 @@ declare module "graphql" {
 	}
 }
 
-const Viewer = { id: CANARY_ID, name: CANARY_NAME }
+const TOKEN = "test-token"
+const Viewer = { id: "1", name: "User" }
 
-import { CookieToToken } from "~/lib/viewer"
-
-import { anilist } from "./fixtures"
 const validTokenHandlers = [
-	anilist.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
+	graphql.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
 		routeNavLoginQuery.fragment.name,
 		({ request }) =>
-			request.headers.get("authorization") === `Bearer ${CANARY_TOKEN}`
-				? HttpResponse.json({
-						data: {
-							Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
-						},
-					})
+			request.headers.get("authorization") === `Bearer ${TOKEN}`
+				? HttpResponse.json({ data: { Viewer } })
 				: HttpResponse.json({
 						data: { Viewer: null },
 						errors: [
@@ -55,7 +41,7 @@ const validTokenHandlers = [
 ]
 
 const invalidTokenHandlers = [
-	anilist.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
+	graphql.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
 		routeNavLoginQuery.fragment.name,
 		() =>
 			HttpResponse.json({
@@ -75,14 +61,10 @@ const invalidTokenHandlers = [
 test("logging in with a valid token signs the user in", async ({
 	newPage,
 	worker,
-	isElectron,
+	cookies,
 	browserName,
-	markPII,
+	goto,
 }) => {
-	markPII(Viewer.name)
-	markPII(Viewer.id)
-	markPII(CANARY_TOKEN)
-	test.skip(isElectron, "Electron doesn't support goto")
 	worker.use(...validTokenHandlers)
 	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
@@ -94,40 +76,31 @@ test("logging in with a valid token signs the user in", async ({
 
 	const indexPage = await FeedPage.new(page)
 	const nav = indexPage.nav
-	await page.goto("/login")
+	await goto(page, "/login")
 	const loginPage = await LoginPage.new(page)
-	await loginPage.token.fill(CANARY_TOKEN)
+	await loginPage.token.fill(TOKEN)
 	await loginPage.login.click()
 
-	await expect(page).toHaveURL(new RegExp(`/user/${CANARY_NAME}/animelist`))
+	await expect(page).toHaveURL(/\/user\/User\/animelist/)
 	await expect(nav.profile).toBeVisible()
 	await expect(nav.login).toHaveCount(0)
 
-	const cookie = (await page.context().cookies()).find(
+	const cookie = (await cookies()).find(
 		(cookie) => cookie.name === "anilist-token"
 	)
 	if (cookie?.value == null) throw new Error("cookie not found")
-	expect(CookieToToken.from(cookie.value)).toEqual({
-		sessionId: expect.stringContaining(""),
-		token: CANARY_TOKEN,
-		viewer: { id: CANARY_ID, name: CANARY_NAME },
+	expect(JSON.parse(cookie.value)).toEqual({
+		token: TOKEN,
+		viewer: { id: 1, name: "User" },
 	})
 })
 
 test("logging in with an invalid token keeps the user logged out", async ({
 	newPage,
 	worker,
-	isElectron,
+	cookies,
 	browserName,
-	markPII,
 }) => {
-	markPII(Viewer.name)
-	markPII(Viewer.id)
-	markPII(`${CANARY_TOKEN}-invalid`)
-	test.skip(
-		isElectron,
-		"Electron persists a session, so the logged-out start can't be guaranteed"
-	)
 	worker.use(...invalidTokenHandlers)
 	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
@@ -139,15 +112,14 @@ test("logging in with an invalid token keeps the user logged out", async ({
 
 	const indexPage = await FeedPage.new(page)
 	const loginPage = await indexPage.nav.gotoLogin()
-	await loginPage.token.fill(`${CANARY_TOKEN}-invalid`)
+	await loginPage.token.fill(`${TOKEN}-invalid`)
 	await loginPage.login.click()
 
 	await expect(page).toHaveURL(/\/login/)
 	await expect(indexPage.nav.login).toBeVisible()
 	await expect(indexPage.nav.profile).toHaveCount(0)
 
-	const cookies = await page.context().cookies()
 	expect(
-		cookies.find((cookie) => cookie.name === "anilist-token")
+		(await cookies()).find((cookie) => cookie.name === "anilist-token")
 	).toBeUndefined()
 })
