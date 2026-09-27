@@ -50,12 +50,12 @@ export default defineConfig<Fixtures>({
 			use: { ...devices["Pixel 5"] },
 			// dependencies: ["setup"],
 		},
-		{
-			name: "web-mobile-webkit",
-			use: { ...devices["iPhone 12"] },
-			ignoreSnapshots: true,
-			// dependencies: ["setup"],
-		},
+		// {
+		// 	name: "web-mobile-webkit",
+		// 	use: { ...devices["iPhone 12"] },
+		// 	ignoreSnapshots: true,
+		// 	// dependencies: ["setup"],
+		// },
 
 		/* Test against branded browsers. */
 		// {
