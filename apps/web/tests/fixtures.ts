@@ -7,6 +7,7 @@ import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { graphql, http, HttpResponse, type AnyHandler } from "msw"
 import { join } from "path"
+import { cookieStorePolyfill } from "./cookie-store-polyfill"
 
 function cached<T>(fn: () => T) {
 	let cache: T | undefined
@@ -90,11 +91,11 @@ export const test = base.extend<Fixtures>({
 	},
 
 	async context({ context, electron }, provide) {
-		if (electron == null) {
-			await provide(context)
-			return
-		}
-		await provide(electron.context())
+		const resolved = electron == null ? context : electron.context()
+		// No-op where `cookieStore` is implemented natively, and never runs for
+		// the already-loaded electron window, which is chromium anyway.
+		await resolved.addInitScript(cookieStorePolyfill)
+		await provide(resolved)
 	},
 
 	page() {

@@ -62,17 +62,11 @@ test("logging in with a valid token signs the user in", async ({
 	newPage,
 	worker,
 	isElectron,
-	browserName,
 }) => {
 	test.skip(isElectron, "Electron doesn't support goto")
 	worker.use(...validTokenHandlers)
 	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
-
-	test.skip(
-		browserName === "webkit",
-		"the login flow depends on the Cookie Store API, which WebKit doesn't implement"
-	)
 
 	const indexPage = await FeedPage.new(page)
 	const nav = indexPage.nav
@@ -99,7 +93,6 @@ test("logging in with an invalid token keeps the user logged out", async ({
 	newPage,
 	worker,
 	isElectron,
-	browserName,
 }) => {
 	test.skip(
 		isElectron,
@@ -108,11 +101,6 @@ test("logging in with an invalid token keeps the user logged out", async ({
 	worker.use(...invalidTokenHandlers)
 	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
-
-	test.skip(
-		browserName === "webkit",
-		"the login flow depends on the Cookie Store API, which WebKit doesn't implement"
-	)
 
 	const indexPage = await FeedPage.new(page)
 	const loginPage = await indexPage.nav.gotoLogin()
