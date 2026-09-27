@@ -209,7 +209,7 @@ function watchPage() {
 			cookies: document.cookie
 				.split(";")
 				.map((pair) => pair.trim())
-				.filter((pair) => pair.length > 0)
+				.filter((pair) => pair.length !== 0)
 				.map((pair) => pair.slice(0, pair.indexOf("="))),
 			writes: Array.isArray(writes) ? writes.slice(-2) : null,
 			links: Array.from(document.querySelectorAll("nav a"), (link) =>

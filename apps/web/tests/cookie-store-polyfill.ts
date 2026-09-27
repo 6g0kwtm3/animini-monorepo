@@ -12,7 +12,7 @@ export const cookieStorePolyfill = () => {
 	if ("cookieStore" in window) return
 
 	type SameSite = "lax" | "none" | "strict"
-	type CookieInit = {
+	interface CookieInit {
 		domain?: string
 		expires?: number
 		httpOnly?: boolean
@@ -23,7 +23,7 @@ export const cookieStorePolyfill = () => {
 		secure?: boolean
 		value: string
 	}
-	type CookieListItem = {
+	interface CookieListItem {
 		domain: string
 		expires: number
 		name: string
@@ -77,7 +77,7 @@ export const cookieStorePolyfill = () => {
 				// alone silently reads back a single nameless cookie.
 				.split(";")
 				.map((pair) => pair.trim())
-				.filter((pair) => pair.length > 0)
+				.filter((pair) => pair.length !== 0)
 				.map((pair) => {
 					const separator = pair.indexOf("=")
 					return {
@@ -145,7 +145,7 @@ export const cookieStorePolyfill = () => {
 					expires,
 					init.secure ? "secure" : "",
 				]
-					.filter((attribute) => attribute.length > 0)
+					.filter((attribute) => attribute.length !== 0)
 					.join("; ")
 				// A malformed `expires` makes the whole write get dropped without
 				// a word, so report whether it landed for `fixtures.ts` to snapshot.
