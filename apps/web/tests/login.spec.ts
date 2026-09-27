@@ -61,10 +61,10 @@ const invalidTokenHandlers = [
 test("logging in with a valid token signs the user in", async ({
 	newPage,
 	worker,
-	isElectron,
+	cookies,
 	browserName,
+	goto,
 }) => {
-	test.skip(isElectron, "Electron doesn't support goto")
 	worker.use(...validTokenHandlers)
 	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()
@@ -76,7 +76,7 @@ test("logging in with a valid token signs the user in", async ({
 
 	const indexPage = await FeedPage.new(page)
 	const nav = indexPage.nav
-	await page.goto("/login")
+	await goto(page, "/login")
 	const loginPage = await LoginPage.new(page)
 	await loginPage.token.fill(TOKEN)
 	await loginPage.login.click()
@@ -85,7 +85,7 @@ test("logging in with a valid token signs the user in", async ({
 	await expect(nav.profile).toBeVisible()
 	await expect(nav.login).toHaveCount(0)
 
-	const cookie = (await page.context().cookies()).find(
+	const cookie = (await cookies()).find(
 		(cookie) => cookie.name === "anilist-token"
 	)
 	if (cookie?.value == null) throw new Error("cookie not found")
@@ -98,6 +98,7 @@ test("logging in with a valid token signs the user in", async ({
 test("logging in with an invalid token keeps the user logged out", async ({
 	newPage,
 	worker,
+	cookies,
 	isElectron,
 	browserName,
 }) => {
@@ -123,8 +124,7 @@ test("logging in with an invalid token keeps the user logged out", async ({
 	await expect(indexPage.nav.login).toBeVisible()
 	await expect(indexPage.nav.profile).toHaveCount(0)
 
-	const cookies = await page.context().cookies()
 	expect(
-		cookies.find((cookie) => cookie.name === "anilist-token")
+		(await cookies()).find((cookie) => cookie.name === "anilist-token")
 	).toBeUndefined()
 })

@@ -1,8 +1,9 @@
 import { defineConfig, devices } from "@playwright/test"
-import type { Fixtures } from "./tests/fixtures"
+import { serverUrl } from "./tests/serverUrl"
+import type { Fixtures, WorkerFixtures } from "./tests/fixtures"
 
 /** See https://playwright.dev/docs/test-configuration. */
-export default defineConfig<Fixtures>({
+export default defineConfig<Fixtures & WorkerFixtures>({
 	testDir: "./tests",
 	timeout: 60000,
 	expect: { timeout: 10000 },
@@ -17,7 +18,7 @@ export default defineConfig<Fixtures>({
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
 		/* Base URL to use in actions like `await page.goto('/')`. */
-		baseURL: process.env.BASE_URL ?? "http://localhost:3000",
+		baseURL: serverUrl,
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: "on-first-retry",
