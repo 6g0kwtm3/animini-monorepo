@@ -99,13 +99,8 @@ test("logging in with an invalid token keeps the user logged out", async ({
 	newPage,
 	worker,
 	cookies,
-	isElectron,
 	browserName,
 }) => {
-	test.skip(
-		isElectron,
-		"Electron persists a session, so the logged-out start can't be guaranteed"
-	)
 	worker.use(...invalidTokenHandlers)
 	await using page = await newPage()
 	await expect(page.getByTestId("hydrated")).toBeVisible()

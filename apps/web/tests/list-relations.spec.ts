@@ -1,6 +1,5 @@
-import type { BrowserContext, Locator, Page } from "@playwright/test"
+import type { Locator, Page } from "@playwright/test"
 import { expect } from "@playwright/test"
-import { type } from "arktype"
 import { graphql, HttpResponse } from "msw"
 import type {
 	routeNavUserListEntriesQuery$rawResponse,
@@ -10,8 +9,6 @@ import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
-import { invariant } from "~/lib/invariant"
-import { Token } from "~/lib/viewer"
 import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
@@ -142,27 +139,6 @@ const handlers = [
 	SuccessHandler,
 ]
 
-function login(context: BrowserContext) {
-	const cookies = [
-		{
-			name: `anilist-token`,
-			value: invariant(
-				type("object.json.stringify")(
-					invariant(Token({ token: "", viewer: Viewer }))
-				)
-			),
-			sameSite: "Lax",
-			expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-			// node doesn't support Temporal
-			// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
-			path: "/",
-			domain: "localhost",
-		},
-	] satisfies Parameters<BrowserContext["addCookies"]>[0]
-
-	return context.addCookies(cookies)
-}
-
 class UserPage {
 	animeList: Locator
 	mangaList: Locator
@@ -182,10 +158,10 @@ class UserPage {
 test("sync is offered when completed media contains planned media", async ({
 	worker,
 	newPage,
-	context,
+	login,
 }) => {
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
@@ -202,10 +178,10 @@ test("sync is offered when completed media contains planned media", async ({
 test("add to list is offered when current media contains media without an entry", async ({
 	worker,
 	newPage,
-	context,
+	login,
 }) => {
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
