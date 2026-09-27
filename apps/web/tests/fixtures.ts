@@ -41,6 +41,7 @@ export const SuccessHandler = graphql.operation<object>(async (args) => {
 
 interface Options {
 	isElectron: boolean
+	_reuseContext: boolean
 }
 export interface Fixtures extends Options {
 	handlers: AnyHandler[]
@@ -101,11 +102,14 @@ export const test = base.extend<Fixtures>({
 		throw new Error("Use `newPage` instead")
 	},
 
-	async newPage({ context, electron }, provide) {
+	async newPage({ context, electron, _reuseContext }, provide) {
 		await provide(async () => {
 			if (electron == null) {
-				const page = await context.newPage()
-				await page.goto("/")
+				let [page] = _reuseContext ? context.pages() : []
+				if (!page) {
+					page = await context.newPage()
+					await page.goto("/")
+				}
 				return page
 			}
 
