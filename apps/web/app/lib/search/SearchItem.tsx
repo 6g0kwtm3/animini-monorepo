@@ -55,8 +55,7 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 					<A
 						href={route_media({ id: Number(data.id) })}
 						title={data.title.userPreferred}
-						onMouseEnter={prefetch}
-						onFocus={prefetch}
+						onPrefetch={prefetch}
 					/>
 				}
 			>

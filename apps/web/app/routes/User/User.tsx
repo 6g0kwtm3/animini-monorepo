@@ -63,7 +63,12 @@ export function User({ user, ...props }: UserProps): ReactNode {
 			<TabsList className="md:tabs-grow">
 				<TabsListItem
 					id="undefined"
-					render={<A href={route_user({ userName: data.name })}></A>}
+					render={
+						<A
+							clientMiddleware={clientMiddleware}
+							href={route_user({ userName: data.name })}
+						></A>
+					}
 				>
 					Overview
 				</TabsListItem>
@@ -71,6 +76,7 @@ export function User({ user, ...props }: UserProps): ReactNode {
 					id="animelist"
 					render={
 						<A
+							clientMiddleware={clientMiddleware}
 							href={route_user_list({
 								userName: data.name,
 								typelist: "animelist",

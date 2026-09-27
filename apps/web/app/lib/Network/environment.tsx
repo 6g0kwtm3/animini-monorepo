@@ -28,7 +28,14 @@ const fetchQuery = async function (
 	cacheConfig: CacheConfig,
 	uploadables?: null | UploadableMap
 ): Promise<WithRetry<typeof GraphQLResponse.inferOut>> {
-	let token = (await cookieStore.get("anilist-token"))?.value
+	let signal = type(["instanceof", AbortSignal])(cacheConfig.metadata?.signal)
+	if (signal instanceof ArkErrors) {
+		signal = undefined
+	}
+	signal?.throwIfAborted()
+
+	let token = await cookieStore.get("anilist-token")?.value
+	signal?.throwIfAborted()
 
 	if (isString(token)) {
 		const parsedToken = JsonToToken(token)
@@ -55,19 +62,25 @@ const fetchQuery = async function (
 		body: body,
 		method: "POST",
 		headers,
+		signal,
 	})
+	signal?.throwIfAborted()
 
 	const rawRetryAfter = request.headers.get("retry-after")
 	const retryAfter = Number(rawRetryAfter)
 	if (isFinite(retryAfter) && retryAfter > 0) {
+		const text = await request.text()
+		signal?.throwIfAborted()
 		return {
 			kind: "Retry",
 			retryAfter: retryAfter + 1,
-			cause: { headers: request.headers, text: await request.text() },
+			cause: { headers: request.headers, text: text },
 		}
 	}
 
-	const response = invariant(GraphQLResponse(await request.json()))
+	const json = await request.json()
+	signal?.throwIfAborted()
+	const response = invariant(GraphQLResponse(json))
 
 	return { kind: "Data", data: response }
 }
@@ -82,13 +95,17 @@ const rateLimiter =
 
 const rateLimitedFetch = rateLimiter
 	? (input: string | URL, init?: RequestInit): Promise<Response> =>
-			rateLimiter.execute(() => fetch(input, init))
+			rateLimiter.execute(() => fetch(input, init), { signal: init?.signal })
 	: fetch
 
 // Create a network layer from the fetch function
-const network = Network.create((...args) =>
-	withRetry(() => fetchQuery(...args), { maxRetries: 5 })
-)
+const network = Network.create((...args) => {
+	let signal = type(["instanceof", AbortSignal])(args[2].metadata?.signal)
+	if (signal instanceof ArkErrors) {
+		signal = undefined
+	}
+	return withRetry(() => fetchQuery(...args), { maxRetries: 5, signal })
+})
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace globalThis {

@@ -54,19 +54,19 @@ export const loadQueryMiddleware: Route.MiddlewareFunction = (
 	{ context },
 	next
 ) => {
-	context.set(loadQuery, (query, ...args) => {
+	context.set(loadQuery, (query, variables, options) => {
 		const signal = context.get(onAbortNavigationSignal)
-		if (signal.aborted) {
-			throw signal.reason
-		}
-		const queryRef = loadQuery_(environment, query, ...args)
-		signal.addEventListener(
-			"abort",
-			() => {
-				queryRef.dispose()
+		signal.throwIfAborted()
+		const queryRef = loadQuery_(environment, query, variables, {
+			...options,
+			networkCacheConfig: {
+				...options?.networkCacheConfig,
+				metadata: { ...options?.networkCacheConfig?.metadata, signal },
 			},
-			{ once: true }
-		)
+		})
+		signal.addEventListener("abort", () => {
+			queryRef.dispose()
+		})
 		return [query, queryRef]
 	})
 
