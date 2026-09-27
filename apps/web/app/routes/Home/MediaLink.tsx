@@ -60,7 +60,7 @@ function MediaCard(props: { mediaId: number; type: string }) {
 						userPreferred
 					}
 					coverImage {
-						theme
+						theme @catch(to: NULL)
 					}
 					...MediaCover_media @alias
 				}

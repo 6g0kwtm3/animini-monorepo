@@ -50,7 +50,7 @@ const MediaListItem_media = graphql`
 		...MediaCover_media @alias
 		...MediaTitle_media @alias
 		coverImage {
-			theme
+			theme @catch(to: NULL)
 		}
 	}
 `
