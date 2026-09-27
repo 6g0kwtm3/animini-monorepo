@@ -25,14 +25,14 @@ catalog:
   '@graphql-eslint/eslint-plugin': 4.4.1
   '@graphql-tools/mock': 9.1.14
   '@hono/node-server': 2.1.1
-  '@iconify-json/material-symbols': 1.2.92
+  '@iconify-json/material-symbols': 1.2.93
   '@inlang/paraglide-js': 2.25.4
   '@material/material-color-utilities': 0.4.0
   '@msw/playwright': 0.6.7
   '@playwright/test': 1.63.0
   '@react-router/dev': 8.4.0
   '@react-router/node': 8.4.0
-  '@sentry/react': npm:@sentry/react-router@10.75.0
+  '@sentry/react': npm:@sentry/react-router@10.75.3
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
   '@storybook/addon-a11y': 10.6.0
@@ -64,7 +64,7 @@ catalog:
   babel-plugin-react-compiler: 1.0.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 44.4.3
+  electron: 44.4.5
   electron-devtools-installer: 4.0.0
   eslint: 10.11.0
   eslint-plugin-oxlint: 1.85.0
@@ -79,14 +79,14 @@ catalog:
   flubber: 0.4.2
   graphql: 17.0.2
   graphql-config: 5.1.7
-  hono: 4.13.8
+  hono: 4.13.9
   isbot: 5.2.2
-  knip: 6.37.0
+  knip: 6.38.0
   marked: 0.3.19
-  motion: 13.4.0
+  motion: 13.4.3
   msw: 2.15.0
   nodemon: 3.1.14
-  oxfmt: 0.68.0
+  oxfmt: 0.70.0
   oxlint: 1.85.0
   oxlint-tsgolint: 7.0.2003
   prop-types: 15.8.1
@@ -101,7 +101,7 @@ catalog:
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.3
-  tsx: 4.23.13
+  tsx: 4.23.15
   turbo: 2.11.4
   typescript: npm:@typescript/typescript6@6.0.2
   typescript-eslint: 8.70.1
@@ -112,7 +112,7 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
-  wrangler: 4.135.0
+  wrangler: 4.138.0
 
 catalogMode: strict
 
