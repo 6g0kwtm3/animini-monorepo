@@ -64,7 +64,6 @@ export interface SessionCookie {
 
 interface ElectronTestHooks {
 	openWindow: (partition: string) => Promise<void>
-	closeWindows: () => void
 }
 
 const TOKEN_COOKIE = `anilist-token`
@@ -103,11 +102,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 
 			const app = await _electron.launch({
 				args: ["."],
-				env: {
-					...process.env,
-					ANIMEDES_ELECTRON_TEST: "1",
-					EXISTING_SERVER_URL: serverUrl,
-				},
+				env: { ...process.env, ELECTRON_TEST_SERVER_URL: serverUrl },
 			})
 
 			await provide(app)
@@ -137,18 +132,14 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 	},
 
 	async newPage({ context, electron, partition, _reuseContext }, provide) {
-		let opened: Page | undefined
-
 		await provide(async () => {
-			if (opened) return opened
-
 			if (electron == null) {
 				let [page] = _reuseContext ? context.pages() : []
 				if (!page) {
 					page = await context.newPage()
 					await page.goto("/")
 				}
-				opened = page
+
 				return page
 			}
 
@@ -160,15 +151,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 					.__animedesTest
 				await hooks.openWindow(partition)
 			}, partition)
-			opened = await window
-			return opened
-		})
-
-		await opened?.close().catch(() => undefined)
-		await electron?.evaluate(({ app }) => {
-			const hooks = (app as unknown as { __animedesTest: ElectronTestHooks })
-				.__animedesTest
-			hooks.closeWindows()
+			return await window
 		})
 	},
 
