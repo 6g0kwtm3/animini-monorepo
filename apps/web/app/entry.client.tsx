@@ -5,6 +5,7 @@ import {
 	reactErrorHandler,
 	reactRouterTracingIntegration,
 	replayIntegration,
+	consoleLoggingIntegration,
 } from "@sentry/react"
 import { startTransition, StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
@@ -20,14 +21,14 @@ init({
 			? `production`
 			: "preview",
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
-	sendDefaultPii: true,
+
 	integrations: [
+		consoleLoggingIntegration(),
 		graphqlClientIntegration({ endpoints: [API_URL] }),
 		tracing,
 		replayIntegration(),
 	],
 
-	enableLogs: true,
 	tracesSampleRate: 1.0, //  Capture 100% of the transactions
 
 	// Set `tracePropagationTargets` to declare which URL(s) should have trace propagation enabled
