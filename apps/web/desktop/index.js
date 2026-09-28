@@ -1,34 +1,32 @@
 import path, { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 import config from "../react-router.config.ts"
-import { app, BrowserWindow, session } from "electron"
+import { app, BrowserWindow } from "electron"
 import { RouterContextProvider } from "react-router"
 import { initRemix } from "./remix-electron.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-/** @type {string | undefined} */
+// Test-only: Playwright sets this to run the app against its own server.
+const testServerUrl = process.env.ELECTRON_TEST_SERVER_URL
+
+/**
+ * @typedef {object} TestHooks
+ * @property {(partition: string) => Promise<void>} openWindow
+ * @property {() => void} closeWindows
+ */
+
+/** @type {Promise<string> | string | undefined} */
 let url
 
-async function createWindow() {
-	const mainSession = session.fromPartition("persist:")
+/**
+ * @param {string} [partition] Session partition, defaults to the app's own.
+ */
+async function createWindow(partition) {
 	const win = new BrowserWindow({
 		show: false,
-		webPreferences: { session: mainSession },
+		webPreferences: { partition: partition ?? "persist:" },
 	})
-
-	url ??=
-		process.env.EXISTING_SERVER_URL
-		?? (await initRemix({
-			buildDirectory: config.buildDirectory,
-			serverBuild: path.join(
-				__dirname,
-				"..",
-				config.buildDirectory,
-				"server/index.js"
-			),
-			getLoadContext: () => new RouterContextProvider(),
-		}))
 
 	void win.once("ready-to-show", () => {
 		win.show()
@@ -37,29 +35,61 @@ async function createWindow() {
 	if (process.env.NODE_ENV === "development") {
 		win.webContents.openDevTools()
 	}
-	await win.loadURL(url)
+	url ??= initRemix({
+		buildDirectory: config.buildDirectory,
+		serverBuild: path.join(
+			__dirname,
+			"..",
+			config.buildDirectory,
+			"server/index.js"
+		),
+		getLoadContext: () => new RouterContextProvider(),
+	})
+	await win.loadURL(await url)
 }
 
-void app.whenReady().then(async () => {
-	if (process.env.NODE_ENV === "development") {
-		const { default: installExtension, REACT_DEVELOPER_TOOLS } =
-			await import("electron-devtools-installer")
+// Test-only: Playwright opens one window per test, each on its own session
+// partition, so that no cookie or cache outlives the test that created it.
+if (testServerUrl) {
+	url = testServerUrl
 
-		if (typeof installExtension === "function")
-			await installExtension(REACT_DEVELOPER_TOOLS)
+	/** @type {TestHooks} */
+	const hooks = {
+		async openWindow(partition) {
+			await app.whenReady()
+			await createWindow(partition)
+		},
 	}
 
-	void createWindow()
+	app.__animedesTest = hooks
 
-	void app.on("activate", () => {
-		if (BrowserWindow.getAllWindows().length === 0) {
-			void createWindow()
+	// Playwright launches one app per worker and reuses it across tests. Each test
+	// closes its window when it ends, so without this listener Electron's default
+	// "quit once the last window is closed" behaviour would kill the app in the
+	// middle of the run and every following test would fail.
+	void app.on("window-all-closed", () => undefined)
+} else {
+	void app.whenReady().then(async () => {
+		if (process.env.NODE_ENV === "development") {
+			const { default: installExtension, REACT_DEVELOPER_TOOLS } =
+				await import("electron-devtools-installer")
+
+			if (typeof installExtension === "function")
+				await installExtension(REACT_DEVELOPER_TOOLS)
+		}
+
+		void createWindow()
+
+		void app.on("activate", () => {
+			if (BrowserWindow.getAllWindows().length === 0) {
+				void createWindow()
+			}
+		})
+	})
+
+	void app.on("window-all-closed", () => {
+		if (process.platform !== "darwin") {
+			app.quit()
 		}
 	})
-})
-
-void app.on("window-all-closed", () => {
-	if (process.platform !== "darwin") {
-		app.quit()
-	}
-})
+}

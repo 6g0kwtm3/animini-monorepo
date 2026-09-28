@@ -7,6 +7,7 @@ import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { graphql, http, HttpResponse, type AnyHandler } from "msw"
 import { join } from "path"
+import { serverUrl } from "./serverUrl"
 
 function cached<T>(fn: () => T) {
 	let cache: T | undefined
@@ -41,16 +42,33 @@ export const SuccessHandler = graphql.operation<object>(async (args) => {
 
 interface Options {
 	isElectron: boolean
+	_reuseContext: boolean
 }
-export interface Fixtures extends Options {
+export interface WorkerFixtures extends Options {
+	electron: ElectronApplication | null
+}
+export interface Fixtures {
 	handlers: AnyHandler[]
 	worker: NetworkFixture
-	electron: ElectronApplication | null
+	partition: string | undefined
+	goto: (page: Page, path: string) => Promise<void>
 	newPage: () => Promise<Page>
+	cookies: () => Promise<readonly SessionCookie[]>
 	login: (viewer: typeof Viewer.infer) => Promise<void>
 }
 
-export const test = base.extend<Fixtures>({
+export interface SessionCookie {
+	name: string
+	value: string
+}
+
+interface ElectronTestHooks {
+	openWindow: (partition: string) => Promise<void>
+}
+
+const TOKEN_COOKIE = `anilist-token`
+
+export const test = base.extend<Fixtures, WorkerFixtures>({
 	// Initial list of the network handlers.
 	handlers: [
 		[http.post("https://graphql.anilist.co", () => HttpResponse.error())],
@@ -69,25 +87,29 @@ export const test = base.extend<Fixtures>({
 		{ auto: true },
 	],
 
-	isElectron: [false, { option: true }],
+	isElectron: [false, { option: true, scope: "worker" }],
 
-	async electron({ baseURL, isElectron }, provide) {
-		if (isElectron) {
+	partition({ isElectron }, provide, testInfo) {
+		return provide(isElectron ? `test-${testInfo.testId}` : undefined)
+	},
+
+	electron: [
+		async ({ isElectron }, provide) => {
+			if (!isElectron) {
+				await provide(null)
+				return
+			}
+
 			const app = await _electron.launch({
 				args: ["."],
-				env: {
-					...process.env,
-					...(baseURL ? { EXISTING_SERVER_URL: baseURL } : {}),
-				},
-				// env: { HONO_PORT: String(5137 + testInfo.workerIndex) },
+				env: { ...process.env, ELECTRON_TEST_SERVER_URL: serverUrl },
 			})
 
 			await provide(app)
 			await app.close()
-			return
-		}
-		await provide(null)
-	},
+		},
+		{ scope: "worker" },
+	],
 
 	async context({ context, electron }, provide) {
 		if (electron == null) {
@@ -101,33 +123,91 @@ export const test = base.extend<Fixtures>({
 		throw new Error("Use `newPage` instead")
 	},
 
-	async newPage({ context, electron }, provide) {
-		await provide(async () => {
-			if (electron == null) {
-				const page = await context.newPage()
-				await page.goto("/")
-				return page
-			}
-
-			const page = await electron.firstWindow()
-			return page
+	// Playwright does not give Electron's browser context a `baseURL`, so
+	// relative `page.goto()` calls fail there. We resolve app paths ourselves.
+	goto: async ({}, use) => {
+		await use(async (page: Page, path: string) => {
+			await page.goto(new URL(path, serverUrl).href)
 		})
 	},
 
-	login({ context }, provide) {
+	async newPage({ context, electron, partition, _reuseContext }, provide) {
+		await provide(async () => {
+			if (electron == null) {
+				let [page] = _reuseContext ? context.pages() : []
+				if (!page) {
+					page = await context.newPage()
+					await page.goto("/")
+				}
+
+				return page
+			}
+
+			if (partition == null) throw new Error("Missing Electron partition")
+
+			const window = electron.waitForEvent("window")
+			await electron.evaluate(async ({ app }, partition) => {
+				const hooks = (app as unknown as { __animedesTest: ElectronTestHooks })
+					.__animedesTest
+				await hooks.openWindow(partition)
+			}, partition)
+			return await window
+		})
+	},
+
+	cookies({ context, electron, partition }, provide) {
+		return provide(async () => {
+			if (electron == null) {
+				const cookies = await context.cookies()
+				return cookies.map(({ name, value }) => ({ name, value }))
+			}
+
+			if (partition == null) throw new Error("Missing Electron partition")
+
+			return await electron.evaluate(async ({ session }, partition) => {
+				const cookies = await session.fromPartition(partition).cookies.get({})
+				return cookies.map(({ name, value }) => ({ name, value }))
+			}, partition)
+		})
+	},
+
+	login({ context, electron, partition }, provide) {
 		return provide(async (viewer: typeof Viewer.infer) => {
-			await context.addCookies([
-				{
-					name: `anilist-token`,
-					value: JSON.stringify({ token: "", viewer }),
-					sameSite: "Lax",
-					expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-					// node doesn't support Temporal
-					// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
-					path: "/",
-					domain: "localhost",
+			const value = JSON.stringify({ token: "", viewer })
+			const expires = Date.now() / 1000 + 8 * 7 * 24 * 60 * 60 // 8 weeks
+			// node doesn't support Temporal
+			// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
+
+			if (electron == null) {
+				await context.addCookies([
+					{
+						name: TOKEN_COOKIE,
+						value,
+						sameSite: "Lax",
+						expires,
+						path: "/",
+						domain: "localhost",
+					},
+				])
+				return
+			}
+
+			if (partition == null) throw new Error("Missing Electron partition")
+
+			await electron.evaluate(
+				async ({ session }, { partition, name, value, expires }) => {
+					await session
+						.fromPartition(partition)
+						.cookies.set({
+							url: `http://localhost/`,
+							name,
+							value,
+							expirationDate: expires,
+							sameSite: "lax",
+						})
 				},
-			])
+				{ partition, name: TOKEN_COOKIE, value, expires }
+			)
 		})
 	},
 })
