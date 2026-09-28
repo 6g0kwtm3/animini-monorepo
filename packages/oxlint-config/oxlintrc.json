@@ -48,6 +48,23 @@
 		"react/jsx-no-useless-fragment": "warn",
 		"react/rules-of-hooks": "warn",
 		"react/jsx-key": "warn",
+		"react/only-export-components": [
+			"warn",
+			{
+				"allowExportNames": [
+					"meta",
+					"links",
+					"headers",
+					"shouldRevalidate",
+					"handler",
+					"loader",
+					"action",
+					"clientLoader",
+					"clientAction",
+					"clientMiddleware"
+				]
+			}
+		],
 		"typescript/no-non-null-assertion": "warn",
 		"no-non-null-asserted-nullish-coalescing": "warn",
 		"typescript/no-unnecessary-condition": [

@@ -330,9 +330,6 @@ catalogs:
     eslint-plugin-react:
       specifier: 7.37.5
       version: 7.37.5
-    eslint-plugin-react-refresh:
-      specifier: 0.5.7
-      version: 0.5.7
     eslint-plugin-storybook:
       specifier: 10.6.0
       version: 10.6.0
@@ -909,9 +906,6 @@ importers:
       eslint-plugin-react:
         specifier: 'catalog:'
         version: 7.37.5(eslint@10.11.0)
-      eslint-plugin-react-refresh:
-        specifier: 'catalog:'
-        version: 0.5.7(eslint@10.11.0)
       oxlint-config:
         specifier: workspace:@animedes/oxlint-config@*
         version: link:../oxlint-config
@@ -5748,11 +5742,6 @@ packages:
     resolution: {integrity: sha512-8++1Egww2cqc9Wylmt7P+xXNMQVCosAZ4m4W4Gc0V5lGea8HFByHTRvUI+ZvvpO8fLXGg2O4MQc90EhuI3mMdQ==}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
-
-  eslint-plugin-react-refresh@0.5.7:
-    resolution: {integrity: sha512-XhJSzLljuYD4UjNuFGJu2v7aD3sqNVK12w5/DCUfrNfHWegZo2+TsavNx8MuxMwEquuFAzNbNfXKU0WoZ+YUIg==}
-    peerDependencies:
-      eslint: ^9 || ^10
 
   eslint-plugin-react@7.37.5:
     resolution: {integrity: sha512-Qteup0SqU15kdocexFNAJMvCJEfa2xUKNV4CC1xsVMrIIqEy3SQ/rqyxCWNzfrd3/ldy6HMlD2e0JDVpDg2qIA==}
@@ -12453,10 +12442,6 @@ snapshots:
       yaml-eslint-parser: 2.1.0
     transitivePeerDependencies:
       - '@eslint/json'
-
-  eslint-plugin-react-refresh@0.5.7(eslint@10.11.0):
-    dependencies:
-      eslint: 10.11.0(jiti@2.7.0)(supports-color@10.2.2)
 
   eslint-plugin-react@7.37.5(eslint@10.11.0):
     dependencies:
