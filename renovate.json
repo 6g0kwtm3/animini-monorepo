@@ -22,7 +22,8 @@
 		{ "groupName": "test", "extends": ["packages:test"] },
 		{ "groupName": "eslint", "matchPackageNames": ["/eslint/"] },
 		{ "groupName": "oxlint", "matchPackageNames": ["/oxlint/"] },
-		{ "groupName": "prettier", "matchPackageNames": ["/prettier/"] }
+		{ "groupName": "prettier", "matchPackageNames": ["/prettier/"] },
+		{ "groupName": "msw", "matchPackageNames": ["msw", "@msw/**"] }
 	],
 	"lockFileMaintenance": { "automerge": true },
 	"automergeType": "branch",
