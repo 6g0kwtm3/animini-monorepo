@@ -12,6 +12,7 @@ dependencies:
   apm:
     - PatrykWalach/skills
     - mattpocock/skills
+    - enesgules/dotfiles/skills/optimise-github-actions
   mcp: []
 includes: auto
 scripts: {}

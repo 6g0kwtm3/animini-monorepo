@@ -2,4 +2,5 @@
 idiomatic_version_file_enable_tools = ['pnpm', 'node']
 
 [tools]
+gh = "latest"
 "github:microsoft/apm" = "0.32.0"
