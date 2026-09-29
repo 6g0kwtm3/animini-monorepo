@@ -1,7 +1,8 @@
 import type { BrowserContext, Locator, Page } from "@playwright/test"
 import { expect } from "@playwright/test"
 import { type } from "arktype"
-import { graphql, HttpResponse } from "msw"
+import { graphql } from "msw/graphql"
+import { HttpResponse } from "msw"
 import type {
 	AddToListMutation$rawResponse,
 	AddToListMutation$variables,
@@ -41,9 +42,9 @@ class UserPage {
 		return new UserPage(page)
 	}
 }
-
+import { anilist } from "./fixtures"
 const Viewer = { id: 1, name: "User" }
-const AddToListMutationSuccess = graphql.mutation<
+const AddToListMutationSuccess = anilist.mutation<
 	AddToListMutation$rawResponse,
 	AddToListMutation$variables
 >("AddToListMutation", ({ variables }) =>
@@ -87,7 +88,7 @@ const AddToListMutationSuccess = graphql.mutation<
 	})
 )
 
-const SyncMediaMutationSuccess = graphql.mutation<
+const SyncMediaMutationSuccess = anilist.mutation<
 	SyncMediaMutation$rawResponse,
 	SyncMediaMutation$variables
 >("SyncMediaMutation", ({ variables }) =>
@@ -140,7 +141,7 @@ const SyncMediaMutationSuccess = graphql.mutation<
 )
 
 const handlers = [
-	graphql.query<
+	anilist.query<
 		routeNavUserListEntriesQuery$rawResponse,
 		routeNavUserListEntriesQuery$variables
 	>("routeNavUserListEntriesQuery", () =>
@@ -199,7 +200,7 @@ const handlers = [
 			},
 		})
 	),
-	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+	anilist.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
 		"routeNavUserQuery",
 		() =>
 			HttpResponse.json({

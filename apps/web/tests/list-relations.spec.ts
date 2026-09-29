@@ -1,7 +1,8 @@
 import type { BrowserContext, Locator, Page } from "@playwright/test"
 import { expect } from "@playwright/test"
 import { type } from "arktype"
-import { graphql, HttpResponse } from "msw"
+import { HttpResponse } from "msw"
+import { graphql } from "msw/graphql"
 import type {
 	routeNavUserListEntriesQuery$rawResponse,
 	routeNavUserListEntriesQuery$variables,
@@ -12,7 +13,7 @@ import type {
 } from "~/gql/routeNavUserQuery.graphql"
 import { invariant } from "~/lib/invariant"
 import { Token } from "~/lib/viewer"
-import { SuccessHandler, test } from "./fixtures"
+import { anilist, SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 import { numberToString } from "../app/lib/numberToString"
@@ -65,7 +66,7 @@ const entry = (
 })
 
 const handlers = [
-	graphql.query<
+	anilist.query<
 		routeNavUserListEntriesQuery$rawResponse,
 		routeNavUserListEntriesQuery$variables
 	>("routeNavUserListEntriesQuery", () =>
@@ -122,7 +123,7 @@ const handlers = [
 			},
 		})
 	),
-	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+	anilist.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
 		"routeNavUserQuery",
 		() =>
 			HttpResponse.json({

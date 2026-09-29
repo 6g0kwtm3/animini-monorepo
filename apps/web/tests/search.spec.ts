@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test"
-import { graphql, HttpResponse } from "msw"
+import { HttpResponse } from "msw"
+import { graphql } from "msw/graphql"
 import routeNavMediaQuery, {
 	type routeNavMediaQuery$rawResponse,
 	type routeNavMediaQuery$variables,
@@ -11,9 +12,9 @@ import routeNavSearchQuery, {
 import { SuccessHandler, test } from "./fixtures"
 import { MediaPage } from "./pages/MediaPage"
 import { SearchPage } from "./pages/SearchPage"
-
+import { anilist } from "./fixtures"
 const handlers = [
-	graphql.query<routeNavSearchQuery$rawResponse, routeNavSearchQuery$variables>(
+	anilist.query<routeNavSearchQuery$rawResponse, routeNavSearchQuery$variables>(
 		routeNavSearchQuery.fragment.name,
 		() =>
 			HttpResponse.json({
@@ -43,7 +44,7 @@ const handlers = [
 				},
 			})
 	),
-	graphql.query<routeNavMediaQuery$rawResponse, routeNavMediaQuery$variables>(
+	anilist.query<routeNavMediaQuery$rawResponse, routeNavMediaQuery$variables>(
 		routeNavMediaQuery.fragment.name,
 		() =>
 			HttpResponse.json({

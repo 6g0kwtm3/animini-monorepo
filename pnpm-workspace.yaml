@@ -28,7 +28,7 @@ catalog:
   '@iconify-json/material-symbols': 1.2.93
   '@inlang/paraglide-js': 2.25.4
   '@material/material-color-utilities': 0.4.0
-  '@msw/playwright': 0.6.7
+  '@msw/playwright': 0.7.0
   '@playwright/test': 1.63.0
   '@react-router/dev': 8.4.0
   '@react-router/node': 8.4.0
@@ -83,7 +83,7 @@ catalog:
   knip: 6.38.0
   marked: 0.3.19
   motion: 13.4.4
-  msw: 2.15.0
+  msw: 3.0.0
   nodemon: 3.1.14
   oxfmt: 0.70.0
   oxlint: 1.85.0
