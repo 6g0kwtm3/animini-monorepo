@@ -5,8 +5,11 @@ import { addMocksToSchema } from "@graphql-tools/mock"
 import { _electron } from "@playwright/test"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
-import { graphql, http, HttpResponse, type AnyHandler } from "msw"
+import { http, HttpResponse, type AnyHandler } from "msw"
+import { graphql } from "msw/graphql"
 import { join } from "path"
+
+export const anilist = graphql.link("https://graphql.anilist.co")
 
 function cached<T>(fn: () => T) {
 	let cache: T | undefined
@@ -29,7 +32,7 @@ const schema = cached(async () => {
 	return addMocksToSchema({ schema: buildSchema(raw) })
 })
 
-export const SuccessHandler = graphql.operation<object>(async (args) => {
+export const SuccessHandler = anilist.operation<object>(async (args) => {
 	return HttpResponse.json(
 		await execute({
 			document: parse(args.query),
@@ -52,10 +55,7 @@ export interface Fixtures extends Options {
 
 export const test = base.extend<Fixtures>({
 	// Initial list of the network handlers.
-	handlers: [
-		[http.post("https://graphql.anilist.co", () => HttpResponse.error())],
-		{ option: true },
-	],
+	handlers: [[anilist.operation(() => HttpResponse.error())], { option: true }],
 
 	// A fixture you use to control the network in your tests.
 	worker: [

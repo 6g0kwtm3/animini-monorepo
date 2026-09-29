@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test"
-import { graphql, HttpResponse } from "msw"
+import { HttpResponse } from "msw"
+import { graphql } from "msw/graphql"
 import routeNavLoginQuery, {
 	type routeNavLoginQuery$rawResponse,
 	type routeNavLoginQuery$variables,
@@ -19,9 +20,9 @@ declare module "graphql" {
 
 const TOKEN = "test-token"
 const Viewer = { id: "1", name: "User" }
-
+import { anilist } from "./fixtures"
 const validTokenHandlers = [
-	graphql.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
+	anilist.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
 		routeNavLoginQuery.fragment.name,
 		({ request }) =>
 			request.headers.get("authorization") === `Bearer ${TOKEN}`
@@ -41,7 +42,7 @@ const validTokenHandlers = [
 ]
 
 const invalidTokenHandlers = [
-	graphql.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
+	anilist.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
 		routeNavLoginQuery.fragment.name,
 		() =>
 			HttpResponse.json({
