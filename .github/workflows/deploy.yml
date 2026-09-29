@@ -224,11 +224,11 @@ jobs:
         timeout-minutes: 5
 
       - name: Install electron 📦
-        if: steps.affected-test-e2e.outcome == 'failure' && matrix.project == 'electron'
+        if: steps.affected-test-e2e.outcome == 'failure' && github.ref_name != github.event.repository.default_branch && matrix.project == 'electron'
         run: pnpm --filter=web exec install-electron
 
       - name: Install xvfb 📦
-        if: steps.affected-test-e2e.outcome == 'failure' && github.ref_name != github.event.repository.default_branch && matrix.os == 'ubuntu-latest' && matrix.project == 'electron'
+        if: steps.affected-test-e2e.outcome == 'failure' && github.ref_name != github.event.repository.default_branch && matrix.project == 'electron' && matrix.os == 'ubuntu-latest'
         run: sudo apt install -y xvfb
 
       - name: Test E2E
