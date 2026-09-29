@@ -17,7 +17,7 @@ const exec = promisify(execFile);
 const args = process.argv.slice(2);
 const option = (name, fallback) => {
   const i = args.indexOf(`--${name}`);
-  return i >= 0 ? args[i + 1] : fallback;
+  return i !== -1 ? args[i + 1] : fallback;
 };
 const repo = args.find((a, i) => a.includes("/") && !args[i - 1]?.startsWith("--"));
 if (!repo) {
@@ -118,7 +118,7 @@ console.log(`- Runs: ${runs.length}; jobs that ran: ${ran.length}`);
 console.log(`- Billed minutes (standard hosted runners, Linux-minute equivalents): **${round(total)}** (about ${round((total * 30) / days)} a month)`);
 console.log(`- Rounding each job up to a whole minute adds ${round(total - raw)} (${pct(total - raw, total)})`);
 console.log(`- Cancelled jobs: ${round(sum(hosted.filter((j) => j.conclusion === "cancelled"), billed))} billed minutes; failed jobs: ${round(sum(hosted.filter((j) => j.conclusion === "failure"), billed))}`);
-if (other.length) {
+if (other.length !== 0) {
   const groups = [...new Set(other.map((j) => j.runnerGroup))].join(", ");
   console.log(`- Other runner groups (${groups}): ${round(sum(other, minutes))} minutes, not in the total. Self-hosted minutes are free; larger runners bill at their own rate.`);
 }
@@ -175,7 +175,7 @@ for (const r of runs.filter((r) => r.event === "pull_request")) {
   const k = `${r.name} :: ${r.head_branch}`;
   prRuns.set(k, (prRuns.get(k) ?? 0) + 1);
 }
-if (prRuns.size) {
+if (prRuns.size !== 0) {
   const counts = [...prRuns.values()].sort((a, b) => a - b);
   console.log(`\n## Pull request churn\n\n- Runs per branch and workflow: median ${quantile(counts, 0.5)}, max ${counts.at(-1)} (${prRuns.size} branch/workflow pairs)`);
 }
