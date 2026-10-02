@@ -23,7 +23,6 @@ import { route_user } from "~/lib/route"
 
 // console.log(R)
 
-
 import { type clientLoader as rootLoader } from "~/root"
 
 import { A } from "@anitrove/a"

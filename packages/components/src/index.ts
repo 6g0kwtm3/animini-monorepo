@@ -34,7 +34,11 @@ export {
 	MenuListItem,
 	MenuTrigger,
 } from "./Menu"
-export { Navigation, NavigationItem, NavigationItemLargeBadge } from "./Navigation"
+export {
+	Navigation,
+	NavigationItem,
+	NavigationItemLargeBadge,
+} from "./Navigation"
 export { Rating } from "./Rating"
 export {
 	SearchView,

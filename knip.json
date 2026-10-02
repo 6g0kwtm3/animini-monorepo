@@ -23,7 +23,13 @@
 			"paths": {
 				"~icons/*": ["../../node_modules/unplugin-icons/types/react.d.ts"]
 			},
-			"ignore": ["src/Chip.tsx", "src/Dialog.tsx", "src/Rating.tsx", "src/Select.tsx", "src/SelectOption.tsx"]
+			"ignore": [
+				"src/Chip.tsx",
+				"src/Dialog.tsx",
+				"src/Rating.tsx",
+				"src/Select.tsx",
+				"src/SelectOption.tsx"
+			]
 		},
 		"packages/m3-react": { "ignoreDependencies": ["m3-core"] }
 	}
