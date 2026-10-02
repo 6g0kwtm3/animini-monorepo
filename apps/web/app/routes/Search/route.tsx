@@ -3,10 +3,7 @@ import { type ClientLoaderFunctionArgs } from "react-router"
 
 import ReactRelay from "react-relay"
 import { Card } from "@animedes/components/Card"
-import {
-	LayoutBody,
-	LayoutPane,
-} from "@animedes/components/Layout"
+import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import { List } from "@animedes/components/List"
 import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
 import { client_get_client } from "~/lib/client"

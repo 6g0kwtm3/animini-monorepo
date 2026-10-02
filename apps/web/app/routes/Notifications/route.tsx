@@ -9,10 +9,7 @@ import type {
 import { Form, redirect } from "react-router"
 import * as listStyles from "@animedes/components/List.styles"
 import { Card } from "@animedes/components/Card"
-import {
-	LayoutBody,
-	LayoutPane,
-} from "@animedes/components/Layout"
+import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import { List } from "@animedes/components/List"
 import {
 	TooltipPlain,
@@ -20,7 +17,6 @@ import {
 	TooltipPlainTrigger,
 } from "@animedes/components/Tooltip"
 import { fab } from "@animedes/components/button.styles"
-
 
 import { media } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"

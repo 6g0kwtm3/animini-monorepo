@@ -1,9 +1,6 @@
 import * as Ariakit from "@ariakit/react"
 
-import {
-	List,
-	Subheader,
-} from "@animedes/components/List"
+import { List, Subheader } from "@animedes/components/List"
 import {
 	SearchViewBody,
 	SearchViewBodyGroup,

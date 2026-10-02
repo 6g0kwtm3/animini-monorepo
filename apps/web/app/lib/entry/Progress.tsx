@@ -23,11 +23,7 @@ import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
 import { numberToString } from "@animedes/components/numberToString"
-import {
-	Button,
-	ButtonIcon,
-	Icon,
-} from "@animedes/components/Button"
+import { Button, ButtonIcon, Icon } from "@animedes/components/Button"
 import {
 	Menu,
 	MenuItemLeadingIcon,

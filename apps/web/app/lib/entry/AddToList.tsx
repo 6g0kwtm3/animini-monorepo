@@ -3,10 +3,7 @@ import ReactRelay, { useMutation } from "react-relay"
 import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off"
 
 import { CompositeItem } from "@ariakit/react"
-import {
-	Button,
-	ButtonIcon,
-} from "@animedes/components/Button"
+import { Button, ButtonIcon } from "@animedes/components/Button"
 
 import type { FragmentRefs } from "relay-runtime"
 import type { AddToListMutation } from "~/gql/AddToListMutation.graphql"

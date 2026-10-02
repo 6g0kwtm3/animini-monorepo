@@ -32,7 +32,6 @@ import MaterialSymbolsEdit from "~icons/material-symbols/edit"
 import MaterialSymbolsKeyboardCommandKey from "~icons/material-symbols/keyboard-command-key"
 import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
-
 import type { ReactNode } from "react"
 
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"

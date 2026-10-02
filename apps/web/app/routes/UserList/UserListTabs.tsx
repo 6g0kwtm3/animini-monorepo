@@ -1,10 +1,7 @@
 import { useSearchParams } from "react-router"
 import * as Order from "~/lib/Order"
 
-import {
-	TabsList,
-	TabsListItem,
-} from "@animedes/components/Tabs"
+import { TabsList, TabsListItem } from "@animedes/components/Tabs"
 import { numberToString } from "@animedes/components/numberToString"
 
 import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"

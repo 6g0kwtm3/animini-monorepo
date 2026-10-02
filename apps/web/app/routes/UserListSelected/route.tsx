@@ -17,10 +17,7 @@ import { Suspense, useState } from "react"
 import * as Ariakit from "@ariakit/react"
 import { Card } from "@animedes/components/Card"
 import { List } from "@animedes/components/List"
-import {
-	Loading,
-	Skeleton,
-} from "@animedes/components/Skeleton"
+import { Loading, Skeleton } from "@animedes/components/Skeleton"
 import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
 
 import { client_get_client } from "~/lib/client"

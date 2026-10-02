@@ -5,10 +5,7 @@ import {
 	TextFieldOutlinedInput,
 } from "@animedes/components/TextField"
 import { ButtonIcon as ButtonTextIcon } from "@animedes/components/Button"
-import {
-	LayoutBody,
-	LayoutPane,
-} from "@animedes/components/Layout"
+import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import { button } from "@animedes/components/button.styles"
 
 import type { ReactNode } from "react"

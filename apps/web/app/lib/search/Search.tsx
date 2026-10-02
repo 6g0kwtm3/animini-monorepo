@@ -15,10 +15,7 @@ import {
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
 } from "@animedes/components/Tooltip"
-import {
-	List,
-	Subheader,
-} from "@animedes/components/List"
+import { List, Subheader } from "@animedes/components/List"
 import {
 	SearchView,
 	SearchViewBody,

@@ -12,20 +12,11 @@ import {
 } from "react-router"
 
 import type { ReactNode } from "react"
-import {
-	AppBar,
-	AppBarTitle,
-} from "@animedes/components/AppBar"
+import { AppBar, AppBarTitle } from "@animedes/components/AppBar"
 import { Icon } from "@animedes/components/Button"
 import { Card } from "@animedes/components/Card"
-import {
-	Checkbox,
-	Radio,
-} from "@animedes/components/Checkbox"
-import {
-	LayoutBody,
-	LayoutPane,
-} from "@animedes/components/Layout"
+import { Checkbox, Radio } from "@animedes/components/Checkbox"
+import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import {
 	List,
 	ListItem,
@@ -33,10 +24,7 @@ import {
 	ListItemContentTitle,
 	Subheader,
 } from "@animedes/components/List"
-import {
-	Sheet,
-	SheetBody,
-} from "@animedes/components/Sheet"
+import { Sheet, SheetBody } from "@animedes/components/Sheet"
 import {
 	Tabs,
 	TabsList,

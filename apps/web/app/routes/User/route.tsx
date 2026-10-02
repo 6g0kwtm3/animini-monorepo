@@ -10,24 +10,12 @@ import {
 
 import ReactRelay from "react-relay"
 import { Icon } from "@animedes/components/Button"
-import {
-	AppBar,
-	AppBarTitle,
-} from "@animedes/components/AppBar"
+import { AppBar, AppBarTitle } from "@animedes/components/AppBar"
 import { Card } from "@animedes/components/Card"
 import { button } from "@animedes/components/button.styles"
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-} from "@animedes/components/Breadcrumb"
-import {
-	LayoutBody,
-	LayoutPane,
-} from "@animedes/components/Layout"
-import {
-	Tabs,
-	TabsPanel,
-} from "@animedes/components/Tabs"
+import { Breadcrumb, BreadcrumbItem } from "@animedes/components/Breadcrumb"
+import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
+import { Tabs, TabsPanel } from "@animedes/components/Tabs"
 
 import { m } from "~/lib/paraglide"
 
