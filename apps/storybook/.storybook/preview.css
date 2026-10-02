@@ -3,6 +3,6 @@
 /* Reuse the app config so Chromatic snapshots match what the app renders. */
 @config "../../web/tailwind.config.ts";
 
-@source "../../../packages/components/src";
+@source "../node_modules/@animedes/components/src";
 @source "../stories";
 @source "../.storybook";
