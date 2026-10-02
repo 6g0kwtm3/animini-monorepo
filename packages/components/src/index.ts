@@ -1,3 +1,4 @@
+// oxlint-disable oxc/no-barrel-file -- this file is the package entrypoint
 export { AppBar, AppBarTitle } from "./AppBar"
 export { Badge } from "./Badge"
 export { Breadcrumb, BreadcrumbItem } from "./Breadcrumb"
