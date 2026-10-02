@@ -6,7 +6,7 @@ import fallback from "@anitrove/design/theme"
 
 import { utilities } from "@anitrove/design"
 
-// import "./index.css"
+import "./preview.css"
 
 const preview = {
 	parameters: {
