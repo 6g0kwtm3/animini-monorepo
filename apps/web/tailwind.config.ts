@@ -5,11 +5,10 @@ import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 
-import { list, navigation, searchView } from "@animedes/components/tailwind"
-import { numberToString, Predicate } from "@animedes/components"
+import { list, navigation, numberToString, Predicate, searchView } from "@animedes/components/tailwind"
 
 export const config = {
-	content: ["app/**/*.{ts,tsx}", "../../packages/components/src/**/*.{ts,tsx}"],
+	content: ["app/**/*.{ts,tsx}"],
 
 	theme: {
 		screens: { sm: "600px", md: "840px", lg: "1200px", xl: "1600px" },

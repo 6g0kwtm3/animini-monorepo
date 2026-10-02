@@ -1,3 +1,5 @@
+export { numberToString } from "../numberToString"
+export * as Predicate from "../Predicate"
 export { classGroups as listClassGroups, list } from "./list"
 export { classGroups as navigationClassGroups, navigation } from "./navigation"
 export { classGroups as searchViewClassGroups, searchView } from "./search-view"
