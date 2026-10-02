@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@anitrove/design": "workspace:@animedes/design@*",
+		"@animedes/components": "workspace:@animedes/components@*",
 		"load-assets": "workspace:@animedes/load-assets@*",
 		"m3-react": "workspace:@animedes/m3-react@*",
 		"markdown": "workspace:@animedes/markdown@*",
@@ -20,12 +21,14 @@
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",
+		"@iconify-json/material-symbols": "catalog:",
 		"@storybook/addon-a11y": "catalog:",
 		"@storybook/addon-docs": "catalog:",
 		"@storybook/addon-onboarding": "catalog:",
 		"@storybook/addon-themes": "catalog:",
 		"@storybook/addon-vitest": "catalog:",
 		"@storybook/react-vite": "catalog:",
+		"@tailwindcss/vite": "catalog:",
 		"@types/prop-types": "catalog:",
 		"@types/react": "catalog:",
 		"csstype": "catalog:",
@@ -36,9 +39,11 @@
 		"prop-types": "catalog:",
 		"react": "catalog:",
 		"storybook": "catalog:",
+		"tailwindcss": "catalog:",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"tsx": "catalog:",
 		"unplugin-icons": "catalog:",
+		"unplugin-macros": "catalog:",
 		"vite": "catalog:"
 	}
 }
