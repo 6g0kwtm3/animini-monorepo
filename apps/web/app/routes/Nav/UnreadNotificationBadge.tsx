@@ -7,7 +7,9 @@ import {
 	Navigation,
 	NavigationItem,
 	NavigationItemLargeBadge,
-} from "~/components/Navigation"
+	Layout,
+	fab,
+} from "@animedes/components"
 import { SearchTrending } from "~/lib/search/SearchTrending"
 import { Suspense, type ReactNode } from "react"
 import { route_login, route_user, route_user_list } from "~/lib/route"
@@ -24,13 +26,11 @@ import MaterialSymbolsFeedOutline from "~icons/material-symbols/feed-outline"
 import MaterialSymbolsPlayArrow from "~icons/material-symbols/play-arrow"
 import MaterialSymbolsPlayArrowOutline from "~icons/material-symbols/play-arrow-outline"
 
-import { Layout } from "~/components/Layout"
 
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
-import { fab } from "~/lib/button"
 import {
 	loadQuery,
 	usePreloadedQuery,

@@ -1,17 +1,18 @@
 import { create } from "@anitrove/unstyled"
-import { Skeleton } from "~/components/Skeleton"
-import { m } from "~/lib/paraglide"
-
-import ReactRelay from "react-relay"
-
-import type { ReactNode } from "react"
 import {
+	Skeleton,
 	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle,
 	ListItemContentTitle,
 	ListItemImg,
-} from "~/components/List"
+	Badge,
+} from "@animedes/components"
+import { m } from "~/lib/paraglide"
+
+import ReactRelay from "react-relay"
+
+import type { ReactNode } from "react"
 
 import MaterialSymbolsStarOutline from "~icons/material-symbols/star-outline"
 import MaterialSymbolsTimerOutline from "~icons/material-symbols/timer-outline"
@@ -32,12 +33,11 @@ import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
 
 import { Box } from "@anitrove/unstyled/box"
-import { Badge } from "~/components/Badge"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
 } from "~/gql/MediaListItemSubtitle_entry.graphql"
-import * as Predicate from "~/lib/Predicate"
+import { Predicate } from "@animedes/components"
 import { useFragment } from "../Network"
 import { MediaTitle } from "./MediaTitle"
 

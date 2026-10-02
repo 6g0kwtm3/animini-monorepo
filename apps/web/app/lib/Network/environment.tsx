@@ -16,7 +16,7 @@ import { addBreadcrumb } from "@sentry/react"
 import { ArkErrors, type } from "arktype"
 
 import { invariant } from "../invariant"
-import { isString } from "../Predicate"
+import { isString } from "@animedes/components"
 import { RateLimiter } from "./RateLimiter"
 import { withRetry, type WithRetry } from "./withRetry"
 const { ROOT_TYPE } = RelayRuntime

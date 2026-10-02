@@ -1,11 +1,12 @@
 import * as Ariakit from "@ariakit/react"
 
-import { List, Subheader } from "~/components/List"
 import {
+	List,
+	Subheader,
 	SearchViewBody,
 	SearchViewBodyGroup,
 	SearchViewItem,
-} from "~/components/SearchView"
+} from "@animedes/components"
 
 import { SearchItem } from "./SearchItem"
 

@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router"
 import * as Order from "~/lib/Order"
 
-import { TabsList, TabsListItem } from "~/components/Tabs"
+import { TabsList, TabsListItem, numberToString } from "@animedes/components"
 
 import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 
@@ -13,7 +13,6 @@ import {
 	usePreloadedQuery,
 	type NodeAndQueryFragment,
 } from "~/lib/Network"
-import { numberToString } from "~/lib/numberToString"
 
 const { graphql } = ReactRelay
 

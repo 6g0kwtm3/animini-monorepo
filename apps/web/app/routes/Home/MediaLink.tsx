@@ -2,15 +2,15 @@ import { ErrorBoundary } from "@sentry/react"
 import type { ComponentProps } from "react"
 import { Suspense } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
-import { Card } from "~/components/Card"
 import {
+	Card,
 	List,
 	ListItem,
 	ListItemContent,
 	ListItemImg,
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle,
-} from "~/components/List"
+} from "@animedes/components"
 
 import { route_media } from "~/lib/route"
 

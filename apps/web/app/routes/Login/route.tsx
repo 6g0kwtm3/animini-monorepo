@@ -3,13 +3,14 @@ import { redirect, useFetcher } from "react-router"
 import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput,
-} from "~/components/TextField"
+	ButtonIcon as ButtonTextIcon,
+	LayoutBody,
+	LayoutPane,
+	button,
+} from "@animedes/components"
 
 import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { ButtonIcon as ButtonTextIcon } from "~/components/Button"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { button } from "~/lib/button"
 
 import { setUser } from "@sentry/react"
 import type { routeNavLoginQuery as NavLoginQuery } from "~/gql/routeNavLoginQuery.graphql"

@@ -7,22 +7,23 @@ import type {
 	MetaFunction,
 } from "react-router"
 import { Form, redirect } from "react-router"
-import { Card } from "~/components/Card"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { List } from "~/components/List"
 import {
+	Card,
+	LayoutBody,
+	LayoutPane,
+	List,
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
-} from "~/components/Tooltip"
+	fab,
+	listStyles,
+} from "@animedes/components"
 
-import { fab } from "~/lib/button"
 
 import { media } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import type { ReactNode } from "react"
-import { Lines } from "~/components/List.styles"
 import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { client_get_client } from "~/lib/client"
@@ -132,7 +133,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 					<div className="-mx-4 sm:-my-4">
 						<List
 							style={precompileStyles({
-								[Lines.name]: { base: "three", [media.sm]: "two" },
+								[listStyles.Lines.name]: { base: "three", [media.sm]: "two" },
 							})}
 						>
 							{notifications?.map((notification, i) => {

@@ -8,9 +8,10 @@ import { AnimatePresence } from "motion/react"
 
 import { cloneElement } from "react"
 import ReactRelay from "react-relay"
-import { Card } from "~/components/Card"
-import { LayoutBody, LayoutPane as PaneFlexible } from "~/components/Layout"
 import {
+	Card,
+	LayoutBody,
+	LayoutPane as PaneFlexible,
 	Menu,
 	MenuDivider,
 	MenuItemLeadingIcon,
@@ -19,8 +20,9 @@ import {
 	MenuList,
 	MenuListItem,
 	MenuTrigger,
-} from "~/components/Menu"
-import { button } from "~/lib/button"
+	button,
+	Button,
+} from "@animedes/components"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"
 import MaterialSymbolsContentCopy from "~icons/material-symbols/content-copy"
@@ -28,7 +30,6 @@ import MaterialSymbolsEdit from "~icons/material-symbols/edit"
 import MaterialSymbolsKeyboardCommandKey from "~icons/material-symbols/keyboard-command-key"
 import MaterialSymbolsVisibility from "~icons/material-symbols/visibility"
 
-import { Button } from "~/components/Button"
 
 import type { ReactNode } from "react"
 
@@ -37,7 +38,7 @@ import * as Ariakit from "@ariakit/react"
 import type { routeNavMediaQuery } from "~/gql/routeNavMediaQuery.graphql"
 import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
-import * as Predicate from "~/lib/Predicate"
+import { Predicate } from "@animedes/components"
 import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import type { Route } from "./+types/route"

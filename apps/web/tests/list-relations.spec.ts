@@ -16,7 +16,7 @@ import { Token } from "~/lib/viewer"
 import { anilist, SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
-import { numberToString } from "../app/lib/numberToString"
+import { numberToString } from "@animedes/components"
 
 const Viewer = { id: 1, name: "User" }
 

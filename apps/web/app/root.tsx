@@ -12,11 +12,17 @@ import {
 	type LinksFunction,
 	type MiddlewareFunction,
 } from "react-router"
-import { SnackbarQueue } from "./components/Snackbar"
+import {
+	SnackbarQueue,
+	Card,
+	LayoutBody,
+	LayoutPane,
+	Layout as M3Layout,
+	numberToString,
+} from "@animedes/components"
 
 import * as Ariakit from "@ariakit/react"
 import { type ReactNode } from "react"
-import { Card } from "./components/Card"
 
 import theme from "@anitrove/design/theme"
 
@@ -39,13 +45,11 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 
 import fonts from "@anitrove/design/fonts"
 import { precompileStyles } from "@anitrove/unstyled"
-import { LayoutBody, LayoutPane, Layout as M3Layout } from "./components/Layout"
 import {
 	onAbortNavigationMiddleware,
 	useSetupOnAbortNavigation,
 } from "./lib/abort-signal-middleware"
 import { LoadingIndicator } from "./lib/loading-renderer"
-import { numberToString } from "./lib/numberToString"
 
 const fontWeights = [
 	...new Set(Object.values(fonts).map((font) => font.fontWeight)),

@@ -6,7 +6,7 @@ import {
 	ListItemContent,
 	ListItemContentTitle,
 	ListItemTrailingSupportingText,
-} from "~/components/List"
+} from "@animedes/components"
 
 import { A } from "@anitrove/a"
 import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
