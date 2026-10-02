@@ -5,7 +5,13 @@ import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 
-import { list, navigation, numberToString, Predicate, searchView } from "@animedes/components/tailwind"
+import {
+	list,
+	navigation,
+	numberToString,
+	Predicate,
+	searchView,
+} from "@animedes/components/tailwind"
 
 export const config = {
 	content: ["app/**/*.{ts,tsx}"],
