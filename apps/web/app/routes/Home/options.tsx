@@ -1,7 +1,7 @@
 // console.log(R)
 
 import { type Options } from "markdown/Markdown"
-import * as Predicate from "~/lib/Predicate"
+import * as Predicate from "@animedes/components/Predicate"
 import { MediaLink } from "./MediaLink"
 import { UserLink } from "./UserLink"
 
