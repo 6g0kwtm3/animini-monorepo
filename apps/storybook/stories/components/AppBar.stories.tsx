@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import {
-	AppBar,
-	AppBarTitle,
-} from "@animedes/components/AppBar"
+import { AppBar, AppBarTitle } from "@animedes/components/AppBar"
 
 const meta = {
 	title: "Components/AppBar",
