@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Reuse the app config so Chromatic snapshots match what the app renders. */
+@config "../../web/tailwind.config.ts";
+
+@source "../node_modules/@animedes/components/src";
+@source "../stories";
+@source "../.storybook";
