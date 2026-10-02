@@ -45,6 +45,7 @@ import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
 import { SearchRecentMedia } from "~/lib/search/SearchRecentMedia"
 import { SearchViewBody } from "~/components/SearchView"
+import { usePrefetch } from "@anitrove/a/prefetch"
 
 const { graphql } = ReactRelay
 
@@ -200,12 +201,45 @@ function ViewerButtons(props: {
 		return <LoginLink />
 	}
 
+	const prefetchUser = usePrefetch(
+		`/user/:userName`,
+		{ userName: viewer.name },
+		(args) => {
+			import("../User/route").then(({ clientLoader }) => clientLoader(args))
+		}
+	)
+
+	const prefetchAnimeList = usePrefetch(
+		`/user/:userName/:typelist/:selected?`,
+		{ userName: viewer.name, typelist: "animelist" },
+		(args) => {
+			import("../User/route").then(({ clientLoader }) => clientLoader(args))
+			import("../UserList/route").then(({ clientLoader }) => clientLoader(args))
+			import("../UserListSelected/route").then(({ clientLoader }) =>
+				clientLoader(args)
+			)
+		}
+	)
+
+	const prefetchMangaList = usePrefetch(
+		`/user/:userName/:typelist/:selected?`,
+		{ userName: viewer.name, typelist: "mangalist" },
+		(args) => {
+			import("../User/route").then(({ clientLoader }) => clientLoader(args))
+			import("../UserList/route").then(({ clientLoader }) => clientLoader(args))
+			import("../UserListSelected/route").then(({ clientLoader }) =>
+				clientLoader(args)
+			)
+		}
+	)
+
 	return (
 		<>
 			<NavigationItem
 				href={route_user({ userName: viewer.name })}
 				icon={<MaterialSymbolsPersonOutline />}
 				activeIcon={<MaterialSymbolsPerson />}
+				onPrefetch={prefetchUser}
 			>
 				Profile
 			</NavigationItem>
@@ -214,6 +248,7 @@ function ViewerButtons(props: {
 				href={route_user_list({ userName: viewer.name, typelist: "animelist" })}
 				icon={<MaterialSymbolsPlayArrowOutline />}
 				activeIcon={<MaterialSymbolsPlayArrow />}
+				onPrefetch={prefetchAnimeList}
 			>
 				Anime List
 			</NavigationItem>
@@ -222,6 +257,7 @@ function ViewerButtons(props: {
 				className="max-sm:hidden"
 				icon={<MaterialSymbolsMenuBookOutline />}
 				activeIcon={<MaterialSymbolsMenuBook />}
+				onPrefetch={prefetchMangaList}
 			>
 				Manga List
 			</NavigationItem>

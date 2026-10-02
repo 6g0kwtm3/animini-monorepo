@@ -10,16 +10,10 @@ export interface BoxProps extends Omit<RoleProps, "className" | "style"> {
 export function Box({ style, ...props }: BoxProps): ReactNode {
 	const [className, jsx, dynamicVars] = useStyles(mergeStyles(style))
 
-	const children = (
+	return (
 		<>
-			<Role {...props} className={className}></Role>
+			<Role {...props} className={className} style={dynamicVars}></Role>
 			{jsx}
 		</>
-	)
-
-	return Object.keys(dynamicVars).length !== 0 ? (
-		<div style={{ ...dynamicVars, display: "contents" }}>{children}</div>
-	) : (
-		children
 	)
 }

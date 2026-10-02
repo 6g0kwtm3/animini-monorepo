@@ -40,24 +40,50 @@ export class RateLimiter {
 		this.key = key
 	}
 
-	execute<T>(fn: () => T): Promise<Awaited<T>> {
+	execute<T>(
+		fn: () => T,
+		options: { readonly signal?: AbortSignal | null }
+	): Promise<Awaited<T>> {
+		options.signal?.throwIfAborted()
 		return new Promise<Awaited<T>>((resolve, reject) => {
-			void this.queue.push({
+			const controller = new AbortController()
+			const signal = options.signal
+			signal?.addEventListener(
+				"abort",
+				() => {
+					const newLocal = this.queue.indexOf(entry)
+					console.assert(newLocal != -1)
+
+					const [removed] = this.queue.splice(newLocal, 1)
+
+					console.assert(removed === entry)
+
+					reject(
+						Error.isError(signal?.reason)
+							? signal?.reason
+							: new Error("Aborted", { cause: options.signal?.reason })
+					)
+				},
+				{ signal: controller.signal }
+			)
+
+			const entry: QueuedEntry = {
 				reject,
 				run: async () => {
+					controller.abort()
 					try {
 						resolve(await fn())
 					} catch (error) {
-						if (error instanceof Error) {
-							reject(error)
-						} else {
-							reject(
-								new Error(`RateLimiter execution failed`, { cause: error })
-							)
-						}
+						reject(
+							Error.isError(error)
+								? error
+								: new Error(`RateLimiter execution failed`, { cause: error })
+						)
 					}
 				},
-			})
+			}
+
+			void this.queue.push(entry)
 			void this.run().catch(() => {
 				//
 			})
@@ -74,10 +100,9 @@ export class RateLimiter {
 				try {
 					claim = await this.claimToken()
 				} catch (error) {
-					const reason =
-						error instanceof Error
-							? error
-							: new Error(`RateLimiter claim failed`, { cause: error })
+					const reason = Error.isError(error)
+						? error
+						: new Error(`RateLimiter claim failed`, { cause: error })
 					for (const entry of this.queue) {
 						entry.reject(reason)
 					}
