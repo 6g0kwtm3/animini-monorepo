@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { ChipFilter, ChipFilterCheckbox, ChipFilterRadio } from "@animedes/components"
+import {
+	ChipFilter,
+	ChipFilterCheckbox,
+	ChipFilterRadio,
+} from "@animedes/components"
 
 const meta = {
 	title: "Components/ChipFilter",

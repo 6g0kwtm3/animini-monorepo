@@ -52,7 +52,12 @@ export const WithIcon = {
 		<Button {...args}>
 			<Icon>
 				<svg viewBox="0 0 24 24" aria-hidden focusable={false}>
-					<path d="M12 4v16m8-8H4" fill="none" stroke="currentColor" strokeWidth="2" />
+					<path
+						d="M12 4v16m8-8H4"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+					/>
 				</svg>
 			</Icon>
 			Add

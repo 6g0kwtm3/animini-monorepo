@@ -24,13 +24,16 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const body = "Cards group related content and actions. The variant sets the container style."
+const body =
+	"Cards group related content and actions. The variant sets the container style."
 
 export const Outlined: Story = { args: { variant: "outlined" } }
 export const Filled: Story = { args: { variant: "filled" } }
 export const Elevated: Story = { args: { variant: "elevated" } }
 
-export const Interactive: Story = { args: { variant: "outlined", interactive: true } }
+export const Interactive: Story = {
+	args: { variant: "outlined", interactive: true },
+}
 
 export const AllVariants = {
 	render: (args) => (
