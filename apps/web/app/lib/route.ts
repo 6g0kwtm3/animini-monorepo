@@ -1,4 +1,4 @@
-import { numberToString } from "./numberToString"
+import { numberToString } from "@animedes/components"
 
 interface Path {
 	pathname: Pathname

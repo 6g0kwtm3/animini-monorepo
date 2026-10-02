@@ -9,10 +9,20 @@ import {
 } from "react-router"
 
 import ReactRelay from "react-relay"
-import { Icon } from "~/components/Button"
+import {
+	Icon,
+	AppBar,
+	AppBarTitle,
+	Card,
+	button,
+	Breadcrumb,
+	BreadcrumbItem,
+	LayoutBody,
+	LayoutPane,
+	Tabs,
+	TabsPanel,
+} from "@animedes/components"
 
-import { AppBar, AppBarTitle } from "~/components/AppBar"
-import { Card } from "~/components/Card"
 import { m } from "~/lib/paraglide"
 
 import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
@@ -55,16 +65,12 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 }
 
 import * as Ariakit from "@ariakit/react"
-import { button } from "~/lib/button"
 import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 import { A } from "@anitrove/a"
 import * as design from "@anitrove/design"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import { data as json } from "react-router"
-import { Breadcrumb, BreadcrumbItem } from "~/components/Breadcrumb"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
-import { Tabs, TabsPanel } from "~/components/Tabs"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)

@@ -1,11 +1,5 @@
 /// <reference types="@react-router/node" />
 /// <reference types="vite/client" />
-
-declare module "react" {
-	// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-	interface CSSProperties {
-		[key: `--${string}`]: number | string
-	}
-}
+/// <reference path="../../packages/components/src/react.d.ts" />
 
 export {}

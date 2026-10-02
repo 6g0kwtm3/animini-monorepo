@@ -12,19 +12,23 @@
 				"~icons/*": ["../../node_modules/unplugin-icons/types/react.d.ts"]
 			},
 			"playwright": { "entry": ["**/*.@(spec|test|setup).?(c|m)[jt]s?(x)"] },
-			"ignore": [
-				"app/components/Chip.tsx",
-				"app/components/Dialog.tsx",
-				"app/components/Rating.tsx",
-				"app/components/Select.tsx",
-				"app/components/SelectOption.tsx",
-				"app/lib/menu.tsx",
-				"app/lib/dialog.tsx"
-			],
+			"ignore": ["app/lib/dialog.tsx"],
 			"entry": ["env.ts", "app/lib/urql.ts", "app/paraglide/**", "app/gql/**"],
 			"ignoreDependencies": [
 				"@iconify-json/material-symbols",
 				"@svgr/plugin-jsx"
+			]
+		},
+		"packages/components": {
+			"paths": {
+				"~icons/*": ["../../node_modules/unplugin-icons/types/react.d.ts"]
+			},
+			"ignore": [
+				"src/Chip.tsx",
+				"src/Dialog.tsx",
+				"src/Rating.tsx",
+				"src/Select.tsx",
+				"src/SelectOption.tsx"
 			]
 		},
 		"packages/m3-react": { "ignoreDependencies": ["m3-core"] }

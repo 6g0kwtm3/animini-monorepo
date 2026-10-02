@@ -1,15 +1,16 @@
 import { ErrorBoundary } from "@sentry/react"
 import { useId, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { Card } from "~/components/Card"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
+	Card,
+	LayoutBody,
+	LayoutPane,
 	List,
 	ListItem,
 	ListItemContent,
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle,
-} from "~/components/List"
+} from "@animedes/components"
 import { stable } from "@animedes/react-stable"
 // console.log(R)
 

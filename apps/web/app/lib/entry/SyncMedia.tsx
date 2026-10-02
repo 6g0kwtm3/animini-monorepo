@@ -1,6 +1,6 @@
 import { CompositeItem } from "@ariakit/react"
 import ReactRelay, { useMutation } from "react-relay"
-import { Button, ButtonIcon } from "~/components/Button"
+import { Button, ButtonIcon } from "@animedes/components"
 import type { SyncMedia_entry_plural$key } from "~/gql/SyncMedia_entry_plural.graphql"
 import type { SyncMedia_mediaListCollection$key } from "~/gql/SyncMedia_mediaListCollection.graphql"
 import type { SyncMedia_source$key } from "~/gql/SyncMedia_source.graphql"

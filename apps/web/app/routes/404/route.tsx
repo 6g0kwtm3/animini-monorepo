@@ -1,4 +1,4 @@
-import { LayoutBody, LayoutPane } from "~/components/Layout"
+import { LayoutBody, LayoutPane } from "@animedes/components"
 
 export default function NotFound() {
 	return (

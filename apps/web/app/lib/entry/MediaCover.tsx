@@ -6,14 +6,14 @@ import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
 
-import { tv } from "~/lib/tailwind-variants"
+import { tv } from "@animedes/components"
 
 const cover = tv({
 	base: "bg-cover bg-center object-cover object-center in-[.transitioning]:[view-transition-name:media-cover]",
 })
 
 import * as Ariakit from "@ariakit/react"
-import { numberToString } from "../numberToString"
+import { numberToString } from "@animedes/components"
 
 interface MediaCoverProps extends Ariakit.RoleProps<"img"> {
 	media: MediaCover_media$key

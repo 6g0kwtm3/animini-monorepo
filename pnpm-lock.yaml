@@ -609,6 +609,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@animedes/components':
+        specifier: workspace:@animedes/components@*
+        version: link:../../packages/components
       '@animedes/react-stable':
         specifier: 'workspace:'
         version: link:../../packages/react-stable
@@ -720,9 +723,6 @@ importers:
       relay-runtime:
         specifier: 'catalog:'
         version: 21.0.1
-      tailwind-variants:
-        specifier: 'catalog:'
-        version: '@patryk_walach/tailwind-variants@0.2.1(tailwindcss@4.3.3)'
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
@@ -817,6 +817,67 @@ importers:
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0)(react@19.3.0)
+    devDependencies:
+      '@typescript/native':
+        specifier: npm:typescript@rc
+        version: typescript@7.0.1-rc
+      eslint:
+        specifier: 'catalog:'
+        version: 10.11.0(jiti@2.7.0)(supports-color@10.2.2)
+      eslint-config:
+        specifier: workspace:@animedes/eslint-config@*
+        version: link:../eslint-config
+      eslint-config-react:
+        specifier: workspace:@animedes/eslint-config-react@*
+        version: link:../eslint-config-react
+      ts-config:
+        specifier: workspace:@animedes/ts-config@*
+        version: link:../ts-config
+      typescript:
+        specifier: npm:@typescript/typescript6@6.0.2
+        version: '@typescript/typescript6@6.0.2'
+
+  packages/components:
+    dependencies:
+      '@animedes/a':
+        specifier: workspace:@animedes/a@*
+        version: link:../a
+      '@animedes/design':
+        specifier: workspace:@animedes/design@*
+        version: link:../design
+      '@animedes/react-stable':
+        specifier: 'workspace:'
+        version: link:../react-stable
+      '@animedes/unstyled':
+        specifier: workspace:@animedes/unstyled@*
+        version: link:../unstyled
+      '@ariakit/react':
+        specifier: 'catalog:'
+        version: 0.4.40(react-dom@19.3.0)(react@19.3.0)
+      '@iconify-json/material-symbols':
+        specifier: 'catalog:'
+        version: 1.2.93
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
+      motion:
+        specifier: 'catalog:'
+        version: 13.4.5(react-dom@19.3.0)(react@19.3.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.0
+      react-router:
+        specifier: 'catalog:'
+        version: 8.4.0(react-dom@19.3.0)(react@19.3.0)
+      tailwind-variants:
+        specifier: 'catalog:'
+        version: '@patryk_walach/tailwind-variants@0.2.1(tailwindcss@4.3.3)'
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.3
+      unplugin-icons:
+        specifier: 'catalog:'
+        version: 24.0.0(@svgr/core@8.1.0)(esbuild@0.28.2)(rolldown@1.2.11)(rollup@4.63.5)(vite@8.3.1)
     devDependencies:
       '@typescript/native':
         specifier: npm:typescript@rc

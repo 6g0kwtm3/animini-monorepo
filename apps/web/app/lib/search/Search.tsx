@@ -14,16 +14,15 @@ import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
-} from "~/components/Tooltip"
-
-import { List, Subheader } from "~/components/List"
-import {
+	List,
+	Subheader,
 	SearchView,
 	SearchViewBody,
 	SearchViewBodyGroup,
 	SearchViewInput,
 	SearchViewItem,
-} from "~/components/SearchView"
+} from "@animedes/components"
+
 import { copySearchParams } from "~/lib/copySearchParams"
 
 import { ErrorBoundary } from "@sentry/react"
@@ -50,7 +49,6 @@ function useOptimisticLocation() {
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
-import { navigation } from "../navigation"
 
 export function Search(props: { children?: ReactNode }): ReactNode {
 	const searchParams = useOptimisticSearchParams()

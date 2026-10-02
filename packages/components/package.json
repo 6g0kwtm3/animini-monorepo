@@ -1,0 +1,41 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@animedes/components",
+	"private": true,
+	"version": "0.0.0",
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./tailwind": "./src/tailwind/index.ts"
+	},
+	"scripts": {
+		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"check": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@animedes/react-stable": "workspace:",
+		"@ariakit/react": "catalog:",
+		"@iconify-json/material-symbols": "catalog:",
+		"@types/react": "catalog:",
+		"motion": "catalog:",
+		"react": "catalog:",
+		"react-router": "catalog:",
+		"unplugin-icons": "catalog:"
+	},
+	"dependencies": {
+		"@animedes/a": "workspace:@animedes/a@*",
+		"@animedes/design": "workspace:@animedes/design@*",
+		"@animedes/unstyled": "workspace:@animedes/unstyled@*",
+		"tailwind-variants": "catalog:",
+		"tailwindcss": "catalog:"
+	},
+	"devDependencies": {
+		"eslint": "catalog:",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
+		"ts-config": "workspace:@animedes/ts-config@*",
+		"typescript": "npm:@typescript/typescript6@6.0.2",
+		"@typescript/native": "npm:typescript@rc"
+	}
+}

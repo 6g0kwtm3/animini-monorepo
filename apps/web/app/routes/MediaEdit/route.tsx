@@ -1,13 +1,13 @@
 // import {
 // 	Button as ButtonText,
 // 	ButtonIcon as ButtonTextIcon
-// } from "~/components/Button"
+// } from "@animedes/components"
 
 // import {
 // 	TextFieldOutlined,
 // 	TextFieldOutlinedFactory,
 // 	TextFieldOutlinedInput
-// } from "~/components/TextField"
+// } from "@animedes/components"
 // import {
 // 	ClientArgs,
 // 	EffectUrql,
@@ -15,7 +15,7 @@
 // 	LoaderLive
 // } from "~/lib/urql"
 
-// import { DialogFullscreenIcon } from "~/components/Dialog"
+// import { DialogFullscreenIcon } from "@animedes/components"
 
 // import * as Ariakit from "@ariakit/react"
 
@@ -24,11 +24,11 @@
 import type { ReactNode } from "react"
 // import { createDialog } from "~/lib/dialog"
 
-// import { ChipFilter } from "~/components/Chip"
-// import { SelectFactory } from "~/components/Select"
-// import { SelectOption } from "~/components/SelectOption"
+// import { ChipFilter } from "@animedes/components"
+// import { SelectFactory } from "@animedes/components"
+// import { SelectOption } from "@animedes/componentsOption"
 // import { Remix } from "~/lib/Remix"
-// import { button } from "~/lib/button"
+// import { button } from "@animedes/components"
 // import { useRawLoaderData } from "~/lib/data"
 
 // export const action = (async ({ request, params }): Promise<null> => {

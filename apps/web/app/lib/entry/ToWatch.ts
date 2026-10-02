@@ -1,6 +1,6 @@
 import ReactRelay from "react-relay"
 import type { ToWatch_entry$key } from "~/gql/ToWatch_entry.graphql"
-import { numberToString } from "~/lib/numberToString"
+import { numberToString } from "@animedes/components"
 import { readFragment } from "../Network"
 
 const { graphql } = ReactRelay

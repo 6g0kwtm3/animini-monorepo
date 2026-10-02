@@ -24,7 +24,7 @@ export default defineConfig({
 		tailwindcss(),
 		babel({
 			filter: /\.[jt]sx?$/,
-			include: ["./app/**/*.tsx"],
+			include: ["./app/**/*.tsx", "../../packages/components/src/**/*.tsx"],
 			exclude: [/~icons/],
 		}),
 		paraglide({ project: "./project.inlang", outdir: "./app/paraglide" }),

@@ -12,20 +12,30 @@ import {
 } from "react-router"
 
 import type { ReactNode } from "react"
-import { AppBar, AppBarTitle } from "~/components/AppBar"
-import { Icon } from "~/components/Button"
-import { Card } from "~/components/Card"
-import { Checkbox, Radio } from "~/components/Checkbox"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
 import {
+	AppBar,
+	AppBarTitle,
+	Icon,
+	Card,
+	Checkbox,
+	Radio,
+	LayoutBody,
+	LayoutPane,
 	List,
 	ListItem,
 	ListItemContent,
 	ListItemContentTitle,
 	Subheader,
-} from "~/components/List"
-import { Sheet, SheetBody } from "~/components/Sheet"
-import { Tabs, TabsList, TabsListItem, TabsPanel } from "~/components/Tabs"
+	Sheet,
+	SheetBody,
+	Tabs,
+	TabsList,
+	TabsListItem,
+	TabsPanel,
+	Label,
+	button,
+	BreadcrumbItem,
+} from "@animedes/components"
 import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 
 import * as Ariakit from "@ariakit/react"
@@ -44,8 +54,6 @@ import { precompileStyles } from "@anitrove/unstyled"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
-import { Label } from "~/components/Label"
-import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
@@ -68,7 +76,6 @@ function useOptimisticLocation() {
 }
 
 import ReactRelay from "react-relay"
-import { BreadcrumbItem } from "~/components/Breadcrumb"
 const { graphql } = ReactRelay
 
 const UserListTabsQuery = graphql`

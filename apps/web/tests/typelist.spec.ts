@@ -24,7 +24,7 @@ import { Token } from "~/lib/viewer"
 import { SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
-import { numberToString } from "../app/lib/numberToString"
+import { numberToString } from "@animedes/components/tailwind"
 // test.use({ storageState: "playwright/.auth/user.json" })
 
 class UserPage {

@@ -11,21 +11,18 @@ import {
 	ListItemContent,
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle,
-} from "~/components/List"
-
-import { route_user } from "~/lib/route"
-
-// console.log(R)
-
-import {
 	TooltipDisclosure,
 	TooltipRich,
 	TooltipRichActions,
 	TooltipRichContainer,
 	TooltipRichTrigger,
-} from "~/components/Tooltip"
+	Button,
+} from "@animedes/components"
 
-import { Button } from "~/components/Button"
+import { route_user } from "~/lib/route"
+
+// console.log(R)
+
 import { type clientLoader as rootLoader } from "~/root"
 
 import { A } from "@anitrove/a"
