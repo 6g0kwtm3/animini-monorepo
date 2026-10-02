@@ -527,6 +527,9 @@ importers:
 
   apps/storybook:
     dependencies:
+      '@animedes/components':
+        specifier: workspace:@animedes/components@*
+        version: link:../../packages/components
       '@anitrove/design':
         specifier: workspace:@animedes/design@*
         version: link:../../packages/design
@@ -546,6 +549,9 @@ importers:
       '@chromatic-com/storybook':
         specifier: 'catalog:'
         version: 5.3.1(storybook@10.6.0)
+      '@iconify-json/material-symbols':
+        specifier: 'catalog:'
+        version: 1.2.93
       '@storybook/addon-a11y':
         specifier: 'catalog:'
         version: 10.6.0(storybook@10.6.0)
@@ -564,6 +570,9 @@ importers:
       '@storybook/react-vite':
         specifier: 'catalog:'
         version: 10.6.0(@types/react-dom@19.3.0)(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(react-dom@19.3.0)(react@19.3.0)(rollup@4.63.5)(storybook@10.6.0)(supports-color@10.2.2)(vite@8.3.1)
+      '@tailwindcss/vite':
+        specifier: 'catalog:'
+        version: 4.3.3(vite@8.3.1)
       '@types/prop-types':
         specifier: 'catalog:'
         version: 15.7.15
@@ -594,6 +603,9 @@ importers:
       storybook:
         specifier: 'catalog:'
         version: 10.6.0(@types/react@19.3.0)(prettier@3.6.2)(react@19.3.0)
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.3
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../../packages/ts-config
@@ -603,6 +615,9 @@ importers:
       unplugin-icons:
         specifier: 'catalog:'
         version: 24.0.0(@svgr/core@8.1.0)(esbuild@0.28.2)(rolldown@1.2.11)(rollup@4.63.5)(vite@8.3.1)
+      unplugin-macros:
+        specifier: 'catalog:'
+        version: 0.20.2(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.11)(rollup@4.63.5)(tsx@4.23.15)(yaml@2.9.1)
       vite:
         specifier: 'catalog:'
         version: 8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
