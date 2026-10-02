@@ -7,7 +7,7 @@ import {
 	ListItemContentTitle,
 	ListItemImg,
 	ListItemTrailingSupportingText,
-} from "~/components/List"
+} from "@animedes/components/List"
 
 import { MediaCover } from "~/lib/entry/MediaCover"
 import { m } from "~/lib/paraglide"

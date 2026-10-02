@@ -26,6 +26,7 @@
 		"maintained node versions"
 	],
 	"dependencies": {
+		"@animedes/components": "workspace:@animedes/components@*",
 		"@animedes/react-stable": "workspace:@animedes/react-stable@*",
 		"@anitrove/a": "workspace:@animedes/a@*",
 		"@anitrove/design": "workspace:@animedes/design@*",
@@ -63,7 +64,6 @@
 		"react-router": "catalog:",
 		"relay-compiler": "catalog:",
 		"relay-runtime": "catalog:",
-		"tailwind-variants": "catalog:",
 		"tailwindcss": "catalog:",
 		"unplugin-icons": "catalog:",
 		"unplugin-relay": "catalog:",

@@ -8,8 +8,8 @@ import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
-} from "~/components/Tooltip"
-import { fab } from "~/lib/button"
+} from "@animedes/components/Tooltip"
+import { fab } from "@animedes/components/button.styles"
 
 import { A } from "@anitrove/a"
 import type { Edit_query$key } from "~/gql/Edit_query.graphql"

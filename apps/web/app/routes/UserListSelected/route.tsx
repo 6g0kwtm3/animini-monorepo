@@ -15,9 +15,13 @@ import type { ComponentRef, ReactNode } from "react"
 import { Suspense, useState } from "react"
 
 import * as Ariakit from "@ariakit/react"
-import { Card } from "~/components/Card"
-import { List } from "~/components/List"
-import { Loading, Skeleton } from "~/components/Skeleton"
+import { Card } from "@animedes/components/Card"
+import { List } from "@animedes/components/List"
+import {
+	Loading,
+	Skeleton,
+} from "@animedes/components/Skeleton"
+import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
 
 import { client_get_client } from "~/lib/client"
 
@@ -32,7 +36,6 @@ import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntries
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
-import { BreadcrumbItem } from "~/components/Breadcrumb"
 import type { AddToList_media$key } from "~/gql/AddToList_media.graphql"
 import type { AddToList_originalEntry$key } from "~/gql/AddToList_originalEntry.graphql"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"

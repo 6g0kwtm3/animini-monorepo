@@ -10,11 +10,11 @@ import {
 	ListItemContentTitle,
 	ListItemImg,
 	ListItemTrailingSupportingText,
-} from "~/components/List"
+} from "@animedes/components/List"
+import { numberToString } from "@animedes/components/numberToString"
 import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
 import type { ActivityLike_viewer$key } from "~/gql/ActivityLike_viewer.graphql"
 import { useFragment } from "~/lib/Network"
-import { numberToString } from "~/lib/numberToString"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 import { RelativeTimeSince } from "./RelativeTimeSince"

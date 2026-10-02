@@ -4,6 +4,7 @@
 		// { "path": "./apps/storybook" },
 		{ "path": "./apps/web" },
 		{ "path": "./packages/a" },
+		{ "path": "./packages/components" },
 		{ "path": "./packages/design" },
 		{ "path": "./packages/eslint-config-react" },
 		{ "path": "./packages/eslint-plugin-jsx" },

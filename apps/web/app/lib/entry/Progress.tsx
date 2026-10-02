@@ -8,7 +8,7 @@ import {
 	useRouteLoaderData,
 	useSearchParams,
 } from "react-router"
-import * as Predicate from "~/lib/Predicate"
+import * as Predicate from "@animedes/components/Predicate"
 
 import type { clientLoader as rootLoader } from "~/root"
 import type { clientAction as selectedAction } from "~/routes/UserListSelected/route"
@@ -22,22 +22,26 @@ import { useFragment } from "../Network"
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
-import { numberToString } from "~/lib/numberToString"
-
-import { CompositeItem } from "@ariakit/react"
-import { Button, ButtonIcon, Icon } from "~/components/Button"
+import { numberToString } from "@animedes/components/numberToString"
+import {
+	Button,
+	ButtonIcon,
+	Icon,
+} from "@animedes/components/Button"
 import {
 	Menu,
 	MenuItemLeadingIcon,
 	MenuList,
 	MenuListItem,
 	MenuTrigger,
-} from "~/components/Menu"
+} from "@animedes/components/Menu"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
-} from "~/components/Tooltip"
+} from "@animedes/components/Tooltip"
+
+import { CompositeItem } from "@ariakit/react"
 import { use } from "react"
 import type { ProgressIncrement_query$key } from "~/gql/ProgressIncrement_query.graphql"
 const { graphql } = ReactRelay

@@ -12,20 +12,40 @@ import {
 } from "react-router"
 
 import type { ReactNode } from "react"
-import { AppBar, AppBarTitle } from "~/components/AppBar"
-import { Icon } from "~/components/Button"
-import { Card } from "~/components/Card"
-import { Checkbox, Radio } from "~/components/Checkbox"
-import { LayoutBody, LayoutPane } from "~/components/Layout"
+import {
+	AppBar,
+	AppBarTitle,
+} from "@animedes/components/AppBar"
+import { Icon } from "@animedes/components/Button"
+import { Card } from "@animedes/components/Card"
+import {
+	Checkbox,
+	Radio,
+} from "@animedes/components/Checkbox"
+import {
+	LayoutBody,
+	LayoutPane,
+} from "@animedes/components/Layout"
 import {
 	List,
 	ListItem,
 	ListItemContent,
 	ListItemContentTitle,
 	Subheader,
-} from "~/components/List"
-import { Sheet, SheetBody } from "~/components/Sheet"
-import { Tabs, TabsList, TabsListItem, TabsPanel } from "~/components/Tabs"
+} from "@animedes/components/List"
+import {
+	Sheet,
+	SheetBody,
+} from "@animedes/components/Sheet"
+import {
+	Tabs,
+	TabsList,
+	TabsListItem,
+	TabsPanel,
+} from "@animedes/components/Tabs"
+import { Label } from "@animedes/components/Label"
+import { button } from "@animedes/components/button.styles"
+import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
 import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 
 import * as Ariakit from "@ariakit/react"
@@ -44,8 +64,6 @@ import { precompileStyles } from "@anitrove/unstyled"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
-import { Label } from "~/components/Label"
-import { button } from "~/lib/button"
 import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import type { Route } from "./+types/route"
@@ -68,7 +86,6 @@ function useOptimisticLocation() {
 }
 
 import ReactRelay from "react-relay"
-import { BreadcrumbItem } from "~/components/Breadcrumb"
 const { graphql } = ReactRelay
 
 const UserListTabsQuery = graphql`
