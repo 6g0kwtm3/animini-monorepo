@@ -1,6 +1,22 @@
 lockfile_version: '1'
 apm_version: 0.32.0
 dependencies:
+- repo_url: enesgules/dotfiles
+  name: optimise-github-actions
+  host: github.com
+  resolved_commit: d1e9b65f4dd4760e0f8b835eaeac510ca0918935
+  version: unknown
+  virtual_path: skills/optimise-github-actions
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/optimise-github-actions
+  - .agents/skills/optimise-github-actions/SKILL.md
+  - .agents/skills/optimise-github-actions/scripts/measure.mjs
+  deployed_file_hashes:
+    .agents/skills/optimise-github-actions/SKILL.md: sha256:7ba2fa0d37cc6cc29450b4cfa6291793d6f334ec8c8bba715a935c63a0a8e0f6
+    .agents/skills/optimise-github-actions/scripts/measure.mjs: sha256:24efed7e279999dec4adb75bda27dfcad433fc7065b6530904de5505efd40791
+  content_hash: sha256:5f4a764026062836c4fcbfbe46edaa9fcf98040b256e93c0d9d80fb3bf05ef60
 - repo_url: mattpocock/skills
   name: mattpocock-skills
   host: github.com
@@ -568,6 +584,33 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:c8cb20f68ebf0edb4e497bc11ae5fcaa196004e661cd189015b04f4109ced7f1
+- kind: project-relative
+  target: opencode
+  value: .agents/skills/optimise-github-actions
+  runtime: null
+  scope: project
+  owners:
+  - enesgules/dotfiles/skills/optimise-github-actions
+  active_owner: enesgules/dotfiles/skills/optimise-github-actions
+  content_hash: null
+- kind: project-relative
+  target: opencode
+  value: .agents/skills/optimise-github-actions/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - enesgules/dotfiles/skills/optimise-github-actions
+  active_owner: enesgules/dotfiles/skills/optimise-github-actions
+  content_hash: sha256:7ba2fa0d37cc6cc29450b4cfa6291793d6f334ec8c8bba715a935c63a0a8e0f6
+- kind: project-relative
+  target: opencode
+  value: .agents/skills/optimise-github-actions/scripts/measure.mjs
+  runtime: null
+  scope: project
+  owners:
+  - enesgules/dotfiles/skills/optimise-github-actions
+  active_owner: enesgules/dotfiles/skills/optimise-github-actions
+  content_hash: sha256:24efed7e279999dec4adb75bda27dfcad433fc7065b6530904de5505efd40791
 - kind: project-relative
   target: opencode
   value: .agents/skills/prototype
