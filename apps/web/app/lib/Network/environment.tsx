@@ -132,18 +132,28 @@ const environment = new Environment({
 		},
 	],
 	relayFieldLogger(event) {
-		addBreadcrumb({ level: "info", category: "relay", data: event })
-		if (event.kind === "relay_resolver.error") {
-			// Log this somewhere!
-			console.warn(
-				`Resolver error encountered in ${event.owner}.${event.fieldPath}`
-			)
-			console.warn(event.error)
+		Sentry.logger.warn(`Relay field event`, event)
+
+		switch (event.kind) {
+			case "relay_field_payload.error":
+			case "relay_resolver.error": {
+				// Log this somewhere!
+				void Sentry.captureException(event.error)
+				break
+			}
+			case "missing_required_field.throw":
+			case "missing_required_field.log":
+			case "missing_expected_data.throw":
+			case "missing_expected_data.log": {
+				//
+			}
 		}
 	},
 	getDataID: (data, typeName) =>
 		data.id != null ? `${typeName}:${String(data.id)}` : null,
 	// ... other options
 })
+
+import * as Sentry from "@sentry/react"
 
 export default environment
