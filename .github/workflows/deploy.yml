@@ -59,7 +59,7 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          environment: production
+          environment: ${{ github.ref_name != github.event.repository.default_branch && 'preview' || 'production' }}
           sourcemaps: apps/web/dist
   deploy:
     timeout-minutes: 10
