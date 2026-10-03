@@ -1,0 +1,18 @@
+diff --git a/relay-hooks/usePreloadedQuery.d.ts b/relay-hooks/usePreloadedQuery.d.ts
+index 18015e8542ce7cac3f29de2b5d33dce40ff8d59b..74951921cce5ba0cc665cdd805c5151cab96585b 100644
+--- a/relay-hooks/usePreloadedQuery.d.ts
++++ b/relay-hooks/usePreloadedQuery.d.ts
+@@ -5,6 +5,7 @@
+  * LICENSE file in the root directory of this source tree.
+  */
+ 
++import { DeepStable } from '@animedes/react-stable';
+ import { PreloadedQuery } from '../ReactRelayTypes';
+ import {GraphQLTaggedNode, OperationType, RenderPolicy} from 'relay-runtime';
+ 
+@@ -14,4 +15,4 @@ export function usePreloadedQuery<TQuery extends OperationType>(
+     options?: {
+         UNSTABLE_renderPolicy?: RenderPolicy | undefined;
+     },
+-): TQuery['response'];
++): DeepStable<TQuery['response']>;

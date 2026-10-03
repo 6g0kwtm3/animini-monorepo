@@ -12,7 +12,7 @@ import {
 import type { AnitomyResult } from "anitomy"
 
 import type { ComponentRef, ReactNode } from "react"
-import { Suspense, useState } from "react"
+import { Suspense, useCallback, useMemo, useState } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import { Card } from "@animedes/components/Card"
@@ -211,92 +211,102 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 function AwaitList(props: Route.ComponentProps) {
 	const data = usePreloadedQuery(props.loaderData.query.selectedList)
 
-	const allEntries = new Map(
-		data?.MediaListCollection.lists?.flatMap(
-			(list) =>
-				list?.entries?.flatMap((entry) =>
-					entry?.media.id ? [[Number(entry.media.id), entry]] : []
-				) ?? []
+	const { allEntries, mediaList, output } = useMemo(() => {
+		const allEntries = new Map(
+			data?.MediaListCollection.lists?.flatMap(
+				(list) =>
+					list?.entries?.flatMap((entry) =>
+						entry?.media.id ? [[Number(entry.media.id), entry]] : []
+					) ?? []
+			)
 		)
-	)
 
-	const mediaList = new Map<number, MediaListMapEntry>()
+		const mediaList = new Map<number, MediaListMapEntry>()
 
-	let selectedList = data?.MediaListCollection.lists
+		let selectedList = data?.MediaListCollection.lists?.slice()
 
-	if (props.params.selected !== undefined) {
-		selectedList = data?.MediaListCollection.lists?.filter(
-			(list) => list?.name === props.params.selected
-		)
-	}
-
-	const selectedIds = new Set(
-		selectedList?.flatMap((list) =>
-			list?.entries?.map((entry) => Number(entry?.media.id))
-		) ?? []
-	)
-
-	for (const entry of data?.MediaListCollection.lists?.flatMap(
-		(list) => list?.entries
-	) ?? []) {
-		if (entry?.media == null) {
-			continue
+		if (props.params.selected !== undefined) {
+			selectedList = data?.MediaListCollection.lists?.filter(
+				(list) => list?.name === props.params.selected
+			)
 		}
 
-		const compilation = entry.media.relations?.edges?.find((edge) => {
-			if (edge?.relationType === "COMPILATION") {
-				return true
+		const selectedIds = new Set(
+			selectedList?.flatMap((list) =>
+				list?.entries?.map((entry) => Number(entry?.media.id))
+			) ?? []
+		)
+
+		for (const entry of data?.MediaListCollection.lists?.flatMap(
+			(list) => list?.entries
+		) ?? []) {
+			if (entry?.media == null) {
+				continue
 			}
-		})
 
-		if (compilation?.node == null) {
-			mergeMapEntries(mediaList, Number(entry.media.id), {
-				media: entry.media,
-				originalEntry: entry.AddToList_originalEntry,
-				relations: new Map(
-					entry.media.relations?.edges?.flatMap((edge) =>
-						edge?.relationType === "CONTAINS" && edge.node?.id
-							? [[Number(edge.node.id), edge.node]]
-							: []
-					)
-				),
+			const compilation = entry.media.relations?.edges?.find((edge) => {
+				if (edge?.relationType === "COMPILATION") {
+					return true
+				}
 			})
-			continue
+
+			if (compilation?.node == null) {
+				mergeMapEntries(mediaList, Number(entry.media.id), {
+					media: entry.media,
+					originalEntry: entry.AddToList_originalEntry,
+					relations: new Map(
+						entry.media.relations?.edges?.flatMap((edge) =>
+							edge?.relationType === "CONTAINS" && edge.node?.id
+								? [[Number(edge.node.id), edge.node]]
+								: []
+						)
+					),
+				})
+				continue
+			}
+
+			mergeMapEntries(mediaList, Number(compilation.node.id), {
+				media: compilation.node,
+				originalEntry: entry.AddToList_originalEntry,
+				relations: new Map([[Number(entry.media.id), entry.media]]),
+			})
 		}
 
-		mergeMapEntries(mediaList, Number(compilation.node.id), {
-			media: compilation.node,
-			originalEntry: entry.AddToList_originalEntry,
-			relations: new Map([[Number(entry.media.id), entry.media]]),
-		})
-	}
+		const output = mediaList
+			.entries()
+			.filter(([id]) => selectedIds.has(id))
+			.flatMap(([id, { media, relations, originalEntry }]) => {
+				return [
+					{
+						type: "MediaListItem",
+						id,
+						media,
+						relations,
+						originalEntry,
+					} as const,
+					...relations
+						.entries()
+						.map(([id, node]) => {
+							return {
+								type: "Relation",
+								id,
+								media,
+								relations,
+								originalEntry,
+								node,
+							} as const
+						})
+						.toArray(),
+				]
+			})
+			.toArray()
+
+		return { allEntries, mediaList, output }
+	}, [data?.MediaListCollection.lists, props.params.selected])
 
 	const type: "anime" | "manga" = (
 		{ animelist: "anime", mangalist: "manga" } as const
 	)[props.loaderData.params.typelist]
-
-	const output = mediaList
-		.entries()
-		.filter(([id]) => selectedIds.has(id))
-		.flatMap(([id, { media, relations, originalEntry }]) => {
-			return [
-				{ type: "MediaListItem", id, media, relations, originalEntry } as const,
-				...relations
-					.entries()
-					.map(([id, node]) => {
-						return {
-							type: "Relation",
-							id,
-							media,
-							relations,
-							originalEntry,
-							node,
-						} as const
-					})
-					.toArray(),
-			]
-		})
-		.toArray()
 
 	const [ref, setRef] = useState<ComponentRef<"div"> | null>(null)
 
