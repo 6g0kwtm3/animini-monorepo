@@ -1,5 +1,6 @@
 import type { Stable } from "@animedes/react-stable"
 import {
+	useCallback,
 	use,
 	useDebugValue,
 	useDeferredValue,
@@ -11,24 +12,38 @@ import {
 	type Ref,
 } from "react"
 import { browser } from "react-dom"
+import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector"
 
-function useScrollY() {
-	return useSyncExternalStore(
-		(onChange) => {
-			const controller = new AbortController()
-			window.addEventListener(
-				"scroll",
-				() => {
-					onChange()
-				},
-				{ signal: controller.signal }
-			)
-			return () => {
-				controller.abort()
-			}
+function onScrollOrResize(onChange: () => void) {
+	const controller = new AbortController()
+	window.addEventListener(
+		"resize",
+		() => {
+			onChange()
 		},
-		() => window.scrollY
+		{ signal: controller.signal }
 	)
+	window.addEventListener(
+		"scroll",
+		() => {
+			onChange()
+		},
+		{ signal: controller.signal }
+	)
+	return () => {
+		controller.abort()
+	}
+}
+
+function identity<T>(x: T): T {
+	return x
+}
+
+function isEqual(
+	a: { start: number; end: number },
+	b: { start: number; end: number }
+) {
+	return a.start === b.start && a.end === b.end
 }
 
 export function useWindowVirtualizer(props: {
@@ -39,24 +54,6 @@ export function useWindowVirtualizer(props: {
 	readonly gap: number
 }) {
 	const { count: numItems, estimateSize, scrollMargin, overscan, gap } = props
-	const windowHeight = useSyncExternalStore(
-		(onChange) => {
-			const controller = new AbortController()
-			window.addEventListener(
-				"resize",
-				() => {
-					onChange()
-				},
-				{ signal: controller.signal }
-			)
-			return () => {
-				controller.abort()
-			}
-		},
-		() => window.innerHeight
-	)
-
-	const scrollTop = useDeferredValue(useScrollY())
 
 	const itemSizes = useMemo(() => {
 		let offset = 0
@@ -67,8 +64,9 @@ export function useWindowVirtualizer(props: {
 
 			return { index: i, end: offset, start }
 		})
-		if (itemSizes.at(-1)) {
-			itemSizes.at(-1).end -= gap
+		const last = itemSizes.at(-1)
+		if (last !== undefined) {
+			last.end -= gap
 		}
 		return itemSizes
 	}, [estimateSize, numItems])
@@ -76,10 +74,20 @@ export function useWindowVirtualizer(props: {
 	const innerHeight =
 		(itemSizes.at(-1)?.end ?? 0) - (itemSizes.at(0)?.start ?? 0)
 
-	const { start, end } = findVisibleRange(
-		itemSizes,
-		scrollTop - scrollMargin,
-		windowHeight
+	const { start, end } = useSyncExternalStoreWithSelector(
+		onScrollOrResize,
+		useCallback(
+			() =>
+				findVisibleRange(
+					itemSizes,
+					window.scrollY - scrollMargin,
+					window.innerHeight
+				),
+			[itemSizes, scrollMargin]
+		),
+		null,
+		identity,
+		isEqual
 	)
 
 	const items = useMemo(() => {
