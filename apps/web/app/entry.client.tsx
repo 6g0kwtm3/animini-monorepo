@@ -39,7 +39,11 @@ init({
 	replaysSessionSampleRate: 0.1,
 	replaysOnErrorSampleRate: 1.0,
 
-	ignoreErrors: [`TypeError: Load failed`, `TypeError: Failed to fetch`],
+	ignoreErrors: [
+		`TypeError: NetworkError when attempting to fetch resource`,
+		`TypeError: Load failed`,
+		`TypeError: Failed to fetch`,
+	],
 })
 
 startTransition(() => {
