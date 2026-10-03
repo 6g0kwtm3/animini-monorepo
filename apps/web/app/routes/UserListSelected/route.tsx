@@ -1,5 +1,5 @@
 import { precompileStyles } from "@anitrove/unstyled"
-import { useWindowVirtualizer } from "@tanstack/react-virtual"
+import { useWindowVirtualizer } from "./use-window-virtualizer"
 import {
 	Outlet,
 	isRouteErrorResponse,
@@ -12,7 +12,7 @@ import {
 import type { AnitomyResult } from "anitomy"
 
 import type { ComponentRef, ReactNode } from "react"
-import { Suspense, useState } from "react"
+import { Suspense, useCallback, useState } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import { Card } from "@animedes/components/Card"
@@ -331,13 +331,13 @@ function AwaitList(props: Route.ComponentProps) {
 				render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
 				style={precompileStyles({
 					containerType: "inline-size",
-					height: `${virtualizer.getTotalSize()}px`,
+					height: `${virtualizer.totalSize}px`,
 					position: "relative",
 				})}
 				data-size={mediaList.size}
 				lines={"two"}
 			>
-				{virtualizer.getVirtualItems().map((virtualItem) => {
+				{virtualizer.virtualItems.map((virtualItem) => {
 					const item = output[virtualItem.index]
 					if (item == null) {
 						return null
