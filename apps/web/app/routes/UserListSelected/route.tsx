@@ -1,5 +1,5 @@
 import { precompileStyles } from "@anitrove/unstyled"
-import { useWindowVirtualizer } from "@tanstack/react-virtual"
+import { useWindowVirtualizer } from "./use-window-virtualizer"
 import {
 	Outlet,
 	isRouteErrorResponse,
@@ -12,7 +12,7 @@ import {
 import type { AnitomyResult } from "anitomy"
 
 import type { ComponentRef, ReactNode } from "react"
-import { Suspense, useState } from "react"
+import { Suspense, useCallback, useMemo, useState } from "react"
 
 import * as Ariakit from "@ariakit/react"
 import { Card } from "@animedes/components/Card"
@@ -211,111 +211,125 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 function AwaitList(props: Route.ComponentProps) {
 	const data = usePreloadedQuery(props.loaderData.query.selectedList)
 
-	const allEntries = new Map(
-		data?.MediaListCollection.lists?.flatMap(
-			(list) =>
-				list?.entries?.flatMap((entry) =>
-					entry?.media.id ? [[Number(entry.media.id), entry]] : []
-				) ?? []
+	const { allEntries, mediaList, output, estimateSize } = useMemo(() => {
+		const allEntries = new Map(
+			data?.MediaListCollection.lists?.flatMap(
+				(list) =>
+					list?.entries?.flatMap((entry) =>
+						entry?.media.id ? [[Number(entry.media.id), entry]] : []
+					) ?? []
+			)
 		)
-	)
 
-	const mediaList = new Map<number, MediaListMapEntry>()
+		const mediaList = new Map<number, MediaListMapEntry>()
 
-	let selectedList = data?.MediaListCollection.lists
-
-	if (props.params.selected !== undefined) {
-		selectedList = data?.MediaListCollection.lists?.filter(
-			(list) => list?.name === props.params.selected
-		)
-	}
-
-	const selectedIds = new Set(
-		selectedList?.flatMap((list) =>
-			list?.entries?.map((entry) => Number(entry?.media.id))
-		) ?? []
-	)
-
-	for (const entry of data?.MediaListCollection.lists?.flatMap(
-		(list) => list?.entries
-	) ?? []) {
-		if (entry?.media == null) {
-			continue
-		}
-
-		const compilation = entry.media.relations?.edges?.find((edge) => {
-			if (edge?.relationType === "COMPILATION") {
-				return true
-			}
-		})
-
-		if (compilation?.node == null) {
-			mergeMapEntries(mediaList, Number(entry.media.id), {
-				media: entry.media,
-				originalEntry: entry.AddToList_originalEntry,
-				relations: new Map(
-					entry.media.relations?.edges?.flatMap((edge) =>
-						edge?.relationType === "CONTAINS" && edge.node?.id
-							? [[Number(edge.node.id), edge.node]]
-							: []
+		const selectedList =
+			props.params.selected !== undefined
+				? data?.MediaListCollection.lists?.filter(
+						(list) => list?.name === props.params.selected
 					)
-				),
+				: data?.MediaListCollection.lists
+
+		const selectedIds = new Set(
+			selectedList?.flatMap((list) =>
+				list?.entries?.map((entry) => Number(entry?.media.id))
+			) ?? []
+		)
+
+		for (const entry of data?.MediaListCollection.lists?.flatMap(
+			(list) => list?.entries
+		) ?? []) {
+			if (entry?.media == null) {
+				continue
+			}
+
+			const compilation = entry.media.relations?.edges?.find((edge) => {
+				if (edge?.relationType === "COMPILATION") {
+					return true
+				}
 			})
-			continue
+
+			if (compilation?.node == null) {
+				mergeMapEntries(mediaList, Number(entry.media.id), {
+					media: entry.media,
+					originalEntry: entry.AddToList_originalEntry,
+					relations: new Map(
+						entry.media.relations?.edges?.flatMap((edge) =>
+							edge?.relationType === "CONTAINS" && edge.node?.id
+								? [[Number(edge.node.id), edge.node]]
+								: []
+						)
+					),
+				})
+				continue
+			}
+
+			mergeMapEntries(mediaList, Number(compilation.node.id), {
+				media: compilation.node,
+				originalEntry: entry.AddToList_originalEntry,
+				relations: new Map([[Number(entry.media.id), entry.media]]),
+			})
 		}
 
-		mergeMapEntries(mediaList, Number(compilation.node.id), {
-			media: compilation.node,
-			originalEntry: entry.AddToList_originalEntry,
-			relations: new Map([[Number(entry.media.id), entry.media]]),
-		})
-	}
+		const output = mediaList
+			.entries()
+			.filter(([id]) => selectedIds.has(id))
+			.flatMap(([id, { media, relations, originalEntry }]) => {
+				return [
+					{
+						type: "MediaListItem",
+						id,
+						media,
+						relations,
+						originalEntry,
+					} as const,
+					...relations
+						.entries()
+						.map(([id, node]) => {
+							return {
+								type: "Relation",
+								id,
+								media,
+								relations,
+								originalEntry,
+								node,
+							} as const
+						})
+						.toArray(),
+				]
+			})
+			.toArray()
+
+		return {
+			allEntries,
+			mediaList,
+			output,
+			estimateSize: (index: number) => {
+				const item = output[index]
+				if (item == null) {
+					return 0
+				}
+				switch (item.type) {
+					case "MediaListItem": {
+						return 72
+					}
+					case "Relation": {
+						return 70
+					}
+				}
+			},
+		}
+	}, [data?.MediaListCollection.lists, props.params.selected])
 
 	const type: "anime" | "manga" = (
 		{ animelist: "anime", mangalist: "manga" } as const
 	)[props.loaderData.params.typelist]
 
-	const output = mediaList
-		.entries()
-		.filter(([id]) => selectedIds.has(id))
-		.flatMap(([id, { media, relations, originalEntry }]) => {
-			return [
-				{ type: "MediaListItem", id, media, relations, originalEntry } as const,
-				...relations
-					.entries()
-					.map(([id, node]) => {
-						return {
-							type: "Relation",
-							id,
-							media,
-							relations,
-							originalEntry,
-							node,
-						} as const
-					})
-					.toArray(),
-			]
-		})
-		.toArray()
-
 	const [ref, setRef] = useState<ComponentRef<"div"> | null>(null)
 
-	const virtualizer = useWindowVirtualizer({
+	const { virtualizer, totalSize, virtualItems } = useWindowVirtualizer({
 		count: output.length,
-		estimateSize: (index) => {
-			const item = output[index]
-			if (item == null) {
-				return 0
-			}
-			switch (item.type) {
-				case "MediaListItem": {
-					return 72
-				}
-				case "Relation": {
-					return 70
-				}
-			}
-		},
+		estimateSize,
 		gap: 2,
 		scrollMargin: ref?.offsetTop ?? 0,
 		overscan: 10,
@@ -331,13 +345,13 @@ function AwaitList(props: Route.ComponentProps) {
 				render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
 				style={precompileStyles({
 					containerType: "inline-size",
-					height: `${virtualizer.getTotalSize()}px`,
+					height: `${totalSize}px`,
 					position: "relative",
 				})}
 				data-size={mediaList.size}
 				lines={"two"}
 			>
-				{virtualizer.getVirtualItems().map((virtualItem) => {
+				{virtualItems.map((virtualItem) => {
 					const item = output[virtualItem.index]
 					if (item == null) {
 						return null

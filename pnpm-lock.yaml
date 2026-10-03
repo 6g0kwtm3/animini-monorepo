@@ -462,6 +462,7 @@ patchedDependencies:
   '@types/react': 0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3
   flubber: 594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26
   framer-motion: 99da4cb6dba94a8ba6bbfb85e7c6bb14a69da037cfcd92e8cdc0d3b5f744db17
+  react-relay: 32282202f3d892110e790d2dbaa69c3b29bf9c8a94b8299b1f190671b560c82c
 
 importers:
 
@@ -713,7 +714,7 @@ importers:
         version: 19.3.0(react@19.3.0)
       react-relay:
         specifier: 'catalog:'
-        version: 21.0.1(react@19.3.0)
+        version: 21.0.1(patch_hash=32282202f3d892110e790d2dbaa69c3b29bf9c8a94b8299b1f190671b560c82c)(react@19.3.0)
       react-router:
         specifier: 'catalog:'
         version: 8.4.0(react-dom@19.3.0)(react@19.3.0)
@@ -14353,7 +14354,7 @@ snapshots:
 
   react-refresh@0.18.0: {}
 
-  react-relay@21.0.1(react@19.3.0):
+  react-relay@21.0.1(patch_hash=32282202f3d892110e790d2dbaa69c3b29bf9c8a94b8299b1f190671b560c82c)(react@19.3.0):
     dependencies:
       '@babel/runtime': 7.29.7
       fbjs: 3.0.5

@@ -147,6 +147,7 @@ patchedDependencies:
   '@types/react': patches/@types__react.patch
   flubber: patches/flubber.patch
   framer-motion: patches/framer-motion.patch
+  react-relay: patches/react-relay.patch
 
 savePrefix: ''
 
