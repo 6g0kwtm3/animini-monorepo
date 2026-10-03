@@ -362,9 +362,7 @@ function AwaitList(props: Route.ComponentProps) {
 							const entry = allEntries.get(id)
 							return (
 								<div
-									style={{
-										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-									}}
+									style={{ transform: `translateY(${virtualItem.start}px)` }}
 									className="absolute top-0 left-0 w-full"
 									ref={virtualizer.measureElement}
 									data-index={virtualItem.index}
@@ -435,9 +433,7 @@ function AwaitList(props: Route.ComponentProps) {
 							const entry = allEntries.get(id)
 							return (
 								<div
-									style={{
-										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-									}}
+									style={{ transform: `translateY(${virtualItem.start}px)` }}
 									className="absolute top-0 left-0 w-full"
 									ref={virtualizer.measureElement}
 									data-index={virtualItem.index}
