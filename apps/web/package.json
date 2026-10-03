@@ -48,6 +48,8 @@
 		"@tanstack/react-virtual": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
+		"@vitest/browser": "catalog:",
+		"@vitest/browser-playwright": "catalog:",
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
 		"electron": "catalog:",
@@ -67,6 +69,7 @@
 		"tailwindcss": "catalog:",
 		"unplugin-icons": "catalog:",
 		"unplugin-relay": "catalog:",
+		"use-sync-external-store": "catalog:",
 		"vite": "catalog:"
 	},
 	"devDependencies": {
@@ -76,6 +79,7 @@
 		"@msw/playwright": "catalog:",
 		"@playwright/test": "catalog:",
 		"@types/flubber": "catalog:",
+		"@types/use-sync-external-store": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
@@ -92,7 +96,8 @@
 		"unplugin-macros": "catalog:",
 		"vite-plugin-babel": "catalog:",
 		"vite-plugin-inspect": "catalog:",
-		"vitest": "catalog:"
+		"vitest": "catalog:",
+		"vitest-browser-react": "catalog:"
 	},
 	"overrides": {
 		"react-router-dom": "npm:react-router-dom@7.18.4"
