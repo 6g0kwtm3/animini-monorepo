@@ -33,7 +33,7 @@ function useScrollY() {
 
 export function useWindowVirtualizer(props: {
 	readonly count: number
-	readonly estimateSize: (index: number) => number
+	readonly estimateSize: Stable<(index: number) => number>
 	readonly scrollMargin: number
 	readonly overscan: number
 	readonly gap: number
@@ -56,31 +56,40 @@ export function useWindowVirtualizer(props: {
 		() => window.innerHeight
 	)
 
-	const scrollTop = useScrollY()
+	const scrollTop = useDeferredValue(useScrollY())
 
-	let offset = scrollMargin
-	const itemSizes = Array.from({ length: numItems }, (_, i) => {
-		const start = offset
-		const size = estimateSize(i)
-		offset += size + gap
+	const itemSizes = useMemo(() => {
+		let offset = 0
+		const itemSizes = Array.from({ length: numItems }, (_, i) => {
+			const start = offset
+			const size = estimateSize(i)
+			offset += size + gap
 
-		return { index: i, end: offset, start }
-	})
-
-	if (itemSizes.at(-1)) {
-		itemSizes.at(-1).end -= gap
-	}
+			return { index: i, end: offset, start }
+		})
+		if (itemSizes.at(-1)) {
+			itemSizes.at(-1).end -= gap
+		}
+		return itemSizes
+	}, [estimateSize, numItems])
 
 	const innerHeight =
 		(itemSizes.at(-1)?.end ?? 0) - (itemSizes.at(0)?.start ?? 0)
 
-	const { start, end } = findVisibleRange(itemSizes, scrollTop, windowHeight)
-	const items = itemSizes.slice(Math.max(0, start - overscan), end + overscan)
+	const { start, end } = findVisibleRange(
+		itemSizes,
+		scrollTop - scrollMargin,
+		windowHeight
+	)
+
+	const items = useMemo(() => {
+		return itemSizes.slice(Math.max(0, start - overscan), end + overscan)
+	}, [itemSizes, start, end, overscan])
 
 	const newLocal = {
 		virtualItems: items,
 		totalSize: innerHeight,
-		options: props,
+		virtualizer: { options: props, measureElement: undefined },
 	}
 	useDebugValue(newLocal)
 	return newLocal
