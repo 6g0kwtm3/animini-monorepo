@@ -288,6 +288,9 @@ catalogs:
     '@types/react-dom':
       specifier: 19.3.0
       version: 19.3.0
+    '@types/use-sync-external-store':
+      specifier: 1.7.0
+      version: 1.7.0
     '@typescript-eslint/parser':
       specifier: 8.71.0
       version: 8.71.0
@@ -441,6 +444,9 @@ catalogs:
     unplugin-relay:
       specifier: 0.1.2
       version: 0.1.2
+    use-sync-external-store:
+      specifier: 1.7.0
+      version: 1.7.0
     vite:
       specifier: 8.3.1
       version: 8.3.1
@@ -556,6 +562,9 @@ importers:
       '@chromatic-com/storybook':
         specifier: 'catalog:'
         version: 5.3.1(storybook@10.6.1)
+      '@iconify-json/material-symbols':
+        specifier: 'catalog:'
+        version: 1.2.93
       '@storybook/addon-a11y':
         specifier: 'catalog:'
         version: 10.6.1(storybook@10.6.1)
@@ -574,6 +583,9 @@ importers:
       '@storybook/react-vite':
         specifier: 'catalog:'
         version: 10.6.1(@types/react-dom@19.3.0)(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(react-dom@19.3.0)(react@19.3.0)(rollup@4.63.5)(storybook@10.6.1)(supports-color@10.2.2)(vite@8.3.1)
+      '@tailwindcss/vite':
+        specifier: 'catalog:'
+        version: 4.3.3(vite@8.3.1)
       '@types/prop-types':
         specifier: 'catalog:'
         version: 15.7.15
@@ -604,6 +616,9 @@ importers:
       storybook:
         specifier: 'catalog:'
         version: 10.6.1(@types/react@19.3.0)(prettier@3.6.2)(react@19.3.0)
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.3
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../../packages/ts-config
@@ -748,6 +763,9 @@ importers:
       unplugin-relay:
         specifier: 'catalog:'
         version: 0.1.2(esbuild@0.28.2)(rolldown@1.2.11)(rollup@4.63.5)(vite@8.3.1)
+      use-sync-external-store:
+        specifier: 'catalog:'
+        version: 1.7.0(react@19.3.0)
       vite:
         specifier: 'catalog:'
         version: 8.3.1(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
@@ -770,6 +788,9 @@ importers:
       '@types/flubber':
         specifier: 'catalog:'
         version: 0.4.0
+      '@types/use-sync-external-store':
+        specifier: 'catalog:'
+        version: 1.7.0
       babel-plugin-react-compiler:
         specifier: 'catalog:'
         version: 1.0.0
@@ -4937,6 +4958,9 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+
+  '@types/use-sync-external-store@1.7.0':
+    resolution: {integrity: sha512-v8435kzWm3FuxyUa4r8o4sG6b0D+r+uOrzF5MXHxZKW4Haoo6txu/lq56Vio45e2i1nkmFPA+R7myWcmV7Z7Bg==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -11643,6 +11667,8 @@ snapshots:
 
   '@types/trusted-types@2.0.7':
     optional: true
+
+  '@types/use-sync-external-store@1.7.0': {}
 
   '@types/ws@8.18.1':
     dependencies:

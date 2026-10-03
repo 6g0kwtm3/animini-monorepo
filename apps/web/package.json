@@ -69,6 +69,7 @@
 		"tailwindcss": "catalog:",
 		"unplugin-icons": "catalog:",
 		"unplugin-relay": "catalog:",
+		"use-sync-external-store": "catalog:",
 		"vite": "catalog:"
 	},
 	"devDependencies": {
@@ -78,6 +79,7 @@
 		"@msw/playwright": "catalog:",
 		"@playwright/test": "catalog:",
 		"@types/flubber": "catalog:",
+		"@types/use-sync-external-store": "catalog:",
 		"babel-plugin-react-compiler": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",

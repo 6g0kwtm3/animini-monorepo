@@ -115,6 +115,8 @@ catalog:
   vitest: 4.1.11
   wrangler: 4.144.0
   vitest-browser-react: 2.3.0
+  '@types/use-sync-external-store': 1.7.0
+  use-sync-external-store: 1.7.0
 
 catalogMode: strict
 
