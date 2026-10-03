@@ -223,13 +223,12 @@ function AwaitList(props: Route.ComponentProps) {
 
 		const mediaList = new Map<number, MediaListMapEntry>()
 
-		let selectedList = data?.MediaListCollection.lists?.slice()
-
-		if (props.params.selected !== undefined) {
-			selectedList = data?.MediaListCollection.lists?.filter(
-				(list) => list?.name === props.params.selected
-			)
-		}
+		const selectedList =
+			props.params.selected !== undefined
+				? data?.MediaListCollection.lists?.filter(
+						(list) => list?.name === props.params.selected
+					)
+				: data?.MediaListCollection.lists
 
 		const selectedIds = new Set(
 			selectedList?.flatMap((list) =>
