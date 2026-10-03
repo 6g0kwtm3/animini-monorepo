@@ -59,6 +59,8 @@ catalog:
   '@types/react-dom': 19.3.0
   '@typescript-eslint/parser': 8.71.0
   '@typescript/native': npm:typescript@rc
+  '@vitest/browser': 4.1.11
+  '@vitest/browser-playwright': 4.1.11
   anitomy: 0.0.35
   arktype: 2.2.5
   babel-plugin-react-compiler: 1.0.0
@@ -112,6 +114,7 @@ catalog:
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
   wrangler: 4.144.0
+  vitest-browser-react: 2.3.0
 
 catalogMode: strict
 
