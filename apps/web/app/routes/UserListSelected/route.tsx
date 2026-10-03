@@ -1,5 +1,5 @@
 import { precompileStyles } from "@anitrove/unstyled"
-import { useWindowVirtualizer } from "@tanstack/react-virtual"
+import { useWindowVirtualizer } from "./use-window-virtualizer"
 import {
 	Outlet,
 	isRouteErrorResponse,
@@ -327,7 +327,7 @@ function AwaitList(props: Route.ComponentProps) {
 
 	const [ref, setRef] = useState<ComponentRef<"div"> | null>(null)
 
-	const virtualizer = useWindowVirtualizer({
+	const { virtualizer, totalSize, virtualItems } = useWindowVirtualizer({
 		count: output.length,
 		estimateSize,
 		gap: 2,
@@ -345,13 +345,13 @@ function AwaitList(props: Route.ComponentProps) {
 				render={<Ariakit.Composite render={<Ariakit.CompositeTypeahead />} />}
 				style={precompileStyles({
 					containerType: "inline-size",
-					height: `${virtualizer.getTotalSize()}px`,
+					height: `${totalSize}px`,
 					position: "relative",
 				})}
 				data-size={mediaList.size}
 				lines={"two"}
 			>
-				{virtualizer.getVirtualItems().map((virtualItem) => {
+				{virtualItems.map((virtualItem) => {
 					const item = output[virtualItem.index]
 					if (item == null) {
 						return null
