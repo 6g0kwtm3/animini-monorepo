@@ -54,8 +54,8 @@ export default defineConfig({
 			reactComponentAnnotation: { enabled: true },
 		}),
 	],
-	preview: { port: 3000 },
-	server: { port: 3000 },
+	preview: { port: 3000, strictPort: true },
+	server: { port: 3000, strictPort: true },
 	build: {
 		sourcemap: true,
 		rollupOptions: {
