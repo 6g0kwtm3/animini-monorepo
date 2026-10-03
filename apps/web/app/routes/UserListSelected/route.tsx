@@ -211,7 +211,7 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 function AwaitList(props: Route.ComponentProps) {
 	const data = usePreloadedQuery(props.loaderData.query.selectedList)
 
-	const { allEntries, mediaList, output } = useMemo(() => {
+	const { allEntries, mediaList, output, estimateSize } = useMemo(() => {
 		const allEntries = new Map(
 			data?.MediaListCollection.lists?.flatMap(
 				(list) =>
@@ -301,7 +301,25 @@ function AwaitList(props: Route.ComponentProps) {
 			})
 			.toArray()
 
-		return { allEntries, mediaList, output }
+		return {
+			allEntries,
+			mediaList,
+			output,
+			estimateSize: (index: number) => {
+				const item = output[index]
+				if (item == null) {
+					return 0
+				}
+				switch (item.type) {
+					case "MediaListItem": {
+						return 72
+					}
+					case "Relation": {
+						return 70
+					}
+				}
+			},
+		}
 	}, [data?.MediaListCollection.lists, props.params.selected])
 
 	const type: "anime" | "manga" = (
@@ -312,20 +330,7 @@ function AwaitList(props: Route.ComponentProps) {
 
 	const virtualizer = useWindowVirtualizer({
 		count: output.length,
-		estimateSize: (index) => {
-			const item = output[index]
-			if (item == null) {
-				return 0
-			}
-			switch (item.type) {
-				case "MediaListItem": {
-					return 72
-				}
-				case "Relation": {
-					return 70
-				}
-			}
-		},
+		estimateSize,
 		gap: 2,
 		scrollMargin: ref?.offsetTop ?? 0,
 		overscan: 10,
