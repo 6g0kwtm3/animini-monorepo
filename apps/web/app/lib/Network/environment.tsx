@@ -141,10 +141,10 @@ const environment = new Environment({
 				void Sentry.captureException(event.error)
 				break
 			}
-			case "missing_required_field.throw":
-			case "missing_required_field.log":
+			case "missing_expected_data.log":
 			case "missing_expected_data.throw":
-			case "missing_expected_data.log": {
+			case "missing_required_field.log":
+			case "missing_required_field.throw": {
 				//
 			}
 		}
