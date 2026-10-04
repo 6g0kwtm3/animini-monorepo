@@ -17,6 +17,7 @@ import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
 import { useFragment } from "~/lib/Network"
+import { Fab } from "@animedes/components/Button"
 const { graphql } = ReactRelay
 
 const Edit_query = graphql`
@@ -28,36 +29,29 @@ const Edit_query = graphql`
 export function Edit(props: { query: Edit_query$key }) {
 	const { mediaId } = useParams()
 
-	const store = useTooltipStore()
-
 	const root = useFragment(Edit_query, props.query)
 
 	return (
 		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
 			<div className="relative">
-				<TooltipPlain store={store}>
-					<TooltipPlainTrigger
-						render={
-							<A
-								href={
-									root.Viewer != null
-										? route_media_edit({ id: Number(mediaId) })
-										: route_login({
-												redirect: route_media_edit({ id: Number(mediaId) }),
-											})
-								}
-								preventScrollReset={true}
-								className={fab({})}
-								onClick={() => {
-									store.setOpen(false)
-								}}
-							>
-								<MaterialSymbolsEditOutline />
-							</A>
-						}
-					/>
-					<TooltipPlainContainer>{m.edit()}</TooltipPlainContainer>
-				</TooltipPlain>
+				<Fab
+					tooltip
+					title={root.Viewer != null ? m.edit() : m.login_to_edit()}
+					render={
+						<A
+							href={
+								root.Viewer != null
+									? route_media_edit({ id: Number(mediaId) })
+									: route_login({
+											redirect: route_media_edit({ id: Number(mediaId) }),
+										})
+							}
+							preventScrollReset={true}
+						></A>
+					}
+				>
+					<MaterialSymbolsEditOutline />
+				</Fab>
 			</div>
 		</motion.div>
 	)
