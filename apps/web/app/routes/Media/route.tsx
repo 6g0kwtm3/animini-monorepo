@@ -79,7 +79,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.query)
 
 	if (data.Media == null) {
-		throw Response.json("Media not found", { status: 404 })
+		throw new Error("Media not found")
 	}
 
 	const outlet = useOutlet()
