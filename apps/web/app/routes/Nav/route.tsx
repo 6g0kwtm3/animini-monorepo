@@ -50,7 +50,7 @@ const { graphql } = ReactRelay
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
-			query routeNavQuery @raw_response_type {
+			query routeNavQuery @raw_response_type @throwOnFieldError {
 				Viewer: userFromToken
 				...UnreadNotificationBadge_query @alias
 			}
@@ -79,7 +79,8 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 			? args.context.get(loadQuery)<routeNavTrendingQuery>(
 					graphql`
 						query routeNavTrendingQuery($recentMediaIds: [Int])
-						@raw_response_type {
+						@raw_response_type
+						@throwOnFieldError {
 							...SearchRecentMedia_query @alias
 							...SearchTrending_query @alias
 						}

@@ -1,4 +1,5 @@
 import type { GraphQLESLintRule } from "@graphql-eslint/eslint-plugin"
+import { OperationTypeNode } from "graphql"
 
 export const rule: GraphQLESLintRule = {
 	meta: {
@@ -7,10 +8,41 @@ export const rule: GraphQLESLintRule = {
 		fixable: "code",
 		messages: {
 			"require-throw-on-field-error-on-fragment-definition": `Fragment definition \`...{{ fragment }}\` is missing the \`@throwOnFieldError\` directive.`,
+			"require-throw-on-field-error-on-query-definition": `Query definition \`...{{ query }}\` is missing the \`@throwOnFieldError\` directive.`,
 		},
 	},
 	create(context) {
 		return {
+			OperationDefinition(node) {
+				if (
+					node.operation === OperationTypeNode.MUTATION
+					|| node.operation === OperationTypeNode.SUBSCRIPTION
+				) {
+					return
+				}
+
+				if (
+					node.directives?.some((d) => d.name.value === "throwOnFieldError")
+				) {
+					return
+				}
+
+				if (node.name == null) {
+					return
+				}
+
+				context.report({
+					node: node,
+					messageId: "require-throw-on-field-error-on-query-definition",
+					data: { query: node.name.value },
+					fix(fixer) {
+						return fixer.insertTextBefore(
+							node.selectionSet,
+							"@throwOnFieldError "
+						)
+					},
+				})
+			},
 			FragmentDefinition(node) {
 				if (
 					node.directives?.some(
