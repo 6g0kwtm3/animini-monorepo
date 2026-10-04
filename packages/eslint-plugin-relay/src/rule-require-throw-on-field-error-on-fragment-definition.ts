@@ -21,13 +21,12 @@ export const rule: GraphQLESLintRule = {
 				}
 
 				if (
-					node.directives?.some(
-						(d) =>
-							d.name.value === "throwOnFieldError"
-							|| d.name.value === "assignable"
-							|| d.name.value === "updatable"
-					)
+					node.directives?.some((d) => d.name.value === "throwOnFieldError")
 				) {
+					return
+				}
+
+				if (node.name == null) {
 					return
 				}
 
@@ -36,9 +35,9 @@ export const rule: GraphQLESLintRule = {
 					messageId: "require-throw-on-field-error-on-fragment-definition",
 					data: { fragment: node.name.value },
 					fix(fixer) {
-						return fixer.insertTextAfter(
-							node.typeCondition,
-							" @throwOnFieldError"
+						return fixer.insertTextBefore(
+							node.selectionSet,
+							"@throwOnFieldError "
 						)
 					},
 				})
