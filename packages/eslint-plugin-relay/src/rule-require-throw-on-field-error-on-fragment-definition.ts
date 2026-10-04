@@ -1,4 +1,5 @@
 import type { GraphQLESLintRule } from "@graphql-eslint/eslint-plugin"
+import { OperationTypeNode } from "graphql"
 
 export const rule: GraphQLESLintRule = {
 	meta: {
