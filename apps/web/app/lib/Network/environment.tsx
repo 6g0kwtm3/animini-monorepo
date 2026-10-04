@@ -132,20 +132,47 @@ const environment = new Environment({
 		},
 	],
 	relayFieldLogger(event) {
-		Sentry.logger.warn(`Relay field event`, event)
-
 		switch (event.kind) {
-			case "relay_field_payload.error":
-			case "relay_resolver.error": {
-				// Log this somewhere!
-				void Sentry.captureException(event.error)
+			case "missing_expected_data.log": {
+				Sentry.logger.warn(
+					`Missing Expected Data Log ${event.owner}.${event.fieldPath}`,
+					event
+				)
 				break
 			}
-			case "missing_expected_data.log":
 			case "missing_expected_data.throw":
+				Sentry.logger.warn(
+					`Missing Expected Data Throw ${event.owner}.${event.fieldPath}`,
+					event
+				)
+				break
+
 			case "missing_required_field.log":
-			case "missing_required_field.throw": {
-				//
+				Sentry.logger.warn(
+					`Missing Required Field Log ${event.owner}.${event.fieldPath}`,
+					event
+				)
+				break
+			case "missing_required_field.throw":
+				Sentry.logger.warn(
+					`Missing Required Field Throw ${event.owner}.${event.fieldPath}`,
+					event
+				)
+				break
+			case "relay_field_payload.error":
+				Sentry.logger.warn(
+					`GraphQL Payload Field Error ${event.owner}.${event.fieldPath}`,
+					event
+				)
+				void Sentry.captureException(event.error)
+				break
+			case "relay_resolver.error": {
+				Sentry.logger.warn(
+					`Relay Resolver Error ${event.owner}.${event.fieldPath}`,
+					event
+				)
+				void Sentry.captureException(event.error)
+				break
 			}
 		}
 	},
