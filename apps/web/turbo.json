@@ -5,22 +5,8 @@
 		"dev": { "with": ["relay-watch"] },
 		"build": {
 			"dependsOn": ["^build", "relay"],
-			"passThroughEnv": [
-				"SENTRY_AUTH_TOKEN",
-				/** this is set with --mode e2e (not an actual env var) */
-				"MODE"
-			],
-			"env": ["CF_PAGES_BRANCH"]
-		},
-		"build-preview": {
-			"dependsOn": ["^build", "relay"],
-			"outputs": ["dist/**"],
-			"passThroughEnv": [
-				"SENTRY_AUTH_TOKEN",
-				/** this is set with --mode e2e (not an actual env var) */
-				"MODE"
-			],
-			"env": ["CF_PAGES_BRANCH"]
+			"passThroughEnv": ["SENTRY_AUTH_TOKEN"],
+			"env": ["VITE_SENTRY_MODE"]
 		},
 		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
 		"relay-watch": { "cache": false, "persistent": true },
