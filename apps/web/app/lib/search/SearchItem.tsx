@@ -50,7 +50,6 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 		data.title != null && (
 			<ListItem
 				{...props}
-				onFocus={prefetch}
 				render={
 					<A
 						href={route_media({ id: Number(data.id) })}
