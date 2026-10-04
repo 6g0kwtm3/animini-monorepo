@@ -85,7 +85,8 @@ export const clientAction = (async () => {
 				}
 			}
 		`,
-		{}
+		{},
+		{ fetchPolicy: "network-only" }
 	)
 
 	return redirect(".")
