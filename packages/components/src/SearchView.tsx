@@ -26,17 +26,20 @@ export function SearchView({ ...props }: SearchViewProps) {
 		<Ariakit.Dialog
 			backdrop={<div className={"search-view-backdrop"} />}
 			{...props}
-			className={tv({ base: "search-view search-view-fullscreen" })({
-				className: props.className,
-			})}
 		>
-			<Ariakit.ComboboxProvider
-				focusLoop={true}
-				open={props.open}
-				compositeElementInFocusOrder={true}
+			<search
+				className={tv({ base: "search-view search-view-fullscreen" })({
+					className: props.className,
+				})}
 			>
-				{props.children}
-			</Ariakit.ComboboxProvider>
+				<Ariakit.ComboboxProvider
+					focusLoop={true}
+					open={props.open}
+					compositeElementInFocusOrder={true}
+				>
+					{props.children}
+				</Ariakit.ComboboxProvider>
+			</search>
 		</Ariakit.Dialog>
 	)
 }

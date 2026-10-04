@@ -90,47 +90,43 @@ export function Search(props: { children?: ReactNode }): ReactNode {
 			defaultValue={searchParams.get("q") ?? ""}
 		>
 			<Form action="/search" className={"flex w-full flex-col"}>
-				<>
-					<SearchViewInput
-						placeholder="Search anime or manga"
-						onChange={(e) => void submit.submit(e.currentTarget.form, {})}
-						name="q"
-					/>
+				<SearchViewInput
+					placeholder="Search anime or manga"
+					onChange={(e) => void submit.submit(e.currentTarget.form, {})}
+					name="q"
+				/>
 
-					{media.length !== 0 ? (
-						<SearchViewBody>
-							<SearchViewBodyGroup>
-								<Ariakit.ComboboxGroupLabel
-									render={<Subheader lines={"one"} />}
-								>
-									Results
-								</Ariakit.ComboboxGroupLabel>
+				{media.length !== 0 ? (
+					<SearchViewBody>
+						<SearchViewBodyGroup>
+							<Ariakit.ComboboxGroupLabel render={<Subheader lines={"one"} />}>
+								Results
+							</Ariakit.ComboboxGroupLabel>
 
-								<List
-									render={<div />}
-									lines="one"
-									style={precompileStyles({ marginTop: "-.5rem" })}
-								>
-									{media.map((media, i, arr) => (
-										<SearchViewItem
-											key={media.id}
-											data-key={media.id}
-											render={
-												<SearchItem
-													first={i === 0}
-													last={i === arr.length - 1}
-													media={media.SearchItem_media}
-												/>
-											}
-										/>
-									))}
-								</List>
-							</SearchViewBodyGroup>
-						</SearchViewBody>
-					) : (
-						props.children
-					)}
-				</>
+							<List
+								render={<div />}
+								lines="one"
+								style={precompileStyles({ marginTop: "-.5rem" })}
+							>
+								{media.map((media, i, arr) => (
+									<SearchViewItem
+										key={media.id}
+										data-key={media.id}
+										render={
+											<SearchItem
+												first={i === 0}
+												last={i === arr.length - 1}
+												media={media.SearchItem_media}
+											/>
+										}
+									/>
+								))}
+							</List>
+						</SearchViewBodyGroup>
+					</SearchViewBody>
+				) : (
+					props.children
+				)}
 			</Form>
 		</SearchView>
 	)

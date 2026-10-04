@@ -12,9 +12,7 @@ export class SearchPage {
 			this.dialog.locator("[data-active-item='true']")
 		)
 
-		this.search = this.dialog
-			.getByRole("search")
-			.getByPlaceholder("Search anime or manga")
+		this.search = this.dialog.getByRole("search").getByRole("combobox")
 	}
 
 	static new(page: Page): SearchPage {
