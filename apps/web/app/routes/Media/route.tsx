@@ -1,5 +1,6 @@
 import {
 	type ClientLoaderFunctionArgs,
+	isRouteErrorResponse,
 	useLocation,
 	useOutlet,
 } from "react-router"
@@ -11,6 +12,7 @@ import ReactRelay from "react-relay"
 import { Card } from "@animedes/components/Card"
 import {
 	LayoutBody,
+	LayoutPane,
 	LayoutPane as PaneFlexible,
 } from "@animedes/components/Layout"
 import {
@@ -216,5 +218,48 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 				</PaneFlexible>
 			</LayoutBody>
 		</>
+	)
+}
+
+import * as Sentry from "@sentry/react"
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<LayoutBody>
+				<LayoutPane>
+					<div>
+						<Ariakit.Heading>Oops</Ariakit.Heading>
+						<p>Status: {error.status}</p>
+						<p>{error.data}</p>
+					</div>
+				</LayoutPane>
+			</LayoutBody>
+		)
+	}
+	void Sentry.captureException(error)
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<LayoutBody>
+			<LayoutPane>
+				<Card
+					variant="elevated"
+					className="bg-error-container text-on-error-container m-4"
+				>
+					<Ariakit.Heading className="text-headline-md text-balance">
+						Uh oh ...
+					</Ariakit.Heading>
+					<p className="text-headline-sm">Something went wrong.</p>
+					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+				</Card>
+			</LayoutPane>
+		</LayoutBody>
 	)
 }
