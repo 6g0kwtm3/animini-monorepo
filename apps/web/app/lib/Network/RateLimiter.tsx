@@ -48,7 +48,7 @@ export class RateLimiter {
 					try {
 						resolve(await fn())
 					} catch (error) {
-						if (error instanceof Error) {
+						if (Error.isError(error)) {
 							reject(error)
 						} else {
 							reject(
@@ -74,10 +74,9 @@ export class RateLimiter {
 				try {
 					claim = await this.claimToken()
 				} catch (error) {
-					const reason =
-						error instanceof Error
-							? error
-							: new Error(`RateLimiter claim failed`, { cause: error })
+					const reason = Error.isError(error)
+						? error
+						: new Error(`RateLimiter claim failed`, { cause: error })
 					for (const entry of this.queue) {
 						entry.reject(reason)
 					}

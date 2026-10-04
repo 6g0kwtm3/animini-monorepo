@@ -191,7 +191,7 @@ export function ErrorBoundary(): ReactNode {
 	// Don't forget to typecheck with your own logic.
 	// Any value can be thrown, not just errors!
 	let errorMessage = "Unknown error"
-	if (error instanceof Error) {
+	if (Error.isError(error)) {
 		errorMessage = error.message || errorMessage
 	}
 
