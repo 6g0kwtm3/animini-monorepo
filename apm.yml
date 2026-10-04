@@ -10,8 +10,8 @@ targets:
 
 dependencies:
   apm:
-    - PatrykWalach/skills
-    - mattpocock/skills
+    - PatrykWalach/skills#7452c27709e8803ae2cdaca4236774ad8e869628
+    - mattpocock/skills#c55ee46073ed923f86ce59a5eb3b6d895095d1b7
   mcp: []
 includes: auto
 scripts: {}
