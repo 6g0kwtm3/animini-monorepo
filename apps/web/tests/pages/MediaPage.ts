@@ -6,8 +6,8 @@ export class MediaPage {
 	cover: Locator
 
 	edit: Locator
-	nav: Nav
 	loginToEdit: Locator
+	nav: Nav
 	title: Locator
 	private constructor(page: Page) {
 		this.nav = new Nav(page)
