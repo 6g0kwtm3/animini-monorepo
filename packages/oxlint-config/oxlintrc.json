@@ -75,6 +75,14 @@
 		"typescript/switch-exhaustiveness-check": "warn",
 		"typescript/consistent-type-definitions": ["warn", "interface"],
 		"eslint/require-await": "warn",
+		"unicorn/no-instanceof-builtins": [
+			"warn",
+			{
+				"strategy": "strict",
+				"useErrorIsError": true,
+				"exclude": ["ArkErrors"]
+			}
+		],
 		"unicorn/no-document-cookie": "warn",
 		"unicorn/consistent-existence-index-check": "warn",
 		"unicorn/prefer-number-coercion": "warn",
