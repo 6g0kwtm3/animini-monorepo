@@ -8,6 +8,7 @@ export const rule: GraphQLESLintRule = {
 		fixable: "code",
 		messages: {
 			"require-throw-on-field-error-on-fragment-definition": `Fragment definition \`...{{ fragment }}\` is missing the \`@throwOnFieldError\` directive.`,
+			"require-throw-on-field-error-on-operation-definition": `Query definition \`...{{ query }}\` is missing the \`@throwOnFieldError\` directive.`,
 		},
 	},
 	create(context) {
@@ -32,8 +33,8 @@ export const rule: GraphQLESLintRule = {
 
 				context.report({
 					node: node,
-					messageId: "require-throw-on-field-error-on-fragment-definition",
-					data: { fragment: node.name.value },
+					messageId: "require-throw-on-field-error-on-query-definition",
+					data: { query: node.name.value },
 					fix(fixer) {
 						return fixer.insertTextBefore(
 							node.selectionSet,
