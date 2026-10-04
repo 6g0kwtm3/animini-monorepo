@@ -1,5 +1,6 @@
 import {
 	type ClientLoaderFunctionArgs,
+	isRouteErrorResponse,
 	useLocation,
 	useOutlet,
 } from "react-router"
@@ -11,6 +12,7 @@ import ReactRelay from "react-relay"
 import { Card } from "@animedes/components/Card"
 import {
 	LayoutBody,
+	LayoutPane,
 	LayoutPane as PaneFlexible,
 } from "@animedes/components/Layout"
 import {
@@ -45,16 +47,16 @@ import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import type { Route } from "./+types/route"
 import { Edit } from "./Edit"
 const { graphql } = ReactRelay
+import * as design from "@anitrove/design"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
-export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
-	const client = client_get_client()
-
-	const data = await client.query<routeNavMediaQuery>(
+export const clientLoader = (args: ClientLoaderFunctionArgs) => {
+	const data = args.context.get(loadQuery)<routeNavMediaQuery>(
 		graphql`
 			query routeNavMediaQuery($id: Int!) @raw_response_type {
 				Media(id: $id) {
 					coverImage {
-						color
+						theme @catch(to: NULL)
 					}
 					...MediaCover_media @arguments(extraLarge: true) @alias
 					title @required(action: LOG) {
@@ -68,70 +70,59 @@ export const clientLoader = async (args: ClientLoaderFunctionArgs) => {
 		{ id: Number(args.params.mediaId) }
 	)
 
-	if (!data?.Media) {
-		throw Response.json("Media not found", { status: 404 })
-	}
-
-	return {
-		Media: data.Media,
-		query: data,
-		theme: Predicate.isString(data.Media.coverImage?.color)
-			? getThemeFromHex(data.Media.coverImage.color)
-			: precompileStyles({}),
-	}
+	return { query: data }
 }
 
-export const meta = ((args) => {
-	const data = args.loaderData
-	return [{ title: `Media - ${data.Media.title.userPreferred}` }]
-}) satisfies Route.MetaFunction
-
-import * as design from "@anitrove/design"
-
 export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
-	const data = loaderData
+	const data = usePreloadedQuery(loaderData.query)
+
+	if (data.Media == null) {
+		throw Response.json("Media not found", { status: 404 })
+	}
 
 	const outlet = useOutlet()
 	const { pathname } = useLocation()
 
 	return (
-		<LayoutBody
-			style={mergeStyles(
-				data.theme,
-				precompileStyles({
-					...design.utilities.contrast({
-						base: "standard",
-						[design.media.contrastMore]: "high",
-					}),
-					...design.utilities.theme({
-						base: "light",
-						[design.media.dark]: "dark",
-					}),
-				})
-			)}
-		>
-			<PaneFlexible>
-				<div>
-					<Card
-						variant="filled"
-						className="grid flex-1 gap-4 rounded-[2.75rem]"
-					>
-						<MediaCover
-							media={data.Media.MediaCover_media}
-							className="rounded-xl [view-transition-name:media-cover]"
-						/>
+		<>
+			<title>{`Media - ${data.Media.title.userPreferred}`}</title>
+			<LayoutBody
+				style={mergeStyles(
+					data.Media.coverImage?.theme ?? undefined,
+					precompileStyles({
+						...design.utilities.contrast({
+							base: "standard",
+							[design.media.contrastMore]: "high",
+						}),
+						...design.utilities.theme({
+							base: "light",
+							[design.media.dark]: "dark",
+						}),
+					})
+				)}
+			>
+				<PaneFlexible>
+					<div>
+						<Card
+							variant="filled"
+							className="grid flex-1 gap-4 rounded-[2.75rem]"
+						>
+							<MediaCover
+								media={data.Media.MediaCover_media}
+								className="rounded-xl [view-transition-name:media-cover]"
+							/>
 
-						<div className="flex flex-wrap gap-2">
-							<Button variant="filled">Favourite</Button>
-							<Button variant="outlined">Favourite</Button>
-							<Button>Favourite</Button>
-							<Button variant="elevated">Favourite</Button>
-							<Button variant="tonal" type="button" invoketarget="edit">
-								Edit
-							</Button>
-						</div>
+							<div className="flex flex-wrap gap-2">
+								<Button variant="filled">Favourite</Button>
+								<Button variant="outlined">Favourite</Button>
+								<Button>Favourite</Button>
+								<Button variant="elevated">Favourite</Button>
+								<Button variant="tonal" type="button" invoketarget="edit">
+									Edit
+								</Button>
+							</div>
 
-						{/* <div className="grid gap-4 flex-1">
+							{/* <div className="grid gap-4 flex-1">
               <img
                 src={data?.Media?.bannerImage ?? ""}
                 loading="lazy"
@@ -140,91 +131,135 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
               />
               </div>
               <div className="border-outline-variant border-r min-h-full"></div> */}
-						<div className="overflow-hidden rounded-xl">
-							<Card variant="elevated">
-								<div className="sm:p-12">
-									<Ariakit.Heading className="text-display-lg text-balance">
-										{data.Media.title.userPreferred}
-									</Ariakit.Heading>
-									<Menu>
-										<MenuTrigger
-											className={button({ className: "cursor-default" })}
-										>
-											Format
-										</MenuTrigger>
+							<div className="overflow-hidden rounded-xl">
+								<Card variant="elevated">
+									<div className="sm:p-12">
+										<Ariakit.Heading className="text-display-lg text-balance">
+											{data.Media.title.userPreferred}
+										</Ariakit.Heading>
+										<Menu>
+											<MenuTrigger
+												className={button({ className: "cursor-default" })}
+											>
+												Format
+											</MenuTrigger>
 
-										<MenuList className="top-auto">
-											{/* <MenuListItem render={<a href="" />}>
+											<MenuList className="top-auto">
+												{/* <MenuListItem render={<a href="" />}>
 												<MenuItemLeadingIcon>
 													<MaterialSymbolsVisibility />
 												</MenuItemLeadingIcon>
 												Item 1
 											</MenuListItem> */}
 
-											<MenuListItem>
-												<MenuItemLeadingIcon>
-													<MaterialSymbolsContentCopy />
-												</MenuItemLeadingIcon>
-												Item 2
-												<MenuItemTrailingText>
-													<span className="i">
-														<MaterialSymbolsKeyboardCommandKey />
-													</span>
-													+Shift+X
-												</MenuItemTrailingText>
-											</MenuListItem>
-											<MenuListItem>
-												<MenuItemLeadingIcon>
-													<MaterialSymbolsEdit />
-												</MenuItemLeadingIcon>
-												Item 3
-												<MenuItemTrailingIcon>
-													<MaterialSymbolsCheck />
-												</MenuItemTrailingIcon>
-											</MenuListItem>
-											<MenuDivider />
-
-											<Menu>
-												<MenuListItem render={<MenuTrigger />}>
+												<MenuListItem>
 													<MenuItemLeadingIcon>
-														<MaterialSymbolsCloud />
+														<MaterialSymbolsContentCopy />
 													</MenuItemLeadingIcon>
-													Item 4
-													<MenuItemTrailingIcon className="group-open:rotate-180">
-														<MaterialSymbolsChevronRight />
+													Item 2
+													<MenuItemTrailingText>
+														<span className="i">
+															<MaterialSymbolsKeyboardCommandKey />
+														</span>
+														+Shift+X
+													</MenuItemTrailingText>
+												</MenuListItem>
+												<MenuListItem>
+													<MenuItemLeadingIcon>
+														<MaterialSymbolsEdit />
+													</MenuItemLeadingIcon>
+													Item 3
+													<MenuItemTrailingIcon>
+														<MaterialSymbolsCheck />
 													</MenuItemTrailingIcon>
 												</MenuListItem>
-												<MenuList className="-top-2 left-full">
-													<MenuListItem>
+												<MenuDivider />
+
+												<Menu>
+													<MenuListItem render={<MenuTrigger />}>
 														<MenuItemLeadingIcon>
-															<MaterialSymbolsVisibility />
+															<MaterialSymbolsCloud />
 														</MenuItemLeadingIcon>
-														Item 1
+														Item 4
+														<MenuItemTrailingIcon className="group-open:rotate-180">
+															<MaterialSymbolsChevronRight />
+														</MenuItemTrailingIcon>
 													</MenuListItem>
-												</MenuList>
-											</Menu>
-										</MenuList>
-									</Menu>
-									<div
-										className="text-title-lg"
-										dangerouslySetInnerHTML={{
-											__html: data.Media.description ?? "",
-										}}
-									/>
-								</div>
-							</Card>
-						</div>
-					</Card>
-				</div>
+													<MenuList className="-top-2 left-full">
+														<MenuListItem>
+															<MenuItemLeadingIcon>
+																<MaterialSymbolsVisibility />
+															</MenuItemLeadingIcon>
+															Item 1
+														</MenuListItem>
+													</MenuList>
+												</Menu>
+											</MenuList>
+										</Menu>
+										<div
+											className="text-title-lg"
+											dangerouslySetInnerHTML={{
+												__html: data.Media.description ?? "",
+											}}
+										/>
+									</div>
+								</Card>
+							</div>
+						</Card>
+					</div>
 
-				<Edit query={data.query.Edit_query} />
+					<Edit query={data.Edit_query} />
 
-				{outlet ? (
-					<AnimatePresence mode="wait">
-						{cloneElement(outlet, { key: pathname })}
-					</AnimatePresence>
-				) : null}
-			</PaneFlexible>
+					{outlet ? (
+						<AnimatePresence mode="wait">
+							{cloneElement(outlet, { key: pathname })}
+						</AnimatePresence>
+					) : null}
+				</PaneFlexible>
+			</LayoutBody>
+		</>
+	)
+}
+
+import * as Sentry from "@sentry/react"
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<LayoutBody>
+				<LayoutPane>
+					<div>
+						<Ariakit.Heading>Oops</Ariakit.Heading>
+						<p>Status: {error.status}</p>
+						<p>{error.data}</p>
+					</div>
+				</LayoutPane>
+			</LayoutBody>
+		)
+	}
+	void Sentry.captureException(error)
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (error instanceof Error) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<LayoutBody>
+			<LayoutPane>
+				<Card
+					variant="elevated"
+					className="bg-error-container text-on-error-container m-4"
+				>
+					<Ariakit.Heading className="text-headline-md text-balance">
+						Uh oh ...
+					</Ariakit.Heading>
+					<p className="text-headline-sm">Something went wrong.</p>
+					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+				</Card>
+			</LayoutPane>
 		</LayoutBody>
 	)
 }
