@@ -54,7 +54,7 @@ export function MediaLink({ mediaId, type, slug, ...props }: MediaLinkProps) {
 function MediaCard(props: { mediaId: number; type: string }) {
 	const media = useLazyLoadQuery<MediaLinkCardQuery>(
 		graphql`
-			query MediaLinkCardQuery($id: Int) @raw_response_type {
+			query MediaLinkCardQuery($id: Int) @raw_response_type @throwOnFieldError {
 				Media(id: $id) {
 					title {
 						userPreferred

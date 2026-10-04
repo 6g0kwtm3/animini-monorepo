@@ -27,7 +27,9 @@ const { graphql } = ReactRelay
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const page = args.context.get(loadQuery)<routeNavFeedQuery>(
 		graphql`
-			query routeNavFeedQuery($perPage: Int) @raw_response_type {
+			query routeNavFeedQuery($perPage: Int)
+			@raw_response_type
+			@throwOnFieldError {
 				Page(perPage: $perPage) {
 					activities(sort: [ID_DESC], type_in: [TEXT]) {
 						__typename

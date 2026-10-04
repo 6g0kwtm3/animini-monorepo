@@ -36,7 +36,8 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = args.context.get(loadQuery)<routeNavUserQuery>(
 		graphql`
 			query routeNavUserQuery($userName: String!, $token: Boolean!)
-			@raw_response_type {
+			@raw_response_type
+			@throwOnFieldError {
 				Viewer @include(if: $token) {
 					id
 					name

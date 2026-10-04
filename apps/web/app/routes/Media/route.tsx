@@ -53,7 +53,9 @@ import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	const data = args.context.get(loadQuery)<routeNavMediaQuery>(
 		graphql`
-			query routeNavMediaQuery($id: Int!) @raw_response_type {
+			query routeNavMediaQuery($id: Int!)
+			@raw_response_type
+			@throwOnFieldError {
 				Media(id: $id) {
 					coverImage {
 						theme @catch(to: NULL)

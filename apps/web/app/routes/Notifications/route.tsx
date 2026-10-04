@@ -39,7 +39,7 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 			loadQuery
 		)<routeNavNotificationsQueryOperation>(
 			graphql`
-				query routeNavNotificationsQuery @raw_response_type {
+				query routeNavNotificationsQuery @raw_response_type @throwOnFieldError {
 					Viewer @required(action: THROW) {
 						id
 						unreadNotificationCount
@@ -77,7 +77,9 @@ export const clientAction = (async () => {
 
 	await client.query(
 		graphql`
-			query routeNavNotificationsReadQuery @raw_response_type {
+			query routeNavNotificationsReadQuery
+			@raw_response_type
+			@throwOnFieldError {
 				Page(perPage: 0) {
 					notifications(resetNotificationCount: true) {
 						__typename
