@@ -11,6 +11,37 @@ export const rule: GraphQLESLintRule = {
 	},
 	create(context) {
 		return {
+			OperationDefinition(node) {
+				if (
+					node.operation === OperationTypeNode.MUTATION
+					|| node.operation === OperationTypeNode.SUBSCRIPTION
+				) {
+					return
+				}
+
+				if (
+					node.directives?.some(
+						(d) =>
+							d.name.value === "throwOnFieldError"
+							|| d.name.value === "assignable"
+							|| d.name.value === "updatable"
+					)
+				) {
+					return
+				}
+
+				context.report({
+					node: node,
+					messageId: "require-throw-on-field-error-on-fragment-definition",
+					data: { fragment: node.name.value },
+					fix(fixer) {
+						return fixer.insertTextAfter(
+							node.typeCondition,
+							" @throwOnFieldError"
+						)
+					},
+				})
+			},
 			FragmentDefinition(node) {
 				if (
 					node.directives?.some(
