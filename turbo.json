@@ -26,11 +26,9 @@
 	],
 	"tasks": {
 		"dev": { "cache": false, "persistent": true, "with": ["check"] },
-		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": ["dist/**", "storybook-static/**"],
-			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
+			"outputs": ["dist/**", "storybook-static/**"]
 		},
 		"transit": { "dependsOn": ["^transit"] },
 		"check": { "dependsOn": ["transit"] },

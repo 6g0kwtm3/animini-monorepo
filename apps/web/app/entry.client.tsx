@@ -15,11 +15,12 @@ import { API_URL } from "./lib/Network/environment"
 const tracing = reactRouterTracingIntegration({ useInstrumentationAPI: true })
 
 init({
-	environment: import.meta.env.DEV
-		? "development"
-		: import.meta.env.CF_PAGES_BRANCH === "master"
-			? `production`
-			: "preview",
+	environment:
+		import.meta.env.MODE === "preview" || import.meta.env.MODE === "e2e"
+			? import.meta.env.MODE
+			: import.meta.env.CF_PAGES_BRANCH === "master"
+				? `production`
+				: "development",
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
 
 	integrations: [
