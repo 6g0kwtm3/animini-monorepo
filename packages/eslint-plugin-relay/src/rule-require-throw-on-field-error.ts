@@ -8,7 +8,7 @@ export const rule: GraphQLESLintRule = {
 		fixable: "code",
 		messages: {
 			"require-throw-on-field-error-on-fragment-definition": `Fragment definition \`...{{ fragment }}\` is missing the \`@throwOnFieldError\` directive.`,
-			"require-throw-on-field-error-on-operation-definition": `Query definition \`...{{ query }}\` is missing the \`@throwOnFieldError\` directive.`,
+			"require-throw-on-field-error-on-query-definition": `Query definition \`...{{ query }}\` is missing the \`@throwOnFieldError\` directive.`,
 		},
 	},
 	create(context) {
