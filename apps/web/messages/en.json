@@ -1,6 +1,13 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"close_search": "Close search",
+	"clear_search": "Clear search",
+	"show_list_search": "Show list search",
+	"show_more_options": "Show more options",
 	"increment_progress": "Increment progress",
+	"filter": "Filter",
+	"more": "More",
+	"logout": "Logout",
 	"avalible_episodes": "Avalible episodes: {avalible}",
 	"total_episodes": "Total episodes: {total}",
 	"all_avalible": "All episodes are avalible",
