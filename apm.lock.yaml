@@ -7,7 +7,7 @@ dependencies:
   resolved_commit: c55ee46073ed923f86ce59a5eb3b6d895095d1b7
   resolved_ref: c55ee46073ed923f86ce59a5eb3b6d895095d1b7
   version: 1.2.3
-  package_type: marketplace_plugin
+  package_type: apm_package
   deployed_files:
   - .agents/skills/ask-matt
   - .agents/skills/ask-matt/PHASE-BOUNDARIES.md
@@ -183,7 +183,7 @@ dependencies:
     .agents/skills/writing-for-agents/SKILL-MECHANICS.md: sha256:c768e6307c7c10728c401c213f2c4ba71c542127eeb7ad2956aabd15a0fa0059
     .agents/skills/writing-for-agents/SKILL.md: sha256:551adca942227b44192edba88acd4e8db911f0121ce58ad16944ccf6a896a74a
     .agents/skills/writing-for-agents/agents/openai.yaml: sha256:eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b
-  content_hash: sha256:1f4b733ff8430918ef3b65b8866ff119fc565a4aef17261f460ba9348a427f82
+  content_hash: sha256:65bf4c62cc21c032506830249d9b39272a749dfc230ee929a129e103cdec36a7
   declared_license: MIT
 - repo_url: patrykwalach/skills
   materialization_repo_url: PatrykWalach/skills
@@ -191,7 +191,7 @@ dependencies:
   host: github.com
   resolved_commit: 7452c27709e8803ae2cdaca4236774ad8e869628
   resolved_ref: 7452c27709e8803ae2cdaca4236774ad8e869628
-  version: 0.0.0
+  version: unknown
   package_type: skill_bundle
   deployed_files:
   - .agents/skills/test-intent
