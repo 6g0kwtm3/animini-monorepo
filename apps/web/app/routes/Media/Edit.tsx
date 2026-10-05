@@ -33,8 +33,10 @@ export function Edit(props: { query: Edit_query$key }) {
 		<motion.div layoutId="edit" className="fixed end-4 bottom-24 sm:bottom-4">
 			<div className="relative">
 				<Fab
-					tooltip
-					title={root.Viewer != null ? m.edit() : m.login_to_edit()}
+					label={{
+						kind: "ariakit-tooltip",
+						value: root.Viewer != null ? m.edit() : m.login_to_edit(),
+					}}
 					render={
 						<A
 							href={
