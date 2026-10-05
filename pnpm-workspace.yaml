@@ -17,7 +17,7 @@ blockExoticSubdeps: true
 catalog:
   '@animedes/react-stable': workspace:*
   '@ariakit/react': 0.4.40
-  '@ark/attest': 0.56.6
+  '@ark/attest': 0.56.7
   '@babel/preset-typescript': 7.29.7
   '@chromatic-com/storybook': 5.4.0
   '@codspeed/vitest-plugin': 5.7.1
@@ -32,7 +32,7 @@ catalog:
   '@playwright/test': 1.63.0
   '@react-router/dev': 8.4.0
   '@react-router/node': 8.4.0
-  '@sentry/react': npm:@sentry/react-router@11.1.0
+  '@sentry/react': npm:@sentry/react-router@11.4.0
   '@sentry/toolbar': 1.0.0-beta.11
   '@sentry/vite-plugin': 5.4.0
   '@storybook/addon-a11y': 10.6.1
@@ -53,14 +53,14 @@ catalog:
   '@types/estree': 1.0.9
   '@types/flubber': 0.4.0
   '@types/marked': 0.3.0
-  '@types/node': 24.19.0
+  '@types/node': 24.19.1
   '@types/prop-types': 15.7.15
   '@types/react': 19.3.0
   '@types/react-dom': 19.3.0
   '@typescript-eslint/parser': 8.71.0
   '@typescript/native': npm:typescript@rc
   anitomy: 0.0.35
-  arktype: 2.2.6
+  arktype: 2.2.7
   babel-plugin-react-compiler: 1.0.0
   csstype: 3.2.3
   dompurify: 3.2.5
@@ -82,7 +82,7 @@ catalog:
   isbot: 5.2.2
   knip: 6.39.0
   marked: 0.3.19
-  motion: 13.4.6
+  motion: 13.5.1
   msw: 3.0.1
   nodemon: 3.1.14
   oxfmt: 0.71.0
@@ -101,7 +101,7 @@ catalog:
   tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.3
   tsx: 4.23.15
-  turbo: 2.11.6
+  turbo: 2.11.7
   typescript: npm:@typescript/typescript6@6.0.2
   typescript-eslint: 8.71.0
   unplugin-icons: 24.0.0
@@ -111,7 +111,7 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
-  wrangler: 4.145.0
+  wrangler: 4.147.0
 
 catalogMode: strict
 
