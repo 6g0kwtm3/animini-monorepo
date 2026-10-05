@@ -1,64 +1,102 @@
 packages:
   - packages/*
   - apps/*
-
 allowBuilds:
-  '0': electron\
-  '@sentry/cli': false
+  "0": electron\
+  "@sentry/cli": false
   core-js: false
   electron: true
   esbuild: false
   msw: false
   sharp: false
   workerd: false
-
 blockExoticSubdeps: true
-
+catalogMode: strict
+cleanupUnusedCatalogs: true
+dedupePeers: true
+enablePrePostScripts: false
+ignoredBuiltDependencies:
+  - "@sentry/cli"
+  - esbuild
+  - msw
+  - sharp
+  - workerd
+nodeLinker: hoisted
+onlyBuiltDependencies:
+  - electron
+optimisticRepeatInstall: true
+overrides:
+  yauzl: 3.4.0
+  "@animedes/react-stable": "workspace:"
+  msw>graphql: 17.0.2
+minimumReleaseAgeExcludePrune: true
+minimumReleaseAge: 0
+patchedDependencies:
+  "@material/material-color-utilities": patches/@material__material-color-utilities.patch
+  "@types/react": patches/@types__react.patch
+  flubber: patches/flubber.patch
+  framer-motion: patches/framer-motion.patch
+  react-relay: patches/react-relay.patch
+savePrefix: ""
+shellEmulator: true
+strictDepBuilds: true
+verifyDepsBeforeRun: install
+minimumReleaseAgeStrict: false
+packageExtensions:
+  "@types/react":
+    dependencies:
+      "@animedes/react-stable": "*"
+  framer-motion:
+    dependencies:
+      "@animedes/react-stable": "*"
+saveTypes: true
 catalog:
-  '@animedes/react-stable': workspace:*
-  '@ariakit/react': 0.4.40
-  '@ark/attest': 0.56.7
-  '@babel/preset-typescript': 7.29.7
-  '@chromatic-com/storybook': 5.4.0
-  '@codspeed/vitest-plugin': 5.7.1
-  '@eslint/js': 10.0.1
-  '@graphql-eslint/eslint-plugin': 4.4.1
-  '@graphql-tools/mock': 9.1.16
-  '@hono/node-server': 2.1.3
-  '@iconify-json/material-symbols': 1.2.93
-  '@inlang/paraglide-js': 2.25.4
-  '@material/material-color-utilities': 0.4.0
-  '@msw/playwright': 0.7.0
-  '@playwright/test': 1.63.0
-  '@react-router/dev': 8.4.0
-  '@react-router/node': 8.4.0
-  '@sentry/react': npm:@sentry/react-router@11.4.0
-  '@sentry/toolbar': 1.0.0-beta.11
-  '@sentry/vite-plugin': 5.4.0
-  '@storybook/addon-a11y': 10.6.1
-  '@storybook/addon-docs': 10.6.1
-  '@storybook/addon-onboarding': 10.6.1
-  '@storybook/addon-themes': 10.6.1
-  '@storybook/addon-vitest': 10.6.1
-  '@storybook/react-vite': 10.6.1
-  '@stryker-mutator/api': 10.0.0
-  '@stryker-mutator/core': 10.0.0
-  '@stryker-mutator/vitest-runner': 10.0.0
-  '@svgr/core': 8.1.0
-  '@svgr/plugin-jsx': 8.1.0
-  '@tailwindcss/typography': 0.5.20
-  '@tailwindcss/vite': 4.3.3
-  '@tanstack/react-virtual': 3.14.13
-  '@types/bun': 1.4.2
-  '@types/estree': 1.0.9
-  '@types/flubber': 0.4.0
-  '@types/marked': 0.3.0
-  '@types/node': 24.19.1
-  '@types/prop-types': 15.7.15
-  '@types/react': 19.3.0
-  '@types/react-dom': 19.3.0
-  '@typescript-eslint/parser': 8.71.0
-  '@typescript/native': npm:typescript@rc
+  "@animedes/react-stable": workspace:*
+  "@ariakit/react": 0.4.40
+  "@ark/attest": 0.56.7
+  "@babel/preset-typescript": 7.29.7
+  "@chromatic-com/storybook": 5.4.0
+  "@codspeed/vitest-plugin": 5.7.1
+  "@eslint/js": 10.0.1
+  "@flaghoist/adapter-cloudflare-kv": ^0.3.0
+  "@flaghoist/server": ^0.4.0
+  "@graphql-eslint/eslint-plugin": 4.4.1
+  "@graphql-tools/mock": 9.1.16
+  "@hono/node-server": 2.1.3
+  "@iconify-json/material-symbols": 1.2.93
+  "@inlang/paraglide-js": 2.25.4
+  "@material/material-color-utilities": 0.4.0
+  "@msw/playwright": 0.7.0
+  "@playwright/test": 1.63.0
+  "@react-router/dev": 8.4.0
+  "@react-router/node": 8.4.0
+  "@sentry/react": npm:@sentry/react-router@11.4.0
+  "@sentry/toolbar": 1.0.0-beta.11
+  "@sentry/vite-plugin": 5.4.0
+  "@storybook/addon-a11y": 10.6.1
+  "@storybook/addon-docs": 10.6.1
+  "@storybook/addon-onboarding": 10.6.1
+  "@storybook/addon-themes": 10.6.1
+  "@storybook/addon-vitest": 10.6.1
+  "@storybook/react-vite": 10.6.1
+  "@stryker-mutator/api": 10.0.0
+  "@stryker-mutator/core": 10.0.0
+  "@stryker-mutator/vitest-runner": 10.0.0
+  "@svgr/core": 8.1.0
+  "@svgr/plugin-jsx": 8.1.0
+  "@tailwindcss/typography": 0.5.20
+  "@tailwindcss/vite": 4.3.3
+  "@tanstack/react-virtual": 3.14.13
+  "@types/bun": 1.4.2
+  "@types/estree": 1.0.9
+  "@types/flubber": 0.4.0
+  "@types/marked": 0.3.0
+  "@types/node": 24.19.1
+  "@types/prop-types": 15.7.15
+  "@types/react": 19.3.0
+  "@types/react-dom": 19.3.0
+  "@typescript-eslint/parser": 8.71.0
+  "@typescript/native": npm:typescript@rc
   anitomy: 0.0.35
   arktype: 2.2.7
   babel-plugin-react-compiler: 1.0.0
@@ -73,7 +111,6 @@ catalog:
   eslint-plugin-react: 7.37.5
   eslint-plugin-storybook: 10.6.1
   eslint-plugin-turbo: 2.11.6
-
   eslint-vitest-rule-tester: 3.2.0
   flubber: 0.4.2
   graphql: 17.0.2
@@ -111,61 +148,4 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.0.2
   vitest: 4.1.11
-  wrangler: 4.147.0
-
-catalogMode: strict
-
-cleanupUnusedCatalogs: true
-
-dedupePeers: true
-
-enablePrePostScripts: false
-
-ignoredBuiltDependencies:
-  - '@sentry/cli'
-  - esbuild
-  - msw
-  - sharp
-  - workerd
-
-nodeLinker: hoisted
-
-onlyBuiltDependencies:
-  - electron
-
-optimisticRepeatInstall: true
-
-overrides:
-  yauzl: 3.4.0
-  '@animedes/react-stable': 'workspace:'
-  'msw>graphql': 17.0.2
-
-minimumReleaseAgeExcludePrune: true
-minimumReleaseAge: 0
-
-patchedDependencies:
-  '@material/material-color-utilities': patches/@material__material-color-utilities.patch
-  '@types/react': patches/@types__react.patch
-  flubber: patches/flubber.patch
-  framer-motion: patches/framer-motion.patch
-  react-relay: patches/react-relay.patch
-
-savePrefix: ''
-
-shellEmulator: true
-
-strictDepBuilds: true
-
-verifyDepsBeforeRun: install
-
-minimumReleaseAgeStrict: false
-
-packageExtensions:
-  '@types/react':
-    dependencies:
-      '@animedes/react-stable': '*'
-  'framer-motion':
-    dependencies:
-      '@animedes/react-stable': '*'
-
-saveTypes: true
+  wrangler: ^4.0.0

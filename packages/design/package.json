@@ -22,8 +22,8 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"typescript": "npm:@typescript/typescript6@6.0.2",
-		"@typescript/native": "npm:typescript@rc",
+		"typescript": "catalog:",
+		"@typescript/native": "catalog:",
 		"utilities": "workspace:@animedes/utilities@*"
 	},
 	"dependencies": {
