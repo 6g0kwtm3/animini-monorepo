@@ -72,7 +72,7 @@ catalog:
   eslint-plugin-pnpm: 1.9.1
   eslint-plugin-react: 7.37.5
   eslint-plugin-storybook: 10.6.1
-  eslint-plugin-turbo: 2.11.5
+  eslint-plugin-turbo: 2.11.6
 
   eslint-vitest-rule-tester: 3.2.0
   flubber: 0.4.2
