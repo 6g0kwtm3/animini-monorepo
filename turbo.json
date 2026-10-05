@@ -30,6 +30,7 @@
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**", "storybook-static/**"]
 		},
+		"deploy": { "dependsOn": ["build"], "cache": false },
 		"transit": { "dependsOn": ["^transit"] },
 		"check": { "dependsOn": ["transit"] },
 		"//#oxlint": {

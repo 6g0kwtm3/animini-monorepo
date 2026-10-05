@@ -1,0 +1,17 @@
+{
+	"name": "web-flags",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy"
+	},
+	"dependencies": {
+		"@flaghoist/server": "^0.4.0",
+		"@flaghoist/adapter-cloudflare-kv": "^0.3.0"
+	},
+	"devDependencies": {
+		"wrangler": "^4.0.0"
+	}
+}
