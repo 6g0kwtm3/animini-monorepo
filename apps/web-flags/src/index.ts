@@ -7,5 +7,5 @@ export default createFlagServer((env) => ({
 	auth: { admin: bearerToken(env.ADMIN_TOKEN), read: apiKey(env.READ_API_KEY) },
 	users: { pepper: env.AUTH_PEPPER },
 	dashboard: dashboardHtml,
-	allowedOrigins: ["*"],
+	allowedOrigins: { includes: () => true },
 }))
