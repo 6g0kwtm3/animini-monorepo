@@ -1,11 +1,10 @@
-import type { ComponentProps, ReactNode } from "react"
-
+import { TabsList, TabsListItem } from "@animedes/components/Tabs"
+import { A } from "@anitrove/a"
+import ReactRelay from "react-relay"
 import { useFragment } from "~/lib/Network"
 import { route_user, route_user_list } from "~/lib/route"
 
-import { A } from "@anitrove/a"
-import ReactRelay from "react-relay"
-import { TabsList, TabsListItem } from "@animedes/components/Tabs"
+import type { ComponentProps, ReactNode } from "react"
 import type { User_user$key } from "~/gql/User_user.graphql"
 
 const { graphql } = ReactRelay

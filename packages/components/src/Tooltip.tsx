@@ -1,8 +1,9 @@
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence, motion } from "motion/react"
-import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import MaterialSymbolsArrowDropDown from "~icons/material-symbols/arrow-drop-down"
+
+import type { ComponentProps, PropsWithChildren, ReactNode } from "react"
 
 export function TooltipRich(props: Ariakit.HovercardProviderProps): ReactNode {
 	return <Ariakit.HovercardProvider placement="bottom" {...props} />
@@ -35,8 +36,9 @@ export function TooltipDisclosure({
 	)
 }
 
-import { tv } from "./tailwind-variants"
 import MaterialSymbolsArrowDropUp from "~icons/material-symbols/arrow-drop-up"
+
+import { tv } from "./tailwind-variants"
 
 const tooltip = tv({
 	slots: { container: "" },

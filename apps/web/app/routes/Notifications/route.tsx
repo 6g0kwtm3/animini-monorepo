@@ -1,35 +1,35 @@
-import ReactRelay from "react-relay"
-
-import { useTooltipStore } from "@ariakit/react"
-import type {
-	ActionFunction,
-	ClientLoaderFunctionArgs,
-	MetaFunction,
-} from "react-router"
-import { Form, redirect } from "react-router"
-import * as listStyles from "@animedes/components/List.styles"
+import { fab } from "@animedes/components/button.styles"
 import { Card } from "@animedes/components/Card"
 import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import { List } from "@animedes/components/List"
+import * as listStyles from "@animedes/components/List.styles"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
 } from "@animedes/components/Tooltip"
-import { fab } from "@animedes/components/button.styles"
-
 import { media } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
+import { useTooltipStore } from "@ariakit/react"
 import * as Ariakit from "@ariakit/react"
-import type { ReactNode } from "react"
-import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import ReactRelay from "react-relay"
+import { Form, redirect } from "react-router"
 import { client_get_client } from "~/lib/client"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
-import type { Route } from "./+types/route"
+
 import { ActivityLike } from "./ActivityLike"
 import { Airing } from "./Airing"
 import { RelatedMediaAddition } from "./RelatedMediaAddition"
+
+import type { Route } from "./+types/route"
+import type { ReactNode } from "react"
+import type {
+	ActionFunction,
+	ClientLoaderFunctionArgs,
+	MetaFunction,
+} from "react-router"
+import type { routeNavNotificationsQuery as routeNavNotificationsQueryOperation } from "~/gql/routeNavNotificationsQuery.graphql"
 
 const { graphql } = ReactRelay
 

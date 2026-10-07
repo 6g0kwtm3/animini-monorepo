@@ -1,8 +1,9 @@
+import { app, BrowserWindow, session } from "electron"
 import path, { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
-import config from "../react-router.config.ts"
-import { app, BrowserWindow, session } from "electron"
 import { RouterContextProvider } from "react-router"
+
+import config from "../react-router.config.ts"
 import { initRemix } from "./remix-electron.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))

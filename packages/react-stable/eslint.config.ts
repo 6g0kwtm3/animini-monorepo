@@ -1,7 +1,8 @@
 // @ts-check
 
-import type { Linter } from "eslint"
 import base from "eslint-config"
+
+import type { Linter } from "eslint"
 
 const config: Linter.Config[] = [...base]
 export default config

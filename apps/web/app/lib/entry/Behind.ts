@@ -1,7 +1,8 @@
 import ReactRelay from "react-relay"
 
-import type { Behind_entry$key } from "~/gql/Behind_entry.graphql"
 import { readFragment } from "../Network"
+
+import type { Behind_entry$key } from "~/gql/Behind_entry.graphql"
 const { graphql } = ReactRelay
 
 /**

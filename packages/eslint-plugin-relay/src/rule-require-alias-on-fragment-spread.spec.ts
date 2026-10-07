@@ -1,7 +1,8 @@
+import { parser } from "@graphql-eslint/eslint-plugin"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import { expect, test } from "vitest"
+
 import { rule } from "./rule-require-alias-on-fragment-spread"
-import { parser } from "@graphql-eslint/eslint-plugin"
 
 const { valid, invalid } = createRuleTester({
 	rule,

@@ -1,7 +1,8 @@
+import { parser } from "@graphql-eslint/eslint-plugin"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import { expect, test } from "vitest"
+
 import { rule } from "./rule-require-raw-response-type-on-operation-definition"
-import { parser } from "@graphql-eslint/eslint-plugin"
 
 const { valid, invalid } = createRuleTester({
 	rule,

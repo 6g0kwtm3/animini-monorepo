@@ -1,7 +1,9 @@
 import ReactRelay from "react-relay"
-import type { Theme_mediaCover$key } from "~/gql/Theme_mediaCover.graphql"
+
 import { readFragment } from "../Network"
 import { getThemeFromHex, type Theme } from "../theme"
+
+import type { Theme_mediaCover$key } from "~/gql/Theme_mediaCover.graphql"
 const { graphql } = ReactRelay
 
 /**

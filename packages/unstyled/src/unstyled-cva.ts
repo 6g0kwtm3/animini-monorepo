@@ -1,9 +1,10 @@
-import type { OutStyles } from "./unstyled-print.ts"
-
-import type { CSSProperties } from "react"
 import { invariant, numberOrStringToString, numberToString } from "utilities"
+
 import { precompileStyles } from "./unstyled-print.ts"
 import { mapValue, type Value } from "./unstyled-value.ts"
+
+import type { OutStyles } from "./unstyled-print.ts"
+import type { CSSProperties } from "react"
 
 export interface Properties extends CSSProperties {
 	[key: `--${string}`]: number | string

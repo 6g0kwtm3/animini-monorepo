@@ -1,13 +1,14 @@
+import { addMocksToSchema } from "@graphql-tools/mock"
 import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
 import base, { type ElectronApplication, type Page } from "@playwright/test"
-import { Viewer } from "../app/lib/viewer/index"
-import { addMocksToSchema } from "@graphql-tools/mock"
 import { _electron } from "@playwright/test"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { http, HttpResponse, type AnyHandler } from "msw"
 import { graphql } from "msw/graphql"
 import { join } from "path"
+
+import { Viewer } from "../app/lib/viewer/index"
 
 export const anilist = graphql.link("https://graphql.anilist.co")
 

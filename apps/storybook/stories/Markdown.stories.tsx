@@ -1,8 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Markdown, type Options } from "markdown/Markdown"
 import { use, type ComponentProps } from "react"
+
 import snapshot1 from "./assets/Markdown/Snapshot1/snapshot"
 import snapshot2 from "./assets/Markdown/Snapshot2/snapshot"
+
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
 const meta = {
 	title: "Example/Markdown",

@@ -1,5 +1,3 @@
-import ReactRelay from "react-relay"
-import "temporal-polyfill-lite/global"
 import {
 	ListItem,
 	ListItemContent,
@@ -8,19 +6,21 @@ import {
 	ListItemImg,
 	ListItemTrailingSupportingText,
 } from "@animedes/components/List"
-
+import "temporal-polyfill-lite/global"
+import { A } from "@anitrove/a"
+import ReactRelay from "react-relay"
 import { MediaCover } from "~/lib/entry/MediaCover"
+import { useFragment } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import { route_media } from "~/lib/route"
 import { getLocale } from "~/paraglide/runtime"
+import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
-import { A } from "@anitrove/a"
+import { RelativeTimeSince } from "./RelativeTimeSince"
+
+import type { ComponentProps } from "react"
 import type { RelatedMediaAddition_notification$key } from "~/gql/RelatedMediaAddition_notification.graphql"
 import type { RelatedMediaAddition_viewer$key } from "~/gql/RelatedMediaAddition_viewer.graphql"
-import { useFragment } from "~/lib/Network"
-import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
-import { RelativeTimeSince } from "./RelativeTimeSince"
-import type { ComponentProps } from "react"
 
 const { graphql } = ReactRelay
 

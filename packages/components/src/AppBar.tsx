@@ -1,5 +1,4 @@
 import * as Ariakit from "@ariakit/react"
-import type { ComponentProps, ReactNode } from "react"
 import {
 	createContext,
 	useContext,
@@ -7,10 +6,12 @@ import {
 	useState,
 	useSyncExternalStore,
 } from "react"
-import type { VariantProps } from "tailwind-variants"
 
 import { numberToString } from "./numberToString"
 import { tv } from "./tailwind-variants"
+
+import type { ComponentProps, ReactNode } from "react"
+import type { VariantProps } from "tailwind-variants"
 
 const appBar = tv(
 	{

@@ -1,14 +1,14 @@
-import type { ReactNode } from "react"
-import { type ClientLoaderFunctionArgs } from "react-router"
-
-import ReactRelay from "react-relay"
 import { Card } from "@animedes/components/Card"
 import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import { List } from "@animedes/components/List"
-import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
+import ReactRelay from "react-relay"
+import { type ClientLoaderFunctionArgs } from "react-router"
 import { client_get_client } from "~/lib/client"
 import { SearchItem } from "~/lib/search/SearchItem"
+
 import type { Route } from "./+types/route"
+import type { ReactNode } from "react"
+import type { routeNavSearchQuery } from "~/gql/routeNavSearchQuery.graphql"
 const { graphql } = ReactRelay
 
 export const clientLoader = async (args: ClientLoaderFunctionArgs) => {

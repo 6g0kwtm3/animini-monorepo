@@ -1,8 +1,9 @@
-import type { ReactNode } from "react"
-
 import ReactRelay from "react-relay"
-import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
+
 import { useFragment } from "../Network"
+
+import type { ReactNode } from "react"
+import type { MediaCover_media$key } from "~/gql/MediaCover_media.graphql"
 
 const { graphql } = ReactRelay
 
@@ -12,8 +13,8 @@ const cover = tv({
 	base: "bg-cover bg-center object-cover object-center in-[.transitioning]:[view-transition-name:media-cover]",
 })
 
-import * as Ariakit from "@ariakit/react"
 import { numberToString } from "@animedes/components/numberToString"
+import * as Ariakit from "@ariakit/react"
 
 interface MediaCoverProps extends Ariakit.RoleProps<"img"> {
 	media: MediaCover_media$key

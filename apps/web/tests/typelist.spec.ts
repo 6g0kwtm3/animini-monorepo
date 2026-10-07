@@ -1,16 +1,20 @@
-import type { BrowserContext, Locator, Page } from "@playwright/test"
+import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
 import { type } from "arktype"
-import { graphql } from "msw/graphql"
 import { HttpResponse } from "msw"
+import { graphql } from "msw/graphql"
+import { invariant } from "~/lib/invariant"
+import { Token } from "~/lib/viewer"
+
+import { SuccessHandler, test } from "./fixtures"
+import { FeedPage } from "./pages/IndexPage"
+import { TypelistPage } from "./pages/TypelistPage"
+
+import type { BrowserContext, Locator, Page } from "@playwright/test"
 import type {
 	AddToListMutation$rawResponse,
 	AddToListMutation$variables,
 } from "~/gql/AddToListMutation.graphql"
-import type {
-	SyncMediaMutation$rawResponse,
-	SyncMediaMutation$variables,
-} from "~/gql/SyncMediaMutation.graphql"
 import type {
 	routeNavUserListEntriesQuery$rawResponse,
 	routeNavUserListEntriesQuery$variables,
@@ -19,12 +23,10 @@ import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
-import { invariant } from "~/lib/invariant"
-import { Token } from "~/lib/viewer"
-import { SuccessHandler, test } from "./fixtures"
-import { FeedPage } from "./pages/IndexPage"
-import { TypelistPage } from "./pages/TypelistPage"
-import { numberToString } from "@animedes/components/numberToString"
+import type {
+	SyncMediaMutation$rawResponse,
+	SyncMediaMutation$variables,
+} from "~/gql/SyncMediaMutation.graphql"
 // test.use({ storageState: "playwright/.auth/user.json" })
 
 class UserPage {

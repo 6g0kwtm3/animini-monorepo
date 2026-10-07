@@ -1,6 +1,5 @@
-import { create, is, Var } from "@animedes/unstyled"
-
 import * as design from "@animedes/design"
+import { create, is, Var } from "@animedes/unstyled"
 
 export const First = new Var<"false" | "true">("--first")
 export const Last = new Var<"false" | "true">("--last")

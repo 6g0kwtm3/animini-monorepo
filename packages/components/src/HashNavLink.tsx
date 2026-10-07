@@ -1,6 +1,7 @@
 import { A } from "@animedes/a"
-import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
+
+import type { ComponentProps } from "react"
 
 export function HashNavLink({ children, ...props }: ComponentProps<typeof A>) {
 	const { search, pathname } = useLocation()

@@ -1,5 +1,6 @@
 import { mergeStyles } from "@animedes/unstyled"
 import { Box, type BoxProps } from "@animedes/unstyled/box"
+
 import { styles } from "./Badge.styles" with { type: "macro" }
 
 interface BadgeProps extends BoxProps {}

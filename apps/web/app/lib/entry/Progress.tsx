@@ -1,4 +1,20 @@
-import type { ReactNode } from "react"
+import { Button, ButtonIcon, Icon } from "@animedes/components/Button"
+import {
+	Menu,
+	MenuItemLeadingIcon,
+	MenuList,
+	MenuListItem,
+	MenuTrigger,
+} from "@animedes/components/Menu"
+import { numberToString } from "@animedes/components/numberToString"
+import * as Predicate from "@animedes/components/Predicate"
+import {
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
+} from "@animedes/components/Tooltip"
+import { CompositeItem } from "@ariakit/react"
+import { use } from "react"
 import ReactRelay from "react-relay"
 import {
 	Form,
@@ -8,38 +24,21 @@ import {
 	useRouteLoaderData,
 	useSearchParams,
 } from "react-router"
-import * as Predicate from "@animedes/components/Predicate"
-
-import type { clientLoader as rootLoader } from "~/root"
-import type { clientAction as selectedAction } from "~/routes/UserListSelected/route"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsPlaylistAdd from "~icons/material-symbols/playlist-add"
+
 import { useFragment } from "../Network"
 
+import type { ReactNode } from "react"
 import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
-import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
-import { numberToString } from "@animedes/components/numberToString"
-import { Button, ButtonIcon, Icon } from "@animedes/components/Button"
-import {
-	Menu,
-	MenuItemLeadingIcon,
-	MenuList,
-	MenuListItem,
-	MenuTrigger,
-} from "@animedes/components/Menu"
-import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
-} from "@animedes/components/Tooltip"
-
-import { CompositeItem } from "@ariakit/react"
-import { use } from "react"
 import type { ProgressIncrement_query$key } from "~/gql/ProgressIncrement_query.graphql"
+import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
+import type { clientLoader as rootLoader } from "~/root"
+import type { clientAction as selectedAction } from "~/routes/UserListSelected/route"
 const { graphql } = ReactRelay
 
 const ProgressIncrement_entry = graphql`

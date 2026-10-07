@@ -1,4 +1,17 @@
+import { Card } from "@animedes/components/Card"
+import {
+	LayoutBody,
+	LayoutPane,
+	Layout as M3Layout,
+} from "@animedes/components/Layout"
+import { numberToString } from "@animedes/components/numberToString"
+import { SnackbarQueue } from "@animedes/components/Snackbar"
+import { ClientMiddleware } from "@anitrove/a/prefetch"
+import theme from "@anitrove/design/theme"
+import * as Ariakit from "@ariakit/react"
 import { captureException } from "@sentry/react"
+import { useSentryToolbar } from "@sentry/toolbar"
+import { type ReactNode } from "react"
 import {
 	isRouteErrorResponse,
 	Links,
@@ -12,24 +25,6 @@ import {
 	type LinksFunction,
 	type MiddlewareFunction,
 } from "react-router"
-import { SnackbarQueue } from "@animedes/components/Snackbar"
-import { Card } from "@animedes/components/Card"
-import {
-	LayoutBody,
-	LayoutPane,
-	Layout as M3Layout,
-} from "@animedes/components/Layout"
-import { numberToString } from "@animedes/components/numberToString"
-
-import * as Ariakit from "@ariakit/react"
-import { type ReactNode } from "react"
-
-import theme from "@anitrove/design/theme"
-
-import tailwind from "./tailwind.css?url"
-import { ClientMiddleware } from "@anitrove/a/prefetch"
-import { useSentryToolbar } from "@sentry/toolbar"
-import type { IEnvironment } from "relay-runtime"
 import { useIsHydrated } from "~/lib/useIsHydrated"
 
 import environment, {
@@ -37,6 +32,9 @@ import environment, {
 	RelayEnvironmentProvider,
 } from "./lib/Network"
 import { languageToLocale } from "./lib/useLocale"
+import tailwind from "./tailwind.css?url"
+
+import type { IEnvironment } from "relay-runtime"
 
 const RelayEnvironment = RelayEnvironmentProvider as (props: {
 	children: ReactNode
@@ -45,6 +43,7 @@ const RelayEnvironment = RelayEnvironmentProvider as (props: {
 
 import fonts from "@anitrove/design/fonts"
 import { precompileStyles } from "@anitrove/unstyled"
+
 import {
 	onAbortNavigationMiddleware,
 	useSetupOnAbortNavigation,

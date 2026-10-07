@@ -1,5 +1,3 @@
-import { createContext, use, type ReactNode } from "react"
-
 import * as design from "@animedes/design"
 import {
 	cva,
@@ -10,14 +8,17 @@ import {
 } from "@animedes/unstyled"
 import { Box } from "@animedes/unstyled/box"
 import * as Ariakit from "@ariakit/react"
-import type { VariantProps } from "tailwind-variants"
-import { tv } from "./tailwind-variants"
+import { createContext, use, type ReactNode } from "react"
+
 import {
 	First,
 	Last,
 	Lines,
 	styles,
 } from "./List.styles" with { type: "macro" }
+import { tv } from "./tailwind-variants"
+
+import type { VariantProps } from "tailwind-variants"
 
 interface ListItemProps extends Omit<
 	Ariakit.RoleProps<"li">,

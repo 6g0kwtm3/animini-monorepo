@@ -1,8 +1,6 @@
-import type { ComponentProps, ReactNode } from "react"
+import * as Ariakit from "@ariakit/react"
 import { createContext, useContext } from "react"
 
-import * as Ariakit from "@ariakit/react"
-import type { VariantProps } from "tailwind-variants"
 import { btnIcon, createButton, fab } from "./button.styles"
 import {
 	TooltipPlain,
@@ -10,6 +8,9 @@ import {
 	TooltipPlainTrigger,
 	TouchTarget,
 } from "./Tooltip"
+
+import type { ComponentProps, ReactNode } from "react"
+import type { VariantProps } from "tailwind-variants"
 
 interface ButtonProps
 	extends Ariakit.ButtonProps, VariantProps<typeof createButton> {

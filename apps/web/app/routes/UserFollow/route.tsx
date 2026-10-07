@@ -1,14 +1,13 @@
+import * as Ariakit from "@ariakit/react"
 import { type } from "arktype"
-import type { ReactNode } from "react"
 import ReactRelay from "react-relay"
 import { useActionData, type ClientActionFunction } from "react-router"
-import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
-
-import * as Ariakit from "@ariakit/react"
-
 import { client_get_client } from "~/lib/client"
 import { invariant } from "~/lib/invariant"
 import { m } from "~/lib/paraglide"
+
+import type { ReactNode } from "react"
+import type { routeUserFollowMutation } from "~/gql/routeUserFollowMutation.graphql"
 const { graphql } = ReactRelay
 
 const Params = type({ userId: "string.integer.parse" })

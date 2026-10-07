@@ -44,9 +44,6 @@
  * each intermediate component between ComponentA and ComponentC.
  */
 
-import { invariant } from "utilities"
-
-import type { Rule } from "eslint"
 import {
 	BREAK,
 	Kind,
@@ -54,6 +51,8 @@ import {
 	visit,
 	type DocumentNode,
 } from "graphql"
+import { invariant } from "utilities"
+
 import {
 	getGraphQLAST,
 	getLoc,
@@ -63,6 +62,8 @@ import {
 	type GraphqlTemplateExpression,
 	type NodeWithLoc,
 } from "./utils"
+
+import type { Rule } from "eslint"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/must-colocate-fragment-spreads"

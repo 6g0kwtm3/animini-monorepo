@@ -1,10 +1,10 @@
-import type { ComponentProps, ReactNode } from "react"
+import * as Ariakit from "@ariakit/react"
 import { createContext, useContext } from "react"
 
-import type { VariantProps } from "tailwind-variants"
-
-import * as Ariakit from "@ariakit/react"
 import { tv } from "./tailwind-variants"
+
+import type { ComponentProps, ReactNode } from "react"
+import type { VariantProps } from "tailwind-variants"
 
 const skeleton = tv({
 	base: "bg-surface-container-highest animate-pulse overflow-hidden rounded-xs text-transparent select-none",

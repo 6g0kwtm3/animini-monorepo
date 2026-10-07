@@ -1,6 +1,6 @@
+import { numberToString } from "utilities"
 import { expect, it, vi } from "vitest"
 
-import { numberToString } from "utilities"
 import { cva } from "./unstyled-cva.ts"
 import { precompileStyles } from "./unstyled-print.ts"
 import { mapValue, type Value } from "./unstyled-value.ts"

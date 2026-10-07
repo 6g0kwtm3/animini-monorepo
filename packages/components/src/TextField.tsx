@@ -1,10 +1,11 @@
-import { LabelId } from "./LabelId"
 import * as Ariakit from "@ariakit/react"
 import { use, type ComponentProps, type JSX, type ReactNode } from "react"
-import { emptyStringToUndefined } from "./numberToString"
-import { createTextField } from "./text-field.styles"
+
 import { classes } from "./classes"
 import { Label } from "./Label"
+import { LabelId } from "./LabelId"
+import { emptyStringToUndefined } from "./numberToString"
+import { createTextField } from "./text-field.styles"
 
 export function TextFieldOutlined({
 	children,

@@ -3,7 +3,6 @@
 import jsx from "eslint-plugin-jsx"
 import oxlint from "eslint-plugin-oxlint"
 import { default as reactPlugin } from "eslint-plugin-react"
-
 import oxlintConfig from "oxlint-config" with { type: "json" }
 
 export default [

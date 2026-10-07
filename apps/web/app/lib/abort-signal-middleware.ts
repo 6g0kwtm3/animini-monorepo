@@ -3,6 +3,7 @@ import {
 	createContext as createMiddlewareContext,
 	useNavigation,
 } from "react-router"
+
 import type { Route } from "../+types/root"
 
 const queue = new Set<AbortController>()

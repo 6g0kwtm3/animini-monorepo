@@ -1,16 +1,17 @@
-import type { PreloadedQuery } from "react-relay"
 import ReactRelay from "react-relay"
+import { createContext as createMiddlewareContext } from "react-router"
 import RelayRuntime, {
 	type Disposable,
 	type MutationConfig,
 	type MutationParameters,
 	type OperationType,
 } from "relay-runtime"
-import { onAbortNavigationSignal } from "../abort-signal-middleware"
 
-import { createContext as createMiddlewareContext } from "react-router"
-import type { Route } from "../../+types/root"
+import { onAbortNavigationSignal } from "../abort-signal-middleware"
 import environment from "./environment"
+
+import type { Route } from "../../+types/root"
+import type { PreloadedQuery } from "react-relay"
 
 export const { readFragment } = RelayRuntime
 

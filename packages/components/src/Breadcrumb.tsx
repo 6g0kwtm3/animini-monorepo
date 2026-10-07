@@ -1,9 +1,11 @@
 import { A } from "@animedes/a"
 import { Box } from "@animedes/unstyled/box"
 import { Role, type RoleProps } from "@ariakit/react"
-import type { ComponentProps } from "react"
 import { useLocation, useResolvedPath } from "react-router"
+
 import { styles } from "./Breadcrumb.styles" with { type: "macro" }
+
+import type { ComponentProps } from "react"
 
 export function Breadcrumb(props: RoleProps<"nav">) {
 	return (

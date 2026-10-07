@@ -1,5 +1,7 @@
 import { it, assertType } from "vitest"
+
 import { stable } from "./stable"
+
 import type { Stable, DeepStable } from "./stable"
 
 // `Stable<T>` is an interior operator on types: deflationary (law 1), monotone (law 2) and

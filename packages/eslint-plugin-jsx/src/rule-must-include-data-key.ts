@@ -3,6 +3,7 @@ import {
 	AST_NODE_TYPES,
 } from "@typescript-eslint/typescript-estree"
 import { ASTUtils } from "@typescript-eslint/utils"
+
 import type {
 	RuleContext,
 	RuleModule,

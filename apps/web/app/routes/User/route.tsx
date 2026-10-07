@@ -1,4 +1,13 @@
+import { AppBar, AppBarTitle } from "@animedes/components/AppBar"
+import { Breadcrumb, BreadcrumbItem } from "@animedes/components/Breadcrumb"
+import { Icon } from "@animedes/components/Button"
+import { button } from "@animedes/components/button.styles"
+import { Card } from "@animedes/components/Card"
+import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
+import { Tabs, TabsPanel } from "@animedes/components/Tabs"
+import { ExtraOutlet } from "extra-outlet"
 import { type ReactNode } from "react"
+import ReactRelay from "react-relay"
 import {
 	Form,
 	isRouteErrorResponse,
@@ -7,27 +16,16 @@ import {
 	useLocation,
 	useParams,
 } from "react-router"
-
-import ReactRelay from "react-relay"
-import { Icon } from "@animedes/components/Button"
-import { AppBar, AppBarTitle } from "@animedes/components/AppBar"
-import { Card } from "@animedes/components/Card"
-import { button } from "@animedes/components/button.styles"
-import { Breadcrumb, BreadcrumbItem } from "@animedes/components/Breadcrumb"
-import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
-import { Tabs, TabsPanel } from "@animedes/components/Tabs"
-
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
-
+import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 import MaterialSymbolsPersonAddOutline from "~icons/material-symbols/person-add-outline"
 import MaterialSymbolsPersonRemoveOutline from "~icons/material-symbols/person-remove-outline"
-import type { Route } from "./+types/route"
+
 import { User } from "./User"
 
-import { ExtraOutlet } from "extra-outlet"
+import type { Route } from "./+types/route"
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
-import MaterialSymbolsLogout from "~icons/material-symbols/logout"
 const { graphql } = ReactRelay
 
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
@@ -59,13 +57,13 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	return { routeNavUserQuery: data }
 }
 
-import * as Ariakit from "@ariakit/react"
-import type { Route as FollowRoute } from "../UserFollow/+types/route"
-
 import { A } from "@anitrove/a"
 import * as design from "@anitrove/design"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
+import * as Ariakit from "@ariakit/react"
 import { data as json } from "react-router"
+
+import type { Route as FollowRoute } from "../UserFollow/+types/route"
 
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)

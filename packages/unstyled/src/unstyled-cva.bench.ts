@@ -1,4 +1,5 @@
 import { bench } from "vitest"
+
 import { cva } from "./unstyled-cva.ts"
 
 bench("empty", () => {

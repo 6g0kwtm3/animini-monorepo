@@ -1,10 +1,5 @@
+import { stable, type Stable } from "@animedes/react-stable"
 import * as Ariakit from "@ariakit/react"
-import type {
-	ComponentProps,
-	ComponentRef,
-	PropsWithChildren,
-	ReactNode,
-} from "react"
 import {
 	createContext,
 	useCallback,
@@ -14,8 +9,15 @@ import {
 	useRef,
 	useSyncExternalStore,
 } from "react"
+
 import * as Predicate from "./Predicate"
-import { stable, type Stable } from "@animedes/react-stable"
+
+import type {
+	ComponentProps,
+	ComponentRef,
+	PropsWithChildren,
+	ReactNode,
+} from "react"
 type OnBeforeToggle = (
 	this: HTMLElement,
 	event: HTMLElementEventMap["beforetoggle"]

@@ -1,7 +1,3 @@
-import { ErrorBoundary } from "@sentry/react"
-import type { ComponentProps } from "react"
-import { Suspense } from "react"
-import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { Card } from "@animedes/components/Card"
 import {
 	List,
@@ -11,18 +7,19 @@ import {
 	ListItemContentSubtitle as ListItemSubtitle,
 	ListItemContentTitle as ListItemTitle,
 } from "@animedes/components/List"
-
-import { route_media } from "~/lib/route"
-
-// console.log(R)
-
-import { MediaCover } from "~/lib/entry/MediaCover"
-
 import { A } from "@anitrove/a"
 import * as design from "@anitrove/design"
 import { utilities } from "@anitrove/design"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import { Box } from "@anitrove/unstyled/box"
+// console.log(R)
+import { ErrorBoundary } from "@sentry/react"
+import { Suspense } from "react"
+import ReactRelay, { useLazyLoadQuery } from "react-relay"
+import { MediaCover } from "~/lib/entry/MediaCover"
+import { route_media } from "~/lib/route"
+
+import type { ComponentProps } from "react"
 import type { MediaLinkCardQuery } from "~/gql/MediaLinkCardQuery.graphql"
 const { graphql } = ReactRelay
 

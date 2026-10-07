@@ -1,9 +1,9 @@
 import { Role } from "@ariakit/react"
-import type { ReactNode } from "react"
-
-import type { VariantProps } from "tailwind-variants"
 
 import { tv } from "./tailwind-variants"
+
+import type { ReactNode } from "react"
+import type { VariantProps } from "tailwind-variants"
 
 const card = tv({
 	base: "rounded-md p-4",

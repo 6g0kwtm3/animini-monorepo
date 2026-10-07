@@ -1,10 +1,10 @@
 import { mapValue, type Value } from "@anitrove/unstyled/value"
 
+import colors from "./design-colors.ts"
+import * as tokens from "./design-tokens.ts"
+
 import type { RawStyles } from "@anitrove/unstyled"
 import type { Property } from "csstype"
-import colors from "./design-colors.ts"
-
-import * as tokens from "./design-tokens.ts"
 
 export function typescale(scale: Value<keyof typeof tokens.typescale>) {
 	return {

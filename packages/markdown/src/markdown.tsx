@@ -1,10 +1,11 @@
-import { browser } from "react-dom"
-import type { JSX, ReactNode } from "react"
-import { useMemo, use } from "react"
-import type { Stable } from "@animedes/react-stable"
-
 import createDOMPurify from "dompurify"
+import { useMemo, use } from "react"
+import { browser } from "react-dom"
+
 import { markdownToHtml } from "./markdown-to-html"
+
+import type { Stable } from "@animedes/react-stable"
+import type { JSX, ReactNode } from "react"
 
 export interface Options {
 	replace: Partial<{

@@ -1,20 +1,18 @@
-import * as Ariakit from "@ariakit/react"
-
 import { List, Subheader } from "@animedes/components/List"
 import {
 	SearchViewBody,
 	SearchViewBodyGroup,
 	SearchViewItem,
 } from "@animedes/components/SearchView"
+import { precompileStyles } from "@anitrove/unstyled"
+import * as Ariakit from "@ariakit/react"
+import ReactRelay from "react-relay"
 
+import { useFragment } from "../Network"
 import { SearchItem } from "./SearchItem"
 
 import type { ReactNode } from "react"
-import { useFragment } from "../Network"
-
-import ReactRelay from "react-relay"
 import type { SearchTrending_query$key } from "~/gql/SearchTrending_query.graphql"
-import { precompileStyles } from "@anitrove/unstyled"
 const { graphql } = ReactRelay
 
 export function SearchTrending(props: {

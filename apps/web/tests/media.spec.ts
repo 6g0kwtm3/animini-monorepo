@@ -1,5 +1,11 @@
 import { expect, type Page } from "@playwright/test"
 import { HttpResponse } from "msw"
+
+import { anilist, SuccessHandler, test } from "./fixtures"
+import { FeedPage } from "./pages/IndexPage"
+import { MediaPage } from "./pages/MediaPage"
+import { SearchPage } from "./pages/SearchPage"
+
 import type {
 	routeNavMediaQuery$rawResponse,
 	routeNavMediaQuery$variables,
@@ -8,10 +14,6 @@ import type {
 	routeNavSearchQuery$rawResponse,
 	routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
-import { anilist, SuccessHandler, test } from "./fixtures"
-import { FeedPage } from "./pages/IndexPage"
-import { MediaPage } from "./pages/MediaPage"
-import { SearchPage } from "./pages/SearchPage"
 
 const VIEWER = { id: 1, name: "User" }
 

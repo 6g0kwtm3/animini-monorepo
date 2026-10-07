@@ -1,9 +1,4 @@
-import { useFetcher, useRouteLoaderData } from "react-router"
-
-import { ErrorBoundary } from "@sentry/react"
-import type { ReactNode } from "react"
-import { Suspense } from "react"
-import ReactRelay, { useLazyLoadQuery } from "react-relay"
+import { Button } from "@animedes/components/Button"
 import {
 	List,
 	ListItem,
@@ -19,22 +14,22 @@ import {
 	TooltipRichContainer,
 	TooltipRichTrigger,
 } from "@animedes/components/Tooltip"
-import { Button } from "@animedes/components/Button"
-
-import { route_user } from "~/lib/route"
-
+import { A } from "@anitrove/a"
+import { state } from "@anitrove/design"
+import { precompileStyles } from "@anitrove/unstyled"
+import { ErrorBoundary } from "@sentry/react"
+import { Suspense } from "react"
+import { use } from "react"
 // console.log(R)
-
+import ReactRelay, { useLazyLoadQuery } from "react-relay"
+import { useFetcher, useRouteLoaderData } from "react-router"
+import { m } from "~/lib/paraglide"
+import { route_user } from "~/lib/route"
 import { type clientLoader as rootLoader } from "~/root"
 
-import { A } from "@anitrove/a"
-import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
-
-import { m } from "~/lib/paraglide"
 import type { clientAction as userFollowAction } from "../UserFollow/route"
-import { precompileStyles } from "@anitrove/unstyled"
-import { state } from "@anitrove/design"
-import { use } from "react"
+import type { ReactNode } from "react"
+import type { UserLinkCardQuery } from "~/gql/UserLinkCardQuery.graphql"
 const { graphql } = ReactRelay
 
 export function UserLink(props: { children: ReactNode; userName: string }) {
