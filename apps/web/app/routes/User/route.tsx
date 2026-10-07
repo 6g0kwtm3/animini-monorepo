@@ -28,15 +28,15 @@ import type { Route } from "./+types/route"
 import type { routeNavUserQuery } from "~/gql/routeNavUserQuery.graphql"
 const { graphql } = ReactRelay
 
-export const clientLoader = (args: Route.ClientLoaderArgs) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
 	const { userName } = args.params
 
 	const data = args.context.get(loadQuery)<routeNavUserQuery>(
 		graphql`
-			query routeNavUserQuery($userName: String!, $token: Boolean!)
+			query routeNavUserQuery($userName: String!, $hasToken: Boolean!)
 			@raw_response_type
 			@throwOnFieldError {
-				Viewer @include(if: $token) {
+				Viewer @include(if: $hasToken) {
 					id
 					name
 				}
@@ -51,7 +51,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 				}
 			}
 		`,
-		{ token: !!sessionStorage.getItem("anilist-token"), userName }
+		{ hasToken: (await cookieStore.get("anilist-token")) != null, userName }
 	)
 
 	return { routeNavUserQuery: data }
