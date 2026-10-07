@@ -4,3 +4,5 @@ declare module "@openfeature/core" {
 	export type NumberFlagKey = never
 	export type ObjectFlagKey = never
 }
+
+export {}
