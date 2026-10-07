@@ -1,9 +1,4 @@
-import type {
-	BooleanFlagKey,
-	Client,
-	Provider,
-	ProviderEntryInput,
-} from "@openfeature/web-sdk"
+import { FlaghoistWebProvider } from "@flaghoist/provider-web"
 import {
 	ClientProviderEvents,
 	ClientProviderStatus,
@@ -13,9 +8,14 @@ import {
 	TypedInMemoryProvider,
 } from "@openfeature/web-sdk"
 import { OpenFeatureIntegrationHook } from "@sentry/react"
-
-import { FlaghoistWebProvider } from "@flaghoist/provider-web"
 import { suspenseSentinel, type LiveState } from "relay-runtime"
+
+import type {
+	BooleanFlagKey,
+	Client,
+	Provider,
+	ProviderEntryInput,
+} from "@openfeature/web-sdk"
 
 /**
  * @relayType FeatureFlags
@@ -156,8 +156,6 @@ const providers: ProviderEntryInput<Provider>[] = [
 	},
 	{ provider: new TypedInMemoryProvider({} as const) },
 ]
-
-import * as Sentry from "@sentry/react"
 
 void OpenFeature.setProvider(
 	new MultiProvider(providers, new FirstMatchStrategy()),
