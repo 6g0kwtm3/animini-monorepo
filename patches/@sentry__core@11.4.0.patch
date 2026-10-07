@@ -1,0 +1,31 @@
+diff --git a/build/types/types/breadcrumb.d.ts b/build/types/types/breadcrumb.d.ts
+index 752c30b33979cc6031527e32bd083f6da4d3e795..ba7bc2e345ada0a995d9d7e9ebb1229928852a15 100644
+--- a/build/types/types/breadcrumb.d.ts
++++ b/build/types/types/breadcrumb.d.ts
+@@ -47,7 +47,7 @@ export interface Breadcrumb {
+      * @summary Arbitrary data associated with this breadcrumb.
+      */
+     data?: {
+-        [key: string]: any;
++        [key: string]: unknown;
+     };
+     /**
+      * The format is a numeric (integer or float) value representing
+@@ -64,7 +64,7 @@ export interface Breadcrumb {
+ }
+ /** JSDoc */
+ export interface BreadcrumbHint {
+-    [key: string]: any;
++    [key: string]: unknown;
+ }
+ export interface FetchBreadcrumbData {
+     method: string;
+@@ -84,7 +84,7 @@ export interface XhrBreadcrumbData {
+     response_body_size?: number;
+ }
+ export interface FetchBreadcrumbHint {
+-    input: any[];
++    input: unknown[];
+     data?: unknown;
+     response?: unknown;
+     startTimestamp: number;
