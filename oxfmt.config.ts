@@ -15,7 +15,7 @@ export default defineConfig({
 		newlinesBetween: true,
 		newlinesInside: 0,
 
-		internalPattern: ["^@/.+"],
+		internalPattern: ["^~/.+", "^#lib/.+"],
 
 		sortSideEffects: false,
 	},
