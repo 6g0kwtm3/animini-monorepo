@@ -13,8 +13,6 @@ import inspect from "vite-plugin-inspect"
 
 import relayConfig from "./relay.config.json" with { type: "json" }
 
-}
-
 export default defineConfig((config) => {
 	if (relayConfig.language !== "typescript") {
 		throw new Error(`relayConfig.language !== "typescript"`)
