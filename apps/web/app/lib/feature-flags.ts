@@ -140,13 +140,6 @@ const apiKey =
 	import.meta.env.VITE_FLAGS_KEY
 	?? "c857c1300615b6bf15b127547fc3b57eccc5a21573066e50d102708e8dad273e"
 
-declare module "@openfeature/core" {
-	export type BooleanFlagKey = "enable_sanitizer_web_api"
-	export type StringFlagKey = never
-	export type NumberFlagKey = never
-	export type ObjectFlagKey = never
-}
-
 const providers: ProviderEntryInput<Provider>[] = [
 	{
 		provider: new FlaghoistWebProvider({
