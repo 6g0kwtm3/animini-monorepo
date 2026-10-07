@@ -119,8 +119,10 @@
 		"jsdoc": {
 			"tagNamePreference": {
 				"rootFragment": "rootFragment",
-				"RelayResolver": "relayField",
-				"live": "live"
+				"relayField": "relayField",
+				"live": "live",
+				"relayType": "relayType",
+				"weak": "weak"
 			}
 		},
 		"react": {
