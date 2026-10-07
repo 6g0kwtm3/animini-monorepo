@@ -271,6 +271,8 @@ jobs:
         if: steps.affected-test-e2e.outcome == 'failure'
         uses: $/.github/actions/playwright-install
         timeout-minutes: 5
+        with:
+          with-deps: ${{ steps.affected-test-e2e.outcome == 'failure' && github.ref_name != github.event.repository.default_branch }}
 
       - name: Install electron 📦
         if: steps.affected-test-e2e.outcome == 'failure' && github.ref_name != github.event.repository.default_branch && matrix.project == 'electron'

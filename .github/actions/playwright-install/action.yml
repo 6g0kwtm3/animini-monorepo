@@ -1,5 +1,10 @@
 name: Install playwright 📦
 description: Installs Playwright dependencies
+inputs:
+  with-deps:
+    description: Whether to install Playwright dependencies
+    required: true
+    type: boolean
 
 runs:
   using: composite
@@ -30,4 +35,4 @@ runs:
 
     - name: Install playwright 📦
       shell: bash
-      run: pnpm --filter=web exec playwright install chromium-headless-shell webkit --with-deps
+      run: pnpm --filter=web exec playwright install chromium-headless-shell webkit ${{ inputs.with-deps && '--with-deps' || '' }}
