@@ -80,7 +80,9 @@ export function featureFlags(): LiveState<FeatureFlags> {
 				signal: controller.signal,
 			})
 
-			return () => controller.abort()
+			return () => {
+				controller.abort()
+			}
 		},
 	}
 }
@@ -135,7 +137,9 @@ function liveStateFromFlag<K extends string, T>(
 				signal: controller.signal,
 			})
 
-			return () => controller.abort()
+			return () => {
+				controller.abort()
+			}
 		},
 	}
 }
