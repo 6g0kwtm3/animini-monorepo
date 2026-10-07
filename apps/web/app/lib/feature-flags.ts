@@ -94,7 +94,11 @@ export function enableSanitizerWebAPI() {
 }
 
 function liveStateFromBooleanFlag(flag: BooleanFlagKey): LiveState<boolean> {
-	return liveStateFromFlag(flag, (client) => client.getBooleanValue, false)
+	return liveStateFromFlag(
+		flag,
+		(client) => client.getBooleanValue.bind(client),
+		false
+	)
 }
 
 function liveStateFromFlag<K extends string, T>(
@@ -102,7 +106,7 @@ function liveStateFromFlag<K extends string, T>(
 	resolver: (client: Client) => (flag: K, defaultValue: T) => T,
 	defaultValue: T
 ): LiveState<T> {
-	let value = resolver(client).call(client, flag, defaultValue)
+	let value = resolver(client)(flag, defaultValue)
 	return {
 		read: () => {
 			return value
