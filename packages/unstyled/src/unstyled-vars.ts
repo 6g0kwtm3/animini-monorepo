@@ -1,4 +1,5 @@
 import { numberOrStringToString } from "utilities"
+
 import type { OutStyles } from "./unstyled-print.ts"
 
 export type Vars<Vars extends Record<string, number | string>> = {

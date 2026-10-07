@@ -1,5 +1,3 @@
-import ReactRelay from "react-relay"
-
 import {
 	ListItem,
 	ListItemAvatar,
@@ -7,14 +5,16 @@ import {
 	ListItemContentTitle,
 	ListItemTrailingSupportingText,
 } from "@animedes/components/List"
-
 import { A } from "@anitrove/a"
-import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
+import { usePrefetch } from "@anitrove/a/prefetch"
+import ReactRelay from "react-relay"
+
 import { MediaCover } from "../entry/MediaCover"
 import { useFragment } from "../Network"
 import { route_media } from "../route"
+
 import type { ComponentProps } from "react"
-import { usePrefetch } from "@anitrove/a/prefetch"
+import type { SearchItem_media$key } from "~/gql/SearchItem_media.graphql"
 const { graphql } = ReactRelay
 
 interface SearchItemProps extends ComponentProps<typeof ListItem> {

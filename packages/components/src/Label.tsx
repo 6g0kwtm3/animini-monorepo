@@ -1,5 +1,6 @@
-import { LabelId } from "./LabelId"
 import { use, useId, type ComponentProps } from "react"
+
+import { LabelId } from "./LabelId"
 
 export function Label(props: Omit<ComponentProps<"label">, "htmlFor">) {
 	const newId = useId()

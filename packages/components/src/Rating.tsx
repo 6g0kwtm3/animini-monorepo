@@ -1,5 +1,6 @@
-import type { ReactNode } from "react"
 import { numberToString } from "./numberToString"
+
+import type { ReactNode } from "react"
 
 // const point3Icons = [
 // 	<EmojiSadIcon

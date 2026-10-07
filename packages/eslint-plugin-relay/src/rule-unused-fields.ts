@@ -5,9 +5,8 @@
  * in the root directory of https://github.com/relayjs/eslint-plugin-relay.
  */
 
-import type { Rule } from "eslint"
-import type * as ESTree from "estree"
 import { Kind, OperationTypeNode, visit, type DocumentNode } from "graphql"
+
 import {
 	getGraphQLAST,
 	getLoc,
@@ -16,6 +15,9 @@ import {
 	type GraphqlTemplateExpression,
 	type NodeWithLoc,
 } from "./utils"
+
+import type { Rule } from "eslint"
+import type * as ESTree from "estree"
 
 const ESLINT_DISABLE_COMMENT =
 	" eslint-disable-next-line eslint-plugin-relay/unused-fields"

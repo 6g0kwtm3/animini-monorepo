@@ -1,5 +1,6 @@
-import type { RawStyles } from "./unstyled-cva.ts"
 import { precompileStyles, type OutStyles } from "./unstyled-print.ts"
+
+import type { RawStyles } from "./unstyled-cva.ts"
 
 export function create<const Styles extends Record<string, RawStyles>>(
 	styles: Styles

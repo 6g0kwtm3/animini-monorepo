@@ -1,16 +1,15 @@
+import { Button, ButtonIcon } from "@animedes/components/Button"
+import { CompositeItem } from "@ariakit/react"
 import ReactRelay, { useMutation } from "react-relay"
-
 import MaterialSymbolsVisibilityOff from "~icons/material-symbols/visibility-off"
 
-import { CompositeItem } from "@ariakit/react"
-import { Button, ButtonIcon } from "@animedes/components/Button"
+import { useFragment } from "../Network"
 
 import type { FragmentRefs } from "relay-runtime"
-import type { AddToListMutation } from "~/gql/AddToListMutation.graphql"
 import type { AddToList_media$key } from "~/gql/AddToList_media.graphql"
 import type { AddToList_mediaListCollection$key } from "~/gql/AddToList_mediaListCollection.graphql"
 import type { AddToList_originalEntry$key } from "~/gql/AddToList_originalEntry.graphql"
-import { useFragment } from "../Network"
+import type { AddToListMutation } from "~/gql/AddToListMutation.graphql"
 
 const { graphql } = ReactRelay
 

@@ -1,8 +1,3 @@
-import { A } from "@anitrove/a"
-import "temporal-polyfill-lite/global"
-import { precompileStyles } from "@anitrove/unstyled"
-
-import ReactRelay from "react-relay"
 import {
 	ListItem,
 	ListItemContent,
@@ -11,13 +6,19 @@ import {
 	ListItemImg,
 	ListItemTrailingSupportingText,
 } from "@animedes/components/List"
+import "temporal-polyfill-lite/global"
 import { numberToString } from "@animedes/components/numberToString"
-import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
-import type { ActivityLike_viewer$key } from "~/gql/ActivityLike_viewer.graphql"
+import { A } from "@anitrove/a"
+import { precompileStyles } from "@anitrove/unstyled"
+import ReactRelay from "react-relay"
 import { useFragment } from "~/lib/Network"
 import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
+
 import { RelativeTimeSince } from "./RelativeTimeSince"
+
+import type { ActivityLike_notification$key } from "~/gql/ActivityLike_notification.graphql"
+import type { ActivityLike_viewer$key } from "~/gql/ActivityLike_viewer.graphql"
 const { graphql } = ReactRelay
 
 interface ActivityLikeProps extends React.ComponentProps<typeof ListItem> {

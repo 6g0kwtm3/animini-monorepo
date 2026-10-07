@@ -3,6 +3,7 @@ import * as graphql from "@graphql-eslint/eslint-plugin"
 import base from "eslint-config"
 import react from "eslint-config-react"
 import relay from "eslint-plugin-relay"
+
 import graphQLConfig from "./graphql.config.js"
 
 export default [

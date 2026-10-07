@@ -3,11 +3,12 @@ import {
 	type TSESTree,
 } from "@typescript-eslint/typescript-estree"
 import { ESLintUtils } from "@typescript-eslint/utils"
+import * as ts from "typescript"
+
 import type {
 	RuleContext,
 	RuleModule,
 } from "@typescript-eslint/utils/ts-eslint"
-import * as ts from "typescript"
 
 export const rule: RuleModule<string> = {
 	meta: {

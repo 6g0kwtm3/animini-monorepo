@@ -1,13 +1,15 @@
+import { Button, ButtonIcon } from "@animedes/components/Button"
 import { CompositeItem } from "@ariakit/react"
 import ReactRelay, { useMutation } from "react-relay"
-import { Button, ButtonIcon } from "@animedes/components/Button"
+import MaterialSymbolsSyncArrowDown from "~icons/material-symbols/sync-arrow-down"
+
+import { useFragment } from "../Network"
+
 import type { SyncMedia_entry_plural$key } from "~/gql/SyncMedia_entry_plural.graphql"
 import type { SyncMedia_mediaListCollection$key } from "~/gql/SyncMedia_mediaListCollection.graphql"
 import type { SyncMedia_source$key } from "~/gql/SyncMedia_source.graphql"
 import type { SyncMedia_updatable$key } from "~/gql/SyncMedia_updatable.graphql"
 import type { SyncMediaMutation } from "~/gql/SyncMediaMutation.graphql"
-import MaterialSymbolsSyncArrowDown from "~icons/material-symbols/sync-arrow-down"
-import { useFragment } from "../Network"
 
 const { graphql } = ReactRelay
 

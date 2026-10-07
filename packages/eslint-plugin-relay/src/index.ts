@@ -1,9 +1,10 @@
-import type { ESLint } from "eslint"
 import { rule as mustColocateFragmentSpreads } from "./rule-must-colocate-fragment-spreads"
 import { rule as requireAliasOnFragmentSpread } from "./rule-require-alias-on-fragment-spread"
-import { rule as unusedFields } from "./rule-unused-fields"
-import { rule as requireThrowOnFieldError } from "./rule-require-throw-on-field-error"
 import { rule as requireRawResponseTypeOnOperationDefinition } from "./rule-require-raw-response-type-on-operation-definition"
+import { rule as requireThrowOnFieldError } from "./rule-require-throw-on-field-error"
+import { rule as unusedFields } from "./rule-unused-fields"
+
+import type { ESLint } from "eslint"
 
 const plugin: ESLint.Plugin = {
 	meta: { name: "eslint-plugin-relay" },

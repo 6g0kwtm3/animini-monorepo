@@ -1,8 +1,8 @@
 import * as Ariakit from "@ariakit/react"
-
-import { tv } from "./tailwind-variants"
 import MaterialSymbolsArrowBack from "~icons/material-symbols/arrow-back"
+
 import { Icon } from "./Button"
+import { tv } from "./tailwind-variants"
 
 export function SearchViewBody(props: Ariakit.ComboboxListProps) {
 	return (

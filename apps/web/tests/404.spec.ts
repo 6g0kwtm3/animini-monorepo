@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test"
+
 import { test } from "./fixtures"
 
 test("showing not found", async ({ newPage, isElectron }) => {

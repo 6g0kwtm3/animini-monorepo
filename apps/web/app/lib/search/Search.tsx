@@ -1,20 +1,3 @@
-import * as Ariakit from "@ariakit/react"
-import type { ComponentProps, ReactNode } from "react"
-import { Suspense, useLayoutEffect } from "react"
-import {
-	Form,
-	useFetcher,
-	useLocation,
-	useNavigate,
-	useNavigation,
-} from "react-router"
-import type { clientLoader as searchLoader } from "~/routes/Search/route"
-
-import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
-} from "@animedes/components/Tooltip"
 import { List, Subheader } from "@animedes/components/List"
 import {
 	SearchView,
@@ -23,13 +6,29 @@ import {
 	SearchViewInput,
 	SearchViewItem,
 } from "@animedes/components/SearchView"
-
+import {
+	TooltipPlain,
+	TooltipPlainContainer,
+	TooltipPlainTrigger,
+} from "@animedes/components/Tooltip"
+import * as Ariakit from "@ariakit/react"
+import { ErrorBoundary } from "@sentry/react"
+import { Suspense, useLayoutEffect } from "react"
+import {
+	Form,
+	useFetcher,
+	useLocation,
+	useNavigate,
+	useNavigation,
+} from "react-router"
 import { copySearchParams } from "~/lib/copySearchParams"
 
-import { ErrorBoundary } from "@sentry/react"
 import { usePreloadedQuery, type NodeAndQueryFragment } from "../Network"
 import { SearchItem } from "./SearchItem"
 import { SearchTrending } from "./SearchTrending"
+
+import type { ComponentProps, ReactNode } from "react"
+import type { clientLoader as searchLoader } from "~/routes/Search/route"
 
 function useOptimisticSearchParams() {
 	const { search } = useOptimisticLocation()
@@ -49,6 +48,7 @@ function useOptimisticLocation() {
 
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
+
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 
 export function Search(props: { children?: ReactNode }): ReactNode {

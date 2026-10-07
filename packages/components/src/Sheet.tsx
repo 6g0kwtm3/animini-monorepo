@@ -6,12 +6,12 @@ import {
 	useMotionValue,
 	useTransform,
 } from "motion/react"
-
-import type { ComponentProps, JSX, ReactNode } from "react"
 import { createContext, useContext } from "react"
-import type { VariantProps } from "tailwind-variants"
 
 import { tv } from "./tailwind-variants"
+
+import type { ComponentProps, JSX, ReactNode } from "react"
+import type { VariantProps } from "tailwind-variants"
 
 const sheet = tv({
 	slots: {

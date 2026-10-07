@@ -1,10 +1,11 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactNode } from "react"
-import { createTextField } from "./text-field.styles"
-import { TextFieldOutlined } from "./TextField"
 
 // const onClient = Promise.resolve(null)
 import { createMenu } from "./menu.styles"
+import { createTextField } from "./text-field.styles"
+import { TextFieldOutlined } from "./TextField"
+
+import type { ReactNode } from "react"
 
 const { input } = createTextField({})
 interface SelectFactoryProps extends Ariakit.ComboboxSelectProps {

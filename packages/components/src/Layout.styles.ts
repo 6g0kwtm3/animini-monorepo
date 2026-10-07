@@ -1,7 +1,5 @@
-import { create, is, Var } from "@animedes/unstyled"
-import { createContext, use, type ComponentProps, type ReactNode } from "react"
-
 import * as design from "@animedes/design"
+import { create, is, Var } from "@animedes/unstyled"
 import {
 	cva,
 	defineCva,
@@ -12,6 +10,7 @@ import {
 	type OutStyles,
 } from "@animedes/unstyled"
 import { Box } from "@animedes/unstyled/box"
+import { createContext, use, type ComponentProps, type ReactNode } from "react"
 
 export const Navigation = new Var<"bar" | "drawer" | "none" | "rail">(
 	"--navigation"

@@ -1,5 +1,15 @@
+import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
+import { Card } from "@animedes/components/Card"
+import { List } from "@animedes/components/List"
+// import {} from 'glob'
+import { Loading, Skeleton } from "@animedes/components/Skeleton"
 import { precompileStyles } from "@anitrove/unstyled"
-import { useWindowVirtualizer } from "./use-window-virtualizer"
+import * as Ariakit from "@ariakit/react"
+import { captureException } from "@sentry/react"
+import { type } from "arktype"
+import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
+import { Suspense, useCallback, useMemo, useState } from "react"
+import ReactRelay from "react-relay"
 import {
 	Outlet,
 	isRouteErrorResponse,
@@ -7,41 +17,25 @@ import {
 	type ClientActionFunction,
 	type ClientLoaderFunctionArgs,
 } from "react-router"
-// import {} from 'glob'
-
-import type { AnitomyResult } from "anitomy"
-
-import type { ComponentRef, ReactNode } from "react"
-import { Suspense, useCallback, useMemo, useState } from "react"
-
-import * as Ariakit from "@ariakit/react"
-import { Card } from "@animedes/components/Card"
-import { List } from "@animedes/components/List"
-import { Loading, Skeleton } from "@animedes/components/Skeleton"
-import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
-
+import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
 import { client_get_client } from "~/lib/client"
-
+import { AddToList } from "~/lib/entry/AddToList"
 import { MediaListItem } from "~/lib/entry/MediaListItem"
+import { ProgressIncrement } from "~/lib/entry/Progress"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
-
-import ReactRelay from "react-relay"
+import { SyncMedia } from "~/lib/entry/SyncMedia"
+import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
-import { type routeNavUserListEntriesQuery } from "~/gql/routeNavUserListEntriesQuery.graphql"
+import { useWindowVirtualizer } from "./use-window-virtualizer"
 
-import { captureException } from "@sentry/react"
-import { type } from "arktype"
-import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
+import type { Route } from "./+types/route"
+import type { AnitomyResult } from "anitomy"
+import type { ComponentRef, ReactNode } from "react"
 import type { AddToList_media$key } from "~/gql/AddToList_media.graphql"
 import type { AddToList_originalEntry$key } from "~/gql/AddToList_originalEntry.graphql"
 import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
 import type { routeUserSetStatusMutation } from "~/gql/routeUserSetStatusMutation.graphql"
-import { AddToList } from "~/lib/entry/AddToList"
-import { ProgressIncrement } from "~/lib/entry/Progress"
-import { SyncMedia } from "~/lib/entry/SyncMedia"
-import { invariant } from "~/lib/invariant"
-import type { Route } from "./+types/route"
 
 const { graphql } = ReactRelay
 

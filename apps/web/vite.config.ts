@@ -2,15 +2,16 @@ import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import { reactRouter } from "@react-router/dev/vite"
 import { sentryVitePlugin as sentry } from "@sentry/vite-plugin"
 import tailwindcss from "@tailwindcss/vite"
+import path from "path"
+import webpackStatsPlugin from "rollup-plugin-webpack-stats"
 import icons from "unplugin-icons/vite"
+import macros from "unplugin-macros/vite"
+import relay from "unplugin-relay/vite"
 import { defineConfig, type Plugin } from "vite"
 import babel from "vite-plugin-babel"
 import inspect from "vite-plugin-inspect"
-import relay from "unplugin-relay/vite"
-import macros from "unplugin-macros/vite"
+
 import relayConfig from "./relay.config.json" with { type: "json" }
-import path from "path"
-import webpackStatsPlugin from "rollup-plugin-webpack-stats"
 
 if (relayConfig.language !== "typescript") {
 	throw new Error(`relayConfig.language !== "typescript"`)

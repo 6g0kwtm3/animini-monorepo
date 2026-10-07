@@ -1,6 +1,7 @@
-import type { ReactNode } from "react"
 import { useFragment } from "react-relay"
 import { graphql } from "relay-runtime"
+
+import type { ReactNode } from "react"
 import type { MediaTitle_media$key } from "~/gql/MediaTitle_media.graphql"
 
 const MediaTitle_media = graphql`

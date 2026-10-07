@@ -1,10 +1,10 @@
-import type { ComponentProps, ReactNode } from "react"
 import { createContext, useContext, useId } from "react"
-
-import { TouchTarget } from "./Tooltip"
 
 import { HashNavLink } from "./HashNavLink"
 import { tv } from "./tailwind-variants"
+import { TouchTarget } from "./Tooltip"
+
+import type { ComponentProps, ReactNode } from "react"
 
 interface NavigationItemProps extends ComponentProps<typeof HashNavLink> {
 	icon: ReactNode

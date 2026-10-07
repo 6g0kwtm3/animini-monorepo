@@ -1,23 +1,21 @@
-import { useParams } from "react-router"
-
-import { motion } from "motion/react"
-
-import { useTooltipStore } from "@ariakit/react"
-import ReactRelay from "react-relay"
+import { Fab } from "@animedes/components/Button"
+import { fab } from "@animedes/components/button.styles"
 import {
 	TooltipPlain,
 	TooltipPlainContainer,
 	TooltipPlainTrigger,
 } from "@animedes/components/Tooltip"
-import { fab } from "@animedes/components/button.styles"
-
 import { A } from "@anitrove/a"
-import type { Edit_query$key } from "~/gql/Edit_query.graphql"
+import { useTooltipStore } from "@ariakit/react"
+import { motion } from "motion/react"
+import ReactRelay from "react-relay"
+import { useParams } from "react-router"
+import { useFragment } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import { route_login, route_media_edit } from "~/lib/route"
 import MaterialSymbolsEditOutline from "~icons/material-symbols/edit-outline"
-import { useFragment } from "~/lib/Network"
-import { Fab } from "@animedes/components/Button"
+
+import type { Edit_query$key } from "~/gql/Edit_query.graphql"
 const { graphql } = ReactRelay
 
 const Edit_query = graphql`

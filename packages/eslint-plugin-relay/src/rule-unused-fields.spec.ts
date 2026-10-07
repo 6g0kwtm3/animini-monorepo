@@ -1,6 +1,7 @@
 import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import { test } from "vitest"
+
 import { rule } from "./rule-unused-fields"
 
 const { valid, invalid } = createRuleTester({

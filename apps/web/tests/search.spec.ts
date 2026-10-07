@@ -9,10 +9,11 @@ import routeNavSearchQuery, {
 	type routeNavSearchQuery$rawResponse,
 	type routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
+
 import { SuccessHandler, test } from "./fixtures"
+import { anilist } from "./fixtures"
 import { MediaPage } from "./pages/MediaPage"
 import { SearchPage } from "./pages/SearchPage"
-import { anilist } from "./fixtures"
 const handlers = [
 	anilist.query<routeNavSearchQuery$rawResponse, routeNavSearchQuery$variables>(
 		routeNavSearchQuery.fragment.name,

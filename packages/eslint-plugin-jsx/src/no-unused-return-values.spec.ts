@@ -2,6 +2,7 @@ import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
 import path from "node:path"
 import { expect, test } from "vitest"
+
 import { rule } from "./no-unused-return-values"
 
 const { valid, invalid } = createRuleTester({

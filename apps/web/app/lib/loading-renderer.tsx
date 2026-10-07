@@ -1,6 +1,5 @@
-import { animate, motion, useMotionValue } from "motion/react"
-
 import { interpolate, type Options } from "flubber"
+import { animate, motion, useMotionValue } from "motion/react"
 import { MotionValue, useTransform } from "motion/react"
 import { useEffect, useState } from "react"
 

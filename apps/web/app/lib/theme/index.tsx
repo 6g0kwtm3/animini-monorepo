@@ -1,3 +1,5 @@
+import colors from "@anitrove/design/colors"
+import { precompileStyles, type OutStyles } from "@anitrove/unstyled"
 import {
 	argbFromHex,
 	blueFromArgb,
@@ -8,10 +10,8 @@ import {
 	redFromArgb,
 	SchemeTonalSpot,
 } from "@material/material-color-utilities"
-import type { CSSProperties } from "react"
 
-import colors from "@anitrove/design/colors"
-import { precompileStyles, type OutStyles } from "@anitrove/unstyled"
+import type { CSSProperties } from "react"
 
 export type Theme = OutStyles
 

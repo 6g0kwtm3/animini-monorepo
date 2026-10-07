@@ -1,6 +1,7 @@
-import type { ComponentProps, ReactNode } from "react"
-import { tv } from "./tailwind-variants"
 import { classes } from "./classes"
+import { tv } from "./tailwind-variants"
+
+import type { ComponentProps, ReactNode } from "react"
 
 const dialogIcon = tv({ base: "-mb-2 flex justify-center px-6" })
 

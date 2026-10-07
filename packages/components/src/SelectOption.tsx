@@ -1,6 +1,8 @@
 import * as Ariakit from "@ariakit/react"
-import type { ReactNode } from "react"
+
 import { createMenu } from "./menu.styles"
+
+import type { ReactNode } from "react"
 
 const { item } = createMenu({})
 export function SelectOption(props: Ariakit.ComboboxItemProps): ReactNode {

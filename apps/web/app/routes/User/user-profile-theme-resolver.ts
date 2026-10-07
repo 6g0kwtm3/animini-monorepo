@@ -1,7 +1,8 @@
 import ReactRelay from "react-relay"
-import type { userProfileThemeResolver_userOptions$key } from "~/gql/userProfileThemeResolver_userOptions.graphql"
 import { readFragment } from "~/lib/Network"
 import { getThemeFromHex, type Theme } from "~/lib/theme"
+
+import type { userProfileThemeResolver_userOptions$key } from "~/gql/userProfileThemeResolver_userOptions.graphql"
 const { graphql } = ReactRelay
 
 /**

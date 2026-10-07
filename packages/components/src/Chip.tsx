@@ -1,4 +1,3 @@
-import { LabelId } from "./LabelId"
 import * as Ariakit from "@ariakit/react"
 import {
 	createContext,
@@ -10,7 +9,9 @@ import {
 	type SetStateAction,
 } from "react"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
+
 import { Label } from "./Label"
+import { LabelId } from "./LabelId"
 const FocusContext = createContext<Dispatch<SetStateAction<boolean>>>(() => {
 	//
 })

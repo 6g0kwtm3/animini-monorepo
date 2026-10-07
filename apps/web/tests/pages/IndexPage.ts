@@ -1,6 +1,8 @@
-import type { Page } from "@playwright/test"
 import { expect } from "@playwright/test"
+
 import { Nav } from "./Nav"
+
+import type { Page } from "@playwright/test"
 
 export class FeedPage {
 	nav: Nav

@@ -1,7 +1,7 @@
-import type { ComponentProps, ReactNode } from "react"
+import * as Ariakit from "@ariakit/react"
 import { createContext, useContext, useId } from "react"
 
-import * as Ariakit from "@ariakit/react"
+import type { ComponentProps, ReactNode } from "react"
 
 export function MenuList(props: Ariakit.MenuProps): ReactNode {
 	const { list } = useContext(Context)

@@ -1,21 +1,10 @@
-import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
-import {
-	Form,
-	isRouteErrorResponse,
-	Outlet,
-	useLocation,
-	useNavigate,
-	useNavigation,
-	useParams,
-	useRouteError,
-	useSubmit,
-} from "react-router"
-
-import type { ReactNode } from "react"
 import { AppBar, AppBarTitle } from "@animedes/components/AppBar"
+import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
 import { Icon } from "@animedes/components/Button"
+import { button } from "@animedes/components/button.styles"
 import { Card } from "@animedes/components/Card"
 import { Checkbox, Radio } from "@animedes/components/Checkbox"
+import { Label } from "@animedes/components/Label"
 import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
 import {
 	List,
@@ -31,31 +20,38 @@ import {
 	TabsListItem,
 	TabsPanel,
 } from "@animedes/components/Tabs"
-import { Label } from "@animedes/components/Label"
-import { button } from "@animedes/components/button.styles"
-import { BreadcrumbItem } from "@animedes/components/Breadcrumb"
-import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
-
+import { A } from "@anitrove/a"
+import { precompileStyles } from "@anitrove/unstyled"
+import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import * as Ariakit from "@ariakit/react"
-
+import { captureException } from "@sentry/react"
+import { type } from "arktype"
+import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
+import {
+	Form,
+	isRouteErrorResponse,
+	Outlet,
+	useLocation,
+	useNavigate,
+	useNavigation,
+	useParams,
+	useRouteError,
+	useSubmit,
+} from "react-router"
+import { copySearchParams } from "~/lib/copySearchParams"
+import { invariant } from "~/lib/invariant"
+import { MediaListSort } from "~/lib/MediaListSort"
+import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
 import MaterialSymbolsFilterList from "~icons/material-symbols/filter-list"
 import MaterialSymbolsMoreHoriz from "~icons/material-symbols/more-horiz"
 import MaterialSymbolsSearch from "~icons/material-symbols/search"
 
-import { MediaListSort } from "~/lib/MediaListSort"
-
-import { copySearchParams } from "~/lib/copySearchParams"
-
-import { A } from "@anitrove/a"
-import { precompileStyles } from "@anitrove/unstyled"
-import { captureException } from "@sentry/react"
-import { type } from "arktype"
-import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
-import { invariant } from "~/lib/invariant"
-import { loadQuery, usePreloadedQuery } from "~/lib/Network"
-import type { Route } from "./+types/route"
 import { UserListTabs } from "./UserListTabs"
+
+import type { Route } from "./+types/route"
+import type { ReactNode } from "react"
+import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 
 function useOptimisticSearchParams(): URLSearchParams {
 	const { search } = useOptimisticLocation()

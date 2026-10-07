@@ -1,7 +1,6 @@
-import { type ComponentProps, type ReactNode } from "react"
-
 import { mergeStyles, provide, type OutStyles } from "@animedes/unstyled"
 import { Box } from "@animedes/unstyled/box"
+import { type ComponentProps, type ReactNode } from "react"
 
 import {
 	Navigation,

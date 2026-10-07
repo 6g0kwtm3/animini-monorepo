@@ -1,13 +1,14 @@
-import type {
-	GraphQLESLintRule,
-	GraphQLESTreeNode,
-} from "@graphql-eslint/eslint-plugin"
 import {
 	Kind,
 	OperationTypeNode,
 	type FragmentSpreadNode,
 	type OperationDefinitionNode,
 } from "graphql"
+
+import type {
+	GraphQLESLintRule,
+	GraphQLESTreeNode,
+} from "@graphql-eslint/eslint-plugin"
 
 export const rule: GraphQLESLintRule = {
 	meta: {

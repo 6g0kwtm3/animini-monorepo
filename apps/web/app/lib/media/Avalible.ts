@@ -1,9 +1,11 @@
 import ReactRelay from "react-relay"
+
+import { readFragment } from "../Network"
+
 import type {
 	Avalible_media$key,
 	MediaStatus,
 } from "~/gql/Avalible_media.graphql"
-import { readFragment } from "../Network"
 const { graphql } = ReactRelay
 
 /**

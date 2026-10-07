@@ -1,6 +1,6 @@
+import * as layoutStyles from "@animedes/components/Layout.styles"
 import * as design from "@anitrove/design"
 import { create } from "@anitrove/unstyled"
-import * as layoutStyles from "@animedes/components/Layout.styles"
 
 export const styles = create({
 	layout: {
