@@ -56,7 +56,15 @@ export interface Fixtures extends Options {
 
 export const test = base.extend<Fixtures>({
 	// Initial list of the network handlers.
-	handlers: [[anilist.operation(() => HttpResponse.error())], { option: true }],
+	handlers: [
+		[
+			http.all(`https://web-flags.black-grass-3db8.workers.dev`, () =>
+				HttpResponse.error()
+			),
+			anilist.operation(() => HttpResponse.error()),
+		],
+		{ option: true },
+	],
 
 	// A fixture you use to control the network in your tests.
 	worker: [
