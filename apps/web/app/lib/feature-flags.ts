@@ -148,13 +148,9 @@ const apiKey =
 	import.meta.env.VITE_FLAGS_KEY
 	?? "c857c1300615b6bf15b127547fc3b57eccc5a21573066e50d102708e8dad273e"
 
+export const FEATURE_FLAGS_URL = `https://web-flags.black-grass-3db8.workers.dev`
 const providers: ProviderEntryInput<Provider>[] = [
-	{
-		provider: new FlaghoistWebProvider({
-			url: `https://web-flags.black-grass-3db8.workers.dev`,
-			apiKey,
-		}),
-	},
+	{ provider: new FlaghoistWebProvider({ url: FEATURE_FLAGS_URL, apiKey }) },
 	{ provider: new TypedInMemoryProvider({} as const) },
 ]
 
