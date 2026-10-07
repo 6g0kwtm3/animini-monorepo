@@ -8,7 +8,6 @@ import { http, HttpResponse, type AnyHandler } from "msw"
 import { graphql } from "msw/graphql"
 import { join } from "path"
 
-import { FEATURE_FLAGS_URL } from "../app/lib/feature-flags"
 import { Viewer } from "../app/lib/viewer/index"
 
 export const anilist = graphql.link("https://graphql.anilist.co")
@@ -59,7 +58,9 @@ export const test = base.extend<Fixtures>({
 	// Initial list of the network handlers.
 	handlers: [
 		[
-			http.all(FEATURE_FLAGS_URL, () => HttpResponse.error()),
+			http.all(`https://web-flags.black-grass-3db8.workers.dev`, () =>
+				HttpResponse.error()
+			),
 			anilist.operation(() => HttpResponse.error()),
 		],
 		{ option: true },
