@@ -24,7 +24,12 @@ init({
 			: "development",
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
 
-	dataCollection: { userInfo: false },
+	dataCollection: {
+		userInfo: false,
+		httpHeaders: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+		cookies: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+		urlQueryParams: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+	},
 
 	integrations: [
 		consoleLoggingIntegration(),
