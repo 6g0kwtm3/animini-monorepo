@@ -33,6 +33,7 @@ minimumReleaseAgeExcludePrune: true
 minimumReleaseAge: 0
 patchedDependencies:
   "@material/material-color-utilities": patches/@material__material-color-utilities.patch
+  '@sentry/core@11.4.0': patches/@sentry__core@11.4.0.patch
   "@types/react": patches/@types__react.patch
   flubber: patches/flubber.patch
   framer-motion: patches/framer-motion.patch
