@@ -25,14 +25,15 @@
 		".github/workflows/**"
 	],
 	"tasks": {
-		"dev": { "cache": false, "persistent": true, "with": ["check"] },
+		"generate-code": {},
+		"dev": { "cache": false, "persistent": true },
 		"build": {
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**", "storybook-static/**"]
 		},
 		"deploy": { "dependsOn": ["build"], "cache": false },
 		"transit": { "dependsOn": ["^transit"] },
-		"check": { "dependsOn": ["transit"] },
+		"check": { "dependsOn": ["transit", "generate-code"] },
 		"//#oxlint": {
 			"dependsOn": [
 				"@animedes/web#relay",
@@ -41,7 +42,7 @@
 			],
 			"cache": false
 		},
-		"lint": { "dependsOn": ["transit"], "cache": false },
+		"lint": { "dependsOn": ["transit", "generate-code"], "cache": false },
 		"//#lint": { "cache": false },
 		"test-e2e": { "outputs": ["playwright-report/**", "test-results/**"] },
 		"//#test": {},

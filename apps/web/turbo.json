@@ -6,7 +6,7 @@
 		"build": {
 			"dependsOn": ["^build", "relay"],
 			"passThroughEnv": ["SENTRY_AUTH_TOKEN"],
-			"env": ["VITE_SENTRY_MODE"]
+			"env": ["VITE_*"]
 		},
 		"start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
 		"relay-watch": { "cache": false, "persistent": true },
@@ -16,7 +16,6 @@
 		},
 		"router": { "outputs": [".react-router/**"] },
 		"relay": { "outputs": ["app/gql/**"] },
-		"check": { "dependsOn": ["transit", "router", "paraglide", "relay"] },
-		"lint": { "dependsOn": ["transit", "router", "paraglide", "relay"] }
+		"generate-code": { "dependsOn": ["router", "paraglide", "relay"] }
 	}
 }
