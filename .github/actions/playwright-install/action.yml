@@ -35,4 +35,4 @@ runs:
 
     - name: Install playwright 📦
       shell: bash
-      run: pnpm --filter=web exec playwright install chromium-headless-shell webkit ${{ inputs.with-deps && '--with-deps' || '' }}
+      run: pnpm --filter=web exec playwright install chromium-headless-shell webkit ${{ inputs.with-deps == 'true' && '--with-deps' || '' }}
