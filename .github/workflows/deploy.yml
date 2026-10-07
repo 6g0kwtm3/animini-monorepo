@@ -87,7 +87,13 @@ jobs:
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Check affected — deploy
+        id: affected-deploy
+        continue-on-error: true
+        run: pnpm exec turbo query affected --packages @animedes/web --tasks deploy --exit-code
+
       - name: Deploy
+        if: steps.affected-deploy.outcome == 'failure'
         run: pnpm exec turbo --filter=@animedes/web deploy -- --branch=${BRANCH}
         env:
           VITE_SENTRY_MODE: ${{ github.ref_name != github.event.repository.default_branch && 'preview' || 'production' }}
@@ -121,7 +127,13 @@ jobs:
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Check affected — deploy
+        id: affected-deploy
+        continue-on-error: true
+        run: pnpm exec turbo query affected --packages web-flags --tasks deploy --exit-code
+
       - name: Deploy
+        if: steps.affected-deploy.outcome == 'failure'
         run: |
           if [ "${VITE_SENTRY_MODE}" = "production" ]; then
             pnpm exec turbo --filter=web-flags deploy
