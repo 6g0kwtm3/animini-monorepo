@@ -13,12 +13,28 @@ import inspect from "vite-plugin-inspect"
 
 import relayConfig from "./relay.config.json" with { type: "json" }
 
+const fixRelayImportTypeSyntax = (): Plugin => {
+	return {
+		name: "fix-relay-import-type-syntax",
+		transform(code, id) {
+			if (id.endsWith(".graphql.ts")) {
+				code = code.replace(
+					`import { FeatureFlags } from "../lib/feature-flags"`,
+					``
+				)
+				return code
+			}
+		},
+	}
+}
+
 export default defineConfig((config) => {
 	if (relayConfig.language !== "typescript") {
 		throw new Error(`relayConfig.language !== "typescript"`)
 	}
 	return {
 		plugins: [
+			fixRelayImportTypeSyntax(),
 			webpackStatsPlugin(),
 			inspect(),
 			macros(),
