@@ -1,5 +1,5 @@
 import createDOMPurify from "dompurify"
-import { useMemo, use } from "react"
+import { use, useMemo } from "react"
 import { browser } from "react-dom"
 
 import { markdownToHtml } from "./markdown-to-html"
@@ -15,10 +15,13 @@ export interface Options {
 	}>
 }
 
-export function Markdown(props: {
+export interface MarkdownProps {
 	children: Stable<string>
 	options: Stable<Options>
-}): ReactNode {
+	enableSanitizerWebAPI: boolean
+}
+
+export function Markdown(props: MarkdownProps): ReactNode {
 	void use(browser("Markdown is not supported on the server"))
 
 	return useMemo(
