@@ -68,8 +68,8 @@ import type { Route as FollowRoute } from "../UserFollow/+types/route"
 export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.routeNavUserQuery)
 
-	if (!data.user) {
-		throw json("User not found", { status: 404 })
+	if (data.user == null) {
+		throw new Error("User not found")
 	}
 
 	const follow = useFetcher<FollowRoute.ComponentProps["actionData"]>({
