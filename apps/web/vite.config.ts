@@ -1,6 +1,6 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import { reactRouter } from "@react-router/dev/vite"
-import { sentryVitePlugin as sentry } from "@sentry/vite-plugin"
+import { sentryReactRouter as sentry } from "@sentry/react/vite"
 import tailwindcss from "@tailwindcss/vite"
 import path from "path"
 import webpackStatsPlugin from "rollup-plugin-webpack-stats"
@@ -64,12 +64,15 @@ export default defineConfig((config) => {
 				eagerEsModules: relayConfig.eagerEsModules,
 				artifactDirectory: path.resolve(relayConfig.artifactDirectory),
 			}),
-			sentry({
-				org: "animini",
-				project: "javascript-react",
-				authToken: process.env.SENTRY_AUTH_TOKEN,
-				reactComponentAnnotation: { enabled: true },
-			}),
+			sentry(
+				{
+					org: "animini",
+					project: "javascript-react",
+					authToken: process.env.SENTRY_AUTH_TOKEN,
+					reactComponentAnnotation: { enabled: true },
+				},
+				config
+			),
 		],
 		preview: { port: 3000, strictPort: true },
 		server: { port: 3000, strictPort: true },
