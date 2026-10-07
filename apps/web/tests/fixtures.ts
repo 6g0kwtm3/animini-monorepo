@@ -8,6 +8,7 @@ import { http, HttpResponse, type AnyHandler } from "msw"
 import { graphql } from "msw/graphql"
 import { join } from "path"
 
+import { FEATURE_FLAGS_URL } from "../app/lib/feature-flags"
 import { Viewer } from "../app/lib/viewer/index"
 
 export const anilist = graphql.link("https://graphql.anilist.co")
@@ -56,7 +57,13 @@ export interface Fixtures extends Options {
 
 export const test = base.extend<Fixtures>({
 	// Initial list of the network handlers.
-	handlers: [[anilist.operation(() => HttpResponse.error())], { option: true }],
+	handlers: [
+		[
+			http.all(FEATURE_FLAGS_URL, () => HttpResponse.error()),
+			anilist.operation(() => HttpResponse.error()),
+		],
+		{ option: true },
+	],
 
 	// A fixture you use to control the network in your tests.
 	worker: [
