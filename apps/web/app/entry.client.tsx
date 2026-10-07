@@ -6,6 +6,7 @@ import {
 	reactRouterTracingIntegration,
 	replayIntegration,
 	consoleLoggingIntegration,
+	openFeatureIntegration,
 } from "@sentry/react"
 import { startTransition, StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
@@ -32,6 +33,7 @@ init({
 	},
 
 	integrations: [
+		openFeatureIntegration(),
 		consoleLoggingIntegration(),
 		graphqlClientIntegration({ endpoints: [API_URL] }),
 		tracing,
