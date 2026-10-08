@@ -42,7 +42,6 @@
 		"@react-router/node": "catalog:",
 		"@sentry/react": "catalog:",
 		"@sentry/toolbar": "catalog:",
-		"@sentry/vite-plugin": "catalog:",
 		"@svgr/core": "catalog:",
 		"@svgr/plugin-jsx": "catalog:",
 		"@tailwindcss/typography": "catalog:",
