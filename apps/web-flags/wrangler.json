@@ -1,0 +1,15 @@
+{
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "web-flags",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-01-01",
+	"placement": { "mode": "smart" },
+	"kv_namespaces": [
+		{ "binding": "FLAGS", "id": "427845372c20404399501b8d313bcff8" }
+	],
+	"previews": {
+		"kv_namespaces": [
+			{ "binding": "FLAGS", "id": "427845372c20404399501b8d313bcff8" }
+		]
+	}
+}
