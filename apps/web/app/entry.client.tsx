@@ -37,6 +37,33 @@ init({
 
 		return breadcrumb
 	},
+	beforeSendSpan(span) {
+		if (
+			span.attributes.url == null
+			|| typeof span.attributes.url !== "object"
+		) {
+			return span
+		}
+
+		if (
+			"path" in span.attributes.url
+			&& typeof span.attributes.url.path === "string"
+		) {
+			span.attributes.url.path = scrubPathname(span.attributes.url.path)
+		}
+
+		if (
+			"full" in span.attributes.url
+			&& typeof span.attributes.url.full === "string"
+			&& URL.canParse(span.attributes.url.full)
+		) {
+			const url = new URL(span.attributes.url.full)
+			url.pathname = scrubPathname(url.pathname)
+			span.attributes.url.full = url.toString()
+		}
+
+		return span
+	},
 
 	dataCollection: {
 		userInfo: false,
