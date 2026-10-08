@@ -1,14 +1,32 @@
 import { matchPath, generatePath } from "react-router"
 export function scrubPathname(pathname: string): string {
-	const matchUserName = matchPath(
+	const matchTypelist = matchPath(
 		{ path: `/:locale?/user/:userName/:typelist/:selected?`, end: false },
 		pathname
 	)
 
+	if (matchTypelist != null) {
+		return generatePath(matchTypelist.pattern.path, {
+			...matchTypelist.params,
+			locale:
+				matchTypelist.params.locale !== undefined ? `:Filtered:` : undefined,
+			userName: `:Filtered:`,
+			selected:
+				matchTypelist.params.selected !== undefined ? `:Filtered:` : undefined,
+		})
+	}
+
+	const matchUserName = matchPath(
+		{ path: `/:locale?/user/:userName`, end: false },
+		pathname
+	)
+
 	if (matchUserName != null) {
-		pathname = generatePath(matchUserName.pattern.path, {
+		return generatePath(matchUserName.pattern.path, {
 			...matchUserName.params,
-			userName: `[Filtered]`,
+			userName: `:Filtered:`,
+			locale:
+				matchUserName.params.locale !== undefined ? `:Filtered:` : undefined,
 		})
 	}
 
@@ -17,7 +35,8 @@ export function scrubPathname(pathname: string): string {
 	if (matchLocale != null) {
 		pathname = generatePath(matchLocale.pattern.path, {
 			...matchLocale.params,
-			locale: `[Filtered]`,
+			locale:
+				matchLocale.params.locale !== undefined ? `:Filtered:` : undefined,
 		})
 	}
 	return pathname
