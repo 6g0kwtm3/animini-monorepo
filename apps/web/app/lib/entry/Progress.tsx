@@ -131,8 +131,7 @@ export function ProgressIncrement(props: {
 				)}
 			<Menu>
 				<Icon
-					title="Show more options"
-					tooltip
+					label={{ kind: "html-title", value: "Show more options" }}
 					render={<MenuTrigger render={<CompositeItem />} />}
 				>
 					<MaterialSymbolsMoreHoriz />

@@ -98,11 +98,11 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 function Actions(_props: Route.ComponentProps): ReactNode {
 	return (
 		<>
-			<Icon tooltip={true} title="Filter">
+			<Icon label={{ kind: "ariakit-tooltip", value: "Filter" }}>
 				<MaterialSymbolsSearch />
 			</Icon>
 			<FilterButton />
-			<Icon tooltip={true} title="More">
+			<Icon label={{ kind: "ariakit-tooltip", value: "More" }}>
 				<MaterialSymbolsMoreHoriz />
 			</Icon>
 		</>
@@ -133,18 +133,24 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 				<Tabs selectedId={String(params.selected)}>
 					<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 grid">
 						<AppBar variant="large" className="sm:bg-surface-container-low">
-							<Icon tooltip title="Show list search">
+							<Icon
+								label={{ kind: "ariakit-tooltip", value: "Show list search" }}
+							>
 								<MaterialSymbolsSearch />
 							</Icon>
 							<AppBarTitle>
 								{params.typelist === "animelist" ? "Anime list" : "Manga list"}
 							</AppBarTitle>
 							<div className="flex-1" />
-							<Icon tooltip title="Show list search">
+							<Icon
+								label={{ kind: "ariakit-tooltip", value: "Show list search" }}
+							>
 								<MaterialSymbolsSearch />
 							</Icon>
 							<FilterButton />
-							<Icon tooltip title="Show more options">
+							<Icon
+								label={{ kind: "ariakit-tooltip", value: "Show more options" }}
+							>
 								<MaterialSymbolsMoreHoriz />
 							</Icon>
 						</AppBar>
@@ -174,8 +180,7 @@ function FilterButton() {
 	return (
 		<Icon
 			className={`md:hidden${searchParams.size !== 0 ? "text-tertiary" : ""}`}
-			tooltip
-			title={"Show list filters"}
+			label={{ kind: "ariakit-tooltip", value: "Show list filters" }}
 			render={<A href={{ search: `?${filterParams}`, pathname }}></A>}
 		>
 			<MaterialSymbolsFilterList />

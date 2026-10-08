@@ -38,14 +38,14 @@ export function ButtonIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className={icon({ className: props.className })} />
 }
 
-interface ButtonWithTooltipProps extends Ariakit.ButtonProps {
-	tooltip: boolean
-	title: string
+interface ButtonWithTooltipProps extends Omit<Ariakit.ButtonProps, "title"> {
+	label:
+		| { kind: "ariakit-tooltip"; value: ReactNode }
+		| { kind: "html-title"; value: string }
 }
 
 export function ButtonWithTooltip({
-	tooltip,
-	title,
+	label,
 	children,
 	...props
 }: ButtonWithTooltipProps) {
@@ -53,25 +53,27 @@ export function ButtonWithTooltip({
 	const button = (
 		<Ariakit.Button
 			{...props}
+			title={label.kind === "html-title" ? label.value : undefined}
 			onClick={(...args) => {
-				if (tooltip) {
+				if (label.kind === "ariakit-tooltip") {
 					store.setOpen(false)
 				}
 				props.onClick?.(...args)
 			}}
 		>
 			{children}
+			<Ariakit.VisuallyHidden>{label.value}</Ariakit.VisuallyHidden>
 		</Ariakit.Button>
 	)
 
-	if (!tooltip) {
+	if (label.kind === "html-title") {
 		return button
 	}
 
 	return (
 		<TooltipPlain store={store}>
 			<TooltipPlainTrigger render={button}></TooltipPlainTrigger>
-			<TooltipPlainContainer>{title}</TooltipPlainContainer>
+			<TooltipPlainContainer>{label.value}</TooltipPlainContainer>
 		</TooltipPlain>
 	)
 }
@@ -83,7 +85,6 @@ export function Icon({ children, variant, className, ...props }: IconProps) {
 	return (
 		<ButtonWithTooltip {...props} className={btnIcon({ variant, className })}>
 			{children}
-			<Ariakit.VisuallyHidden>{props.title}</Ariakit.VisuallyHidden>
 			<TouchTarget />
 		</ButtonWithTooltip>
 	)
@@ -96,7 +97,6 @@ export function Fab({ children, size, color, className, ...props }: FabProps) {
 	return (
 		<ButtonWithTooltip {...props} className={fab({ size, color, className })}>
 			{children}
-			<Ariakit.VisuallyHidden>{props.title}</Ariakit.VisuallyHidden>
 		</ButtonWithTooltip>
 	)
 }

@@ -116,8 +116,12 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 
 										<Icon
 											type="submit"
-											tooltip
-											title={isFollow ? m.unfollow_button() : m.follow_button()}
+											label={{
+												kind: "ariakit-tooltip",
+												value: isFollow
+													? m.unfollow_button()
+													: m.follow_button(),
+											}}
 										>
 											{isFollow ? (
 												<MaterialSymbolsPersonRemoveOutline />
@@ -151,7 +155,7 @@ function Logout(): ReactNode {
 			method="post"
 			action={`/logout/?${new URLSearchParams({ redirect: pathname })}`}
 		>
-			<Icon type="submit" tooltip title="Logout">
+			<Icon type="submit" label={{ kind: "ariakit-tooltip", value: "Logout" }}>
 				<MaterialSymbolsLogout />
 			</Icon>
 		</Form>
