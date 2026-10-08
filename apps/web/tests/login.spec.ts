@@ -5,7 +5,13 @@ import routeNavLoginQuery, {
 	type routeNavLoginQuery$variables,
 } from "~/gql/routeNavLoginQuery.graphql"
 
-import { SuccessHandler, test } from "./fixtures"
+import {
+	CANARY_NAME,
+	SuccessHandler,
+	test,
+	CANARY_TOKEN,
+	CANARY_ID,
+} from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { LoginPage } from "./pages/Nav"
 
@@ -18,15 +24,20 @@ declare module "graphql" {
 	}
 }
 
-const TOKEN = "test-token"
-const Viewer = { id: "1", name: "User" }
+const Viewer = { id: CANARY_ID, name: CANARY_NAME }
+import { numberToString } from "utilities"
+
 import { anilist } from "./fixtures"
 const validTokenHandlers = [
 	anilist.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
 		routeNavLoginQuery.fragment.name,
 		({ request }) =>
-			request.headers.get("authorization") === `Bearer ${TOKEN}`
-				? HttpResponse.json({ data: { Viewer } })
+			request.headers.get("authorization") === `Bearer ${CANARY_TOKEN}`
+				? HttpResponse.json({
+						data: {
+							Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
+						},
+					})
 				: HttpResponse.json({
 						data: { Viewer: null },
 						errors: [
@@ -64,7 +75,11 @@ test("logging in with a valid token signs the user in", async ({
 	worker,
 	isElectron,
 	browserName,
+	markPII,
 }) => {
+	markPII(Viewer.name)
+	markPII(Viewer.id)
+	markPII(CANARY_TOKEN)
 	test.skip(isElectron, "Electron doesn't support goto")
 	worker.use(...validTokenHandlers)
 	await using page = await newPage()
@@ -79,10 +94,10 @@ test("logging in with a valid token signs the user in", async ({
 	const nav = indexPage.nav
 	await page.goto("/login")
 	const loginPage = await LoginPage.new(page)
-	await loginPage.token.fill(TOKEN)
+	await loginPage.token.fill(CANARY_TOKEN)
 	await loginPage.login.click()
 
-	await expect(page).toHaveURL(/\/user\/User\/animelist/)
+	await expect(page).toHaveURL(new RegExp(`/user/${CANARY_NAME}/animelist`))
 	await expect(nav.profile).toBeVisible()
 	await expect(nav.login).toHaveCount(0)
 
@@ -92,8 +107,8 @@ test("logging in with a valid token signs the user in", async ({
 	if (cookie?.value == null) throw new Error("cookie not found")
 	expect(JSON.parse(cookie.value)).toEqual({
 		sessionId: expect.stringContaining(""),
-		token: TOKEN,
-		viewer: { id: 1, name: "User" },
+		token: CANARY_TOKEN,
+		viewer: { id: CANARY_ID, name: CANARY_NAME },
 	})
 })
 
@@ -102,7 +117,11 @@ test("logging in with an invalid token keeps the user logged out", async ({
 	worker,
 	isElectron,
 	browserName,
+	markPII,
 }) => {
+	markPII(Viewer.name)
+	markPII(Viewer.id)
+	markPII(`${CANARY_TOKEN}-invalid`)
 	test.skip(
 		isElectron,
 		"Electron persists a session, so the logged-out start can't be guaranteed"
@@ -118,7 +137,7 @@ test("logging in with an invalid token keeps the user logged out", async ({
 
 	const indexPage = await FeedPage.new(page)
 	const loginPage = await indexPage.nav.gotoLogin()
-	await loginPage.token.fill(`${TOKEN}-invalid`)
+	await loginPage.token.fill(`${CANARY_TOKEN}-invalid`)
 	await loginPage.login.click()
 
 	await expect(page).toHaveURL(/\/login/)

@@ -9,8 +9,69 @@ import { graphql } from "msw/graphql"
 import { join } from "path"
 
 import { Viewer } from "../app/lib/viewer/index"
-
 export const anilist = graphql.link("https://graphql.anilist.co")
+
+export const CANARY_NAME = "e2e-pii-canary-name"
+export const CANARY_TOKEN = "e2e-pii-canary-token"
+export const CANARY_ID = 8675309
+
+const SENTRY_ENVELOPE = "**/*.sentry.io/api/**"
+
+interface EnvelopeItem {
+	readonly type: string
+	readonly payload: unknown
+}
+
+/** Envelopes are newline-delimited JSON: a header, then header/payload pairs. */
+function parseEnvelope(body: string): EnvelopeItem[] {
+	const lines = body.split("\n").filter((line) => line !== "")
+	const items: EnvelopeItem[] = []
+
+	for (let i = 1; i < lines.length; i += 2) {
+		const header: unknown = tryParse(lines[i])
+		const raw = lines[i + 1]
+		if (typeof header !== "object" || header == null || raw == null) {
+			continue
+		}
+
+		const payload = tryParse(raw)
+		const type =
+			"type" in header && typeof header.type === "string"
+				? header.type
+				: "unknown"
+
+		void items.push({ type, payload })
+	}
+
+	return items
+}
+
+function tryParse(text: string | undefined): unknown {
+	if (text == null) {
+		return undefined
+	}
+	try {
+		return JSON.parse(text)
+	} catch {
+		return text
+	}
+}
+
+function redact(node: unknown, piis: ReadonlySet<string | number>): unknown {
+	return JSON.parse(JSON.stringify(node), (key, value: unknown) => {
+		if (typeof value === "number") {
+			return piis.has(value) ? ":Filtered:" : value
+		}
+		if (typeof value === "string") {
+			for (const pii of piis) {
+				if (value.includes(String(pii))) {
+					return expect.not.stringContaining(String(pii))
+				}
+			}
+		}
+		return value
+	})
+}
 
 function cached<T>(fn: () => T) {
 	let cache: T | undefined
@@ -52,6 +113,7 @@ export interface Fixtures extends Options {
 	electron: ElectronApplication | null
 	newPage: () => Promise<Page>
 	login: (viewer: typeof Viewer.infer) => Promise<void>
+	markPII: (value: string | number) => void
 }
 
 export const test = base.extend<Fixtures>({
@@ -74,6 +136,48 @@ export const test = base.extend<Fixtures>({
 			await network.enable()
 			await provide(network)
 			await network.disable()
+		},
+		{ auto: true },
+	],
+
+	/**
+	 * Records everything the page sends to Sentry, and fails the test if any of
+	 * the values registered through it survive scrubbing. Depends on `worker`
+	 * so MSW's catch-all is registered first: Playwright runs the most recently
+	 * added matching route first, so this one sees the request before MSW does
+	 * and can hand it back with `route.fallback()` without answering it.
+	 */
+	markPII: [
+		async ({ context, worker }, provide) => {
+			void worker
+			const payloads: EnvelopeItem[] = []
+			const forbidden = new Set<string | number>()
+
+			await context.route(SENTRY_ENVELOPE, async (route) => {
+				const envelope =
+					route.request().postDataBuffer()?.toString("utf8") ?? ""
+
+				for (const item of parseEnvelope(envelope)) {
+					void payloads.push(item)
+				}
+
+				await route.fallback()
+			})
+
+			await provide((value: string | number) => {
+				void forbidden.add(value)
+			})
+
+			await context.unroute(SENTRY_ENVELOPE)
+
+			payloads.forEach(({ type, payload }) => {
+				expect
+					.soft(
+						payload,
+						`Sentry ${type} payload sent during this test; expect it to have every canary redacted`
+					)
+					.toEqual(redact(payload, forbidden))
+			})
 		},
 		{ auto: true },
 	],
@@ -123,13 +227,16 @@ export const test = base.extend<Fixtures>({
 		})
 	},
 
-	login({ context }, provide) {
+	login({ context, markPII }, provide) {
 		return provide(async (viewer: typeof Viewer.infer) => {
+			markPII(viewer.id)
+			markPII(viewer.name)
+			markPII(CANARY_TOKEN)
 			await context.addCookies([
 				{
 					name: `anilist-token`,
 					value: JSON.stringify({
-						token: "",
+						token: CANARY_TOKEN,
 						viewer,
 						sessionId: crypto.randomUUID(),
 					}),

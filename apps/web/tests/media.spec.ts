@@ -1,7 +1,13 @@
 import { expect, type Page } from "@playwright/test"
 import { HttpResponse } from "msw"
 
-import { anilist, SuccessHandler, test } from "./fixtures"
+import {
+	anilist,
+	CANARY_ID,
+	CANARY_NAME,
+	SuccessHandler,
+	test,
+} from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { MediaPage } from "./pages/MediaPage"
 import { SearchPage } from "./pages/SearchPage"
@@ -15,7 +21,7 @@ import type {
 	routeNavSearchQuery$variables,
 } from "~/gql/routeNavSearchQuery.graphql"
 
-const VIEWER = { id: 1, name: "User" }
+const VIEWER = { id: CANARY_ID, name: CANARY_NAME }
 
 const FRIEREN_ID = 123
 const FRIEREN_TITLE = "Sousou no Frieren"
