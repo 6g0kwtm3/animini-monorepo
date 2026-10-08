@@ -66,16 +66,17 @@ export function ButtonWithTooltip({
 		</Ariakit.Button>
 	)
 
-	if (label.kind === "html-title") {
-		return button
+	switch (label.kind) {
+		case "ariakit-tooltip":
+			return (
+				<TooltipPlain store={store}>
+					<TooltipPlainTrigger render={button}></TooltipPlainTrigger>
+					<TooltipPlainContainer>{label.value}</TooltipPlainContainer>
+				</TooltipPlain>
+			)
+		case "html-title":
+			return button
 	}
-
-	return (
-		<TooltipPlain store={store}>
-			<TooltipPlainTrigger render={button}></TooltipPlainTrigger>
-			<TooltipPlainContainer>{label.value}</TooltipPlainContainer>
-		</TooltipPlain>
-	)
 }
 
 interface IconProps
