@@ -25,17 +25,44 @@ init({
 			: "development",
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
 	beforeBreadcrumb(breadcrumb) {
-		if (breadcrumb.data == null || typeof breadcrumb.data !== "object") {
+		if (breadcrumb.data == null) {
 			return breadcrumb
 		}
-		if ("from" in breadcrumb.data && typeof breadcrumb.data.from === "string") {
+		if (typeof breadcrumb.data.from === "string") {
 			breadcrumb.data.from = scrubPathname(breadcrumb.data.from)
 		}
-		if ("to" in breadcrumb.data && typeof breadcrumb.data.to === "string") {
+		if (typeof breadcrumb.data.to === "string") {
 			breadcrumb.data.to = scrubPathname(breadcrumb.data.to)
 		}
 
 		return breadcrumb
+	},
+	beforeSend(event) {
+		if (event.transaction != null && URL.canParse(event.transaction)) {
+			event.transaction = scrubPathname(event.transaction)
+		}
+		if (event.request?.url != null && URL.canParse(event.request.url)) {
+			const url = new URL(event.request.url)
+			url.pathname = scrubPathname(url.pathname)
+			event.request.url = url.toString()
+		}
+		return event
+	},
+	beforeSendSpan(span) {
+		if (typeof span.attributes["url.path"] === "string") {
+			span.attributes["url.path"] = scrubPathname(span.attributes["url.path"])
+		}
+
+		if (
+			typeof span.attributes["url.full"] === "string"
+			&& URL.canParse(span.attributes["url.full"])
+		) {
+			const url = new URL(span.attributes["url.full"])
+			url.pathname = scrubPathname(url.pathname)
+			span.attributes["url.full"] = url.toString()
+		}
+
+		return span
 	},
 
 	dataCollection: {
