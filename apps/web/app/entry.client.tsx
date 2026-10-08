@@ -42,7 +42,7 @@ init({
 			event.transaction = scrubPathname(event.transaction)
 		}
 		if (event.request?.url != null && URL.canParse(event.request.url)) {
-			const url = new URL(event.request?.url)
+			const url = new URL(event.request.url)
 			url.pathname = scrubPathname(url.pathname)
 			event.request.url = url.toString()
 		}
