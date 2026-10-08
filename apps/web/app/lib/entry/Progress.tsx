@@ -24,6 +24,7 @@ import {
 	useRouteLoaderData,
 	useSearchParams,
 } from "react-router"
+import { m } from "~/paraglide/messages"
 import MaterialSymbolsAdd from "~icons/material-symbols/add"
 import MaterialSymbolsFavorite from "~icons/material-symbols/favorite"
 import MaterialSymbolsForward from "~icons/material-symbols/forward"
@@ -131,7 +132,7 @@ export function ProgressIncrement(props: {
 				)}
 			<Menu>
 				<Icon
-					label={{ kind: "html-title", value: "Show more options" }}
+					label={{ kind: "html-title", value: m.show_more_options() }}
 					render={<MenuTrigger render={<CompositeItem />} />}
 				>
 					<MaterialSymbolsMoreHoriz />

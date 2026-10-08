@@ -155,7 +155,10 @@ function Logout(): ReactNode {
 			method="post"
 			action={`/logout/?${new URLSearchParams({ redirect: pathname })}`}
 		>
-			<Icon type="submit" label={{ kind: "ariakit-tooltip", value: "Logout" }}>
+			<Icon
+				type="submit"
+				label={{ kind: "ariakit-tooltip", value: m.logout() }}
+			>
 				<MaterialSymbolsLogout />
 			</Icon>
 		</Form>

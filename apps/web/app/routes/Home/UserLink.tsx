@@ -40,7 +40,9 @@ export function UserLink(props: { children: ReactNode; userName: string }) {
 			>
 				{props.children}
 			</TooltipRichTrigger>
-			<TooltipDisclosure>More about {props.userName}</TooltipDisclosure>
+			<TooltipDisclosure>
+				{m.more_about_user({ userName: props.userName })}
+			</TooltipDisclosure>
 
 			<ErrorBoundary>
 				<Suspense>
