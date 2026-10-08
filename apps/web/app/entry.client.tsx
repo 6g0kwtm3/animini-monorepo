@@ -10,11 +10,11 @@ import {
 } from "@sentry/react"
 import { startTransition, StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
+import { generatePath, matchPath } from "react-router"
 import { HydratedRouter } from "react-router/dom"
 
 import { API_URL } from "./lib/Network/environment"
-
-const tracing = reactRouterTracingIntegration({ useInstrumentationAPI: true })
+import { scrubPathname } from "./lib/scrub"
 
 init({
 	environment:
@@ -24,6 +24,19 @@ init({
 			? import.meta.env.VITE_SENTRY_MODE
 			: "development",
 	dsn: "https://b72170d9bac5ee68ab3ce649b3aad356@o4508677510201344.ingest.de.sentry.io/4508677512888400",
+	beforeBreadcrumb(breadcrumb) {
+		if (breadcrumb.data == null || typeof breadcrumb.data !== "object") {
+			return breadcrumb
+		}
+		if ("from" in breadcrumb.data && typeof breadcrumb.data.from === "string") {
+			breadcrumb.data.from = scrubPathname(breadcrumb.data.from)
+		}
+		if ("to" in breadcrumb.data && typeof breadcrumb.data.to === "string") {
+			breadcrumb.data.to = scrubPathname(breadcrumb.data.to)
+		}
+
+		return breadcrumb
+	},
 
 	dataCollection: {
 		userInfo: false,
@@ -36,7 +49,7 @@ init({
 		openFeatureIntegration(),
 		consoleLoggingIntegration(),
 		graphqlClientIntegration({ endpoints: [API_URL] }),
-		tracing,
+		reactRouterTracingIntegration(),
 		replayIntegration(),
 	],
 

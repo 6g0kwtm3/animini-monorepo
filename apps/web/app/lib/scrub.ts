@@ -5,7 +5,7 @@ export function scrubPathname(pathname: string): string {
 		pathname
 	)
 
-	if (matchUserName !== null) {
+	if (matchUserName != null) {
 		pathname = generatePath(matchUserName.pattern.path, {
 			...matchUserName.params,
 			userName: `[Filtered]`,
@@ -14,7 +14,7 @@ export function scrubPathname(pathname: string): string {
 
 	const matchLocale = matchPath({ path: `/:locale?`, end: false }, pathname)
 
-	if (matchLocale !== null) {
+	if (matchLocale != null) {
 		pathname = generatePath(matchLocale.pattern.path, {
 			...matchLocale.params,
 			locale: `[Filtered]`,
