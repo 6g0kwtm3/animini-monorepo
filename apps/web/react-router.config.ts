@@ -1,5 +1,6 @@
-import type { Config } from "@react-router/dev/config"
 import { sentryOnBuildEnd } from "@sentry/react/vite"
+
+import type { Config } from "@react-router/dev/config"
 
 export default {
 	future: { unstable_optimizeDeps: true },
