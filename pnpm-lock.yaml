@@ -231,9 +231,6 @@ catalogs:
     '@sentry/toolbar':
       specifier: 1.0.0-beta.11
       version: 1.0.0-beta.11
-    '@sentry/vite-plugin':
-      specifier: 5.4.0
-      version: 5.4.0
     '@storybook/addon-a11y':
       specifier: 10.6.1
       version: 10.6.1
@@ -672,9 +669,6 @@ importers:
       '@sentry/toolbar':
         specifier: 'catalog:'
         version: 1.0.0-beta.11(react@19.3.0)
-      '@sentry/vite-plugin':
-        specifier: 'catalog:'
-        version: 5.4.0(rollup@4.64.0)(supports-color@5.5.0)
       '@svgr/core':
         specifier: 'catalog:'
         version: 8.1.0(@typescript/typescript6@6.0.2)(supports-color@5.5.0)
@@ -4366,18 +4360,6 @@ packages:
     resolution: {integrity: sha512-jhq5t6nw8KdBq8i3Uyq5vBCHXehtEM+F5f/OoVxuPS2TtSbGizGjqzhAi24EmTNs4DRlQgYpKPdTOBDTMv49HA==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/bundler-plugins@10.76.0':
-    resolution: {integrity: sha512-xDcvwDk3WlvK67wtuHzNdaJit7z9dmp5urftgAtH2sIt8YmpdV68J8crFh6W4TEulYdhJHvSogLEnX+UoFl01A==}
-    engines: {node: '>= 18'}
-    peerDependencies:
-      rollup: '>=3.2.0'
-      webpack: '>=5.0.0'
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-      webpack:
-        optional: true
-
   '@sentry/bundler-plugins@11.4.0':
     resolution: {integrity: sha512-THgOMIaA0AMVF4TiCIbugK2jlLYCBIhRF0gclrj7Fte3RMZytkXeH8XeoaR6C6MJTyLCNkEOEccwX9Jj2xOc8g==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
@@ -4393,69 +4375,9 @@ packages:
       webpack:
         optional: true
 
-  '@sentry/cli-darwin@2.58.6':
-    resolution: {integrity: sha512-udAVvcyfNa0R+95GvPz/+43/N3TC0TYKdkQ7D7jhPSzbcMc7l2fxRNN5yB3UpCA5fWFnW4toeaqwDBhb/Wh3LA==}
-    engines: {node: '>=10'}
-    os: [darwin]
-
-  '@sentry/cli-linux-arm64@2.58.6':
-    resolution: {integrity: sha512-q8mEcNNmeXMy5i+jWT30TVpH7LcP4HD21CD5XRSPAd/a912HF6EpK0ybf/1USO14WOhoXbAGi9txwaWabSe33g==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux, freebsd, android]
-
-  '@sentry/cli-linux-arm@2.58.6':
-    resolution: {integrity: sha512-pD0LAt5PcUzAinBwvDqc66x9+2CabHEv486yP0gRjWO7SakbaxmfVq/EXd8VLq/Tzi39LAu422UYK1lpW3MILw==}
-    engines: {node: '>=10'}
-    cpu: [arm]
-    os: [linux, freebsd, android]
-
-  '@sentry/cli-linux-i686@2.58.6':
-    resolution: {integrity: sha512-q8vNJi1eOV/4vxAFWBsEwLHoSYapaZHIf4j76KJGJXFKTkEbsjCOOsKbwUIBTQQhRgV4DFWh3ryfsPS/que4Kg==}
-    engines: {node: '>=10'}
-    cpu: [x86, ia32]
-    os: [linux, freebsd, android]
-
-  '@sentry/cli-linux-x64@2.58.6':
-    resolution: {integrity: sha512-DZu956Mhi3ZRjTBe1WdbGV46ldVbA8d2rgp/fh51GsI25zjBHah4wZnPTSzpc+YqxU6pJpg579B/r3jrIK530Q==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux, freebsd, android]
-
-  '@sentry/cli-win32-arm64@2.58.6':
-    resolution: {integrity: sha512-nj0Ff/kmAB73EPDhR8B4O9r+NUHK5GkPCkGWC+kXVemqAJWL5jcJ5KdxG0l/S0z6RoEoltID8/43/B+TaMlT7A==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@sentry/cli-win32-i686@2.58.6':
-    resolution: {integrity: sha512-WNZiDzPbgsEMQWq4avsQ391v/xWKJDIWWWo9GYl+N/w5qcYKkoDW7wQG7T9FasI6ENn68phChTOAPXXxbfAdOg==}
-    engines: {node: '>=10'}
-    cpu: [x86, ia32]
-    os: [win32]
-
-  '@sentry/cli-win32-x64@2.58.6':
-    resolution: {integrity: sha512-R35WJ17oF4D2eqI1DR2sQQqr0fjRTt5xoP16WrTu91XM2lndRMFsnjh+/GttbxapLCBNlrjzia99MJ0PZHZpgA==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [win32]
-
-  '@sentry/cli@2.58.6':
-    resolution: {integrity: sha512-baBcNPLLfUi9WuL+Tpri9BFaAdvugZIKelC5X0tt0Zdy+K0K+PCVSrnNmwMWU/HyaF/SEv6b6UHnXIdqanBlcg==}
-    engines: {node: '>= 10'}
-    hasBin: true
-
-  '@sentry/conventions@0.16.0':
-    resolution: {integrity: sha512-fO9PLmHdVURcSPUpWCItWAtgKiMwGdJHbovoSEyLplX5sxs2ugvI4CBPTrkkgqhObnZOD0CnWBKDzSVQYBKEyQ==}
-    engines: {node: '>=14'}
-
   '@sentry/conventions@0.25.0':
     resolution: {integrity: sha512-7SouCAX3qx+AzLsxb6gbl3dKVWNhp2wFjdYQ/T90sGwqPPQUoZVA9YwsWwvx07hqcCiSqFW9mUAzyUftASnuhQ==}
     engines: {node: '>=14'}
-
-  '@sentry/core@10.76.0':
-    resolution: {integrity: sha512-H9irBNXHdkgvl86EKlQrPTGYyzvI8GUZ8eoWLay9IuqqZC6pWesf0nH7z/glxKBo7BEw3PIG+unQByHugBnsCg==}
-    engines: {node: '>=18'}
 
   '@sentry/core@11.4.0':
     resolution: {integrity: sha512-kAhK8XVJuzu1IKx9uSu04OISxTU9BcIyDVOWbY/ATUCYr5Z6L7GRBtOGOlYCbxEuPtdZCw5TrbphnBsyO9fuTA==}
@@ -4514,10 +4436,6 @@ packages:
     engines: {node: '>=18', npm: USE PNPM, pnpm: '>=9', yarn: USE PNPM}
     peerDependencies:
       react: '>=18'
-
-  '@sentry/vite-plugin@5.4.0':
-    resolution: {integrity: sha512-fFJgCxs5hDyAm9BbZJ+LbA+LK2tjX5OoD0v0ARU4StR6KQmGUduoPs69yJ9AfqZ0om3Rlp5JDliiwFcNkasORA==}
-    engines: {node: '>= 18'}
 
   '@sinclair/typebox@0.31.30':
     resolution: {integrity: sha512-MGsM7bVmHg3sUKCphlu3SGQ+T+5JTbygZWYArfKQCW5anJeACHeqLhcnf+R7XlCWZ+QR3C8JTBx3kCKJTN69ow==}
@@ -7311,9 +7229,6 @@ packages:
 
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
-
-  proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
   proxy-from-env@2.1.0:
     resolution: {integrity: sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==}
@@ -10988,21 +10903,6 @@ snapshots:
       '@sentry/replay': 11.4.0
       '@sentry/replay-canvas': 11.4.0
 
-  '@sentry/bundler-plugins@10.76.0(rollup@4.64.0)(supports-color@5.5.0)':
-    dependencies:
-      '@babel/core': 7.29.7(supports-color@5.5.0)
-      '@sentry/cli': 2.58.6(supports-color@5.5.0)
-      '@sentry/core': 10.76.0
-      dotenv: 17.4.2
-      find-up: 5.0.0
-      glob: 13.0.6
-      magic-string: 0.30.21
-    optionalDependencies:
-      rollup: 4.64.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
   '@sentry/bundler-plugins@11.4.0(@babel/core@7.29.7)(rollup@4.64.0)':
     dependencies:
       '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
@@ -11016,57 +10916,7 @@ snapshots:
       '@babel/core': 7.29.7(supports-color@5.5.0)
       rollup: 4.64.0
 
-  '@sentry/cli-darwin@2.58.6':
-    optional: true
-
-  '@sentry/cli-linux-arm64@2.58.6':
-    optional: true
-
-  '@sentry/cli-linux-arm@2.58.6':
-    optional: true
-
-  '@sentry/cli-linux-i686@2.58.6':
-    optional: true
-
-  '@sentry/cli-linux-x64@2.58.6':
-    optional: true
-
-  '@sentry/cli-win32-arm64@2.58.6':
-    optional: true
-
-  '@sentry/cli-win32-i686@2.58.6':
-    optional: true
-
-  '@sentry/cli-win32-x64@2.58.6':
-    optional: true
-
-  '@sentry/cli@2.58.6(supports-color@5.5.0)':
-    dependencies:
-      https-proxy-agent: 5.0.1(supports-color@5.5.0)
-      node-fetch: 2.7.0
-      progress: 2.0.3
-      proxy-from-env: 1.1.0
-      which: 2.0.2
-    optionalDependencies:
-      '@sentry/cli-darwin': 2.58.6
-      '@sentry/cli-linux-arm': 2.58.6
-      '@sentry/cli-linux-arm64': 2.58.6
-      '@sentry/cli-linux-i686': 2.58.6
-      '@sentry/cli-linux-x64': 2.58.6
-      '@sentry/cli-win32-arm64': 2.58.6
-      '@sentry/cli-win32-i686': 2.58.6
-      '@sentry/cli-win32-x64': 2.58.6
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
-  '@sentry/conventions@0.16.0': {}
-
   '@sentry/conventions@0.25.0': {}
-
-  '@sentry/core@10.76.0':
-    dependencies:
-      '@sentry/conventions': 0.16.0
 
   '@sentry/core@11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)':
     dependencies:
@@ -11150,15 +11000,6 @@ snapshots:
   '@sentry/toolbar@1.0.0-beta.11(react@19.3.0)':
     dependencies:
       react: 19.3.0
-
-  '@sentry/vite-plugin@5.4.0(rollup@4.64.0)(supports-color@5.5.0)':
-    dependencies:
-      '@sentry/bundler-plugins': 10.76.0(rollup@4.64.0)(supports-color@5.5.0)
-    transitivePeerDependencies:
-      - encoding
-      - rollup
-      - supports-color
-      - webpack
 
   '@sinclair/typebox@0.31.30': {}
 
@@ -11999,12 +11840,6 @@ snapshots:
   agent-base@6.0.2(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
-    transitivePeerDependencies:
-      - supports-color
-
-  agent-base@6.0.2(supports-color@5.5.0):
-    dependencies:
-      debug: 4.4.3(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -13260,13 +13095,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  https-proxy-agent@5.0.1(supports-color@5.5.0):
-    dependencies:
-      agent-base: 6.0.2(supports-color@5.5.0)
-      debug: 4.4.3(supports-color@5.5.0)
-    transitivePeerDependencies:
-      - supports-color
-
   human-signals@8.0.1: {}
 
   iconv-lite@0.7.3:
@@ -14322,8 +14150,6 @@ snapshots:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-
-  proxy-from-env@1.1.0: {}
 
   proxy-from-env@2.1.0: {}
 
