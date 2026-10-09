@@ -85,7 +85,7 @@ export function Sheet({ modal, variant, ...props }: SheetProps): JSX.Element {
 		</Context.Provider>
 	)
 }
-
+// oxlint-disable-next-line no-unused-vars
 function SheetHandle(props: ComponentProps<"div">): ReactNode {
 	return (
 		<div

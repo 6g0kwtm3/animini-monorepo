@@ -12,7 +12,6 @@ import { A } from "@anitrove/a"
 import { precompileStyles } from "@anitrove/unstyled"
 import ReactRelay from "react-relay"
 import { useFragment } from "~/lib/Network"
-import { getLocale } from "~/paraglide/runtime"
 import MaterialSymbolsWarningOutline from "~icons/material-symbols/warning-outline"
 
 import { RelativeTimeSince } from "./RelativeTimeSince"
@@ -112,30 +111,4 @@ export function ActivityLike({
 			</ListItem>
 		)
 	)
-}
-
-function format(seconds: number) {
-	const rtf = new Intl.RelativeTimeFormat(getLocale(), {})
-
-	if (Math.abs(seconds) < 60) {
-		return rtf.format(Math.trunc(seconds), "seconds")
-	}
-
-	if (Math.abs(seconds) < 60 * 60) {
-		return rtf.format(Math.trunc(seconds / 60), "minutes")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24) {
-		return rtf.format(Math.trunc(seconds / (60 * 60)), "hours")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24 * 7) {
-		return rtf.format(Math.trunc(seconds / (60 * 60 * 24)), "days")
-	}
-
-	if (Math.abs(seconds) < 60 * 60 * 24 * 365) {
-		return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 7)), "weeks")
-	}
-
-	return rtf.format(Math.trunc(seconds / (60 * 60 * 24 * 365)), "years")
 }

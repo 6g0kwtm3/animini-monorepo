@@ -86,11 +86,11 @@ function getAttributes(attributes: Record<string, string>) {
 		class: className,
 		allowfullscreen: allowFullScreen,
 		frameborder: frameBorder,
-		..._attributes
+		...otherAttributes
 	} = attributes
 
 	return {
-		..._attributes,
+		...otherAttributes,
 		...(className ? { className } : {}),
 		...(allowFullScreen ? { allowFullScreen } : {}),
 		...(frameBorder ? { frameBorder } : {}),

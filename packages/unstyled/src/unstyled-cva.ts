@@ -231,27 +231,33 @@ function mergeCompoundVariantProperty<
 	if (index === propertyVariants.length) {
 		return (
 			compoundVariants
-				.filter(({ css: _, ...compoundVariant }) => {
-					for (const variant in compoundVariant) {
-						const options = compoundVariant[variant]
-						if (options === undefined) continue
-						const i = propertyVariants.indexOf(variant)
-						if (i === -1) {
-							return false
-						}
+				.filter(
+					({
+						// oxlint-disable-next-line no-unused-vars
+						css: _css,
+						...compoundVariant
+					}) => {
+						for (const variant in compoundVariant) {
+							const options = compoundVariant[variant]
+							if (options === undefined) continue
+							const i = propertyVariants.indexOf(variant)
+							if (i === -1) {
+								return false
+							}
 
-						const currentOption = currentOptions[i]
-						invariant(
-							currentOption !== undefined,
-							`Expected current option for variant ${variant} to be defined`
-						)
+							const currentOption = currentOptions[i]
+							invariant(
+								currentOption !== undefined,
+								`Expected current option for variant ${variant} to be defined`
+							)
 
-						if (!options.includes(currentOption)) {
-							return false
+							if (!options.includes(currentOption)) {
+								return false
+							}
 						}
+						return true
 					}
-					return true
-				})
+				)
 				.reduceRight<undefined | Value>((acc, compoundVariant) => {
 					return acc ?? compoundVariant.css[property]
 				}, undefined)

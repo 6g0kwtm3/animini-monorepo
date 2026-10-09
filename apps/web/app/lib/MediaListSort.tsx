@@ -1,6 +1,6 @@
 import { type } from "arktype"
 
-const MediaListSortSchema = type(
+const _MediaListSortSchema = type(
 	"'MediaSort.TitleEnglish'|'MediaListSort.ScoreDesc'|'MediaListSort.ProgressDesc'|'MediaListSort.UpdatedTimeDesc'|'MediaSort.IdDesc'|'MediaListSort.StartedOnDesc'|'MediaListSort.FinishedOnDesc'|'MediaSort.StartDateDesc'|'AVG_SCORE'|'MediaSort.PopularityDesc'"
 )
 
@@ -15,4 +15,4 @@ export const MediaListSort = {
 	StartDateDesc: "MediaSort.StartDateDesc",
 	AvgScore: "AVG_SCORE",
 	PopularityDesc: "MediaSort.PopularityDesc",
-} satisfies Record<string, typeof MediaListSortSchema.infer>
+} satisfies Record<string, typeof _MediaListSortSchema.infer>

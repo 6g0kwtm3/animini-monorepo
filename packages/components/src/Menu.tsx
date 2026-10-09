@@ -64,7 +64,7 @@ export function MenuListItem({
 		</Ariakit.MenuItem>
 	)
 }
-
+// oxlint-disable-next-line no-unused-vars
 function MenuItemIcon(props: ComponentProps<"div">): ReactNode {
 	return <div {...props} className="text-on-surface-variant h-6 w-6" />
 }

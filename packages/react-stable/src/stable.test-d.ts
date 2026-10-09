@@ -93,16 +93,19 @@ it("law 3: Stable<T> is idempotent for every kind of T", () => {
 		: "NOT idempotent: applying Stable twice changed the type"
 
 	const stableOf = <T>(
+		// oxlint-disable-next-line no-unused-vars
 		_verdict: Idempotent<Stable<T>, Stable<Stable<T>>>
 	): void => {
 		//
 	}
 	const deepStableOf = <T>(
+		// oxlint-disable-next-line no-unused-vars
 		_verdict: Idempotent<DeepStable<T>, DeepStable<DeepStable<T>>>
 	): void => {
 		//
 	}
 	const deepStableOfStableOf = <T>(
+		// oxlint-disable-next-line no-unused-vars
 		_verdict: Idempotent<DeepStable<T>, DeepStable<Stable<T>>>
 	): void => {
 		//

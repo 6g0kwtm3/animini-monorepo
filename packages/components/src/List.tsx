@@ -192,7 +192,7 @@ export function ListItemAvatar(props: Ariakit.RoleProps): ReactNode {
 		></Ariakit.Role.div>
 	)
 }
-
+// oxlint-disable-next-line no-unused-vars
 function ListItemIcon(props: Ariakit.RoleProps): ReactNode {
 	return (
 		<Ariakit.Role.div

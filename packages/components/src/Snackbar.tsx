@@ -97,7 +97,7 @@ declare global {
 		invoke: ToggleEvent
 	}
 }
-
+// oxlint-disable-next-line no-unused-vars
 function Snackbar({ timeout, open, ...props }: SnackbarProps): ReactNode {
 	const ref = useRef<ComponentRef<"div">>(null)
 	const onBeforeToggle = useContext(SnackbarQueueContext)
@@ -187,7 +187,7 @@ interface ToggleEvent extends Event {
 const noop = () => () => {
 	return
 }
-
+// oxlint-disable-next-line no-unused-vars
 function SnackbarAction(props: Ariakit.ButtonProps): ReactNode {
 	const invoketarget = useContext(SnackbarContext)
 

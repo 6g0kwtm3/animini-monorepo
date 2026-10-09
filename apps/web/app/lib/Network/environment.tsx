@@ -24,7 +24,8 @@ const fetchQuery = async function (
 	operation: RequestParameters,
 	variables: Variables,
 	cacheConfig: CacheConfig,
-	uploadables?: null | UploadableMap
+	// oxlint-disable-next-line no-unused-vars
+	_uploadables?: null | UploadableMap
 ): Promise<WithRetry<typeof GraphQLResponse.inferOut>> {
 	let token = (await cookieStore.get("anilist-token"))?.value
 

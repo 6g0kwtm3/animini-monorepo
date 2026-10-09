@@ -1,13 +1,5 @@
 import { type } from "arktype"
 
-class Timeout extends Error {
-	reset: string
-	constructor(reset: string) {
-		super()
-		this.reset = reset
-	}
-}
-
 const PayloadError = type({
 	message: "string",
 	"status?": "number",

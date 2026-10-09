@@ -95,7 +95,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	}
 }
 
-function Actions(_props: Route.ComponentProps): ReactNode {
+function Actions(): ReactNode {
 	return (
 		<>
 			<Icon label={{ kind: "ariakit-tooltip", value: m.filter() }}>
@@ -128,7 +128,7 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 	const data = usePreloadedQuery(loaderData.UserListTabsQuery)
 
 	return (
-		<ExtraOutlets title={<Title {...props} />} actions={<Actions {...props} />}>
+		<ExtraOutlets title={<Title {...props} />} actions={<Actions />}>
 			<div className="flex flex-col gap-4">
 				<Tabs selectedId={String(params.selected)}>
 					<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 grid">
@@ -191,6 +191,7 @@ function FilterButton() {
 	)
 }
 
+// oxlint-disable-next-line no-unused-vars
 function Filter() {
 	const { pathname } = useLocation()
 
