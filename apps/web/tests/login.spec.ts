@@ -1,3 +1,4 @@
+import { numberToString } from "@animedes/utilities"
 import { expect } from "@playwright/test"
 import { HttpResponse } from "msw"
 import routeNavLoginQuery, {
@@ -25,7 +26,6 @@ declare module "graphql" {
 }
 
 const Viewer = { id: CANARY_ID, name: CANARY_NAME }
-import { numberToString } from "utilities"
 
 import { anilist } from "./fixtures"
 const validTokenHandlers = [
