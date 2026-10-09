@@ -61,7 +61,9 @@ const ProgressIncrement_entry = graphql`
 
 const ProgressIncrement_query = graphql`
 	fragment ProgressIncrement_query on Query @throwOnFieldError {
-		Viewer: userFromToken
+		Viewer: userFromToken {
+			name
+		}
 	}
 `
 

@@ -1,13 +1,27 @@
 import { suspenseSentinel, type LiveState } from "relay-runtime"
 
 /**
- * @relayField Query.userFromToken: RelayResolverValue
- * @live
+ * @relayType UserFromToken
+ * @weak
  */
-export function userFromToken(): LiveState<null | {
+export interface UserFromToken {
 	readonly id: number
 	readonly name: string
-}> {
+}
+
+/**
+ * @relayField UserFromToken.name: String @semanticNonNull
+ * @live
+ */
+export function name(parent: UserFromToken) {
+	return parent.name
+}
+
+/**
+ * @relayField Query.userFromToken: UserFromToken
+ * @live
+ */
+export function userFromToken(): LiveState<null | UserFromToken> {
 	let status:
 		| { readonly error: unknown; readonly kind: "Error" }
 		| { readonly kind: "Loading" }

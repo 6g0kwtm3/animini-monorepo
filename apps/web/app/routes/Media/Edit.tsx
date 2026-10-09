@@ -20,7 +20,9 @@ const { graphql } = ReactRelay
 
 const Edit_query = graphql`
 	fragment Edit_query on Query @throwOnFieldError {
-		Viewer: userFromToken
+		Viewer: userFromToken {
+			__typename
+		}
 	}
 `
 
