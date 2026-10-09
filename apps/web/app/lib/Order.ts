@@ -1,5 +1,6 @@
 type Order<T> = (a: T, b: T) => number
 
+// oxlint-disable-next-line no-unused-vars
 function number(a: number, b: number) {
 	return a - b
 }
@@ -9,6 +10,7 @@ export function string(a: string, b: string) {
 export function mapInput<A, B>(order: Order<A>, map: (a: B) => A): Order<B> {
 	return (a, b) => order(map(a), map(b))
 }
+// oxlint-disable-next-line no-unused-vars
 function combineAll<T>(orders: Order<T>[]) {
 	return (a: T, b: T) => {
 		for (const order of orders) {

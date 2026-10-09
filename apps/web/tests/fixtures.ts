@@ -1,7 +1,7 @@
 import { addMocksToSchema } from "@graphql-tools/mock"
 import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
 import base, { type ElectronApplication, type Page } from "@playwright/test"
-import { _electron } from "@playwright/test"
+import { _electron as Electron } from "@playwright/test"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { http, HttpResponse, type AnyHandler } from "msw"
@@ -82,7 +82,7 @@ export const test = base.extend<Fixtures>({
 
 	async electron({ baseURL, isElectron }, provide) {
 		if (isElectron) {
-			const app = await _electron.launch({
+			const app = await Electron.launch({
 				args: ["."],
 				env: {
 					...process.env,

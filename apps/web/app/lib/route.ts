@@ -1,11 +1,5 @@
 import { numberToString } from "@animedes/components/numberToString"
 
-interface Path {
-	pathname: Pathname
-	hash: Hash
-	search: SearchParams
-}
-
 type SearchParams = `?${string}`
 type Hash = `#${string}`
 
@@ -44,7 +38,7 @@ export function route_user_list(params: {
 }): `/user/${string}/animelist` | `/user/${string}/mangalist` {
 	return `${route_user(params)}/${params.typelist}` satisfies Route
 }
-
+// oxlint-disable-next-line no-unused-vars
 function route_user_list_selected(params: {
 	selected: string
 	typelist: "animelist" | "mangalist"

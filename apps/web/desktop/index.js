@@ -1,12 +1,12 @@
 import { app, BrowserWindow, session } from "electron"
-import path, { dirname } from "node:path"
+import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { RouterContextProvider } from "react-router"
 
 import config from "../react-router.config.ts"
 import { initRemix } from "./remix-electron.js"
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /** @type {string | undefined} */
 let url
@@ -23,7 +23,7 @@ async function createWindow() {
 		?? (await initRemix({
 			buildDirectory: config.buildDirectory,
 			serverBuild: path.join(
-				__dirname,
+				dirname,
 				"..",
 				config.buildDirectory,
 				"server/index.js"

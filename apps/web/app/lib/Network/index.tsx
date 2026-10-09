@@ -25,7 +25,7 @@ const {
 
 export const { useFragment, RelayEnvironmentProvider } = ReactRelay
 const { usePreloadedQuery: usePreloadedQuery_ } = ReactRelay
-
+// oxlint-disable-next-line no-unused-vars
 function useQueryLoader<T extends RelayRuntime.OperationType>(
 	query: ReactRelay.GraphQLTaggedNode
 ) {

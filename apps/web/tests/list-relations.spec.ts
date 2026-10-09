@@ -2,7 +2,6 @@ import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
 import { type } from "arktype"
 import { HttpResponse } from "msw"
-import { graphql } from "msw/graphql"
 import { invariant } from "~/lib/invariant"
 import { Token } from "~/lib/viewer"
 

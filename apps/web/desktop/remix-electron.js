@@ -29,6 +29,7 @@ import { pathToFileURL } from "url"
 export async function initRemix({
 	serverBuild: serverBuildOption,
 	mode,
+	// oxlint-disable-next-line no-unused-vars
 	publicFolder: _publicFolderOption = "public",
 	getLoadContext,
 	buildDirectory,

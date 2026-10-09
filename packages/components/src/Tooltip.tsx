@@ -59,6 +59,7 @@ export function TooltipRichContainer(props: Ariakit.HovercardProps): ReactNode {
 		/>
 	)
 }
+// oxlint-disable-next-line no-unused-vars
 function TooltipRichSubhead(props: Ariakit.HovercardHeadingProps): ReactNode {
 	return (
 		<Ariakit.HovercardHeading
@@ -67,6 +68,7 @@ function TooltipRichSubhead(props: Ariakit.HovercardHeadingProps): ReactNode {
 		/>
 	)
 }
+// oxlint-disable-next-line no-unused-vars
 function TooltipRichSupportingText(props: ComponentProps<"p">): ReactNode {
 	return (
 		<Ariakit.HovercardDescription
