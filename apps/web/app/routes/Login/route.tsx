@@ -68,7 +68,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		token: token,
 		viewer: { id: Number(data.Viewer.id), name: data.Viewer.name },
 		sessionId,
-	})
+	} satisfies typeof Token.infer)
 
 	await cookieStore.set({
 		name: `anilist-token`,
