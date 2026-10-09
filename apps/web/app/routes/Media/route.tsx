@@ -16,7 +16,6 @@ import {
 	MenuListItem,
 	MenuTrigger,
 } from "@animedes/components/Menu"
-import * as Predicate from "@animedes/components/Predicate"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
 import { AnimatePresence } from "motion/react"
@@ -28,9 +27,7 @@ import {
 	useLocation,
 	useOutlet,
 } from "react-router"
-import { client_get_client } from "~/lib/client"
 import { MediaCover } from "~/lib/entry/MediaCover"
-import { getThemeFromHex } from "~/lib/theme"
 import MaterialSymbolsCheck from "~icons/material-symbols/check"
 import MaterialSymbolsChevronRight from "~icons/material-symbols/chevron-right"
 import MaterialSymbolsCloud from "~icons/material-symbols/cloud"

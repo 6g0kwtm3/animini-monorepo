@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test"
 import { HttpResponse } from "msw"
-import { graphql } from "msw/graphql"
 import routeNavMediaQuery, {
 	type routeNavMediaQuery$rawResponse,
 	type routeNavMediaQuery$variables,

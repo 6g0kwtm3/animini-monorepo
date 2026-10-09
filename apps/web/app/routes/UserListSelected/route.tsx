@@ -8,7 +8,7 @@ import * as Ariakit from "@ariakit/react"
 import { captureException } from "@sentry/react"
 import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
-import { Suspense, useCallback, useMemo, useState } from "react"
+import { Suspense, useMemo, useState } from "react"
 import ReactRelay from "react-relay"
 import {
 	Outlet,

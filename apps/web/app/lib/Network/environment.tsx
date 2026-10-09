@@ -1,5 +1,4 @@
 import { isString } from "@animedes/components/Predicate"
-import { addBreadcrumb } from "@sentry/react"
 import "temporal-polyfill-lite/global"
 import { ArkErrors, type } from "arktype"
 import RelayRuntime, {

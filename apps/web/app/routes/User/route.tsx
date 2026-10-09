@@ -61,7 +61,6 @@ import { A } from "@anitrove/a"
 import * as design from "@anitrove/design"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import * as Ariakit from "@ariakit/react"
-import { data as json } from "react-router"
 
 import type { Route as FollowRoute } from "../UserFollow/+types/route"
 

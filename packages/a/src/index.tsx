@@ -1,4 +1,4 @@
-import { memo, type ComponentProps, type ReactNode } from "react"
+import { type ComponentProps, type ReactNode } from "react"
 import { Link as RouterLink } from "react-router"
 
 const MemoLink: typeof RouterLink = RouterLink

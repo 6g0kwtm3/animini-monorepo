@@ -12,8 +12,7 @@ import {
 	TooltipPlainTrigger,
 } from "@animedes/components/Tooltip"
 import * as Ariakit from "@ariakit/react"
-import { ErrorBoundary } from "@sentry/react"
-import { Suspense, useLayoutEffect } from "react"
+import { useLayoutEffect } from "react"
 import {
 	Form,
 	useFetcher,
@@ -23,9 +22,7 @@ import {
 } from "react-router"
 import { copySearchParams } from "~/lib/copySearchParams"
 
-import { usePreloadedQuery, type NodeAndQueryFragment } from "../Network"
 import { SearchItem } from "./SearchItem"
-import { SearchTrending } from "./SearchTrending"
 
 import type { ComponentProps, ReactNode } from "react"
 import type { clientLoader as searchLoader } from "~/routes/Search/route"
@@ -48,8 +45,6 @@ function useOptimisticLocation() {
 
 import { precompileStyles } from "@anitrove/unstyled"
 import { useEffectEvent } from "react"
-
-import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
 
 export function Search(props: { children?: ReactNode }): ReactNode {
 	const searchParams = useOptimisticSearchParams()

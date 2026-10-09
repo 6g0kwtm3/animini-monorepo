@@ -3,14 +3,9 @@ import { TabsList, TabsListItem } from "@animedes/components/Tabs"
 import { A } from "@anitrove/a"
 import ReactRelay from "react-relay"
 import { useSearchParams } from "react-router"
-import {
-	useFragment,
-	usePreloadedQuery,
-	type NodeAndQueryFragment,
-} from "~/lib/Network"
+import { useFragment } from "~/lib/Network"
 import * as Order from "~/lib/Order"
 
-import type { routeUserListTabsQuery as UserListTabsQueryOperation } from "~/gql/routeUserListTabsQuery.graphql"
 import type { UserListTabs_query$key } from "~/gql/UserListTabs_query.graphql"
 
 const { graphql } = ReactRelay

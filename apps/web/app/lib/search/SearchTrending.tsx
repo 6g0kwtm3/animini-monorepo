@@ -1,6 +1,5 @@
 import { List, Subheader } from "@animedes/components/List"
 import {
-	SearchViewBody,
 	SearchViewBodyGroup,
 	SearchViewItem,
 } from "@animedes/components/SearchView"
