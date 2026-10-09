@@ -22,7 +22,7 @@ const fixRelayImportTypeSyntax = (): Plugin => {
 					`import { FeatureFlags } from "../lib/resolvers/FeatureFlags"`,
 					``
 				)
-				return code
+				return { code, map: null }
 			}
 		},
 	}
