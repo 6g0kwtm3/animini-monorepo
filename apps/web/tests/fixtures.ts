@@ -236,14 +236,16 @@ export const test = base.extend<Fixtures>({
 			markPII(viewer.id)
 			markPII(viewer.name)
 			markPII(CANARY_TOKEN)
+			const value = TokenToCookie.from({
+				token: CANARY_TOKEN,
+				viewer,
+				sessionId: crypto.randomUUID(),
+			})
+			markPII(value)
 			await context.addCookies([
 				{
 					name: `anilist-token`,
-					value: TokenToCookie.from({
-						token: CANARY_TOKEN,
-						viewer,
-						sessionId: crypto.randomUUID(),
-					}),
+					value: value,
 					sameSite: "Lax",
 					expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
 					// node doesn't support Temporal
