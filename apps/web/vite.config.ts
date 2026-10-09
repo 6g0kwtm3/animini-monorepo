@@ -19,7 +19,7 @@ const fixRelayImportTypeSyntax = (): Plugin => {
 		transform(code, id) {
 			if (id.endsWith(".graphql.ts")) {
 				code = code.replace(
-					`import { FeatureFlags } from "../lib/feature-flags"`,
+					`import { FeatureFlags } from "../lib/resolvers/FeatureFlags"`,
 					``
 				)
 				return code
