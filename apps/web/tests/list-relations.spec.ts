@@ -1,15 +1,12 @@
 import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
-import { type } from "arktype"
 import { HttpResponse } from "msw"
-import { invariant } from "~/lib/invariant"
-import { Token } from "~/lib/viewer"
 
 import { anilist, SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
-import type { BrowserContext, Locator, Page } from "@playwright/test"
+import type { Locator, Page } from "@playwright/test"
 import type {
 	routeNavUserListEntriesQuery$rawResponse,
 	routeNavUserListEntriesQuery$variables,
@@ -131,8 +128,8 @@ const handlers = [
 				data: {
 					Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
 					user: {
-						id: "1",
-						name: "User",
+						id: numberToString(Viewer.id),
+						name: Viewer.name,
 						avatar: null,
 						bannerImage: null,
 						isFollowing: null,
@@ -143,27 +140,6 @@ const handlers = [
 	),
 	SuccessHandler,
 ]
-
-function login(context: BrowserContext) {
-	const cookies = [
-		{
-			name: `anilist-token`,
-			value: invariant(
-				type("object.json.stringify")(
-					invariant(Token({ token: "", viewer: Viewer }))
-				)
-			),
-			sameSite: "Lax",
-			expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
-			// node doesn't support Temporal
-			// Temporal.Now.instant().add({ weeks: 8 }).epochMilliseconds / 1000,
-			path: "/",
-			domain: "localhost",
-		},
-	] satisfies Parameters<BrowserContext["addCookies"]>[0]
-
-	return context.addCookies(cookies)
-}
 
 class UserPage {
 	animeList: Locator
@@ -184,10 +160,10 @@ class UserPage {
 test("sync is offered when completed media contains planned media", async ({
 	worker,
 	newPage,
-	context,
+	login,
 }) => {
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
@@ -204,10 +180,10 @@ test("sync is offered when completed media contains planned media", async ({
 test("add to list is offered when current media contains media without an entry", async ({
 	worker,
 	newPage,
-	context,
+	login,
 }) => {
 	worker.use(...handlers)
-	await login(context)
+	await login(Viewer)
 	await using page = await newPage()
 	const indexPage = await FeedPage.new(page)
 	await indexPage.nav.profile.click()
