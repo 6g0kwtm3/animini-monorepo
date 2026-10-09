@@ -98,11 +98,11 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 function Actions(_props: Route.ComponentProps): ReactNode {
 	return (
 		<>
-			<Icon label={{ kind: "ariakit-tooltip", value: "Filter" }}>
+			<Icon label={{ kind: "ariakit-tooltip", value: m.filter() }}>
 				<MaterialSymbolsSearch />
 			</Icon>
 			<FilterButton />
-			<Icon label={{ kind: "ariakit-tooltip", value: "More" }}>
+			<Icon label={{ kind: "ariakit-tooltip", value: m.more() }}>
 				<MaterialSymbolsMoreHoriz />
 			</Icon>
 		</>
@@ -134,7 +134,7 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 					<div className="bg-surface sm:bg-surface-container-low sticky top-0 z-50 grid">
 						<AppBar variant="large" className="sm:bg-surface-container-low">
 							<Icon
-								label={{ kind: "ariakit-tooltip", value: "Show list search" }}
+								label={{ kind: "ariakit-tooltip", value: m.show_list_search() }}
 							>
 								<MaterialSymbolsSearch />
 							</Icon>
@@ -143,13 +143,16 @@ export default function Filters(props: Route.ComponentProps): ReactNode {
 							</AppBarTitle>
 							<div className="flex-1" />
 							<Icon
-								label={{ kind: "ariakit-tooltip", value: "Show list search" }}
+								label={{ kind: "ariakit-tooltip", value: m.show_list_search() }}
 							>
 								<MaterialSymbolsSearch />
 							</Icon>
 							<FilterButton />
 							<Icon
-								label={{ kind: "ariakit-tooltip", value: "Show more options" }}
+								label={{
+									kind: "ariakit-tooltip",
+									value: m.show_more_options(),
+								}}
 							>
 								<MaterialSymbolsMoreHoriz />
 							</Icon>
@@ -230,7 +233,7 @@ function Filter() {
 							id="filter"
 							render={<A href={`?${filterParams}`}></A>}
 						>
-							Filter
+							{m.filter()}
 						</TabsListItem>
 						<TabsListItem id="sort" render={<A href={`?${sortParams}`}></A>}>
 							Sort
