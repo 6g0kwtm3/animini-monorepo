@@ -12,7 +12,7 @@ import RelayRuntime, {
 	type Variables,
 } from "relay-runtime"
 
-import { JsonToToken } from "../viewer"
+import { CookieToToken } from "../viewer"
 import { RateLimiter } from "./RateLimiter"
 import { GraphQLResponse } from "./schema"
 import { withRetry, type WithRetry } from "./withRetry"
@@ -29,7 +29,7 @@ const fetchQuery = async function (
 	let token = (await cookieStore.get("anilist-token"))?.value
 
 	if (isString(token)) {
-		const parsedToken = JsonToToken(token)
+		const parsedToken = CookieToToken(token)
 		token = parsedToken instanceof ArkErrors ? undefined : parsedToken.token
 	}
 

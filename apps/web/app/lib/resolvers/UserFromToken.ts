@@ -83,17 +83,12 @@ export function userFromToken(): LiveState<null | {
 	}
 }
 
-import { ArkErrors } from "arktype"
-
-import { JsonToToken } from "../viewer"
+import { CookieToToken } from "../viewer"
 
 function parseViewerCookie(cookie: CookieListItem): {
 	readonly id: number
 	readonly name: string
 } {
-	const result = JsonToToken(cookie.value)
-	if (result instanceof ArkErrors) {
-		throw result
-	}
+	const result = CookieToToken.assert(cookie.value)
 	return result.viewer
 }

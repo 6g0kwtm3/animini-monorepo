@@ -12,7 +12,7 @@ import { http, HttpResponse, type AnyHandler } from "msw"
 import { graphql } from "msw/graphql"
 import { join } from "path"
 
-import { Viewer } from "../app/lib/viewer/index"
+import { TokenToCookie, Viewer } from "../app/lib/viewer/index"
 export const anilist = graphql.link("https://graphql.anilist.co")
 
 export const CANARY_NAME = "e2e-pii-canary-name"
@@ -236,14 +236,16 @@ export const test = base.extend<Fixtures>({
 			markPII(viewer.id)
 			markPII(viewer.name)
 			markPII(CANARY_TOKEN)
+			const value = TokenToCookie.from({
+				token: CANARY_TOKEN,
+				viewer,
+				sessionId: crypto.randomUUID(),
+			})
+			markPII(value)
 			await context.addCookies([
 				{
 					name: `anilist-token`,
-					value: JSON.stringify({
-						token: CANARY_TOKEN,
-						viewer,
-						sessionId: crypto.randomUUID(),
-					}),
+					value: value,
 					sameSite: "Lax",
 					expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
 					// node doesn't support Temporal

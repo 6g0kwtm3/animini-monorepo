@@ -27,6 +27,8 @@ declare module "graphql" {
 
 const Viewer = { id: CANARY_ID, name: CANARY_NAME }
 
+import { CookieToToken } from "~/lib/viewer"
+
 import { anilist } from "./fixtures"
 const validTokenHandlers = [
 	anilist.query<routeNavLoginQuery$rawResponse, routeNavLoginQuery$variables>(
@@ -105,7 +107,7 @@ test("logging in with a valid token signs the user in", async ({
 		(cookie) => cookie.name === "anilist-token"
 	)
 	if (cookie?.value == null) throw new Error("cookie not found")
-	expect(JSON.parse(cookie.value)).toEqual({
+	expect(CookieToToken.from(cookie.value)).toEqual({
 		sessionId: expect.stringContaining(""),
 		token: CANARY_TOKEN,
 		viewer: { id: CANARY_ID, name: CANARY_NAME },
