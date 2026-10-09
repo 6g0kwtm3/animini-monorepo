@@ -114,7 +114,8 @@
 			{
 				"reportUsedIgnorePattern": true,
 				"reportVarsOnlyUsedAsTypes": true,
-				"fix": { "imports": "safe-fix" }
+				"fix": { "imports": "safe-fix" },
+				"varsIgnorePattern": "^_"
 			}
 		],
 		"jsx-a11y/anchor-has-content": "allow",
