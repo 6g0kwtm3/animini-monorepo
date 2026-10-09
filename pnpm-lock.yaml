@@ -621,6 +621,9 @@ importers:
       '@animedes/components':
         specifier: workspace:@animedes/components@*
         version: link:../../packages/components
+      '@animedes/hash':
+        specifier: 'workspace:'
+        version: link:../../packages/hash
       '@animedes/react-stable':
         specifier: 'workspace:'
         version: link:../../packages/react-stable
@@ -1108,6 +1111,30 @@ importers:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
 
+  packages/hash:
+    devDependencies:
+      '@codspeed/vitest-plugin':
+        specifier: 'catalog:'
+        version: 5.7.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@2.9.0)(vite@7.3.6)(vitest@4.1.11)
+      '@typescript/native':
+        specifier: 'catalog:'
+        version: typescript@7.0.1-rc
+      eslint:
+        specifier: 'catalog:'
+        version: 10.12.0(jiti@2.7.0)(supports-color@10.2.2)
+      eslint-config:
+        specifier: workspace:@animedes/eslint-config@*
+        version: link:../eslint-config
+      ts-config:
+        specifier: workspace:@animedes/ts-config@*
+        version: link:../ts-config
+      typescript:
+        specifier: 'catalog:'
+        version: '@typescript/typescript6@6.0.2'
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.19.1)(vite@7.3.6)
+
   packages/load-assets:
     dependencies:
       '@types/react':
@@ -1255,6 +1282,9 @@ importers:
 
   packages/unstyled:
     dependencies:
+      '@animedes/hash':
+        specifier: 'workspace:'
+        version: link:../hash
       '@types/react':
         specifier: 'catalog:'
         version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
