@@ -12,6 +12,7 @@ import { client_get_client } from "~/lib/client"
 import { commitLocalUpdate } from "~/lib/Network"
 import { route_user_list } from "~/lib/route"
 import { type Token } from "~/lib/viewer"
+import { m } from "~/paraglide/messages"
 
 import type { ReactNode } from "react"
 import type { ClientLoaderFunctionArgs, MetaFunction } from "react-router"
@@ -96,7 +97,7 @@ export default function Login(): ReactNode {
 							type="password"
 							autoComplete="current-password"
 						/>
-						<Outlined.Label htmlFor="token">Token</Outlined.Label>
+						<Outlined.Label htmlFor="token">{m.token()}</Outlined.Label>
 					</Outlined>
 
 					<footer className="flex justify-end gap-2">
@@ -115,11 +116,11 @@ export default function Login(): ReactNode {
 									alt=""
 								/>
 							</ButtonTextIcon>
-							<span>Get token</span>
+							<span>{m.get_token()}</span>
 						</a>
 
 						<button type="submit" className={button({ variant: "filled" })}>
-							Login
+							{m.login()}
 						</button>
 					</footer>
 				</fetcher.Form>
