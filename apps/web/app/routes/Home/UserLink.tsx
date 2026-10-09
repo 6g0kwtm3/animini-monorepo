@@ -61,7 +61,9 @@ function UserCard(props: { userName: string }) {
 			query UserLinkCardQuery($userName: String!)
 			@raw_response_type
 			@throwOnFieldError {
-				Viewer: userFromToken
+				Viewer: userFromToken {
+					name
+				}
 				User(name: $userName) {
 					id
 					avatar {

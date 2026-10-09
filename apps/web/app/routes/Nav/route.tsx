@@ -48,7 +48,9 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 	const data = args.context.get(loadQuery)<routeNavQuery>(
 		graphql`
 			query routeNavQuery @raw_response_type @throwOnFieldError {
-				Viewer: userFromToken
+				Viewer: userFromToken {
+					name
+				}
 				...UnreadNotificationBadge_query @alias
 			}
 		`,
