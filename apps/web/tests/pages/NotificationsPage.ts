@@ -1,6 +1,8 @@
-import type { Locator, Page } from "@playwright/test"
 import { expect } from "@playwright/test"
+
 import { Nav } from "./Nav"
+
+import type { Locator, Page } from "@playwright/test"
 
 export class NotificationsPage {
 	empty: Locator

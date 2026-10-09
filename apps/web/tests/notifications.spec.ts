@@ -1,6 +1,17 @@
-import type { Page } from "@playwright/test"
 import { expect } from "@playwright/test"
 import { HttpResponse } from "msw"
+
+import {
+	anilist,
+	CANARY_ID,
+	CANARY_NAME,
+	SuccessHandler,
+	test,
+} from "./fixtures"
+import { FeedPage } from "./pages/IndexPage"
+import { NotificationsPage } from "./pages/NotificationsPage"
+
+import type { Page } from "@playwright/test"
 import type {
 	routeNavNotificationsQuery$rawResponse,
 	routeNavNotificationsQuery$variables,
@@ -13,11 +24,8 @@ import type {
 	routeNavQuery$rawResponse,
 	routeNavQuery$variables,
 } from "~/gql/routeNavQuery.graphql"
-import { anilist, SuccessHandler, test } from "./fixtures"
-import { FeedPage } from "./pages/IndexPage"
-import { NotificationsPage } from "./pages/NotificationsPage"
 
-const VIEWER = { id: 1, name: "User" }
+const VIEWER = { id: CANARY_ID, name: CANARY_NAME }
 
 type Notifications = NonNullable<
 	NonNullable<routeNavNotificationsQuery$rawResponse["Page"]>["notifications"]
