@@ -97,7 +97,7 @@ catalog:
   "@types/prop-types": 15.7.15
   "@types/react": 19.3.0
   "@types/react-dom": 19.3.0
-  "@typescript-eslint/parser": 8.71.0
+  "@typescript-eslint/parser": 8.71.1
   "@typescript/native": npm:typescript@rc
   anitomy: 0.0.35
   arktype: 2.2.7
@@ -142,7 +142,7 @@ catalog:
   tsx: 4.23.15
   turbo: 2.11.7
   typescript: npm:@typescript/typescript6@6.0.2
-  typescript-eslint: 8.71.0
+  typescript-eslint: 8.71.1
   unplugin-icons: 24.0.0
   unplugin-macros: 0.20.2
   unplugin-relay: 0.1.2
