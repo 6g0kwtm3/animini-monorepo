@@ -91,6 +91,7 @@ test("logging in with a valid token signs the user in", async ({
 	)
 	if (cookie?.value == null) throw new Error("cookie not found")
 	expect(JSON.parse(cookie.value)).toEqual({
+		sessionId: expect.stringContaining(""),
 		token: TOKEN,
 		viewer: { id: 1, name: "User" },
 	})

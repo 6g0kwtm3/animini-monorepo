@@ -128,7 +128,11 @@ export const test = base.extend<Fixtures>({
 			await context.addCookies([
 				{
 					name: `anilist-token`,
-					value: JSON.stringify({ token: "", viewer }),
+					value: JSON.stringify({
+						token: "",
+						viewer,
+						sessionId: crypto.randomUUID(),
+					}),
 					sameSite: "Lax",
 					expires: Date.now() / 1000 + 8 * 7 * 24 * 60 * 60, // 8 weeks
 					// node doesn't support Temporal
