@@ -1,0 +1,5 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"extends": ["//"],
+	"tasks": { "generate-code": { "outputs": ["worker-configuration.d.ts"] } }
+}

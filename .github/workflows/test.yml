@@ -79,7 +79,7 @@ jobs:
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
       - name: Relay
-        run: pnpm exec turbo relay router paraglide
+        run: pnpm exec turbo generate-code
 
       - name: Knip
         run: pnpm exec turbo knip
