@@ -10,7 +10,6 @@ import { ClientMiddleware } from "@anitrove/a/prefetch"
 import theme from "@anitrove/design/theme"
 import * as Ariakit from "@ariakit/react"
 import { captureException } from "@sentry/react"
-import { useSentryToolbar } from "@sentry/toolbar"
 import { type ReactNode } from "react"
 import {
 	isRouteErrorResponse,
@@ -79,16 +78,6 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 	}
 }
 
-function SentryToolbar() {
-	useSentryToolbar({
-		initProps: {
-			organizationSlug: "animini",
-			projectIdOrSlug: "javascript-react",
-		},
-	})
-	return null
-}
-
 export function Layout({ children }: { children: ReactNode }): ReactNode {
 	// const { theme } = useRawLoaderData<typeof loader>()
 	// const { locale, dir } = useLocale()
@@ -133,7 +122,6 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 						</SnackbarQueue>
 					</RelayEnvironment>
 				</ClientMiddleware>
-				{/* {import.meta.env.DEV && <SentryToolbar></SentryToolbar>} */}
 				<ScrollRestoration
 				//  nonce={nonce}
 				/>
