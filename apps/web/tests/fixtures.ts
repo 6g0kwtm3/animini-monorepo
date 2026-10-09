@@ -1,7 +1,12 @@
 import { addMocksToSchema } from "@graphql-tools/mock"
 import { defineNetworkFixture, type NetworkFixture } from "@msw/playwright"
-import base, { type ElectronApplication, type Page } from "@playwright/test"
+import base, {
+	expect,
+	type ElectronApplication,
+	type Page,
+} from "@playwright/test"
 import { _electron as Electron } from "@playwright/test"
+import { type } from "arktype"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { http, HttpResponse, type AnyHandler } from "msw"
