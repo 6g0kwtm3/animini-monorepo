@@ -41,7 +41,6 @@
 		"@react-router/dev": "catalog:",
 		"@react-router/node": "catalog:",
 		"@sentry/react": "catalog:",
-		"@sentry/toolbar": "catalog:",
 		"@svgr/core": "catalog:",
 		"@svgr/plugin-jsx": "catalog:",
 		"@tailwindcss/typography": "catalog:",

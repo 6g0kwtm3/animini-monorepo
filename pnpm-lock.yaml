@@ -228,9 +228,6 @@ catalogs:
     '@sentry/react':
       specifier: npm:@sentry/react-router@11.4.0
       version: 11.4.0
-    '@sentry/toolbar':
-      specifier: 1.0.0-beta.11
-      version: 1.0.0-beta.11
     '@storybook/addon-a11y':
       specifier: 10.6.1
       version: 10.6.1
@@ -666,9 +663,6 @@ importers:
       '@sentry/react':
         specifier: 'catalog:'
         version: '@sentry/react-router@11.4.0(@babel/core@7.29.7)(@react-router/node@8.4.0)(react-router@8.4.0)(react@19.3.0)(rollup@4.64.0)'
-      '@sentry/toolbar':
-        specifier: 'catalog:'
-        version: 1.0.0-beta.11(react@19.3.0)
       '@svgr/core':
         specifier: 'catalog:'
         version: 8.1.0(@typescript/typescript6@6.0.2)(supports-color@5.5.0)
@@ -4430,12 +4424,6 @@ packages:
   '@sentry/server-utils@11.4.0':
     resolution: {integrity: sha512-GA4RvjRXyKFawD7Zi5AlgHPvm9Q8d9VeWer6g9qj4mDavi+VuNFhRmhgsv1qU1l3hlUeMYCpbKhpDOaOH/TcoQ==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
-
-  '@sentry/toolbar@1.0.0-beta.11':
-    resolution: {integrity: sha512-7xImSt+R2v/rkWQfvjQEi7EBC/UfogmAVnGfb2iTs9IjvGlF1iQn/aRQZhU64Ve09aswRiFfUUJIbLIG05yG7A==}
-    engines: {node: '>=18', npm: USE PNPM, pnpm: '>=9', yarn: USE PNPM}
-    peerDependencies:
-      react: '>=18'
 
   '@sinclair/typebox@0.31.30':
     resolution: {integrity: sha512-MGsM7bVmHg3sUKCphlu3SGQ+T+5JTbygZWYArfKQCW5anJeACHeqLhcnf+R7XlCWZ+QR3C8JTBx3kCKJTN69ow==}
@@ -10959,10 +10947,6 @@ snapshots:
       '@opentelemetry/api': 1.9.1
       '@sentry/conventions': 0.25.0
       '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
-
-  '@sentry/toolbar@1.0.0-beta.11(react@19.3.0)':
-    dependencies:
-      react: 19.3.0
 
   '@sinclair/typebox@0.31.30': {}
 

@@ -74,7 +74,6 @@ catalog:
   "@react-router/dev": 8.4.0
   "@react-router/node": 8.4.0
   "@sentry/react": npm:@sentry/react-router@11.4.0
-  "@sentry/toolbar": 1.0.0-beta.11
   "@storybook/addon-a11y": 10.6.1
   "@storybook/addon-docs": 10.6.1
   "@storybook/addon-onboarding": 10.6.1
