@@ -1,15 +1,12 @@
 import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
-import { type } from "arktype"
 import { HttpResponse } from "msw"
-import { invariant } from "~/lib/invariant"
-import { Token } from "~/lib/viewer"
 
 import { anilist, SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
-import type { BrowserContext, Locator, Page } from "@playwright/test"
+import type { Locator, Page } from "@playwright/test"
 import type {
 	routeNavUserListEntriesQuery$rawResponse,
 	routeNavUserListEntriesQuery$variables,
