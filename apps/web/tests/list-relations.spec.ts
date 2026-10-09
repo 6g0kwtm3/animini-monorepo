@@ -2,7 +2,13 @@ import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
 import { HttpResponse } from "msw"
 
-import { anilist, SuccessHandler, test } from "./fixtures"
+import {
+	anilist,
+	CANARY_ID,
+	CANARY_NAME,
+	SuccessHandler,
+	test,
+} from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
@@ -16,7 +22,7 @@ import type {
 	routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
 
-const Viewer = { id: 1, name: "User" }
+const Viewer = { id: CANARY_ID, name: CANARY_NAME }
 
 const contains = (id: string, title: string) =>
 	({

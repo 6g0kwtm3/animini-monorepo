@@ -2,7 +2,7 @@ import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
 import { HttpResponse } from "msw"
 
-import { SuccessHandler, test } from "./fixtures"
+import { CANARY_ID, SuccessHandler, test } from "./fixtures"
 import { FeedPage } from "./pages/IndexPage"
 import { TypelistPage } from "./pages/TypelistPage"
 
@@ -40,8 +40,8 @@ class UserPage {
 		return new UserPage(page)
 	}
 }
-import { anilist } from "./fixtures"
-const Viewer = { id: 1, name: "User" }
+import { anilist, CANARY_NAME } from "./fixtures"
+const Viewer = { id: CANARY_ID, name: CANARY_NAME }
 const AddToListMutationSuccess = anilist.mutation<
 	AddToListMutation$rawResponse,
 	AddToListMutation$variables
@@ -205,8 +205,8 @@ const handlers = [
 				data: {
 					Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
 					user: {
-						id: "1",
-						name: "User",
+						id: numberToString(Viewer.id),
+						name: Viewer.name,
 						avatar: null,
 						bannerImage: null,
 						isFollowing: null,
@@ -299,6 +299,7 @@ test("add to list", async ({ worker, newPage, login }) => {
 	await expect(containedEntry.progress).toHaveText(/0/)
 	await expect(containedEntry.privateBadge).toBeAttached()
 })
+
 test("sync media", async ({ worker, newPage, login }) => {
 	worker.use(SyncMediaMutationSuccess, ...handlers)
 	await login(Viewer)
