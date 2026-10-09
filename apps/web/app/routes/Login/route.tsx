@@ -62,6 +62,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	if (!data?.Viewer) {
 		return {}
 	}
+	const sessionId = crypto.randomUUID()
 
 	const encoded = JSON.stringify({
 		token: token,
@@ -75,7 +76,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		expires: Date.now() + 8 * 7 * 24 * 60 * 60 * 1000, // 8 weeks
 		path: "/",
 	})
-	setUser({ id: data.Viewer.id, username: hex(hash32(data.Viewer.name)) })
+	setUser({ id: sessionId, username: hex(hash32(data.Viewer.name)) })
 	return redirect(
 		searchParams.get("redirect")
 			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name })
