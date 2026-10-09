@@ -24,7 +24,6 @@ import { MediaListItem } from "~/lib/entry/MediaListItem"
 import { ProgressIncrement } from "~/lib/entry/Progress"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 import { SyncMedia } from "~/lib/entry/SyncMedia"
-import { invariant } from "~/lib/invariant"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
 import { useWindowVirtualizer } from "./use-window-virtualizer"
