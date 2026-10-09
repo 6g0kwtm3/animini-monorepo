@@ -81,7 +81,7 @@ const NavUserListEntriesQuery = graphql`
 `
 
 export const clientLoader = (args: ClientLoaderFunctionArgs) => {
-	const params = invariant(Params(args.params))
+	const params = Params.assert(args.params)
 	return {
 		Library: Promise.resolve<
 			Record<string, [AnitomyResult, ...AnitomyResult[]]>

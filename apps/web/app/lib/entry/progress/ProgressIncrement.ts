@@ -1,7 +1,6 @@
 import { type } from "arktype"
 import ReactRelay from "react-relay"
 import { client_get_client } from "~/lib/client"
-import { invariant } from "~/lib/invariant"
 
 import type {
 	ProgressIncrementMutation,
@@ -18,7 +17,7 @@ export const increment = async (
 ): Promise<{
 	SaveMediaListEntry: ProgressIncrementMutation$data["SaveMediaListEntry"]
 }> => {
-	const formData = invariant(IncrementFormData(Object.fromEntries(form)))
+	const formData = IncrementFormData.assert(Object.fromEntries(form))
 
 	const client = client_get_client()
 

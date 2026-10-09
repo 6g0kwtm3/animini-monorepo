@@ -12,7 +12,6 @@ import RelayRuntime, {
 	type Variables,
 } from "relay-runtime"
 
-import { invariant } from "../invariant"
 import { JsonToToken } from "../viewer"
 import { RateLimiter } from "./RateLimiter"
 import { GraphQLResponse } from "./schema"
@@ -66,7 +65,7 @@ const fetchQuery = async function (
 		}
 	}
 
-	const response = invariant(GraphQLResponse(await request.json()))
+	const response = GraphQLResponse.assert(await request.json())
 
 	return { kind: "Data", data: response }
 }

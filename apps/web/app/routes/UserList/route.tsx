@@ -39,7 +39,6 @@ import {
 	useSubmit,
 } from "react-router"
 import { copySearchParams } from "~/lib/copySearchParams"
-import { invariant } from "~/lib/invariant"
 import { MediaListSort } from "~/lib/MediaListSort"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"
@@ -82,7 +81,7 @@ const UserListTabsQuery = graphql`
 
 const Typelist = type('"animelist"|"mangalist"')
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const typelist = invariant(Typelist(args.params.typelist))
+	const typelist = Typelist.assert(args.params.typelist)
 
 	return {
 		UserListTabsQuery: args.context.get(loadQuery)<UserListTabsQueryOperation>(
