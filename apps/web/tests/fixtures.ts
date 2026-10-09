@@ -12,7 +12,7 @@ import { http, HttpResponse, type AnyHandler } from "msw"
 import { graphql } from "msw/graphql"
 import { join } from "path"
 
-import { Viewer } from "../app/lib/viewer/index"
+import { TokenToCookie, Viewer } from "../app/lib/viewer/index"
 export const anilist = graphql.link("https://graphql.anilist.co")
 
 export const CANARY_NAME = "e2e-pii-canary-name"
@@ -239,7 +239,7 @@ export const test = base.extend<Fixtures>({
 			await context.addCookies([
 				{
 					name: `anilist-token`,
-					value: JSON.stringify({
+					value: TokenToCookie.from({
 						token: CANARY_TOKEN,
 						viewer,
 						sessionId: crypto.randomUUID(),

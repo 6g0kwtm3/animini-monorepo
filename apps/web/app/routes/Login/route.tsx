@@ -12,7 +12,7 @@ import { redirect, useFetcher } from "react-router"
 import { client_get_client } from "~/lib/client"
 import { commitLocalUpdate } from "~/lib/Network"
 import { route_user_list } from "~/lib/route"
-import { type Token } from "~/lib/viewer"
+import { TokenToCookie, type Token } from "~/lib/viewer"
 import { m } from "~/paraglide/messages"
 
 import type { ReactNode } from "react"
@@ -64,7 +64,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 	}
 	const sessionId = crypto.randomUUID()
 
-	const encoded = JSON.stringify({
+	const encoded = TokenToCookie.from({
 		token: token,
 		viewer: { id: Number(data.Viewer.id), name: data.Viewer.name },
 		sessionId,
