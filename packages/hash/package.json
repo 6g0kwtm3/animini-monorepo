@@ -1,38 +1,25 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@animedes/unstyled",
+	"name": "@animedes/hash",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"exports": {
-		".": "./src/unstyled.ts",
-		"./value": "./src/unstyled-value.ts",
-		"./box": "./src/unstyled-box.tsx"
+		".": "./src/hash.ts"
 	},
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"bench": "vitest bench --run",
 		"check": "tsc --noEmit"
 	},
-	"dependencies": {
-		"@animedes/hash": "workspace:"
-	},
-	"peerDependencies": {
-		"@ariakit/react": "catalog:",
-		"@types/react": "catalog:",
-		"csstype": "catalog:",
-		"react": "catalog:"
-	},
+	"peerDependencies": {},
 	"devDependencies": {
-		"@ariakit/react": "catalog:",
 		"@codspeed/vitest-plugin": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
-		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"typescript": "catalog:",
 		"@typescript/native": "catalog:",
-		"utilities": "workspace:@animedes/utilities@*",
 		"vitest": "catalog:"
 	}
 }

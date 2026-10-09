@@ -5,6 +5,7 @@ import {
 	TextFieldOutlined as Outlined,
 	TextFieldOutlinedInput,
 } from "@animedes/components/TextField"
+import { hash32, hex } from "@animedes/hash"
 import { setUser } from "@sentry/react"
 import ReactRelay from "react-relay"
 import { redirect, useFetcher } from "react-router"
@@ -74,9 +75,7 @@ export const clientAction = async (args: ClientLoaderFunctionArgs) => {
 		expires: Date.now() + 8 * 7 * 24 * 60 * 60 * 1000, // 8 weeks
 		path: "/",
 	})
-
-	setUser({ id: data.Viewer.id, username: data.Viewer.name })
-
+	setUser({ id: data.Viewer.id, username: hex(hash32(data.Viewer.name)) })
 	return redirect(
 		searchParams.get("redirect")
 			?? route_user_list({ typelist: "animelist", userName: data.Viewer.name })

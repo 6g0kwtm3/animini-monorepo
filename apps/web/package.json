@@ -27,6 +27,7 @@
 	],
 	"dependencies": {
 		"@animedes/components": "workspace:@animedes/components@*",
+		"@animedes/hash": "workspace:",
 		"@animedes/react-stable": "workspace:@animedes/react-stable@*",
 		"@anitrove/a": "workspace:@animedes/a@*",
 		"@anitrove/design": "workspace:@animedes/design@*",

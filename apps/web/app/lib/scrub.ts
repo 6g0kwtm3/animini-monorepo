@@ -1,3 +1,4 @@
+import { hash32, hex } from "@animedes/hash"
 import { matchPath, generatePath } from "react-router"
 export function scrubPathname(pathname: string): string {
 	const matchTypelist = matchPath(
@@ -8,9 +9,14 @@ export function scrubPathname(pathname: string): string {
 	if (matchTypelist != null) {
 		return generatePath(matchTypelist.pattern.path, {
 			...matchTypelist.params,
-			userName: `:Filtered:`,
+			userName:
+				matchTypelist.params.userName !== undefined
+					? hex(hash32(matchTypelist.params.userName))
+					: undefined,
 			selected:
-				matchTypelist.params.selected !== undefined ? `:Filtered:` : undefined,
+				matchTypelist.params.selected !== undefined
+					? hex(hash32(matchTypelist.params.selected))
+					: undefined,
 		})
 	}
 
@@ -22,7 +28,10 @@ export function scrubPathname(pathname: string): string {
 	if (matchUserName != null) {
 		return generatePath(matchUserName.pattern.path, {
 			...matchUserName.params,
-			userName: `:Filtered:`,
+			userName:
+				matchUserName.params.userName !== undefined
+					? hex(hash32(matchUserName.params.userName))
+					: undefined,
 		})
 	}
 
