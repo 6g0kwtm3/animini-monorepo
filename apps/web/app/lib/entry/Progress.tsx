@@ -14,14 +14,12 @@ import {
 	TooltipPlainTrigger,
 } from "@animedes/components/Tooltip"
 import { CompositeItem } from "@ariakit/react"
-import { use } from "react"
 import ReactRelay from "react-relay"
 import {
 	Form,
 	useActionData,
 	useNavigation,
 	useParams,
-	useRouteLoaderData,
 	useSearchParams,
 } from "react-router"
 import { m } from "~/paraglide/messages"
@@ -38,7 +36,6 @@ import type { Progress_entry$key } from "~/gql/Progress_entry.graphql"
 import type { ProgressIncrement_entry$key } from "~/gql/ProgressIncrement_entry.graphql"
 import type { ProgressIncrement_query$key } from "~/gql/ProgressIncrement_query.graphql"
 import type { MediaListStatus } from "~/gql/routeUserSetStatusMutation.graphql"
-import type { clientLoader as rootLoader } from "~/root"
 import type { clientAction as selectedAction } from "~/routes/UserListSelected/route"
 const { graphql } = ReactRelay
 

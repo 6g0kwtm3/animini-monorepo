@@ -1,17 +1,13 @@
 import { fab } from "@animedes/components/button.styles"
 import { Layout } from "@animedes/components/Layout"
-import {
-	Navigation,
-	NavigationItem,
-	NavigationItemLargeBadge,
-} from "@animedes/components/Navigation"
+import { Navigation, NavigationItem } from "@animedes/components/Navigation"
 import { SearchViewBody } from "@animedes/components/SearchView"
 import { A } from "@anitrove/a"
 import * as Ariakit from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
 import { Suspense, type ReactNode } from "react"
-import ReactRelay, { useFragment } from "react-relay"
-import { Outlet, useLocation, useRouteLoaderData } from "react-router"
+import ReactRelay from "react-relay"
+import { Outlet, useLocation } from "react-router"
 import {
 	loadQuery,
 	usePreloadedQuery,
@@ -39,8 +35,6 @@ import { UnreadNotificationBadge } from "./UnreadNotificationBadge"
 import type { Route } from "./+types/route"
 import type { routeNavQuery } from "~/gql/routeNavQuery.graphql"
 import type { routeNavTrendingQuery } from "~/gql/routeNavTrendingQuery.graphql"
-import type { UnreadNotificationBadge_query$key } from "~/gql/UnreadNotificationBadge_query.graphql"
-import type { clientLoader as rootLoader } from "~/root"
 
 const { graphql } = ReactRelay
 

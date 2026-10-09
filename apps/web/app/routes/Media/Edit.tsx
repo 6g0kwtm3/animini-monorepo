@@ -1,12 +1,5 @@
 import { Fab } from "@animedes/components/Button"
-import { fab } from "@animedes/components/button.styles"
-import {
-	TooltipPlain,
-	TooltipPlainContainer,
-	TooltipPlainTrigger,
-} from "@animedes/components/Tooltip"
 import { A } from "@anitrove/a"
-import { useTooltipStore } from "@ariakit/react"
 import { motion } from "motion/react"
 import ReactRelay from "react-relay"
 import { useParams } from "react-router"

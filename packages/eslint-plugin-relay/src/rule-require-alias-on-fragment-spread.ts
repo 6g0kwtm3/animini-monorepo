@@ -1,5 +1,4 @@
 import {
-	Kind,
 	OperationTypeNode,
 	type FragmentSpreadNode,
 	type OperationDefinitionNode,
