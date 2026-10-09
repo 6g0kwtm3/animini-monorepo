@@ -3,7 +3,6 @@ import { type } from "arktype"
 import ReactRelay from "react-relay"
 import { useActionData, type ClientActionFunction } from "react-router"
 import { client_get_client } from "~/lib/client"
-import { invariant } from "~/lib/invariant"
 import { m } from "~/lib/paraglide"
 
 import type { ReactNode } from "react"

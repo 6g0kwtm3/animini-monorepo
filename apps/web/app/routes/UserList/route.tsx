@@ -39,7 +39,6 @@ import {
 	useSubmit,
 } from "react-router"
 import { copySearchParams } from "~/lib/copySearchParams"
-import { invariant } from "~/lib/invariant"
 import { MediaListSort } from "~/lib/MediaListSort"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import { m } from "~/lib/paraglide"

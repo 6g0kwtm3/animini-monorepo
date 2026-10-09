@@ -12,7 +12,6 @@ import RelayRuntime, {
 	type Variables,
 } from "relay-runtime"
 
-import { invariant } from "../invariant"
 import { JsonToToken } from "../viewer"
 import { RateLimiter } from "./RateLimiter"
 import { GraphQLResponse } from "./schema"
