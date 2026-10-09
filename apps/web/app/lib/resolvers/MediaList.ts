@@ -30,3 +30,29 @@ export function behind(data: Behind_entry$key): null | number {
 
 	return Math.max(0, avalible - (entry.progress ?? 0))
 }
+
+import type { ToWatch_entry$key } from "~/gql/ToWatch_entry.graphql"
+
+/**
+ * @relayField MediaList.toWatch: Int
+ * @rootFragment ToWatch_entry
+ */
+export function toWatch(data: ToWatch_entry$key): null | number {
+	const entry = readFragment(
+		graphql`
+			fragment ToWatch_entry on MediaList @throwOnFieldError {
+				behind @required(action: NONE)
+				media {
+					duration
+				}
+			}
+		`,
+		data
+	)
+
+	if (!entry) {
+		return null
+	}
+
+	return entry.behind * Math.max(3, (entry.media?.duration ?? 25) - 3)
+}
