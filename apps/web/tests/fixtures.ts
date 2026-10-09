@@ -6,7 +6,6 @@ import base, {
 	type Page,
 } from "@playwright/test"
 import { _electron as Electron } from "@playwright/test"
-import { type } from "arktype"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { http, HttpResponse, type AnyHandler } from "msw"
@@ -62,7 +61,7 @@ function tryParse(text: string | undefined): unknown {
 	}
 }
 
-function redact(node: unknown, piis: ReadonlySet<string | number>): unknown {
+function redact(node: unknown, piis: ReadonlySet<number | string>): unknown {
 	return JSON.parse(JSON.stringify(node), (key, value: unknown) => {
 		if (typeof value === "number") {
 			return piis.has(value) ? ":Filtered:" : value
@@ -118,7 +117,7 @@ export interface Fixtures extends Options {
 	electron: ElectronApplication | null
 	newPage: () => Promise<Page>
 	login: (viewer: typeof Viewer.infer) => Promise<void>
-	markPII: (value: string | number) => void
+	markPII: (value: number | string) => void
 }
 
 export const test = base.extend<Fixtures>({
@@ -156,7 +155,7 @@ export const test = base.extend<Fixtures>({
 		async ({ context, worker }, provide) => {
 			void worker
 			const payloads: EnvelopeItem[] = []
-			const forbidden = new Set<string | number>()
+			const forbidden = new Set<number | string>()
 
 			await context.route(SENTRY_ENVELOPE, async (route) => {
 				const envelope =
@@ -169,7 +168,7 @@ export const test = base.extend<Fixtures>({
 				await route.fallback()
 			})
 
-			await provide((value: string | number) => {
+			await provide((value: number | string) => {
 				void forbidden.add(value)
 			})
 
