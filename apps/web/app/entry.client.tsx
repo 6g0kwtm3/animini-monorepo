@@ -38,7 +38,7 @@ init({
 		return breadcrumb
 	},
 	beforeSend(event) {
-		if (event.transaction != null && URL.canParse(event.transaction)) {
+		if (event.transaction != null) {
 			event.transaction = scrubPathname(event.transaction)
 		}
 		if (event.request?.url != null && URL.canParse(event.request.url)) {
