@@ -107,7 +107,7 @@ const SetStatusFormData = type({
 })
 
 async function setStatus(formData: FormData) {
-	const variables = invariant(SetStatusFormData(Object.fromEntries(formData)))
+	const variables = SetStatusFormData.assert(Object.fromEntries(formData))
 
 	const client = client_get_client()
 	const data = await client.mutation<routeUserSetStatusMutation>({
@@ -146,7 +146,7 @@ export const clientAction = (async (args) => {
 }) satisfies ClientActionFunction
 
 function fetchSelectedList(args: ClientLoaderFunctionArgs) {
-	const params = invariant(Params(args.params))
+	const params = Params.assert(args.params)
 
 	const selectedList = args.context.get(
 		loadQuery
