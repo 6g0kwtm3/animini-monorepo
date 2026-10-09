@@ -83,8 +83,6 @@ export function userFromToken(): LiveState<null | {
 	}
 }
 
-import { ArkErrors } from "arktype"
-
 import { CookieToToken } from "../viewer"
 
 function parseViewerCookie(cookie: CookieListItem): {
