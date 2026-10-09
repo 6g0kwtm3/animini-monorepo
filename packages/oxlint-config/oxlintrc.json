@@ -109,7 +109,14 @@
 		],
 
 		"typescript/triple-slash-reference": "allow",
-		"eslint/no-unused-vars": "allow",
+		"eslint/no-unused-vars": [
+			"warn",
+			{
+				"reportUsedIgnorePattern": true,
+				"reportVarsOnlyUsedAsTypes": true,
+				"fix": { "imports": "safe-fix" }
+			}
+		],
 		"jsx-a11y/anchor-has-content": "allow",
 		"jsx-a11y/control-has-associated-label": "allow",
 		"import/namespace": "allow",
