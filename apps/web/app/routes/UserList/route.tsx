@@ -82,7 +82,7 @@ const UserListTabsQuery = graphql`
 
 const Typelist = type('"animelist"|"mangalist"')
 export const clientLoader = (args: Route.ClientLoaderArgs) => {
-	const typelist = invariant(Typelist(args.params.typelist))
+	const typelist = Typelist.assert(args.params.typelist)
 
 	return {
 		UserListTabsQuery: args.context.get(loadQuery)<UserListTabsQueryOperation>(

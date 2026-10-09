@@ -18,7 +18,7 @@ export const increment = async (
 ): Promise<{
 	SaveMediaListEntry: ProgressIncrementMutation$data["SaveMediaListEntry"]
 }> => {
-	const formData = invariant(IncrementFormData(Object.fromEntries(form)))
+	const formData = IncrementFormData.assert(Object.fromEntries(form))
 
 	const client = client_get_client()
 

@@ -12,7 +12,7 @@ const { graphql } = ReactRelay
 
 const Params = type({ userId: "string.integer.parse" })
 export const clientAction = (async (args) => {
-	const params = invariant(Params(args.params))
+	const params = Params.assert(args.params)
 
 	const client = client_get_client()
 

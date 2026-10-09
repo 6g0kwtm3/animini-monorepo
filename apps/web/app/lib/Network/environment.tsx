@@ -66,7 +66,7 @@ const fetchQuery = async function (
 		}
 	}
 
-	const response = invariant(GraphQLResponse(await request.json()))
+	const response = GraphQLResponse.assert(await request.json())
 
 	return { kind: "Data", data: response }
 }
