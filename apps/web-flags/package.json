@@ -13,6 +13,7 @@
 		"@flaghoist/adapter-cloudflare-kv": "catalog:"
 	},
 	"devDependencies": {
+		"@animedes/ts-config": "workspace:",
 		"wrangler": "catalog:"
 	}
 }
