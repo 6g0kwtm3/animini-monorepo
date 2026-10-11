@@ -194,8 +194,8 @@ catalogs:
       specifier: 0.4.41
       version: 0.4.41
     '@ark/attest':
-      specifier: 0.56.7
-      version: 0.56.7
+      specifier: 0.57.0
+      version: 0.57.0
     '@babel/preset-typescript':
       specifier: 7.29.7
       version: 7.29.7
@@ -224,8 +224,8 @@ catalogs:
       specifier: 9.1.16
       version: 9.1.16
     '@hono/node-server':
-      specifier: 2.1.3
-      version: 2.1.3
+      specifier: 2.1.4
+      version: 2.1.4
     '@iconify-json/material-symbols':
       specifier: 1.2.94
       version: 1.2.94
@@ -242,8 +242,8 @@ catalogs:
       specifier: 1.10.0
       version: 1.10.0
     '@playwright/test':
-      specifier: 1.63.0
-      version: 1.63.0
+      specifier: 1.64.0
+      version: 1.64.0
     '@react-router/dev':
       specifier: 8.4.0
       version: 8.4.0
@@ -251,8 +251,8 @@ catalogs:
       specifier: 8.4.0
       version: 8.4.0
     '@sentry/react':
-      specifier: npm:@sentry/react-router@11.4.0
-      version: 11.4.0
+      specifier: npm:@sentry/react-router@11.5.0
+      version: 11.5.0
     '@storybook/addon-a11y':
       specifier: 10.6.1
       version: 10.6.1
@@ -329,8 +329,8 @@ catalogs:
       specifier: 0.0.35
       version: 0.0.35
     arktype:
-      specifier: 2.2.7
-      version: 2.2.7
+      specifier: 2.2.8
+      version: 2.2.8
     babel-plugin-react-compiler:
       specifier: 1.0.0
       version: 1.0.0
@@ -341,8 +341,8 @@ catalogs:
       specifier: 3.2.5
       version: 3.2.5
     electron:
-      specifier: 44.6.0
-      version: 44.6.0
+      specifier: 44.7.0
+      version: 44.7.0
     electron-devtools-installer:
       specifier: 4.0.0
       version: 4.0.0
@@ -377,8 +377,8 @@ catalogs:
       specifier: 17.0.2
       version: 17.0.2
     graphql-config:
-      specifier: 5.1.7
-      version: 5.1.7
+      specifier: 5.1.8
+      version: 5.1.8
     hono:
       specifier: 4.13.13
       version: 4.13.13
@@ -506,10 +506,10 @@ importers:
         version: link:packages/react-stable
       '@ark/attest':
         specifier: 'catalog:'
-        version: 0.56.7(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
+        version: 0.57.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
       '@playwright/test':
         specifier: 'catalog:'
-        version: 1.63.0
+        version: 1.64.0
       '@stryker-mutator/api':
         specifier: 'catalog:'
         version: 10.0.0
@@ -669,7 +669,7 @@ importers:
         version: 0.1.2(@openfeature/core@1.12.0)(@openfeature/web-sdk@1.10.0)
       '@hono/node-server':
         specifier: 'catalog:'
-        version: 2.1.3(hono@4.13.13)
+        version: 2.1.4(hono@4.13.13)
       '@iconify-json/material-symbols':
         specifier: 'catalog:'
         version: 1.2.94
@@ -690,7 +690,7 @@ importers:
         version: 8.4.0(@typescript/typescript6@6.0.2)(react-router@8.4.0)
       '@sentry/react':
         specifier: 'catalog:'
-        version: '@sentry/react-router@11.4.0(@babel/core@7.29.7)(@react-router/node@8.4.0)(react-router@8.4.0)(react@19.3.0)(rollup@4.64.0)'
+        version: '@sentry/react-router@11.5.0(@babel/core@7.29.7)(@react-router/node@8.4.0)(react-router@8.4.0)(react@19.3.0)(rollup@4.64.0)'
       '@svgr/core':
         specifier: 'catalog:'
         version: 8.1.0(@typescript/typescript6@6.0.2)(supports-color@5.5.0)
@@ -717,10 +717,10 @@ importers:
         version: 0.0.35
       arktype:
         specifier: 'catalog:'
-        version: 2.2.7
+        version: 2.2.8
       electron:
         specifier: 'catalog:'
-        version: 44.6.0(supports-color@5.5.0)
+        version: 44.7.0(supports-color@5.5.0)
       electron-devtools-installer:
         specifier: 'catalog:'
         version: 4.0.0
@@ -787,7 +787,7 @@ importers:
         version: 0.7.0(msw@3.0.2)(supports-color@5.5.0)
       '@playwright/test':
         specifier: 'catalog:'
-        version: 1.63.0
+        version: 1.64.0
       '@types/flubber':
         specifier: 'catalog:'
         version: 0.4.0
@@ -811,7 +811,7 @@ importers:
         version: 0.4.2(patch_hash=594c8ac28497851224e3173a41c2b68cb64a5d10289e1b58a3ae890c5a95cf26)
       graphql-config:
         specifier: 'catalog:'
-        version: 5.1.7(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2)
+        version: 5.1.8(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2)
       msw:
         specifier: 'catalog:'
         version: 3.0.2(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(graphql@17.0.2)(supports-color@5.5.0)(vite@8.3.3)
@@ -1411,20 +1411,20 @@ packages:
   '@ariakit/utils@0.2.1':
     resolution: {integrity: sha512-hJs71Orklyw1tW2bCrDdEDp2nEv6I2c3iP1bof88Chd3rTuJIHAp+3a3yDwU5UKjM3baB6QDrCg4x6jABgsEyw==}
 
-  '@ark/attest@0.56.7':
-    resolution: {integrity: sha512-sKINBIp7IwO1z0VM8Asao/wpBGfvFXq6SigcpSO/e5fdePCrF1LWTXF8szgQyeZnVfiankYxCazEzy+q1uvpfg==}
+  '@ark/attest@0.57.0':
+    resolution: {integrity: sha512-faa9Bxlwl5Xvn8lvvW+2WSZLuXY93A2dqcFr/Fswq47Evi/g4vq/IZToA9GOSdcRuWrzrDH27hOXvaJSrgYz/A==}
     hasBin: true
     peerDependencies:
       typescript: '*'
 
-  '@ark/fs@0.56.6':
-    resolution: {integrity: sha512-ZiNrU3TUodn3oMryZ+F8C9r4aqOpAFLhKjvpbuY1JxGcQZktsi3Xkwe14PAKzllumYi4lxsSolYEomxjceGMKQ==}
+  '@ark/fs@0.56.7':
+    resolution: {integrity: sha512-51qh72z5cRfG/4ktEsHMq8zFABwnpJ44KNL9IgBj1WHGqKy2PBrkkRqUHA5ct5iikdOXkO75sUpRBIO2QczY4g==}
 
-  '@ark/schema@0.56.6':
-    resolution: {integrity: sha512-OmLv80BCF2ib+zjecrXDosip/CSnZSYBGjblhqWYZWFOzdLQka6QymHToE9u7Z/HZW2KA8Hwc8MCNXoI3uGSIA==}
+  '@ark/schema@0.56.7':
+    resolution: {integrity: sha512-jmoOJlYIc4k1uv8oYBDNOFnAsKk2a2D9t/D6npF2JUfW4ecPB0v6ce6lruKg7lkBxIBA8Z7UtxfmvephYbhUGQ==}
 
-  '@ark/util@0.56.6':
-    resolution: {integrity: sha512-mHqq0f0HyDd9YadpFl25w0QECAP7d8HGIUpEC85duD+L+xr4i/CwfOid/Z7zJFFF/47oLt6+pZB9RbqWpBYTYg==}
+  '@ark/util@0.56.7':
+    resolution: {integrity: sha512-z8pVnrPk/x9GC18yOp5wCe8rR2+Z6us4CTSg7dvxdsDLuA2xXYq+QETD1fO6f3fMuXe+PCjpvtCnhTW9RHLgEw==}
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -2455,12 +2455,6 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@graphql-tools/utils@11.2.2':
-    resolution: {integrity: sha512-Do2A/t6ayqOma8m7PvpYMsCBswL+NB35BQSng4GWSBqafL2/BnfAZy/NSENPwV721Rm2fG0BHETFC0+FJJZmLw==}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-
   '@graphql-tools/utils@12.0.3':
     resolution: {integrity: sha512-M+04bHvI1SKoug7W2EkwfKjig2mdtgIIlFY8p2jLHmxPNVs5bC/3R+58JrD+7ZXWgPILWTwuqJ9AqTjPlahroA==}
     engines: {node: '>=16.0.0'}
@@ -2478,11 +2472,11 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@hono/node-server@2.1.3':
-    resolution: {integrity: sha512-TA//nWMqPhbfdfneACk6t5a9eqbS9lABEPyKn0/xZTah3H3U2XaVg85rJFl0/Fyit0I552YDHgXGVSf3GwqbUw==}
+  '@hono/node-server@2.1.4':
+    resolution: {integrity: sha512-2g1qeHl4BduwDn6L8nkAvDrPUWPMlkQ//a5NhP/zIyaXKMjZNRV+cG9Csu+BiJFf6+68pqzjf4Hi5sJGKHuS1g==}
     engines: {node: '>=20'}
     peerDependencies:
-      hono: ^4
+      hono: ^4 || ^5.0.0-0
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -4067,8 +4061,8 @@ packages:
     peerDependencies:
       tailwindcss: '*'
 
-  '@playwright/test@1.63.0':
-    resolution: {integrity: sha512-oxMK4vllB9RK5NQ2l1pq1IfOf2AvnEuj/vYGDj0H2nMtmtZpKtCwt/l00GEO6xjGfpBNAvjovvYdCm50dRQkpQ==}
+  '@playwright/test@1.64.0':
+    resolution: {integrity: sha512-oTN9FNYuN6bqQMwiho6jJKLCG2/QOYCixGXuCjRmzOq23eODeukuY2XiAVoVpAECbuezMt1MHQjAiQxK8F+Y+g==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -4381,16 +4375,16 @@ packages:
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
 
-  '@sentry/browser-utils@11.4.0':
-    resolution: {integrity: sha512-RPQefmLDslO8KsRiSuXNXcReAhJy0rEVi2pbez5HpEn2adipuhgebwDMulac6RYoIUa8liFcBueru0ancW1vhA==}
+  '@sentry/browser-utils@11.5.0':
+    resolution: {integrity: sha512-R2rro9Hc4jtOprXYwCjyS6WqmdXX/5Rzya6C7X5HWdcW5/osW1ICB4Yk5XndrgVDUeEJ6aqo8mKvmTWJ759ATQ==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/browser@11.4.0':
-    resolution: {integrity: sha512-jhq5t6nw8KdBq8i3Uyq5vBCHXehtEM+F5f/OoVxuPS2TtSbGizGjqzhAi24EmTNs4DRlQgYpKPdTOBDTMv49HA==}
+  '@sentry/browser@11.5.0':
+    resolution: {integrity: sha512-jwky2cRbwdQG4JpU3spKX9h2gc8C57AFnrQrGJc3AC+jCgwpfso/I0MI6Am3f552gVCR9kfuT6ozv1YliV+FoQ==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/bundler-plugins@11.4.0':
-    resolution: {integrity: sha512-THgOMIaA0AMVF4TiCIbugK2jlLYCBIhRF0gclrj7Fte3RMZytkXeH8XeoaR6C6MJTyLCNkEOEccwX9Jj2xOc8g==}
+  '@sentry/bundler-plugins@11.5.0':
+    resolution: {integrity: sha512-3stxFCNFO2f8GTOsF0rgUOa1UN0if4GYQspZTCdI0MISKinIsts5z3QJUeyZDnGjPkUBBoTo7STuUSqiK88IQg==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
     peerDependencies:
       '@babel/core': ^7.18.5
@@ -4404,38 +4398,38 @@ packages:
       webpack:
         optional: true
 
-  '@sentry/conventions@0.25.0':
-    resolution: {integrity: sha512-7SouCAX3qx+AzLsxb6gbl3dKVWNhp2wFjdYQ/T90sGwqPPQUoZVA9YwsWwvx07hqcCiSqFW9mUAzyUftASnuhQ==}
+  '@sentry/conventions@0.26.0':
+    resolution: {integrity: sha512-ttSRcoLf2kIENDIFzH12aJaVMdxnidMYLvVNwEX/JjXfXaQot8u5M47QmgAFOOhVJ4nQ2uU8wTCh+fwSPrrCfg==}
     engines: {node: '>=14'}
 
-  '@sentry/core@11.4.0':
-    resolution: {integrity: sha512-kAhK8XVJuzu1IKx9uSu04OISxTU9BcIyDVOWbY/ATUCYr5Z6L7GRBtOGOlYCbxEuPtdZCw5TrbphnBsyO9fuTA==}
+  '@sentry/core@11.5.0':
+    resolution: {integrity: sha512-flEMRAfk8t3JW7w32shN6piuLJESkuryF90WzMn75ZGEiVoXkhStOvLT8qX8SQaLeFll4vLp7nDPdTsdJe1APw==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/feedback@11.4.0':
-    resolution: {integrity: sha512-vGcTGvNMgaL5J+LCwK+HVpubU/4/3TRAexVaJi0VcZmr9LnoGiZlWAQunjvWNsabvvkXs120WbXYc8nHysRNzw==}
+  '@sentry/feedback@11.5.0':
+    resolution: {integrity: sha512-L/0lq8Pgh7cR12ay3+yx56dOkEWiPSiT0ukkMEdkGrqbDbHurEIHIfXk7JhcxGUL+Ug1ObCtgI6StqwZSB7o2A==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/node@11.4.0':
-    resolution: {integrity: sha512-fW587LsZnsuGt1V++59xFCtZ/7jGO3GQq1F+l/Jx5DS18QApXQ99vlfS9H5bxuWixfi5/22ea9M8XjFpkkuzQg==}
+  '@sentry/node@11.5.0':
+    resolution: {integrity: sha512-uNSFtwEjeRzUPnrpnMIW3g8j4sivk+StlvlpEMZ46zKsBF597UZ7XNldKUJDwopURybhai1wZ8xjc46ufsv1jg==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/opentelemetry@11.4.0':
-    resolution: {integrity: sha512-GGDmV+VIGU1p3KGtgR32wrRJejSfEuafbEcSUK7Ww5oxDMYJyHXRSbFjVvGMoAG1ezTl0U6WtMUoWmalsfYHZg==}
+  '@sentry/opentelemetry@11.5.0':
+    resolution: {integrity: sha512-k+YlAjKO9iPOb1w/KXjIPZE2P4PcxhuoafXr1EN0yCCs0BFgkgQNDP/S+nw78GLzb2SLs3MtwWbLHOMLMRJM5Q==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
 
-  '@sentry/react-router@11.4.0':
-    resolution: {integrity: sha512-Zg7OIHQadcFvwkZ7e/Ols0r+WzkjluTGd7v7BgyZx4+N+PsCZh4q3YmQrp8glrXDtwGgiqfcMWBZMBDavrMVJA==}
+  '@sentry/react-router@11.5.0':
+    resolution: {integrity: sha512-wyMCamgX4PXpNU/DL3mLiN0V80Ngyxr/8nCqoavBcJgZdrEyrY2nAsB3FIyJ3FTDxay++Y9GJpjvqJ7Gr6mVxA==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
     peerDependencies:
       '@react-router/node': '>=7.15.0 || ^8.x'
       react: '>=18'
       react-router: '>=7.15.0 || ^8.x'
 
-  '@sentry/react@11.4.0':
-    resolution: {integrity: sha512-8HfNapqjif93dcQ2E6rH/TUyTOSaRe7EOfIKyjcXdkktK2DISbvAHdzVT2ctV9DQ8zBxuUaCzzHcF7s18EYf2w==}
+  '@sentry/react@11.5.0':
+    resolution: {integrity: sha512-dLFH0CsxGzjI2QVQlsahsaJj0i7gKllU8ZPm7CjAb0m94cF7JiBPmp4pBYAEUu3e+lZsCMv7QyVTk8+gaJ47TQ==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
     peerDependencies:
       react: 17.x || 18.x || 19.x
@@ -4444,20 +4438,20 @@ packages:
       react-router:
         optional: true
 
-  '@sentry/replay-canvas@11.4.0':
-    resolution: {integrity: sha512-zfsf90ckrOl/+Z4D4kg4MNY46V4jzUFSZolm+RcrdobS4qikE4xBMvDy1bKZHk+LKfj+K6dxjgZQbasgzHcZ6w==}
+  '@sentry/replay-canvas@11.5.0':
+    resolution: {integrity: sha512-V6PNnufdaBoMcj/qpygn9+w7Ug+mHIzfkYo5gUgeikwt2ISSNywRLhRYAadoKN32D3rz8UBuwi+4czap1eqCMQ==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/replay@11.4.0':
-    resolution: {integrity: sha512-DdgAGaFLOyixQEWGuw8kKcGAVZV8RVVX2kMVV5WqSOMI9if7lhvXdhV+3L0JnZRX7X/6RBqYxYH/C1E0hK43qg==}
+  '@sentry/replay@11.5.0':
+    resolution: {integrity: sha512-QkS6rGyj+zjzJOKMxmbj9m2dj4cqRzDZouw45iBCXyoW/6QCIFGqjxEPAWO9JS1ZCo9JRUf0wLfIbaO1pF0xRQ==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/server-runtime-injection@11.4.0':
-    resolution: {integrity: sha512-8IaiqIJuJySztjxdC0UXP3lHlBAr8HsI8kUMEDV7REYhgmz2+B4BmKyyvaZfeasJlAvzkvSOLZ/Xco7kPikZdQ==}
+  '@sentry/server-runtime-injection@11.5.0':
+    resolution: {integrity: sha512-6hmiiFJanSKDfUNBdrwRm47g8CBgFdDcxFguMh3QaRmIim0c5V0eMUfMRJuWhk+NKuI/rsFyj8B5qdBD+5h4Kg==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
-  '@sentry/server-utils@11.4.0':
-    resolution: {integrity: sha512-GA4RvjRXyKFawD7Zi5AlgHPvm9Q8d9VeWer6g9qj4mDavi+VuNFhRmhgsv1qU1l3hlUeMYCpbKhpDOaOH/TcoQ==}
+  '@sentry/server-utils@11.5.0':
+    resolution: {integrity: sha512-cUALUPgVW2jND2RGWyNH9v3epsKz5Ce3QujfnpFAdHKFVj4tjjZMU0FYlbFo9SBxosWPTnZzjIuNO6GROQwR1Q==}
     engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0 <23.0.0 || >=23.2.0'}
 
   '@sinclair/typebox@0.31.30':
@@ -5244,11 +5238,11 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
-  arkregex@0.0.12:
-    resolution: {integrity: sha512-sOxL0eX50pnRYO4OyajKZChGuuj/iHwC5tysiAaGOPBu+zJwJQckWn7/DRH2++ol5uaKpyRn7N0hKT7nDqGmgg==}
+  arkregex@0.0.13:
+    resolution: {integrity: sha512-c17sqCqiiZauxyoU1KZ2zbzCgeghGmc8dR2CrdQnlEtpq3bLhRLoLrxTL52M/8yQD8e/i1/IBRpRCNAuqJa7xQ==}
 
-  arktype@2.2.7:
-    resolution: {integrity: sha512-AbgM5SQvwCTURSR+ENfPtOG7cL5VZ0hqOVtoWyXKw2SviFddZhCBEUAjjVJYKCNFlPPR1VX5LGUKxsSqqc4Kdw==}
+  arktype@2.2.8:
+    resolution: {integrity: sha512-tZyLza7kO2vN8BXBKcj4t43IVMe8/ZyqlITH0chZv7FfEw+edLovpY922tqcK4mCjTpf4oNo2xV6np7tquP1ww==}
 
   array-buffer-byte-length@1.0.2:
     resolution: {integrity: sha512-LHE+8BuR7RYGDKvnrmcuSq3tDcKv9OFEXQt/HpbZhY7V6h0zlUXutnAD82GiFx9rdieCMjkvtcsPqBwgUl1Iiw==}
@@ -5713,8 +5707,8 @@ packages:
   electron-to-chromium@1.5.444:
     resolution: {integrity: sha512-5ss/uJfoDYDHT0lfJzT6FbcskIzROIOPf0BbbFkGcvDzoJU7i//9GDrwwIHQVmIsrAGiF3ihpADBRIsrEFt1rQ==}
 
-  electron@44.6.0:
-    resolution: {integrity: sha512-qjzKZ82yTsAoo0Q/gqdy4PEMQkzYpukZqIduaHWZYHapFhK9wgWwU4YId60xHmwTCraqF4AfVCm05o90dZJKMQ==}
+  electron@44.7.0:
+    resolution: {integrity: sha512-aUq9/zLAAFYc+a9gy6cd0C3Y/N/RmovLCD8TV8LhIzNhuND6HEgsu96jJz9cbAxvckSPv+Trf2PKEjktoZgFkw==}
     engines: {node: '>= 22.12.0'}
     hasBin: true
 
@@ -6130,8 +6124,8 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  graphql-config@5.1.7:
-    resolution: {integrity: sha512-7/2bD8fvACyXiRkuwgVE5U+WAVyBgcL2h85+FeafAMZRs1mZhZSzioSnJ3pWnh+EA50y8VdQRntF7jX5aznMIg==}
+  graphql-config@5.1.8:
+    resolution: {integrity: sha512-7DyT4ctUiNRMAU19IFy8o1zoQCJPjik1/vBwWIZlILGI6O1mHZXd59rUzF81oglNyHtPrNNCWonqfwu58BG66A==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       cosmiconfig-toml-loader: ^1.0.0
@@ -7157,13 +7151,13 @@ packages:
   pkg-types@2.3.3:
     resolution: {integrity: sha512-j/lCFdcppV0JxWpCEITdbDltBxPP6cHT+yNJ6Go2OgoSA9518X847X9z0p6LtA4Nc16+eQzCZjRrWanTGvHJ5w==}
 
-  playwright-core@1.63.0:
-    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
+  playwright-core@1.64.0:
+    resolution: {integrity: sha512-T9r+MZkTECl2+oUcZ26YgZzTrYidTsIhYYkJix+6iDOymOb1FB2RLLSOxRGnZGv5DStt+aduIVbt+E8WygXYpg==}
     engines: {node: '>=20'}
     hasBin: true
 
-  playwright@1.63.0:
-    resolution: {integrity: sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==}
+  playwright@1.64.0:
+    resolution: {integrity: sha512-kVzTnYFYEyQ9RGzBjNCd2+yEqWmVbxl3AHPynv3qQ6JTjv4a+kwRcnqQwIpuP3NnrnIrE/Q6wWAIAvMfIE2/Yg==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -8425,27 +8419,27 @@ snapshots:
 
   '@ariakit/utils@0.2.1': {}
 
-  '@ark/attest@0.56.7(@typescript/typescript6@6.0.2)(supports-color@10.2.2)':
+  '@ark/attest@0.57.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)':
     dependencies:
-      '@ark/fs': 0.56.6
-      '@ark/schema': 0.56.6
-      '@ark/util': 0.56.6
+      '@ark/fs': 0.56.7
+      '@ark/schema': 0.56.7
+      '@ark/util': 0.56.7
       '@prettier/sync': 0.6.1(prettier@3.6.2)
       '@typescript/analyze-trace': 0.10.1
       '@typescript/vfs': 1.6.1(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
-      arktype: 2.2.7
+      arktype: 2.2.8
       prettier: 3.6.2
       typescript: '@typescript/typescript6@6.0.2'
     transitivePeerDependencies:
       - supports-color
 
-  '@ark/fs@0.56.6': {}
+  '@ark/fs@0.56.7': {}
 
-  '@ark/schema@0.56.6':
+  '@ark/schema@0.56.7':
     dependencies:
-      '@ark/util': 0.56.6
+      '@ark/util': 0.56.7
 
-  '@ark/util@0.56.6': {}
+  '@ark/util@0.56.7': {}
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -9384,7 +9378,7 @@ snapshots:
       eslint: 10.12.0(jiti@2.7.0)(supports-color@10.2.2)
       fast-glob: 3.3.3
       graphql: 17.0.2
-      graphql-config: 5.1.7(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2)
+      graphql-config: 5.1.8(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2)
       graphql-depth-limit: 1.1.0(graphql@17.0.2)
       lodash.lowercase: 4.3.0
     transitivePeerDependencies:
@@ -9406,7 +9400,7 @@ snapshots:
       eslint: 10.12.0(jiti@2.7.0)(supports-color@5.5.0)
       fast-glob: 3.3.3
       graphql: 17.0.2
-      graphql-config: 5.1.7(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2)
+      graphql-config: 5.1.8(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2)
       graphql-depth-limit: 1.1.0(graphql@17.0.2)
       lodash.lowercase: 4.3.0
     transitivePeerDependencies:
@@ -9629,14 +9623,6 @@ snapshots:
       graphql: 17.0.2
       tslib: 2.8.1
 
-  '@graphql-tools/utils@11.2.2(graphql@17.0.2)':
-    dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@17.0.2)
-      '@whatwg-node/promise-helpers': 1.3.2
-      cross-inspect: 1.0.1
-      graphql: 17.0.2
-      tslib: 2.8.1
-
   '@graphql-tools/utils@12.0.3(graphql@17.0.2)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@17.0.2)
@@ -9658,7 +9644,7 @@ snapshots:
     dependencies:
       graphql: 17.0.2
 
-  '@hono/node-server@2.1.3(hono@4.13.13)':
+  '@hono/node-server@2.1.4(hono@4.13.13)':
     dependencies:
       hono: 4.13.13
 
@@ -10655,9 +10641,9 @@ snapshots:
       tailwind-merge: 3.7.0
       tailwindcss: 4.3.3
 
-  '@playwright/test@1.63.0':
+  '@playwright/test@1.64.0':
     dependencies:
-      playwright: 1.63.0
+      playwright: 1.64.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -10857,24 +10843,24 @@ snapshots:
 
   '@sec-ant/readable-stream@0.4.1': {}
 
-  '@sentry/browser-utils@11.4.0':
+  '@sentry/browser-utils@11.5.0':
     dependencies:
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
       web-vitals: 6.2.3
 
-  '@sentry/browser@11.4.0':
+  '@sentry/browser@11.5.0':
     dependencies:
-      '@sentry/browser-utils': 11.4.0
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
-      '@sentry/feedback': 11.4.0
-      '@sentry/replay': 11.4.0
-      '@sentry/replay-canvas': 11.4.0
+      '@sentry/browser-utils': 11.5.0
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/feedback': 11.5.0
+      '@sentry/replay': 11.5.0
+      '@sentry/replay-canvas': 11.5.0
 
-  '@sentry/bundler-plugins@11.4.0(@babel/core@7.29.7)(rollup@4.64.0)':
+  '@sentry/bundler-plugins@11.5.0(@babel/core@7.29.7)(rollup@4.64.0)':
     dependencies:
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
       dotenv: 17.4.2
       glob: 13.0.6
       magic-string: 1.4.3
@@ -10885,48 +10871,48 @@ snapshots:
       '@babel/core': 7.29.7(supports-color@5.5.0)
       rollup: 4.64.0
 
-  '@sentry/conventions@0.25.0': {}
+  '@sentry/conventions@0.26.0': {}
 
-  '@sentry/core@11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)':
+  '@sentry/core@11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)':
     dependencies:
-      '@sentry/conventions': 0.25.0
+      '@sentry/conventions': 0.26.0
 
-  '@sentry/feedback@11.4.0':
+  '@sentry/feedback@11.5.0':
     dependencies:
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
 
-  '@sentry/node@11.4.0(@babel/core@7.29.7)(rollup@4.64.0)':
+  '@sentry/node@11.5.0(@babel/core@7.29.7)(rollup@4.64.0)':
     dependencies:
       '@opentelemetry/api': 1.9.1
-      '@sentry/bundler-plugins': 11.4.0(@babel/core@7.29.7)(rollup@4.64.0)
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
-      '@sentry/opentelemetry': 11.4.0(@opentelemetry/api@1.9.1)
-      '@sentry/server-runtime-injection': 11.4.0
-      '@sentry/server-utils': 11.4.0
+      '@sentry/bundler-plugins': 11.5.0(@babel/core@7.29.7)(rollup@4.64.0)
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/opentelemetry': 11.5.0(@opentelemetry/api@1.9.1)
+      '@sentry/server-runtime-injection': 11.5.0
+      '@sentry/server-utils': 11.5.0
     transitivePeerDependencies:
       - '@babel/core'
       - rollup
       - webpack
 
-  '@sentry/opentelemetry@11.4.0(@opentelemetry/api@1.9.1)':
+  '@sentry/opentelemetry@11.5.0(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
 
-  '@sentry/react-router@11.4.0(@babel/core@7.29.7)(@react-router/node@8.4.0)(react-router@8.4.0)(react@19.3.0)(rollup@4.64.0)':
+  '@sentry/react-router@11.5.0(@babel/core@7.29.7)(@react-router/node@8.4.0)(react-router@8.4.0)(react@19.3.0)(rollup@4.64.0)':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@react-router/node': 8.4.0(@typescript/typescript6@6.0.2)(react-router@8.4.0)
-      '@sentry/browser': 11.4.0
-      '@sentry/bundler-plugins': 11.4.0(@babel/core@7.29.7)(rollup@4.64.0)
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
-      '@sentry/node': 11.4.0(@babel/core@7.29.7)(rollup@4.64.0)
-      '@sentry/react': 11.4.0(react-router@8.4.0)(react@19.3.0)
-      '@sentry/server-runtime-injection': 11.4.0
-      '@sentry/server-utils': 11.4.0
+      '@sentry/browser': 11.5.0
+      '@sentry/bundler-plugins': 11.5.0(@babel/core@7.29.7)(rollup@4.64.0)
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/node': 11.5.0(@babel/core@7.29.7)(rollup@4.64.0)
+      '@sentry/react': 11.5.0(react-router@8.4.0)(react@19.3.0)
+      '@sentry/server-runtime-injection': 11.5.0
+      '@sentry/server-utils': 11.5.0
       glob: 13.0.6
       react: 19.3.0
       react-router: 8.4.0(react-dom@19.3.0)(react@19.3.0)
@@ -10936,35 +10922,35 @@ snapshots:
       - rollup
       - webpack
 
-  '@sentry/react@11.4.0(react-router@8.4.0)(react@19.3.0)':
+  '@sentry/react@11.5.0(react-router@8.4.0)(react@19.3.0)':
     dependencies:
-      '@sentry/browser': 11.4.0
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/browser': 11.5.0
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
       react: 19.3.0
     optionalDependencies:
       react-router: 8.4.0(react-dom@19.3.0)(react@19.3.0)
 
-  '@sentry/replay-canvas@11.4.0':
+  '@sentry/replay-canvas@11.5.0':
     dependencies:
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
-      '@sentry/replay': 11.4.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/replay': 11.5.0
 
-  '@sentry/replay@11.4.0':
+  '@sentry/replay@11.5.0':
     dependencies:
-      '@sentry/browser-utils': 11.4.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/browser-utils': 11.5.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
 
-  '@sentry/server-runtime-injection@11.4.0':
+  '@sentry/server-runtime-injection@11.5.0':
     dependencies:
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
-      '@sentry/server-utils': 11.4.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/server-utils': 11.5.0
 
-  '@sentry/server-utils@11.4.0':
+  '@sentry/server-utils@11.5.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
-      '@sentry/conventions': 0.25.0
-      '@sentry/core': 11.4.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
+      '@sentry/conventions': 0.26.0
+      '@sentry/core': 11.5.0(patch_hash=1795cf4db76304226830363a08f8b31673b11104948b88d363763002f357635a)
 
   '@sinclair/typebox@0.31.30': {}
 
@@ -11802,15 +11788,15 @@ snapshots:
 
   aria-query@5.3.2: {}
 
-  arkregex@0.0.12:
+  arkregex@0.0.13:
     dependencies:
-      '@ark/util': 0.56.6
+      '@ark/util': 0.56.7
 
-  arktype@2.2.7:
+  arktype@2.2.8:
     dependencies:
-      '@ark/schema': 0.56.6
-      '@ark/util': 0.56.6
-      arkregex: 0.0.12
+      '@ark/schema': 0.56.7
+      '@ark/util': 0.56.7
+      arkregex: 0.0.13
 
   array-buffer-byte-length@1.0.2:
     dependencies:
@@ -12269,7 +12255,7 @@ snapshots:
 
   electron-to-chromium@1.5.444: {}
 
-  electron@44.6.0(supports-color@5.5.0):
+  electron@44.7.0(supports-color@5.5.0):
     dependencies:
       '@electron-internal/extract-zip': 1.0.5
       '@electron/get': 5.1.0(supports-color@5.5.0)
@@ -12918,14 +12904,14 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  graphql-config@5.1.7(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2):
+  graphql-config@5.1.8(@types/node@24.19.1)(@typescript/typescript6@6.0.2)(crossws@0.4.12)(graphql@17.0.2):
     dependencies:
       '@graphql-tools/graphql-file-loader': 8.1.22(graphql@17.0.2)
       '@graphql-tools/json-file-loader': 8.0.36(graphql@17.0.2)
       '@graphql-tools/load': 8.1.19(graphql@17.0.2)
       '@graphql-tools/merge': 9.2.6(graphql@17.0.2)
       '@graphql-tools/url-loader': 9.1.12(@types/node@24.19.1)(crossws@0.4.12)(graphql@17.0.2)
-      '@graphql-tools/utils': 11.2.2(graphql@17.0.2)
+      '@graphql-tools/utils': 12.0.3(graphql@17.0.2)
       cosmiconfig: 8.3.6(@typescript/typescript6@6.0.2)
       graphql: 17.0.2
       jiti: 2.7.0
@@ -14012,11 +13998,11 @@ snapshots:
       exsolve: 1.1.3
       pathe: 2.0.3
 
-  playwright-core@1.63.0: {}
+  playwright-core@1.64.0: {}
 
-  playwright@1.63.0:
+  playwright@1.64.0:
     dependencies:
-      playwright-core: 1.63.0
+      playwright-core: 1.64.0
 
   pnpm-workspace-yaml@1.9.1:
     dependencies:
