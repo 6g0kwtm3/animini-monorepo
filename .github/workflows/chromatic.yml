@@ -26,6 +26,9 @@ jobs:
     timeout-minutes: 10
     name: Deploy storybook
     runs-on: ubuntu-latest
+    environment:
+      url: ${{ steps.chromatic.outputs.storybookUrl }}
+      name: ${{ github.ref_name != github.event.repository.default_branch && 'storybook-preview' || 'storybook-production' }}
 
     steps:
       - name: Install Socket Firewall
@@ -53,6 +56,7 @@ jobs:
         run: pnpm exec turbo --filter=@animedes/storybook^... build
 
       - name: Publish to Chromatic
+        id: chromatic
         uses: chromaui/action@38afd264ef2241136f12d039093c2724748bec08 # latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
