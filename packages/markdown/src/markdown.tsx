@@ -74,6 +74,8 @@ function sanitizeHtml(t: string) {
 			"strike",
 			"strong",
 			"ul",
+			"u",
+			"ins",
 		],
 		ALLOWED_ATTR: ["align", "height", "href", "src", "target", "width", "rel"],
 	})
