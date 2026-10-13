@@ -61,7 +61,7 @@ catalog:
   "@eslint/js": 10.0.1
   "@flaghoist/adapter-cloudflare-kv": 0.3.0
   '@flaghoist/provider-web': 0.1.2
-  "@flaghoist/server": 0.4.1
+  "@flaghoist/server": ./flaghoist-server-0.4.1.tgz
   "@graphql-eslint/eslint-plugin": 4.4.1
   "@graphql-tools/mock": 9.1.16
   "@hono/node-server": 2.1.4

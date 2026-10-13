@@ -190,8 +190,8 @@ catalogs:
       specifier: 0.1.2
       version: 0.1.2
     '@flaghoist/server':
-      specifier: 0.4.1
-      version: 0.4.1
+      specifier: ./flaghoist-server-0.4.1.tgz
+      version: ./flaghoist-server-0.4.1.tgz
     '@graphql-eslint/eslint-plugin':
       specifier: 4.4.1
       version: 4.4.1
@@ -825,7 +825,7 @@ importers:
         version: 0.3.0
       '@flaghoist/server':
         specifier: 'catalog:'
-        version: 0.4.1
+        version: file:flaghoist-server-0.4.1.tgz
     devDependencies:
       wrangler:
         specifier: 'catalog:'
@@ -2139,8 +2139,9 @@ packages:
     peerDependencies:
       '@openfeature/web-sdk': ^1.10.0
 
-  '@flaghoist/server@0.4.1':
-    resolution: {integrity: sha512-hoji+wXbQVFx1YX5g+0OMFlUCScy8wP0z9w+x06aF+SDcI11InE9ig1s1LgSE+3eP+M2IodE52lxZTr4kOIVgQ==}
+  '@flaghoist/server@file:flaghoist-server-0.4.1.tgz':
+    resolution: {integrity: sha512-Tg5KJa9Kouxz/xAhk9S4KfBFb4ihbP5UyJRe5urVE9r5MUHd60reaqYOH4pVzvFzaKUyf6y6L/qV5xUrO1Ilow==, tarball: file:flaghoist-server-0.4.1.tgz}
+    version: 0.4.1
     engines: {node: '>=20'}
 
   '@floating-ui/core@1.8.0':
@@ -9122,7 +9123,7 @@ snapshots:
     transitivePeerDependencies:
       - '@openfeature/core'
 
-  '@flaghoist/server@0.4.1':
+  '@flaghoist/server@file:flaghoist-server-0.4.1.tgz':
     dependencies:
       '@flaghoist/core': 0.2.0
       hono: 4.13.13
