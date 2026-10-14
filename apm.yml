@@ -11,7 +11,10 @@ targets:
 dependencies:
   apm:
     - PatrykWalach/skills#7452c27709e8803ae2cdaca4236774ad8e869628
-    - mattpocock/skills#c55ee46073ed923f86ce59a5eb3b6d895095d1b7
+    - mattpocock/skills#24fe0ef7737efae15c87225755e9f6f5965e4888 # v1.3.1
+    - backnotprop/pstack/skills/no-comments#1f0f9c3bac03c4297f6fc8f7644fa412eda57085
+    # - backnotprop/pstack/agents#1f0f9c3bac03c4297f6fc8f7644fa412eda57085
+    - cursor/plugins/pstack/skills/unslop
   mcp: []
 includes: auto
 scripts: {}
