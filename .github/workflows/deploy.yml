@@ -105,6 +105,7 @@ jobs:
       - name: Deploy
         if: steps.affected-deploy.outcome == 'failure'
         id: deploy
+        shell: bash
         run: |
           pnpm exec turbo --filter=@animedes/web deploy -- --branch="${BRANCH}"
           url=$(jq -r 'select(.type == "pages-deploy") | .url' "$WRANGLER_OUTPUT_FILE_PATH" | tail -n 1)
@@ -153,6 +154,7 @@ jobs:
       - name: Deploy
         if: steps.affected-deploy.outcome == 'failure'
         id: deploy
+        shell: bash
         run: |
           if [ "${VITE_SENTRY_MODE}" = "production" ]; then
             pnpm exec turbo --filter=web-flags deploy
