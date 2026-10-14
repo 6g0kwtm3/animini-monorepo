@@ -5,6 +5,7 @@ dependencies:
   name: no-comments
   host: github.com
   resolved_commit: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
+  resolved_ref: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
   version: unknown
   virtual_path: pstack/skills/no-comments
   is_virtual: true
@@ -14,6 +15,7 @@ dependencies:
   name: unslop
   host: github.com
   resolved_commit: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
+  resolved_ref: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
   version: unknown
   virtual_path: pstack/skills/unslop
   is_virtual: true

@@ -12,9 +12,9 @@ dependencies:
   apm:
     - PatrykWalach/skills#7452c27709e8803ae2cdaca4236774ad8e869628
     - mattpocock/skills#24fe0ef7737efae15c87225755e9f6f5965e4888 # v1.3.1
-    - cursor/plugins/pstack/skills/no-comments
+    - cursor/plugins/pstack/skills/no-comments#1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
     # - cursor/plugins/pstack/agents/comment-sicko.md
-    - cursor/plugins/pstack/skills/unslop
+    - cursor/plugins/pstack/skills/unslop#1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
   mcp: []
 includes: auto
 scripts: {}
