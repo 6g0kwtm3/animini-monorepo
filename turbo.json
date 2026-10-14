@@ -25,6 +25,7 @@
 		".github/workflows/**"
 	],
 	"tasks": {
+		"//#actionlint": { "inputs": [".github/**"] },
 		"generate-code": {},
 		"dev": { "cache": false, "persistent": true },
 		"build": {
