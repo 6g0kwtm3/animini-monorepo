@@ -1,20 +1,21 @@
 lockfile_version: '2'
 apm_version: 0.33.0
 dependencies:
-- repo_url: backnotprop/pstack
+- repo_url: cursor/plugins
   name: no-comments
   host: github.com
-  resolved_commit: 1f0f9c3bac03c4297f6fc8f7644fa412eda57085
-  resolved_ref: 1f0f9c3bac03c4297f6fc8f7644fa412eda57085
+  resolved_commit: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
+  resolved_ref: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
   version: unknown
-  virtual_path: skills/no-comments
+  virtual_path: pstack/skills/no-comments
   is_virtual: true
   package_type: claude_skill
-  content_hash: sha256:7b22d6c180815b24c7acf74037f4ec9677e045a2cef5a081e09003f1c9f81b4d
+  content_hash: sha256:56ed5baf19093f4ff5c485316dbe5e53c7af0e9a98bac5ed6185cc4041b27acc
 - repo_url: cursor/plugins
   name: unslop
   host: github.com
   resolved_commit: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
+  resolved_ref: 1e5c90a4b6f249917bd21fe361b3a2a7deb741b8
   version: unknown
   virtual_path: pstack/skills/unslop
   is_virtual: true
