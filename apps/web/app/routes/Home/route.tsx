@@ -14,10 +14,9 @@ import { precompileStyles } from "@anitrove/unstyled"
 // console.log(R)
 import { Composite, CompositeItem, useCompositeStore } from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
-import { Markdown, type MarkdownProps } from "markdown/Markdown"
-import { useEffect, useId, type ReactNode } from "react"
+import { Markdown } from "markdown/Markdown"
+import { useId, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { client } from "~/lib/feature-flags"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
 import { options } from "./options"
