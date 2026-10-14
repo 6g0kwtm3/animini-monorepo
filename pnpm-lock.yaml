@@ -2140,7 +2140,7 @@ packages:
       '@openfeature/web-sdk': ^1.10.0
 
   '@flaghoist/server@file:flaghoist-server-0.4.1.tgz':
-    resolution: {integrity: sha512-Tg5KJa9Kouxz/xAhk9S4KfBFb4ihbP5UyJRe5urVE9r5MUHd60reaqYOH4pVzvFzaKUyf6y6L/qV5xUrO1Ilow==, tarball: file:flaghoist-server-0.4.1.tgz}
+    resolution: {integrity: sha512-l5XFKRhlVJMxfzcWlhuKMFN3dYDBWJUAVWeNlzthCXGF2ewbcIrSZw96EsSrrGeHkmW7aLsRWkQExgeXU4FLoQ==, tarball: file:flaghoist-server-0.4.1.tgz}
     version: 0.4.1
     engines: {node: '>=20'}
 
