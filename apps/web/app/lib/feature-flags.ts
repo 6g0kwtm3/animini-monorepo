@@ -93,10 +93,7 @@ void OpenFeature.addHooks(new OpenFeatureIntegrationHook())
 export const client = OpenFeature.getClient()
 import { ClientProviderStatus } from "@openfeature/web-sdk"
 
-export function waitForClient(opts: {
-	signal: AbortSignal
-}): Promise<void> | void {
-	console.log("waitForClient client.providerStatus", client.providerStatus)
+function waitForClient(opts: { signal: AbortSignal }): Promise<void> | void {
 	if (
 		client.providerStatus !== ClientProviderStatus.RECONCILING
 		&& client.providerStatus !== ClientProviderStatus.NOT_READY
@@ -104,12 +101,11 @@ export function waitForClient(opts: {
 		return
 	}
 
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		const controller = new AbortController()
 		const signal = AbortSignal.any([controller.signal, opts.signal])
 
 		function callback() {
-			console.log("callback client.providerStatus", client.providerStatus)
 			if (
 				client.providerStatus !== ClientProviderStatus.RECONCILING
 				&& client.providerStatus !== ClientProviderStatus.NOT_READY
