@@ -91,3 +91,53 @@ void OpenFeature.setProvider(
 void OpenFeature.addHooks(new OpenFeatureIntegrationHook())
 
 export const client = OpenFeature.getClient()
+import { ClientProviderStatus } from "@openfeature/web-sdk"
+
+export function waitForClient(opts: {
+	signal: AbortSignal
+}): Promise<void> | void {
+	console.log("waitForClient client.providerStatus", client.providerStatus)
+	if (
+		client.providerStatus !== ClientProviderStatus.RECONCILING
+		&& client.providerStatus !== ClientProviderStatus.NOT_READY
+	) {
+		return
+	}
+
+	return new Promise((resolve, reject) => {
+		const controller = new AbortController()
+		const signal = AbortSignal.any([controller.signal, opts.signal])
+
+		function callback() {
+			console.log("callback client.providerStatus", client.providerStatus)
+			if (
+				client.providerStatus !== ClientProviderStatus.RECONCILING
+				&& client.providerStatus !== ClientProviderStatus.NOT_READY
+			) {
+				controller.abort()
+				resolve()
+			}
+		}
+
+		client.addHandler(ClientProviderEvents.ConfigurationChanged, callback, {
+			signal,
+		})
+		client.addHandler(ClientProviderEvents.ContextChanged, callback, { signal })
+		client.addHandler(ClientProviderEvents.Error, callback, { signal })
+		client.addHandler(ClientProviderEvents.Ready, callback, { signal })
+		client.addHandler(ClientProviderEvents.Stale, callback, { signal })
+		client.addHandler(ClientProviderEvents.Reconciling, callback, { signal })
+	})
+}
+
+import { onAbortNavigationSignal } from "./abort-signal-middleware"
+
+import type { Route } from "../+types/root"
+export const waitForClientMiddleware: Route.MiddlewareFunction = async (
+	{ context },
+	next
+) => {
+	const signal = context.get(onAbortNavigationSignal)
+	await waitForClient({ signal })
+	return next()
+}
