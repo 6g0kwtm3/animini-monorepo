@@ -47,6 +47,7 @@ import {
 	onAbortNavigationMiddleware,
 	useSetupOnAbortNavigation,
 } from "./lib/abort-signal-middleware"
+import { waitForClientMiddleware } from "./lib/feature-flags"
 import { LoadingIndicator } from "./lib/loading-renderer"
 
 const fontWeights = [
@@ -135,6 +136,7 @@ export function Layout({ children }: { children: ReactNode }): ReactNode {
 
 export const clientMiddleware = [
 	onAbortNavigationMiddleware,
+	waitForClientMiddleware,
 	loadQueryMiddleware,
 ]
 
