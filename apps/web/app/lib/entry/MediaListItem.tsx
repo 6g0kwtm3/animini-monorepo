@@ -42,11 +42,18 @@ const MediaListItem_entry = graphql`
 `
 
 const MediaListItem_media = graphql`
-	fragment MediaListItem_media on Media @throwOnFieldError {
+	fragment MediaListItem_media on Media
+	@throwOnFieldError
+	@argumentDefinitions(
+		themeMediaListItem: {
+			type: "Boolean!"
+			provider: "~/lib/entry/MediaListItem_themeMediaListItem.relayprovider.ts"
+		}
+	) {
 		id
 		...MediaCover_media @alias
 		...MediaTitle_media @alias
-		coverImage {
+		coverImage @include(if: $themeMediaListItem) {
 			theme @catch(to: NULL)
 		}
 	}
