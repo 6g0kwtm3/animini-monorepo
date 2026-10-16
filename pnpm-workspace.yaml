@@ -56,14 +56,14 @@ catalog:
   "@ariakit/react": 0.4.41
   "@ark/attest": 0.57.0
   "@babel/preset-typescript": 7.29.7
-  "@chromatic-com/storybook": 5.4.0
+  "@chromatic-com/storybook": 5.5.1
   "@codspeed/vitest-plugin": 5.7.1
   "@eslint/js": 10.0.1
   "@flaghoist/adapter-cloudflare-kv": 0.3.0
   '@flaghoist/provider-web': 0.1.2
   "@flaghoist/server": ./flaghoist-server-0.4.1.tgz
   "@graphql-eslint/eslint-plugin": 4.4.1
-  "@graphql-tools/mock": 9.1.16
+  "@graphql-tools/mock": 9.1.17
   "@hono/node-server": 2.1.4
   "@iconify-json/material-symbols": 1.2.95
   "@inlang/paraglide-js": 2.27.0
@@ -73,13 +73,13 @@ catalog:
   "@playwright/test": 1.64.0
   "@react-router/dev": 8.4.0
   "@react-router/node": 8.4.0
-  "@sentry/react": npm:@sentry/react-router@11.6.0
-  "@storybook/addon-a11y": 10.6.1
-  "@storybook/addon-docs": 10.6.1
-  "@storybook/addon-onboarding": 10.6.1
-  "@storybook/addon-themes": 10.6.1
-  "@storybook/addon-vitest": 10.6.1
-  "@storybook/react-vite": 10.6.1
+  "@sentry/react": npm:@sentry/react-router@11.7.0
+  "@storybook/addon-a11y": 10.6.2
+  "@storybook/addon-docs": 10.6.2
+  "@storybook/addon-onboarding": 10.6.2
+  "@storybook/addon-themes": 10.6.2
+  "@storybook/addon-vitest": 10.6.2
+  "@storybook/react-vite": 10.6.2
   "@stryker-mutator/api": 10.0.0
   "@stryker-mutator/core": 10.0.0
   "@stryker-mutator/vitest-runner": 10.0.0
@@ -87,8 +87,8 @@ catalog:
   "@svgr/plugin-jsx": 8.1.0
   "@tailwindcss/typography": 0.5.20
   "@tailwindcss/vite": 4.3.3
-  "@tanstack/react-virtual": 3.14.14
-  "@types/bun": 1.4.2
+  "@tanstack/react-virtual": 3.14.17
+  "@types/bun": 1.4.3
   "@types/estree": 1.0.9
   "@types/flubber": 0.4.0
   "@types/marked": 0.3.0
@@ -134,7 +134,7 @@ catalog:
   relay-compiler: 21.0.1
   relay-runtime: 21.0.1
   rollup-plugin-webpack-stats: 4.0.1
-  storybook: 10.6.1
+  storybook: 10.6.2
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.3
