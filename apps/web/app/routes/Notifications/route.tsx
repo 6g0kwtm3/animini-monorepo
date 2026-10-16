@@ -10,10 +10,10 @@ import {
 } from "@animedes/components/Tooltip"
 import { media } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
-import { useTooltipStore } from "@ariakit/react"
 import * as Ariakit from "@ariakit/react"
+import { useTooltipStore } from "@ariakit/react"
 import ReactRelay from "react-relay"
-import { Form, redirect } from "react-router"
+import { Form, isRouteErrorResponse, redirect } from "react-router"
 import { client_get_client } from "~/lib/client"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 import MaterialSymbolsDone from "~icons/material-symbols/done"
@@ -190,3 +190,46 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 export const meta = (() => {
 	return [{ title: `Notifications` }]
 }) satisfies MetaFunction<typeof clientLoader>
+
+import * as Sentry from "@sentry/react"
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
+	// when true, this is what used to go to `CatchBoundary`
+	if (isRouteErrorResponse(error)) {
+		return (
+			<LayoutBody>
+				<LayoutPane>
+					<div>
+						<Ariakit.Heading>Oops</Ariakit.Heading>
+						<p>Status: {error.status}</p>
+						<p>{error.data}</p>
+					</div>
+				</LayoutPane>
+			</LayoutBody>
+		)
+	}
+	void Sentry.captureException(error)
+	// Don't forget to typecheck with your own logic.
+	// Any value can be thrown, not just errors!
+	let errorMessage = "Unknown error"
+	if (Error.isError(error)) {
+		errorMessage = error.message || errorMessage
+	}
+
+	return (
+		<LayoutBody>
+			<LayoutPane>
+				<Card
+					variant="elevated"
+					className="bg-error-container text-on-error-container m-4"
+				>
+					<Ariakit.Heading className="text-headline-md text-balance">
+						Uh oh ...
+					</Ariakit.Heading>
+					<p className="text-headline-sm">Something went wrong.</p>
+					<pre className="text-body-md overflow-auto">{errorMessage}</pre>
+				</Card>
+			</LayoutPane>
+		</LayoutBody>
+	)
+}
