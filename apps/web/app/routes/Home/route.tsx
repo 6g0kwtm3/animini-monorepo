@@ -14,10 +14,9 @@ import { precompileStyles } from "@anitrove/unstyled"
 // console.log(R)
 import { Composite, CompositeItem, useCompositeStore } from "@ariakit/react"
 import { ErrorBoundary } from "@sentry/react"
-import { Markdown, type MarkdownProps } from "markdown/Markdown"
-import { useEffect, useId, type ReactNode } from "react"
+import { Markdown } from "markdown/Markdown"
+import { useId, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { client } from "~/lib/feature-flags"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
 import { options } from "./options"
@@ -32,9 +31,7 @@ export const clientLoader = (args: Route.ClientLoaderArgs) => {
 			query routeNavFeedQuery($perPage: Int)
 			@raw_response_type
 			@throwOnFieldError {
-				featureFlags {
-					enableSanitizerWebAPI
-				}
+				sanitizeHTML
 				Page(perPage: $perPage) {
 					activities(sort: [ID_DESC], type_in: [TEXT]) {
 						__typename
@@ -146,14 +143,12 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 										<ErrorBoundary fallback={<>Failed to parse markdown</>}>
 											<div className="prose md:prose-lg lg:prose-xl dark:prose-invert prose-img:inline prose-img:rounded-md prose-video:inline prose-video:rounded-md max-w-full overflow-x-auto">
 												{activity.text ? (
-													<MarkdownWithTracking
+													<Markdown
 														options={stable(options)}
-														enableSanitizerWebAPI={
-															data.featureFlags.enableSanitizerWebAPI
-														}
+														sanitizeHTML={data.sanitizeHTML}
 													>
 														{activity.text}
-													</MarkdownWithTracking>
+													</Markdown>
 												) : null}
 											</div>
 										</ErrorBoundary>
@@ -172,14 +167,4 @@ export default function Index({ loaderData }: Route.ComponentProps): ReactNode {
 			</LayoutPane>
 		</LayoutBody>
 	)
-}
-
-function MarkdownWithTracking(props: MarkdownProps) {
-	useEffect(() => {
-		if (props.enableSanitizerWebAPI) {
-			client.track("using-sanitizer-web-api")
-		}
-	}, [props.enableSanitizerWebAPI])
-
-	return <Markdown {...props}></Markdown>
 }

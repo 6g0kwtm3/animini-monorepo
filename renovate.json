@@ -32,7 +32,8 @@
 		"@types/marked",
 		"marked",
 		// TODO: update
-		"dompurify",
-		"unplugin-macros"
+		"unplugin-macros",
+		// TODO: remove after `enableSanitizerWebAPI` burnt in
+		"dompurify"
 	]
 }
