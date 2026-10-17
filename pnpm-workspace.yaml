@@ -57,7 +57,7 @@ catalog:
   "@ark/attest": 0.57.0
   "@babel/preset-typescript": 7.29.7
   "@chromatic-com/storybook": 5.5.1
-  "@codspeed/vitest-plugin": 5.7.1
+  "@codspeed/vitest-plugin": 6.0.0
   "@eslint/js": 10.0.1
   "@flaghoist/adapter-cloudflare-kv": 0.3.0
   '@flaghoist/provider-web': 0.1.2
