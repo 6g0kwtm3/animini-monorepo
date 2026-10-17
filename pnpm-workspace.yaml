@@ -53,24 +53,24 @@ packageExtensions:
 saveTypes: true
 catalog:
   "@animedes/react-stable": workspace:*
-  "@ariakit/react": 0.4.41
+  "@ariakit/react": 0.4.42
   "@ark/attest": 0.57.0
   "@babel/preset-typescript": 7.29.7
   "@chromatic-com/storybook": 5.5.1
-  "@codspeed/vitest-plugin": 6.0.0
+  "@codspeed/vitest-plugin": 6.0.1
   "@eslint/js": 10.0.1
   "@flaghoist/adapter-cloudflare-kv": 0.3.0
   '@flaghoist/provider-web': 0.1.2
   "@flaghoist/server": ./flaghoist-server-0.4.1.tgz
   "@graphql-eslint/eslint-plugin": 4.4.1
   "@graphql-tools/mock": 9.1.17
-  "@hono/node-server": 2.1.4
+  "@hono/node-server": 2.1.5
   "@iconify-json/material-symbols": 1.2.95
   "@inlang/paraglide-js": 2.27.0
   "@material/material-color-utilities": 0.4.0
   "@msw/playwright": 0.7.0
   '@openfeature/web-sdk': 1.10.0
-  "@playwright/test": 1.64.0
+  "@playwright/test": 1.64.1
   "@react-router/dev": 8.4.0
   "@react-router/node": 8.4.0
   "@sentry/react": npm:@sentry/react-router@11.7.0
@@ -87,7 +87,7 @@ catalog:
   "@svgr/plugin-jsx": 8.1.0
   "@tailwindcss/typography": 0.5.20
   "@tailwindcss/vite": 4.3.3
-  "@tanstack/react-virtual": 3.14.17
+  "@tanstack/react-virtual": 3.14.19
   "@types/bun": 1.4.3
   "@types/estree": 1.0.9
   "@types/flubber": 0.4.0
@@ -103,7 +103,7 @@ catalog:
   babel-plugin-react-compiler: 1.0.0
   csstype: 3.2.3
   dompurify: 3.2.5
-  electron: 44.7.0
+  electron: 44.7.2
   electron-devtools-installer: 4.0.0
   eslint: 10.12.0
   eslint-plugin-oxlint: 1.85.0
@@ -120,10 +120,10 @@ catalog:
   isbot: 5.2.2
   knip: 6.41.0
   marked: 0.3.19
-  motion: 14.1.0
+  motion: 14.2.0
   msw: 3.0.3
   nodemon: 3.1.14
-  oxfmt: 0.72.0
+  oxfmt: 0.73.0
   oxlint: 1.85.0
   oxlint-tsgolint: 7.0.2003
   prop-types: 15.8.1
@@ -139,7 +139,7 @@ catalog:
   tailwindcss: 4.3.3
   temporal-polyfill-lite: 0.4.3
   tsx: 4.23.15
-  turbo: 2.11.7
+  turbo: 2.11.8
   typescript: npm:@typescript/typescript6@6.0.2
   typescript-eslint: 8.71.2
   unplugin-icons: 24.0.0
@@ -149,4 +149,4 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.1.0
   vitest: 4.1.11
-  wrangler: 4.149.0
+  wrangler: 4.151.0
