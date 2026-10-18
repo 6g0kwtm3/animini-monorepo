@@ -34,6 +34,7 @@ minimumReleaseAge: 0
 patchedDependencies:
   "@material/material-color-utilities": patches/@material__material-color-utilities.patch
   '@sentry/core': patches/@sentry__core.patch
+  '@stryker-mutator/vitest-runner@10.0.0': patches/@stryker-mutator__vitest-runner@10.0.0.patch
   "@types/react": patches/@types__react.patch
   flubber: patches/flubber.patch
   framer-motion: patches/framer-motion.patch
@@ -148,5 +149,5 @@ catalog:
   vite: 8.3.4
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.1.0
-  vitest: 4.1.11
+  vitest: 5.0.4
   wrangler: 4.151.0

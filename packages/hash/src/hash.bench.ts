@@ -1,7 +1,9 @@
-import { bench } from "vitest"
+import { test } from "vitest"
 
 import { hash32 } from "./hash"
 
-bench("hash", () => {
-	void hash32("test")
+test("hash", async ({ bench }) => {
+	await bench("hash32", () => {
+		void hash32("test")
+	}).run()
 })

@@ -1,7 +1,9 @@
-import { bench } from "vitest"
+import { test } from "vitest"
 
 import { cva } from "./unstyled-cva.ts"
 
-bench("empty", () => {
-	void cva({ base: {}, variants: {} })
+test("cva", async ({ bench }) => {
+	await bench("empty", () => {
+		void cva({ base: {}, variants: {} })
+	}).run()
 })
