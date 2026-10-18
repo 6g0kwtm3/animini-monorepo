@@ -4,6 +4,7 @@ export function useWindowVirtualizer<TItemElement extends Element>(
 	...args: Parameters<typeof useReactWindowVirtualizer<TItemElement>>
 ) {
 	"use no memo"
+	// oxlint-disable-next-line react/incompatible-library
 	const virtualizer = useReactWindowVirtualizer<TItemElement>(...args)
 
 	return {
