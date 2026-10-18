@@ -1,4 +1,4 @@
-import { bench, test } from "vitest"
+import { test } from "vitest"
 
 import { hash32 } from "./hash"
 

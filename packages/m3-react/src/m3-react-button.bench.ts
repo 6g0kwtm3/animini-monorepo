@@ -1,4 +1,4 @@
-import { bench, test } from "vitest"
+import { test } from "vitest"
 
 import { button, createButton } from "./m3-react-button"
 
