@@ -27,7 +27,7 @@
 			{
 				"assertFunctionNames": [
 					"expect",
-					"run",
+					"bench",
 					"expectTypeOf",
 					"assert",
 					"assertType",
