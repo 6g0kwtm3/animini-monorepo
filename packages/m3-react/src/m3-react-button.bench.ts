@@ -1,11 +1,13 @@
-import { bench } from "vitest"
+import { bench, test } from "vitest"
 
 import { button, createButton } from "./m3-react-button"
 
-bench("cva", () => {
-	void createButton()
-})
+test("button", async ({ bench }) => {
+	await bench("cva", () => {
+		void createButton()
+	}).run()
 
-bench("apply vars", () => {
-	void button({})
+	await bench("apply vars", () => {
+		void button({})
+	}).run()
 })
