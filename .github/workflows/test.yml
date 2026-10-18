@@ -126,7 +126,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@720e96afaf7f84d94fc5ff7d76cbee788fa20eed
 
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
