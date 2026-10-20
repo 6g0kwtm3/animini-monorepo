@@ -112,6 +112,8 @@ function isEqual(
 	if (
 		a.value.type === AST_NODE_TYPES.JSXElement
 		|| b.value.type === AST_NODE_TYPES.JSXElement
+		|| a.value.type === AST_NODE_TYPES.JSXFragment
+		|| b.value.type === AST_NODE_TYPES.JSXFragment
 	) {
 		return true
 	}
