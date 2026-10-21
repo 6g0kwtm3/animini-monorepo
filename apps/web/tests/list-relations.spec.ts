@@ -21,6 +21,10 @@ import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
+import type {
+	SyncMediaMutation$rawResponse,
+	SyncMediaMutation$variables,
+} from "~/gql/SyncMediaMutation.graphql"
 
 const Viewer = { id: CANARY_ID, name: CANARY_NAME }
 
@@ -35,10 +39,26 @@ const contains = (id: string, title: string) =>
 		},
 	}) as const
 
+const compilation = (id: string, title: string) =>
+	({
+		id: 100 * Number(id) + 1,
+		relationType: "COMPILATION",
+		node: {
+			id,
+			title: { userPreferred: title },
+			coverImage: { color: null, large: null, medium: null },
+		},
+	}) as const
+
 const media = (
 	id: string,
 	title: string,
-	relations: null | { edges: readonly ReturnType<typeof contains>[] }
+	relations: null | {
+		edges: readonly (
+			| ReturnType<typeof compilation>
+			| ReturnType<typeof contains>
+		)[]
+	}
 ) => ({
 	id,
 	title: { userPreferred: title },
@@ -68,6 +88,25 @@ const entry = (
 	startedAt: status === "PLANNING" ? null : { day: 1, month: 2, year: 3 },
 	media: mediaData,
 })
+
+const userQuery = anilist.query<
+	routeNavUserQuery$rawResponse,
+	routeNavUserQuery$variables
+>("routeNavUserQuery", () =>
+	HttpResponse.json({
+		data: {
+			Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
+			user: {
+				id: numberToString(Viewer.id),
+				name: Viewer.name,
+				avatar: null,
+				bannerImage: null,
+				isFollowing: null,
+				options: null,
+			},
+		},
+	})
+)
 
 const handlers = [
 	anilist.query<
@@ -127,25 +166,148 @@ const handlers = [
 			},
 		})
 	),
-	anilist.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
-		"routeNavUserQuery",
-		() =>
-			HttpResponse.json({
+	userQuery,
+	SuccessHandler,
+]
+
+/** A media containing a media, which itself contains two media. */
+const nestedHandlers = [
+	anilist.query<
+		routeNavUserListEntriesQuery$rawResponse,
+		routeNavUserListEntriesQuery$variables
+	>("routeNavUserListEntriesQuery", () =>
+		HttpResponse.json({
+			data: {
+				MediaListCollection: {
+					__typename: "MediaListCollection",
+					lists: [
+						{
+							__typename: "MediaListGroup",
+							status: "COMPLETED",
+							name: "Completed",
+							entries: [
+								entry(
+									"1",
+									"Parent manga",
+									"COMPLETED",
+									media("1", "Parent manga", {
+										edges: [contains("2", "Child manga")],
+									})
+								),
+							],
+						},
+						{
+							__typename: "MediaListGroup",
+							status: "PLANNING",
+							name: "Planning",
+							entries: [
+								entry(
+									"2",
+									"Child manga",
+									"PLANNING",
+									media("2", "Child manga", {
+										edges: [
+											compilation("1", "Parent manga"),
+											contains("5", "Nested manga"),
+											contains("6", "Untracked nested manga"),
+										],
+									})
+								),
+								entry(
+									"5",
+									"Nested manga",
+									"PLANNING",
+									media("5", "Nested manga", {
+										edges: [compilation("2", "Child manga")],
+									})
+								),
+							],
+						},
+					],
+				},
+			},
+		})
+	),
+	userQuery,
+	SuccessHandler,
+]
+
+/** A media contained by a media that is not tracked. */
+const orphanHandlers = [
+	anilist.query<
+		routeNavUserListEntriesQuery$rawResponse,
+		routeNavUserListEntriesQuery$variables
+	>("routeNavUserListEntriesQuery", () =>
+		HttpResponse.json({
+			data: {
+				MediaListCollection: {
+					__typename: "MediaListCollection",
+					lists: [
+						{
+							__typename: "MediaListGroup",
+							status: "PLANNING",
+							name: "Planning",
+							entries: [
+								entry(
+									"7",
+									"Orphan manga",
+									"PLANNING",
+									media("7", "Orphan manga", {
+										edges: [compilation("8", "Untracked parent manga")],
+									})
+								),
+							],
+						},
+					],
+				},
+			},
+		})
+	),
+	userQuery,
+	SuccessHandler,
+]
+
+const syncMediaMutation = (syncedMediaIds: number[]) =>
+	anilist.mutation<SyncMediaMutation$rawResponse, SyncMediaMutation$variables>(
+		"SyncMediaMutation",
+		({ variables }) => {
+			void syncedMediaIds.push(variables.mediaId)
+			return HttpResponse.json({
 				data: {
-					Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
-					user: {
-						id: numberToString(Viewer.id),
-						name: Viewer.name,
-						avatar: null,
-						bannerImage: null,
-						isFollowing: null,
-						options: null,
+					SaveMediaListEntry: {
+						__typename: "MediaList",
+						status: variables.status,
+						id: numberToString(variables.mediaId),
+						completedAt: variables.completedAt && {
+							day: variables.completedAt.day,
+							month: variables.completedAt.month,
+							year: variables.completedAt.year,
+						},
+						private: variables.private,
+						progress: 1,
+						score: 2,
+						startedAt: variables.startedAt && {
+							day: variables.startedAt.day,
+							month: variables.startedAt.month,
+							year: variables.startedAt.year,
+						},
+						media: {
+							id: numberToString(variables.mediaId),
+							title: { userPreferred: "Synced media title" },
+							type: "MANGA",
+							status: "FINISHED",
+							nextAiringEpisode: null,
+							duration: null,
+							relations: { edges: [] },
+							episodes: null,
+							coverImage: { color: null, large: null, medium: null },
+							chapters: 1,
+						},
 					},
 				},
 			})
-	),
-	SuccessHandler,
-]
+		}
+	)
 
 class UserPage {
 	animeList: Locator
@@ -161,6 +323,14 @@ class UserPage {
 	static new(page: Page) {
 		return new UserPage(page)
 	}
+}
+
+async function openMangaList(page: Page) {
+	const indexPage = await FeedPage.new(page)
+	await indexPage.nav.profile.click()
+	const userpage = UserPage.new(page)
+	await userpage.mangaList.click()
+	return await TypelistPage.new(page)
 }
 
 test("sync is offered when completed media contains planned media", async ({
@@ -201,4 +371,51 @@ test("add to list is offered when current media contains media without an entry"
 	// then
 	await expect(unlistedEntry.addToList).toBeVisible()
 	await expect(currentEntry.sync).toHaveCount(0)
+})
+
+test("media contained by other media are listed under it", async ({
+	worker,
+	newPage,
+	login,
+}) => {
+	worker.use(...nestedHandlers)
+	await login(Viewer)
+	await using page = await newPage()
+	const typelist = await openMangaList(page)
+	// then
+	await expect(typelist.page.getByTestId("media-list-item")).toHaveText([
+		/Parent manga/,
+		/Child manga/,
+		/Nested manga/,
+		/Untracked nested manga/,
+	])
+})
+
+test("sync targets the whole subtree", async ({ worker, newPage, login }) => {
+	const syncedMediaIds: number[] = []
+	worker.use(syncMediaMutation(syncedMediaIds), ...nestedHandlers)
+	await login(Viewer)
+	await using page = await newPage()
+	const typelist = await openMangaList(page)
+	// when
+	await typelist.entry(/Parent manga/).sync.click()
+	// then
+	await expect.poll(() => syncedMediaIds).toEqual([2, 5, 6])
+})
+
+test("media contained by media that are not tracked are still listed", async ({
+	worker,
+	newPage,
+	login,
+}) => {
+	worker.use(...orphanHandlers)
+	await login(Viewer)
+	await using page = await newPage()
+	const typelist = await openMangaList(page)
+	const parent = typelist.entry(/Untracked parent manga/)
+	const orphan = typelist.entry(/Orphan manga/)
+	// then
+	await expect(parent.addToList).toBeVisible()
+	await expect(orphan.progress).toHaveText(/0/)
+	await expect(orphan.addToList).toHaveCount(0)
 })
