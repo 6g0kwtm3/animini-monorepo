@@ -224,7 +224,7 @@ function AwaitList(props: Route.ComponentProps) {
 
 		const mediaById = new Map<number, MediaRefs>()
 		const tree = createRelationTree()
-		const contains: { childId: number; parentId: number; }[] = []
+		const contains: { childId: number; parentId: number }[] = []
 		const compilations: { childId: number; parentId: number }[] = []
 
 		for (const entry of entries) {
@@ -260,9 +260,7 @@ function AwaitList(props: Route.ComponentProps) {
 			props.params.selected !== undefined
 				? lists.filter((list) => list?.name === props.params.selected)
 				: lists
-		const selectedEntries = selectedList.flatMap(
-			(list) => list?.entries ?? []
-		)
+		const selectedEntries = selectedList.flatMap((list) => list?.entries ?? [])
 
 		const rootIds: number[] = []
 		const anchors = new Map<number, AddToList_originalEntry$key>()
@@ -291,8 +289,8 @@ function AwaitList(props: Route.ComponentProps) {
 			const entry = allEntries.get(row.id)
 			const inherited = row.ancestors
 				.map((ancestorId) => allEntries.get(ancestorId))
-				.reverse()
-				.find((ancestor) => ancestor != null)
+
+				.findLast((ancestor) => ancestor != null)
 			const anchor = anchors.get(
 				row.ancestors[row.ancestors.length - 1] ?? row.id
 			)
@@ -376,8 +374,7 @@ function AwaitList(props: Route.ComponentProps) {
 					const outOfSync =
 						entry?.status === "COMPLETED"
 							? descendants.filter(
-									(mediaId) =>
-										allEntries.get(mediaId)?.status !== "COMPLETED"
+									(mediaId) => allEntries.get(mediaId)?.status !== "COMPLETED"
 								)
 							: []
 					return (
@@ -432,8 +429,7 @@ function AwaitList(props: Route.ComponentProps) {
 											media={media.AddToList_media}
 											originalEntry={originalEntry}
 											mediaListCollection={
-												data.MediaListCollection
-													.AddToList_mediaListCollection
+												data.MediaListCollection.AddToList_mediaListCollection
 											}
 										></AddToList>
 									) : null}
