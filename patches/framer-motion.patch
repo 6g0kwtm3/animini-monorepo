@@ -1,14 +1,14 @@
 diff --git a/dist/index.d.ts b/dist/index.d.ts
-index bfd78356999ab49ee98320bb7bf759eb9f55fd12..da4596431570bcdd000eadc3fb1c5617c06c5d27 100644
+index 7b7827ebbd4cf2e9162e3c4cdf0f26c229abeb40..767a3d65033c1cb95f7f8c10f044e72e86173731 100644
 --- a/dist/index.d.ts
 +++ b/dist/index.d.ts
 @@ -1,4 +1,5 @@
  /// <reference types="react" />
 +import { Stable } from '@animedes/react-stable';
  import * as motion_dom from 'motion-dom';
- import { AnyResolvedKeyframe, OnKeyframesResolved, KeyframeResolver, MotionNodeOptions, MotionValue, TransformProperties, SVGPathProperties, Transition, PresenceContextProps, ResolvedValues, VisualElement, Feature, UnresolvedValueKeyframe, AnimationOptions, ElementOrSelector, DOMKeyframesDefinition, AnimationPlaybackOptions, AnimationPlaybackControlsWithThen, ValueAnimationTransition, addEffect, removeEffect, AnimationScope, AnimationPlaybackControls, EventInfo, MotionValueEventCallbacks, FollowValueOptions, SpringOptions, TransformOptions, WillChange, LegacyAnimationControls, NodeGroup, IProjectionNode } from 'motion-dom';
+ import { AnyResolvedKeyframe, OnKeyframesResolved, KeyframeResolver, VisualElement, MotionNodeOptions, MotionValue, TransformProperties, SVGPathProperties, Transition, PresenceContextProps, ResolvedValues, Feature, UnresolvedValueKeyframe, AnimationOptions, ElementOrSelector, DOMKeyframesDefinition, AnimationPlaybackOptions, AnimationPlaybackControlsWithThen, ValueAnimationTransition, addEffect, removeEffect, AnimationScope, AnimationPlaybackControls, MotionValueEventCallbacks, FollowValueOptions, SpringOptions, TransformOptions, WillChange, LegacyAnimationControls, DragControlOptions, NodeGroup, IProjectionNode } from 'motion-dom';
  export * from 'motion-dom';
-@@ -1053,7 +1054,7 @@ declare function useMotionTemplate(fragments: TemplateStringsArray, ...values: A
+@@ -1043,7 +1044,7 @@ declare function useMotionTemplate(fragments: TemplateStringsArray, ...values: A
   *
   * @public
   */
