@@ -119,7 +119,7 @@ catalog:
   graphql-config: 5.1.8
   hono: 4.13.13
   isbot: 5.2.2
-  knip: 6.41.0
+  knip: 6.42.0
   marked: 0.3.19
   motion: 14.3.0
   msw: 3.0.3
