@@ -1,5 +1,6 @@
 import * as design from "@anitrove/design"
 import { media } from "@anitrove/design"
+import tokens from "@anitrove/design/fonts"
 import {
 	create,
 	createVar,
@@ -43,11 +44,14 @@ export function createButton() {
 				}),
 			},
 			ringInset: variants(color, { ["outlined"]: "inset" }),
-			ring: {
-				[is(color, "outlined")]: 1,
-				[is(size, "lg")]: 2,
-				[is(size, "xl")]: 3,
-			},
+			ring: variants(size, {
+				xl: 3,
+				lg: 2,
+				md: variants(color, { outlined: 1 }),
+				sm: variants(color, { outlined: 1 }),
+				xs: variants(color, { outlined: 1 }),
+			}),
+
 			color: variants(color, {
 				["outlined"]: design.tokens.colors["on-surface-variant"],
 				["elevated"]: design.tokens.colors.primary,
@@ -83,11 +87,34 @@ export function createButton() {
 					["xl"]: "4rem",
 				})
 			),
-			...design.utilities.typescale({
-				base: "label-lg",
-				[is(size, "md")]: "title-md",
-				[is(size, "lg")]: "headline-sm",
-				[is(size, "xl")]: "headline-lg",
+
+			fontSize: variants(size, {
+				xs: design.tokens.typescale["label-lg"].fontSize,
+				sm: design.tokens.typescale["label-lg"].fontSize,
+				md: design.tokens.typescale["title-md"].fontSize,
+				lg: design.tokens.typescale["headline-sm"].fontSize,
+				xl: design.tokens.typescale["headline-lg"].fontSize,
+			}),
+			fontWeight: variants(size, {
+				xs: design.tokens.typescale["label-lg"].fontWeight,
+				sm: design.tokens.typescale["label-lg"].fontWeight,
+				md: design.tokens.typescale["title-md"].fontWeight,
+				lg: design.tokens.typescale["headline-sm"].fontWeight,
+				xl: design.tokens.typescale["headline-lg"].fontWeight,
+			}),
+			letterSpacing: variants(size, {
+				xs: design.tokens.typescale["label-lg"].letterSpacing,
+				sm: design.tokens.typescale["label-lg"].letterSpacing,
+				md: design.tokens.typescale["title-md"].letterSpacing,
+				lg: design.tokens.typescale["headline-sm"].letterSpacing,
+				xl: design.tokens.typescale["headline-lg"].letterSpacing,
+			}),
+			lineHeight: variants(size, {
+				xs: design.tokens.typescale["label-lg"].lineHeight,
+				sm: design.tokens.typescale["label-lg"].lineHeight,
+				md: design.tokens.typescale["title-md"].lineHeight,
+				lg: design.tokens.typescale["headline-sm"].lineHeight,
+				xl: design.tokens.typescale["headline-lg"].lineHeight,
 			}),
 
 			borderRadius: {
