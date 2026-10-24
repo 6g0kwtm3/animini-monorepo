@@ -44,10 +44,13 @@ export function provide<T extends (number | string | boolean)[]>(
 ): OutStyles {
 	const preCompiledStyles: Record<string, string> = {}
 	for (const variant of Object.values<Var<unknown>>(variable.variants)) {
-		preCompiledStyles[variant.name] = `  ${variant.name}: var(${variable.name},);\n`
+		preCompiledStyles[variant.name] =
+			`  ${variant.name}: var(${variable.name},);\n`
 	}
 	return {
 		preCompiledStyles,
-		dynamicVars: { [`${variable.name}`]: `var(${variable.name}-${String(value)})` },
+		dynamicVars: {
+			[`${variable.name}`]: `var(${variable.name}-${String(value)})`,
+		},
 	}
 }
