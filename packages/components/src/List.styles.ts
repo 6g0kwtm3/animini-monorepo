@@ -1,9 +1,9 @@
 import * as design from "@animedes/design"
-import { create, is, Var } from "@animedes/unstyled"
+import { create, createVar, variants } from "@animedes/unstyled"
 
-export const First = new Var<"false" | "true">("--first")
-export const Last = new Var<"false" | "true">("--last")
-export const Lines = new Var<"one" | "three" | "two">("--lines")
+export const First = createVar("--first", [true, false])
+export const Last = createVar("--last", [true, false])
+export const Lines = createVar("--lines", ["one", "two", "three"])
 
 export const styles = create({
 	listItem: {
@@ -22,28 +22,31 @@ export const styles = create({
 		contentVisibility: "auto",
 
 		borderRadius: {
-			base: design.tokens.borderRadius.xs,
-			[is(Last, "true")]:
-				`${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
-			[is(First, "true")]: {
-				base: `${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs}`,
-				[is(Last, "true")]: design.tokens.borderRadius.lg,
-			},
+			base: variants(Last, {
+				true: variants(First, {
+					true: design.tokens.borderRadius.lg,
+					false: `${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg}`,
+				}),
+				false: variants(First, {
+					true: `${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.lg} ${design.tokens.borderRadius.xs} ${design.tokens.borderRadius.xs}`,
+					false: design.tokens.borderRadius.xs,
+				}),
+			}),
 			[design.media.hover]: design.tokens.borderRadius.md,
 			[design.media["focus-visible"]]: design.tokens.borderRadius.lg,
 			[design.media.focusWithin]: design.tokens.borderRadius.lg,
 			[design.media.active]: design.tokens.borderRadius.lg,
 		},
 
-		minHeight: {
-			[is(Lines, "one")]: "3.5rem",
-			[is(Lines, "two")]: "4.5rem",
-			[is(Lines, "three")]: "5.5rem",
-		},
-		alignItems: {
-			[is(Lines, "one")]: "center",
-			[is(Lines, "two")]: "center",
-			[is(Lines, "three")]: "flex-start",
-		},
+		minHeight: variants(Lines, {
+			["one"]: "3.5rem",
+			["two"]: "4.5rem",
+			["three"]: "5.5rem",
+		}),
+		alignItems: variants(Lines, {
+			["one"]: "center",
+			["two"]: "center",
+			["three"]: "flex-start",
+		}),
 	},
 })
