@@ -12,7 +12,11 @@ const { graphql } = ReactRelay
 
 const UserListTabs_query = graphql`
 	fragment UserListTabs_query on Query @throwOnFieldError {
-		MediaListCollection(userName: $userName, type: $type) {
+		MediaListCollection(
+			userName: $userName
+			type: $type
+			sort: [UPDATED_TIME_DESC]
+		) {
 			lists {
 				name
 				entries {

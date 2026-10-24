@@ -42,8 +42,11 @@ const NavUserListEntriesQuery = graphql`
 	query routeNavUserListEntriesQuery($userName: String!, $type: MediaType!)
 	@raw_response_type
 	@throwOnFieldError {
-		MediaListCollection(userName: $userName, type: $type)
-			@required(action: LOG) {
+		MediaListCollection(
+			userName: $userName
+			type: $type
+			sort: [UPDATED_TIME_DESC]
+		) @required(action: LOG) {
 			...SyncMedia_mediaListCollection @alias
 			...AddToList_mediaListCollection @alias
 			lists {
