@@ -1,33 +1,53 @@
-import { numberOrStringToString } from "utilities"
+import { precompileStyles, type OutStyles } from "./unstyled-print.ts"
 
-import type { OutStyles } from "./unstyled-print.ts"
-
-export type Vars<Vars extends Record<string, number | string>> = {
-	[K in keyof Vars]: Var<Vars[K]>
+export interface Var<T> {
+	$T?: T
+	name: `--${string}`
 }
 
-export class Var<T extends number | string> {
-	public $T!: T
-	/** @internal */
-	public name: `--${string}`
-	constructor(name: `--${string}`) {
-		this.name = name
+export interface Variant<
+	T extends (number | string | boolean)[],
+> extends Var<T> {
+	variants: Record<ToString<T[number]>, Var<unknown>>
+}
+
+export function createVar<const T extends (number | string | boolean)[]>(
+	name: `--${string}`,
+	variants: T
+): Variant<T> {
+	return {
+		name,
+		variants: Object.fromEntries(
+			variants.map((variant) => [variant, { name: `${name}-${variant}` }])
+		) as Variant<T>["variants"],
 	}
 }
 
-export function is<T extends number | string>(
-	_var: Var<T>,
-	...values: readonly [T, ...T[]]
-) {
-	return `@container ${values.map((value) => `style(${_var.name}: ${numberOrStringToString(value)})`).join(" or ")}`
+type ToString<T extends number | string | boolean> = T extends true
+	? "true"
+	: T extends false
+		? "false"
+		: T
+
+export function variants<T extends (number | string | boolean)[]>(
+	variable: Var<T>,
+	values: Partial<Record<ToString<T[number]>, number | string>>
+): string {
+	return Object.entries(values)
+		.map(([key, value]) => `var(${variable.name}-${key}, ${value})`)
+		.join(" ")
 }
 
-export function provide<T extends number | string>(
-	_var: Var<T>,
-	value: T
+export function provide<T extends (number | string | boolean)[]>(
+	variable: Variant<T>,
+	value: T[number]
 ): OutStyles {
+	const preCompiledStyles: Record<string, string> = {}
+	for (const variant of Object.values<Var<unknown>>(variable.variants)) {
+		preCompiledStyles[variant.name] = `  ${variant.name}: var(${variable.name},);\n`
+	}
 	return {
-		preCompiledStyles: {},
-		dynamicVars: { [_var.name]: numberOrStringToString(value) },
+		preCompiledStyles,
+		dynamicVars: { [`${variable.name}`]: `var(${variable.name}-${String(value)})` },
 	}
 }
