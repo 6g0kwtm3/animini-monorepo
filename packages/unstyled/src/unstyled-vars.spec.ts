@@ -32,7 +32,5 @@ it("stringifies boolean variants", () => {
 it("stringifies numeric variants", () => {
 	const level = createVar("--level", [1, 2])
 
-	expect(provide(level, 2).dynamicVars).toEqual({
-		"--level": "var(--level-2)",
-	})
+	expect(provide(level, 2).dynamicVars).toEqual({ "--level": "var(--level-2)" })
 })

@@ -1,7 +1,7 @@
 import { hash32, hex } from "@animedes/hash"
 import { useState, type ReactNode } from "react"
 
-import { print, type DynamicVars, type OutStyles } from "./unstyled-print"
+import { print, type OutStyles } from "./unstyled-print"
 
 /**
  * React hook that generates style classes for unstyled components.

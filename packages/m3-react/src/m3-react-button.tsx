@@ -1,6 +1,5 @@
 import * as design from "@anitrove/design"
 import { media } from "@anitrove/design"
-import tokens from "@anitrove/design/fonts"
 import {
 	create,
 	createVar,
