@@ -694,6 +694,9 @@ importers:
       arktype:
         specifier: 'catalog:'
         version: 2.2.8
+      dompurify:
+        specifier: 'catalog:'
+        version: 3.2.5
       electron:
         specifier: 'catalog:'
         version: 44.9.0(supports-color@5.5.0)
@@ -1233,9 +1236,6 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 19.3.0(patch_hash=0644c3d0cdf31ec951c5e499a38cd81fd4650358f0b7e9a08de9328a218c6dc3)
-      dompurify:
-        specifier: 'catalog:'
-        version: 3.2.5
       marked:
         specifier: 'catalog:'
         version: 0.3.19

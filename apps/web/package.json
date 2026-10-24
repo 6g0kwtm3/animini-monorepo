@@ -51,6 +51,7 @@
 		"@types/react-dom": "catalog:",
 		"anitomy": "catalog:",
 		"arktype": "catalog:",
+		"dompurify": "catalog:",
 		"electron": "catalog:",
 		"electron-devtools-installer": "catalog:",
 		"extra-outlet": "workspace:@animedes/extra-outlet@*",
