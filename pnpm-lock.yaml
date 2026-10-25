@@ -418,8 +418,8 @@ catalogs:
       specifier: 4.3.3
       version: 4.3.3
     temporal-polyfill-lite:
-      specifier: 0.4.3
-      version: 0.4.3
+      specifier: 1.0.0
+      version: 1.0.0
     tsx:
       specifier: 4.23.15
       version: 4.23.15
@@ -799,7 +799,7 @@ importers:
         version: 4.0.1(rolldown@1.2.14)(vite@8.3.4)
       temporal-polyfill-lite:
         specifier: 'catalog:'
-        version: 0.4.3
+        version: 1.0.0
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../../packages/ts-config
@@ -7308,8 +7308,8 @@ packages:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
-  temporal-polyfill-lite@0.4.3:
-    resolution: {integrity: sha512-Lw/de9tydKmrU0icQy6Z+abX5mzDk4iqyt6Xp2iDDxY6SGISiuhuP3TcfWlYveM1FN1I7FjT5nG+Kh9eCiSnVg==}
+  temporal-polyfill-lite@1.0.0:
+    resolution: {integrity: sha512-dC6ITb3X/JgPN+kbhi4MFsVHMgWPBIE5BS9GlwF8cTlGyXaW229HKQxjOfdBI2tE8f2VcbyUAFwS6TzVmR1Wqw==}
 
   through2@4.0.2:
     resolution: {integrity: sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==}
@@ -13966,7 +13966,7 @@ snapshots:
 
   tapable@2.3.3: {}
 
-  temporal-polyfill-lite@0.4.3: {}
+  temporal-polyfill-lite@1.0.0: {}
 
   through2@4.0.2:
     dependencies:
