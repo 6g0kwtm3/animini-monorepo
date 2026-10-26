@@ -19,8 +19,8 @@ export const rule: RuleModule<string> = {
 				"JSX element with 'key' prop must also have a matching 'data-key' prop.",
 		},
 		fixable: "code",
+		defaultOptions: [],
 	},
-	defaultOptions: [],
 	create(context: RuleContext<string, []>) {
 		return {
 			JSXOpeningElement(node: TSESTree.JSXOpeningElement) {

@@ -19,8 +19,8 @@ export const rule: RuleModule<string> = {
 			"return-value-not-used": "Return value of {{ name }} is not used.",
 		},
 		fixable: "code",
+		defaultOptions: [],
 	},
-	defaultOptions: [],
 	create(context: RuleContext<string, []>) {
 		return {
 			ExpressionStatement(node: TSESTree.ExpressionStatement) {
