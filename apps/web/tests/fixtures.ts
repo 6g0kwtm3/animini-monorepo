@@ -115,12 +115,12 @@ interface Options {
 	_reuseContext: boolean
 }
 export interface WorkerFixtures extends Options {
-	electron: ElectronApplication | null
+	electronApp: ElectronApplication | null
 }
 export interface Fixtures {
 	handlers: AnyHandler[]
 	worker: NetworkFixture
-	partition: string | undefined
+	electron: undefined | { app: ElectronApplication; partition: string }
 	goto: (page: Page, path: string) => Promise<void>
 	newPage: () => Promise<Page>
 	cookies: () => Promise<readonly SessionCookie[]>
@@ -207,11 +207,13 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 
 	isElectron: [false, { option: true, scope: "worker" }],
 
-	partition({ isElectron }, provide, testInfo) {
-		return provide(isElectron ? `test-${testInfo.testId}` : undefined)
+	electron({ electronApp: app }, provide, testInfo) {
+		return provide(
+			app != null ? { app, partition: `test-${testInfo.testId}` } : undefined
+		)
 	},
 
-	electron: [
+	electronApp: [
 		async ({ isElectron }, provide) => {
 			if (!isElectron) {
 				await provide(null)
@@ -229,7 +231,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 		{ scope: "worker" },
 	],
 
-	async context({ context, electron }, provide) {
+	async context({ context, electronApp: electron }, provide) {
 		if (electron == null) {
 			await provide(context)
 			return
@@ -250,7 +252,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 		})
 	},
 
-	async newPage({ context, electron, partition, _reuseContext }, provide) {
+	async newPage({ context, electron, _reuseContext }, provide) {
 		await provide(async () => {
 			if (electron == null) {
 				let [page] = _reuseContext ? context.pages() : []
@@ -262,35 +264,31 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 				return page
 			}
 
-			if (partition == null) throw new Error("Missing Electron partition")
-
-			const window = electron.waitForEvent("window")
-			await electron.evaluate(async ({ app }, partition) => {
+			const window = electron.app.waitForEvent("window")
+			await electron.app.evaluate(async ({ app }, partition) => {
 				const hooks = (app as unknown as { __animedesTest: ElectronTestHooks })
 					.__animedesTest
 				await hooks.openWindow(partition)
-			}, partition)
+			}, electron.partition)
 			return await window
 		})
 	},
 
-	cookies({ context, electron, partition }, provide) {
+	cookies({ context, electron }, provide) {
 		return provide(async () => {
 			if (electron == null) {
 				const cookies = await context.cookies()
 				return cookies.map(({ name, value }) => ({ name, value }))
 			}
 
-			if (partition == null) throw new Error("Missing Electron partition")
-
-			return await electron.evaluate(async ({ session }, partition) => {
+			return await electron.app.evaluate(async ({ session }, partition) => {
 				const cookies = await session.fromPartition(partition).cookies.get({})
 				return cookies.map(({ name, value }) => ({ name, value }))
-			}, partition)
+			}, electron.partition)
 		})
 	},
 
-	login({ context, electron, partition, markPII }, provide) {
+	login({ context, electron, markPII }, provide) {
 		return provide(async (viewer: typeof Viewer.infer) => {
 			markPII(viewer.id)
 			markPII(viewer.name)
@@ -319,9 +317,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 				return
 			}
 
-			if (partition == null) throw new Error("Missing Electron partition")
-
-			await electron.evaluate(
+			await electron.app.evaluate(
 				async ({ session }, { partition, name, value, expires }) => {
 					await session
 						.fromPartition(partition)
@@ -333,7 +329,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 							sameSite: "lax",
 						})
 				},
-				{ partition, name: TOKEN_COOKIE, value, expires }
+				{ partition: electron.partition, name: TOKEN_COOKIE, value, expires }
 			)
 		})
 	},
