@@ -1,6 +1,18 @@
-import type { Locator, Page } from "@playwright/test"
+import { numberToString } from "@animedes/components/numberToString"
 import { expect } from "@playwright/test"
-import { graphql, HttpResponse } from "msw"
+import { HttpResponse } from "msw"
+
+import {
+	anilist,
+	CANARY_ID,
+	CANARY_NAME,
+	SuccessHandler,
+	test,
+} from "./fixtures"
+import { FeedPage } from "./pages/IndexPage"
+import { TypelistPage } from "./pages/TypelistPage"
+
+import type { Locator, Page } from "@playwright/test"
 import type {
 	routeNavUserListEntriesQuery$rawResponse,
 	routeNavUserListEntriesQuery$variables,
@@ -9,12 +21,8 @@ import type {
 	routeNavUserQuery$rawResponse,
 	routeNavUserQuery$variables,
 } from "~/gql/routeNavUserQuery.graphql"
-import { SuccessHandler, test } from "./fixtures"
-import { FeedPage } from "./pages/IndexPage"
-import { TypelistPage } from "./pages/TypelistPage"
-import { numberToString } from "../app/lib/numberToString"
 
-const Viewer = { id: 1, name: "User" }
+const Viewer = { id: CANARY_ID, name: CANARY_NAME }
 
 const contains = (id: string, title: string) =>
 	({
@@ -62,7 +70,7 @@ const entry = (
 })
 
 const handlers = [
-	graphql.query<
+	anilist.query<
 		routeNavUserListEntriesQuery$rawResponse,
 		routeNavUserListEntriesQuery$variables
 	>("routeNavUserListEntriesQuery", () =>
@@ -119,15 +127,15 @@ const handlers = [
 			},
 		})
 	),
-	graphql.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
+	anilist.query<routeNavUserQuery$rawResponse, routeNavUserQuery$variables>(
 		"routeNavUserQuery",
 		() =>
 			HttpResponse.json({
 				data: {
 					Viewer: { id: numberToString(Viewer.id), name: Viewer.name },
 					user: {
-						id: "1",
-						name: "User",
+						id: numberToString(Viewer.id),
+						name: Viewer.name,
 						avatar: null,
 						bannerImage: null,
 						isFollowing: null,
