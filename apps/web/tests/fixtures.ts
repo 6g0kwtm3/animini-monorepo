@@ -243,7 +243,8 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 
 	// Playwright does not give Electron's browser context a `baseURL`, so
 	// relative `page.goto()` calls fail there. We resolve app paths ourselves.
-	goto: async (_fixtures, provide) => {
+	// oxlint-disable-next-line no-empty-pattern
+	goto: async ({}, provide) => {
 		await provide(async (page: Page, path: string) => {
 			await page.goto(new URL(path, serverUrl).href)
 		})
