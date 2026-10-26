@@ -120,7 +120,7 @@ export interface WorkerFixtures extends Options {
 export interface Fixtures {
 	handlers: AnyHandler[]
 	worker: NetworkFixture
-	electron: { partition: string; app: ElectronApplication } | undefined
+	electron: undefined | { app: ElectronApplication; partition: string }
 	goto: (page: Page, path: string) => Promise<void>
 	newPage: () => Promise<Page>
 	cookies: () => Promise<readonly SessionCookie[]>
