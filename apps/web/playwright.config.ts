@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test"
+
 import { serverUrl } from "./tests/serverUrl"
+
 import type { Fixtures, WorkerFixtures } from "./tests/fixtures"
 
 /** See https://playwright.dev/docs/test-configuration. */

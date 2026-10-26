@@ -1,19 +1,20 @@
+import { app, BrowserWindow } from "electron"
 import path, { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
-import config from "../react-router.config.ts"
-import { app, BrowserWindow } from "electron"
 import { RouterContextProvider } from "react-router"
+
+import config from "../react-router.config.ts"
 import { initRemix } from "./remix-electron.js"
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const currentDir = dirname(fileURLToPath(import.meta.url))
 
 // Test-only: Playwright sets this to run the app against its own server.
 const testServerUrl = process.env.ELECTRON_TEST_SERVER_URL
 
 /**
  * @typedef {object} TestHooks
- * @property {(partition: string) => Promise<void>} openWindow
- * @property {() => void} closeWindows
+ * @property {(partition: string) => Promise<void>} openWindow Opens a window on the given session partition.
+ * @property {() => void} closeWindows Closes every window opened by the test hooks.
  */
 
 /** @type {Promise<string> | string | undefined} */
@@ -38,7 +39,7 @@ async function createWindow(partition) {
 	url ??= initRemix({
 		buildDirectory: config.buildDirectory,
 		serverBuild: path.join(
-			__dirname,
+			currentDir,
 			"..",
 			config.buildDirectory,
 			"server/index.js"

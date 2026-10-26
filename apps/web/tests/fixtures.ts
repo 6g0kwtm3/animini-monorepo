@@ -5,7 +5,7 @@ import base, {
 	type ElectronApplication,
 	type Page,
 } from "@playwright/test"
-import { _electron } from "@playwright/test"
+import { _electron as Electron } from "@playwright/test"
 import fs from "fs"
 import { buildSchema, execute, parse } from "graphql"
 import { http, HttpResponse, type AnyHandler } from "msw"
@@ -128,7 +128,7 @@ export interface Fixtures {
 	markPII: (value: number | string) => void
 }
 
-export interface SessionCookie {
+interface SessionCookie {
 	name: string
 	value: string
 }
@@ -218,7 +218,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 				return
 			}
 
-			const app = await _electron.launch({
+			const app = await Electron.launch({
 				args: ["."],
 				env: { ...process.env, ELECTRON_TEST_SERVER_URL: serverUrl },
 			})
@@ -243,8 +243,8 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 
 	// Playwright does not give Electron's browser context a `baseURL`, so
 	// relative `page.goto()` calls fail there. We resolve app paths ourselves.
-	goto: async ({}, use) => {
-		await use(async (page: Page, path: string) => {
+	goto: async (_fixtures, provide) => {
+		await provide(async (page: Page, path: string) => {
 			await page.goto(new URL(path, serverUrl).href)
 		})
 	},
