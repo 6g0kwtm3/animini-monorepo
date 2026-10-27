@@ -34,7 +34,6 @@ minimumReleaseAge: 0
 patchedDependencies:
   "@material/material-color-utilities": patches/@material__material-color-utilities.patch
   '@sentry/core': patches/@sentry__core.patch
-  '@stryker-mutator/vitest-runner@10.0.0': patches/@stryker-mutator__vitest-runner@10.0.0.patch
   "@types/react": patches/@types__react.patch
   flubber: patches/flubber.patch
   framer-motion: patches/framer-motion.patch
