@@ -240,11 +240,18 @@ jobs:
       - name: Install dependencies 📦
         run: sfw pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Check affected — build
+        id: affected-build
+        continue-on-error: true
+        run: pnpm exec turbo query affected --packages @animedes/web --tasks build --exit-code
+
       - name: Build
         run: pnpm exec turbo --filter=@animedes/web build
+        if: steps.affected-build.outcome == 'failure'
 
       - name: Bundlewatch
         uses: relative-ci/agent-action@fcf45416581928e8dd62eded78ce98c78e5149f8
+        if: steps.affected-build.outcome == 'failure'
         with:
           key: ${{ secrets.RELATIVE_CI_KEY }}
           webpackStatsFile: ./apps/web/dist/client/webpack-stats.json
