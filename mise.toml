@@ -2,5 +2,5 @@
 idiomatic_version_file_enable_tools = ['pnpm', 'node']
 
 [tools]
-"github:jdx/jactionlint" = "2.3.0"
+"github:jdx/jactionlint" = "2.4.0"
 "github:microsoft/apm" = "0.35.0"
