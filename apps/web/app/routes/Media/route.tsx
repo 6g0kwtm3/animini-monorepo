@@ -55,11 +55,11 @@ export const clientLoader = (args: ClientLoaderFunctionArgs) => {
 					coverImage {
 						theme @catch(to: NULL)
 					}
-					...MediaCover_media @arguments(extraLarge: true) @alias
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}
 					description
+					...MediaCover_media @arguments(extraLarge: true) @alias
 				}
 				...Edit_query @alias
 			}

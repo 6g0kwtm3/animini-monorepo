@@ -83,16 +83,8 @@ export function SyncMedia(props: {
 			) {
 				id
 				status
-				...MediaListItem_entry
-				...AddToList_originalEntry
-				...SyncMedia_entry_plural
-				...SyncMedia_source
-				...ProgressIncrement_entry
-				...SyncMedia_assignable
 				media {
 					id
-					...MediaListItem_media
-					...AddToList_media
 					relations {
 						edges {
 							id
@@ -104,7 +96,15 @@ export function SyncMedia(props: {
 							}
 						}
 					}
+					...MediaListItem_media
+					...AddToList_media
 				}
+				...MediaListItem_entry
+				...AddToList_originalEntry
+				...SyncMedia_entry_plural
+				...SyncMedia_source
+				...ProgressIncrement_entry
+				...SyncMedia_assignable
 			}
 		}
 	`)
@@ -114,12 +114,12 @@ export function SyncMedia(props: {
 			fragment SyncMedia_mediaListCollection on MediaListCollection
 			@throwOnFieldError {
 				lists {
-					...SyncMedia_updatable @alias
 					status
 					entries {
 						id
 						...SyncMedia_assignable
 					}
+					...SyncMedia_updatable @alias
 				}
 			}
 		`,
