@@ -42,8 +42,8 @@ export function Airing({
 					title @required(action: LOG) {
 						userPreferred @required(action: LOG)
 					}
-					...MediaCover_media @alias
 					id
+					...MediaCover_media @alias
 				}
 			}
 		`,

@@ -43,7 +43,6 @@ const ProgressIncrement_entry = graphql`
 	fragment ProgressIncrement_entry on MediaList @throwOnFieldError {
 		id
 		progress
-		...Progress_entry @alias
 		media @required(action: LOG) {
 			avalible
 			id
@@ -53,6 +52,7 @@ const ProgressIncrement_entry = graphql`
 				userPreferred @required(action: LOG)
 			}
 		}
+		...Progress_entry @alias
 	}
 `
 

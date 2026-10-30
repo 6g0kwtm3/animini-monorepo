@@ -2,6 +2,7 @@ import { rule as mustColocateFragmentSpreads } from "./rule-must-colocate-fragme
 import { rule as requireAliasOnFragmentSpread } from "./rule-require-alias-on-fragment-spread"
 import { rule as requireRawResponseTypeOnOperationDefinition } from "./rule-require-raw-response-type-on-operation-definition"
 import { rule as requireThrowOnFieldError } from "./rule-require-throw-on-field-error"
+import { rule as sortFragmentSpreads } from "./rule-sort-fragment-spreads"
 import { rule as unusedFields } from "./rule-unused-fields"
 
 import type { ESLint } from "eslint"
@@ -15,6 +16,7 @@ const plugin: ESLint.Plugin = {
 		"require-throw-on-field-error": requireThrowOnFieldError,
 		"require-raw-response-type-on-operation-definition":
 			requireRawResponseTypeOnOperationDefinition,
+		"sort-fragment-spreads": sortFragmentSpreads,
 	},
 }
 
@@ -30,6 +32,7 @@ export default {
 				"eslint-plugin-relay/require-throw-on-field-error": "error",
 				"eslint-plugin-relay/require-raw-response-type-on-operation-definition":
 					"error",
+				"eslint-plugin-relay/sort-fragment-spreads": "error",
 			},
 		},
 	},

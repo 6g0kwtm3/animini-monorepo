@@ -44,22 +44,13 @@ const NavUserListEntriesQuery = graphql`
 	@throwOnFieldError {
 		MediaListCollection(userName: $userName, type: $type)
 			@required(action: LOG) {
-			...SyncMedia_mediaListCollection @alias
-			...AddToList_mediaListCollection @alias
 			lists {
 				name
 				entries {
 					id
 					status
-					...MediaListItem_entry @alias
-					...SyncMedia_entry_plural
-					...SyncMedia_source @alias
-					...ProgressIncrement_entry @alias
-					...AddToList_originalEntry @alias
 					media @required(action: LOG) {
 						id
-						...MediaListItem_media @alias
-						...AddToList_media @alias
 						relations {
 							edges {
 								id
@@ -71,9 +62,18 @@ const NavUserListEntriesQuery = graphql`
 								}
 							}
 						}
+						...MediaListItem_media @alias
+						...AddToList_media @alias
 					}
+					...MediaListItem_entry @alias
+					...SyncMedia_entry_plural
+					...SyncMedia_source @alias
+					...ProgressIncrement_entry @alias
+					...AddToList_originalEntry @alias
 				}
 			}
+			...SyncMedia_mediaListCollection @alias
+			...AddToList_mediaListCollection @alias
 		}
 		...ProgressIncrement_query @alias
 	}

@@ -27,10 +27,10 @@ export function SearchItem({ media, ...props }: SearchItemProps) {
 			fragment SearchItem_media on Media @throwOnFieldError {
 				id
 				type
-				...MediaCover_media @alias
 				title {
 					userPreferred @required(action: LOG)
 				}
+				...MediaCover_media @alias
 			}
 		`,
 		media
