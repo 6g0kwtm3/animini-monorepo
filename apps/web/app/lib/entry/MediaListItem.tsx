@@ -25,7 +25,10 @@ import { formatWatch } from "./ToWatch"
 
 import type { ComponentProps, ReactNode } from "react"
 import type { MediaListItem_entry$key } from "~/gql/MediaListItem_entry.graphql"
-import type { MediaListItem_media$key } from "~/gql/MediaListItem_media.graphql"
+import type {
+	MediaListItem_media$key,
+	MediaStatus,
+} from "~/gql/MediaListItem_media.graphql"
 import type {
 	MediaListItemSubtitle_entry$key,
 	MediaType,
@@ -51,6 +54,7 @@ const MediaListItem_media = graphql`
 		}
 	) {
 		id
+		status(version: 2)
 		...MediaCover_media @alias
 		...MediaTitle_media @alias
 		coverImage @include(if: $themeMediaListItem) {
@@ -75,6 +79,8 @@ export function MediaListItem({
 }: MediaListItemProps): ReactNode {
 	const entry = useFragment(MediaListItem_entry, entryKey)
 	const data = useFragment(MediaListItem_media, mediaKey)
+	const status =
+		data.status != null ? getStatusPresentation(data.status, type) : null
 
 	return (
 		<ListItem
@@ -112,6 +118,14 @@ export function MediaListItem({
 					</Skeleton>
 				</ListItemContentTitle>
 				<ListItemContentSubtitle style={styles.subtitle}>
+					{status ? (
+						<>
+							<Box data-testid="media-status" style={status.style}>
+								• {status.label}
+							</Box>
+							{entry ? <>&middot;</> : null}
+						</>
+					) : null}
 					<Skeleton className="max-w-[21.666666666666668ch]">
 						{entry ? (
 							<MediaListItemSubtitle
@@ -137,6 +151,40 @@ const MediaListItemSubtitle_entry = graphql`
 		}
 	}
 `
+
+function getStatusPresentation(status: MediaStatus, type: "anime" | "manga") {
+	const manga = type === "manga"
+
+	switch (status) {
+		case "CANCELLED":
+			return {
+				label: m.media_status_cancelled(),
+				style: styles.statusCancelled,
+			}
+		case "FINISHED":
+			return {
+				label: manga
+					? m.media_finished_publishing()
+					: m.media_finished_airing(),
+				style: styles.statusFinished,
+			}
+		case "HIATUS":
+			return { label: m.media_status_hiatus(), style: styles.statusHiatus }
+		case "NOT_YET_RELEASED":
+			return {
+				label: manga ? m.media_not_yet_published() : m.media_not_yet_aired(),
+				style: styles.statusNotYetReleased,
+			}
+		case "RELEASING":
+			return {
+				label: manga ? m.media_publishing() : m.media_airing(),
+				style: styles.statusAiring,
+			}
+		case "%future added value":
+		default:
+			return null
+	}
+}
 
 function MediaListItemSubtitle(props: {
 	entry: MediaListItemSubtitle_entry$key

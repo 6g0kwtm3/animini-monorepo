@@ -27,11 +27,13 @@ class MediaListItem {
 	public readonly addToList: Locator
 	public readonly privateBadge: Locator
 	public readonly progress: Locator
+	public readonly status: Locator
 	public readonly sync: Locator
 	constructor(locator: Locator) {
 		this.sync = locator.getByRole("button", { name: "Sync" })
 		this.addToList = locator.getByRole("button", { name: "Add to list" })
 		this.progress = locator.getByTestId("progress")
 		this.privateBadge = locator.getByTestId("private-badge")
+		this.status = locator.getByTestId("media-status")
 	}
 }
