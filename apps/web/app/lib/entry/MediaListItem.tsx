@@ -55,11 +55,11 @@ const MediaListItem_media = graphql`
 	) {
 		id
 		status(version: 2)
-		...MediaCover_media @alias
-		...MediaTitle_media @alias
 		coverImage @include(if: $themeMediaListItem) {
 			theme @catch(to: NULL)
 		}
+		...MediaCover_media @alias
+		...MediaTitle_media @alias
 	}
 `
 
