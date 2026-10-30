@@ -10,11 +10,6 @@ import plugin from "tailwindcss/plugin"
 import type { Config } from "tailwindcss"
 
 export const config = {
-	content: [
-		"app/**/*.{ts,tsx}",
-		"./node_modules/@animedes/components/src/**/*.{ts,tsx}",
-	],
-
 	theme: {
 		screens: { sm: "600px", md: "840px", lg: "1200px", xl: "1600px" },
 		borderRadius: {
