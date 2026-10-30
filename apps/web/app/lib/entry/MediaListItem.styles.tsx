@@ -1,4 +1,4 @@
-import { media, utilities } from "@anitrove/design"
+import { media, tokens, utilities } from "@anitrove/design"
 import { create } from "@anitrove/unstyled"
 
 export const styles = create({
@@ -14,4 +14,9 @@ export const styles = create({
 	},
 	avatar: { position: "relative" },
 	subtitle: { display: "flex", flexWrap: "wrap", gap: ".25rem" },
+	statusAiring: { color: tokens.colors.primary },
+	statusFinished: { color: tokens.colors["on-surface/38"] },
+	statusNotYetReleased: { color: tokens.colors.secondary },
+	statusHiatus: { color: tokens.colors.tertiary },
+	statusCancelled: { color: tokens.colors.error },
 })

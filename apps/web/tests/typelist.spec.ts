@@ -72,6 +72,7 @@ const AddToListMutationSuccess = anilist.mutation<
 								node: {
 									id: "1",
 									title: { userPreferred: "Media title" },
+									status: "FINISHED",
 									coverImage: { color: null, large: null, medium: null },
 								},
 							},
@@ -124,6 +125,7 @@ const SyncMediaMutationSuccess = anilist.mutation<
 								node: {
 									id: "1",
 									title: { userPreferred: "Media title" },
+									status: "FINISHED",
 									coverImage: { color: null, large: null, medium: null },
 								},
 							},
@@ -177,6 +179,7 @@ const handlers = [
 													node: {
 														id: "2",
 														title: { userPreferred: "Contained media title" },
+														status: "FINISHED",
 														coverImage: {
 															color: null,
 															large: null,

@@ -31,6 +31,8 @@ const contains = (id: string, title: string) =>
 		node: {
 			id,
 			title: { userPreferred: title },
+			type: "MANGA",
+			status: "FINISHED",
 			coverImage: { color: null, large: null, medium: null },
 		},
 	}) as const
@@ -200,5 +202,6 @@ test("add to list is offered when current media contains media without an entry"
 	const unlistedEntry = typelist.entry(/Not on list manga/)
 	// then
 	await expect(unlistedEntry.addToList).toBeVisible()
+	await expect(unlistedEntry.status).toHaveText(/Finished publishing/)
 	await expect(currentEntry.sync).toHaveCount(0)
 })
