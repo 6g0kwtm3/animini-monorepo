@@ -39,8 +39,8 @@ const { graphql } = ReactRelay
 const MediaListItem_entry = graphql`
 	fragment MediaListItem_entry on MediaList @throwOnFieldError {
 		id
-		...MediaListItemSubtitle_entry @alias
 		private
+		...MediaListItemSubtitle_entry @alias
 	}
 `
 

@@ -55,16 +55,8 @@ export function AddToList({
 			) {
 				id
 				status
-				...MediaListItem_entry
-				...AddToList_originalEntry
-				...SyncMedia_entry_plural
-				...SyncMedia_source
-				...ProgressIncrement_entry
-				...AddToList_assignable
 				media {
 					id
-					...MediaListItem_media
-					...AddToList_media
 					relations {
 						edges {
 							id
@@ -76,7 +68,15 @@ export function AddToList({
 							}
 						}
 					}
+					...MediaListItem_media
+					...AddToList_media
 				}
+				...MediaListItem_entry
+				...AddToList_originalEntry
+				...SyncMedia_entry_plural
+				...SyncMedia_source
+				...ProgressIncrement_entry
+				...AddToList_assignable
 			}
 		}
 	`)
