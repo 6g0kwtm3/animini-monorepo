@@ -58,7 +58,7 @@ jobs:
 
       - name: Publish to Chromatic
         id: chromatic
-        uses: chromaui/action@dc6182ace06884faf1d3edf73f652a80ca6dfddc # latest
+        uses: chromaui/action@f305ef908327aee3b80b0e6b3bbb60a742eaa049 # latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true
