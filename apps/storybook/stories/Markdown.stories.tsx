@@ -3,6 +3,7 @@ import { use, type ComponentProps } from "react"
 
 import snapshot1 from "./assets/Markdown/Snapshot1/snapshot"
 import snapshot2 from "./assets/Markdown/Snapshot2/snapshot"
+import snapshot3 from "./assets/Markdown/Snapshot3/snapshot"
 
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
@@ -79,4 +80,8 @@ export const Snapshot2 = {
 			</div>
 		),
 	],
+} satisfies Story
+
+export const Snapshot3 = {
+	args: { children: snapshot3, options },
 } satisfies Story
