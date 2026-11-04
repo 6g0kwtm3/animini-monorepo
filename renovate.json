@@ -8,7 +8,8 @@
 		":pinAllExceptPeerDependencies",
 		":automergeStableNonMajor",
 		"schedule:daily",
-		":separateMultipleMajorReleases"
+		":separateMultipleMajorReleases",
+		":enableVulnerabilityAlerts"
 	],
 	"packageRules": [
 		{ "matchPackageNames": ["/relay/"], "groupName": "relay" },
