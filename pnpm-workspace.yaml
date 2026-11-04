@@ -73,7 +73,7 @@ catalog:
   "@playwright/test": 1.64.1
   "@react-router/dev": 8.5.1
   "@react-router/node": 8.5.1
-  "@sentry/react": npm:@sentry/react-router@11.10.0
+  "@sentry/react": npm:@sentry/react-router@11.9.0
   "@storybook/addon-a11y": 10.6.5
   "@storybook/addon-docs": 10.6.5
   "@storybook/addon-onboarding": 10.6.5
