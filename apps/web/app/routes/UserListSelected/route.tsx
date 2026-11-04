@@ -25,6 +25,13 @@ import { ProgressIncrement } from "~/lib/entry/Progress"
 import { increment } from "~/lib/entry/progress/ProgressIncrement"
 import { SyncMedia } from "~/lib/entry/SyncMedia"
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
+import {
+	addRelationChild,
+	collectRelationDescendants,
+	createRelationTree,
+	findRelationRoot,
+	flattenRelationTree,
+} from "~/lib/relation-tree"
 
 import { useWindowVirtualizer } from "./use-window-virtualizer"
 
@@ -205,99 +212,112 @@ export default function Page(props: Route.ComponentProps): ReactNode {
 function AwaitList(props: Route.ComponentProps) {
 	const data = usePreloadedQuery(props.loaderData.query.selectedList)
 
-	const { allEntries, mediaList, output, estimateSize } = useMemo(() => {
+	const { allEntries, output, estimateSize, groups } = useMemo(() => {
+		const lists = data?.MediaListCollection.lists ?? []
+		const entries = lists.flatMap((list) => list?.entries ?? [])
+
 		const allEntries = new Map(
-			data?.MediaListCollection.lists?.flatMap(
-				(list) =>
-					list?.entries?.flatMap((entry) =>
-						entry?.media.id ? [[Number(entry.media.id), entry]] : []
-					) ?? []
+			entries.flatMap((entry) =>
+				entry?.media.id ? [[Number(entry.media.id), entry]] : []
 			)
 		)
 
-		const mediaList = new Map<number, MediaListMapEntry>()
+		const mediaById = new Map<number, MediaRefs>()
+		const tree = createRelationTree()
+		const contains: { childId: number; parentId: number }[] = []
+		const compilations: { childId: number; parentId: number }[] = []
 
-		const selectedList =
-			props.params.selected !== undefined
-				? data?.MediaListCollection.lists?.filter(
-						(list) => list?.name === props.params.selected
-					)
-				: data?.MediaListCollection.lists
-
-		const selectedIds = new Set(
-			selectedList?.flatMap((list) =>
-				list?.entries?.map((entry) => Number(entry?.media.id))
-			) ?? []
-		)
-
-		for (const entry of data?.MediaListCollection.lists?.flatMap(
-			(list) => list?.entries
-		) ?? []) {
+		for (const entry of entries) {
 			if (entry?.media == null) {
 				continue
 			}
 
-			const compilation = entry.media.relations?.edges?.find((edge) => {
-				if (edge?.relationType === "COMPILATION") {
-					return true
+			const id = Number(entry.media.id)
+			void mediaById.set(id, entry.media)
+			for (const edge of entry.media.relations?.edges ?? []) {
+				if (edge?.node?.id == null) {
+					continue
 				}
-			})
 
-			if (compilation?.node == null) {
-				mergeMapEntries(mediaList, Number(entry.media.id), {
-					media: entry.media,
-					originalEntry: entry.AddToList_originalEntry,
-					relations: new Map(
-						entry.media.relations?.edges?.flatMap((edge) =>
-							edge?.relationType === "CONTAINS" && edge.node?.id
-								? [[Number(edge.node.id), edge.node]]
-								: []
-						)
-					),
-				})
+				const nodeId = Number(edge.node.id)
+				void mediaById.set(nodeId, edge.node)
+				if (edge.relationType === "CONTAINS") {
+					void contains.push({ parentId: id, childId: nodeId })
+				} else if (edge.relationType === "COMPILATION") {
+					void compilations.push({ childId: id, parentId: nodeId })
+				}
+			}
+		}
+
+		for (const { parentId, childId } of contains) {
+			addRelationChild(tree, parentId, childId)
+		}
+		for (const { childId, parentId } of compilations) {
+			addRelationChild(tree, parentId, childId)
+		}
+
+		const selectedList =
+			props.params.selected !== undefined
+				? lists.filter((list) => list?.name === props.params.selected)
+				: lists
+		const selectedEntries = selectedList.flatMap((list) => list?.entries ?? [])
+
+		const rootIds: number[] = []
+		const anchors = new Map<number, AddToList_originalEntry$key>()
+		for (const entry of selectedEntries) {
+			if (entry?.media.id == null) {
 				continue
 			}
 
-			mergeMapEntries(mediaList, Number(compilation.node.id), {
-				media: compilation.node,
-				originalEntry: entry.AddToList_originalEntry,
-				relations: new Map([[Number(entry.media.id), entry.media]]),
-			})
+			const root = findRelationRoot(tree, Number(entry.media.id))
+			if (anchors.has(root)) {
+				continue
+			}
+
+			void anchors.set(root, entry.AddToList_originalEntry)
+			void rootIds.push(root)
 		}
 
-		const output = mediaList
-			.entries()
-			.filter(([id]) => selectedIds.has(id))
-			.flatMap(([id, { media, relations, originalEntry }]) => {
-				return [
-					{
-						type: "MediaListItem",
-						id,
-						media,
-						relations,
-						originalEntry,
-					} as const,
-					...relations
-						.entries()
-						.map(([id, node]) => {
-							return {
-								type: "Relation",
-								id,
-								media,
-								relations,
-								originalEntry,
-								node,
-							} as const
-						})
-						.toArray(),
-				]
-			})
-			.toArray()
+		const descendants = collectRelationDescendants(tree)
+
+		const output = flattenRelationTree(tree, rootIds).flatMap((row) => {
+			const media = mediaById.get(row.id)
+			if (media == null) {
+				return []
+			}
+
+			const entry = allEntries.get(row.id)
+			const inherited = row.ancestors
+				.map((ancestorId) => allEntries.get(ancestorId))
+
+				.findLast((ancestor) => ancestor != null)
+			const anchor = anchors.get(
+				row.ancestors[row.ancestors.length - 1] ?? row.id
+			)
+			const originalEntry =
+				entry?.AddToList_originalEntry
+				?? inherited?.AddToList_originalEntry
+				?? anchor
+
+			return [
+				{
+					type:
+						row.ancestors.length === 0
+							? ("MediaListItem" as const)
+							: ("Relation" as const),
+					id: row.id,
+					media,
+					entry,
+					originalEntry,
+					descendants: descendants.get(row.id) ?? [],
+				},
+			]
+		})
 
 		return {
 			allEntries,
-			mediaList,
 			output,
+			groups: rootIds.length,
 			estimateSize: (index: number) => {
 				const item = output[index]
 				if (item == null) {
@@ -342,7 +362,7 @@ function AwaitList(props: Route.ComponentProps) {
 					height: `${totalSize}px`,
 					position: "relative",
 				})}
-				data-size={mediaList.size}
+				data-size={groups}
 				lines={"two"}
 			>
 				{virtualItems.map((virtualItem) => {
@@ -350,126 +370,73 @@ function AwaitList(props: Route.ComponentProps) {
 					if (item == null) {
 						return null
 					}
-					switch (item.type) {
-						case "MediaListItem": {
-							const { id, media, relations, originalEntry } = item
-							const entry = allEntries.get(id)
-							return (
-								<div
-									style={{
-										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-									}}
-									className="absolute top-0 left-0 w-full"
-									ref={virtualizer.measureElement}
-									data-index={virtualItem.index}
-									key={id}
-									data-key={id}
-								>
-									<MediaListItem
-										first={virtualItem.index === 0}
-										last={virtualItem.index === output.length - 1}
-										key={id}
-										data-key={id}
-										media={media.MediaListItem_media}
-										entry={entry?.MediaListItem_entry}
-										type={type}
-									>
-										<Skeleton>
-											{entry ? (
-												<div className="flex justify-end">
-													{entry.status === "COMPLETED"
-														&& (() => {
-															const outOfSync = relations
-																.keys()
-																.filter((mediaId) => {
-																	if (
-																		allEntries.get(mediaId)?.status
-																		!== "COMPLETED"
-																	) {
-																		return true
-																	}
-																})
-																.toArray()
-															return outOfSync.length !== 0 ? (
-																<SyncMedia
-																	source={entry.SyncMedia_source}
-																	targetMediaIds={outOfSync}
-																	targetEntries={outOfSync
-																		.map((mediaId) => allEntries.get(mediaId))
-																		.filter((entry) => entry != null)}
-																	mediaListCollection={
-																		data.MediaListCollection
-																			.SyncMedia_mediaListCollection
-																	}
-																></SyncMedia>
-															) : null
-														})()}
-													<ProgressIncrement
-														entry={entry.ProgressIncrement_entry}
-														query={data.ProgressIncrement_query}
-													/>
-												</div>
-											) : (
-												<AddToList
-													media={media.AddToList_media}
-													originalEntry={originalEntry}
+					const { id, media, entry, originalEntry, descendants } = item
+					const outOfSync =
+						entry?.status === "COMPLETED"
+							? descendants.filter(
+									(mediaId) => allEntries.get(mediaId)?.status !== "COMPLETED"
+								)
+							: []
+					return (
+						<div
+							style={{
+								transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
+							}}
+							className="absolute top-0 left-0 w-full"
+							ref={virtualizer.measureElement}
+							data-index={virtualItem.index}
+							key={id}
+							data-key={id}
+						>
+							<MediaListItem
+								first={virtualItem.index === 0}
+								last={virtualItem.index === output.length - 1}
+								key={id}
+								data-key={id}
+								media={media.MediaListItem_media}
+								entry={entry?.MediaListItem_entry}
+								type={type}
+								style={
+									item.type === "Relation"
+										? precompileStyles({ marginBlockStart: "-.125rem" })
+										: undefined
+								}
+							>
+								<Skeleton>
+									{entry ? (
+										<div className="flex justify-end">
+											{entry.status === "COMPLETED"
+											&& outOfSync.length !== 0 ? (
+												<SyncMedia
+													source={entry.SyncMedia_source}
+													targetMediaIds={outOfSync}
+													targetEntries={outOfSync
+														.map((mediaId) => allEntries.get(mediaId))
+														.filter((entry) => entry != null)}
 													mediaListCollection={
 														data.MediaListCollection
-															.AddToList_mediaListCollection
+															.SyncMedia_mediaListCollection
 													}
-												></AddToList>
-											)}
-										</Skeleton>
-									</MediaListItem>
-								</div>
-							)
-						}
-						case "Relation": {
-							const { id, originalEntry, node } = item
-							const entry = allEntries.get(id)
-							return (
-								<div
-									style={{
-										transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-									}}
-									className="absolute top-0 left-0 w-full"
-									ref={virtualizer.measureElement}
-									data-index={virtualItem.index}
-									key={id}
-									data-key={id}
-								>
-									<MediaListItem
-										first={virtualItem.index === 0}
-										last={virtualItem.index === output.length - 1}
-										key={id}
-										data-key={id}
-										media={node.MediaListItem_media}
-										entry={entry?.MediaListItem_entry}
-										type={type}
-										style={precompileStyles({ marginBlockStart: "-.125rem" })}
-									>
-										<Skeleton>
-											{entry ? (
-												<ProgressIncrement
-													entry={entry.ProgressIncrement_entry}
-													query={data.ProgressIncrement_query}
-												/>
-											) : (
-												<AddToList
-													media={node.AddToList_media}
-													originalEntry={originalEntry}
-													mediaListCollection={
-														data.MediaListCollection
-															.AddToList_mediaListCollection
-													}
-												></AddToList>
-											)}
-										</Skeleton>
-									</MediaListItem>
-								</div>
-							)
-						}
-					}
+												></SyncMedia>
+											) : null}
+											<ProgressIncrement
+												entry={entry.ProgressIncrement_entry}
+												query={data.ProgressIncrement_query}
+											/>
+										</div>
+									) : originalEntry != null ? (
+										<AddToList
+											media={media.AddToList_media}
+											originalEntry={originalEntry}
+											mediaListCollection={
+												data.MediaListCollection.AddToList_mediaListCollection
+											}
+										></AddToList>
+									) : null}
+								</Skeleton>
+							</MediaListItem>
+						</div>
+					)
 				})}
 			</List>
 		</div>
@@ -514,32 +481,7 @@ export function ErrorBoundary(): ReactNode {
 		</ExtraOutlets>
 	)
 }
-interface MediaListMapEntry {
-	media: {
-		AddToList_media: AddToList_media$key
-		MediaListItem_media: MediaListItem_media$key
-	}
-	originalEntry: AddToList_originalEntry$key
-	relations: Map<
-		number,
-		{
-			AddToList_media: AddToList_media$key
-			MediaListItem_media: MediaListItem_media$key
-		}
-	>
-}
-
-function mergeMapEntries(
-	map: Map<number, MediaListMapEntry>,
-	key: number,
-	entry: MediaListMapEntry
-) {
-	const old = map.get(key)
-	if (!old) {
-		void map.set(key, entry)
-		return
-	}
-	for (const [key, node] of entry.relations.entries()) {
-		void old.relations.set(key, node)
-	}
+interface MediaRefs {
+	AddToList_media: AddToList_media$key
+	MediaListItem_media: MediaListItem_media$key
 }
