@@ -25,19 +25,19 @@ export function markdownToHtml(
 		start = 0,
 		nested = false
 	): {
-		text: string
-		index: number
 		closed: boolean
+		index: number
 		spoilers: {
-			token: string
-			label: string
 			content: string
 			inline: boolean
+			label: string
 			spoilers: any[]
+			token: string
 		}[]
+		text: string
 	} => {
-		let text = "",
-			i = start
+		let i = start,
+			text = ""
 		const spoilers: any[] = []
 
 		while (i < source.length) {
@@ -47,10 +47,10 @@ export function markdownToHtml(
 
 			if (source.slice(i, i + 2) === "~!") {
 				const opening = i
-				let label = "",
-					contentStart = i + 2
+				let contentStart = i + 2,
+					label = ""
 
-				const labelMatch = source.slice(contentStart).match(/^\{([^{}<>\n]+)\}/)
+				const labelMatch = /^\{([^{}<>\n]+)\}/.exec(source.slice(contentStart))
 
 				if (labelMatch) {
 					label = labelMatch[1]
@@ -94,7 +94,7 @@ export function markdownToHtml(
 		const tags = /<\/?div\b[^>]*>/gi
 		tags.lastIndex = start
 
-		let match: RegExpExecArray | null
+		let match: null | RegExpExecArray
 
 		while ((match = tags.exec(html))) {
 			if (/^<div\b/i.test(match[0])) depth++
@@ -109,21 +109,23 @@ export function markdownToHtml(
 		if (end === -1) return html
 
 		const inner = html.slice(start + opening.length, end - 6)
-		const summary = inner.match(/^<summary>([\s\S]*?)<\/summary>/)
+		const summary = /^<summary>([\s\S]*?)<\/summary>/.exec(inner)
 		const label = summary ? summary[1] : "Show spoiler"
 		const content = summary ? inner.slice(summary[0].length) : inner
 
 		return replaceSpoilerDivs(
-			html.slice(0, start)
-				+ `<details><summary>${label}</summary>${replaceSpoilerDivs(content)}</details>`
-				+ html.slice(end)
+			`${html.slice(
+				0,
+				start
+			)}<details><summary>${label}</summary>${replaceSpoilerDivs(content)}</details>${html.slice(
+				end
+			)}`
 		)
 	}
 
 	const renderSpoilers = (source: string, spoilers: any[] = []): string => {
-		const parsed = spoilers.length
-			? { text: source, spoilers }
-			: parseSpoilers(source)
+		const parsed =
+			spoilers.length !== 0 ? { text: source, spoilers } : parseSpoilers(source)
 
 		let html = sanitizeHtml(
 			// @ts-expect-error marked error types are not correct
