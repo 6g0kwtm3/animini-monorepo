@@ -49,13 +49,17 @@ import {
 } from "./lib/abort-signal-middleware"
 import { waitForClientMiddleware } from "./lib/feature-flags"
 import { LoadingIndicator } from "./lib/loading-renderer"
+import { API_URL } from "./lib/Network/environment"
 
 const fontWeights = [
 	...new Set(Object.values(fonts).map((font) => font.fontWeight)),
 ]
 
 export const links: LinksFunction = () => {
+	const apiUrl = new URL(API_URL)
 	return [
+		{ rel: "preconnect", href: API_URL, crossOrigin: true },
+		{ rel: "dns-prefetch", href: apiUrl.host + apiUrl.pathname },
 		{ rel: "stylesheet", href: tailwind },
 		{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 		{
