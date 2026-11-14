@@ -121,7 +121,7 @@ catalog:
   knip: 6.44.1
   marked: 0.3.19
   motion: 14.9.0
-  msw: 3.0.4
+  msw: 3.0.5
   nodemon: 3.1.14
   oxfmt: 0.75.0
   oxlint: 1.92.0
