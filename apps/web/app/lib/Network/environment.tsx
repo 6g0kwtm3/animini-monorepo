@@ -11,6 +11,7 @@ import RelayRuntime, {
 	type UploadableMap,
 	type Variables,
 } from "relay-runtime"
+import Headers from "remix/headers"
 
 import { CookieToToken } from "../viewer"
 import { RateLimiter } from "./RateLimiter"
@@ -49,25 +50,52 @@ const fetchQuery = async function (
 		headers.set("Authorization", `Bearer ${token}`)
 	}
 
-	const request = await rateLimitedFetch(API_URL, {
+	const response = await rateLimitedFetch(API_URL, {
 		body: body,
 		method: "POST",
 		headers,
 	})
 
-	const rawRetryAfter = request.headers.get("retry-after")
+	return parseResponse(response)
+}
+
+async function parseResponse(
+	response: Response
+): Promise<WithRetry<typeof GraphQLResponse.inferOut>> {
+	const headers = new Headers(response.headers)
+
+	const rawRetryAfter = response.headers.get("retry-after")
 	const retryAfter = Number(rawRetryAfter)
 	if (isFinite(retryAfter) && retryAfter > 0) {
 		return {
 			kind: "Retry",
 			retryAfter: retryAfter + 1,
-			cause: { headers: request.headers, text: await request.text() },
+			cause: { headers: response.headers, text: await response.text() },
 		}
 	}
+	switch (headers.contentType.mediaType) {
+		case "application/graphql-response+json": {
+			break
+		}
+		case "application/json": {
+			if (!response.ok) {
+				const body: unknown = await response.json()
+				throw new Error("Response not ok", {
+					cause: { headers: response.headers, body },
+				})
+			}
+			break
+		}
+		case undefined:
+		default:
+			throw new Error("Not supported response type", {
+				cause: { headers: response.headers, text: await response.text() },
+			})
+	}
 
-	const response = GraphQLResponse.assert(await request.json())
+	const jsonResponse = GraphQLResponse.assert(await response.json())
 
-	return { kind: "Data", data: response }
+	return { kind: "Data", data: jsonResponse }
 }
 
 const rateLimiter =
