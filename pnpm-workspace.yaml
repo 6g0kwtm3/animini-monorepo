@@ -15,8 +15,6 @@ catalogMode: strict
 cleanupUnusedCatalogs: true
 dedupePeers: true
 enablePrePostScripts: false
-lockfile:
-  format: v13
 ignoredBuiltDependencies:
   - "@sentry/cli"
   - esbuild
