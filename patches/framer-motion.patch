@@ -1,5 +1,5 @@
 diff --git a/dist/index.d.ts b/dist/index.d.ts
-index 2408857ce9e7f7dd520e3cb4ea34fbfd6ef656fd..a97af43a90dec203499b96ee68cd1a21f4e7cc5d 100644
+index 49b1896dd00dc51dd5972f06315dfe1d8882b34a..91766054e80a849fb145e5ba4a43fde42ce8c6eb 100644
 --- a/dist/index.d.ts
 +++ b/dist/index.d.ts
 @@ -1,5 +1,6 @@
@@ -9,7 +9,7 @@ index 2408857ce9e7f7dd520e3cb4ea34fbfd6ef656fd..a97af43a90dec203499b96ee68cd1a21
  import { AnyResolvedKeyframe, OnKeyframesResolved, KeyframeResolver, VisualElement, MotionNodeOptions, MotionValue, TransformProperties, SVGPathProperties, Transition, PresenceContextProps, ResolvedValues, Feature, UnresolvedValueKeyframe, AnimationOptions, ElementOrSelector, DOMKeyframesDefinition, AnimationPlaybackOptions, AnimationPlaybackControlsWithThen, AnimationScope, TimelineWithFallback, ValueAnimationTransition, addEffect, removeEffect, AnimationPlaybackControls, MotionValueEventCallbacks, FollowValueOptions, SpringOptions, TransformOptions, WillChange, LegacyAnimationControls, ScopeOptions, ScopeSetup, MotionScope, DragControlOptions, NodeGroup, IProjectionNode } from 'motion-dom';
  export * from 'motion-dom';
  export { ArcOptions, DelayedFunction, FlatTree, FollowValueOptions, IProjectionNode, MotionPath, ResolvedValues, VisualElement, addScaleCorrector, animateVisualElement, arc, buildTransform, calcLength, createBox, delay, optimizedAppearDataAttribute, resolveMotionValue, visualElementStore } from 'motion-dom';
-@@ -1241,7 +1242,7 @@ declare function useMotionTemplate(fragments: TemplateStringsArray, ...values: A
+@@ -1329,7 +1330,7 @@ declare function useMotionTemplate(fragments: TemplateStringsArray, ...values: A
   *
   * @public
   */
