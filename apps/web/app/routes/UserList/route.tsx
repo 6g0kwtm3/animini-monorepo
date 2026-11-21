@@ -24,7 +24,7 @@ import { A } from "@anitrove/a"
 import { precompileStyles } from "@anitrove/unstyled"
 import { CheckboxProvider, Group, GroupLabel } from "@ariakit/react"
 import * as Ariakit from "@ariakit/react"
-import { captureException } from "@sentry/react"
+import { captureException } from "@sentry/react-router"
 import { type } from "arktype"
 import { ExtraOutlet, ExtraOutlets } from "extra-outlet"
 import {

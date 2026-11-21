@@ -218,7 +218,7 @@ export default function Page({ loaderData }: Route.ComponentProps): ReactNode {
 	)
 }
 
-import * as Sentry from "@sentry/react"
+import * as Sentry from "@sentry/react-router"
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): ReactNode {
 	// when true, this is what used to go to `CatchBoundary`

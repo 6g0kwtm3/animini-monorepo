@@ -13,7 +13,7 @@ import { utilities } from "@anitrove/design"
 import { mergeStyles, precompileStyles } from "@anitrove/unstyled"
 import { Box } from "@anitrove/unstyled/box"
 // console.log(R)
-import { ErrorBoundary } from "@sentry/react"
+import { ErrorBoundary } from "@sentry/react-router"
 import { Suspense } from "react"
 import ReactRelay, { useLazyLoadQuery } from "react-relay"
 import { MediaCover } from "~/lib/entry/MediaCover"

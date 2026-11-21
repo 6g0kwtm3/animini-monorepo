@@ -1,4 +1,4 @@
-import { sentryOnBuildEnd } from "@sentry/react/vite"
+import { sentryOnBuildEnd } from "@sentry/react-router/vite"
 
 import type { Config } from "@react-router/dev/config"
 

@@ -1,4 +1,4 @@
-import { setUser } from "@sentry/react"
+import { setUser } from "@sentry/react-router"
 import { redirect, type ClientLoaderFunctionArgs } from "react-router"
 import { commitLocalUpdate } from "~/lib/Network"
 

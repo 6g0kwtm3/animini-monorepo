@@ -9,7 +9,7 @@ import { SnackbarQueue } from "@animedes/components/Snackbar"
 import { ClientMiddleware } from "@anitrove/a/prefetch"
 import theme from "@anitrove/design/theme"
 import * as Ariakit from "@ariakit/react"
-import { captureException } from "@sentry/react"
+import { captureException } from "@sentry/react-router"
 import { type ReactNode } from "react"
 import {
 	isRouteErrorResponse,

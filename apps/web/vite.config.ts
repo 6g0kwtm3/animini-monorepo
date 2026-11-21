@@ -1,6 +1,6 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import { reactRouter } from "@react-router/dev/vite"
-import { sentryReactRouter as sentry } from "@sentry/react/vite"
+import { sentryReactRouter as sentry } from "@sentry/react-router/vite"
 import tailwindcss from "@tailwindcss/vite"
 import path from "path"
 import webpackStatsPlugin from "rollup-plugin-webpack-stats"
