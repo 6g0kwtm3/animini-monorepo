@@ -86,7 +86,12 @@ export default defineConfig((config) => {
 				},
 			},
 		},
-		resolve: { tsconfigPaths: true },
+		resolve: {
+			tsconfigPaths: true,
+			// @sentry/react is an alias for the @sentry/react-router package (see pnpm-workspace.yaml catalog),
+			// but Sentry's vite plugin emits imports of the real package name.
+			alias: { "@sentry/react-router": "@sentry/react" },
+		},
 		envPrefix: ["VITE_", "CF_", "NODE_"],
 	}
 })
