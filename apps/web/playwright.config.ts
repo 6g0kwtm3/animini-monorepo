@@ -9,6 +9,7 @@ export default defineConfig<Fixtures & WorkerFixtures>({
 	testDir: "./tests",
 	timeout: 60000,
 	expect: { timeout: 10000 },
+	workers: process.env.CI ? 4 : undefined,
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
