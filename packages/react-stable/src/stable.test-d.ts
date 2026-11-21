@@ -265,6 +265,24 @@ it("DeepStable<T> makes Map entries deep stable", () => {
 		assertType<Stable<Map<K, DeepStable<T>>>>(value)
 	}
 })
+it("DeepStable<T> makes Array entries deep stable", () => {
+	void function test<T>(value: DeepStable<T[]>) {
+		assertType<DeepStable<T>[]>(value)
+	}
+})
+
+it("DeepStable<T> makes ReadonlyArray entries deep stable", () => {
+	void function test<T>(value: DeepStable<readonly T[]>) {
+		assertType<readonly DeepStable<T>[]>(value)
+	}
+})
+
+it("DeepStable<T> makes tuple entries deep stable", () => {
+	void function test<A, B>(value: DeepStable<[A, B]>) {
+		assertType<DeepStable<A>>(value[0])
+		assertType<DeepStable<B>>(value[1])
+	}
+})
 
 it("DeepStable<T> makes Set entries deep stable", () => {
 	void function test<T>(value: DeepStable<Set<T>>) {
