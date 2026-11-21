@@ -40,7 +40,7 @@
 		"oxfmt": "catalog:",
 		"oxlint": "catalog:",
 		"oxlint-config": "workspace:@animedes/oxlint-config@*",
-		"oxlint-tsgolint": "catalog:",
+		"tsrs": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:",
 		"vitest": "catalog:",

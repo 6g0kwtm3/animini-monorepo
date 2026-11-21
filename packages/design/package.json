@@ -12,7 +12,7 @@
 	},
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsc --noEmit"
+		"check": "tsrs --noEmit --fast"
 	},
 	"peerDependencies": {
 		"@anitrove/unstyled": "workspace:@animedes/unstyled@*",

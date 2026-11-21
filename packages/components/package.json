@@ -44,7 +44,7 @@
 	},
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsc --noEmit"
+		"check": "tsrs --noEmit --fast"
 	},
 	"peerDependencies": {
 		"@animedes/react-stable": "workspace:",

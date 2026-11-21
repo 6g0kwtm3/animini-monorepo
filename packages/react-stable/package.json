@@ -7,7 +7,7 @@
 	"exports": "./src/stable.ts",
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsc --noEmit"
+		"check": "tsrs --noEmit --fast"
 	},
 	"devDependencies": {
 		"eslint": "catalog:",
