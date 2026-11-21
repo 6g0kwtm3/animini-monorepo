@@ -41,7 +41,7 @@
 		"@openfeature/web-sdk": "catalog:",
 		"@react-router/dev": "catalog:",
 		"@react-router/node": "catalog:",
-		"@sentry/react": "catalog:",
+		"@sentry/react-router": "catalog:",
 		"@svgr/core": "catalog:",
 		"@svgr/plugin-jsx": "catalog:",
 		"@tailwindcss/typography": "catalog:",

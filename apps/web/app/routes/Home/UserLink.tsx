@@ -17,7 +17,7 @@ import {
 import { A } from "@anitrove/a"
 import { state } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
-import { ErrorBoundary } from "@sentry/react"
+import { ErrorBoundary } from "@sentry/react-router"
 import { Suspense } from "react"
 // console.log(R)
 import ReactRelay, { useLazyLoadQuery } from "react-relay"

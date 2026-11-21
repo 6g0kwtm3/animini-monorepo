@@ -13,7 +13,7 @@ import { state } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
 // console.log(R)
 import { Composite, CompositeItem, useCompositeStore } from "@ariakit/react"
-import { ErrorBoundary } from "@sentry/react"
+import { ErrorBoundary } from "@sentry/react-router"
 import { Markdown, type MarkdownProps } from "markdown/Markdown"
 import { useEffect, useId, type ReactNode } from "react"
 import ReactRelay from "react-relay"

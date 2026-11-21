@@ -6,7 +6,7 @@ import {
 	OpenFeature,
 	TypedInMemoryProvider,
 } from "@openfeature/web-sdk"
-import { OpenFeatureIntegrationHook } from "@sentry/react"
+import { OpenFeatureIntegrationHook } from "@sentry/react-router"
 import { type LiveState } from "relay-runtime"
 
 import type {

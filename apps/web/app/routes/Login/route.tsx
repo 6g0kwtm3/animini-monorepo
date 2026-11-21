@@ -6,7 +6,7 @@ import {
 	TextFieldOutlinedInput,
 } from "@animedes/components/TextField"
 import { hash32, hex } from "@animedes/hash"
-import { setUser } from "@sentry/react"
+import { setUser } from "@sentry/react-router"
 import ReactRelay from "react-relay"
 import { redirect, useFetcher } from "react-router"
 import { client_get_client } from "~/lib/client"

@@ -179,6 +179,6 @@ const environment = new Environment({
 	// ... other options
 })
 
-import * as Sentry from "@sentry/react"
+import * as Sentry from "@sentry/react-router"
 
 export default environment
