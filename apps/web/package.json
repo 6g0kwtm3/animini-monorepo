@@ -72,6 +72,7 @@
 	},
 	"devDependencies": {
 		"@babel/preset-typescript": "catalog:",
+		"@babel/plugin-syntax-jsx": "catalog:",
 		"@graphql-eslint/eslint-plugin": "catalog:",
 		"@graphql-tools/mock": "catalog:",
 		"@msw/playwright": "catalog:",
