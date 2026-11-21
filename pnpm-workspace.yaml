@@ -56,7 +56,7 @@ saveTypes: true
 catalog:
   "@animedes/react-stable": workspace:*
   "@ariakit/react": 0.4.43
-  "@ark/attest": 0.58.0
+  "@ark/attest": 0.58.1
   "@babel/preset-typescript": 7.29.7
   "@chromatic-com/storybook": 5.6.0
   "@codspeed/vitest-plugin": 6.1.1
@@ -66,8 +66,8 @@ catalog:
   "@flaghoist/server": ./flaghoist-server-0.4.1.tgz
   "@graphql-eslint/eslint-plugin": 4.4.2
   "@graphql-tools/mock": 10.1.4
-  "@hono/node-server": 2.1.8
-  "@iconify-json/material-symbols": 1.2.100
+  "@hono/node-server": 2.1.9
+  "@iconify-json/material-symbols": 1.2.101
   "@inlang/paraglide-js": 3.2.2
   "@material/material-color-utilities": 0.4.0
   "@msw/playwright": 0.7.0
@@ -75,7 +75,7 @@ catalog:
   "@playwright/test": 1.65.1
   "@react-router/dev": 8.5.1
   "@react-router/node": 8.5.1
-  "@sentry/react": npm:@sentry/react-router@11.9.0
+  "@sentry/react": npm:@sentry/react-router@11.14.0
   "@storybook/addon-a11y": 10.6.7
   "@storybook/addon-docs": 10.6.7
   "@storybook/addon-onboarding": 10.6.7
@@ -99,13 +99,13 @@ catalog:
   "@types/react": 19.3.0
   "@types/react-dom": 19.3.0
   "@typescript-eslint/parser": 8.73.0
-  "@typescript/native": npm:typescript@7.1.0-dev.20261114.1
+  "@typescript/native": npm:typescript@7.1.0-dev.20261118.1
   anitomy: 0.0.35
-  arktype: 2.2.9
+  arktype: 2.2.10
   babel-plugin-react-compiler: 1.0.0
-  csstype: 3.2.3
+  csstype: 3.2.4
   dompurify: 3.2.5
-  electron: 45.3.2
+  electron: 45.3.4
   electron-devtools-installer: 4.0.0
   eslint: 10.15.0
   eslint-plugin-oxlint: 1.94.0
@@ -118,14 +118,14 @@ catalog:
   flubber: 0.4.2
   graphql: 17.1.0
   graphql-config: 6.0.0
-  hono: 4.13.18
+  hono: 4.13.19
   isbot: 5.2.3
   knip: 6.45.1
   marked: 0.3.19
   motion: 14.14.0
   msw: 3.0.7
   nodemon: 3.1.14
-  oxfmt: 0.78.0
+  oxfmt: 0.79.0
   oxlint: 1.94.0
   oxlint-tsgolint: 7.0.2007
   prop-types: 15.8.1
@@ -139,9 +139,9 @@ catalog:
   storybook: 10.6.7
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.5
-  temporal-polyfill-lite: 1.0.1
+  temporal-polyfill-lite: 1.0.2
   tsx: 4.23.15
-  turbo: 2.11.11
+  turbo: 2.11.12
   typescript: npm:@typescript/typescript6@6.0.2
   typescript-eslint: 8.73.0
   unplugin-icons: 24.0.0
@@ -151,4 +151,4 @@ catalog:
   vite-plugin-babel: 1.7.3
   vite-plugin-inspect: 12.1.0
   vitest: 5.1.0
-  wrangler: 4.162.0
+  wrangler: 4.164.0
