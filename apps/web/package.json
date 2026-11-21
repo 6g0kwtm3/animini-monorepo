@@ -65,6 +65,7 @@
 		"react-router": "catalog:",
 		"relay-compiler": "catalog:",
 		"relay-runtime": "catalog:",
+		"remix": "catalog:",
 		"tailwindcss": "catalog:",
 		"unplugin-icons": "catalog:",
 		"unplugin-relay": "catalog:",

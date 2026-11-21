@@ -135,6 +135,7 @@ catalog:
   react-router: 8.5.1
   relay-compiler: 21.0.1
   relay-runtime: 21.0.1
+  remix: 3.2.0
   rollup-plugin-webpack-stats: 4.0.2
   storybook: 10.6.7
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
