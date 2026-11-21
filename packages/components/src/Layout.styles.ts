@@ -1,11 +1,14 @@
 import * as design from "@animedes/design"
-import { create, is, Var } from "@animedes/unstyled"
+import { create, createVar, variants } from "@animedes/unstyled"
 
-export const Navigation = new Var<"bar" | "drawer" | "none" | "rail">(
-	"--navigation"
-)
+export const Navigation = createVar("--navigation", [
+	"bar",
+	"drawer",
+	"none",
+	"rail",
+])
 
-export const Variant = new Var<"fixed" | "flexible">("--variant")
+export const Variant = createVar("--variant", ["fixed", "flexible"])
 
 export const styles = create({
 	layout: { isolation: "isolate" },
@@ -17,12 +20,22 @@ export const styles = create({
 		display: "flex",
 		gap: "1.5rem",
 		...design.utilities.marginStart({
-			base: "1rem",
-			[is(Navigation, "none", "bar")]: { [design.media.sm]: "1.5rem" },
-			[is(Navigation, "rail")]: "5rem",
-			[is(Navigation, "drawer")]: "22.5rem",
+			base: variants(Navigation, {
+				none: "1rem",
+				bar: "1rem",
+				["rail"]: "5rem",
+				["drawer"]: "22.5rem",
+			}),
+			[design.media.sm]: variants(Navigation, {
+				none: "1.5rem",
+				bar: "1.5rem",
+				["rail"]: "5rem",
+				["drawer"]: "22.5rem",
+			}),
 		}),
-		...design.utilities.paddingBottom({ [is(Navigation, "bar")]: "5rem" }),
+		...design.utilities.paddingBottom(
+			variants(Navigation, { ["bar"]: "5rem" })
+		),
 	},
 	pane: {
 		display: "block",
@@ -31,11 +44,8 @@ export const styles = create({
 		overflowX: "hidden",
 		borderRadius: design.tokens.borderRadius.md,
 
-		width: {
-			[is(Variant, "fixed")]: "22.5rem",
-			[is(Variant, "flexible")]: "100%",
-		},
-		flexShrink: { [is(Variant, "fixed")]: 0 },
-		flexGrow: { [is(Variant, "flexible")]: 1 },
+		width: variants(Variant, { ["fixed"]: "22.5rem", ["flexible"]: "100%" }),
+		flexShrink: variants(Variant, { ["fixed"]: 0 }),
+		flexGrow: variants(Variant, { ["flexible"]: 1 }),
 	},
 })

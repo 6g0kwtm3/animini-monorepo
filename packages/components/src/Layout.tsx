@@ -13,7 +13,7 @@ interface LayoutProps extends Omit<
 	"className" | "style"
 > {
 	style?: OutStyles
-	navigation?: typeof Navigation.$T
+	navigation?: keyof typeof Navigation.variants
 }
 
 export function Layout({ style, navigation = "none", ...props }: LayoutProps) {
@@ -44,7 +44,7 @@ interface LayoutPaneProps extends Omit<
 	"className" | "style"
 > {
 	style?: OutStyles
-	variant?: typeof Variant.$T
+	variant?: keyof typeof Variant.variants
 }
 
 export function LayoutPane({
