@@ -21,6 +21,9 @@ const sourceFiles = [
 
 export default [
 	{ ...eslint.configs.recommended, files: [...sourceFiles] },
-	...tseslint.configs.recommended.map((config) => ({ ...config, files: [...sourceFiles] })),
+	...tseslint.configs.recommended.map((config) => ({
+		...config,
+		files: [...sourceFiles],
+	})),
 	eslintPluginJson.configs.recommended,
 ]

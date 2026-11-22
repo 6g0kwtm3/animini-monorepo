@@ -106,12 +106,7 @@ test("reports the scope itself as an unusable name", async () => {
 		code: `{
 		"name": "@animedes"
 	}`,
-		errors: [
-			{
-				messageId: "foreignScope",
-				data: { name: "@animedes" },
-			},
-		],
+		errors: [{ messageId: "foreignScope", data: { name: "@animedes" } }],
 		output: null,
 	})
 })
