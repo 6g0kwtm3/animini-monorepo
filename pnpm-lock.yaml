@@ -353,8 +353,8 @@ catalogs:
       specifier: 10.6.7
       version: 10.6.7
     eslint-plugin-turbo:
-      specifier: 2.11.12
-      version: 2.11.12
+      specifier: 2.11.13
+      version: 2.11.13
     eslint-vitest-rule-tester:
       specifier: 3.2.0
       version: 3.2.0
@@ -989,7 +989,7 @@ importers:
         version: 5.14.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)
       eslint-plugin-turbo:
         specifier: 'catalog:'
-        version: 2.11.12(eslint@10.15.0)(turbo@2.11.11)
+        version: 2.11.13(eslint@10.15.0)(turbo@2.11.11)
       oxlint-config:
         specifier: workspace:@animedes/oxlint-config@*
         version: link:../oxlint-config
@@ -6302,8 +6302,8 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-turbo@2.11.12:
-    resolution: {integrity: sha512-MZ1J5JXE3kUCqAgc223Xw2Icm2JNtSFKazFYqDVm/fUyTaeNauQFRplciX5smoxQ/ff95dt5RJwd0xY087qhjw==}
+  eslint-plugin-turbo@2.11.13:
+    resolution: {integrity: sha512-onVo2w+kYElFsW+kTJS7ocXHQ74EkaW3tp5ETYKHVACCC0Rm2Tbr4vS0LyRPadRfDhi+xbbYEZrxn/k1+jSL+A==}
     peerDependencies:
       eslint: '>6.6.0'
       turbo: '>2.0.0'
@@ -13473,7 +13473,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-turbo@2.11.12(eslint@10.15.0)(turbo@2.11.11):
+  eslint-plugin-turbo@2.11.13(eslint@10.15.0)(turbo@2.11.11):
     dependencies:
       dotenv: 16.0.3
       eslint: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
