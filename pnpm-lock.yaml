@@ -196,6 +196,9 @@ catalogs:
     '@eslint/js':
       specifier: 10.0.1
       version: 10.0.1
+    '@eslint/json':
+      specifier: 2.1.1
+      version: 2.1.1
     '@flaghoist/adapter-cloudflare-kv':
       specifier: 0.3.1
       version: 0.3.1
@@ -492,12 +495,18 @@ importers:
 
   .:
     devDependencies:
+      '@animedes/eslint-plugin-json':
+        specifier: workspace:@animedes/eslint-plugin-json@*
+        version: link:packages/eslint-plugin-json
       '@animedes/react-stable':
         specifier: 'workspace:'
         version: link:packages/react-stable
       '@ark/attest':
         specifier: 'catalog:'
         version: 0.58.0(@typescript/typescript6@6.0.2)(supports-color@10.2.2)
+      '@eslint/json':
+        specifier: 'catalog:'
+        version: 2.1.1
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.65.1
@@ -521,7 +530,7 @@ importers:
         version: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
       eslint-plugin-pnpm:
         specifier: 'catalog:'
-        version: 1.9.1(eslint@10.15.0)
+        version: 1.9.1(@eslint/json@2.1.1)(eslint@10.15.0)
       knip:
         specifier: 'catalog:'
         version: 6.45.1
@@ -975,9 +984,15 @@ importers:
 
   packages/eslint-config:
     dependencies:
+      '@animedes/eslint-plugin-json':
+        specifier: workspace:@animedes/eslint-plugin-json@*
+        version: link:../eslint-plugin-json
       '@eslint/js':
         specifier: 'catalog:'
         version: 10.0.1(eslint@10.15.0)
+      '@eslint/json':
+        specifier: 'catalog:'
+        version: 2.1.1
       eslint:
         specifier: 'catalog:'
         version: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
@@ -1018,6 +1033,37 @@ importers:
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
+
+  packages/eslint-plugin-json:
+    dependencies:
+      '@eslint/core':
+        specifier: '*'
+        version: 1.2.1
+      eslint:
+        specifier: 'catalog:'
+        version: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
+    devDependencies:
+      '@eslint/js':
+        specifier: 'catalog:'
+        version: 10.0.1(eslint@10.15.0)
+      '@eslint/json':
+        specifier: 'catalog:'
+        version: 2.1.1
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.6
+      eslint-vitest-rule-tester:
+        specifier: 'catalog:'
+        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.1)
+      ts-config:
+        specifier: workspace:@animedes/ts-config@*
+        version: link:../ts-config
+      typescript-eslint:
+        specifier: 'catalog:'
+        version: 8.73.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   packages/eslint-plugin-jsx:
     dependencies:
@@ -2315,6 +2361,10 @@ packages:
       eslint:
         optional: true
 
+  '@eslint/json@2.1.1':
+    resolution: {integrity: sha512-ffVzPZALaJzxuo46ggBtJ9c8YBWKLMh/R35aFBHk/dRobmFNortJlHJfBWbHGuydoFeVZbvPy0PLX2wvCI9T9w==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
   '@eslint/object-schema@3.0.5':
     resolution: {integrity: sha512-vqTaUEgxzm+YDSdElad6PiRoX4t8VGDjCtt05zn4nU810UIx/uNEV7/lZJ6KwFThKZOzOxzXy48da+No7HZaMw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
@@ -2582,6 +2632,10 @@ packages:
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
     engines: {node: '>=12.22'}
+
+  '@humanwhocodes/momoa@3.3.13':
+    resolution: {integrity: sha512-AbKq3EW41+HY6pNMJgAOrz68iyiTTf0Nr1JRHHfuG5zwniJ9Dw8J3U7oa1I2ptpqYwmEf1sXKOGK6lbdZ9eqmg==}
+    engines: {node: '>=18'}
 
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
@@ -9775,6 +9829,13 @@ snapshots:
     optionalDependencies:
       eslint: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
 
+  '@eslint/json@2.1.1':
+    dependencies:
+      '@eslint/core': 1.2.1
+      '@eslint/plugin-kit': 0.7.3
+      '@humanwhocodes/momoa': 3.3.13
+      natural-compare: 1.4.0
+
   '@eslint/object-schema@3.0.5': {}
 
   '@eslint/plugin-kit@0.7.3':
@@ -10201,6 +10262,8 @@ snapshots:
   '@humanfs/types@0.15.0': {}
 
   '@humanwhocodes/module-importer@1.0.1': {}
+
+  '@humanwhocodes/momoa@3.3.13': {}
 
   '@humanwhocodes/retry@0.4.3': {}
 
@@ -13405,11 +13468,13 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-json-compat-utils@0.2.3(eslint@10.15.0)(jsonc-eslint-parser@3.3.0):
+  eslint-json-compat-utils@0.2.3(@eslint/json@2.1.1)(eslint@10.15.0)(jsonc-eslint-parser@3.3.0):
     dependencies:
       eslint: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
       esquery: 1.7.0
       jsonc-eslint-parser: 3.3.0
+    optionalDependencies:
+      '@eslint/json': 2.1.1
 
   eslint-plugin-oxlint@1.94.0(oxlint@1.94.0):
     dependencies:
@@ -13428,11 +13493,11 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-pnpm@1.9.1(eslint@10.15.0):
+  eslint-plugin-pnpm@1.9.1(@eslint/json@2.1.1)(eslint@10.15.0):
     dependencies:
       empathic: 2.1.0
       eslint: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
-      eslint-json-compat-utils: 0.2.3(eslint@10.15.0)(jsonc-eslint-parser@3.3.0)
+      eslint-json-compat-utils: 0.2.3(@eslint/json@2.1.1)(eslint@10.15.0)(jsonc-eslint-parser@3.3.0)
       jsonc-eslint-parser: 3.3.0
       pathe: 2.0.3
       pnpm-workspace-yaml: 1.9.1

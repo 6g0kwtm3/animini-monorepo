@@ -1,5 +1,6 @@
 // @ts-check
 
+import eslintPluginJson from "@animedes/eslint-plugin-json"
 import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
 import perfectionist from "eslint-plugin-perfectionist"
@@ -95,4 +96,5 @@ export default [
 		},
 	},
 	...oxlint.buildFromOxlintConfig(oxlintConfig),
+	eslintPluginJson.configs.recommended,
 ]
