@@ -1,5 +1,5 @@
 {
-	"name": "web-flags",
+	"name": "@animedes/web-flags",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
