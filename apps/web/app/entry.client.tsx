@@ -97,6 +97,7 @@ init({
 		`TypeError: NetworkError when attempting to fetch resource`,
 		`TypeError: Load failed`,
 		`TypeError: Failed to fetch`,
+		`Error: Response not ok`,
 	],
 })
 
