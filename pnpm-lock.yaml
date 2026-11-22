@@ -467,8 +467,8 @@ catalogs:
       specifier: 12.1.0
       version: 12.1.0
     vitest:
-      specifier: 5.1.0
-      version: 5.1.0
+      specifier: 5.1.1
+      version: 5.1.1
     wrangler:
       specifier: 4.162.0
       version: 4.162.0
@@ -509,7 +509,7 @@ importers:
         version: 10.1.1(@types/node@26.6.6)
       '@stryker-mutator/vitest-runner':
         specifier: 'catalog:'
-        version: 10.1.1(@stryker-mutator/core@10.1.1)(vitest@5.1.0)
+        version: 10.1.1(@stryker-mutator/core@10.1.1)(vitest@5.1.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.6
@@ -545,7 +545,7 @@ importers:
         version: '@typescript/typescript6@6.0.2'
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
       wrangler:
         specifier: 'catalog:'
         version: 4.162.0(@types/node@26.6.6)
@@ -585,7 +585,7 @@ importers:
         version: 10.6.7(storybook@10.6.7)
       '@storybook/addon-vitest':
         specifier: 'catalog:'
-        version: 10.6.7(react@19.3.1)(storybook@10.6.7)(vitest@5.1.0)
+        version: 10.6.7(react@19.3.1)(storybook@10.6.7)(vitest@5.1.1)
       '@storybook/react-vite':
         specifier: 'catalog:'
         version: 10.6.7(@types/react-dom@19.3.0)(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(react-dom@19.3.1)(react@19.3.1)(storybook@10.6.7)(supports-color@10.2.2)(vite@8.3.8)
@@ -835,7 +835,7 @@ importers:
         version: 12.1.0(cac@7.1.0)(crossws@0.4.17)(srvx@1.0.8)(vite@8.3.8)
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   apps/web-flags:
     dependencies:
@@ -1051,7 +1051,7 @@ importers:
         version: link:../eslint-config
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.0)
+        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.1)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
@@ -1060,7 +1060,7 @@ importers:
         version: '@typescript/typescript6@6.0.2'
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   packages/eslint-plugin-relay:
     dependencies:
@@ -1094,13 +1094,13 @@ importers:
         version: link:../eslint-config
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.0)
+        version: 3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.1)
       ts-config:
         specifier: workspace:@animedes/ts-config@*
         version: link:../ts-config
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   packages/extra-outlet:
     dependencies:
@@ -1134,7 +1134,7 @@ importers:
     devDependencies:
       '@codspeed/vitest-plugin':
         specifier: 'catalog:'
-        version: 6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.0)
+        version: 6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.1)
       '@typescript/native':
         specifier: 'catalog:'
         version: typescript@7.1.0-dev.20261114.1
@@ -1152,7 +1152,7 @@ importers:
         version: '@typescript/typescript6@6.0.2'
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   packages/load-assets:
     dependencies:
@@ -1220,7 +1220,7 @@ importers:
     devDependencies:
       '@codspeed/vitest-plugin':
         specifier: 'catalog:'
-        version: 6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.0)
+        version: 6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.1)
       eslint:
         specifier: 'catalog:'
         version: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
@@ -1238,7 +1238,7 @@ importers:
         version: link:../ts-config
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   packages/markdown:
     dependencies:
@@ -1319,7 +1319,7 @@ importers:
         version: 0.4.43(react-dom@19.3.1)(react@19.3.1)
       '@codspeed/vitest-plugin':
         specifier: 'catalog:'
-        version: 6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.0)
+        version: 6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.1)
       '@typescript/native':
         specifier: 'catalog:'
         version: typescript@7.1.0-dev.20261114.1
@@ -1343,7 +1343,7 @@ importers:
         version: link:../utilities
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+        version: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   packages/utilities:
     devDependencies:
@@ -5581,8 +5581,8 @@ packages:
   '@vitest/expect@3.2.4':
     resolution: {integrity: sha512-Io0yyORnB6sikFlt8QW5K7slY4OjqNX9jmJQ02QDda8lyM6B5oNgVWoSoKPac8/kgnCUzuHQKrSLtu/uOqqrig==}
 
-  '@vitest/mocker@5.1.0':
-    resolution: {integrity: sha512-5umB9/jlWcqVS6fsrFmv5Gdnpu6wAUio/lEOwAmvB7v+lFo/IW2B9FhAD0p19GCULTgMzLCdUmuCDCnAzWgppQ==}
+  '@vitest/mocker@5.1.1':
+    resolution: {integrity: sha512-b2OgTB4+3ImWIVafXKazJXwLKwQxUNnix6b3xUvUTMh7RyXlrtzoxfZr8aEz9zkHOMAS4K5lu3TvFWoiVeVTQg==}
     peerDependencies:
       msw: ^2.4.9 || ^3.0.0
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -5598,8 +5598,8 @@ packages:
   '@vitest/spy@3.2.4':
     resolution: {integrity: sha512-vAfasCOe6AIK70iP5UD11Ac4siNUNJ9i/9PZ3NKx07sG6sUxeag1LWdNrMWeKKYBLlzuK+Gn65Yd5nyL6ds+nw==}
 
-  '@vitest/spy@5.1.0':
-    resolution: {integrity: sha512-2DPO5OMHWKrBngC+fCmTQqemNF0gidRhp3lxbBmRhW+M1XJrfgPpqNqWVevXtn2f2ufD5ZaR1B6B641aAlcX5A==}
+  '@vitest/spy@5.1.1':
+    resolution: {integrity: sha512-6K8C6alQG1/Yc8/ZI22iJS7JEsxPdVzqtqDq+/xM4Z0mGVykemMVjLhqMy/q6/IHYG3kKD8hKSwRen/ZdyI9vQ==}
 
   '@vitest/utils@3.2.4':
     resolution: {integrity: sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==}
@@ -8560,20 +8560,20 @@ packages:
       yaml:
         optional: true
 
-  vitest@5.1.0:
-    resolution: {integrity: sha512-MzmNFnrwa8v8lF1bLxw3UJ4EREwVOVb75VqJZmUDRjJ6EluK/x9th7qTbaeDk41WxE1GxWqmTXcdsfobfH5sOA==}
+  vitest@5.1.1:
+    resolution: {integrity: sha512-trVmzUFOSraCZcI3uZIMD5FqBh4atFkC/XuJP/IU7qtyQay0FCs3Ia+0QiQ2JJwGyWG/xrcBoJNel2+O7kEZ0g==}
     engines: {node: ^22.12.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@opentelemetry/api': ^1.9.0
       '@types/node': ^22.0.0 || >=24.0.0
-      '@vitest/browser-playwright': 5.1.0
-      '@vitest/browser-preview': 5.1.0
+      '@vitest/browser-playwright': 5.1.1
+      '@vitest/browser-preview': 5.1.1
       '@vitest/browser-webdriverio': ^5.0.0-beta.5 || >=5.0.0
-      '@vitest/coverage-istanbul': 5.1.0
-      '@vitest/coverage-v8': 5.1.0
-      '@vitest/ui': 5.1.0
+      '@vitest/coverage-istanbul': 5.1.1
+      '@vitest/coverage-v8': 5.1.1
+      '@vitest/ui': 5.1.1
       happy-dom: '*'
       jsdom: '*'
       vite: ^6.4.0 || ^7.0.0 || ^8.0.0
@@ -9443,12 +9443,12 @@ snapshots:
       - debug
       - supports-color
 
-  '@codspeed/vitest-plugin@6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.0)':
+  '@codspeed/vitest-plugin@6.1.1(debug@4.4.3)(supports-color@10.2.2)(tinybench@6.2.3)(vite@8.3.8)(vitest@5.1.1)':
     dependencies:
       '@codspeed/core': 6.1.1(debug@4.4.3)(supports-color@10.2.2)
       tinybench: 6.2.3
       vite: 8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
-      vitest: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+      vitest: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -11956,13 +11956,13 @@ snapshots:
       storybook: 10.6.7(@types/react@19.3.0)(prettier@3.6.2)(react@19.3.1)
       ts-dedent: 2.3.0
 
-  '@storybook/addon-vitest@10.6.7(react@19.3.1)(storybook@10.6.7)(vitest@5.1.0)':
+  '@storybook/addon-vitest@10.6.7(react@19.3.1)(storybook@10.6.7)(vitest@5.1.1)':
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/icons': 2.2.0(react@19.3.1)
       storybook: 10.6.7(@types/react@19.3.0)(prettier@3.6.2)(react@19.3.1)
     optionalDependencies:
-      vitest: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+      vitest: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
     transitivePeerDependencies:
       - react
 
@@ -12083,14 +12083,14 @@ snapshots:
 
   '@stryker-mutator/util@10.1.1': {}
 
-  '@stryker-mutator/vitest-runner@10.1.1(@stryker-mutator/core@10.1.1)(vitest@5.1.0)':
+  '@stryker-mutator/vitest-runner@10.1.1(@stryker-mutator/core@10.1.1)(vitest@5.1.1)':
     dependencies:
       '@stryker-mutator/api': 10.1.1
       '@stryker-mutator/core': 10.1.1(@types/node@26.6.6)
       '@stryker-mutator/util': 10.1.1
       semver: 7.8.6
       tslib: 2.8.1
-      vitest: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+      vitest: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.29.13)':
     dependencies:
@@ -12611,10 +12611,10 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@5.1.0(msw@3.0.7)(vite@8.3.8)':
+  '@vitest/mocker@5.1.1(msw@3.0.7)(vite@8.3.8)':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
-      '@vitest/spy': 5.1.0
+      '@vitest/spy': 5.1.1
       estree-walker: 3.0.3
       magic-string: 1.4.5
     optionalDependencies:
@@ -12629,7 +12629,7 @@ snapshots:
     dependencies:
       tinyspy: 4.0.6
 
-  '@vitest/spy@5.1.0': {}
+  '@vitest/spy@5.1.1': {}
 
   '@vitest/utils@3.2.4':
     dependencies:
@@ -13490,11 +13490,11 @@ snapshots:
 
   eslint-visitor-keys@5.0.1: {}
 
-  eslint-vitest-rule-tester@3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.0):
+  eslint-vitest-rule-tester@3.2.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)(vitest@5.1.1):
     dependencies:
       '@typescript-eslint/utils': 8.73.0(@typescript/typescript6@6.0.2)(eslint@10.15.0)(supports-color@10.2.2)(typescript@7.1.0-dev.20261114.1)
       eslint: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
-      vitest: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
+      vitest: 5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8)
     transitivePeerDependencies:
       - '@typescript/native'
       - supports-color
@@ -16071,10 +16071,10 @@ snapshots:
       tsx: 4.23.15
       yaml: 2.9.1
 
-  vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8):
+  vitest@5.1.1(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(msw@3.0.7)(vite@8.3.8):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.1.0(msw@3.0.7)(vite@8.3.8)
+      '@vitest/mocker': 5.1.1(msw@3.0.7)(vite@8.3.8)
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
