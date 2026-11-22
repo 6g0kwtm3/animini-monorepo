@@ -150,7 +150,7 @@ jobs:
       - name: Check affected — deploy
         id: affected-deploy
         continue-on-error: true
-        run: pnpm exec turbo query affected --packages web-flags --tasks deploy --exit-code
+        run: pnpm exec turbo query affected --packages @animedes/web-flags --tasks deploy --exit-code
 
       - name: Deploy
         if: steps.affected-deploy.outcome == 'failure'
@@ -158,10 +158,10 @@ jobs:
         shell: bash
         run: |
           if [ "${VITE_SENTRY_MODE}" = "production" ]; then
-            pnpm exec turbo --filter=web-flags deploy
+            pnpm exec turbo --filter=@animedes/web-flags deploy
             filter='select(.type == "deploy") | .targets[0]'
           else
-            pnpm --filter=web-flags exec wrangler preview --name "${BRANCH}"
+            pnpm --filter=@animedes/web-flags exec wrangler preview --name "${BRANCH}"
             filter='select(.type == "preview") | (.preview_urls[0] // .deployment_urls[0] // empty)'
           fi
           url=$(jq -r "$filter" "$WRANGLER_OUTPUT_FILE_PATH" | tail -n 1)

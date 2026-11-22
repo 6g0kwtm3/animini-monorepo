@@ -1,0 +1,26 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@animedes/eslint-plugin-json",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": "./src/index.ts",
+	"scripts": {
+		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"check": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@eslint/core": "*",
+		"@eslint/json": "catalog:",
+		"eslint": "catalog:"
+	},
+	"devDependencies": {
+		"@eslint/js": "catalog:",
+		"@eslint/json": "catalog:",
+		"@types/node": "catalog:",
+		"eslint-vitest-rule-tester": "catalog:",
+		"ts-config": "workspace:@animedes/ts-config@*",
+		"typescript-eslint": "catalog:",
+		"vitest": "catalog:"
+	}
+}

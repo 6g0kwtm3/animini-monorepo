@@ -61,6 +61,7 @@ catalog:
   "@chromatic-com/storybook": 5.6.0
   "@codspeed/vitest-plugin": 6.1.1
   "@eslint/js": 10.0.1
+  "@eslint/json": 2.1.1
   "@flaghoist/adapter-cloudflare-kv": 0.3.1
   '@flaghoist/provider-web': 0.2.1
   "@flaghoist/server": ./flaghoist-server-0.4.1.tgz

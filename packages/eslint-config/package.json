@@ -5,7 +5,9 @@
 	"version": "0.0.0",
 	"type": "module",
 	"dependencies": {
+		"@animedes/eslint-plugin-json": "workspace:@animedes/eslint-plugin-json@*",
 		"@eslint/js": "catalog:",
+		"@eslint/json": "catalog:",
 		"eslint-plugin-oxlint": "catalog:",
 		"eslint-plugin-perfectionist": "catalog:",
 		"eslint-plugin-turbo": "catalog:",
