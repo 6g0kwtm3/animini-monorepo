@@ -175,6 +175,11 @@ type ActivityReply {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -541,6 +546,11 @@ type Character {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -552,6 +562,11 @@ type Character {
 	The character's gender. Usually Male, Female, or Non-binary but can be any string.
 	"""
 	gender: String
+
+	"""
+	The characters height
+	"""
+	height: Height
 
 	"""
 	The id of the character
@@ -791,6 +806,31 @@ enum CharacterSort {
 }
 
 """
+Character and staff submission categories, also used to filter by
+"""
+enum CharacterStaffSubmissionCategory {
+	"""
+	Submissions that only change the image
+	"""
+	IMAGES_ONLY
+
+	"""
+	Submissions with a note but no changes
+	"""
+	NOTE_ONLY
+
+	"""
+	Submissions with exactly one change
+	"""
+	SINGLE_CHANGE
+
+	"""
+	Submissions by users with 50+ accepted and a 90%+ acceptance rate
+	"""
+	TRUSTED_SUBMITTER
+}
+
+"""
 A submission for a character that features in an anime or manga
 """
 type CharacterSubmission {
@@ -798,6 +838,11 @@ type CharacterSubmission {
 	Data Mod assigned to handle the submission
 	"""
 	assignee: User
+
+	"""
+	Filter categories the submission falls into
+	"""
+	categories: [CharacterStaffSubmissionCategory]
 
 	"""
 	Character that the submission is referencing
@@ -1119,6 +1164,71 @@ type GenreStats {
 }
 
 """
+A height, height range, or initial height. A single height has equal min and max.
+"""
+type Height {
+	"""
+	The height when first introduced, if it changes later. Min and max are null when this is set.
+	"""
+	initial: HeightValue
+
+	"""
+	The highest height in the range
+	"""
+	max: HeightValue
+
+	"""
+	The lowest height in the range
+	"""
+	min: HeightValue
+}
+
+"""
+A height (equal min and max), height range, or initial height
+"""
+input HeightInput {
+	"""
+	The height when first introduced, if it changes later. Cannot be combined with min and max.
+	"""
+	initial: HeightValueInput
+
+	"""
+	The highest height in the range, required with min
+	"""
+	max: HeightValueInput
+
+	"""
+	The lowest height in the range, required with max
+	"""
+	min: HeightValueInput
+}
+
+"""
+A height in metric and imperial units
+"""
+type HeightValue {
+	"""
+	Height in feet and inches, rounded to the nearest inch (5'7")
+	"""
+	imperial: String
+
+	"""
+	Height in centimetres (169.5)
+	"""
+	metric: Float
+}
+
+"""
+A height in centimetres
+"""
+input HeightValueInput {
+	"""
+	Height in centimetres (169.5)
+	"""
+	metric: Float!
+}
+
+"""
 Page of data. Limited to a max depth of 5000 entries. This is calculated as the page parameter multiplied by the perPage parameter.
 """
 type InternalPage {
@@ -1368,6 +1478,11 @@ type InternalPage {
 	characterSubmissions(
 		assigneeId: Int
 		characterId: Int
+
+		"""
+		Filter by the kind of changes in the submission
+		"""
+		filter: CharacterStaffSubmissionCategory
 
 		"""
 		The order the results will be returned in
@@ -1957,6 +2072,11 @@ type InternalPage {
 	): [MediaList]
 	mediaSubmissions(
 		assigneeId: Int
+
+		"""
+		Filter by the kind of changes in the submission
+		"""
+		filter: MediaSubmissionCategory
 		mediaId: Int
 
 		"""
@@ -2308,6 +2428,11 @@ type InternalPage {
 	): [Staff]
 	staffSubmissions(
 		assigneeId: Int
+
+		"""
+		Filter by the kind of changes in the submission
+		"""
+		filter: CharacterStaffSubmissionCategory
 
 		"""
 		The order the results will be returned in
@@ -4017,6 +4142,11 @@ type MediaSubmission {
 	Data Mod assigned to handle the submission
 	"""
 	assignee: User
+
+	"""
+	Filter categories the submission falls into
+	"""
+	categories: [MediaSubmissionCategory]
 	changes: [String]
 	characters: [MediaSubmissionComparison]
 	createdAt: Int
@@ -4049,6 +4179,61 @@ type MediaSubmission {
 	"""
 	submitter: User
 	submitterStats: Json
+}
+
+"""
+Media submission categories, also used to filter by
+"""
+enum MediaSubmissionCategory {
+	"""
+	Submissions that only change characters
+	"""
+	CHARACTERS_ONLY
+
+	"""
+	Submissions adding ADR staff or voice actors not in the anime's original language
+	"""
+	DUB
+
+	"""
+	Submissions that only change the cover or banner image
+	"""
+	IMAGES_ONLY
+
+	"""
+	Submissions for media that doesn't exist yet
+	"""
+	NEW
+
+	"""
+	Submissions for entries releasing next season
+	"""
+	NEXT_SEASON
+
+	"""
+	Submissions with a note but no changes
+	"""
+	NOTE_ONLY
+
+	"""
+	Submissions for currently releasing media, or current-season media that hasn't started airing
+	"""
+	RELEASING
+
+	"""
+	Submissions with exactly one change
+	"""
+	SINGLE_CHANGE
+
+	"""
+	Submissions that only change staff
+	"""
+	STAFF_ONLY
+
+	"""
+	Submissions by users with 50+ accepted and a 90%+ acceptance rate
+	"""
+	TRUSTED_SUBMITTER
 }
 
 """
@@ -4409,6 +4594,11 @@ type MessageActivity {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -4474,6 +4664,7 @@ enum ModActionType {
 	EDIT
 	EXPIRE
 	NOTE
+	PIN
 	REPORT
 	RESET
 }
@@ -7101,6 +7292,11 @@ type Query {
 	"""
 	Markdown(
 		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
+
+		"""
 		The markdown to be parsed to html
 		"""
 		markdown: String!
@@ -8335,6 +8531,11 @@ type Review {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -8749,6 +8950,11 @@ type Staff {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -8760,6 +8966,11 @@ type Staff {
 	The staff's gender. Usually Male, Female, or Non-binary but can be any string.
 	"""
 	gender: String
+
+	"""
+	The persons height
+	"""
+	height: Height
 
 	"""
 	The persons birthplace or hometown
@@ -9035,6 +9246,11 @@ Voice actor role for a character
 """
 type StaffRoleType {
 	"""
+	Media specific character name for this voice actor role
+	"""
+	characterName: String
+
+	"""
 	Used for grouping roles where multiple dubs exist for the same language. Either dubbing company name or language variant.
 	"""
 	dubGroup: String
@@ -9092,6 +9308,11 @@ type StaffSubmission {
 	Data Mod assigned to handle the submission
 	"""
 	assignee: User
+
+	"""
+	Filter categories the submission falls into
+	"""
+	categories: [CharacterStaffSubmissionCategory]
 	createdAt: Int
 
 	"""
@@ -9404,6 +9625,11 @@ type TextActivity {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -9434,6 +9660,11 @@ type Thread {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -9574,6 +9805,11 @@ type ThreadComment {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
@@ -9929,6 +10165,11 @@ type User {
 		Return the string in pre-parsed html instead of markdown
 		"""
 		asHtml: Boolean
+
+		"""
+		Provide 2 to use the new pre-sanitized HTML with advanced spoilers (labels, inline & nested spoilers)
+		"""
+		htmlVersion: Int
 	): String
 
 	"""
