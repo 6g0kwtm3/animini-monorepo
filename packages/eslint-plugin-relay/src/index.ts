@@ -1,8 +1,8 @@
 import { rule as mustColocateFragmentSpreads } from "./rule-must-colocate-fragment-spreads"
 import { rule as requireAliasOnFragmentSpread } from "./rule-require-alias-on-fragment-spread"
 import { rule as requireRawResponseTypeOnOperationDefinition } from "./rule-require-raw-response-type-on-operation-definition"
-import { rule as requireVersionArg } from "./rule-require-version-arg"
 import { rule as requireThrowOnFieldError } from "./rule-require-throw-on-field-error"
+import { rule as requireVersionArg } from "./rule-require-version-arg"
 import { rule as sortFragmentSpreads } from "./rule-sort-fragment-spreads"
 import { rule as unusedFields } from "./rule-unused-fields"
 

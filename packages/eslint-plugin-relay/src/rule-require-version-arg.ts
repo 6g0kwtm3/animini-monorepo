@@ -1,4 +1,7 @@
-import type { GraphQLESLintRule, GraphQLESTreeNode } from "@graphql-eslint/eslint-plugin"
+import type {
+	GraphQLESLintRule,
+	GraphQLESTreeNode,
+} from "@graphql-eslint/eslint-plugin"
 import type { FieldNode } from "graphql"
 
 const NON_NULL_TAG = "GraphQLNonNull"
@@ -10,7 +13,7 @@ const NON_NULL_TAG = "GraphQLNonNull"
  */
 function isGraphQLSchema(value: unknown): boolean {
 	if (typeof value !== "object" || value === null) return false
-	const maybe = value as { getQueryType?: unknown; getType?: unknown; }
+	const maybe = value as { getQueryType?: unknown; getType?: unknown }
 	return (
 		typeof maybe.getType === "function"
 		&& typeof maybe.getQueryType === "function"
@@ -23,13 +26,15 @@ function isGraphQLSchema(value: unknown): boolean {
 function isNonNullType(type: unknown): boolean {
 	if (type == null || typeof type !== "object") return false
 	if (
-		Symbol.toStringTag in type &&
-		(type as Record<PropertyKey, unknown>)[Symbol.toStringTag] === NON_NULL_TAG
+		Symbol.toStringTag in type
+		&& (type as Record<PropertyKey, unknown>)[Symbol.toStringTag]
+			=== NON_NULL_TAG
 	) {
 		return true
 	}
 	return (
-		(type as { constructor?: { name?: string } }).constructor?.name === NON_NULL_TAG
+		(type as { constructor?: { name?: string } }).constructor?.name
+		=== NON_NULL_TAG
 	)
 }
 
@@ -58,7 +63,10 @@ export const rule: GraphQLESLintRule<[], true> = {
 		},
 	},
 	create(context) {
-		const services = context.sourceCode.parserServices as null | undefined | { schema?: unknown }
+		const services = context.sourceCode.parserServices as
+			| null
+			| undefined
+			| { schema?: unknown }
 		if (!isGraphQLSchema(services?.schema)) {
 			return {}
 		}

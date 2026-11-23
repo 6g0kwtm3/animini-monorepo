@@ -1,9 +1,9 @@
 import { parser } from "@graphql-eslint/eslint-plugin"
-import { createRuleTester } from "eslint-vitest-rule-tester"
-import { expect, test } from "vitest"
 import * as typescriptParser from "@typescript-eslint/parser"
+import { createRuleTester } from "eslint-vitest-rule-tester"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { expect, test } from "vitest"
 
 import { rule } from "./rule-require-version-arg"
 
@@ -32,7 +32,11 @@ const { valid: validHostFile } = createRuleTester({
 	rule,
 	languageOptions: {
 		parser: typescriptParser,
-		parserOptions: { ecmaVersion: 2020, sourceType: "module", ecmaFeatures: { jsx: true } },
+		parserOptions: {
+			ecmaVersion: 2020,
+			sourceType: "module",
+			ecmaFeatures: { jsx: true },
+		},
 	},
 })
 
