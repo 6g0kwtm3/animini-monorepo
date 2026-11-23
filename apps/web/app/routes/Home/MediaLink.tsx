@@ -25,7 +25,7 @@ const { graphql } = ReactRelay
 
 interface MediaLinkProps extends Omit<ComponentProps<typeof A>, "href"> {
 	mediaId: number
-	type: string
+	type: "anime" | "manga"
 	slug?: string
 }
 
@@ -48,7 +48,7 @@ export function MediaLink({ mediaId, type, slug, ...props }: MediaLinkProps) {
 	)
 }
 
-function MediaCard(props: { mediaId: number; type: string }) {
+function MediaCard(props: { mediaId: number; type: "anime" | "manga" }) {
 	const media = useLazyLoadQuery<MediaLinkCardQuery>(
 		graphql`
 			query MediaLinkCardQuery($id: Int) @raw_response_type @throwOnFieldError {
