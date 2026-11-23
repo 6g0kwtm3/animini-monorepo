@@ -1,0 +1,54 @@
+# Fixture schema for the require-version-arg rule.
+# Mirrors the shape of apps/web/schema.graphql's Media.source / Media.status /
+# Media.relationType: a `version` argument that is optional in the schema but
+# required by the app's correctness.
+
+type Query {
+	media: Media
+	report: Report
+}
+
+type Media {
+	source(
+		"""
+		Provide 2 or 3 to use new version 2 or 3 of sources enum
+		"""
+		version: Int
+	): String
+
+	status(
+		"""
+		Provide 2 to use new version 2 of sources enum
+		"""
+		version: Int
+	): String
+
+	relationType(
+		"""
+		Provide 3 to use new version 3 of relation enum
+		"""
+		version: Int
+	): String
+}
+
+type Report {
+	"""
+	A required version-suffixed argument — never flagged (schema forces it).
+	"""
+	requiredVersion(
+		"""
+		Required version
+		"""
+		version: Int!
+	): String
+
+	"""
+	An optional argument whose name does not end in "version" — never flagged.
+	"""
+	pageable(
+		"""
+		The page
+		"""
+		page: Int
+	): String
+}
