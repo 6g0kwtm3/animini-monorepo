@@ -68,7 +68,6 @@
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"typescript": "catalog:",
-		"@typescript/native": "catalog:"
+		"typescript": "catalog:"
 	}
 }

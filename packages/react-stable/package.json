@@ -13,7 +13,6 @@
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"typescript": "catalog:",
-		"@typescript/native": "catalog:"
+		"typescript": "catalog:"
 	}
 }

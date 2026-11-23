@@ -33,7 +33,6 @@
 		"@stryker-mutator/core": "catalog:",
 		"@stryker-mutator/vitest-runner": "catalog:",
 		"@types/node": "catalog:",
-		"@typescript/native": "catalog:",
 		"eslint": "catalog:",
 		"eslint-plugin-pnpm": "catalog:",
 		"knip": "catalog:",
