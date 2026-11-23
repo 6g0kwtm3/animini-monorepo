@@ -1,26 +1,20 @@
-import { Card } from "@animedes/components/Card"
+
 import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
-import {
-	List,
-	ListItem,
-	ListItemContent,
-	ListItemContentSubtitle as ListItemSubtitle,
-	ListItemContentTitle as ListItemTitle,
-} from "@animedes/components/List"
-import { stable } from "@animedes/react-stable"
-import { A } from "@anitrove/a"
-import { state } from "@anitrove/design"
-import { precompileStyles } from "@anitrove/unstyled"
+
+
+
+
+
 // console.log(R)
 import { Composite, CompositeItem, useCompositeStore } from "@ariakit/react"
-import { ErrorBoundary } from "@sentry/react-router"
-import { Markdown, type MarkdownProps } from "markdown/Markdown"
-import { useEffect, useId, type ReactNode } from "react"
+
+
+import { useId, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-import { client } from "~/lib/feature-flags"
+
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
 
-import { options } from "./options"
+
 import { TextActivity } from "./TextActivity"
 
 import type { Route } from "./+types/route"

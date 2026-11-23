@@ -1,20 +1,9 @@
 import * as Predicate from "@animedes/components/Predicate"
 import { type Options } from "markdown/Markdown"
-import {
-	createContext,
-	Fragment,
-	use,
-	useEffectEvent,
-	useLayoutEffect,
-	useRef,
-	useState,
-	useTransition,
-	type ComponentProps,
-	type ComponentRef,
-	type ReactNode,
-} from "react"
+
 import { matchPath } from "react-router"
 
+import { InViewIframe, InViewProvider } from "./InView"
 import { MediaLink } from "./MediaLink"
 import { UserLink } from "./UserLink"
 
@@ -70,67 +59,6 @@ export const options: Options = {
 		},
 	},
 } satisfies Options
-
-function InView(props: {
-	children: ReactNode
-	onChange: (inView: boolean) => void
-}) {
-	const fragmentRef = useRef<ComponentRef<typeof Fragment>>(null)
-
-	const onChange = useEffectEvent(props.onChange)
-
-	useLayoutEffect(() => {
-		const visibleElements = new Set()
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((e) => {
-				if (e.isIntersecting) {
-					void visibleElements.add(e.target)
-				} else {
-					void visibleElements.delete(e.target)
-				}
-			})
-			onChange(visibleElements.size > 0)
-		})
-		const fragmentInstance = fragmentRef.current
-		if (fragmentInstance) {
-			fragmentInstance.observeUsing(observer)
-			return () => {
-				fragmentInstance.unobserveUsing(observer)
-			}
-		}
-	}, [])
-
-	return <Fragment ref={fragmentRef}>{props.children}</Fragment>
-}
-
-const InViewContext = createContext(false)
-InViewContext.displayName = "InViewContext"
-
-function InViewIframe(props: Omit<ComponentProps<"iframe">, "loading">) {
-	const inView = use(InViewContext)
-
-	return <iframe {...props} loading={inView ? "eager" : "lazy"}></iframe>
-}
-
-function InViewProvider(props: { children: ReactNode }) {
-	const [inView, setInView] = useState(false)
-
-	const [, startTransition] = useTransition()
-
-	return (
-		<InViewContext value={inView}>
-			<InView
-				onChange={(inView) => {
-					startTransition(() => {
-						setInView(inView)
-					})
-				}}
-			>
-				{props.children}
-			</InView>
-		</InViewContext>
-	)
-}
 
 export const htmlOptions: Options = {
 	text(text) {

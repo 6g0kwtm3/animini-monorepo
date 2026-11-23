@@ -119,7 +119,7 @@ function getAttributes(attributes: Record<string, string>) {
 
 function traverse(element: ChildNode, options: Options): ReactNode {
 	if (element.nodeType === Node.TEXT_NODE) {
-		return element.textContent !== null && options.text
+		return element.textContent != null && options.text
 			? options.text(element.textContent)
 			: element.textContent
 	} else if (element instanceof HTMLElement) {
