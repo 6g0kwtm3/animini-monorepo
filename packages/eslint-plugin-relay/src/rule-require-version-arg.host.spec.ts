@@ -8,7 +8,11 @@ const { valid } = createRuleTester({
 	rule,
 	languageOptions: {
 		parser: typescriptParser,
-		parserOptions: { ecmaVersion: 2020, sourceType: "module", ecmaFeatures: { jsx: true } },
+		parserOptions: {
+			ecmaVersion: 2020,
+			sourceType: "module",
+			ecmaFeatures: { jsx: true },
+		},
 	},
 })
 

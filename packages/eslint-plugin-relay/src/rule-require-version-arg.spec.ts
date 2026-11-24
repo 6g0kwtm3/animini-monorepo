@@ -1,8 +1,8 @@
 import { parser } from "@graphql-eslint/eslint-plugin"
 import { createRuleTester } from "eslint-vitest-rule-tester"
-import { expect, test } from "vitest"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { expect, test } from "vitest"
 
 import { rule } from "./rule-require-version-arg"
 
