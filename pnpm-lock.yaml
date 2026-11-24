@@ -1333,6 +1333,9 @@ importers:
       graphql:
         specifier: 'catalog:'
         version: 17.1.0
+      oxfmt:
+        specifier: 'catalog:'
+        version: 0.78.0
     devDependencies:
       '@graphql-inspector/cli':
         specifier: 'catalog:'

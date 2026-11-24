@@ -12,7 +12,8 @@
 		"check": "tsrs --noEmit --fast"
 	},
 	"dependencies": {
-		"graphql": "catalog:"
+		"graphql": "catalog:",
+		"oxfmt": "catalog:"
 	},
 	"devDependencies": {
 		"@graphql-inspector/cli": "catalog:",
