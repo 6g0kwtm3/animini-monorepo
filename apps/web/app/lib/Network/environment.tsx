@@ -14,12 +14,12 @@ import RelayRuntime, {
 import SuperHeaders from "remix/headers"
 
 import { CookieToToken } from "../viewer"
+import { API_URL } from "./endpoint"
 import { RateLimiter } from "./RateLimiter"
 import { GraphQLResponse } from "./schema"
 import { withRetry, type WithRetry } from "./withRetry"
 const { ROOT_TYPE } = RelayRuntime
 
-export const API_URL = "https://graphql.anilist.co"
 const fetchQuery = async function (
 	operation: RequestParameters,
 	variables: Variables,

@@ -29,6 +29,7 @@ export default defineConfig({
 	ignorePatterns: [
 		"**/gql",
 		"pnpm-lock.yaml",
+		"apps/web/schema.graphql",
 		"pnpm-workspace.yaml",
 		"worker-configuration.d.ts",
 

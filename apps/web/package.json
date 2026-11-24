@@ -18,6 +18,7 @@
 		"relay": "relay-compiler",
 		"relay-watch": "relay-compiler --watch",
 		"router": "react-router typegen",
+		"schema": "tsx scripts/schema.ts",
 		"start": "vite preview",
 		"test-e2e": "NO_PROXY=localhost playwright test"
 	},
@@ -72,6 +73,7 @@
 		"vite": "catalog:"
 	},
 	"devDependencies": {
+		"@animedes/schema": "workspace:@animedes/schema@*",
 		"@babel/preset-typescript": "catalog:",
 		"@graphql-eslint/eslint-plugin": "catalog:",
 		"@graphql-tools/mock": "catalog:",

@@ -49,7 +49,7 @@ import {
 } from "./lib/abort-signal-middleware"
 import { waitForClientMiddleware } from "./lib/feature-flags"
 import { LoadingIndicator } from "./lib/loading-renderer"
-import { API_URL } from "./lib/Network/environment"
+import { API_URL } from "./lib/Network/endpoint"
 
 const fontWeights = [
 	...new Set(Object.values(fonts).map((font) => font.fontWeight)),

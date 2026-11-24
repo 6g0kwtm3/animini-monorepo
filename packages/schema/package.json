@@ -1,0 +1,26 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@animedes/schema",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"lint": "eslint --max-warnings 0 --cache . --fix",
+		"check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"graphql": "catalog:"
+	},
+	"devDependencies": {
+		"@graphql-inspector/cli": "catalog:",
+		"@typescript/native": "catalog:",
+		"eslint": "catalog:",
+		"eslint-config": "workspace:@animedes/eslint-config@*",
+		"ts-config": "workspace:@animedes/ts-config@*",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	}
+}
