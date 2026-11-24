@@ -1,19 +1,9 @@
-
 import { LayoutBody, LayoutPane } from "@animedes/components/Layout"
-
-
-
-
-
 // console.log(R)
 import { Composite, CompositeItem, useCompositeStore } from "@ariakit/react"
-
-
 import { useId, type ReactNode } from "react"
 import ReactRelay from "react-relay"
-
 import { loadQuery, usePreloadedQuery } from "~/lib/Network"
-
 
 import { TextActivity } from "./TextActivity"
 

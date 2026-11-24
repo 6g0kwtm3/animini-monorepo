@@ -1,5 +1,4 @@
 import { Card } from "@animedes/components/Card"
-
 import {
 	List,
 	ListItem,
@@ -12,17 +11,12 @@ import { A } from "@anitrove/a"
 import { state } from "@anitrove/design"
 import { precompileStyles } from "@anitrove/unstyled"
 // console.log(R)
-
 import { ErrorBoundary } from "@sentry/react-router"
 import { Markdown, Html } from "markdown/Markdown"
-
 import ReactRelay from "react-relay"
-
 import { useFragment } from "~/lib/Network"
 
 import { htmlOptions, options } from "./options"
-
-
 
 import type { TextActivity_textActivity$key } from "~/gql/TextActivity_textActivity.graphql"
 const { graphql } = ReactRelay

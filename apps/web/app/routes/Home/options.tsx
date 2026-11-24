@@ -1,6 +1,5 @@
 import * as Predicate from "@animedes/components/Predicate"
 import { type Options } from "markdown/Markdown"
-
 import { matchPath } from "react-router"
 
 import { InViewIframe, InViewProvider } from "./InView"
