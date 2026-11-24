@@ -214,6 +214,11 @@ jobs:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_KEY }}
 
   bundlewatch:
+    # RelativeCI's org quota is exceeded ("The organization quota exceeded the limit")
+    # and the action fails on every recent run. Keep the job running and visible,
+    # but do not let a third-party billing/quota outage red the whole Deploy workflow.
+    # Remove once RelativeCI's organization quota is restored.
+    continue-on-error: true
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
