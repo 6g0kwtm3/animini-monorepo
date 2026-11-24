@@ -1337,9 +1337,6 @@ importers:
       '@graphql-inspector/cli':
         specifier: 'catalog:'
         version: 7.0.8(@types/node@26.6.6)(crossws@0.4.17)(graphql@17.1.0)(supports-color@10.2.2)
-      '@typescript/native':
-        specifier: 'catalog:'
-        version: typescript@7.1.0-dev.20261114.1
       eslint:
         specifier: 'catalog:'
         version: 10.15.0(jiti@2.7.0)(supports-color@10.2.2)
