@@ -61,7 +61,7 @@ export default [
 		name: "eslint-config/typescript-eslint/parser-options",
 		languageOptions: {
 			parserOptions: {
-				projectService: true,
+				projectService: { EXPERIMENTAL_backend: "tsgo" },
 				tsconfigRootDir: path.join(import.meta.dirname, "..", ".."),
 			},
 		},
