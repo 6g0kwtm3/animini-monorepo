@@ -1,9 +1,8 @@
+import { parse, print } from "graphql"
 import { spawnSync } from "node:child_process"
 import { readFileSync, renameSync, rmSync, writeFileSync } from "node:fs"
 import { dirname, basename, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
-
-import { parse, print } from "graphql"
 
 import { normaliseSchema } from "./normalise"
 
