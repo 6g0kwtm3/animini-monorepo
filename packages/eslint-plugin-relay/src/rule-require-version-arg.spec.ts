@@ -144,7 +144,9 @@ test("does not crash on a document with a syntax error", async () => {
 })
 
 test("stays clean for a top-level document with no fields", async () => {
-	await valid(/* GraphQL */ `query Root { }`)
+	await valid(/* GraphQL */ `
+		query Root {}
+	`)
 })
 
 test("treats an aliased field as the field's own arguments", async () => {
