@@ -12,7 +12,7 @@
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
 		"bench": "vitest bench --run",
-		"check": "tsc --noEmit"
+		"check": "tsrs --noEmit --fast"
 	},
 	"dependencies": {
 		"@animedes/hash": "workspace:"
@@ -31,7 +31,6 @@
 		"eslint-config-react": "workspace:@animedes/eslint-config-react@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
 		"typescript": "catalog:",
-		"@typescript/native": "catalog:",
 		"utilities": "workspace:@animedes/utilities@*",
 		"vitest": "catalog:"
 	}
