@@ -23,6 +23,7 @@ const { graphql } = ReactRelay
 
 const TextActivity_textActivity = graphql`
 	fragment TextActivity_textActivity on TextActivity
+	@throwOnFieldError
 	@argumentDefinitions(
 		enableSanitizerWebAPI: {
 			type: "Boolean!"
