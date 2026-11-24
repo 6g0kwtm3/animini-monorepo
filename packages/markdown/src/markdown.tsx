@@ -1,5 +1,5 @@
 import createDOMPurify from "dompurify"
-import { use, useMemo } from "react"
+import React, { use, useMemo } from "react"
 import { browser } from "react-dom"
 
 import { markdownToHtml } from "./markdown-to-html"
@@ -13,19 +13,37 @@ export interface Options {
 			props: JSX.IntrinsicElements[K]
 		) => ReactNode
 	}>
+	text?: (node: string) => ReactNode
 }
 
 export interface MarkdownProps {
 	children: Stable<string>
 	options: Stable<Options>
-	enableSanitizerWebAPI: boolean
+}
+
+export interface HtmlProps {
+	children: Stable<string>
+	options: Stable<Options>
 }
 
 export function Markdown(props: MarkdownProps): ReactNode {
 	void use(browser("Markdown is not supported on the server"))
 
+	return (
+		<Html options={props.options}>
+			{useMemo(
+				() => markdownToHtml(props.children, sanitizeHtml),
+				[props.children]
+			)}
+		</Html>
+	)
+}
+
+export function Html(props: MarkdownProps): ReactNode {
+	void use(browser("Html is not supported on the server"))
+
 	return useMemo(
-		() => parse(markdownToHtml(props.children, sanitizeHtml), props.options),
+		() => parse(props.children, props.options),
 		[props.children, props.options]
 	)
 }
@@ -101,7 +119,9 @@ function getAttributes(attributes: Record<string, string>) {
 
 function traverse(element: ChildNode, options: Options): ReactNode {
 	if (element.nodeType === Node.TEXT_NODE) {
-		return element.textContent
+		return element.textContent != null && options.text
+			? options.text(element.textContent)
+			: element.textContent
 	} else if (element instanceof HTMLElement) {
 		const Name =
 			element.tagName.toLowerCase() as unknown as keyof JSX.IntrinsicElements

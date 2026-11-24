@@ -7,65 +7,8 @@ import {
 	TypedInMemoryProvider,
 } from "@openfeature/web-sdk"
 import { OpenFeatureIntegrationHook } from "@sentry/react-router"
-import { type LiveState } from "relay-runtime"
 
-import type {
-	BooleanFlagKey,
-	Client,
-	Provider,
-	ProviderEntryInput,
-} from "@openfeature/web-sdk"
-
-export function liveStateFromBooleanFlag(
-	flag: BooleanFlagKey
-): LiveState<boolean> {
-	return liveStateFromFlag(
-		flag,
-		(client) => client.getBooleanValue.bind(client),
-		false
-	)
-}
-
-function liveStateFromFlag<K extends string, T>(
-	flag: K,
-	resolver: (client: Client) => (flag: K, defaultValue: T) => T,
-	defaultValue: T
-): LiveState<T> {
-	let value = resolver(client)(flag, defaultValue)
-	return {
-		read: () => {
-			return value
-		},
-		subscribe: (onChange) => {
-			const controller = new AbortController()
-
-			function callback() {
-				const nextValue = resolver(client).call(client, flag, defaultValue)
-				if (nextValue !== value) {
-					value = nextValue
-					onChange()
-				}
-			}
-
-			client.addHandler(
-				ClientProviderEvents.ConfigurationChanged,
-				(event) => {
-					if (event?.flagsChanged?.includes(flag)) {
-						callback()
-					}
-				},
-				{ signal: controller.signal }
-			)
-			client.addHandler(ClientProviderEvents.ContextChanged, callback, {
-				signal: controller.signal,
-			})
-
-			return () => {
-				controller.abort()
-			}
-		},
-	}
-}
+import type { Provider, ProviderEntryInput } from "@openfeature/web-sdk"
 
 const apiKey =
 	import.meta.env.VITE_FLAGS_KEY
