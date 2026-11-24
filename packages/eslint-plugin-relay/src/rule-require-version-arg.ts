@@ -12,7 +12,7 @@ const NON_NULL_TAG = "GraphQLNonNull"
  * graphQLConfig wiring, so a realm-sensitive `instanceof` check would throw.
  */
 function isGraphQLSchema(value: unknown): boolean {
-	if (typeof value !== "object" || value === null) return false
+	if (typeof value !== "object" || value == null) return false
 	const maybe = value as { getQueryType?: unknown; getType?: unknown }
 	return (
 		typeof maybe.getType === "function"
