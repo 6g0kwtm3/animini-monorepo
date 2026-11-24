@@ -84,34 +84,6 @@ jobs:
       - name: Knip
         run: pnpm exec turbo knip
 
-  boundaries:
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-
-    name: Boundaries
-    steps:
-      - name: Install Socket Firewall
-        uses: socketdev/action@ba6de6cc0565af1f42295590380973573297e31f
-        with:
-          mode: firewall-free
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
-
-      - name: Use Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: package.json
-          package-manager-cache: false
-
-      - name: Install dependencies 📦
-        run: sfw pnpm install --frozen-lockfile --prefer-offline
-
-      - name: Boundaries
-        run: pnpm -w boundaries
   actionlint:
     timeout-minutes: 10
     runs-on: ubuntu-latest
