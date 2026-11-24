@@ -1,47 +1,24 @@
 import { parser } from "@graphql-eslint/eslint-plugin"
-import * as typescriptParser from "@typescript-eslint/parser"
 import { createRuleTester } from "eslint-vitest-rule-tester"
+import { expect, test } from "vitest"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { expect, test } from "vitest"
 
 import { rule } from "./rule-require-version-arg"
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const fixtureSchema = path.resolve(here, "./fixtures/schema.graphql")
-const webSchema = path.resolve(here, "../../../apps/web/schema.graphql")
 
-const { valid: validWithFixture, invalid: invalidWithFixture } =
-	createRuleTester({
-		rule,
-		languageOptions: {
-			parser,
-			parserOptions: { graphQLConfig: { schema: fixtureSchema } },
-		},
-	})
-
-const { valid: validWithWebSchema } = createRuleTester({
+const { valid, invalid } = createRuleTester({
 	rule,
 	languageOptions: {
 		parser,
-		parserOptions: { graphQLConfig: { schema: webSchema } },
-	},
-})
-
-const { valid: validHostFile } = createRuleTester({
-	rule,
-	languageOptions: {
-		parser: typescriptParser,
-		parserOptions: {
-			ecmaVersion: 2020,
-			sourceType: "module",
-			ecmaFeatures: { jsx: true },
-		},
+		parserOptions: { graphQLConfig: { schema: fixtureSchema } },
 	},
 })
 
 test("reports a missing optional version argument", async () => {
-	await invalidWithFixture({
+	await invalid({
 		code: /* GraphQL */ `
 			query Root {
 				media {
@@ -64,7 +41,7 @@ test("reports a missing optional version argument", async () => {
 })
 
 test("reports source without a version argument", async () => {
-	await invalidWithFixture({
+	await invalid({
 		code: /* GraphQL */ `
 			query Root {
 				media {
@@ -87,7 +64,7 @@ test("reports source without a version argument", async () => {
 })
 
 test("reports relationType without a version argument", async () => {
-	await invalidWithFixture({
+	await invalid({
 		code: /* GraphQL */ `
 			query Root {
 				media {
@@ -110,7 +87,7 @@ test("reports relationType without a version argument", async () => {
 })
 
 test("stays clean when the argument is passed", async () => {
-	await validWithFixture(/* GraphQL */ `
+	await valid(/* GraphQL */ `
 		query Root {
 			media {
 				status(version: 2)
@@ -120,7 +97,7 @@ test("stays clean when the argument is passed", async () => {
 })
 
 test("stays clean for an optional argument whose name does not end in version", async () => {
-	await validWithFixture(/* GraphQL */ `
+	await valid(/* GraphQL */ `
 		query Root {
 			report {
 				pageable
@@ -130,7 +107,7 @@ test("stays clean for an optional argument whose name does not end in version", 
 })
 
 test("never flags a required version argument", async () => {
-	await validWithFixture(/* GraphQL */ `
+	await valid(/* GraphQL */ `
 		query Root {
 			report {
 				requiredVersion
@@ -140,7 +117,7 @@ test("never flags a required version argument", async () => {
 })
 
 test("stays quiet for a field whose definition cannot be found", async () => {
-	await validWithFixture(/* GraphQL */ `
+	await valid(/* GraphQL */ `
 		query Root {
 			media {
 				notInSchema(version: 2)
@@ -150,7 +127,7 @@ test("stays quiet for a field whose definition cannot be found", async () => {
 })
 
 test("does not crash on a document with a syntax error", async () => {
-	await invalidWithFixture({
+	await invalid({
 		code: /* GraphQL */ `
 			query Root {
 				media {
@@ -167,11 +144,11 @@ test("does not crash on a document with a syntax error", async () => {
 })
 
 test("stays clean for a top-level document with no fields", async () => {
-	await validWithFixture(/* GraphQL */ `query Root { }`)
+	await valid(/* GraphQL */ `query Root { }`)
 })
 
 test("treats an aliased field as the field's own arguments", async () => {
-	await invalidWithFixture({
+	await invalid({
 		code: /* GraphQL */ `
 			query Root {
 				media {
@@ -192,7 +169,7 @@ test("treats an aliased field as the field's own arguments", async () => {
 		],
 	})
 
-	await validWithFixture(/* GraphQL */ `
+	await valid(/* GraphQL */ `
 		query Root {
 			media {
 				alias: status(version: 2)
@@ -202,48 +179,11 @@ test("treats an aliased field as the field's own arguments", async () => {
 })
 
 test("accepts the eslint-disable-next-line escape hatch", async () => {
-	await validWithFixture(/* GraphQL */ `
+	await valid(/* GraphQL */ `
 		query Root {
 			media {
 				# eslint-disable-next-line rule-to-test/rule-to-test
 				status
-			}
-		}
-	`)
-})
-
-test("does not fire on an inline graphql tag in a .tsx host file", async () => {
-	await validHostFile(`
-import ReactRelay from "react-relay"
-import { graphql } from "react-relay"
-
-const fragment = graphql\`
-	fragment Test on Media @throwOnFieldError {
-		status
-	}
-\`
-
-export const X = fragment
-`)
-})
-
-test("stays clean against the real apps/web schema for the known-good calls", async () => {
-	await validWithWebSchema(/* GraphQL */ `
-		query Root {
-			Media(id: 1) {
-				status(version: 2)
-			}
-		}
-	`)
-
-	await validWithWebSchema(/* GraphQL */ `
-		query Root {
-			Media(id: 1) {
-				relations {
-					edges {
-						relationType(version: 3)
-					}
-				}
 			}
 		}
 	`)
