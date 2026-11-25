@@ -128,7 +128,6 @@ catalog:
   nodemon: 3.1.14
   oxfmt: 0.79.0
   oxlint: 1.94.0
-  oxlint-tsgolint: 7.0.2007
   prop-types: 15.8.1
   react: 19.3.1
   react-dom: 19.3.1
@@ -142,6 +141,7 @@ catalog:
   tailwind-variants: npm:@patryk_walach/tailwind-variants@0.2.1
   tailwindcss: 4.3.5
   temporal-polyfill-lite: 1.0.2
+  tsrs: 7.1.0-beta.tsrs4
   tsx: 4.23.15
   turbo: 2.11.13
   typescript: npm:@typescript/typescript6@6.0.2

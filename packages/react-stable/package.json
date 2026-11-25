@@ -7,13 +7,12 @@
 	"exports": "./src/stable.ts",
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --cache . --fix",
-		"check": "tsc --noEmit"
+		"check": "tsrs --noEmit --fast"
 	},
 	"devDependencies": {
 		"eslint": "catalog:",
 		"eslint-config": "workspace:@animedes/eslint-config@*",
 		"ts-config": "workspace:@animedes/ts-config@*",
-		"typescript": "catalog:",
-		"@typescript/native": "catalog:"
+		"typescript": "catalog:"
 	}
 }
