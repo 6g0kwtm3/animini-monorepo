@@ -5,7 +5,7 @@ import eslint from "@eslint/js"
 import oxlint from "eslint-plugin-oxlint"
 import perfectionist from "eslint-plugin-perfectionist"
 import turbo from "eslint-plugin-turbo"
-import oxlintConfig from "oxlint-config" with { type: "json" }
+import oxlintConfig from "oxlint-config/oxlintrc.json" with { type: "json" }
 import path from "path"
 import tseslint from "typescript-eslint"
 

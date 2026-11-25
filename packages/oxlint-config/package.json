@@ -3,5 +3,7 @@
 	"name": "@animedes/oxlint-config",
 	"type": "module",
 	"private": true,
-	"exports": "./oxlintrc.json"
+	"exports": {
+		"./oxlintrc.json": "./oxlintrc.json"
+	}
 }

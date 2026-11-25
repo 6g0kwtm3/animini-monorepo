@@ -3,7 +3,7 @@
 import jsx from "eslint-plugin-jsx"
 import oxlint from "eslint-plugin-oxlint"
 import { default as reactPlugin } from "eslint-plugin-react"
-import oxlintConfig from "oxlint-config" with { type: "json" }
+import oxlintConfig from "oxlint-config/oxlintrc.json" with { type: "json" }
 
 /**
  * React and JSX rules expect a JavaScript AST, so they must not be applied to
