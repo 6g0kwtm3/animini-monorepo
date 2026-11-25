@@ -5,7 +5,11 @@
 	},
 	"workspaces": {
 		".": {
-			"ignoreDependencies": ["@animedes/react-stable", "@playwright/test"],
+			"ignoreDependencies": [
+				"@animedes/react-stable",
+				"@playwright/test",
+				"oxlint-config"
+			],
 			"ignoreBinaries": ["jactionlint"]
 		},
 		"apps/storybook": { "entry": ["env.ts", ".storybook/modes.ts"] },
