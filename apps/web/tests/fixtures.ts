@@ -172,7 +172,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 	 */
 	markPII: [
 		async ({ context, worker }, provide) => {
-			void worker
+			worker
 			const payloads: EnvelopeItem[] = []
 			const forbidden = new Set<number | string>()
 

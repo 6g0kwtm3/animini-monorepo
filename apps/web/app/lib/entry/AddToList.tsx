@@ -152,7 +152,7 @@ export function AddToList({
 	)
 }
 
-void graphql`
+graphql`
 	fragment AddToList_assignable on MediaList @assignable {
 		__typename
 	}
