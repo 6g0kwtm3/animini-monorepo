@@ -78,7 +78,7 @@ export default defineConfig((config) => {
 		server: { port: 3000, strictPort: true },
 		build: {
 			sourcemap: true,
-			rollupOptions: {
+			rolldownOptions: {
 				output: {
 					assetFileNames: "assets/[name].[hash][extname]",
 					chunkFileNames: "assets/[name].[hash].js",
