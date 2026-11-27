@@ -57,7 +57,9 @@ export function SearchViewInput(props: Ariakit.ComboboxProps) {
 				<Ariakit.DialogDismiss
 					autoFocus={!autoFocus}
 					render={
-						<Icon label={{ kind: "ariakit-tooltip", value: "Close search" }} />
+						<Icon
+							label={{ kind: "ariakit-tooltip", value: m.close_search() }}
+						/>
 					}
 				>
 					<MaterialSymbolsArrowBack />
@@ -72,7 +74,9 @@ export function SearchViewInput(props: Ariakit.ComboboxProps) {
 				/>
 				<Ariakit.ComboboxCancel
 					render={
-						<Icon label={{ kind: "ariakit-tooltip", value: "Clear search" }} />
+						<Icon
+							label={{ kind: "ariakit-tooltip", value: m.clear_search() }}
+						/>
 					}
 				/>
 			</div>
