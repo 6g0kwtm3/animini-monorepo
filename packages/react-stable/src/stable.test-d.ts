@@ -9,78 +9,78 @@ import type { Stable, DeepStable } from "./stable"
 // one when the outer application resolves, so the last law test pins where the checker stops.
 
 it("law 1: Stable<T> is deflationary", () => {
-	void function test<T>(value: Stable<T>) {
+	;(function test<T>(value: Stable<T>) {
 		assertType<T>(value)
-	}
-	void function testDeepStable<T>(value: DeepStable<T>) {
+	})
+	;(function testDeepStable<T>(value: DeepStable<T>) {
 		assertType<T>(value)
-	}
-	void function testObject(value: Stable<{ a: number }>) {
+	})
+	;(function testObject(value: Stable<{ a: number }>) {
 		assertType<number>(value.a)
-	}
-	void function testFunction(value: Stable<(a: number) => string>) {
+	})
+	;(function testFunction(value: Stable<(a: number) => string>) {
 		assertType<string>(value(1))
-	}
-	void function testArray<T>(value: DeepStable<T[]>) {
+	})
+	;(function testArray<T>(value: DeepStable<T[]>) {
 		assertType<T[]>(value)
 		return value
-	}
+	})
 })
 
 it("law 1: an arbitrary value is not stable", () => {
-	void function test<T>(value: T) {
+	;(function test<T>(value: T) {
 		// @ts-expect-error TS2322 - An arbitrary value is not known to be stable.
 		assertType<Stable<T>>(value)
 		return value
-	}
-	void function testObject(value: { a: number }) {
+	})
+	;(function testObject(value: { a: number }) {
 		// @ts-expect-error TS2322 - A freshly created object is not stable.
 		assertType<Stable<{ a: number }>>(value)
-	}
-	void function testFunction(value: () => void) {
+	})
+	;(function testFunction(value: () => void) {
 		// @ts-expect-error TS2322 - A freshly created function is not stable.
 		assertType<Stable<() => void>>(value)
-	}
+	})
 })
 
 it("law 2: Stable<T> is monotone", () => {
-	void function test(value: Stable<{ a: 1; b: 2 }>) {
+	;(function test(value: Stable<{ a: 1; b: 2 }>) {
 		assertType<Stable<{ a: 1 }>>(value)
-	}
-	void function testDeepStable(value: DeepStable<{ a: 1; b: 2 }>) {
+	})
+	;(function testDeepStable(value: DeepStable<{ a: 1; b: 2 }>) {
 		assertType<DeepStable<{ a: 1 }>>(value)
-	}
-	void function testExtends<T extends { a: number }>(value: Stable<T>) {
+	})
+	;(function testExtends<T extends { a: number }>(value: Stable<T>) {
 		assertType<Stable<{ a: number }>>(value)
-	}
-	void function testWiden<T>(value: Stable<T>) {
+	})
+	;(function testWiden<T>(value: Stable<T>) {
 		assertType<Stable<T | undefined>>(value)
-	}
-	void function testDeepStableWiden<T>(value: DeepStable<T>) {
+	})
+	;(function testDeepStableWiden<T>(value: DeepStable<T>) {
 		assertType<DeepStable<T | undefined>>(value)
-	}
+	})
 })
 
 it("law 2: Stable<T> is not antitone", () => {
-	void function test(value: Stable<{ a: 1 }>) {
+	;(function test(value: Stable<{ a: 1 }>) {
 		// @ts-expect-error TS2322 - Stability of the supertype says nothing about the subtype.
 		assertType<Stable<{ a: 1; b: 2 }>>(value)
-	}
-	void function testNarrow<T>(value: Stable<T | undefined>) {
+	})
+	;(function testNarrow<T>(value: Stable<T | undefined>) {
 		// @ts-expect-error TS2322 - The undefined member has not been narrowed away.
 		assertType<Stable<T>>(value)
-	}
+	})
 })
 
 it("law 3: Stable<Stable<T>> is Stable<T>", () => {
-	void function test<T>(value: Stable<Stable<T>>): Stable<T> {
+	;(function test<T>(value: Stable<Stable<T>>): Stable<T> {
 		return value
-	}
-	void function testDeepStable<T>(
+	})
+	;(function testDeepStable<T>(
 		value: DeepStable<DeepStable<T>>
 	): DeepStable<T> {
 		return value
-	}
+	})
 	assertType(1)
 })
 
@@ -168,28 +168,26 @@ it("laws 2 and 3 are not checkable against an unresolved type parameter", () => 
 	// substitutes the constraint of a conditional type in target position. Each case below is
 	// sound and holds once `T` is instantiated, so the directives pin checker incompleteness
 	// rather than a property of the type. Remove one if TypeScript ever reports it as unused.
-	void function monotone<T extends U, U>(value: Stable<T>): Stable<U> {
+	;(function monotone<T extends U, U>(value: Stable<T>): Stable<U> {
 		// @ts-expect-error TS2322 - `Stable<U>` cannot be resolved while `U` is a type parameter.
 		assertType<Stable<U>>(value)
 		// @ts-expect-error TS2322 - `Stable<U>` cannot be resolved while `U` is a type parameter.
 		return value
-	}
-	void function monotoneDeep<T extends U, U>(
-		value: DeepStable<T>
-	): DeepStable<U> {
+	})
+	;(function monotoneDeep<T extends U, U>(value: DeepStable<T>): DeepStable<U> {
 		// @ts-expect-error TS2322 - `Stable<U>` cannot be resolved while `U` is a type parameter.
 		assertType<DeepStable<U>>(value)
 		// @ts-expect-error TS2322 - `Stable<U>` cannot be resolved while `U` is a type parameter.
 		return value
-	}
-	void function idempotent<T>(value: Stable<T>) {
+	})
+	;(function idempotent<T>(value: Stable<T>) {
 		// @ts-expect-error TS2322 - `Stable<Stable<T>>` cannot be resolved while `T` is a type parameter.
 		assertType<Stable<Stable<T>>>(value)
-	}
-	void function idempotentDeep<T>(value: DeepStable<T>) {
+	})
+	;(function idempotentDeep<T>(value: DeepStable<T>) {
 		// @ts-expect-error TS2322 - `Stable<Stable<T>>` cannot be resolved while `T` is a type parameter.
 		assertType<DeepStable<DeepStable<T>>>(value)
-	}
+	})
 })
 
 it("Stable<unknown> accepts primitives and stable references", () => {
@@ -207,12 +205,12 @@ it("Stable<unknown> accepts primitives and stable references", () => {
 })
 
 it("Stable<T> of a primitive is the primitive", () => {
-	void function test(value: string) {
+	;(function test(value: string) {
 		assertType<Stable<string>>(value)
-	}
-	void function testNumber(value: 42) {
+	})
+	;(function testNumber(value: 42) {
 		assertType<DeepStable<number>>(value)
-	}
+	})
 })
 
 it("Stable<T> of a union keeps its primitive members unmarked", () => {
@@ -224,56 +222,56 @@ it("Stable<T> of a union keeps its primitive members unmarked", () => {
 })
 
 it("Stable<T | undefined> narrows to Stable<T>", () => {
-	void function test<K extends string>(
+	;(function test<K extends string>(
 		value: Stable<Record<K, number> | undefined>
 	) {
 		assertType<Stable<Record<K, number>> | undefined>(value)
-	}
-	void function testDeepStable<K extends string>(
+	})
+	;(function testDeepStable<K extends string>(
 		value: DeepStable<Record<K, number> | undefined>
 	) {
 		assertType<undefined | { wrapped: DeepStable<Record<K, number>> }>(
 			value && { wrapped: value }
 		)
-	}
+	})
 })
 
 it("DeepStable<T> is a subtype of Stable<T>", () => {
-	void function test<T>(value: DeepStable<T>) {
+	;(function test<T>(value: DeepStable<T>) {
 		assertType<Stable<T>>(value)
-	}
+	})
 })
 
 it("Stable<T> is not a subtype of DeepStable<T>", () => {
-	void function test<T>(value: Stable<T>) {
+	;(function test<T>(value: Stable<T>) {
 		// @ts-expect-error TS2322 - Shallow stability does not imply deep stability.
 		assertType<DeepStable<T>>(value)
-	}
+	})
 })
 
 it("DeepStable<T> makes nested properties stable", () => {
-	void function test<T>(value: DeepStable<{ foo: { bar: T } }>) {
+	;(function test<T>(value: DeepStable<{ foo: { bar: T } }>) {
 		assertType<Stable<T>>(value.foo.bar)
-	}
-	void function testOptional<T>(value: DeepStable<{ foo?: { bar: T } }>) {
+	})
+	;(function testOptional<T>(value: DeepStable<{ foo?: { bar: T } }>) {
 		assertType<Stable<T> | undefined>(value.foo?.bar)
-	}
+	})
 })
 
 it("DeepStable<T> makes Map entries deep stable", () => {
-	void function test<K, T>(value: DeepStable<Map<K, T>>) {
+	;(function test<K, T>(value: DeepStable<Map<K, T>>) {
 		assertType<Stable<Map<K, DeepStable<T>>>>(value)
-	}
+	})
 })
 
 it("DeepStable<T> makes Set entries deep stable", () => {
-	void function test<T>(value: DeepStable<Set<T>>) {
+	;(function test<T>(value: DeepStable<Set<T>>) {
 		assertType<Stable<Set<DeepStable<T>>>>(value)
-	}
+	})
 })
 
 it("DeepStable<T> makes tuple elements stable", () => {
-	void function test<T>(value: DeepStable<[T, T]>) {
+	;(function test<T>(value: DeepStable<[T, T]>) {
 		assertType<Stable<T>>(value[0])
-	}
+	})
 })

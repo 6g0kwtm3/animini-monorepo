@@ -192,7 +192,7 @@ export function SyncMedia(props: {
 	)
 }
 
-void graphql`
+graphql`
 	fragment SyncMedia_assignable on MediaList @assignable {
 		__typename
 	}
