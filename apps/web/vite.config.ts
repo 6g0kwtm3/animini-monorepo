@@ -40,7 +40,6 @@ export default defineConfig((config) => {
 			macros(),
 			tailwindcss(),
 			babel({
-				filter: /\.[jt]sx?$/,
 				include: [
 					"./app/**/*.tsx",
 					"./node_modules/@animedes/components/src/**/*.tsx",
