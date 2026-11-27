@@ -139,7 +139,9 @@ export function precompileStyles(style: RawStyles): OutStyles {
 					[
 						propertyName,
 						printProperty(
-							propertyName.replace(/([A-Z])/g, "-$1").toLowerCase(),
+							propertyName.startsWith("--")
+								? propertyName
+								: propertyName.replace(/([A-Z])/g, "-$1").toLowerCase(),
 							property,
 							1
 						),

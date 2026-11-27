@@ -1,7 +1,7 @@
 import { hash32, hex } from "@animedes/hash"
 import { useState, type ReactNode } from "react"
 
-import { print, type DynamicVars, type OutStyles } from "./unstyled-print"
+import { print, type OutStyles } from "./unstyled-print"
 
 /**
  * React hook that generates style classes for unstyled components.
@@ -35,10 +35,8 @@ import { print, type DynamicVars, type OutStyles } from "./unstyled-print"
  *
  * 	@internal Box should be used instead of this hook directly. This is an internal implementation detail
  */
-export function useStyles(
-	rawStyle: OutStyles
-): [string, ReactNode, DynamicVars] {
-	return useState((): [string, ReactNode, DynamicVars] => {
+export function useStyles(rawStyle: OutStyles): [string, ReactNode] {
+	return useState((): [string, ReactNode] => {
 		const styles = print(rawStyle)
 		const thing = hash32(JSON.stringify(rawStyle.preCompiledStyles))
 		const id = hex(thing)
@@ -51,6 +49,6 @@ export function useStyles(
 				precedence="medium"
 			>{`.${className} ${styles}`}</style>
 		)
-		return [className, jsx, rawStyle.dynamicVars]
+		return [className, jsx]
 	})[0]
 }

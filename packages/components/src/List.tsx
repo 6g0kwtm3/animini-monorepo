@@ -36,8 +36,8 @@ export function ListItem({ style, first, last, ...props }: ListItemProps) {
 			render={<Ariakit.Role.li {...props} />}
 			style={mergeStyles(
 				styles.listItem,
-				provide(First, first ? "true" : "false"),
-				provide(Last, last ? "true" : "false"),
+				provide(First, first),
+				provide(Last, last),
 				provide(Lines, lines),
 				style
 			)}
@@ -253,7 +253,7 @@ const listDefinition = defineCva({
 
 const list = cva(listDefinition)
 
-const LinesContext = createContext<typeof Lines.$T>(DEFAULT_LINES)
+const LinesContext = createContext<keyof typeof Lines.variants>(DEFAULT_LINES)
 LinesContext.displayName = "LinesContext"
 
 export function List({
